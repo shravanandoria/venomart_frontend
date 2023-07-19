@@ -1,118 +1,192 @@
+import CollectionCard from '@/components/cards/CollectionCard';
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Link from 'next/link';
+import testNFT from "../../public/test.jpg";
 
-const inter = Inter({ subsets: ['latin'] })
+export default function Home({ theme }) {
+  // test collection array 
+  const all_collections = [{
+    Cover: testNFT,
+    Logo: testNFT,
+    Name: "cover",
+    OwnerAddress: "cover",
+    CollectionAddress: "cover",
+  }]
 
-export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
+      {/* hero section  */}
+      <section class="relative pb-10 pt-20 md:pt-32 lg:h-[88vh] dark:bg-jacarta-800">
+        <picture class="pointer-events-none absolute inset-x-0 top-0 -z-10 dark:hidden">
+          <img src="img/gradient.jpg" alt="gradient" />
+        </picture>
+        <picture class="pointer-events-none absolute inset-x-0 top-0 -z-10 hidden dark:block">
+          <img src="img/gradient_dark.jpg" alt="gradient dark" />
+        </picture>
+
+        <div class="container h-full">
+          <div class="grid h-full items-center gap-4 md:grid-cols-12">
+            <div
+              class="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
+              <h1
+                class="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl">
+                Buy, sell and collect NFTs.
+              </h1>
+              <p class="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
+                The world's largest digital marketplace for crypto collectibles and non-fungible tokens
+              </p>
+              <div class="flex space-x-4">
+                <a href="create.html"
+                  class="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                  Upload
+                </a>
+                <a href="collections.html"
+                  class="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
+                  Explore
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* launchpad collections  */}
+      <div className="relative py-24 dark:bg-jacarta-800">
+        <div className="container">
+          <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+            <h2 className="inline">Venomart Launchpad </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+            {all_collections?.map((e, index) => {
+              return (
+                index < 8 && (
+                  <CollectionCard
+                    key={index}
+                    Cover={e.Cover}
+                    Logo={e.Logo}
+                    Name={e.Name}
+                    OwnerAddress={e.OwnerAddress}
+                    CollectionAddress={e.CollectionAddress}
+                  />
+                )
+              );
+            })}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/collection/TopCollections"
+              className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+            >
+              View All
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      {/* top collections  */}
+      <section class="relative py-24 dark:bg-jacarta-800">
+        <picture class="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+          <img src="img/gradient_light.jpg" alt="gradient" class="h-full w-full" />
+        </picture>
+        <div class="container">
+          <div class="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+            <h2 class="inline">Top collections over</h2>
+            <div class="dropdown inline cursor-pointer">
+              <button class="dropdown-toggle inline-flex items-center text-accent" type="button" id="collectionSort"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                last 7 days
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                  class="h-8 w-8 fill-accent">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                </svg>
+              </button>
+              <div
+                class="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                aria-labelledby="collectionSort">
+                <a class="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                  href="#">Last 24 Hours</a>
+                <a class="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                  href="#">Last 7 Days</a>
+                <a class="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                  href="#">Last 30 Days</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-[1.875rem] lg:grid-cols-4">
+            <div
+              class="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700">
+              <figure class="mr-4 shrink-0">
+                <a href="collection.html" class="relative block">
+                  <img src="img/avatars/avatar_1.jpg" alt="avatar 1" class="rounded-2lg" loading="lazy" />
+                  <div
+                    class="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600">
+                    1
+                  </div>
+                  <div
+                    class="absolute -left-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
+                    data-tippy-content="Verified Collection">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                      class="h-[.875rem] w-[.875rem] fill-white">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                    </svg>
+                  </div>
+                </a>
+              </figure>
+              <div>
+                <a href="collection.html" class="block">
+                  <span class="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white">NFT Funny
+                    Cat</span>
+                </a>
+                <span class="text-sm dark:text-jacarta-300">7,080.95 ETH</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-10 text-center">
+            <a href="rankings.html"
+              class="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
+              to Rankings</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending collections  */}
+      <div className="relative py-24 dark:bg-jacarta-800">
+        <div className="container">
+          <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+            <h2 className="inline">Trending Collections </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+            {all_collections?.map((e, index) => {
+              return (
+                index < 8 && (
+                  <CollectionCard
+                    key={index}
+                    Cover={e.Cover}
+                    Logo={e.Logo}
+                    Name={e.Name}
+                    OwnerAddress={e.OwnerAddress}
+                    CollectionAddress={e.CollectionAddress}
+                  />
+                )
+              );
+            })}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/collection/TopCollections"
+              className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+            >
+              Explore All Collections
+            </Link>
+          </div>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   )
 }

@@ -1,0 +1,91 @@
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #835bfb;
+  /* border-radius: 5px; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6c3ef2;
+}
+
+#heroBack {
+  height: 100%;
+  width: 100%;
+  background-image: url("/gradient.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 80px;
+}
+
+#pageBack {
+  background-image: url("/gradient.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#pcMenu {
+  display: block;
+}
+#phoneMenu {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  #pcMenu {
+    display: none;
+  }
+  #phoneMenu {
+    display: block;
+  }
+  #formDisplay {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1485px) {
+  #searchInp {
+    display: none;
+  }
+}
+
+#splineStyleMax {
+  height: 700px;
+  width: 700px;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #101010;
+  border-color: #101010;
+  background: rgb(237, 237, 237);
+}
+
+.pagination button.active {
+  font-weight: 900;
+  border-color: #101010;
+  background: #835bfb;
+  color: #eee;
+}
