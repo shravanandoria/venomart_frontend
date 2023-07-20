@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import smLogo from "../../public/logosm.png";
 
 const Footer = ({ theme }) => {
   return (
@@ -9,16 +10,16 @@ const Footer = ({ theme }) => {
         <div className="container">
           <div className="grid grid-cols-6 gap-x-7 gap-y-14 pt-24 pb-12 md:grid-cols-12">
             <div className="col-span-full sm:col-span-3 md:col-span-4">
-              {/* <Link href="/" className="mb-4 inline-block">
-              <Image
-                src={Rarfinitelogo}
-                height={170}
-                width={190}
-                alt="Rarfinite | NFT Marketplace"
-              />
-            </Link> */}
+              <Link href="/" className="mb-4 inline-block">
+                <Image
+                  src={smLogo}
+                  height={170}
+                  width={190}
+                  alt="Venomart | NFT Marketplace"
+                />
+              </Link>
               <p className="mb-6 dark:text-jacarta-300">
-                Create, sell and collect NFTs on Rarfinite. Powered by
+                Create, sell and collect NFTs on Venomart. Powered by
                 various technologies.
               </p>
               <div className="flex space-x-5">
@@ -139,8 +140,7 @@ const Footer = ({ theme }) => {
           </div>
           <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">&copy; 2023
-              Xhibiter — Made by
-              <a href="https://deothemes.com" className="hover:text-accent">DeoThemes</a>
+              Venomart, All rights reserved
             </span>
             <ul className="flex flex-wrap space-x-4 text-sm dark:text-jacarta-400">
               <li>

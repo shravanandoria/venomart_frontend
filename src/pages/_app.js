@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import { useState } from 'react'
 
 export default function App({ Component, pageProps }) {
-  const defTheme = "light";
+  const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
   return (
     <>

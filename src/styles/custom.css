@@ -15,10 +15,19 @@
   background: #6c3ef2;
 }
 
-#heroBack {
-  height: 100%;
-  width: 100%;
-  background-image: url("/gradient.jpg");
+#heroBackDark {
+  /* height: 100%;
+  width: 100%; */
+  background-image: url("/gradient_dark.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-bottom: 80px;
+}
+
+#heroBackLight {
+  /* height: 100%;
+  width: 100%; */
+  background-image: url("/gradient_light.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   padding-bottom: 80px;

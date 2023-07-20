@@ -2,6 +2,7 @@ import CollectionCard from '@/components/cards/CollectionCard';
 import Image from 'next/image'
 import Link from 'next/link';
 import testNFT from "../../public/test.jpg";
+import Head from 'next/head';
 
 export default function Home({ theme }) {
   // test collection array 
@@ -15,8 +16,18 @@ export default function Home({ theme }) {
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
+      <Head>
+        <title>Venomart- NFT Marketplace</title>
+        <meta
+          name="description"
+          content="First Cross-chain And Multi-chain Advanced NFT Marketplace With AI NFT Generation"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/fav.png" />
+      </Head>
+
       {/* hero section  */}
-      <section className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh] dark:bg-jacarta-800">
+      <section className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh] dark:bg-jacarta-800" id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}>
         <picture className="pointer-events-none absolute inset-x-0 top-0 -z-10 dark:hidden">
           <img src="img/gradient.jpg" alt="gradient" />
         </picture>
@@ -86,7 +97,7 @@ export default function Home({ theme }) {
       </div>
 
       {/* top collections  */}
-      <section className="relative py-24 dark:bg-jacarta-800">
+      <section className="relative py-24 dark:bg-jacarta-700">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
         </picture>

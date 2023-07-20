@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
+import smLogo from "../../public/logosm.png";
+
 
 const Navbar = ({ theme, setTheme }) => {
   const router = useRouter();
-  const signer_address = "dd";
+  const signer_address = "0x444";
 
   const [profileDrop, setProfileDrop] = useState(false);
   const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
@@ -18,14 +20,14 @@ const Navbar = ({ theme, setTheme }) => {
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
         <div className="flex items-center px-6 py-6 xl:px-24">
           {/* icon  */}
-          {/* <Link href="/" className="shrink-0 relative">
+          <Link href="/" className="shrink-0 relative">
             <Image
-              src={Rarfinitelogo}
+              src={smLogo}
               height={160}
               width={150}
-              alt="Rarfinite | NFT Marketplace"
+              alt="Venomart | NFT Marketplace"
             />
-          </Link> */}
+          </Link>
 
           {/* search form  */}
           <form
@@ -161,16 +163,6 @@ const Navbar = ({ theme, setTheme }) => {
                       >
                         <span className="font-display text-sm text-jacarta-700 dark:text-white">
                           Create NFT
-                        </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/mint/CreateAINFT"
-                        className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <span className="font-display text-sm text-jacarta-700 dark:text-white">
-                          Create AI NFT
                         </span>
                       </Link>
                     </li>
@@ -343,22 +335,6 @@ const Navbar = ({ theme, setTheme }) => {
                           </svg>
                           <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
                             Create NFT
-                          </span>
-                        </Link>
-                        <Link
-                          href="/Notifications"
-                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                        >
-                          <svg
-                            className="h-5 w-5 fill-jacarta-700"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
-                          </svg>
-                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                            Notifications
                           </span>
                         </Link>
                         <a
