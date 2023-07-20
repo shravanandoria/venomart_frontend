@@ -8,7 +8,7 @@ import smLogo from "../../public/logosm.png";
 
 const Navbar = ({ theme, setTheme }) => {
   const router = useRouter();
-  const signer_address = "0x444";
+  const signer_address = "ox44";
 
   const [profileDrop, setProfileDrop] = useState(false);
   const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
@@ -209,6 +209,31 @@ const Navbar = ({ theme, setTheme }) => {
 
             {/* pc connect wallet  */}
             <div className="ml-8 hidden lg:flex xl:ml-12">
+              {/* dark theme and light theme */}
+              <div
+                onClick={() => (localStorage.setItem("WebsiteTheme", "dark"), setTheme("dark"))}
+                className="js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent block dark:hidden mr-2">
+                <div className="flex justify-center align-middle mt-[10px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                    className="dark-mode-light h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white block dark:hidden">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path
+                      d="M11.38 2.019a7.5 7.5 0 1 0 10.6 10.6C21.662 17.854 17.316 22 12.001 22 6.477 22 2 17.523 2 12c0-5.315 4.146-9.661 9.38-9.981z" />
+                  </svg>
+                </div>
+              </div>
+              <div
+                onClick={() => (localStorage.setItem("WebsiteTheme", "light"), setTheme("light"))}
+                className=" hidden dark:block js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent mr-2">
+                <div className="flex justify-center align-middle mt-[11px] mr-[1px]">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                    className="dark-mode-dark hidden h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:block dark:fill-white">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path
+                      d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z" />
+                  </svg>
+                </div>
+              </div>
               {!signer_address ? (
                 <a
                   href="#"
@@ -230,7 +255,6 @@ const Navbar = ({ theme, setTheme }) => {
                 </a>
               ) : (
                 <>
-
                   <div className="relative">
                     {/* profile icon */}
                     <button
@@ -360,38 +384,36 @@ const Navbar = ({ theme, setTheme }) => {
                   </div>
                 </>
               )}
-              {/* dark theme  */}
-              <div
-                onClick={() => setTheme("dark")}
-                className="js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent block dark:hidden">
-                <div className="flex justify-center align-middle mt-[10px]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                    className="dark-mode-light h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white block dark:hidden">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path
-                      d="M11.38 2.019a7.5 7.5 0 1 0 10.6 10.6C21.662 17.854 17.316 22 12.001 22 6.477 22 2 17.523 2 12c0-5.315 4.146-9.661 9.38-9.981z" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* light theme */}
-              <div
-                onClick={() => setTheme("light")}
-                className=" hidden dark:block js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent">
-                <div className="flex justify-center align-middle mt-[11px] mr-[1px]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                    className="dark-mode-dark hidden h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:block dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path
-                      d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z" />
-                  </svg>
-                </div>
-              </div>
             </div>
           </div>
 
           {/* mobile connect wallet */}
           <div className="ml-auto flex lg:hidden">
+            {/* dark theme and light theme */}
+            <div
+              onClick={() => (localStorage.setItem("WebsiteTheme", "dark"), setTheme("dark"))}
+              className="js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent block dark:hidden">
+              <div className="flex justify-center align-middle mt-[10px]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                  className="dark-mode-light h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white block dark:hidden">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path
+                    d="M11.38 2.019a7.5 7.5 0 1 0 10.6 10.6C21.662 17.854 17.316 22 12.001 22 6.477 22 2 17.523 2 12c0-5.315 4.146-9.661 9.38-9.981z" />
+                </svg>
+              </div>
+            </div>
+            <div
+              onClick={() => (localStorage.setItem("WebsiteTheme", "light"), setTheme("light"))}
+              className=" hidden dark:block js-dark-mode-trigger cursor-pointer group ml-2 h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent">
+              <div className="flex justify-center align-middle mt-[11px] mr-[1px]">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                  className="dark-mode-dark hidden h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:block dark:fill-white">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path
+                    d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z" />
+                </svg>
+              </div>
+            </div>
             {!signer_address ? (
               <a
                 href="#"
@@ -412,24 +434,26 @@ const Navbar = ({ theme, setTheme }) => {
                 </svg>
               </a>
             ) : (
-              <div className="relative">
-                {/* profile icon */}
-                <button
-                  className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                  onClick={() => setMobieProfileDrop(!mobieProfileDrop)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+              <>
+                <div className="relative">
+                  {/* profile icon */}
+                  <button
+                    className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+                    onClick={() => setMobieProfileDrop(!mobieProfileDrop)}
                   >
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
-                  </svg>
-                </button>
-              </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
+                    </svg>
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
