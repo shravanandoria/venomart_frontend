@@ -137,16 +137,16 @@ const Footer = ({ theme }) => {
               </ul>
             </div>
           </div>
-          <div class="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
-            <span class="text-sm dark:text-jacarta-400">&copy; 2023
+          <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
+            <span className="text-sm dark:text-jacarta-400">&copy; 2023
               Xhibiter — Made by
-              <a href="https://deothemes.com" class="hover:text-accent">DeoThemes</a>
+              <a href="https://deothemes.com" className="hover:text-accent">DeoThemes</a>
             </span>
-            <ul class="flex flex-wrap space-x-4 text-sm dark:text-jacarta-400">
+            <ul className="flex flex-wrap space-x-4 text-sm dark:text-jacarta-400">
               <li>
-                <a href="#" class="hover:text-accent">Terms and conditions</a>
+                <a href="#" className="hover:text-accent">Terms and conditions</a>
               </li>
-              <li><a href="#" class="hover:text-accent">Privacy policy</a></li>
+              <li><a href="#" className="hover:text-accent">Privacy policy</a></li>
             </ul>
           </div>
         </div>
