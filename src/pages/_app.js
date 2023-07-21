@@ -10,6 +10,7 @@ export default function App({ Component, pageProps }) {
 
   const blockURL = "https://venomart.space/";
   const signer_address = "ox44";
+  const defaultCollectionAddress = "ox44";
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
 
@@ -29,6 +30,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         theme={theme}
         signer_address={signer_address}
+        defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
       />
       <Footer theme={theme} />

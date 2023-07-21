@@ -43,7 +43,7 @@ const EditProfile = ({ signer_address, theme }) => {
 
             <form onSubmit="" className={`${theme}`}>
                 {/* <!-- Banner --> */}
-                <div className="relative pt-24  dark:bg-jacarta-900">
+                <div className="relative pt-24 dark:bg-jacarta-900">
                     {data.coverImage == "" && coverImg_preview == "" ? (
                         <Image
                             src="/twitterback.png"
