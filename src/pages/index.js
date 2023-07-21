@@ -1,8 +1,10 @@
-import CollectionCard from '@/components/cards/CollectionCard';
 import Image from 'next/image'
 import Link from 'next/link';
 import testNFT from "../../public/test.jpg";
 import Head from 'next/head';
+import CollectionCard from '@/components/cards/CollectionCard';
+import LaunchCollectionCard from '@/components/cards/LaunchCollectionCard';
+import SmallCollectionCard from '@/components/cards/SmallCollectionCard';
 
 export default function Home({ theme }) {
   // test collection array 
@@ -72,7 +74,7 @@ export default function Home({ theme }) {
             {all_collections?.map((e, index) => {
               return (
                 index < 8 && (
-                  <CollectionCard
+                  <LaunchCollectionCard
                     key={index}
                     Cover={e.Cover}
                     Logo={e.Logo}
@@ -98,9 +100,6 @@ export default function Home({ theme }) {
 
       {/* top collections  */}
       <section className="relative py-24 dark:bg-jacarta-700">
-        <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" />
-        </picture>
         <div className="container">
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Top collections over</h2>
@@ -128,34 +127,21 @@ export default function Home({ theme }) {
           </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-[1.875rem] lg:grid-cols-4">
-            <div
-              className="flex rounded-2.5xl border border-jacarta-100 bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700">
-              <figure className="mr-4 shrink-0">
-                <a href="collection.html" className="relative block">
-                  <img src="img/avatars/avatar_1.jpg" alt="avatar 1" className="rounded-2lg" loading="lazy" />
-                  <div
-                    className="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600">
-                    1
-                  </div>
-                  <div
-                    className="absolute -left-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                    data-tippy-content="Verified Collection">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                      className="h-[.875rem] w-[.875rem] fill-white">
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                    </svg>
-                  </div>
-                </a>
-              </figure>
-              <div>
-                <a href="collection.html" className="block">
-                  <span className="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white">NFT Funny
-                    Cat</span>
-                </a>
-                <span className="text-sm dark:text-jacarta-300">7,080.95 ETH</span>
-              </div>
-            </div>
+            {all_collections?.map((e, index) => {
+              return (
+                index < 8 && (
+                  <SmallCollectionCard
+                    key={index}
+                    Cover={e.Cover}
+                    Logo={e.Logo}
+                    Name={e.Name}
+                    OwnerAddress={e.OwnerAddress}
+                    CollectionAddress={e.CollectionAddress}
+                    theme={theme}
+                  />
+                )
+              );
+            })}
           </div>
           <div className="mt-10 text-center">
             <a href="rankings.html"

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import testNFT from "../../../public/twitterback.png";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
-import CollectionCard from "@/components/cards/CollectionCard";
+import CollectionCard from "@/components/cards/LaunchCollectionCard";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import Link from "next/link";
