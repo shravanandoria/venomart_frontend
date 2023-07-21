@@ -12,7 +12,7 @@ const CollectionCard = ({
     CollectionAddress
 }) => {
     return (
-        <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[380px] w-[300px] overflow-hidden">
+        <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[300px] overflow-hidden">
             <Link
                 href={`/collection/${CollectionAddress}`}
                 className="relative flex space-x-[0.625rem]"
@@ -44,7 +44,7 @@ const CollectionCard = ({
             <div className="flex">
                 <Link
                     href={`/collection/${CollectionAddress}`}
-                    className=" mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
+                    className=" mt-8 font-display text-[22px] text-right text-jacarta-700 hover:text-accent dark:text-white "
                     style={{
                         width: "180px",
                         whiteSpace: "nowrap",
@@ -52,12 +52,17 @@ const CollectionCard = ({
                         overflow: "hidden"
                     }}
                 >
-                    {Name}
+                    CoverSigma
                 </Link>
                 <MdVerified
-                    style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }}
+                    style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
                     size={25}
                 />
+            </div>
+            <div className="flex">
+                <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
+                    1000 Items
+                </span>
             </div>
 
             <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
