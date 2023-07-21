@@ -6,9 +6,8 @@ import Image from "next/image";
 import smLogo from "../../public/logosm.png";
 
 
-const Navbar = ({ theme, setTheme }) => {
+const Navbar = ({ signer_address, theme, setTheme }) => {
   const router = useRouter();
-  const signer_address = "ox44";
 
   const [profileDrop, setProfileDrop] = useState(false);
   const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
@@ -189,19 +188,6 @@ const Navbar = ({ theme, setTheme }) => {
                     data-bs-toggle="dropdown"
                   >
                     Launchpad
-                  </Link>
-                </li>
-
-                <li className="js-nav-dropdown group relative">
-                  <Link
-                    href="/About"
-                    className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
-                    id="navDropdown-1"
-                    aria-expanded="false"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                  >
-                    About
                   </Link>
                 </li>
               </ul>
