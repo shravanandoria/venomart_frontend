@@ -52,7 +52,7 @@ const Footer = ({ theme }) => {
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
                 <li>
                   <Link
-                    href="/marketplace"
+                    href="/explore/NFTs"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Explore NFTs
@@ -60,7 +60,7 @@ const Footer = ({ theme }) => {
                 </li>
                 <li>
                   <Link
-                    href="/collection/TopCollections"
+                    href="/explore/Collections"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Top Collections
@@ -68,18 +68,18 @@ const Footer = ({ theme }) => {
                 </li>
                 <li>
                   <Link
-                    href="/mint/CreateAINFT"
+                    href="/explore/Rakings"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Generate AI NFT
+                    Rankings
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/mint/AddCollection"
+                    href="/explore/Launchpad"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Add NFT Collection
+                    Launchpad
                   </Link>
                 </li>
               </ul>
@@ -119,30 +119,55 @@ const Footer = ({ theme }) => {
                     href="/mint/CreateNFTCollection"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Create New Collection
+                    Create Collection
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="col-span-full sm:col-span-3 md:col-span-2">
+              <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
+                Other
+              </h3>
+              <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
+                <li>
+                  <Link
+                    href="/apply"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Apply For Launchpad
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/About"
+                    href="/help"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    About Rarfinite
+                    Get Help
                   </Link>
                 </li>
-
+                <li>
+                  <Link
+                    href="/Blogs"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Blogs
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
           <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">&copy; 2023
-              Venomart, All rights reserved
+              Venomart All rights reserved
             </span>
             <ul className="flex flex-wrap space-x-4 text-sm dark:text-jacarta-400">
               <li>
-                <a href="#" className="hover:text-accent">Terms and conditions</a>
+                <Link href="/legal/Terms&Conditions" className="hover:text-accent">Terms and conditions</Link>
               </li>
-              <li><a href="#" className="hover:text-accent">Privacy policy</a></li>
+              <li>
+                <Link href="/legal/PrivacyPolicy" className="hover:text-accent">Privacy policy</Link>
+              </li>
             </ul>
           </div>
         </div>
