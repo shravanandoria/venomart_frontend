@@ -71,13 +71,13 @@ const CollectionCard = ({
                 </div>
             </div>
             <div className="flex justify-between align-middle my-6">
-                <button class=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
+                <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                     <span className="text-jacarta-400">Owners</span> 3
                 </button>
-                <button class=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
+                <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                     <span className="text-jacarta-400">Floor</span> 2
                 </button>
-                <button class=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
+                <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                     <span className="text-jacarta-400">Volume</span> 2
                 </button>
             </div>

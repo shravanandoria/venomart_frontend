@@ -2,14 +2,14 @@ import React from 'react'
 
 const PrivacyPolicy = ({ theme }) => {
     return (
-        <div class={`${theme}`}>
-            <section class="relative pt-48 pb-16 dark:bg-jacarta-800 md:pb-24">
-                <div class="container">
-                    <h1 class="text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+        <div className={`${theme}`}>
+            <section className="relative pt-48 pb-16 dark:bg-jacarta-800 md:pb-24">
+                <div className="container">
+                    <h1 className="text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                         Privacy Policy
                     </h1>
-                    <div class="article-content mx-auto max-w-[48.125rem]">
-                        <h2 class="text-base">Introduction</h2>
+                    <div className="article-content mx-auto max-w-[48.125rem]">
+                        <h2 className="text-base">Introduction</h2>
                         <p>
                             These Terms of Service (“Terms”) govern your access to and use of the Xhibiter website(s), our APIs,
                             mobile app (the “App”), and any other software, tools, features, or functionalities provided on or in

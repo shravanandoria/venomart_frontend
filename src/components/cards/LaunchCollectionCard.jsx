@@ -67,10 +67,10 @@ const LaunchCollectionCard = ({
         </div>
       </div>
       <div className="flex justify-between align-middle my-6 mx-2">
-        <button class=" dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+        <button className=" dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           3 Items
         </button>
-        <button class="border border-blue-700 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+        <button className="border border-blue-700 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           2
         </button>
       </div>
