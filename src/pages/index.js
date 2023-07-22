@@ -1,21 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link';
-import testNFT from "../../public/test.jpg";
 import Head from 'next/head';
 import CollectionCard from '@/components/cards/CollectionCard';
 import LaunchCollectionCard from '@/components/cards/LaunchCollectionCard';
 import SmallCollectionCard from '@/components/cards/SmallCollectionCard';
 
-export default function Home({ theme }) {
-  // test collection array 
-  const all_collections = [{
-    Cover: testNFT,
-    Logo: testNFT,
-    Name: "cover",
-    OwnerAddress: "cover",
-    CollectionAddress: "cover",
-  }]
-
+export default function Home({ theme, all_collections }) {
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
       <Head>

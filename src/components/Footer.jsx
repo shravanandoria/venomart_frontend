@@ -68,7 +68,7 @@ const Footer = ({ theme }) => {
                 </li>
                 <li>
                   <Link
-                    href="/explore/Rakings"
+                    href="/explore/Rankings"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Rankings

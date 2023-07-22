@@ -1,10 +1,19 @@
+// def 
+import { useEffect, useState } from 'react'
+
+// components 
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+
+// sty;es 
 import '@/styles/globals.css'
 import '@/styles/custom.css'
 import '@/styles/tailwind.css'
 import '@/styles/Home.module.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import { useEffect, useState } from 'react'
+
+// images 
+import testNFT from "../../public/test.jpg";
+
 
 export default function App({ Component, pageProps }) {
 
@@ -13,6 +22,26 @@ export default function App({ Component, pageProps }) {
   const defaultCollectionAddress = "ox44";
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
+
+  // test collection array 
+  const all_collections = [{
+    Cover: testNFT,
+    Logo: testNFT,
+    Name: "cover",
+    OwnerAddress: "cover",
+    CollectionAddress: "cover",
+  }]
+
+  // test collection array 
+  const all_nfts = [{
+    ImageSrc: testNFT,
+    Name: "nft",
+    Description: "test descrip",
+    Address: "cover",
+    tokenId: 1,
+    listedBool: true,
+    listingPrice: 2,
+  }]
 
   // setting website theme 
   useEffect(() => {
@@ -32,6 +61,9 @@ export default function App({ Component, pageProps }) {
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
+
+        all_collections={all_collections}
+        all_nfts={all_nfts}
       />
       <Footer theme={theme} />
     </>
