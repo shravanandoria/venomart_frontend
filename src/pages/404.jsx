@@ -8,7 +8,7 @@ const ErrorPage = ({ theme }) => {
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>404 Page Not Found - Rarfinite Marketplace</title>
+                <title>404 Page Not Found - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Page Not Found"

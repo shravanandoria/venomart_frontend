@@ -16,7 +16,7 @@ const Collections = ({ theme, all_collections }) => {
     return (
         <>
             <Head>
-                <title>Top Collections - Rarfinite Marketplace</title>
+                <title>Top Collections - Venomart Marketplace</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.png" />
             </Head>

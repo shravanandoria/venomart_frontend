@@ -18,7 +18,7 @@ const Contact = ({ theme }) => {
                                         <label for="name" className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white">Name<span className="text-red">*</span></label>
                                         <input
                                             name="name"
-                                            className="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                            className={`contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" : "text-black"} `}
                                             id="name"
                                             type="text"
                                             required
@@ -30,7 +30,7 @@ const Contact = ({ theme }) => {
                                         >Email<span className="text-red">*</span></label>
                                         <input
                                             name="email"
-                                            className="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                            className={`contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" : "text-black"} `}
                                             id="email"
                                             type="email"
                                             required
@@ -43,7 +43,7 @@ const Contact = ({ theme }) => {
                                     >Query<span className="text-red">*</span></label>
                                     <textarea
                                         id="message"
-                                        className="contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300"
+                                        className={`contact-form-input w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:placeholder:text-jacarta-300" : "text-black"} `}
                                         required
                                         name="message"
                                         rows="5"
