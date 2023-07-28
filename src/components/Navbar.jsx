@@ -4,14 +4,34 @@ import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
 import smLogo from "../../public/logosm.png";
+import axios from "axios";
 
-const Navbar = ({ signer_address, theme, setTheme }) => {
+
+const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDisconnect }) => {
   const router = useRouter();
 
   const [profileDrop, setProfileDrop] = useState(false);
   const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
 
   const [search_result, set_search_result] = useState([]);
+
+  const [explorerLog, SetExplorerLog] = useState("");
+  const [vnmBalance, setVnmBalance] = useState("");
+
+  useEffect(() => {
+    if (!signer_address) return;
+    axios
+      .post(baseURL, {
+        id: signer_address,
+      })
+      .then((response) => {
+        SetExplorerLog(response.data);
+        const balance = parseFloat(response.data.balance / 1000000000).toFixed(
+          2
+        );
+        setVnmBalance(balance);
+      });
+  }, [signer_address]);
 
   return (
     <div
@@ -237,8 +257,8 @@ const Navbar = ({ signer_address, theme, setTheme }) => {
                 </div>
               </div>
               {!signer_address ? (
-                <a
-                  href="#"
+                <button
+                  onClick={() => connectWallet()}
                   className="js-wallet group flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
                   data-bs-toggle="modal"
                   data-bs-target="#walletModal"
@@ -254,7 +274,7 @@ const Navbar = ({ signer_address, theme, setTheme }) => {
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
                   </svg>
-                </a>
+                </button>
               ) : (
                 <>
                   <div className="relative">
@@ -303,7 +323,7 @@ const Navbar = ({ signer_address, theme, setTheme }) => {
                           </span>
                           <div className="flex items-center">
                             <span className="text-lg font-bold text-green">
-                              2 VENOM
+                              {vnmBalance} VENOM
                             </span>
                           </div>
                         </div>
@@ -380,7 +400,7 @@ const Navbar = ({ signer_address, theme, setTheme }) => {
                           </span>
                         </Link>
                         <a
-                          onClick={() => signOut()}
+                          onClick={() => onDisconnect()}
                           className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                         >
                           <svg

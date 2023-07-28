@@ -30,8 +30,10 @@ import { loadNFTs_user } from "@/utils/user_nft";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
+
   // default values
   const blockURL = "https://venomart.space/";
+  const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
@@ -62,9 +64,17 @@ export default function App({ Component, pageProps }) {
       listingPrice: 2,
     },
   ];
+
+  // login 
   const init = async () => {
     const _venomConnect = await initVenomConnect();
     setVenomConnect(_venomConnect);
+  };
+
+  // logout 
+  const onDisconnect = async () => {
+    venomProvider?.disconnect();
+    set_signer_address(undefined);
   };
 
   // setting website theme
@@ -109,6 +119,9 @@ export default function App({ Component, pageProps }) {
         theme={theme}
         setTheme={setTheme}
         signer_address={signer_address}
+        baseURL={baseURL}
+        connectWallet={init}
+        onDisconnect={onDisconnect}
       />
       <Component
         {...pageProps}
@@ -119,7 +132,6 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         all_collections={all_collections}
         all_nfts={all_nfts}
-      // chainName={chainName}
       />
       <Footer theme={theme} />
       <Analytics />
