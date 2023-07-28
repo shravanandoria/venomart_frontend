@@ -1,6 +1,6 @@
 // def
 import { useEffect, useState } from "react";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 // components
 import Navbar from "@/components/Navbar";
@@ -18,19 +18,9 @@ import testNFT from "../../public/test.jpg";
 //Wallet Connect
 import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
-import {
-  onConnect,
-  checkAuth,
-  getAddress,
-  onDisconnect,
-  onProviderReady,
-  venomProvider,
-} from "@/utils/wallet_info";
-import { loadNFTs_user } from "@/utils/user_nft";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
-
   // default values
   const blockURL = "https://venomart.space/";
   const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
@@ -74,7 +64,7 @@ export default function App({ Component, pageProps }) {
     init();
   }, []);
 
-  // connect wallet start 
+  // connect wallet start
   const init = async () => {
     const _venomConnect = await initVenomConnect();
     setVenomConnect(_venomConnect);
@@ -93,6 +83,12 @@ export default function App({ Component, pageProps }) {
   const onConnect = async (provider) => {
     await onProviderReady(provider);
     setVenomProvider(provider);
+  };
+
+  const initStandalone = async () => {
+    const standalone = await venomConnect?.getStandalone();
+    set_standalone(standalone);
+    return standalone;
   };
 
   const onDisconnect = async () => {
@@ -120,6 +116,8 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const off = venomConnect?.on("connect", onConnect);
     if (venomConnect) {
+      initStandalone();
+
       checkAuth(venomConnect);
     }
 
@@ -128,8 +126,7 @@ export default function App({ Component, pageProps }) {
     };
   }, [venomConnect]);
 
-  // connect wallet end 
-
+  // connect wallet end
 
   return (
     <>

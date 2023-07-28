@@ -41,6 +41,7 @@ export const getNftCodeHash = async (provider) => {
   const { codeHash } = await contract.methods
     .nftCodeHash({ answerId: 0 })
     .call({ responsible: true });
+  // console.log()
   return BigInt(codeHash).toString(16);
 };
 
@@ -54,7 +55,6 @@ export const getNftAddresses = async (codeHash) => {
 };
 
 export const loadNFTs_collection = async (provider) => {
-  // const provider = venomProvider;
   try {
     const nftCodeHash = await getNftCodeHash(provider);
     if (!nftCodeHash) {
@@ -129,7 +129,6 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
       const getNftInfo = await nftContract.methods
         .getInfo({ answerId: 0 })
         .call();
-
       const getJsonAnswer = await nftContract.methods
         .getJson({ answerId: 0 })
         .call();
@@ -138,6 +137,20 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   );
 
   return nfts;
+};
+
+export const get_nft_by_address = async (provider, nft_address) => {
+  if (nft_address == undefined) return;
+  const nftContract = new provider.Contract(nftAbi, nft_address);
+  const nft_json = await nftContract.methods.getJson({ answerId: 0 }).call();
+
+  const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();
+
+  let nft = {
+    ...JSON.parse(nft_json.json),
+    ...getNftInfo,
+  };
+  return nft;
 };
 
 export const loadNFTs_user = async (provider, ownerAddress) => {
@@ -164,7 +177,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
   }
 };
 
-export const create_nft = async (data, signer_address) => {
+export const create_nft = async (data, signer_address, venomProvider) => {
   console.log({ data: data });
   try {
     const ipfs_image =
@@ -211,7 +224,7 @@ export const create_nft = async (data, signer_address) => {
   }
 };
 
-export const list_nft = async (nft_address) => {
+export const list_nft = async (nft_address, venomProvider) => {
   const marektplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
