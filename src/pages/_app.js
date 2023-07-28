@@ -28,8 +28,7 @@ import {
 } from "@/utils/wallet_info";
 
 export default function App({ Component, pageProps }) {
-
-  // default values 
+  // default values
   const blockURL = "https://venomart.space/";
   // const signer_address = "ox44";
   const defaultCollectionAddress = "ox44";
@@ -107,7 +106,7 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         all_collections={all_collections}
         all_nfts={all_nfts}
-        chainName={chainName}
+        // chainName={chainName}
       />
       <Footer theme={theme} />
     </>
