@@ -1,5 +1,6 @@
 // def
 import { useEffect, useState } from "react";
+import { Analytics } from '@vercel/analytics/react';
 
 // components
 import Navbar from "@/components/Navbar";
@@ -31,7 +32,6 @@ import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 export default function App({ Component, pageProps }) {
   // default values
   const blockURL = "https://venomart.space/";
-  // const signer_address = "ox44";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
@@ -119,9 +119,10 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         all_collections={all_collections}
         all_nfts={all_nfts}
-        // chainName={chainName}
+      // chainName={chainName}
       />
       <Footer theme={theme} />
+      <Analytics />
     </>
   );
 }

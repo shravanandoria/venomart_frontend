@@ -4,8 +4,9 @@ import nftAbi from "../../abi/abi/Nft.abi.json";
 import collectionAbi from "../../abi/abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/abi/Marketplace.abi.json";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-const storage = new ThirdwebStorage();
 import { venomProvider } from "./wallet_info";
+
+const storage = new ThirdwebStorage();
 
 export const COLLECTION_ADDRESS =
   "0:f7a905b222847612294e633e9bbe400972418251450cdff86c9bf42301cbe634";
