@@ -2,6 +2,7 @@ import { Address } from "everscale-inpage-provider";
 import indexAbi from "../../abi/abi/Index.abi.json";
 import nftAbi from "../../abi/abi/Nft.abi.json";
 import collectionAbi from "../../abi/abi/Collection.abi.json";
+import marketplaceAbi from "../../abi/abi/Marketplace.abi.json";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 const storage = new ThirdwebStorage();
 import { venomProvider } from "./wallet_info";
@@ -47,10 +48,12 @@ export const getNftAddresses = async (codeHash) => {
   const addresses = await standaloneProvider?.getAccountsByCodeHash({
     codeHash,
   });
+  console.log(addresses);
   return addresses?.accounts;
 };
 
 export const loadNFTs_collection = async (provider) => {
+  // const provider = venomProvider;
   try {
     const nftCodeHash = await getNftCodeHash(provider);
     if (!nftCodeHash) {
@@ -62,6 +65,7 @@ export const loadNFTs_collection = async (provider) => {
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
+    return nftURLs;
   } catch (e) {
     console.error(e);
   }
@@ -140,9 +144,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
     }
     // Fetch all image URLs
     const nftURLs = await getNftsByIndexes(provider, indexesAddresses);
-    console.log({ nftURLs });
-    // set_nfts(nftURLs.nft);
-    // setMyCollectionItems(nftURLs);
+    return nftURLs;
   } catch (e) {
     console.error(e);
   }
@@ -193,4 +195,23 @@ export const create_nft = async (data, signer_address) => {
   } catch (error) {
     console.log(error.message);
   }
+};
+
+export const list_nft = async (nft_address) => {
+  const marektplace_contract = new venomProvider.Contract(
+    marketplaceAbi,
+    MARKETPLACE_ADDRESS
+  );
+
+  const nft_contract = new venomProvider.Contract(nftAbi, nftAbi);
+  const outputs = await nft_contract.methods
+    .listToken({
+      nft_address,
+      price,
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: "1000000000",
+    });
+  console.log(outputs);
 };

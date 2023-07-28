@@ -46,7 +46,6 @@ const CreateNFT = ({ defaultCollectionAddress, theme, signer_address }) => {
 
   const handle_submit = async (e) => {
     e.preventDefault();
-    console.log(data);
     create_nft(data, signer_address);
   };
 

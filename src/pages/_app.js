@@ -37,6 +37,7 @@ export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [signer_address, set_signer_address] = useState("");
+  const [standalone, set_standalone] = useState();
 
   // test collection array
   const all_collections = [
@@ -94,6 +95,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     (async () => {
       const standalone = await venomConnect?.getStandalone();
+      set_standalone(standalone);
 
       if (signer_address && standalone)
         loadNFTs_user(standalone, signer_address);
@@ -111,6 +113,7 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         theme={theme}
+        standalone={standalone}
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
