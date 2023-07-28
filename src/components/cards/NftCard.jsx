@@ -65,7 +65,7 @@ const NftCard = ({
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {" "} {"FTM"}
+              {listingPrice} {"FTM"}
             </span>
           </span>
         )}

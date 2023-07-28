@@ -29,16 +29,18 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const get_my_nfts = async () => {
+    if (!standalone && !signer_address) return;
     const res = await loadNFTs_user(standalone, signer_address);
-    console.log(res);
-    set_nfts(res);
+    let nfts = [];
+    res?.map((e) => {
+      nfts.push({ ...JSON.parse(e.json), ...e });
+    });
+    set_nfts(nfts);
   };
 
   useEffect(() => {
-    if (!standalone && !signer_address) return;
-
     get_my_nfts();
-  }, [standalone, signer_address]);
+  }, [signer_address, standalone]);
 
   return loading ? (
     <Loader theme={theme} />
@@ -184,8 +186,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -217,8 +220,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${!myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                !myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -257,6 +261,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
               >
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                   {currentNFTs?.map((e, index) => {
+                    console.log();
                     return (
                       <NftCard
                         key={index}
@@ -264,12 +269,12 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
                           "ipfs://",
                           "https://ipfs.io/ipfs/"
                         )}
-                        Name={e?.ipfsData?.name}
-                        Description={e?.ipfsData?.description}
-                        Address={e?.ipfsData?.collection}
-                        tokenId={e?.tokenId}
+                        Name={e?.name}
+                        Description={e?.description}
+                        Address={e.nft._address}
+                        tokenId={e?.id}
                         chainImgPre={"../"}
-                        listedBool={e?.isListed}
+                        // listedBool={e?.isListed}
                         chain_image={e?.chain_image}
                         chain_symbol={e?.chain_symbol}
                       />
