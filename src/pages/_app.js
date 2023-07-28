@@ -1,6 +1,5 @@
 // def
 import { useEffect, useState } from "react";
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
 // components
 import Navbar from "@/components/Navbar";
@@ -27,12 +26,13 @@ import {
   venomProvider,
 } from "@/utils/wallet_info";
 import { loadNFTs_user } from "@/utils/user_nft";
+import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
   // default values
   const blockURL = "https://venomart.space/";
   // const signer_address = "ox44";
-  const defaultCollectionAddress = "ox44";
+  const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();

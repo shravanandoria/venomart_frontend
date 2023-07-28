@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { create_nft } from "@/utils/user_nft";
 
-const CreateNFT = ({ defaultCollectionAddress, theme }) => {
+const CreateNFT = ({ defaultCollectionAddress, theme, signer_address }) => {
   const router = useRouter();
   const [loading, set_loading] = useState(false);
   const [propModel, setPropModel] = useState(false);
@@ -44,6 +44,12 @@ const CreateNFT = ({ defaultCollectionAddress, theme }) => {
     set_data({ ...data, properties: values });
   };
 
+  const handle_submit = async (e) => {
+    e.preventDefault();
+    console.log(data);
+    create_nft(data, signer_address);
+  };
+
   return (
     <div className={`${theme}`}>
       <Head>
@@ -54,7 +60,10 @@ const CreateNFT = ({ defaultCollectionAddress, theme }) => {
       {loading ? (
         <Loader />
       ) : (
-        <form onSubmit="" className={`relative py-24 dark:bg-jacarta-900`}>
+        <form
+          onSubmit={handle_submit}
+          className={`relative py-24 dark:bg-jacarta-900`}
+        >
           <div className="container">
             <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
               Create NFT

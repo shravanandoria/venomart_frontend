@@ -2,8 +2,15 @@ import { Address } from "everscale-inpage-provider";
 import indexAbi from "../../abi/abi/Index.abi.json";
 import nftAbi from "../../abi/abi/Nft.abi.json";
 import collectionAbi from "../../abi/abi/Collection.abi.json";
-const COLLECTION_ADDRESS =
-  "0:c22a4b56b2b3e197ec790ab63d128d612088e86e22ec75bf02684c6388571c34";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
+const storage = new ThirdwebStorage();
+import { venomProvider } from "./wallet_info";
+
+export const COLLECTION_ADDRESS =
+  "0:f7a905b222847612294e633e9bbe400972418251450cdff86c9bf42301cbe634";
+export const MARKETPLACE_ADDRESS =
+  "0:8c87608d6b37163d967d17128c9842b247b0eeb69d478892f982f07a71dbb5f4";
+
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
@@ -44,7 +51,6 @@ export const getNftAddresses = async (codeHash) => {
 };
 
 export const loadNFTs_collection = async (provider) => {
-  setListIsEmpty(false);
   try {
     const nftCodeHash = await getNftCodeHash(provider);
     if (!nftCodeHash) {
@@ -56,7 +62,6 @@ export const loadNFTs_collection = async (provider) => {
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
-    setCollectionItem(nftURLs);
   } catch (e) {
     console.error(e);
   }
@@ -143,7 +148,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
   }
 };
 
-export const create_nft = async (data) => {
+export const create_nft = async (data, signer_address) => {
   console.log({ data: data });
   try {
     const ipfs_image =
