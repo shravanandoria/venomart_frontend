@@ -35,37 +35,36 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   );
 };
 
-export const getNftCodeHash = async (provider) => {
-  const collectionAddress = new Address(COLLECTION_ADDRESS);
+export const getNftCodeHash = async (provider, collection_address) => {
+  const collectionAddress = new Address(collection_address);
   const contract = new provider.Contract(collectionAbi, collectionAddress);
   const { codeHash } = await contract.methods
     .nftCodeHash({ answerId: 0 })
     .call({ responsible: true });
-  // console.log()
   return BigInt(codeHash).toString(16);
 };
 
 // Method, that return NFT's addresses by single query with fetched code hash
-export const getNftAddresses = async (codeHash) => {
-  const addresses = await standaloneProvider?.getAccountsByCodeHash({
+export const getNftAddresses = async (codeHash, provider) => {
+  const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
   });
-  console.log(addresses);
   return addresses?.accounts;
 };
 
-export const loadNFTs_collection = async (provider) => {
+export const loadNFTs_collection = async (provider, collection_address) => {
   try {
-    const nftCodeHash = await getNftCodeHash(provider);
+    const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
     }
-    const nftAddresses = await getNftAddresses(nftCodeHash);
+    const nftAddresses = await getNftAddresses(nftCodeHash, provider);
     if (!nftAddresses || !nftAddresses.length) {
       if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
+    // console.log(nftURLs);
     return nftURLs;
   } catch (e) {
     console.error(e);

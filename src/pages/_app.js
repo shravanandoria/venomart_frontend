@@ -142,6 +142,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         theme={theme}
         standalone={standalone}
+        venomProvider={venomProvider}
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
