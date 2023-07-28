@@ -23,18 +23,21 @@ import {
   getAddress,
   onDisconnect,
   onProviderReady,
+  venomProvider,
 } from "@/utils/wallet_info";
+import { loadNFTs_user } from "@/utils/user_nft";
+import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
-
-  // default values 
+  // default values
   const blockURL = "https://venomart.space/";
-  const chainName = "Venom Testnet";
-  const signer_address = "ox44";
-  const defaultCollectionAddress = "ox44";
+  // const signer_address = "ox44";
+  const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
+  const [signer_address, set_signer_address] = useState("");
+  const [standalone, set_standalone] = useState();
 
   // test collection array
   const all_collections = [
@@ -71,17 +74,34 @@ export default function App({ Component, pageProps }) {
     init();
   }, []);
 
-  useEffect(() => {
+  const venom_init = async () => {
     // connect event handler
-    const off = venomConnect?.on("connect", onConnect);
+    const off = await venomConnect?.on("connect", onConnect);
     if (venomConnect) {
-      checkAuth(venomConnect);
+      await checkAuth(venomConnect);
+      const addr = await getAddress(venomProvider);
+      set_signer_address(addr);
     }
     // just an empty callback, cuz we don't need it
     return () => {
       off?.();
     };
+  };
+
+  useEffect(() => {
+    venom_init();
   }, [venomConnect]);
+
+  useEffect(() => {
+    (async () => {
+      const standalone = await venomConnect?.getStandalone();
+      set_standalone(standalone);
+
+      if (signer_address && standalone)
+        loadNFTs_user(standalone, signer_address);
+      // if (!signer_address) setListIsEmpty_user(false);
+    })();
+  }, [signer_address]);
 
   return (
     <>
@@ -93,12 +113,13 @@ export default function App({ Component, pageProps }) {
       <Component
         {...pageProps}
         theme={theme}
+        standalone={standalone}
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
         all_collections={all_collections}
         all_nfts={all_nfts}
-        chainName={chainName}
+        // chainName={chainName}
       />
       <Footer theme={theme} />
     </>
