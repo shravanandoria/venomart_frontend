@@ -32,7 +32,7 @@ const CreateNFTCollection = ({ theme }) => {
             </Head>
 
             {loading ? (
-                <Loader />
+                <Loader theme={theme} />
             ) : (
                 <form onSubmit="" className="relative py-24  dark:bg-jacarta-900">
                     <div className="container">

@@ -10,7 +10,7 @@ export const checkAuth = async (_venomConnect) => {
 // This handler will be called after venomConnect.login() action
 // connect method returns provider to interact with wallet, so we just store it in state
 export const onConnect = async (provider) => {
-  setVenomProvider(provider);
+  // setVenomProvider(provider);
   await onProviderReady(provider);
 };
 // This handler will be called after venomConnect.disconnect() action

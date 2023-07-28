@@ -40,7 +40,7 @@ const Collection = ({
             </Head>
 
             {loading ? (
-                <Loader />
+                <Loader theme={theme} />
             ) : (
                 <div className="dark:bg-jacarta-900">
                     {/* <!-- Banner IMG--> */}

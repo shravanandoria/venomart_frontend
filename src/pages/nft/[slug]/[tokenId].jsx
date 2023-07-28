@@ -38,7 +38,7 @@ const NFTPage = ({
             )}
 
             {pageLoading ? (
-                <Loader />
+                <Loader theme={theme} />
             ) : (
                 <section className={`${theme}`}>
                     <div className={`relative pt-32 pb-24 dark:bg-jacarta-900`}>

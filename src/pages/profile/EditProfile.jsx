@@ -32,7 +32,7 @@ const EditProfile = ({ signer_address, theme }) => {
     }, [signer_address]);
 
     return loading ? (
-        <Loader />
+        <Loader theme={theme} />
     ) : (
         <>
             <Head>

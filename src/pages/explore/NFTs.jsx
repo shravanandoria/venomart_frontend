@@ -28,7 +28,7 @@ const NFTs = ({ theme, all_nfts }) => {
             </Head>
 
             {loading ? (
-                <Loader />
+                <Loader theme={theme} />
             ) : (
                 <div className={`${theme}`}>
                     <section className="relative py-24 dark:bg-jacarta-800">

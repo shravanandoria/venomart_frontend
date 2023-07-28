@@ -32,7 +32,7 @@ const Profile = ({
     const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
     return loading ? (
-        <Loader />
+        <Loader theme={theme} />
     ) : (
         <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
             <Head>
