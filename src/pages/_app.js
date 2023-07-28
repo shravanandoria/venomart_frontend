@@ -23,15 +23,18 @@ import {
   getAddress,
   onDisconnect,
   onProviderReady,
+  venomProvider,
+  address,
 } from "@/utils/wallet_info";
 
 export default function App({ Component, pageProps }) {
   const blockURL = "https://venomart.space/";
-  const signer_address = "ox44";
+  // const signer_address = "ox44";
   const defaultCollectionAddress = "ox44";
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
+  const [signer_address, set_signer_address] = useState("");
 
   // test collection array
   const all_collections = [
@@ -68,16 +71,23 @@ export default function App({ Component, pageProps }) {
     init();
   }, []);
 
-  useEffect(() => {
+  const venom_init = async () => {
     // connect event handler
-    const off = venomConnect?.on("connect", onConnect);
+    const off = await venomConnect?.on("connect", onConnect);
     if (venomConnect) {
-      checkAuth(venomConnect);
+      await checkAuth(venomConnect);
+      const addr = await getAddress(venomProvider);
+      console.log(addr);
+      set_signer_address(addr);
     }
     // just an empty callback, cuz we don't need it
     return () => {
       off?.();
     };
+  };
+
+  useEffect(() => {
+    venom_init();
   }, [venomConnect]);
 
   return (
