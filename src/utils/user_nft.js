@@ -115,16 +115,29 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash) => {
 };
 
 export const getNftsByIndexes = async (provider, indexAddresses) => {
+  const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
       const indexContract = new provider.Contract(indexAbi, indexAddress);
+
       const indexInfo = await indexContract.methods
         .getInfo({ answerId: 0 })
         .call();
-      return indexInfo.nft;
+
+      const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
+
+      const getNftInfo = await nftContract.methods
+        .getInfo({ answerId: 0 })
+        .call();
+
+      const getJsonAnswer = await nftContract.methods
+        .getJson({ answerId: 0 })
+        .call();
+      nfts.push({ ...getJsonAnswer, ...getNftInfo, ...indexInfo });
     })
   );
-  return getCollectionItems(provider, nftAddresses);
+
+  return nfts;
 };
 
 export const loadNFTs_user = async (provider, ownerAddress) => {
@@ -144,8 +157,8 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
       return;
     }
     // Fetch all image URLs
-    const nftURLs = await getNftsByIndexes(provider, indexesAddresses);
-    return nftURLs;
+    const nfts = await getNftsByIndexes(provider, indexesAddresses);
+    return nfts;
   } catch (e) {
     console.error(e);
   }
