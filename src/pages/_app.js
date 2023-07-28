@@ -17,7 +17,9 @@ import testNFT from "../../public/test.jpg";
 
 export default function App({ Component, pageProps }) {
 
+  // default values 
   const blockURL = "https://venomart.space/";
+  const chainName = "Venom Testnet";
   const signer_address = "ox44";
   const defaultCollectionAddress = "ox44";
   const defTheme = "dark";
@@ -61,6 +63,7 @@ export default function App({ Component, pageProps }) {
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
+        chainName={chainName}
 
         all_collections={all_collections}
         all_nfts={all_nfts}

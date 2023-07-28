@@ -15,7 +15,7 @@ const LaunchCollectionCard = ({
   return (
     <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[370px] w-[280px] overflow-hidden">
       <Link
-        href={`/collection/${CollectionAddress}`}
+        href={`/launchpad/${CollectionAddress}`}
         className="relative flex space-x-[0.625rem]"
       >
         <span className="w-[100%] h-[150px]">
@@ -44,7 +44,7 @@ const LaunchCollectionCard = ({
 
       <div className="flex">
         <Link
-          href={`/collection/${CollectionAddress}`}
+          href={`/launchpad/${CollectionAddress}`}
           className=" mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
           style={{
             width: "180px",
