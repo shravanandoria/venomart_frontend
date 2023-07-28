@@ -8,7 +8,6 @@ import Loader from "@/components/Loader";
 import Head from "next/head";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
-import { loadNFTs_user } from "@/utils/user_nft";
 
 const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   const [user_data, set_user_data] = useState({});
@@ -35,6 +34,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
     res?.map((e) => {
       nfts.push({ ...JSON.parse(e.json), ...e });
     });
+    console.log(nfts);
     set_nfts(nfts);
   };
 
