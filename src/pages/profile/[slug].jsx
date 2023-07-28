@@ -8,6 +8,7 @@ import Loader from "@/components/Loader";
 import Head from "next/head";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
+import { loadNFTs_user } from "@/utils/user_nft";
 
 const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   const [user_data, set_user_data] = useState({});
@@ -29,6 +30,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
 
   const get_my_nfts = async () => {
     if (!standalone && !signer_address) return;
+    set_loading(true);
     const res = await loadNFTs_user(standalone, signer_address);
     let nfts = [];
     res?.map((e) => {
@@ -36,6 +38,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
     });
     console.log(nfts);
     set_nfts(nfts);
+    set_loading(false);
   };
 
   useEffect(() => {
@@ -186,9 +189,8 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${
-                myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -220,9 +222,8 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${
-                !myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${!myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"

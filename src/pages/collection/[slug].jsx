@@ -8,6 +8,7 @@ import { BsFillExclamationCircleFill } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
+import { loadNFTs_collection } from "@/utils/user_nft";
 
 import fav from "../../../public/fav.png"
 
