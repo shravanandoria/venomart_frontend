@@ -38,6 +38,8 @@ export default function App({ Component, pageProps }) {
   const defTheme = "dark";
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
+  const [venomProvider, setVenomProvider] = useState();
+
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
@@ -65,18 +67,6 @@ export default function App({ Component, pageProps }) {
     },
   ];
 
-  // login 
-  const init = async () => {
-    const _venomConnect = await initVenomConnect();
-    setVenomConnect(_venomConnect);
-  };
-
-  // logout 
-  const onDisconnect = async () => {
-    venomProvider?.disconnect();
-    set_signer_address(undefined);
-  };
-
   // setting website theme
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
@@ -84,34 +74,62 @@ export default function App({ Component, pageProps }) {
     init();
   }, []);
 
-  const venom_init = async () => {
-    // connect event handler
-    const off = await venomConnect?.on("connect", onConnect);
-    if (venomConnect) {
-      await checkAuth(venomConnect);
-      const addr = await getAddress(venomProvider);
-      set_signer_address(addr);
-    }
-    // just an empty callback, cuz we don't need it
-    return () => {
-      off?.();
-    };
+  // connect wallet start 
+  const init = async () => {
+    const _venomConnect = await initVenomConnect();
+    setVenomConnect(_venomConnect);
+  };
+
+  const getAddress = async (provider) => {
+    const providerState = await provider?.getProviderState?.();
+    return providerState?.permissions.accountInteraction?.address.toString();
+  };
+
+  const checkAuth = async (_venomConnect) => {
+    const auth = await _venomConnect?.checkAuth();
+    if (auth) await getAddress(_venomConnect);
+  };
+
+  const onConnect = async (provider) => {
+    await onProviderReady(provider);
+    setVenomProvider(provider);
+  };
+
+  const onDisconnect = async () => {
+    venomProvider?.disconnect();
+    set_signer_address(undefined);
+  };
+
+  const onProviderReady = async (provider) => {
+    const venomWalletAddress = provider
+      ? await getAddress(provider)
+      : undefined;
+    set_signer_address(venomWalletAddress);
+    return venomWalletAddress;
+  };
+
+  const connect_wallet = async () => {
+    if (!venomConnect) return;
+    await venomConnect.connect();
   };
 
   useEffect(() => {
-    venom_init();
-  }, [venomConnect]);
+    init();
+  }, []);
 
   useEffect(() => {
-    (async () => {
-      const standalone = await venomConnect?.getStandalone();
-      set_standalone(standalone);
+    const off = venomConnect?.on("connect", onConnect);
+    if (venomConnect) {
+      checkAuth(venomConnect);
+    }
 
-      if (signer_address && standalone)
-        loadNFTs_user(standalone, signer_address);
-      // if (!signer_address) setListIsEmpty_user(false);
-    })();
-  }, [signer_address]);
+    return () => {
+      off?.();
+    };
+  }, [venomConnect]);
+
+  // connect wallet end 
+
 
   return (
     <>
@@ -120,7 +138,7 @@ export default function App({ Component, pageProps }) {
         setTheme={setTheme}
         signer_address={signer_address}
         baseURL={baseURL}
-        connectWallet={init}
+        connectWallet={connect_wallet}
         onDisconnect={onDisconnect}
       />
       <Component
