@@ -1,5 +1,4 @@
 export let venomProvider;
-export let address;
 
 export const getAddress = async (provider) => {
   const providerState = await provider?.getProviderState?.();
@@ -15,7 +14,6 @@ export const checkAuth = async (_venomConnect) => {
 export const onConnect = async (provider) => {
   venomProvider = provider;
   const addr = await onProviderReady(provider);
-  address = addr;
 };
 // This handler will be called after venomConnect.disconnect() action
 // By click logout. We need to reset address and balance.

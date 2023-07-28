@@ -1,5 +1,6 @@
 // def
 import { useEffect, useState } from "react";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
 // components
 import Navbar from "@/components/Navbar";
@@ -24,8 +25,8 @@ import {
   onDisconnect,
   onProviderReady,
   venomProvider,
-  address,
 } from "@/utils/wallet_info";
+import { loadNFTs_user } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -78,7 +79,6 @@ export default function App({ Component, pageProps }) {
     if (venomConnect) {
       await checkAuth(venomConnect);
       const addr = await getAddress(venomProvider);
-      console.log(addr);
       set_signer_address(addr);
     }
     // just an empty callback, cuz we don't need it
@@ -90,6 +90,16 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     venom_init();
   }, [venomConnect]);
+
+  useEffect(() => {
+    (async () => {
+      const standalone = await venomConnect?.getStandalone();
+
+      if (signer_address && standalone)
+        loadNFTs_user(standalone, signer_address);
+      // if (!signer_address) setListIsEmpty_user(false);
+    })();
+  }, [signer_address]);
 
   return (
     <>
