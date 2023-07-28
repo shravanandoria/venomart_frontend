@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
-import smLogo from "../../public/logosm.png";
+import darkPng from "../../public/darkpng.png";
+import whitePng from "../../public/whitepng.png";
 import axios from "axios";
 
 
@@ -40,14 +41,25 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
         <div className="flex items-center px-6 py-6 xl:px-24">
           {/* icon  */}
-          <Link href="/" className="shrink-0 relative">
-            <Image
-              src={smLogo}
-              height={160}
-              width={150}
-              alt="Venomart | NFT Marketplace"
-            />
-          </Link>
+          {theme === "dark" ?
+            <Link href="/" className="shrink-0 relative">
+              <Image
+                src={darkPng}
+                height={160}
+                width={150}
+                alt="Venomart | NFT Marketplace"
+              />
+            </Link>
+            :
+            <Link href="/" className="shrink-0 relative">
+              <Image
+                src={whitePng}
+                height={160}
+                width={150}
+                alt="Venomart | NFT Marketplace"
+              />
+            </Link>
+          }
 
           {/* search form  */}
           <form

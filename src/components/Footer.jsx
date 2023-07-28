@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import smLogo from "../../public/logosm.png";
+import darkPng from "../../public/darkpng.png";
+import whitePng from "../../public/whitepng.png";
 
 const Footer = ({ theme }) => {
   return (
@@ -10,14 +11,25 @@ const Footer = ({ theme }) => {
         <div className="container">
           <div className="grid grid-cols-6 gap-x-7 gap-y-14 pt-24 pb-12 md:grid-cols-12">
             <div className="col-span-full sm:col-span-3 md:col-span-4">
-              <Link href="/" className="mb-4 inline-block">
-                <Image
-                  src={smLogo}
-                  height={170}
-                  width={190}
-                  alt="Venomart | NFT Marketplace"
-                />
-              </Link>
+              {theme === "dark" ?
+                <Link href="/" className="mb-4 inline-block">
+                  <Image
+                    src={darkPng}
+                    height={170}
+                    width={190}
+                    alt="Venomart | NFT Marketplace"
+                  />
+                </Link>
+                :
+                <Link href="/" className="mb-4 inline-block">
+                  <Image
+                    src={whitePng}
+                    height={170}
+                    width={190}
+                    alt="Venomart | NFT Marketplace"
+                  />
+                </Link>
+              }
               <p className="mb-6 dark:text-jacarta-300">
                 Create, sell and collect NFTs on Venomart. Powered by
                 various technologies.
