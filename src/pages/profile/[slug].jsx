@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../public/twitterback.png";
+import testNFT from "../../../public/current/2.png";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/LaunchCollectionCard";
@@ -29,9 +29,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const get_my_nfts = async () => {
-    if (!standalone && !signer_address) return;
+    if (!standalone && !slug) return;
     set_loading(true);
-    const res = await loadNFTs_user(standalone, signer_address);
+    const res = await loadNFTs_user(standalone, slug);
     let nfts = [];
     res?.map((e) => {
       nfts.push({ ...JSON.parse(e.json), ...e });
