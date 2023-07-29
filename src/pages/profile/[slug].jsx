@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../public/twitterback.png";
+import testNFT from "../../../public/fav.png";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/LaunchCollectionCard";
@@ -9,7 +9,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
-
+import { list_nft } from "@/utils/user_nft";
 const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   const [user_data, set_user_data] = useState({});
   const [loading, set_loading] = useState(false);
@@ -189,8 +189,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -222,8 +223,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${!myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                !myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"

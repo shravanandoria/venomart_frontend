@@ -6,13 +6,16 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { get_nft_by_address } from "@/utils/user_nft";
+import { buy_nft, get_nft_by_address } from "@/utils/user_nft";
+import { list_nft } from "@/utils/user_nft";
+
 const NFTPage = ({
   signer_address,
   chainName,
   blockURL,
   theme,
   standalone,
+  venomProvider,
 }) => {
   const router = useRouter();
   const { slug, tokenId } = router.query;
@@ -30,8 +33,12 @@ const NFTPage = ({
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
     set_nft_info(nft_info);
-    console.log({ nft_info: nft_info })
+    console.log({ nft_info: nft_info });
     setPageLoading(false);
+  };
+
+  const sell_nft = async () => {
+    list_nft(slug, "1000000000", venomProvider, signer_address);
   };
 
   useEffect(() => {
@@ -88,6 +95,24 @@ const NFTPage = ({
                       />
                     </div>
                   </div>
+                  <div className="flex flex-col">
+                    <button onClick={sell_nft} className="text-white">
+                      List nft
+                    </button>
+                    <button
+                      onClick={() =>
+                        buy_nft(
+                          venomProvider,
+                          slug,
+                          "1000000000",
+                          signer_address
+                        )
+                      }
+                      className="text-white"
+                    >
+                      buy nft
+                    </button>
+                  </div>
 
                   {/* nft title  */}
                   <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
@@ -108,9 +133,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
                                 : testNFT
                             }
                             height={40}
@@ -148,8 +173,8 @@ const NFTPage = ({
                             {nft?.seller
                               ? nft?.seller
                               : nft?.owner_username
-                                ? nft?.owner_username
-                                : nft?.user_id}
+                              ? nft?.owner_username
+                              : nft?.user_id}
                           </span>
                         </Link>
                       </div>
@@ -413,8 +438,9 @@ const NFTPage = ({
                       onClick={() => setPropShow(true)}
                     >
                       <button
-                        className={`nav-link ${propShow && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          propShow && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                         id="properties-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#properties"
@@ -446,8 +472,9 @@ const NFTPage = ({
                       onClick={() => setPropShow(false)}
                     >
                       <button
-                        className={`nav-link ${!propShow && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          !propShow && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                         id="details-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#details"
