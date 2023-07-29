@@ -479,8 +479,8 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
               </div>
             </div>
             {!signer_address ? (
-              <a
-                href="#"
+              <button
+                onClick={() => connectWallet()}
                 className="ml-4 js-wallet group flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
                 data-bs-toggle="modal"
                 data-bs-target="#walletModal"
@@ -496,7 +496,7 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                   <path fill="none" d="M0 0h24v24H0z" />
                   <path d="M22 6h-7a6 6 0 1 0 0 12h7v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2zm-7 2h8v8h-8a4 4 0 1 1 0-8zm0 3v2h3v-2h-3z" />
                 </svg>
-              </a>
+              </button>
             ) : (
               <>
                 <div className="relative">
@@ -548,7 +548,9 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                 Balance
               </span>
               <div className="flex items-center">
-                <span className="text-lg font-bold text-green">2 VENOM</span>
+                <span className="text-lg font-bold text-green">
+                  {vnmBalance} VENOM
+                </span>
               </div>
             </div>
             <Link
@@ -588,24 +590,44 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
               </span>
             </Link>
             <Link
-              href="/Notifications"
+              href="/mint/CreateNFT"
               className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
             >
               <svg
-                className="h-5 w-5 fill-jacarta-700"
-                viewBox="0 0 24 24"
-                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
               >
-                <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" />
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
               </svg>
               <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                Notifications
+                Create NFT
+              </span>
+            </Link>
+            <Link
+              href="/mint/CreateNFTCollection"
+              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+              >
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+              </svg>
+              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                Create Collection
               </span>
             </Link>
             <a
-              href="#"
-              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
+              onClick={() => onDisconnect()}
+              className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
