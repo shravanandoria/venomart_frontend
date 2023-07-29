@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../public/current/2.png";
+import testNFT from "../../../public/current/twitter/2.png";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import CollectionCard from "@/components/cards/LaunchCollectionCard";
