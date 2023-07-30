@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../../public/test.jpg";
+import testNFT from "../../../public/test.jpg";
 import Image from "next/image";
 import Head from "next/head";
 import Loader from "@/components/Loader";
@@ -11,14 +11,15 @@ import { list_nft } from "@/utils/user_nft";
 
 const NFTPage = ({
   signer_address,
-  chainName,
+  blockChain,
   blockURL,
+  currency,
   theme,
   standalone,
   venomProvider,
 }) => {
   const router = useRouter();
-  const { slug, tokenId } = router.query;
+  const { slug } = router.query;
 
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
@@ -28,6 +29,7 @@ const NFTPage = ({
   const [listingPrice, set_listing_price] = useState(0);
   const [nft, set_nft_info] = useState({});
 
+  // getting nft information onchain 
   const nft_info = async () => {
     if (!standalone && !slug) return;
     setPageLoading(true);
@@ -37,8 +39,22 @@ const NFTPage = ({
     setPageLoading(false);
   };
 
-  const sell_nft = async () => {
-    list_nft(slug, "1000000000", venomProvider, signer_address);
+  // list nft for sale
+  const sell_nft = async (e) => {
+    e.preventDefault();
+    set_loading(true);
+    await list_nft(slug, "1000000000", venomProvider, signer_address);
+    set_loading(false);
+  };
+
+  // buy nft 
+  const buyNFT = async () => {
+    buy_nft(venomProvider, slug, "1000000000", signer_address);
+  };
+
+  // cancel nft sale 
+  const cancelNFT = async () => {
+    // write here 
   };
 
   useEffect(() => {
@@ -49,6 +65,10 @@ const NFTPage = ({
     <>
       <Head>
         <title>NFT - Rarfinite Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
@@ -66,16 +86,16 @@ const NFTPage = ({
             <div className="container">
               <div className="md:flex md:flex-wrap">
                 <div className="relative mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
-                  {/* <Image
-                                    src={nft?.ipfsData?.image?.replace(
-                                        "ipfs://",
-                                        "https://ipfs.io/ipfs/"
-                                    )}
-                                    width={100}
-                                    height={100}
-                                    alt="item"
-                                    className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
-                                /> */}
+                  <Image
+                    src={nft?.preview?.source?.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/"
+                    )}
+                    width={100}
+                    height={100}
+                    alt="item"
+                    className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
+                  />
                 </div>
 
                 {/* <!-- Details --> */}
@@ -84,10 +104,10 @@ const NFTPage = ({
                     {/* <!-- Collection --> */}
                     <div className="flex items-center">
                       <Link
-                        href={`/collection/${nft?.collection_id}`}
+                        href={`/collection/${nft?.collection?._address}`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
-                        {nft?.collection_name}
+                        {nft?.collection?._address?.slice(0, 8) + "..." + nft?.collection?._address?.slice(60)}
                       </Link>
                       <MdVerified
                         style={{ color: "#4f87ff", marginLeft: "-4px" }}
@@ -95,33 +115,15 @@ const NFTPage = ({
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col">
-                    <button onClick={sell_nft} className="text-white">
-                      List nft
-                    </button>
-                    <button
-                      onClick={() =>
-                        buy_nft(
-                          venomProvider,
-                          slug,
-                          "1000000000",
-                          signer_address
-                        )
-                      }
-                      className="text-white"
-                    >
-                      buy nft
-                    </button>
-                  </div>
 
                   {/* nft title  */}
                   <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
-                    {nft?.ipfsData?.name}
+                    {nft?.name}
                   </h1>
 
                   {/* nnft desc  */}
                   <p className="mb-10 dark:text-jacarta-300">
-                    {nft?.ipfsData?.description}
+                    {nft?.description}
                   </p>
 
                   {/* <!-- Owner --> */}
@@ -166,15 +168,11 @@ const NFTPage = ({
                           Owned by
                         </span>
                         <Link
-                          href={`/profile/${nft?.user_id}`}
+                          href={`/profile/${nft?.owner?._address}`}
                           className="block text-accent"
                         >
                           <span className="text-sm font-bold">
-                            {nft?.seller
-                              ? nft?.seller
-                              : nft?.owner_username
-                                ? nft?.owner_username
-                                : nft?.user_id}
+                            {nft?.owner?._address?.slice(0, 8) + "..." + nft?.owner?._address?.slice(60)}
                           </span>
                         </Link>
                       </div>
@@ -184,8 +182,8 @@ const NFTPage = ({
                   {/* -------------------------- all action buttons start ------------------------  */}
                   {/* <!-- list nft --> */}
                   {listSale == false ? (
-                    nft?.nft_owner == signer_address && (
-                      <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                    nft?.owner?._address == signer_address && (
+                      <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
                           onClick={() => setListSale(true)}
                           href="#"
@@ -196,14 +194,13 @@ const NFTPage = ({
                       </div>
                     )
                   ) : (
-                    <div className="absolute top-[30%] right-[40%] w-[500px] z-20 ">
+                    <div className="absolute top-[30%] right-[40%] w-[500px] z-20">
                       <form
-                        onSubmit={list_token}
+                        onSubmit={sell_nft}
                         className="modal-dialog max-w-2xl"
                       >
                         <div
-                          className="modal-content shadow-2xl"
-                          style={{ backgroundColor: "#f5f5f5" }}
+                          className="modal-content shadow-2xl dark:bg-jacarta-800"
                         >
                           <div className="modal-header">
                             <h5 className="modal-title" id="placeBidLabel">
@@ -239,7 +236,7 @@ const NFTPage = ({
                             <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
                               <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
                                 <span className="font-display text-sm text-jacarta-700">
-                                  FTM
+                                  {currency}
                                 </span>
                               </div>
                               {loading ? (
@@ -306,7 +303,7 @@ const NFTPage = ({
                   )}
 
                   {/* buy now section  */}
-                  {nft?.isListed && nft.seller !== signer_address && (
+                  {nft?.isListed == true && nft?.owner?._address !== signer_address && (
                     <div className="rounded-2lg border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       <div className="mb-8 sm:flex sm:flex-wrap">
                         <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
@@ -319,12 +316,12 @@ const NFTPage = ({
                             <div>
                               <div className="flex items-center whitespace-nowrap">
                                 <span className="text-lg font-medium leading-tight tracking-tight text-green">
-                                  {nft?.listingPrice
-                                    ? nft?.listingPrice
+                                  {nft?.price
+                                    ? nft?.price
                                     : "0.00"}{" "}
                                 </span>
                                 <span className="text-[19px] text-jacarta-700 ml-2">
-                                  FTM
+                                  {currency}
                                 </span>
                               </div>
                             </div>
@@ -359,9 +356,7 @@ const NFTPage = ({
                         <>
                           <button
                             type="button"
-                            onClick={() =>
-                              buyNFT(tokenId, slug, nft?.listingPrice)
-                            }
+                            onClick={buyNFT}
                             className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             Buy Now
@@ -372,7 +367,7 @@ const NFTPage = ({
                   )}
 
                   {/* <!-- cancel nft sale --> */}
-                  {nft?.seller == signer_address && nft?.isListed == true && (
+                  {nft?.manager?._address == signer_address && nft?.isListed == true && (
                     <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
                       {loading ? (
                         <button
@@ -400,7 +395,6 @@ const NFTPage = ({
                       ) : (
                         <button
                           type="button"
-                          onClick={() => cancelListingToken(slug, tokenId)}
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                         >
                           Cancel Sale
@@ -410,9 +404,9 @@ const NFTPage = ({
                   )}
 
                   {/* <!-- not listed --> */}
-                  {nft?.nft_owner !== signer_address &&
+                  {nft?.owner?._address !== signer_address &&
                     nft?.isListed == false && (
-                      <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                      <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
                           type="button"
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -504,7 +498,7 @@ const NFTPage = ({
                       <div>
                         <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
-                            {nft?.nft_properties?.map((e, index) => {
+                            {nft?.attributes?.map((e, index) => {
                               return (
                                 <a
                                   key={index}
@@ -519,7 +513,7 @@ const NFTPage = ({
                                 </a>
                               );
                             })}
-                            {nft?.nft_properties == "" && <p>No Properties</p>}
+                            {nft?.attributes == "" && <p className="text-jacarta-700 dark:text-white">No Properties</p>}
                           </div>
                         </div>
                       </div>
@@ -528,32 +522,26 @@ const NFTPage = ({
                         <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                           <div className="mb-2 flex items-center">
                             <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">
-                              Contract Address:
+                              Collection Address:
                             </span>
                             <a
-                              href={`${blockURL}` + `address/` + `${slug}`}
+                              href={`${blockURL}` + `accounts/` + `${nft?.collection?._address}`}
                               target="_blank"
                               className="text-accent"
                             >
-                              {slug}
+                              {nft?.collection?._address?.slice(0, 8) + "..." + nft?.collection?._address?.slice(60)}
                             </a>
                           </div>
                           <div className="mb-2 flex items-center">
                             <span className="mr-2 min-w-[9rem] dark:text-jacarta-300">
-                              Token ID:
+                              Token Address:
                             </span>
                             <a
-                              href={
-                                `${blockURL}` +
-                                `token/` +
-                                `${slug}` +
-                                `?a=` +
-                                `${tokenId}`
-                              }
+                              href={`${blockURL}` + `accounts/` + `${slug}`}
                               target="_blank"
                               className="text-accent"
                             >
-                              {tokenId}
+                              {slug?.slice(0, 8) + "..." + slug?.slice(60)}
                             </a>
                           </div>
                           <div className="mb-2 flex items-center">
@@ -561,7 +549,7 @@ const NFTPage = ({
                               Token Standard:
                             </span>
                             <span className="text-jacarta-700 dark:text-white">
-                              ERC-721
+                              TIP 4
                             </span>
                           </div>
                           <div className="flex items-center">
@@ -569,7 +557,7 @@ const NFTPage = ({
                               Blockchain:
                             </span>
                             <span className="text-jacarta-700 dark:text-white">
-                              {chainName}
+                              {blockChain}
                             </span>
                           </div>
                         </div>

@@ -22,10 +22,14 @@ import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
 export default function App({ Component, pageProps }) {
   // default values
-  const blockURL = "https://venomart.space/";
+  const currency = "VENOM";
+  const blockChain = "Venom Testnet";
+  const blockURL = "https://testnet.venomscan.com/";
   const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
+
+  // other 
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
@@ -146,6 +150,8 @@ export default function App({ Component, pageProps }) {
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
         blockURL={blockURL}
+        blockChain={blockChain}
+        currency={currency}
         all_collections={all_collections}
         all_nfts={all_nfts}
       />

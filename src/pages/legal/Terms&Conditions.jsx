@@ -1,8 +1,22 @@
+import Head from 'next/head'
 import React from 'react'
 
 const TermsConditions = ({ theme }) => {
     return (
         <div className={`${theme}`}>
+            <Head>
+                <title>Terms - Venomart Marketplace</title>
+                <meta
+                    name="description"
+                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                />
+                <meta
+                    name="keywords"
+                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/fav.png" />
+            </Head>
             <section className="relative pt-48 pb-16 dark:bg-jacarta-800 md:pb-24">
                 <div className="container">
                     <h1 className="text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
@@ -11,117 +25,98 @@ const TermsConditions = ({ theme }) => {
                     <div className="article-content mx-auto max-w-[48.125rem]">
                         <h2 className="text-base">Introduction</h2>
                         <p>
-                            These Terms of Service (“Terms”) govern your access to and use of the Xhibiter website(s), our APIs,
-                            mobile app (the “App”), and any other software, tools, features, or functionalities provided on or in
-                            connection with our services; including without limitation using our services to view, explore, and create
-                            NFTs and use our tools, at your own discretion, to connect directly with others to purchase, sell, or
-                            transfer NFTs on public blockchains (collectively, the “Service”). “NFT” in these Terms means a
-                            non-fungible token or similar digital item implemented on a blockchain (such as the Ethereum blockchain),
-                            which uses smart contracts to link to or otherwise be associated with certain content or data. For
-                            purposes of these Terms, “user”, “you”, and “your” means you as the user of the Service. If you use the
-                            Service on behalf of a company or other entity then “you” includes you and that entity, and you represent
-                            and warrant that (a) you are an authorized representative of the entity with the authority to bind the
-                            entity to these Terms, and (b) you agree to these Terms on the entity's behalf.
+                            Last Updated: July 30, 2023
                         </p>
                         <p>
-                            PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN IMPORTANT INFORMATION AND AFFECT YOUR LEGAL
-                            RIGHTS. AS OUTLINED IN SECTION 16 BELOW, THEY INCLUDE A MANDATORY ARBITRATION AGREEMENT AND CLASS ACTION
-                            WAIVER WHICH (WITH LIMITED EXCEPTIONS) REQUIRE ANY DISPUTES BETWEEN US TO BE RESOLVED THROUGH INDIVIDUAL
-                            ARBITRATION RATHER THAN BY A JUDGE OR JURY IN COURT.
+                            Venomart, (“Venomart.space,” “we,” “our,” “us” and together with you, the “Parties”) provides its marketplace and services (described below) to you (“you” or “User'' and collectively with others using the Site “Users").
+                            This Agreement concerning your use of (including any access to) the Venomart websites, app and services, currently located at Venomart, mobile applications, web applications, decentralized applications, smart contracts and API located at any of Venomart websites (together with any materials and services available therein, and successor website(s) or application(s) thereto, the “Site”). This Agreement hereby incorporates by this reference any additional terms and conditions with respect to the Site posted by Venomart to the Site, or otherwise made available to you by Venomart.
                         </p>
-                        <p>
-                            BY CLICKING TO ACCEPT AND/OR USING OUR SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS AND ALL OF THE TERMS
-                            INCORPORATED HEREIN BY REFERENCE. IF YOU DO NOT AGREE TO THESE TERMS, YOU MAY NOT ACCESS OR USE THE
-                            SERVICE.
+                        <p className='font-bold'>
+                            Please read these Terms of Service carefully. Your use or access of the Site, the Smart Contracts (as defined below) or any other service which Venomart operates constitutes your consent to this Agreement. If you do not have such authority, or if you do not accept all of these terms and conditions, then we are unwilling to make the App, the smart contracts or the site available to you
                         </p>
 
                         <p>
-                            Xhibiter is not a wallet provider, exchange, broker, financial institution, or creditor. Xhibiter provides
-                            a peer-to-peer web3 service that helps users discover and directly interact with each other and NFTs
-                            available on public blockchains. We do not have custody or control over the NFTs or blockchains you are
-                            interacting with and we do not execute or effectuate purchases, transfers, or sales of NFTs. To use our
-                            Service, you must use a third-party wallet which allows you to engage in transactions on blockchains.
+                            By signing up for an account on the Platform, clicking or tapping any button or box marked “accept” or “agree” (or a similar term) in connection with this Agreement, or by accessing or using the App, you agree to be bound by this Agreement, a current version of which is available at the Site, and which may be modified from time to time at our sole discretion in accordance with section 4 below.
                         </p>
 
                         <p>
-                            Because we have a growing number of services, we sometimes need to provide additional terms for specific
-                            services (and such services are deemed part of the “Service” hereunder and shall also be subject to these
-                            Terms). Those additional terms and conditions, which are available with the relevant service, then become
-                            part of your agreement with us if you use those services. In the event of a conflict between these Terms
-                            and any additional applicable terms we may provide for a specific service, such additional terms shall
-                            control for that specific service.
+                            The Privacy Policy and all such additional terms, guidelines, and rules as set forth on the Platform are hereby incorporated by reference into these Terms and expressly agreed to and acknowledged by the User.
                         </p>
 
-                        <h2>Ownership</h2>
+                        <h2>What is Venomart :</h2>
 
                         <p>
-                            The Service, including its “look and feel” (e.g., text, graphics, images, logos, page headers, button
-                            icons, and scripts), proprietary content, information and other materials, and all content and other
-                            materials contained therein, including, without limitation, the Xhibiter logo and all designs, text,
-                            graphics, pictures, data, software, sound files, other files, and the selection and arrangement thereof
-                            are the proprietary property of Xhibiter or our affiliates, licensors, or users, as applicable, and you
-                            agree not to take any action(s) inconsistent with such ownership interests. We and our affiliates,
-                            licensors, and users, as applicable, reserve all rights in connection with the Service and its content,
-                            including, without limitation, the exclusive right to create derivative works.
+                            Venomart is a distributed application that runs on the Venom network, using specially-developed smart contracts (each, a “Smart Contract”) to enable users to create, buy, transfer and trade unique digital goods (artwork, collectibles, tickets…). Using Venomart, users can view their digital goods and use the Smart Contracts to create, acquire, and trade with other users.
                         </p>
 
-                        <h2>License to Access and Use Our Service and Content</h2>
+                        <p>Smart-Contract Enabled.  The Digital Goods on Venomart is represented on smart contracts on the Venom blockchain that provides an immutable ledger of all transactions that occur on Venomart (“Smart Contracts”).  This means that all Digital Goods are outside of the control of any one party, including Venomart, and are subject to many risks and uncertainties.  We neither own nor control MetaMask, the Venom network, your browser, or any other third party site, product, or service that you might access, visit, or use for the purpose of enabling you to use the various features of the Platform. We will not be liable for the acts or omissions of any such third parties, nor will we be liable for any damage that you may suffer as a result of your transactions or any other interaction with any such third parties.  The User understands that your Venom public address will be made publicly visible whenever you engage in a transaction on the Platform. </p>
 
                         <p>
-                            You are hereby granted a limited, nonexclusive, nontransferable, nonsublicensable, and personal license to
-                            access and use the Service provided, however, that such license is subject to your compliance with these
-                            Terms. If any software, content, or other materials owned by, controlled by, or licensed to us are
-                            distributed or made available to you as part of your use of the Service, we hereby grant you a
-                            non-commercial, personal, non-assignable, non-sublicensable, non-transferrable, and non-exclusive right
-                            and license to access and display such software, content, and materials provided to you as part of the
-                            Service (and right to download a single copy of the App onto your applicable equipment or device), in each
-                            case for the sole purpose of enabling you to use the Service as permitted by these Terms, provided that
-                            your license in any content linked to or associated with any NFTs is solely as set forth by the applicable
-                            seller or creator of such NFT.
+                            Noncustodial.  While Venomart offers a marketplace for Digital Goods, it does not buy, sell, or ever take custody or possession of any Digital Goods. Neither Venom nor the Platform are custodians of any Digital Goods. You affirm that you are aware and acknowledge that Venomart is a non-custodial provider of software services that has developed this distributed and decentralized environment where the App can be autonomously and directly accessed by the Users without any involvement or actions taken by Venomart or any third-party. As a marketplace, Venomart cannot make any representation or guarantee that Creators will achieve any particular outcome as the result of listing their Digital Artwork and collectibles on Venomart.
                         </p>
 
-                        <h2>Intellectual Property Rights</h2>
+                        <h2>How do I use Venomart ?</h2>
 
                         <p>
-                            You are solely responsible for your use of the Service and for any information you provide, including
-                            compliance with applicable laws, rules, and regulations, as well as these Terms, including the User
-                            Conduct requirements outlined above.
+                            Your Registration Obligations :  Anyone can browse Venomart without registering for an account. You may be required to register with Venomart in order to access and use certain features on the Platform, such as participating as a Creator or Collector. You must be at least 13 years old to register for an account as a Creator, and at least 18 years old to place a bid on any Digital Goods. If you are between 13 and 18 years old, you must have the expressed permission of a parent or legal guardian who can accept these Terms on your behalf. You are responsible for anything that occurs when anyone is signed in to your account, as well as the security of the account.
                         </p>
 
                         <p>
-                            By using the Service in conjunction with creating, submitting, posting, promoting, or displaying content,
-                            or by complying with OpenSea's metadata standards in your metadata API responses, you grant us a
-                            worldwide, non-exclusive, sublicensable, royalty-free license to use, copy, modify, and display any
-                            content, including but not limited to text, materials, images, files, communications, comments, feedback,
-                            suggestions, ideas, concepts, questions, data, or otherwise, that you submit or post on or through the
-                            Service for our current and future business purposes, including to provide, promote, and improve the
-                            Service. This includes any digital file, art, or other material linked to or associated with any NFTs that
-                            are displayed on the Service.
-                        </p>
-
-                        <h2>Miscellaneous</h2>
-
-                        <p>
-                            These Terms constitute the entire agreement between you and Xhibiter relating to your access to and use of
-                            the Service. These Terms, and any rights and licenses granted hereunder, may not be transferred or
-                            assigned by you without the prior written consent of Xhibiter, and Xhibiter’s failure to assert any right
-                            or provision under these Terms shall not constitute a waiver of such right or provision. No waiver by
-                            either party of any breach or default hereunder shall be deemed to be a waiver of any preceding or
-                            subsequent breach or default. The section headings used herein are for reference only and shall not be
-                            read to have any legal effect.
+                            Member Account, Password, and Security : You are responsible for the security of your account and your MetaMask wallet (and other Venom wallets and accounts)  and (b) ensure that you exit from your account at the end of each session when accessing Venomart. If you become aware of any unauthorized use of your password or account or any other breach of security, you agree to notify us immediately at venomart.space@gmail.com Venomart will not be liable for any loss or damage arising from your failure to comply with this Section.
                         </p>
 
                         <p>
-                            The Service is operated by us in the United States. Those who choose to access the Service from locations
-                            outside the United States do so at their own initiative and are responsible for compliance with applicable
-                            local laws. You and Xhibiter agree that the United Nations Convention on Contracts for the International
-                            Sale of Goods will not apply to the interpretation or construction of these Terms.
+                            Connecting your Wallets :  Transactions on Venomart are in the Venom Blockchain. To interact with the Venom cryptocurrency, you must connect to a browser extension called Venom Wallet. Venom Wallet is an electronic wallet which allows you to purchase, store, and engage in transactions using the Venom blockchain.
                         </p>
 
                         <p>
-                            Except as otherwise provided herein, these Terms are intended solely for the benefit of the parties and
-                            are not intended to confer third-party beneficiary rights upon any other person or entity.
+                            Modifications to the Platform : Venomart reserves the right to modify or discontinue, temporarily or permanently, the Platform (or any part thereof) with or without notice.  You agree that venomart will not be liable to you or to any third party for any modification, suspension, or discontinuance of the Platform.
                         </p>
+
+                        <h2>Fees and Payment</h2>
+
+                        <p>
+                            If you elect to purchase, trade, or create digital goods on Venomart , or with or from other users via Venomart services, any financial transactions that you engage in will be conducted solely through the Venom network via MetaMask (or other Venom-compatible wallets and browsers). We will have no insight into or control over these payments or transactions, nor do we have the ability to reverse any transactions. With that in mind, we will have no liability to you or to any third party for any claims or damages that may arise as a result of any transactions that you engage in via Venomart, or using the Smart Contracts, or any other transactions that you conduct via the Venom network or MetaMask.
+                        </p>
+
+                        <p>
+                            1) Gas Fees <br />
+                            Venom requires the payment of a transaction fee (a “Gas Fee”) for every transaction that occurs on the Venom network. The Gas Fee funds the network of validators that run and secure the decentralized Venoms network. This means that you will need to pay a Gas Fee for each transaction that occurs via the App.
+                        </p>
+                        <p>
+                            2) Smart-contract Fee <br />
+                            In addition to the Gas Fee, each time you utilize a Smart Contract to conduct a transaction with another user via Venomart, you authorize Venomart to collect a commission of 2.5% of the total value of that transaction (each, a “Commission”) and 2.5% for all proceeding secondary sales on the Venomart marketplace. You acknowledge and agree that the Commission will be transferred directly to us through the Venom network as part of your payment.</p>
+                        <p>
+                            At Venomart, we respect the privacy of our users. For details please see our Privacy Policy.  By using the Platform, you consent to our collection and use of personal data as outlined therein.
+                        </p>
+
+                        <h2>Disclaimers</h2>
+                        <p>A.  You expressly understand and agree that your access to and use of Venomart is at your sole risk, and that the platform is provided “as is” and “as available” without warranties of any kind, whether express or implied. To the fullest extent permissible pursuant to applicable law, we, our subsidiaries, affiliates, and licensors make no express warranties and hereby disclaim all implied warranties regarding the app and any part of it (including, without limitation, the site, any smart contract, or any external websites), including the implied warranties of merchantability, fitness for a particular purpose, non-infringement, correctness, accuracy, or reliability. without limiting the generality of the foregoing, we, our subsidiaries, affiliates, and licensors do not represent or warrant to you that : your access to or use of the app will meet your requirements, your access to or use of the app will be uninterrupted, timely, secure or free from error, usage data provided through the app will be accurate, the app or any content, services, or features made available on or through the app are free of viruses or other harmful components, or that any data that you disclose when you use the app will be secure. Some jurisdictions do not allow the exclusion of implied warranties in contracts with consumers, so some or all of the above exclusions may not apply to you.</p>
+
+                        <p>B. You accept the inherent security risks of providing information and dealing online over the internet, and agree that we have no liability or responsibility for any breach of security unless it is due to our gross negligence.</p>
+
+                        <p>C. We will not be responsible or liable to you for any losses you incur as the result of your use of the venom network or the metamask electronic wallet, including but not limited to any losses, damages or claims arising from : user error, such as forgotten passwords or incorrectly construed smart-contracts or other transactions; server failure or data loss; corrupted wallet files; unauthorized access or activities by third parties, including but not limited to the use of viruses, phishing, brute-forcing or other means of attack against the app, venom network, the metamask electronic wallet or venom-compatible browser or wallet.</p>
+
+                        <p>D. Venomart goods are intangible digital assets that exist only by virtue of the ownership record maintained in the venom network. All smart contracts are conducted and occur on the decentralized ledger within the venom platform. We have no control over and make no guarantees or promises with respect to smart-contracts.</p>
+
+                        <p>E.  Venomart is not responsible for losses due to blockchains or any other features of the venom network or the metamask electronic wallet or any venom-compatible browser or wallet, including but not limited to late report by developers or representatives (or no report at all) of any issues with the blockchain supporting the venom network, including forks, technical node issues, or any other issues having fund losses as a result.</p>
+
+                        <p>F. To the fullest extent permitted by law and notwithstanding any other provision of this agreement or any other agreement contemplated herein or applicable provisions of law or equity or otherwise, the parties hereto hereby agree to eliminate any and all fiduciary duties the Venomart.space may have to the user, its affiliates, or the end users of the app or its content, provided that such exclusion or limitation of liability shall not extend to Venomart.space misappropriation of assets or funds of its users or its affiliates, or the end users of the app or content provided by Venomart.space or other acts or omissions that constitute a bad faith violation of the implied contractual covenant of good faith and fair dealing.
+                        </p>
+
+                        <h2>External URL</h2>
+                        <p>The Venomart Platform may include hyperlinks to other websites or resources (collectively, “External Sites”), which are provided solely as a convenience to our users. We have no control over any External Sites. You acknowledge and agree that we are not responsible for the availability of any External Sites, and that we do not endorse any advertising, products or other materials on or made available from any External Sites. Furthermore, you acknowledge and agree that we are not liable for any loss or damage which may be incurred as a result of the availability or unavailability of the External Sites, or as a result of any reliance placed by you upon the completeness, accuracy or existence of any advertising, products or other materials on, or made available from, any External Sites.</p>
+
+                        <h2>Compensation</h2>
+
+                        <p>You agree to indemnify, defend and hold harmless Venomart.space  and its subsidiaries, affiliates, officers, agents, employees, advertisers, licensors, suppliers or partners from and against any claim, liability, loss, damage (actual and consequential) of any kind or nature, suit, judgment, litigation cost, and attorneys’ fees arising out of or in any way related to your breach of these Terms, your misuse of the App, your violation of applicable laws, rules, regulations or the rights of any third party and any of your acts or omissions that implicate publicity rights, defamation or invasion of privacy in connection with your access to or use of the Platform. Venomart.space reserves the right, at its own expense, to assume exclusive defense and control of any matter otherwise subject to indemnification by you and, in such case, you agree to cooperate with Venomart.space in the defense of such matter.
+                        </p>
+
+                        <h2>Modification of Agreement and Transfer</h2>
+
+                        <p>We reserve the right, at our sole discretion, to change or modify portions of these Terms of Service at any time. The most current version of this Agreement will be posted on the Site with the “Last Revised” date at the top of the Agreement changed. Any changes or modifications will be effective immediately upon posting the revisions to the Site.You shall be responsible for reviewing and becoming familiar with any such modifications. Any such changes will become effective no earlier than fourteen (14) days after they are posted, except that changes addressing new functions of the Platform will be effective immediately.  Your continued use of the Platform and after the date any such changes become effective constitutes your acceptance of the new Terms of Service.</p>
+                        <p>Neither party may assign or transfer any rights or obligations under this Agreement without the prior written consent of the other party, provided that Venomart may assign this Agreement without your prior consent to any of Venomart affiliates, or to its successors in interest of any business associated with the services provided by Venomart.space. This Agreement shall be binding upon the permitted assigns or transferees of each party.</p>
+
                     </div>
                 </div>
             </section>

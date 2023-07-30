@@ -9,7 +9,6 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_collection } from "@/utils/user_nft";
-import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 import fav from "../../../public/fav.png";
 
 const Collection = ({ blockURL, theme, standalone }) => {
@@ -29,21 +28,38 @@ const Collection = ({ blockURL, theme, standalone }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
+  // getting nfts onchain via collection 
   const get_collection_nfts = async () => {
     if (standalone == undefined && slug == undefined) return;
+    setLoading(true);
     const nfts = await loadNFTs_collection(standalone, slug);
     console.log(nfts);
+    set_nfts(nfts);
+    setLoading(false);
+  };
+
+  // getting collection info from mongo 
+  const get_collection_info = async () => {
+    // write here 
   };
 
   useEffect(() => {
-    const nfts = get_collection_nfts();
-    // console.log({ nfts: nfts });
+    get_collection_nfts();
+    get_collection_info();
   }, [standalone, slug]);
 
   return (
     <div className={`${theme}`}>
       <Head>
         <title>Collection - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content={`venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
@@ -269,19 +285,15 @@ const Collection = ({ blockURL, theme, standalone }) => {
                       return (
                         <NftCard
                           key={index}
-                          ImageSrc={e.ipfsData.image.replace(
+                          ImageSrc={e?.preview?.source?.replace(
                             "ipfs://",
                             "https://ipfs.io/ipfs/"
                           )}
-                          Name={e.ipfsData.name}
-                          Description={e.ipfsData.description}
-                          Address={e.ipfsData.collection}
-                          tokenId={e.tokenId}
-                          listedBool={e.isListed}
-                          listingPrice={e.listingPrice}
-                          chainImgPre={"../"}
-                          chain_image={e.chain_image}
-                          chain_symbol={e.chain_symbol}
+                          Name={e?.name}
+                          Description={e?.description}
+                        // Address={e?.collection}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}

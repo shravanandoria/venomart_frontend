@@ -4,7 +4,6 @@ import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-import { venomProvider } from "./wallet_info";
 
 const storage = new ThirdwebStorage();
 
@@ -16,11 +15,9 @@ export const MARKETPLACE_ADDRESS =
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
-  // calling getJson function of NFT contract
   const getJsonAnswer = await nftContract.methods
     .getJson({ answerId: 0 })
     .call();
-
   const json = JSON.parse(getJsonAnswer.json ?? "{}");
   return json;
 };
@@ -39,6 +36,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   return nfts;
 };
 
+// getting nft code hash 
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
   const contract = new provider.Contract(collectionAbi, collectionAddress);
@@ -57,13 +55,15 @@ export const getNftAddresses = async (codeHash, provider) => {
   return addresses?.accounts;
 };
 
+
+// loading all the nft collection nfts 
 export const loadNFTs_collection = async (provider, collection_address) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
-
     if (!nftCodeHash) {
       return;
     }
+
     const nftAddresses = await getNftAddresses(nftCodeHash, provider);
     if (!nftAddresses || !nftAddresses.length) {
       if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
@@ -75,6 +75,7 @@ export const loadNFTs_collection = async (provider, collection_address) => {
     console.error(e);
   }
 };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // FETCHING USER NFT'S

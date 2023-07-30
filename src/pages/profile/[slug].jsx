@@ -50,7 +50,15 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   ) : (
     <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
       <Head>
-        <title>Profile - Venomart Marketplace</title>
+        <title>User Profile - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content={`venomart, ${user_data?.name} profile on venomart, ${user_data?.name} venomart, ${user_data?.wallet} `}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
@@ -189,9 +197,8 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${
-                myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -223,9 +230,8 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${
-                !myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${!myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -268,18 +274,13 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
                     return (
                       <NftCard
                         key={index}
-                        ImageSrc={e?.nft_image?.replace(
+                        ImageSrc={e?.preview?.source?.replace(
                           "ipfs://",
                           "https://ipfs.io/ipfs/"
                         )}
                         Name={e?.name}
                         Description={e?.description}
                         Address={e.nft._address}
-                        tokenId={e?.id}
-                        chainImgPre={"../"}
-                        // listedBool={e?.isListed}
-                        chain_image={e?.chain_image}
-                        chain_symbol={e?.chain_symbol}
                       />
                     );
                   })}

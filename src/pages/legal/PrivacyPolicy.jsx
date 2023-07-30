@@ -1,126 +1,89 @@
+import Head from 'next/head'
 import React from 'react'
 
 const PrivacyPolicy = ({ theme }) => {
     return (
         <div className={`${theme}`}>
+            <Head>
+                <title>Privacy Policy - Venomart Marketplace</title>
+                <meta
+                    name="description"
+                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                />
+                <meta
+                    name="keywords"
+                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/fav.png" />
+            </Head>
             <section className="relative pt-48 pb-16 dark:bg-jacarta-800 md:pb-24">
                 <div className="container">
                     <h1 className="text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                         Privacy Policy
                     </h1>
                     <div className="article-content mx-auto max-w-[48.125rem]">
-                        <h2 className="text-base">Introduction</h2>
+                        <p>Last Updated: July 30, 2023</p>
                         <p>
-                            These Terms of Service (“Terms”) govern your access to and use of the Xhibiter website(s), our APIs,
-                            mobile app (the “App”), and any other software, tools, features, or functionalities provided on or in
-                            connection with our services; including without limitation using our services to view, explore, and create
-                            NFTs and use our tools, at your own discretion, to connect directly with others to purchase, sell, or
-                            transfer NFTs on public blockchains (collectively, the “Service”). “NFT” in these Terms means a
-                            non-fungible token or similar digital item implemented on a blockchain (such as the Ethereum blockchain),
-                            which uses smart contracts to link to or otherwise be associated with certain content or data. For
-                            purposes of these Terms, “user”, “you”, and “your” means you as the user of the Service. If you use the
-                            Service on behalf of a company or other entity then “you” includes you and that entity, and you represent
-                            and warrant that (a) you are an authorized representative of the entity with the authority to bind the
-                            entity to these Terms, and (b) you agree to these Terms on the entity's behalf.
+                            Venomart was built with your privacy in mind. This Privacy Policy (“Policy”) describes how we at Venomart collect, use, share, and secure your Personal Data when you visit the Venomart Platform (https://venomart.space/ , Application and Services) (the “Platform”) or use it by creating, buying, transfering, or trading unique Venomart Goods in our Market (the “Market”).
                         </p>
                         <p>
-                            PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN IMPORTANT INFORMATION AND AFFECT YOUR LEGAL
-                            RIGHTS. AS OUTLINED IN SECTION 16 BELOW, THEY INCLUDE A MANDATORY ARBITRATION AGREEMENT AND CLASS ACTION
-                            WAIVER WHICH (WITH LIMITED EXCEPTIONS) REQUIRE ANY DISPUTES BETWEEN US TO BE RESOLVED THROUGH INDIVIDUAL
-                            ARBITRATION RATHER THAN BY A JUDGE OR JURY IN COURT.
+                            By accessing the Platform or trading Venomart goods through the Marketplace services, you consent to following this Privacy Policy and our Terms of Use.
                         </p>
+                        <h2 className="text-base">Personal Information We Collect</h2>
                         <p>
-                            BY CLICKING TO ACCEPT AND/OR USING OUR SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS AND ALL OF THE TERMS
-                            INCORPORATED HEREIN BY REFERENCE. IF YOU DO NOT AGREE TO THESE TERMS, YOU MAY NOT ACCESS OR USE THE
-                            SERVICE.
+                            We collect information capable of identifying you as an individual (“Personal Information”). When ordering or registering on our Platform you may be asked to enter email address or other details to help you with your experience
                         </p>
 
                         <p>
-                            Xhibiter is not a wallet provider, exchange, broker, financial institution, or creditor. Xhibiter provides
-                            a peer-to-peer web3 service that helps users discover and directly interact with each other and NFTs
-                            available on public blockchains. We do not have custody or control over the NFTs or blockchains you are
-                            interacting with and we do not execute or effectuate purchases, transfers, or sales of NFTs. To use our
-                            Service, you must use a third-party wallet which allows you to engage in transactions on blockchains.
+                            Creating a User Account : If you sign up to use our Platform, we collect your Venom wallet address, username, and email address. The User has the possibility to provide their full name, location, biographical information, and social network link.
                         </p>
 
                         <p>
-                            Because we have a growing number of services, we sometimes need to provide additional terms for specific
-                            services (and such services are deemed part of the “Service” hereunder and shall also be subject to these
-                            Terms). Those additional terms and conditions, which are available with the relevant service, then become
-                            part of your agreement with us if you use those services. In the event of a conflict between these Terms
-                            and any additional applicable terms we may provide for a specific service, such additional terms shall
-                            control for that specific service.
-                        </p>
-
-                        <h2>Ownership</h2>
-
-                        <p>
-                            The Service, including its “look and feel” (e.g., text, graphics, images, logos, page headers, button
-                            icons, and scripts), proprietary content, information and other materials, and all content and other
-                            materials contained therein, including, without limitation, the Xhibiter logo and all designs, text,
-                            graphics, pictures, data, software, sound files, other files, and the selection and arrangement thereof
-                            are the proprietary property of Xhibiter or our affiliates, licensors, or users, as applicable, and you
-                            agree not to take any action(s) inconsistent with such ownership interests. We and our affiliates,
-                            licensors, and users, as applicable, reserve all rights in connection with the Service and its content,
-                            including, without limitation, the exclusive right to create derivative works.
-                        </p>
-
-                        <h2>License to Access and Use Our Service and Content</h2>
-
-                        <p>
-                            You are hereby granted a limited, nonexclusive, nontransferable, nonsublicensable, and personal license to
-                            access and use the Service provided, however, that such license is subject to your compliance with these
-                            Terms. If any software, content, or other materials owned by, controlled by, or licensed to us are
-                            distributed or made available to you as part of your use of the Service, we hereby grant you a
-                            non-commercial, personal, non-assignable, non-sublicensable, non-transferrable, and non-exclusive right
-                            and license to access and display such software, content, and materials provided to you as part of the
-                            Service (and right to download a single copy of the App onto your applicable equipment or device), in each
-                            case for the sole purpose of enabling you to use the Service as permitted by these Terms, provided that
-                            your license in any content linked to or associated with any NFTs is solely as set forth by the applicable
-                            seller or creator of such NFT.
-                        </p>
-
-                        <h2>Intellectual Property Rights</h2>
-
-                        <p>
-                            You are solely responsible for your use of the Service and for any information you provide, including
-                            compliance with applicable laws, rules, and regulations, as well as these Terms, including the User
-                            Conduct requirements outlined above.
+                            Applying as an Artist : If you want to join the world’s top digital artists in our Marketplace, we collect your first and last name, email address, a short application video, Venom wallet address, and information about your art.
                         </p>
 
                         <p>
-                            By using the Service in conjunction with creating, submitting, posting, promoting, or displaying content,
-                            or by complying with OpenSea's metadata standards in your metadata API responses, you grant us a
-                            worldwide, non-exclusive, sublicensable, royalty-free license to use, copy, modify, and display any
-                            content, including but not limited to text, materials, images, files, communications, comments, feedback,
-                            suggestions, ideas, concepts, questions, data, or otherwise, that you submit or post on or through the
-                            Service for our current and future business purposes, including to provide, promote, and improve the
-                            Service. This includes any digital file, art, or other material linked to or associated with any NFTs that
-                            are displayed on the Service.
+                            Visiting the Site, Marketplace, App : We collect basic analytics data when you access or use the Venomart Platform. See our Cookies Policy below for more information about the Cookies we use and what data they may collect.
                         </p>
 
-                        <h2>Miscellaneous</h2>
+                        <h2>How do we use your information ?</h2>
 
                         <p>
-                            These Terms constitute the entire agreement between you and Xhibiter relating to your access to and use of
-                            the Service. These Terms, and any rights and licenses granted hereunder, may not be transferred or
-                            assigned by you without the prior written consent of Xhibiter, and Xhibiter’s failure to assert any right
-                            or provision under these Terms shall not constitute a waiver of such right or provision. No waiver by
-                            either party of any breach or default hereunder shall be deemed to be a waiver of any preceding or
-                            subsequent breach or default. The section headings used herein are for reference only and shall not be
-                            read to have any legal effect.
+                            We use the Personal Information we collect to: <br />
+                            1) To quickly identify and process your transactions <br />
+                            2) Personalize your experience and allow us to deliver the type of content and product offerings in which you are most interested <br />
+                            3) Notify and inform you with critical updates, confirmations, security alerts or about products, services news or promotional opportunities we think might interest you <br />
+                            4) Provide support or respond to your comments or questions <br />
+                            5) Analyze and improve our Platform to better serve you. <br />
                         </p>
 
-                        <p>
-                            The Service is operated by us in the United States. Those who choose to access the Service from locations
-                            outside the United States do so at their own initiative and are responsible for compliance with applicable
-                            local laws. You and Xhibiter agree that the United Nations Convention on Contracts for the International
-                            Sale of Goods will not apply to the interpretation or construction of these Terms.
-                        </p>
+                        <h2>How do we protect your information?</h2>
 
                         <p>
-                            Except as otherwise provided herein, these Terms are intended solely for the benefit of the parties and
-                            are not intended to confer third-party beneficiary rights upon any other person or entity.
+                            Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. In addition, all sensitive/credit information you supply is encrypted via Secure Socket Layer (SSL) technology.
+                        </p>
+                        <p>
+                            We implement a variety of security measures when a user enters, submits, or accesses their information to maintain the safety of your personal information.
+
+                        </p>
+
+                        <h2>Third-party disclosure</h2>
+
+                        <p>
+                            We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential. We may also release information when it's release is appropriate to comply with the law, enforce our site policies, or protect ours or others' rights, property or safety.
+                        </p>
+
+                        <h2>Your Rights</h2>
+
+                        <p>
+                            You may contact us at venomart.space@gmail.com to update or correct any Personal Information we collected about you. <br />
+                            If at any time you would like to unsubscribe from receiving future emails, you can email us at venomart.space@gmail.com  and we will promptly remove you from ALL correspondence.
+                        </p>
+
+                        <h2>Changes to this Policy</h2>
+                        <p>
+                            Our commitment to preserving your privacy will not change, but our Platform may evolve. The most current version of this policy will be posted on the Site with the “Last Updated” date at the top of the policy changed.If we make material changes to this Privacy Policy, we will use reasonable means to inform you and, where necessary, obtain your consent.
                         </p>
                     </div>
                 </div>

@@ -7,7 +7,6 @@ const NftCard = ({
   Name,
   Description,
   Address,
-  tokenId,
   onClickOpen = true,
   listedBool = false,
   listingPrice,
@@ -16,7 +15,7 @@ const NftCard = ({
     <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
       <div className="relative">
         {onClickOpen == true ? (
-          <Link href={`/nft/${Address}/${tokenId}`}>
+          <Link href={`/nft/${Address}`}>
             <Image
               src={ImageSrc}
               height={100}
@@ -42,14 +41,14 @@ const NftCard = ({
       <div className="mt-7 flex items-center justify-between">
         <div
           style={{
-            width: "150px",
+            width: "240px",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
           }}
         >
           {onClickOpen == true ? (
-            <Link href={`/nft/${Address}/${tokenId}`}>
+            <Link href={`/nft/${Address}`}>
               <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
                 {Name}
               </span>
@@ -65,7 +64,7 @@ const NftCard = ({
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {"FTM"}
+              {listingPrice} {"VENOM"}
             </span>
           </span>
         )}

@@ -25,10 +25,7 @@ export default function Home({ theme, all_collections }) {
       </Head>
 
       {/* hero section  */}
-      <section
-        className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
-        id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
-      >
+      <section className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800" id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}>
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -66,7 +63,7 @@ export default function Home({ theme, all_collections }) {
                 Get quick and easy access to digital collectibles and explore,
                 buy and sell NFTs
               </p>
-              <div className="flex flex-wrap justify-center align-middle space-x-4">
+              <div className="flex flex-wrap justify-start align-middle space-x-4">
                 <Link
                   href="/explore/NFTs"
                   className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -75,7 +72,7 @@ export default function Home({ theme, all_collections }) {
                 </Link>
                 <Link
                   href="/explore/Collections"
-                  className="w-45 mb-4 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                  className="w-45 mb-4 rounded-full bg-white py-3 px-8 ml-[-225px] text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                 >
                   Explore Collections
                 </Link>
