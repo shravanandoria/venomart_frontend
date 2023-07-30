@@ -16,7 +16,7 @@ const NftCard = ({
     <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
       <div className="relative">
         {onClickOpen == true ? (
-          <Link href={`/nft/${Address}/${tokenId}`}>
+          <Link href={`/nft/${Address}`}>
             <Image
               src={ImageSrc}
               height={100}
@@ -49,7 +49,7 @@ const NftCard = ({
           }}
         >
           {onClickOpen == true ? (
-            <Link href={`/nft/${Address}/${tokenId}`}>
+            <Link href={`/nft/${Address}`}>
               <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
                 {Name}
               </span>

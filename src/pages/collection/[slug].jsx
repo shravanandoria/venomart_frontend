@@ -9,7 +9,6 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_collection } from "@/utils/user_nft";
-import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 import fav from "../../../public/fav.png";
 
 const Collection = ({ blockURL, theme, standalone }) => {
@@ -29,15 +28,23 @@ const Collection = ({ blockURL, theme, standalone }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
+  // getting nfts onchain via collection 
   const get_collection_nfts = async () => {
     if (standalone == undefined && slug == undefined) return;
+    setLoading(true);
     const nfts = await loadNFTs_collection(standalone, slug);
-    // console.log(nfts);
+    console.log(nfts);
+    setLoading(false);
+  };
+
+  // getting collection info from mongo 
+  const get_collection_info = async () => {
+    // write here 
   };
 
   useEffect(() => {
-    const nfts = get_collection_nfts();
-    // console.log({ nfts: nfts });
+    get_collection_nfts();
+    get_collection_info();
   }, [standalone, slug]);
 
   return (
