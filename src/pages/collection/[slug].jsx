@@ -30,15 +30,15 @@ const Collection = ({ blockURL, theme, standalone }) => {
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const get_collection_nfts = async () => {
-    if (!standalone) return;
-    const nfts = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
-    console.log(nfts);
+    if (standalone == undefined && slug == undefined) return;
+    const nfts = await loadNFTs_collection(standalone, slug);
+    // console.log(nfts);
   };
 
   useEffect(() => {
     const nfts = get_collection_nfts();
-    console.log({ nfts: nfts })
-  }, [standalone]);
+    // console.log({ nfts: nfts });
+  }, [standalone, slug]);
 
   return (
     <div className={`${theme}`}>

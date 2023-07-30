@@ -49,12 +49,14 @@ export const getNftAddresses = async (codeHash, provider) => {
   const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
   });
+  console.log(addresses.continuation);
   return addresses?.accounts;
 };
 
 export const loadNFTs_collection = async (provider, collection_address) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
+
     if (!nftCodeHash) {
       return;
     }
@@ -64,7 +66,6 @@ export const loadNFTs_collection = async (provider, collection_address) => {
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
-    // console.log(nftURLs);
     return nftURLs;
   } catch (e) {
     console.error(e);
