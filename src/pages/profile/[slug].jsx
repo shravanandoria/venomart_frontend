@@ -50,7 +50,15 @@ const Profile = ({ theme, signer_address, blockURL, standalone }) => {
   ) : (
     <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
       <Head>
-        <title>Profile - Venomart Marketplace</title>
+        <title>User Profile - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content={`venomart, ${user_data?.name} profile on venomart, ${user_data?.name} venomart, ${user_data?.wallet} `}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>

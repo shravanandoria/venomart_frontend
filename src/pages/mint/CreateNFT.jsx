@@ -58,6 +58,14 @@ const CreateNFT = ({
     <div className={`${theme}`}>
       <Head>
         <title>Create NFT - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
@@ -141,8 +149,8 @@ const CreateNFT = ({
                   type="text"
                   id="item-name"
                   className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                     } `}
                   placeholder="Item name"
                   required
@@ -166,8 +174,8 @@ const CreateNFT = ({
                   name="description"
                   id="item-description"
                   className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                     } `}
                   rows="4"
                   required
@@ -199,8 +207,8 @@ const CreateNFT = ({
                   value={data.collection}
                   onChange={handleChange}
                   className={`dropdown my-1 cursor-pointer w-[100%] ${theme == "dark"
-                      ? "dark:bg-jacarta-900 dark:text-white"
-                      : "bg-white text-black"
+                    ? "dark:bg-jacarta-900 dark:text-white"
+                    : "bg-white text-black"
                     }`}
                   required
                 >
@@ -312,8 +320,8 @@ const CreateNFT = ({
                                 name="type"
                                 type="text"
                                 className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
-                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                   }`}
                                 placeholder="Type"
                               />
@@ -326,8 +334,8 @@ const CreateNFT = ({
                                 name="value"
                                 type="text"
                                 className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
-                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                   }`}
                                 placeholder="Value"
                               />

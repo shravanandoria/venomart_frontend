@@ -52,6 +52,14 @@ const Collection = ({ blockURL, theme, standalone }) => {
     <div className={`${theme}`}>
       <Head>
         <title>Collection - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content={`venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
