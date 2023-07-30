@@ -1,13 +1,15 @@
-import Image from 'next/image'
-import Link from 'next/link';
-import Head from 'next/head';
-import CollectionCard from '@/components/cards/CollectionCard';
-import LaunchCollectionCard from '@/components/cards/LaunchCollectionCard';
-import SmallCollectionCard from '@/components/cards/SmallCollectionCard';
+import Image from "next/image";
+import Link from "next/link";
+import Head from "next/head";
+import CollectionCard from "@/components/cards/CollectionCard";
+import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
+import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
 
 export default function Home({ theme, all_collections }) {
   return (
-    <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
+    <div
+      className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
+    >
       <Head>
         <title>Venomart - NFT Marketplace on Venom</title>
         <meta
@@ -23,7 +25,10 @@ export default function Home({ theme, all_collections }) {
       </Head>
 
       {/* hero section  */}
-      <section className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh] dark:bg-jacarta-800" id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}>
+      <section
+        className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
+        id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+      >
         <div className="h-full px-6 xl:px-20">
           <div className="grid h-full items-center gap-4 lg:grid-cols-12">
             <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -57,7 +62,9 @@ export default function Home({ theme, all_collections }) {
                 Buy, sell and collect NFTs.
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                Venomart is the first fully-fledged NFT Marketplace on Venom. Get quick and easy access to digital collectibles and explore, buy and sell NFTs
+                Venomart is the first fully-fledged NFT Marketplace on Venom.
+                Get quick and easy access to digital collectibles and explore,
+                buy and sell NFTs
               </p>
               <div className="flex flex-wrap justify-center align-middle space-x-4">
                 <Link
@@ -77,7 +84,6 @@ export default function Home({ theme, all_collections }) {
 
             {/* <!-- featured collections --> */}
             <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
-
               <div className="md:flex md:space-x-6 xl:space-x-12">
                 {/* featured 1 */}
                 <div className="mb-6 md:flex md:w-1/2 md:items-center ">
@@ -172,13 +178,21 @@ export default function Home({ theme, all_collections }) {
           </div>
         </div>
 
-        {theme === "dark" &&
+        {theme === "dark" && (
           <div class="custom-shape-divider-bottom-1690698441">
-            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            <svg
+              data-name="Layer 1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                class="shape-fill"
+              ></path>
             </svg>
           </div>
-        }
+        )}
       </section>
 
       {/* launchpad collections  */}
@@ -302,5 +316,5 @@ export default function Home({ theme, all_collections }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

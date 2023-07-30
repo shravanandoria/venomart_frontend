@@ -32,7 +32,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
   const get_collection_nfts = async () => {
     if (standalone == undefined && slug == undefined) return;
     const nfts = await loadNFTs_collection(standalone, slug);
-    // console.log(nfts);
+    console.log(nfts);
   };
 
   useEffect(() => {
