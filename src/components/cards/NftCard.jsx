@@ -41,7 +41,7 @@ const NftCard = ({
       <div className="mt-7 flex items-center justify-between">
         <div
           style={{
-            width: "150px",
+            width: "240px",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
@@ -64,7 +64,7 @@ const NftCard = ({
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {"FTM"}
+              {listingPrice} {"VENOM"}
             </span>
           </span>
         )}
