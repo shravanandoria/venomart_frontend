@@ -4,6 +4,7 @@ import Head from "next/head";
 import CollectionCard from "@/components/cards/CollectionCard";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
+import venomLogo from "../../public/venom.svg"
 
 export default function Home({ theme, all_collections }) {
   return (
@@ -47,8 +48,19 @@ export default function Home({ theme, all_collections }) {
                   </span>
                 </div>
                 <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                  <span className="block font-display text-3xl text-[#F35BC7]">
+                  <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
                     3
+                    <Image
+                      src={venomLogo}
+                      height={100}
+                      width={100}
+                      style={{
+                        height: "19px",
+                        width: "19px",
+                        marginLeft: "8px",
+                        marginTop: "6px"
+                      }}
+                    />
                   </span>
                   <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                     Sale Volume
@@ -63,7 +75,7 @@ export default function Home({ theme, all_collections }) {
                 Get quick and easy access to digital collectibles and explore,
                 buy and sell NFTs
               </p>
-              <div className="flex flex-wrap justify-start align-middle space-x-4">
+              <div className="flex flex-wrap justify-center align-middle space-x-4">
                 <Link
                   href="/explore/NFTs"
                   className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -129,13 +141,13 @@ export default function Home({ theme, all_collections }) {
                 </div>
 
                 {/* featured 2  */}
-                {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                <div className="space-y-6 md:w-1/2 xl:space-y-12">
                   <div>
                     <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                       <div className="relative">
-                        <Link href={""}>
+                        <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"}>
                           <img
-                            src="https://bafybeib67jlcfbq4et73qqagw65udfg44lr2ibqe6o4zr723xurobtb6ku.ipfs-public.thirdwebcdn.com/250_0x573235b8e2708c39dd2fa9ec2d880121f4f83ca9_2812.png"
+                            src="https://ipfs.ventory.gg/ventory/upload-quest/5png1690035055140.png"
                             alt="item 1"
                             className="w-full object-cover"
                             height="437"
@@ -145,9 +157,9 @@ export default function Home({ theme, all_collections }) {
                       </div>
                       <div className="p-6">
                         <div className="flex">
-                          <Link href={""} className="shrink-0">
+                          <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="shrink-0">
                             <img
-                              src="https://bafybeidwmjbi7a4wex7npheicsw3bthyhgys24tworkuodi2ihmybtzpxa.ipfs-public.thirdwebcdn.com/0x573235b8e2708c39dd2fa9ec2d880121f4f83ca9-250-1672000861_thumb.gif"
+                              src="https://ipfs.ventory.gg/ventory/upload-quest/5png1690035055140.png"
                               alt="avatar"
                               className="mr-4 h-10 w-10 rounded-full"
                               height={100}
@@ -155,21 +167,21 @@ export default function Home({ theme, all_collections }) {
                             />
                           </Link>
                           <div>
-                            <Link href={""} className="block">
+                            <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="block">
                               <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                Mummy Club
+                                Chew Chew
                               </span>
                             </Link>
 
                             <a className="text-2xs text-accent dark:text-white">
-                              1000 Items | 5 Owners
+                              2222 Items | 1650 Owners
                             </a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>

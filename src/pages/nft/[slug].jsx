@@ -304,7 +304,7 @@ const NFTPage = ({
 
                   {/* buy now section  */}
                   {nft?.isListed == true && nft?.owner?._address !== signer_address && (
-                    <div className="rounded-2lg border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                    <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                       <div className="mb-8 sm:flex sm:flex-wrap">
                         <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
                           <div className="block overflow-hidden text-ellipsis whitespace-nowrap">

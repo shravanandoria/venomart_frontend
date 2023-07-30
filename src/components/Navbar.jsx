@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
 import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
+import venomLogo from "../../public/venom.svg";
 import axios from "axios";
 
 
@@ -334,8 +334,19 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                             Balance
                           </span>
                           <div className="flex items-center">
-                            <span className="text-lg font-bold text-green">
-                              {vnmBalance} VENOM
+                            <span className="flex  justify-center align-middletext-lg font-bold text-green">
+                              {vnmBalance}
+                              <Image
+                                src={venomLogo}
+                                height={100}
+                                width={100}
+                                style={{
+                                  height: "14px",
+                                  width: "14px",
+                                  marginLeft: "7px",
+                                  marginTop: "5px"
+                                }}
+                              />
                             </span>
                           </div>
                         </div>
@@ -548,8 +559,19 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                 Balance
               </span>
               <div className="flex items-center">
-                <span className="text-lg font-bold text-green">
-                  {vnmBalance} VENOM
+                <span className="flex justify-center align-middle text-lg font-bold text-green">
+                  {vnmBalance}
+                  <Image
+                    src={venomLogo}
+                    height={100}
+                    width={100}
+                    style={{
+                      height: "14px",
+                      width: "14px",
+                      marginLeft: "7px",
+                      marginTop: "5px"
+                    }}
+                  />
                 </span>
               </div>
             </div>

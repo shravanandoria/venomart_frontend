@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import venomLogo from "../../../public/venom.svg"
 
 
 const LaunchCollectionCard = ({
@@ -70,8 +71,19 @@ const LaunchCollectionCard = ({
         <button className=" dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           3 Items
         </button>
-        <button className="border border-blue-700 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+        <button className="flex border border-blue-700 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           2
+          <Image
+            src={venomLogo}
+            height={100}
+            width={100}
+            style={{
+              height: "13px",
+              width: "13px",
+              marginLeft: "7px",
+              marginTop: "5px"
+            }}
+          />
         </button>
       </div>
     </div >
