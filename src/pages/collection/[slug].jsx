@@ -37,6 +37,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
 
   useEffect(() => {
     const nfts = get_collection_nfts();
+    console.log({ nfts: nfts })
   }, [standalone]);
 
   return (
@@ -44,7 +45,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
       <Head>
         <title>Collection - Venomart Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/fav.png" />
       </Head>
 
       {loading ? (

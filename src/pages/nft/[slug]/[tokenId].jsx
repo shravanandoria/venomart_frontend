@@ -50,7 +50,7 @@ const NFTPage = ({
       <Head>
         <title>NFT - Rarfinite Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/fav.png" />
       </Head>
 
       {/* modal background  */}
@@ -133,9 +133,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
                                 : testNFT
                             }
                             height={40}
@@ -173,8 +173,8 @@ const NFTPage = ({
                             {nft?.seller
                               ? nft?.seller
                               : nft?.owner_username
-                              ? nft?.owner_username
-                              : nft?.user_id}
+                                ? nft?.owner_username
+                                : nft?.user_id}
                           </span>
                         </Link>
                       </div>
@@ -438,9 +438,8 @@ const NFTPage = ({
                       onClick={() => setPropShow(true)}
                     >
                       <button
-                        className={`nav-link ${
-                          propShow && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${propShow && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                         id="properties-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#properties"
@@ -472,9 +471,8 @@ const NFTPage = ({
                       onClick={() => setPropShow(false)}
                     >
                       <button
-                        className={`nav-link ${
-                          !propShow && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${!propShow && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                         id="details-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#details"
