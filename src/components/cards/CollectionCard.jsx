@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import venomLogo from "../../../public/venom.svg"
 
 const CollectionCard = ({
     Cover,
@@ -75,10 +76,38 @@ const CollectionCard = ({
                     <span className="text-jacarta-400">Owners</span> 3
                 </button>
                 <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
-                    <span className="text-jacarta-400">Floor</span> 2
+                    <span className="text-jacarta-400">Floor</span>
+                    <span className="flex justify-center">
+                        2
+                        <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            style={{
+                                height: "12px",
+                                width: "12px",
+                                marginLeft: "8px",
+                                marginTop: "6px"
+                            }}
+                        />
+                    </span>
                 </button>
                 <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
-                    <span className="text-jacarta-400">Volume</span> 2
+                    <span className="text-jacarta-400">Volume</span>
+                    <span className="flex justify-center">
+                        2
+                        <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            style={{
+                                height: "12px",
+                                width: "12px",
+                                marginLeft: "8px",
+                                marginTop: "6px"
+                            }}
+                        />
+                    </span>
                 </button>
             </div>
         </div >

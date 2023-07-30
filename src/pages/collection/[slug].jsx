@@ -9,7 +9,7 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_collection } from "@/utils/user_nft";
-import fav from "../../../public/fav.png";
+import venomLogo from "../../../public/venom.svg";
 
 const Collection = ({ blockURL, theme, standalone }) => {
   const router = useRouter();
@@ -109,7 +109,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
               <div className="text-center">
                 <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                   <a
-                    href={`${blockURL}address/${collection?.id}`}
+                    href={`${blockURL}accounts/${slug}`}
                     target="_blank"
                     className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
                   >
@@ -156,7 +156,16 @@ const Collection = ({ blockURL, theme, standalone }) => {
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <span className="font-bold mr-2">2</span>
-                      <Image src={fav} height={18} width={18} />
+                      <Image
+                        src={venomLogo}
+                        height={100}
+                        width={100}
+                        style={{
+                          height: "13px",
+                          width: "13px",
+                          marginTop: "3px"
+                        }}
+                      />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -168,7 +177,16 @@ const Collection = ({ blockURL, theme, standalone }) => {
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <span className="font-bold mr-2">2</span>
-                      <Image src={fav} height={18} width={18} />
+                      <Image
+                        src={venomLogo}
+                        height={100}
+                        width={100}
+                        style={{
+                          height: "13px",
+                          width: "13px",
+                          marginTop: "3px"
+                        }}
+                      />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded
@@ -291,7 +309,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
                           )}
                           Name={e?.name}
                           Description={e?.description}
-                        // Address={e?.collection}
+                          Address={e?.nftAddress?._address}
                         // listedBool={e.isListed}
                         // listingPrice={e.listingPrice}
                         />
