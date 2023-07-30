@@ -14,7 +14,7 @@ const ErrorPage = ({ theme }) => {
                     content="Page Not Found"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.png" />
+                <link rel="icon" href="/fav.png" />
             </Head>
 
             <section className="relative dark:bg-jacarta-800 pt-40 pb-[200px]">

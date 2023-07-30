@@ -9,10 +9,14 @@ export default function Home({ theme, all_collections }) {
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
       <Head>
-        <title>Venomart- NFT Marketplace</title>
+        <title>Venomart - NFT Marketplace on Venom</title>
         <meta
           name="description"
-          content="First Cross-chain And Multi-chain Advanced NFT Marketplace With AI NFT Generation"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -20,38 +24,161 @@ export default function Home({ theme, all_collections }) {
 
       {/* hero section  */}
       <section className="relative pb-10 pt-20 md:pt-32 lg:h-[88vh] dark:bg-jacarta-800" id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}>
-        <picture className="pointer-events-none absolute inset-x-0 top-0 -z-10 dark:hidden">
-          <img src="img/gradient.jpg" alt="gradient" />
-        </picture>
-        <picture className="pointer-events-none absolute inset-x-0 top-0 -z-10 hidden dark:block">
-          <img src="img/gradient_dark.jpg" alt="gradient dark" />
-        </picture>
-
-        <div className="container h-full">
-          <div className="grid h-full items-center gap-4 md:grid-cols-12">
-            <div
-              className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
-              <h1
-                className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl">
+        <div className="h-full px-6 xl:px-20">
+          <div className="grid h-full items-center gap-4 lg:grid-cols-12">
+            <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
+              <div className="mb-10 w-full sm:flex sm:space-x-4">
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#8DD059]">
+                    2
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    NFT Collections
+                  </span>
+                </div>
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#737EF2]">
+                    112
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    NFTs Minted
+                  </span>
+                </div>
+                <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <span className="block font-display text-3xl text-[#F35BC7]">
+                    3
+                  </span>
+                  <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                    Sale Volume
+                  </span>
+                </div>
+              </div>
+              <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                 Buy, sell and collect NFTs.
               </h1>
               <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                The world's largest digital marketplace for crypto collectibles and non-fungible tokens
+                Venomart is the first fully-fledged NFT Marketplace on Venom. Get quick and easy access to digital collectibles and explore, buy and sell NFTs
               </p>
-              <div className="flex space-x-4">
-                <a href="create.html"
-                  className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
-                  Upload
-                </a>
-                <a href="collections.html"
-                  className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
-                  Explore
-                </a>
+              <div className="flex flex-wrap justify-center align-middle space-x-4">
+                <Link
+                  href="/explore/NFTs"
+                  className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  Explore NFTs
+                </Link>
+                <Link
+                  href="/explore/Collections"
+                  className="w-45 mb-4 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                >
+                  Explore Collections
+                </Link>
               </div>
             </div>
 
+            {/* <!-- featured collections --> */}
+            <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
+
+              <div className="md:flex md:space-x-6 xl:space-x-12">
+                {/* featured 1 */}
+                <div className="mb-6 md:flex md:w-1/2 md:items-center ">
+                  <div>
+                    <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                      <div className="relative">
+                        {/* cover imge  */}
+                        <Link href="/collection/0:7522d744c4a449fbb28600608046e2be26428d2b37ee332005bbc82ac2749314">
+                          <img
+                            src="https://ipfs.io/ipfs/bafkreic7brynxwbt3ohyejdevnvvx3kglzflzjwigs72ivmoxrzn2nhjli"
+                            alt="item 1"
+                            className="w-full object-cover"
+                            height="437"
+                            width="406"
+                          />
+                        </Link>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex">
+                          {/* logo  */}
+                          <Link href={""} className="shrink-0">
+                            <img
+                              src="https://ipfs.io/ipfs/bafkreic7brynxwbt3ohyejdevnvvx3kglzflzjwigs72ivmoxrzn2nhjli"
+                              alt="avatar"
+                              className="mr-4 h-10 w-10 rounded-full"
+                              height={100}
+                              width={100}
+                            />
+                          </Link>
+                          <div>
+                            {/* name  */}
+                            <Link href={""} className="block">
+                              <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                Rave Venom
+                              </span>
+                            </Link>
+
+                            <a className="text-2xs text-accent dark:text-white">
+                              10000 Items | 4443 Owners
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* featured 2  */}
+                {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                  <div>
+                    <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                      <div className="relative">
+                        <Link href={""}>
+                          <img
+                            src="https://bafybeib67jlcfbq4et73qqagw65udfg44lr2ibqe6o4zr723xurobtb6ku.ipfs-public.thirdwebcdn.com/250_0x573235b8e2708c39dd2fa9ec2d880121f4f83ca9_2812.png"
+                            alt="item 1"
+                            className="w-full object-cover"
+                            height="437"
+                            width="406"
+                          />
+                        </Link>
+                      </div>
+                      <div className="p-6">
+                        <div className="flex">
+                          <Link href={""} className="shrink-0">
+                            <img
+                              src="https://bafybeidwmjbi7a4wex7npheicsw3bthyhgys24tworkuodi2ihmybtzpxa.ipfs-public.thirdwebcdn.com/0x573235b8e2708c39dd2fa9ec2d880121f4f83ca9-250-1672000861_thumb.gif"
+                              alt="avatar"
+                              className="mr-4 h-10 w-10 rounded-full"
+                              height={100}
+                              width={100}
+                            />
+                          </Link>
+                          <div>
+                            <Link href={""} className="block">
+                              <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                Mummy Club
+                              </span>
+                            </Link>
+
+                            <a className="text-2xs text-accent dark:text-white">
+                              1000 Items | 5 Owners
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+              </div>
+            </div>
           </div>
         </div>
+
+        {theme === "dark" &&
+          <div class="custom-shape-divider-bottom-1690698441">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+          </div>
+        }
       </section>
 
       {/* launchpad collections  */}
@@ -89,7 +216,7 @@ export default function Home({ theme, all_collections }) {
       </div>
 
       {/* top collections  */}
-      <section className="relative py-24 dark:bg-jacarta-700">
+      {/* <section className="relative py-24 dark:bg-jacarta-700">
         <div className="container">
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Top collections over</h2>
@@ -139,7 +266,7 @@ export default function Home({ theme, all_collections }) {
               to Rankings</a>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Trending collections  */}
       <div className="relative py-24 dark:bg-jacarta-800">

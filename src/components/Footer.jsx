@@ -72,14 +72,14 @@ const Footer = ({ theme }) => {
                     Top Collections
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/explore/Rankings"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Rankings
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="/explore/Launchpad"
@@ -120,14 +120,14 @@ const Footer = ({ theme }) => {
                     Create NFT
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/mint/CreateNFTCollection"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Create Collection
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
 
@@ -138,13 +138,14 @@ const Footer = ({ theme }) => {
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
                 <li>
                   <Link
-                    href="/apply"
+                    href="https://forms.gle/98VPnY7FSTuHCvaTA"
+                    target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Apply For Launchpad
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/Help"
                     className="hover:text-accent dark:hover:text-white"
@@ -159,7 +160,7 @@ const Footer = ({ theme }) => {
                   >
                     Contact Us
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>

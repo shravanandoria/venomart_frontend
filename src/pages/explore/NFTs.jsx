@@ -37,7 +37,7 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
       <Head>
         <title>Marketplace - Venomart Marketplace</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/fav.png" />
       </Head>
 
       {loading ? (
@@ -46,9 +46,11 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
         <div className={`${theme}`}>
           <section className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
-              <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+              <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore NFTs
               </h1>
+              <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">Explore and trade the amazing NFTs on venomart marketplace
+              </p>
 
               {/* <!-- Filters --> */}
               <div className="mb-8 flex flex-wrap items-center justify-between">
@@ -56,9 +58,8 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                     <a
                       href="#"
-                      className={`${
-                        propShow && "border-transparent bg-accent text-white"
-                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${propShow && "border-transparent bg-accent text-white"
+                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +80,8 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   >
                     <a
                       href="#"
-                      className={`${
-                        !propShow && "border-transparent bg-accent text-white"
-                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${!propShow && "border-transparent bg-accent text-white"
+                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

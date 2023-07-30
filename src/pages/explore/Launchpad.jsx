@@ -18,7 +18,7 @@ const Launchpad = ({ theme, all_collections }) => {
             <Head>
                 <title>Top Collections - Venomart Marketplace</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.png" />
+                <link rel="icon" href="/fav.png" />
             </Head>
 
             <div className={`${theme}`}>
@@ -31,9 +31,11 @@ const Launchpad = ({ theme, all_collections }) => {
                         />
                     </picture>
                     <div className="container">
-                        <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                        <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                             Launchpad Collections
                         </h1>
+                        <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">Explore all the exclusive collections on venomart launchpad
+                        </p>
 
                         {/* loop collections here  */}
                         <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">

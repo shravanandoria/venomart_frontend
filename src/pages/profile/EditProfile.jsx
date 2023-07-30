@@ -38,7 +38,7 @@ const EditProfile = ({ signer_address, theme }) => {
             <Head>
                 <title>Edit Profile - Venomart Marketplace</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.png" />
+                <link rel="icon" href="/fav.png" />
             </Head>
 
             <form onSubmit="" className={`${theme}`}>
