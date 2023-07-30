@@ -257,7 +257,12 @@ export const list_nft = async (
     .changeManager({
       newManager: MARKETPLACE_ADDRESS,
       sendGasTo: signer_address,
-      callbacks: [],
+      callbacks: [
+        {
+          nft_price: "2000000000",
+          sample_data: "hello world",
+        },
+      ],
     })
     .send({
       from: new Address(signer_address),
