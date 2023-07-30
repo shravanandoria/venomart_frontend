@@ -31,7 +31,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
 
   const get_collection_nfts = async () => {
     if (!standalone) return;
-    const nfts = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
+    const nfts = await loadNFTs_collection(standalone, slug);
     console.log(nfts);
   };
 
