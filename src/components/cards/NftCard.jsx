@@ -7,7 +7,6 @@ const NftCard = ({
   Name,
   Description,
   Address,
-  tokenId,
   onClickOpen = true,
   listedBool = false,
   listingPrice,

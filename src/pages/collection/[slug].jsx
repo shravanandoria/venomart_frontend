@@ -34,6 +34,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
     setLoading(true);
     const nfts = await loadNFTs_collection(standalone, slug);
     console.log(nfts);
+    set_nfts(nfts);
     setLoading(false);
   };
 
@@ -276,19 +277,15 @@ const Collection = ({ blockURL, theme, standalone }) => {
                       return (
                         <NftCard
                           key={index}
-                          ImageSrc={e.ipfsData.image.replace(
+                          ImageSrc={e?.preview?.source?.replace(
                             "ipfs://",
                             "https://ipfs.io/ipfs/"
                           )}
-                          Name={e.ipfsData.name}
-                          Description={e.ipfsData.description}
-                          Address={e.ipfsData.collection}
-                          tokenId={e.tokenId}
-                          listedBool={e.isListed}
-                          listingPrice={e.listingPrice}
-                          chainImgPre={"../"}
-                          chain_image={e.chain_image}
-                          chain_symbol={e.chain_symbol}
+                          Name={e?.name}
+                          Description={e?.description}
+                        // Address={e?.collection}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}
