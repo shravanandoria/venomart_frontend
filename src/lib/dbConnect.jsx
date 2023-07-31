@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const mongodb_uri =
   "mongodb+srv://shravanandoria21437:123Snaahaha@cluster0.xdumlze.mongodb.net/?retryWrites=true&w=majority";
 // "mongodb+srv://venomartspace:anu@2000@venom-testnet.niuxzx8.mongodb.net/?retryWrites=true&w=majority";
-// const mongodb_uri = "mongodb://localhost:27017";
+
 
 if (!mongodb_uri) {
   throw new error("missing uri");
