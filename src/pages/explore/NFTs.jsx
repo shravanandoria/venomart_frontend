@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import testNFT from "../../../public/test.jpg";
+import defLogo from "../../../public/deflogo.png";
+import defBack from "../../../public/defback.png";
 import NftCard from "@/components/cards/NftCard";
 import Head from "next/head";
 import Loader from "@/components/Loader";

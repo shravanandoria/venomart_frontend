@@ -14,7 +14,9 @@ import fav from "../../../public/fav.png"
 
 const Collection = ({
     blockURL,
-    theme
+    theme,
+    webURL,
+    copyURL
 }) => {
     const router = useRouter();
     const { slug } = router.query;
@@ -191,7 +193,7 @@ const Collection = ({
                                                     {share && (
                                                         <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                                             <a
-                                                                href="https://twitter.com/home"
+                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.space%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/${slug}%20`}
                                                                 target="_blank"
                                                                 className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                                             >
@@ -212,26 +214,8 @@ const Collection = ({
                                                                 </span>
                                                             </a>
                                                             <a
-                                                                href="https://gmail.com"
-                                                                target="_blank"
-                                                                className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 24 24"
-                                                                    width="24"
-                                                                    height="24"
-                                                                    className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                                                                >
-                                                                    <path fill="none" d="M0 0h24v24H0z" />
-                                                                    <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm9.06 8.683L5.648 6.238 4.353 7.762l7.72 6.555 7.581-6.56-1.308-1.513-6.285 5.439z" />
-                                                                </svg>
-                                                                <span className="mt-1 inline-block text-black dark:text-white">
-                                                                    Email
-                                                                </span>
-                                                            </a>
-                                                            <a
                                                                 href="#"
+                                                                onClick={copyURL}
                                                                 className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                                             >
                                                                 <svg

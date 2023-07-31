@@ -13,7 +13,8 @@ import "@/styles/tailwind.css";
 import "@/styles/Home.module.css";
 
 // images
-import testNFT from "../../public/test.jpg";
+import defLogo from "../../public/deflogo.png";
+import defBack from "../../public/defback.png";
 
 //Wallet Connect
 import VenomConnect from "venom-connect";
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }) {
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
+  const webURL = "https://venomart.space/";
   const blockURL = "https://testnet.venomscan.com/";
   const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
   const adminAccount = "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
@@ -43,8 +45,8 @@ export default function App({ Component, pageProps }) {
   // test collection array
   const all_collections = [
     {
-      Cover: testNFT,
-      Logo: testNFT,
+      Cover: defBack,
+      Logo: defLogo,
       Name: "cover",
       OwnerAddress: "cover",
       CollectionAddress: "cover",
@@ -54,7 +56,7 @@ export default function App({ Component, pageProps }) {
   // test collection array
   const all_nfts = [
     {
-      ImageSrc: testNFT,
+      ImageSrc: defLogo,
       Name: "nft",
       Description: "test descrip",
       Address: "cover",
@@ -140,6 +142,16 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet end
 
+  function copyURL() {
+    const el = document.createElement('input');
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    alert("Successfully copied the URL!!")
+  }
+
   return (
     <>
       <Navbar
@@ -162,6 +174,8 @@ export default function App({ Component, pageProps }) {
         currency={currency}
         all_collections={all_collections}
         all_nfts={all_nfts}
+        webURL={webURL}
+        copyURL={copyURL}
       />
       <Footer
         theme={theme}

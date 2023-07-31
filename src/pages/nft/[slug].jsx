@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import testNFT from "../../../public/test.jpg";
+import defLogo from "../../../public/deflogo.png";
+import defBack from "../../../public/defback.png";
 import Image from "next/image";
 import Head from "next/head";
 import Loader from "@/components/Loader";
@@ -138,7 +139,7 @@ const NFTPage = ({
                                   "ipfs://",
                                   "https://ipfs.io/ipfs/"
                                 )
-                                : testNFT
+                                : defLogo
                             }
                             height={40}
                             width={40}

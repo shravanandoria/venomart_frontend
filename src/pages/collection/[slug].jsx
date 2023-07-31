@@ -10,8 +10,10 @@ import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_collection } from "@/utils/user_nft";
 import venomLogo from "../../../public/venom.svg";
+import defLogo from "../../../public/deflogo.png";
+import defBack from "../../../public/defback.png";
 
-const Collection = ({ blockURL, theme, standalone }) => {
+const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -37,7 +39,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
     set_nfts(nfts);
     setLoading(false);
   };
-  
+
   // getting collection info from mongo 
   const get_collection_info = async () => {
     // write here 
@@ -70,32 +72,52 @@ const Collection = ({ blockURL, theme, standalone }) => {
         <div className="dark:bg-jacarta-900">
           {/* <!-- Banner IMG--> */}
           <div className="relative pt-24">
-            <Image
-              src={collection?.coverImage?.replace(
-                "ipfs://",
-                "https://ipfs.io/ipfs/"
-              )}
-              width={100}
-              height={100}
-              alt="banner"
-              className="h-[18.75rem] w-[100%] object-cover"
-            />
+            {collection?.coverImage ?
+              <Image
+                src={collection?.coverImage?.replace(
+                  "ipfs://",
+                  "https://ipfs.io/ipfs/"
+                )}
+                width={100}
+                height={100}
+                alt="banner"
+                className="h-[18.75rem] w-[100%] object-cover"
+              />
+              :
+              <Image
+                src={defBack}
+                width={100}
+                height={100}
+                alt="banner"
+                className="h-[18.75rem] w-[100%] object-cover"
+              />
+            }
           </div>
 
           {/* <!-- Collection Section --> */}
           <section className="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
-                <Image
-                  src={collection?.logo?.replace(
-                    "ipfs://",
-                    "https://ipfs.io/ipfs/"
-                  )}
-                  width={100}
-                  height={100}
-                  alt="collection avatar"
-                  className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
-                />
+                {collection?.logo ?
+                  <Image
+                    src={collection?.logo?.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/"
+                    )}
+                    width={100}
+                    height={100}
+                    alt="collection avatar"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                  />
+                  :
+                  <Image
+                    src={defLogo}
+                    width={100}
+                    height={100}
+                    alt="collection avatar"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                  />
+                }
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
                   <MdVerified
                     style={{ color: "#4f87ff", cursor: "pointer" }}
@@ -117,13 +139,21 @@ const Collection = ({ blockURL, theme, standalone }) => {
                   </a>
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                  {collection?.name}
+                  {collection?.name ? collection?.name : "Undefined Collection"}
                 </h2>
                 <div className="mb-4"></div>
 
                 {/* desc  */}
                 <p className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
-                  {collection?.description}
+                  {collection?.description ? collection?.description :
+                    <div>
+                      This collection is tracked but not verified on Venomart. If you are the owner, you can
+                      {" "}
+                      <a href="https://forms.gle/UtYWWkhsBYG9ZUjD8" target="_blank" className="text-blue-500">submit</a>
+                      {" "}
+                      it now for approval now!
+                    </div>
+                  }
                 </p>
 
                 {/* stats  */}
@@ -223,7 +253,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
                     {share && (
                       <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href="https://twitter.com/home"
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20collection%20on%20venomart.space%20check%20it%20here-%20${webURL}collection/${slug}%20`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
@@ -244,26 +274,8 @@ const Collection = ({ blockURL, theme, standalone }) => {
                           </span>
                         </a>
                         <a
-                          href="https://gmail.com"
-                          target="_blank"
-                          className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm9.06 8.683L5.648 6.238 4.353 7.762l7.72 6.555 7.581-6.56-1.308-1.513-6.285 5.439z" />
-                          </svg>
-                          <span className="mt-1 inline-block text-black dark:text-white">
-                            Email
-                          </span>
-                        </a>
-                        <a
                           href="#"
+                          onClick={copyURL}
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
                           <svg
