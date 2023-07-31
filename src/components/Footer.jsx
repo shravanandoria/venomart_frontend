@@ -5,7 +5,7 @@ import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
 import { BsDiscord, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 
-const Footer = ({ theme }) => {
+const Footer = ({ theme, adminAccount, signer_address }) => {
   return (
     <div className={`${theme}`} >
       <div className="w-full page-footer dark:bg-jacarta-900 bottom-0 left-0 block">
@@ -72,14 +72,14 @@ const Footer = ({ theme }) => {
                     Top Collections
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href="/explore/Rankings"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Rankings
                   </Link>
-                </li> */}
+                </li>
                 <li>
                   <Link
                     href="/explore/Launchpad"
@@ -120,14 +120,14 @@ const Footer = ({ theme }) => {
                     Create NFT
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href="/mint/CreateNFTCollection"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Create Collection
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </div>
 
@@ -143,6 +143,24 @@ const Footer = ({ theme }) => {
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Apply For Launchpad
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
+                    target="_blank"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Verify Your Collection
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://forms.gle/DvYFih5vwvzJdwRL6"
+                    target="_blank"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Feedback Form
                   </Link>
                 </li>
                 {/* <li>
@@ -163,6 +181,44 @@ const Footer = ({ theme }) => {
                 </li> */}
               </ul>
             </div>
+
+            {/* admin links  */}
+            {adminAccount === signer_address &&
+              <div className="col-span-full sm:col-span-3 md:col-span-2">
+                <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
+                  Admin Links
+                </h3>
+                <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
+                  <li>
+                    <Link
+                      href="/admin/AddCollection"
+                      target="_blank"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Add Collection
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/admin/CreateLaunch"
+                      target="_blank"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Create A Launch
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/admin/Stats"
+                      target="_blank"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Venomart Stats
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            }
           </div>
           <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">&copy; 2023
