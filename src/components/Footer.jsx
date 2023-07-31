@@ -33,7 +33,7 @@ const Footer = ({ theme }) => {
               }
               <p className="mb-6 dark:text-jacarta-300">
                 Create, sell and collect NFTs on Venomart. Powered by
-                various technologies.
+                venom blockchain.
               </p>
               <div className="flex space-x-5">
                 <a href="https://twitter.com/venomart23" target="_blank" className="group">
