@@ -192,7 +192,6 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                   <li>
                     <Link
                       href="/admin/AddCollection"
-                      target="_blank"
                       className="hover:text-accent dark:hover:text-white"
                     >
                       Add Collection
@@ -201,7 +200,6 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                   <li>
                     <Link
                       href="/admin/CreateLaunch"
-                      target="_blank"
                       className="hover:text-accent dark:hover:text-white"
                     >
                       Create A Launch
@@ -210,7 +208,6 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                   <li>
                     <Link
                       href="/admin/Stats"
-                      target="_blank"
                       className="hover:text-accent dark:hover:text-white"
                     >
                       Venomart Stats

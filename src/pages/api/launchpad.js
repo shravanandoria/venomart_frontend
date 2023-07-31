@@ -1,13 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Launchpad from "../../Models/Launchpad";
 
-// Launchpad.find()
-// Launchpad.findById(launchpad_id)
-// Launchpad.findOne({name: "shravan"})
-// Launchpad.findMany({name: "shravan"})
-// Launchpad.create({name: "shravan", roll: "23"})
-// Launchpad.findOneAndUpdate({name: "shravan", {roll: "12"}})
-
 export default async function handler(req, res) {
   const { method } = req;
 

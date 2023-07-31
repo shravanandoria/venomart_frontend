@@ -9,7 +9,8 @@ const AddCollection = ({ theme }) => {
     const [preview, set_preview] = useState({ logo: "", cover: "" });
     const [data, set_data] = useState({
         name: "",
-        symbol: "",
+        contractAddress: "",
+        creatorAddress: "",
         logo: "",
         image: "",
         royalty: "",
@@ -26,14 +27,10 @@ const AddCollection = ({ theme }) => {
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>Create NFT Collection - Venomart Marketplace</title>
+                <title>Add NFT Collection - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
-                />
-                <meta
-                    name="keywords"
-                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.png" />
@@ -45,7 +42,7 @@ const AddCollection = ({ theme }) => {
                 <form onSubmit="" className="relative py-24  dark:bg-jacarta-900">
                     <div className="container">
                         <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                            Create NFT Collection
+                            Add NFT Collection
                         </h1>
                         <div className="mx-auto max-w-[48.125rem]">
                             {/* <!-- Logo Upload --> */}
@@ -174,21 +171,40 @@ const AddCollection = ({ theme }) => {
                                 />
                             </div>
 
-                            {/* symbol  */}
+                            {/* contract address  */}
                             <div className="mb-6">
                                 <label
                                     htmlFor="item-name"
                                     className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                 >
-                                    Symbol<span className="text-red">*</span>
+                                    Collection Contract Address<span className="text-red">*</span>
                                 </label>
                                 <input
                                     onChange={handleChange}
-                                    name="symbol"
+                                    name="contractAddress"
                                     type="text"
                                     id="item-name"
                                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                    placeholder="Eg: WILDH"
+                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                    required
+                                />
+                            </div>
+
+                            {/* creator address  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    Creator Address<span className="text-red">*</span>
+                                </label>
+                                <input
+                                    onChange={handleChange}
+                                    name="creatorAddress"
+                                    type="text"
+                                    id="item-name"
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                                     required
                                 />
                             </div>
