@@ -26,11 +26,16 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
         id: signer_address,
       })
       .then((response) => {
-        SetExplorerLog(response.data);
-        const balance = parseFloat(response.data.balance / 1000000000).toFixed(
+        SetExplorerLog(response?.data);
+        const balance = parseFloat(response?.data?.balance / 1000000000).toFixed(
           2
         );
-        setVnmBalance(balance);
+        if (response.data) {
+          setVnmBalance(balance);
+        }
+        else {
+          setVnmBalance("0.00");
+        }
       });
   }, [signer_address]);
 

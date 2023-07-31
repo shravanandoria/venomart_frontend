@@ -229,7 +229,7 @@ export default function Home({ theme, all_collections }) {
 
           <div className="mt-10 text-center">
             <Link
-              href="/collection/TopCollections"
+              href="/explore/Launchpad"
               className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
             >
               View All
@@ -316,7 +316,7 @@ export default function Home({ theme, all_collections }) {
 
           <div className="mt-10 text-center">
             <Link
-              href="/collection/TopCollections"
+              href="/explore/Collections"
               className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
             >
               Explore All Collections
