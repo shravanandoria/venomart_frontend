@@ -20,6 +20,8 @@ import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
+import { create_user } from "@/utils/mongo_api/user";
+
 export default function App({ Component, pageProps }) {
   // default values
   const currency = "VENOM";
@@ -29,7 +31,7 @@ export default function App({ Component, pageProps }) {
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
 
-  // other 
+  // other
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
@@ -67,6 +69,11 @@ export default function App({ Component, pageProps }) {
     setTheme(defThemeLocal);
     init();
   }, []);
+
+  useEffect(() => {
+    if (signer_address == undefined) return;
+    create_user(signer_address);
+  }, [signer_address]);
 
   // connect wallet start
   const init = async () => {

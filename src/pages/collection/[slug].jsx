@@ -37,7 +37,7 @@ const Collection = ({ blockURL, theme, standalone }) => {
     set_nfts(nfts);
     setLoading(false);
   };
-
+  
   // getting collection info from mongo 
   const get_collection_info = async () => {
     // write here 
