@@ -28,6 +28,7 @@ export default function App({ Component, pageProps }) {
   const blockChain = "Venom Testnet";
   const blockURL = "https://testnet.venomscan.com/";
   const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
+  const adminAccount = "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
 
@@ -162,7 +163,11 @@ export default function App({ Component, pageProps }) {
         all_collections={all_collections}
         all_nfts={all_nfts}
       />
-      <Footer theme={theme} />
+      <Footer
+        theme={theme}
+        signer_address={signer_address}
+        adminAccount={adminAccount}
+      />
       <Analytics />
     </>
   );
