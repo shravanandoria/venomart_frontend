@@ -3,12 +3,23 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 const storage = new ThirdwebStorage();
 
 export const check_user = async (wallet_id) => {
+  const current = new Date();
+  const strDate = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
   const res = await axios({
     url: "/api/user",
     method: "POST",
-    data: { wallet_id },
+    data: {
+      wallet_id,
+      user_name: "",
+      bio: "",
+      email: "",
+      profileImage: "",
+      coverImage: "",
+      Date: strDate,
+      isArtist: false,
+    },
   });
-
   return res.data;
 };
 
@@ -22,10 +33,10 @@ export const update_profile = async (data) => {
     : data.coverImage;
 
   const res = await axios({
-    url: `/api/user`,
+    url: "/api/user",
     method: "PUT",
     data: {
-      wallet_id: data.walletAddress,
+      wallet_id: data.wallet_id,
       user_name: data.user_name,
       email: data.email,
       bio: data.bio,
@@ -35,5 +46,6 @@ export const update_profile = async (data) => {
       socials: [data.twitter, data.discord, data.customLink],
     },
   });
-  console.log(res.data);
+
+  return res.data;
 };

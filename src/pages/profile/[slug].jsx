@@ -12,6 +12,8 @@ import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
 import { list_nft } from "@/utils/user_nft";
 import { BsDiscord, BsTwitter } from "react-icons/bs";
+import { check_user } from "@/utils/mongo_api/user/user";
+
 
 const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL }) => {
   const [user_data, set_user_data] = useState({});
@@ -45,8 +47,15 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
     set_loading(false);
   };
 
+  const get_user = async () => {
+    const data = await check_user(signer_address);
+    set_user_data(data.user);
+    console.log({ resData: data })
+  };
+
   useEffect(() => {
     get_my_nfts();
+    get_user();
   }, [signer_address, standalone]);
 
   return loading ? (
@@ -111,7 +120,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
             {/* block URL  */}
             <div className="mt-[-30px] mb-8 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
               <a
-                href={`${blockURL}` + `address/` + `${slug}`}
+                href={`${blockURL}` + `accounts/` + `${slug}`}
                 target="_blank"
                 className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
               >
@@ -122,18 +131,14 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
             {/* bio  */}
             <p className="mx-auto max-w-xl text-lg dark:text-jacarta-300 mb-6">
               {user_data?.bio}
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam
-              officiis similique pariatur recusandae eos labore excepturi, culpa
-              qui. Hic obcaecati, quas non delectus nihil fugiat voluptatem
-              ratione ipsa ea atque alias laborum odit facere! Corporis
-              architecto beatae cupiditate hic in sequi temporibus id aperiam
-              deserunt.
             </p>
 
             {/* join date */}
-            <p className="mx-auto max-w-xl text-[16px] dark:text-jacarta-400 mb-6">
-              Joined December 2019
-            </p>
+            {user_data?.Date &&
+              <p className="mx-auto max-w-xl text-[16px] dark:text-jacarta-400 mb-6">
+                Joined on {user_data?.Date}
+              </p>
+            }
 
             {/* social accounts  */}
             {signer_address && (

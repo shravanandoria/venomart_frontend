@@ -16,7 +16,7 @@ const EditProfile = ({ signer_address, theme }) => {
     user_name: "",
     bio: "",
     email: "",
-    walletAddress: signer_address,
+    walletAddress: "",
     profileImage: "",
     coverImage: "",
     twitter: "",
@@ -31,12 +31,14 @@ const EditProfile = ({ signer_address, theme }) => {
 
   const handle_submit = async (e) => {
     e.preventDefault();
+    set_loading(true);
     await update_profile(data);
+    set_loading(false);
   };
 
   const get_user = async () => {
     const data = await check_user(signer_address);
-    console.log({ data });
+    console.log({ date: data })
     set_data({
       ...data.user,
       twitter: data.user.socials[0] ? data.user.socials[0] : "",
@@ -49,6 +51,7 @@ const EditProfile = ({ signer_address, theme }) => {
     set_loading(true);
     if (!signer_address) return;
     set_data({ ...data, walletAddress: signer_address });
+    console.log({ wallet: signer_address })
     get_user();
 
     set_loading(false);
@@ -250,9 +253,9 @@ const EditProfile = ({ signer_address, theme }) => {
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )
                               : profImg_preview
                           }
                           width={100}

@@ -25,8 +25,9 @@ export default async function handler(req, res) {
 
         if (user) return res.status(201).json({ success: true, user: user });
 
+        console.log({ reqbody: req.body })
         user = await User.create(req.body);
-        
+
         res.status(201).json({ success: true, data: user });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
@@ -44,14 +45,12 @@ export default async function handler(req, res) {
           socials,
           isArtist,
         } = req.body;
-        
+
+        console.log(wallet_id)
         let user;
         user = await User.findOne({ wallet_id });
-        if (!user)
-          return res
-            .status(404)
-            .json({ success: false, data: "Cannot Find The User" });
-            
+        // if (!user) return res.status(404).json({ success: false, data: "Cannot Find The User" });
+
         const update_user = await User.findOneAndUpdate(
           { wallet_id },
           {
