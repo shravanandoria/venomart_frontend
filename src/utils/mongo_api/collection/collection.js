@@ -14,23 +14,22 @@ export const create_collection = async (data) => {
   };
   try {
     const res = await axios({
-      url: "/api/collection",
+      url: "/api/collection/collection",
       method: "POST",
       data: { ...obj },
     });
-    console.log(res.data);
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const get_collection_by_id = async (data) => {
+export const get_collection_by_contract = async (contractAddress) => {
   try {
     const res = await axios({
-      url: "/api/collection",
+      url: "/api/collection/collection",
       method: "POST",
       data: {
-        id: data,
+        contractAddress,
       },
     });
     return res.data;
@@ -43,8 +42,8 @@ export const get_collection_by_id = async (data) => {
 export const get_collections = async () => {
   try {
     const res = await axios({
-      url: "/api/collection",
-      method: "get",
+      url: "/api/collection/collection",
+      method: "GET",
     });
 
     return res.data;

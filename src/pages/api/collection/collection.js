@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import Collection from "../../../Models/Collection";
-import User from "../../../Models/User";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -37,11 +36,11 @@ export default async function handler(req, res) {
             data: "A collection with this contractAddress already exists",
           });
 
-        // const owner = await User.findOne({ wallet_id: creatorAddress });
-        // if (!owner)
-        //   return res
-        //     .status(400)
-        //     .json({ success: false, data: "cannot find the user" });
+        const owner = await User.findOne({ wallet_id: creatorAddress });
+        if (!owner)
+          return res
+            .status(400)
+            .json({ success: false, data: "cannot find the user" });
 
         collection = await Collection.create({
           contractAddress,

@@ -4,8 +4,10 @@ import CollectionCard from "@/components/cards/CollectionCard";
 import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
+import Loader from "@/components/Loader";
 
-const Collections = ({ theme, all_collections }) => {
+const Collections = ({ theme }) => {
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
   const [collections, set_collections] = useState([]);
@@ -15,9 +17,10 @@ const Collections = ({ theme, all_collections }) => {
   const currentCollections = collections.slice(firstPostIndex, lastPostIndex);
 
   const fetch_all_collections = async () => {
+    setLoading(true);
     const res = await get_collections();
-    console.log(res.data);
     set_collections(res.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -40,48 +43,52 @@ const Collections = ({ theme, all_collections }) => {
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      <div className={`${theme}`}>
-        <section className="relative py-24 dark:bg-jacarta-800">
-          <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-            <img
-              src="img/gradient_light.jpg"
-              alt="gradient"
-              className="h-full w-full"
-            />
-          </picture>
-          <div className="container">
-            <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-              Explore Collections
-            </h1>
-            <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-              Explore and trade the amazing collections on venomart marketplace
-            </p>
+      {loading ? (
+        <Loader theme={theme} />
+      ) : (
+        <div className={`${theme}`}>
+          <section className="relative py-24 dark:bg-jacarta-800">
+            <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+              <img
+                src="img/gradient_light.jpg"
+                alt="gradient"
+                className="h-full w-full"
+              />
+            </picture>
+            <div className="container">
+              <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                Explore Collections
+              </h1>
+              <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+                Explore and trade the amazing collections on venomart marketplace
+              </p>
 
-            {/* loop collections here  */}
-            <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-              {currentCollections?.map((e, index) => (
-                <CollectionCard
-                  key={index}
-                  Cover={e.coverImage.replace(
-                    "ipfs://",
-                    "https://ipfs.io/ipfs/"
-                  )}
-                  Logo={e.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
-                  Name={e.name}
-                  OwnerAddress={e.OwnerAddress}
-                  CollectionAddress={e.contractAddress}
-                />
-              ))}
+              {/* loop collections here  */}
+              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+                {currentCollections?.map((e, index) => (
+                  <CollectionCard
+                    key={index}
+                    Cover={e.coverImage.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/"
+                    )}
+                    Logo={e.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                    Name={e.name}
+                    OwnerAddress={e.OwnerAddress}
+                    CollectionAddress={e.contractAddress}
+                  />
+                ))}
+              </div>
+              <Pagination
+                totalPosts={collections.length}
+                postsPerPage={postsPerPage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
             </div>
-            <Pagination
-              totalPosts={all_collections.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
     </>
   );
 };

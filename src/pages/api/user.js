@@ -25,7 +25,6 @@ export default async function handler(req, res) {
 
         if (user) return res.status(201).json({ success: true, user: user });
 
-        console.log({ reqbody: req.body })
         user = await User.create(req.body);
 
         res.status(201).json({ success: true, data: user });

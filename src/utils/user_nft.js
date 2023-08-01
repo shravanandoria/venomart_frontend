@@ -51,7 +51,6 @@ export const getNftAddresses = async (codeHash, provider) => {
   const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
   });
-  console.log(addresses.continuation);
   return addresses?.accounts;
 };
 
@@ -169,8 +168,6 @@ export const get_nft_by_address = async (provider, nft_address) => {
     isListed: res.value0.currentlyListed,
     price: res.value0.price,
   };
-
-  console.log(nft);
   return nft;
 };
 
@@ -199,7 +196,6 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
-  console.log({ data: data });
   try {
     const ipfs_image =
       typeof data.image == "string"
@@ -251,7 +247,6 @@ export const list_nft = async (
   venomProvider,
   signer_address
 ) => {
-  console.log({ nft_address, price, venomProvider, signer_address });
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
@@ -274,7 +269,6 @@ export const list_nft = async (
       from: new Address(signer_address),
       amount: "200000000",
     });
-  console.log(output);
 
   const outputs = await marketplace_contract.methods
     .listToken({
@@ -329,6 +323,4 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
       from: new Address(signer_address),
       amount: "2000000000",
     });
-
-  console.log(res);
 };

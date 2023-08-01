@@ -35,7 +35,6 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
     if (standalone == undefined && slug == undefined) return;
     setLoading(true);
     const nfts = await loadNFTs_collection(standalone, slug);
-    console.log(nfts);
     set_nfts(nfts);
     setLoading(false);
   };

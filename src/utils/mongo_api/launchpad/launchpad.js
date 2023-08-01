@@ -7,8 +7,6 @@ export const create_launchpad = async (data) => {
       method: "POST",
       data,
     });
-
-    console.log(data);
   } catch (error) {
     console.log(error.message);
   }
@@ -21,8 +19,6 @@ export const get_launchpad_by_id = async (data) => {
       method: "POST",
       data,
     });
-
-    console.log(data);
   } catch (error) {
     console.log(error.message);
   }

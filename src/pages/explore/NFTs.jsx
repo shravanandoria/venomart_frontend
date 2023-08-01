@@ -25,7 +25,6 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
   const fetch_listed_nfts = async () => {
     if (venomProvider == undefined) return;
     const res = await get_listed_tokens(venomProvider);
-    console.log(res);
     set_listed_nfts(res);
   };
 

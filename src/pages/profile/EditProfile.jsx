@@ -38,7 +38,6 @@ const EditProfile = ({ signer_address, theme }) => {
 
   const get_user = async () => {
     const data = await check_user(signer_address);
-    console.log({ date: data })
     set_data({
       ...data.user,
       twitter: data.user.socials[0] ? data.user.socials[0] : "",
@@ -51,7 +50,6 @@ const EditProfile = ({ signer_address, theme }) => {
     set_loading(true);
     if (!signer_address) return;
     set_data({ ...data, walletAddress: signer_address });
-    console.log({ wallet: signer_address })
     get_user();
 
     set_loading(false);

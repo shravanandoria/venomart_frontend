@@ -30,7 +30,6 @@ async function dbConnect() {
       // useCreateIndex: true,
     };
     cached.promise = mongoose.connect(mongodb_uri, opts).then((mongoose) => {
-      console.log("wallet connected");
       return mongoose;
     });
   }

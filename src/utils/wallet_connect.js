@@ -3,7 +3,6 @@ import { ProviderRpcClient } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export const initVenomConnect = async () => {
-  console.log("wallet connect called");
   return new VenomConnect({
     theme: "dark",
     checkNetworkId: 1000,

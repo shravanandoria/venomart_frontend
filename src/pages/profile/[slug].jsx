@@ -55,7 +55,6 @@ const Profile = ({
   const get_user = async () => {
     const data = await check_user(signer_address);
     set_user_data(data.user);
-    console.log({ resData: data })
   };
 
   useEffect(() => {
@@ -341,7 +340,6 @@ const Profile = ({
               >
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                   {currentNFTs?.map((e, index) => {
-                    console.log();
                     return (
                       <NftCard
                         key={index}
