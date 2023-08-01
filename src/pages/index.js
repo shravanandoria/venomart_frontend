@@ -82,14 +82,6 @@ export default function Home({ theme, collections, loading }) {
                   </p>
                   <div className="flex flex-wrap justify-center align-middle space-x-4">
                     <Link
-                      href="/explore/Collections"
-                      className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                    >
-                      Explore Collections
-                    </Link>
-                  </div>
-                  {/* <div className="flex flex-wrap justify-center align-middle space-x-4">
-                    <Link
                       href="/explore/NFTs"
                       className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
@@ -101,7 +93,7 @@ export default function Home({ theme, collections, loading }) {
                     >
                       Explore Collections
                     </Link>
-                  </div> */}
+                  </div>
                 </div>
 
                 {/* <!-- featured collections --> */}
@@ -113,7 +105,7 @@ export default function Home({ theme, collections, loading }) {
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
                             {/* cover imge  */}
-                            <Link href="/collection/0:7522d744c4a449fbb28600608046e2be26428d2b37ee332005bbc82ac2749314">
+                            <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0">
                               <img
                                 src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                 alt="item 1"
@@ -126,7 +118,7 @@ export default function Home({ theme, collections, loading }) {
                           <div className="p-6">
                             <div className="flex">
                               {/* logo  */}
-                              <Link href={""} className="shrink-0">
+                              <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0" className="shrink-0">
                                 <img
                                   src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                   alt="avatar"
@@ -137,7 +129,7 @@ export default function Home({ theme, collections, loading }) {
                               </Link>
                               <div>
                                 {/* name  */}
-                                <Link href={""} className="block">
+                                <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0" className="block">
                                   <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
                                     Venom Passes
                                   </span>
@@ -321,6 +313,7 @@ export default function Home({ theme, collections, loading }) {
                         Name={e.name}
                         OwnerAddress={e.OwnerAddress}
                         CollectionAddress={e.contractAddress}
+                        verified={e.isVerified}
                       />
                     )
                   );

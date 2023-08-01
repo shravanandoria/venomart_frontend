@@ -27,8 +27,8 @@ const Collection = ({
     const pageName = "VenomartPass";
     const ProjectName = "Venomart Passes";
     const shortDesc = "Get exclusive passes of venomart marketplace. exclusive pass holders will get benefits like airdrops, whitelisiting priority, etc";
-    const contractAddress = "";
-    const mintPrice = "1";
+    const contractAddress = "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0";
+    const mintPrice = "0.5";
 
     const twitterURL = "https://twitter.com/venomart23";
     const discordURL = " https://discord.gg/wQbBr6Xean";

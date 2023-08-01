@@ -30,7 +30,7 @@ const AddCollection = ({ theme }) => {
     set_loading(true);
     await create_collection(data);
     set_loading(false);
-    // router.push("/explore/Collections");
+    router.push("/explore/Collections");
   };
 
   return (

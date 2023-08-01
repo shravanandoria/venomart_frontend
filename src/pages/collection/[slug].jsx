@@ -118,7 +118,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                   />
                 )}
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
-                  {collection?.isVerifed ?
+                  {collection?.isVerified ?
                     <MdVerified
                       style={{ color: "#4f87ff", cursor: "pointer" }}
                       size={30}

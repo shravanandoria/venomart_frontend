@@ -55,6 +55,7 @@ const Collections = ({ theme, collections, loading }) => {
                     Name={e.name}
                     OwnerAddress={e.OwnerAddress}
                     CollectionAddress={e.contractAddress}
+                    verified={e.isVerified}
                   />
                 ))}
                 {currentCollections?.length <= 0 && <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">No Collections Found</h2>}
