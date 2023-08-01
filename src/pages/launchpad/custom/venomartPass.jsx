@@ -57,7 +57,7 @@ const Collection = ({
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>{ProjectName} Launchpad - Venomart Marketplace</title>
+                <title>NFT Launchpad - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
