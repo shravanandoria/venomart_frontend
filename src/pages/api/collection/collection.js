@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
-import Collection from "../../../Models/Collection";
 import User from "../../../Models/User";
+import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
   const { method } = req;
