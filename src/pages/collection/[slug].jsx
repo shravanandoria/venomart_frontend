@@ -42,9 +42,11 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
 
   // getting collection info from mongo
   const get_collection_info = async () => {
-    // write here
+    setLoading(true);
     const res = await get_collection_by_contract(slug);
-    console.log(res);
+    console.log(res.data);
+    set_collection(res.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -122,10 +124,15 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                   />
                 )}
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
-                  <MdVerified
-                    style={{ color: "#4f87ff", cursor: "pointer" }}
-                    size={30}
-                  />
+                  {collection?.isVerifed ?
+                    <MdVerified
+                      style={{ color: "#4f87ff", cursor: "pointer" }}
+                      size={30}
+                    />
+                    :
+                    <BsFillExclamationCircleFill style={{ color: "#c3c944", cursor: "pointer" }}
+                      size={30} />
+                  }
                 </div>
               </div>
             </div>
@@ -147,7 +154,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                 <div className="mb-4"></div>
 
                 {/* desc  */}
-                <p className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
+                <div className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
                   {collection?.description ? (
                     collection?.description
                   ) : (
@@ -164,7 +171,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                       it now for approval now!
                     </div>
                   )}
-                </p>
+                </div>
 
                 {/* stats  */}
                 <div className="mb-8 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
@@ -332,8 +339,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}

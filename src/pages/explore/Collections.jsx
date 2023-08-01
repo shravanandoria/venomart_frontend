@@ -78,6 +78,7 @@ const Collections = ({ theme }) => {
                     CollectionAddress={e.contractAddress}
                   />
                 ))}
+                {currentCollections?.length <= 0 && <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">No Collections Found</h2>}
               </div>
               <Pagination
                 totalPosts={collections.length}
