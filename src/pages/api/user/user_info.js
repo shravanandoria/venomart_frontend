@@ -21,8 +21,8 @@ export default async function handler(req, res) {
         if (!wallet_id) return;
 
         let user;
-        // user = await User.findOne({ wallet_id }).populate("nftCollections");
-        user = await User.findOne({ wallet_id });
+        user = await User.findOne({ wallet_id }).populate("nftCollections");
+        // user = await User.findOne({ wallet_id });
 
         if (user) return res.status(201).json({ success: true, user: user });
 
