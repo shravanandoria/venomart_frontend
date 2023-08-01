@@ -31,28 +31,22 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-  // getting nfts onchain via collection
-  const get_collection_nfts = async () => {
+
+  const gettingCollectionInfo = async () => {
     if (standalone == undefined && slug == undefined) return;
     setLoading(true);
+    // getting nfts 
     const nfts = await loadNFTs_collection(standalone, slug);
     set_nfts(nfts);
-    setLoading(false);
-  };
-
-  // getting collection info from mongo
-  const get_collection_info = async () => {
-    setLoading(true);
+    // getting contract info 
     const res = await get_collection_by_contract(slug);
-    console.log(res?.data);
     set_collection(res?.data);
     setLoading(false);
   };
 
   useEffect(() => {
     if (!slug) return;
-    get_collection_nfts();
-    get_collection_info();
+    gettingCollectionInfo();
   }, [standalone, slug]);
 
   return (

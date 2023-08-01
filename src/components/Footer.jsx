@@ -56,14 +56,14 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                 Marketplace
               </h3>
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                <li>
+                {/* <li>
                   <Link
                     href="/explore/NFTs"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Explore NFTs
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="/explore/Collections"

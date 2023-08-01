@@ -82,6 +82,14 @@ export default function Home({ theme, collections, loading }) {
                   </p>
                   <div className="flex flex-wrap justify-center align-middle space-x-4">
                     <Link
+                      href="/explore/Collections"
+                      className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                    >
+                      Explore Collections
+                    </Link>
+                  </div>
+                  {/* <div className="flex flex-wrap justify-center align-middle space-x-4">
+                    <Link
                       href="/explore/NFTs"
                       className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
@@ -93,7 +101,7 @@ export default function Home({ theme, collections, loading }) {
                     >
                       Explore Collections
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* <!-- featured collections --> */}
@@ -107,7 +115,7 @@ export default function Home({ theme, collections, loading }) {
                             {/* cover imge  */}
                             <Link href="/collection/0:7522d744c4a449fbb28600608046e2be26428d2b37ee332005bbc82ac2749314">
                               <img
-                                src="https://ipfs.io/ipfs/bafkreic7brynxwbt3ohyejdevnvvx3kglzflzjwigs72ivmoxrzn2nhjli"
+                                src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                 alt="item 1"
                                 className="w-full object-cover"
                                 height="437"
@@ -120,7 +128,7 @@ export default function Home({ theme, collections, loading }) {
                               {/* logo  */}
                               <Link href={""} className="shrink-0">
                                 <img
-                                  src="https://ipfs.io/ipfs/bafkreic7brynxwbt3ohyejdevnvvx3kglzflzjwigs72ivmoxrzn2nhjli"
+                                  src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                   alt="avatar"
                                   className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
@@ -131,12 +139,12 @@ export default function Home({ theme, collections, loading }) {
                                 {/* name  */}
                                 <Link href={""} className="block">
                                   <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Rave Venom
+                                    Venom Passes
                                   </span>
                                 </Link>
 
                                 <a className="text-2xs text-accent dark:text-white">
-                                  10000 Items | 4443 Owners
+                                  1000+ Items | 200+ Owners
                                 </a>
                               </div>
                             </div>

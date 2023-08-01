@@ -17,7 +17,6 @@ import defLogo from "../../public/deflogo.png";
 import defBack from "../../public/defback.png";
 
 //Wallet Connect
-import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
@@ -61,29 +60,24 @@ export default function App({ Component, pageProps }) {
     },
   ];
 
-  // setting website theme
-  useEffect(() => {
-    const defThemeLocal = localStorage.getItem("WebsiteTheme");
-    setTheme(defThemeLocal);
-    init();
-  }, []);
+  // copyURL function 
+  function copyURL() {
+    const el = document.createElement('input');
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    alert("Successfully copied the URL!!")
+  }
 
-  useEffect(() => {
-    if (signer_address == undefined) return;
-    check_user(signer_address);
-  }, [signer_address]);
-
+  // fetching all collections 
   const fetch_all_collections = async () => {
     setLoading(true);
     const res = await get_collections();
     set_collections(res.data);
     setLoading(false);
   };
-
-  useEffect(() => {
-    fetch_all_collections();
-  }, []);
-
 
   // connect wallet start
   const init = async () => {
@@ -149,15 +143,21 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet end
 
-  function copyURL() {
-    const el = document.createElement('input');
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    alert("Successfully copied the URL!!")
-  }
+  useEffect(() => {
+    const defThemeLocal = localStorage.getItem("WebsiteTheme");
+    setTheme(defThemeLocal);
+    init();
+  }, []);
+
+  useEffect(() => {
+    if (signer_address == undefined) return;
+    check_user(signer_address);
+  }, [signer_address]);
+
+  useEffect(() => {
+    fetch_all_collections();
+  }, []);
+
 
   return (
     <>
