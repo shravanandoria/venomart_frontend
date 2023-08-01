@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Collection from "../../../Models/Collection";
-import User from "../../../Models/User"
+import User from "../../../Models/User";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -53,6 +53,9 @@ export default async function handler(req, res) {
           description,
           isVerified,
         });
+
+        await owner.nftCollections.push(collection);
+        await owner.save();
         res.status(200).json({ success: true, data: collection });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
