@@ -139,11 +139,11 @@ const Profile = ({
             </p>
 
             {/* join date */}
-            {user_data?.Date &&
+            {user_data?.Date && (
               <p className="mx-auto max-w-xl text-[16px] dark:text-jacarta-400 mb-6">
                 Joined on {user_data?.Date}
               </p>
-            }
+            )}
 
             {/* social accounts  */}
             {signer_address && (
@@ -267,8 +267,9 @@ const Profile = ({
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -300,8 +301,9 @@ const Profile = ({
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${!myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                !myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
