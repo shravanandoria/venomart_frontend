@@ -21,7 +21,7 @@ import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-// import { check_user } from "@/utils/mongo_api/user";
+import { check_user } from "@/utils/mongo_api/user";
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -75,7 +75,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     if (signer_address == undefined) return;
-    // check_user(signer_address);
+    check_user(signer_address);
   }, [signer_address]);
 
   // connect wallet start

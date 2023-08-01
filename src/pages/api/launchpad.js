@@ -8,24 +8,55 @@ export default async function handler(req, res) {
 
   switch (method) {
     case "GET":
-      const launchpads = await Launchpad.find();
-      res.status(200).json({ success: true, data: launchpads });
+      try {
+        const launchpadData = await Launchpad.find({});
+        res.status(200).json({ success: true, data: launchpadData });
+      } catch (error) {
+        res.status(400).json({ success: false, data: error.message });
+      }
       break;
     case "POST":
-      const { lauchpad_id, name } = req.body;
-      const lauchpad = await Launchpad.findById(lauchpad_id);
-
-      if (!lauchpad) {
-        const new_launchpad = await Launchpad.create({
+      try {
+        const {
+          logo,
+          coverImage,
           name,
+          description,
+          contractAddress,
+          maxSupply,
+          nftImage,
+          jsonURL,
+          mintPrice,
+          creatorRoyalty,
+          isActive,
+          startDate,
+          endDate,
+          comments
+        } = req.body;
+
+        const launchpad = await Launchpad.create({
+          logo,
+          coverImage,
+          name,
+          description,
+          contractAddress,
+          maxSupply,
+          nftImage,
+          jsonURL,
+          mintPrice,
+          creatorRoyalty,
+          isActive,
+          startDate,
+          endDate,
+          comments
         });
 
-        res.status(201).json({ success: true, data: new_launchpad });
+        res.status(200).json({ success: true, data: launchpad });
+      } catch (error) {
+        res.status(400).json({ success: false, data: error.message });
       }
-
-      res.status(201).json({ success: true, data: lauchpad });
-
       break;
+
     default:
       res.status(400).json({ success: false });
       break;
