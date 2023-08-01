@@ -14,6 +14,7 @@ const AddCollection = ({ theme, create_new_collection }) => {
         logo: "",
         coverImage: "",
         royalty: "",
+        isVerified: false,
         description: "",
     });
 
@@ -240,6 +241,27 @@ const AddCollection = ({ theme, create_new_collection }) => {
                                     placeholder="Eg: 5%"
                                     required
                                 />
+                            </div>
+
+                            {/* status  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    Verification status
+                                </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    If true then then collection will be verified
+                                </p>
+                                <select
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    name="isVerified"
+                                    onChange={handleChange}
+                                >
+                                    <option value={false}>False</option>
+                                    <option value={true}>True</option>
+                                </select>
                             </div>
 
                             {/* <!-- Description --> */}
