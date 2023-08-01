@@ -7,7 +7,7 @@ import { MdVerified } from "react-icons/md";
 import { BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight } from "react-icons/go";
-import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 
@@ -19,6 +19,26 @@ const Collection = ({
 }) => {
     const router = useRouter();
     const { slug } = router.query;
+
+    // customData 
+    const CoverIMG = "https://fastly.picsum.photos/id/863/536/354.jpg?hmac=Pc_Kw1tMoLab_86F77KSBtpZ0bkge2mpNZBBYVobhec";
+    const NFTIMG = "";
+
+    const pageName = "VenomartPass";
+    const ProjectName = "Venomart Passes";
+    const shortDesc = "Venomartt";
+    const contractAddress = "";
+    const mintPrice = "1";
+
+    const twitterURL = "Venomart Passes";
+    const discordURL = "";
+    const instagramURL = "";
+    const telegramURL = "";
+
+    const task1Twitter = "";
+    const task2Discord = "";
+
+
 
     const [loading, setLoading] = useState(false);
     const [comLoading, setCompLoading] = useState(false);
@@ -38,7 +58,7 @@ const Collection = ({
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>Collection - Venomart Marketplace</title>
+                <title>{ProjectName} Launchpad - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -63,40 +83,48 @@ const Collection = ({
                                 <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
                                     {/* title  */}
                                     <h1 className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl" style={{ fontSize: "35px" }}>
-                                        <span> Venom Punks </span> <MdVerified style={{ color: "#4f87ff", cursor: "pointer", marginTop: "5px", marginLeft: "7px" }} size={30} />
+                                        <span> {ProjectName} </span> <MdVerified style={{ color: "#4f87ff", cursor: "pointer", marginTop: "5px", marginLeft: "7px" }} size={30} />
                                     </h1>
                                     {/* social icons  */}
                                     <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
                                         {/* twitter  */}
-                                        <a href="https://twitter.com/venomart23" target="_blank" className="group">
-                                            <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                        </a>
+                                        {twitterURL &&
+                                            <a href={twitterURL} target="_blank" className="group">
+                                                <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                            </a>
+                                        }
                                         {/* discord  */}
-                                        <a href="https://discord.gg/wQbBr6Xean" target="_blank" className="group">
-                                            <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                        </a>
+                                        {discordURL &&
+                                            <a href={discordURL} target="_blank" className="group">
+                                                <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                            </a>
+                                        }
                                         {/* instagram */}
-                                        <a href="https://discord.gg/wQbBr6Xean" target="_blank" className="group">
-                                            <BsInstagram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                        </a>
+                                        {instagramURL &&
+                                            <a href={instagramURL} target="_blank" className="group">
+                                                <BsInstagram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                            </a>
+                                        }
                                         {/* telegram */}
-                                        <a href="https://discord.gg/wQbBr6Xean" target="_blank" className="group">
-                                            <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                        </a>
+                                        {telegramURL &&
+                                            <a href={telegramURL} target="_blank" className="group">
+                                                <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                            </a>
+                                        }
                                     </div>
                                     {/* short desc  */}
                                     <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                                        Punks is a hand drawn 1/1 PFP collection by muimooi. AxA is the Alpha Gang in AVAX, Profile picture illustration. Supply 50 characters
+                                        {shortDesc}
                                     </p>
                                     {/* action  */}
                                     <div className="flex space-x-6">
-                                        <a href={`${blockURL}accounts/${slug}`}
+                                        <a href={`${blockURL}accounts/${contractAddress}`}
                                             target="_blank"
                                             className="flex w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark" >
                                             Explorer
                                             <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                         </a>
-                                        <a href={`/collection/${slug}`}
+                                        <a href={`/collection/${contractAddress}`}
                                             className="flex w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
                                             Collection
                                             <GoArrowUpRight />
@@ -107,7 +135,7 @@ const Collection = ({
                                 {/* right section   */}
                                 <div className="col-span-6 xl:col-span-8">
                                     <div className="relative text-center md:pl-8 md:text-right">
-                                        <img src="../axa.jpeg" alt="" style={{ borderRadius: "25px" }} />
+                                        <img src={CoverIMG} alt="" style={{ borderRadius: "25px" }} />
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +147,10 @@ const Collection = ({
                         <section className="text-gray-600 body-font overflow-hidden">
                             <div className="container px-5 py-24 mx-auto">
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
-                                    <img alt="nftImg" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="/deflogo.png" />
+
+                                    {/* nftIMG  */}
+                                    <img alt="nftImg" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src={NFTIMG} />
+
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                         <h2 className="text-sm title-font text-gray-500 tracking-widest">PUBLIC MINTING</h2>
                                         <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">Tasks :</h1>
@@ -129,7 +160,7 @@ const Collection = ({
                                             <p className=" text-center text-lg dark:text-jacarta-200 md:text-left">
                                                 1] Follow punks on twitter
                                             </p>
-                                            <Link href={`https://twitter.com`} target="_blank" className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Follow</Link>
+                                            <Link href={task1Twitter} target="_blank" className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Follow <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" /></Link>
                                         </div>
 
                                         {/* follow discord  */}
@@ -137,7 +168,7 @@ const Collection = ({
                                             <p className="text-center text-[20px] dark:text-jacarta-200 md:text-left">
                                                 2] Join our discord server
                                             </p>
-                                            <Link href={`https://discord.com`} target="_blank" className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Join</Link>
+                                            <Link href={task2Discord} target="_blank" className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Join <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" /></Link>
                                         </div>
 
                                         <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
@@ -180,18 +211,18 @@ const Collection = ({
                                             {/* price  */}
                                             <div>
                                                 <span className="title-font font-medium text-[23px] text-jacarta-700 dark:text-white">price : </span>
-                                                <span className="title-font font-medium text-[19px] text-gray-400 text-center mt-[6px] ml-[3px]"> 1 VENOM</span>
+                                                <span className="title-font font-medium text-[19px] text-gray-400 text-center mt-[6px] ml-[3px]"> {mintPrice} VENOM</span>
                                             </div>
 
                                             {/* mint  */}
                                             {!actionVerify ?
-                                                <button onClick={() => alert("please complete the tasks and verify to continue minting!")} className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint</button>
+                                                <button onClick={() => alert("please complete the tasks and verify to continue minting!")} className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint <AiFillLock className="mt-[4px] ml-[5px]" /></button>
                                                 :
                                                 <button className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint NFT</button>
                                             }
 
                                             {/* share btn  */}
-                                            <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                                            <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4" style={{ zIndex: "20" }}>
                                                 <div
                                                     onClick={() => setShare(!share)}
                                                     className="dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
@@ -223,7 +254,7 @@ const Collection = ({
                                                     {share && (
                                                         <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                                             <a
-                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.space%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/${slug}%20`}
+                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.space%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${pageName}%20`}
                                                                 target="_blank"
                                                                 className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                                             >
@@ -267,6 +298,11 @@ const Collection = ({
                                                 </div>
                                             </button>
                                         </div>
+                                        {!actionVerify &&
+                                            <div className="flex justify-end mt-[10px] text-center" style={{ zIndex: "10" }}>
+                                                <span className="text-[15px] text-gray-400 text-center">Please complete tasks to start minting</span>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

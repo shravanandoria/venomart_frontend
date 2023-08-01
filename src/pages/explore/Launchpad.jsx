@@ -11,7 +11,7 @@ const Launchpad = ({ theme, all_collections }) => {
 
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
-    const currentCollections = all_collections.slice(firstPostIndex, lastPostIndex);
+    const currentCollections = all_collections?.slice(firstPostIndex, lastPostIndex);
 
     return (
         <>
@@ -45,8 +45,8 @@ const Launchpad = ({ theme, all_collections }) => {
                         <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">Explore all the exclusive collections on venomart launchpad
                         </p>
 
-                        {/* loop collections here  */}
-                        <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+                        {/* loop public collections here  */}
+                        {/* <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
                             {currentCollections?.map((e, index) => (
                                 <LaunchCollectionCard
                                     key={index}
@@ -63,7 +63,20 @@ const Launchpad = ({ theme, all_collections }) => {
                             postsPerPage={postsPerPage}
                             setCurrentPage={setCurrentPage}
                             currentPage={currentPage}
-                        />
+                        /> */}
+
+                        {/* add custom launch here  */}
+                        <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+                            <LaunchCollectionCard
+                                Cover={""}
+                                Logo={""}
+                                Name={"venomart Passes"}
+                                mintPrice={"1"}
+                                totalItems={"1000"}
+                                CollectionAddress={""}
+                                customLink={"/custom/venomartPass"}
+                            />
+                        </div>
                     </div>
                 </section>
             </div>

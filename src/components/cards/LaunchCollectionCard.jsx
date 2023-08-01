@@ -10,13 +10,15 @@ const LaunchCollectionCard = ({
   Cover,
   Logo,
   Name,
-  OwnerAddress,
-  CollectionAddress
+  mintPrice,
+  totalItems,
+  CollectionAddress,
+  customLink
 }) => {
   return (
-    <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[370px] w-[280px] overflow-hidden">
+    <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[370px] w-[280px] overflow-hidden  m-4 sm:m-8">
       <Link
-        href={`/launchpad/${CollectionAddress}`}
+        href={`/launchpad/${customLink ? customLink : CollectionAddress}`}
         className="relative flex space-x-[0.625rem]"
       >
         <span className="w-[100%] h-[150px]">
@@ -43,12 +45,11 @@ const LaunchCollectionCard = ({
         </span>
       </Link>
 
-      <div className="flex">
+      <div className="flex justify-center align-middle text-center">
         <Link
-          href={`/launchpad/${CollectionAddress}`}
-          className=" mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
+          href={`/launchpad/${customLink ? customLink : CollectionAddress}`}
+          className="mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
           style={{
-            width: "180px",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden"
@@ -57,7 +58,7 @@ const LaunchCollectionCard = ({
           {Name}
         </Link>
         <MdVerified
-          style={{ color: "#4f87ff", marginLeft: "-4px", marginTop: "34px" }}
+          style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
           size={25}
         />
       </div>
@@ -69,10 +70,10 @@ const LaunchCollectionCard = ({
       </div>
       <div className="flex justify-between align-middle my-6 mx-2">
         <button className=" dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-          3 Items
+          {totalItems}+ Items
         </button>
-        <button className="flex border border-blue-700 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-          2
+        <button className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+          {mintPrice}
           <Image
             src={venomLogo}
             height={100}
