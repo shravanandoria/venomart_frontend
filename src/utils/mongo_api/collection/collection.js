@@ -1,10 +1,11 @@
 import axios from "axios";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 const storage = new ThirdwebStorage();
+import { check_user } from "../user/user";
 
 export const create_collection = async (data) => {
-  const { coverImage, logo } = data;
-
+  const { coverImage, logo, creatorAddress } = data;
+  await check_user(creatorAddress);
   const ipfs_logo = await storage.upload(logo);
   const ipfs_coverImage = await storage.upload(coverImage);
   let obj = {
