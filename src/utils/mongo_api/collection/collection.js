@@ -26,7 +26,7 @@ export const create_collection = async (data) => {
 export const get_collection_by_contract = async (contractAddress) => {
   try {
     const res = await axios({
-      url: "/api/collection/collection",
+      url: "/api/collection/slug_collection",
       method: "POST",
       data: {
         contractAddress,
@@ -37,7 +37,6 @@ export const get_collection_by_contract = async (contractAddress) => {
     console.log(error.message);
   }
 };
-
 
 export const get_collections = async () => {
   try {

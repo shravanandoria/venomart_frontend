@@ -12,6 +12,7 @@ import { loadNFTs_collection } from "@/utils/user_nft";
 import venomLogo from "../../../public/venom.svg";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
+import { get_collection_by_contract } from "@/utils/mongo_api/collection/collection";
 
 const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-  // getting nfts onchain via collection 
+  // getting nfts onchain via collection
   const get_collection_nfts = async () => {
     if (standalone == undefined && slug == undefined) return;
     setLoading(true);
@@ -39,12 +40,15 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
     setLoading(false);
   };
 
-  // getting collection info from mongo 
+  // getting collection info from mongo
   const get_collection_info = async () => {
-    // write here 
+    // write here
+    const res = await get_collection_by_contract(slug);
+    console.log(res);
   };
 
   useEffect(() => {
+    if (!slug) return;
     get_collection_nfts();
     get_collection_info();
   }, [standalone, slug]);
@@ -71,7 +75,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
         <div className="dark:bg-jacarta-900">
           {/* <!-- Banner IMG--> */}
           <div className="relative pt-24">
-            {collection?.coverImage ?
+            {collection?.coverImage ? (
               <Image
                 src={collection?.coverImage?.replace(
                   "ipfs://",
@@ -82,7 +86,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                 alt="banner"
                 className="h-[18.75rem] w-[100%] object-cover"
               />
-              :
+            ) : (
               <Image
                 src={defBack}
                 width={100}
@@ -90,14 +94,14 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                 alt="banner"
                 className="h-[18.75rem] w-[100%] object-cover"
               />
-            }
+            )}
           </div>
 
           {/* <!-- Collection Section --> */}
           <section className="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
-                {collection?.logo ?
+                {collection?.logo ? (
                   <Image
                     src={collection?.logo?.replace(
                       "ipfs://",
@@ -108,7 +112,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     alt="collection avatar"
                     className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                   />
-                  :
+                ) : (
                   <Image
                     src={defLogo}
                     width={100}
@@ -116,7 +120,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     alt="collection avatar"
                     className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
                   />
-                }
+                )}
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
                   <MdVerified
                     style={{ color: "#4f87ff", cursor: "pointer" }}
@@ -144,15 +148,22 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
 
                 {/* desc  */}
                 <p className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
-                  {collection?.description ? collection?.description :
+                  {collection?.description ? (
+                    collection?.description
+                  ) : (
                     <div>
-                      This collection is tracked but not verified on Venomart. If you are the owner, you can
-                      {" "}
-                      <a href="https://forms.gle/UtYWWkhsBYG9ZUjD8" target="_blank" className="text-blue-500">submit</a>
-                      {" "}
+                      This collection is tracked but not verified on Venomart.
+                      If you are the owner, you can{" "}
+                      <a
+                        href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
+                        target="_blank"
+                        className="text-blue-500"
+                      >
+                        submit
+                      </a>{" "}
                       it now for approval now!
                     </div>
-                  }
+                  )}
                 </p>
 
                 {/* stats  */}
@@ -192,7 +203,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                         style={{
                           height: "13px",
                           width: "13px",
-                          marginTop: "3px"
+                          marginTop: "3px",
                         }}
                       />
                     </div>
@@ -213,7 +224,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                         style={{
                           height: "13px",
                           width: "13px",
-                          marginTop: "3px"
+                          marginTop: "3px",
                         }}
                       />
                     </div>
@@ -321,8 +332,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                         />
                       );
                     })}
