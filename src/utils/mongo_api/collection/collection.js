@@ -39,20 +39,6 @@ export const get_collection_by_id = async (data) => {
   }
 };
 
-export const get_users_collection = async (data) => {
-  try {
-    const res = await axios({
-      url: "/api/collection",
-      method: "POST",
-      data: {
-        address: data,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 export const get_collections = async () => {
   try {

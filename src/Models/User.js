@@ -27,7 +27,12 @@ const UserSchema = new mongoose.Schema({
   },
   isArtist: Boolean,
   socials: [String],
-  nftCollections: [String],
+  nftCollections: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Collection",
+    },
+  ],
   transactions: [String],
 });
 

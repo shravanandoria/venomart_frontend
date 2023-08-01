@@ -12,8 +12,16 @@ import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
 import { list_nft } from "@/utils/user_nft";
 import { BsDiscord, BsTwitter } from "react-icons/bs";
+import { check_user } from "@/utils/mongo_api/user/user";
 
-const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL }) => {
+const Profile = ({
+  theme,
+  signer_address,
+  blockURL,
+  standalone,
+  webURL,
+  copyURL,
+}) => {
   const [user_data, set_user_data] = useState({});
   const [loading, set_loading] = useState(false);
 
@@ -40,13 +48,19 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
     res?.map((e) => {
       nfts.push({ ...JSON.parse(e.json), ...e });
     });
-    console.log(nfts);
     set_nfts(nfts);
     set_loading(false);
   };
 
+  const get_user = async () => {
+    const data = await check_user(signer_address);
+    console.log({ data });
+  };
+
   useEffect(() => {
+    if (!signer_address) return;
     get_my_nfts();
+    get_user();
   }, [signer_address, standalone]);
 
   return loading ? (
@@ -257,8 +271,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -290,8 +305,9 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${!myNFTsActive && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                !myNFTsActive && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
