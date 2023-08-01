@@ -7,9 +7,9 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
 const storage = new ThirdwebStorage();
 
-export const COLLECTION_ADDRESS = 
+export const COLLECTION_ADDRESS =
   "0:f7a905b222847612294e633e9bbe400972418251450cdff86c9bf42301cbe634";
-  
+
 export const MARKETPLACE_ADDRESS =
   "0:8a67e6ca3d6b101026238a0c1e0ce1e2e7f11a4773feff934608701f01ec4cfb";
 
@@ -37,7 +37,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   return nfts;
 };
 
-// getting nft code hash 
+// getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
   const contract = new provider.Contract(collectionAbi, collectionAddress);
@@ -55,8 +55,7 @@ export const getNftAddresses = async (codeHash, provider) => {
   return addresses?.accounts;
 };
 
-
-// loading all the nft collection nfts 
+// loading all the nft collection nfts
 export const loadNFTs_collection = async (provider, collection_address) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
@@ -197,6 +196,10 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
+  const { count: id } = await contract.methods
+    .totalSupply({ answerId: 0 })
+    .call();
+
   try {
     const ipfs_image =
       typeof data.image == "string"
@@ -205,7 +208,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
 
     const nft_json = JSON.stringify({
       type: "Basic NFT",
-      id: 0,
+      id,
       name: data.name,
       description: data.description,
       preview: {
@@ -228,10 +231,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       collectionAbi,
       COLLECTION_ADDRESS
     );
-
-    const { count: id } = await contract.methods
-      .totalSupply({ answerId: 0 })
-      .call();
 
     const outputs = await contract.methods.mintNft({ json: nft_json }).send({
       from: new Address(signer_address),
