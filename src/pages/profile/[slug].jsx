@@ -14,8 +14,14 @@ import { list_nft } from "@/utils/user_nft";
 import { BsDiscord, BsTwitter } from "react-icons/bs";
 import { check_user } from "@/utils/mongo_api/user/user";
 
-
-const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL }) => {
+const Profile = ({
+  theme,
+  signer_address,
+  blockURL,
+  standalone,
+  webURL,
+  copyURL,
+}) => {
   const [user_data, set_user_data] = useState({});
   const [loading, set_loading] = useState(false);
 
@@ -42,7 +48,6 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
     res?.map((e) => {
       nfts.push({ ...JSON.parse(e.json), ...e });
     });
-    console.log(nfts);
     set_nfts(nfts);
     set_loading(false);
   };
@@ -54,6 +59,7 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
   };
 
   useEffect(() => {
+    if (!signer_address) return;
     get_my_nfts();
     get_user();
   }, [signer_address, standalone]);
