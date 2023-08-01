@@ -52,3 +52,17 @@ export const update_profile = async (data) => {
 
   return res.data;
 };
+
+export const user_info = async (wallet_id) => {
+  try {
+    const { data } = await axios({
+      url: "/api/user/user_info",
+      method: "POST",
+      data: { wallet_id },
+    });
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
