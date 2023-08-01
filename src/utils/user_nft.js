@@ -196,10 +196,15 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
+  const contract = new venomProvider.Contract(
+    collectionAbi,
+    COLLECTION_ADDRESS
+  );
+
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
     .call();
-
+  console.log({ id });
   try {
     const ipfs_image =
       typeof data.image == "string"
@@ -227,11 +232,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       collection_name: data.collection,
     });
 
-    const contract = new venomProvider.Contract(
-      collectionAbi,
-      COLLECTION_ADDRESS
-    );
-
     const outputs = await contract.methods.mintNft({ json: nft_json }).send({
       from: new Address(signer_address),
       amount: "1000000000",
@@ -241,8 +241,21 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const create_launchpad_nft = async (data, signer_address, venomProvider) => {
+export const create_launchpad_nft = async (
+  data,
+  signer_address,
+  venomProvider
+) => {
   try {
+    const contract = new venomProvider.Contract(
+      collectionAbi,
+      COLLECTION_ADDRESS
+    );
+
+    const { count: id } = await contract.methods
+      .totalSupply({ answerId: 0 })
+      .call();
+    console.log({ id });
     const ipfs_image =
       typeof data.image == "string"
         ? data.image
@@ -250,8 +263,8 @@ export const create_launchpad_nft = async (data, signer_address, venomProvider) 
 
     const nft_json = JSON.stringify({
       type: "VenomartPass",
-      id: 0,
-      name: data.name,
+      id: id,
+      name: `${data.name} #${id}`,
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
@@ -268,21 +281,13 @@ export const create_launchpad_nft = async (data, signer_address, venomProvider) 
       nft_image: ipfs_image,
       collection_name: data.collectionName,
     });
-
-    const contract = new venomProvider.Contract(
-      collectionAbi,
-      data.collectionAddress
-    );
-
-    const { count: id } = await contract.methods
-      .totalSupply({ answerId: 0 })
-      .call();
-
+    console.log({ mintPrice: data.mintPrice });
     const outputs = await contract.methods.mintNft({ json: nft_json }).send({
       from: new Address(signer_address),
-      // amount: (data.mintPrice * 1000000000),
-      amount: "1000000000",
+      amount: (data.mintPrice * 1000000000).toString(),
     });
+
+    console.log(outputs);
   } catch (error) {
     console.log(error.message);
   }

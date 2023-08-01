@@ -31,14 +31,14 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-
   const gettingCollectionInfo = async () => {
     if (standalone == undefined && slug == undefined) return;
     setLoading(true);
-    // getting nfts 
+    // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
+    console.log(nfts);
     set_nfts(nfts);
-    // getting contract info 
+    // getting contract info
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
     setLoading(false);
@@ -118,15 +118,17 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                   />
                 )}
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
-                  {collection?.isVerified ?
+                  {collection?.isVerified ? (
                     <MdVerified
                       style={{ color: "#4f87ff", cursor: "pointer" }}
                       size={30}
                     />
-                    :
-                    <BsFillExclamationCircleFill style={{ color: "#c3c944", cursor: "pointer" }}
-                      size={30} />
-                  }
+                  ) : (
+                    <BsFillExclamationCircleFill
+                      style={{ color: "#c3c944", cursor: "pointer" }}
+                      size={30}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -333,8 +335,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                         />
                       );
                     })}
