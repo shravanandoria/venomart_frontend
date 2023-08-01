@@ -7,6 +7,9 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
 import { get_listed_tokens } from "@/utils/user_nft";
+import { loadNFTs_collection } from "@/utils/user_nft";
+import { COLLECTION_ADDRESS } from "@/utils/user_nft";
+
 const NFTs = ({ theme, all_nfts, venomProvider }) => {
   const [loading, setLoading] = useState(false);
   const [notListedNFts, setNotListedNFts] = useState([]);
@@ -21,6 +24,7 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
   const [propShow, setPropShow] = useState(false);
 
   const [listed_nfts, set_listed_nfts] = useState([]);
+  const [nfts, set_nfts] = useState();
 
   const fetch_listed_nfts = async () => {
     if (venomProvider == undefined) return;
@@ -28,8 +32,15 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
     set_listed_nfts(res);
   };
 
+  const get_nfts = async () => {
+    const res = await loadNFTs_collection(venomProvider, COLLECTION_ADDRESS);
+    set_nfts(res);
+  };
+
   useEffect(() => {
+    if (!venomProvider) return;
     fetch_listed_nfts();
+    get_nfts();
   }, [venomProvider]);
 
   return (
@@ -57,7 +68,8 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore NFTs
               </h1>
-              <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">Explore and trade the amazing NFTs on venomart marketplace
+              <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+                Explore and trade the amazing NFTs on venomart marketplace
               </p>
 
               {/* <!-- Filters --> */}
@@ -66,8 +78,9 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                     <a
                       href="#"
-                      className={`${propShow && "border-transparent bg-accent text-white"
-                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${
+                        propShow && "border-transparent bg-accent text-white"
+                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -88,8 +101,9 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   >
                     <a
                       href="#"
-                      className={`${!propShow && "border-transparent bg-accent text-white"
-                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${
+                        !propShow && "border-transparent bg-accent text-white"
+                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -133,18 +147,26 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   ) : (
                     <>
                       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                        {all_nfts?.map((e) => (
-                          <NftCard
-                            ImageSrc={e.ImageSrc}
-                            Name={e.Name}
-                            Description={e.Description}
-                            Address={e.Address}
-                            tokenId={e.TokenId}
-                            listedBool={e.listedBool}
-                            listingPrice={e.listingPrice}
-                          />
-                        ))}
-                        {all_nfts?.length <= 0 && <h2>No NFTs Found</h2>}
+                        {nfts?.map((e, index) => {
+                          return (
+                            <NftCard
+                              key={index}
+                              ImageSrc={e?.nft_image?.replace(
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )}
+                              Name={e?.name}
+                              Description={e?.description}
+                              Address={e.nftAddress._address}
+                              tokenId={e?.id}
+                              chainImgPre={"../"}
+                              // listedBool={e?.isListed}
+                              chain_image={e?.chain_image}
+                              chain_symbol={e?.chain_symbol}
+                            />
+                          );
+                        })}
+                        {nfts?.length <= 0 && <h2>No NFTs Found</h2>}
                       </div>
                       <Pagination
                         totalPosts={notListedNFts.length}
