@@ -12,7 +12,7 @@ import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
 import { list_nft } from "@/utils/user_nft";
 import { BsDiscord, BsTwitter } from "react-icons/bs";
-import { check_user } from "@/utils/mongo_api/user/user";
+import { user_info } from "@/utils/mongo_api/user/user";
 
 const Profile = ({
   theme,
@@ -53,9 +53,10 @@ const Profile = ({
   };
 
   const get_user = async () => {
-    const data = await check_user(signer_address);
-    console.log({ data: data })
-    set_user_data(data.user);
+    const data = await user_info(signer_address);
+
+    // console.log({ data: data });
+    // set_user_data(data.user);
   };
 
   useEffect(() => {
