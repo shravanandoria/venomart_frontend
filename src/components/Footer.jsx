@@ -120,14 +120,14 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                     Create NFT
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/mint/CreateNFTCollection"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Create Collection
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
 

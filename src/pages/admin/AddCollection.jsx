@@ -3,7 +3,7 @@ import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-const AddCollection = ({ theme }) => {
+const AddCollection = ({ theme, create_new_collection }) => {
     const router = useRouter();
     const [loading, set_loading] = useState(false);
     const [preview, set_preview] = useState({ logo: "", cover: "" });
@@ -12,7 +12,7 @@ const AddCollection = ({ theme }) => {
         contractAddress: "",
         creatorAddress: "",
         logo: "",
-        image: "",
+        coverImage: "",
         royalty: "",
         description: "",
     });
@@ -22,6 +22,14 @@ const AddCollection = ({ theme }) => {
             ...data,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const handle_submit = async (e) => {
+        e.preventDefault();
+        set_loading(true);
+        await create_new_collection({ ...data });
+        set_loading(false);
+        // router.push("/explore/Collections");
     };
 
     return (
@@ -39,7 +47,7 @@ const AddCollection = ({ theme }) => {
             {loading ? (
                 <Loader theme={theme} />
             ) : (
-                <form onSubmit="" className="relative py-24  dark:bg-jacarta-900">
+                <form onSubmit={handle_submit} className="relative py-24  dark:bg-jacarta-900">
                     <div className="container">
                         <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                             Add NFT Collection
@@ -143,7 +151,7 @@ const AddCollection = ({ theme }) => {
                                             set_data({ ...data, image: e.target.files[0] });
                                         }}
                                         type="file"
-                                        name="image"
+                                        name="coverImage"
                                         accept="image/*,video/*"
                                         id="file-upload"
                                         className="absolute inset-0 z-20 cursor-pointer opacity-0"

@@ -187,7 +187,7 @@ const Rankings = ({ theme }) => {
                             </div>
 
                             {/* loop all the collections here  */}
-                            <a href="user.html" className="flex transition-shadow hover:shadow-lg" role="row">
+                            {/* <a href="user.html" className="flex transition-shadow hover:shadow-lg" role="row">
                                 <div
                                     className="flex w-[28%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                     role="cell"
@@ -251,7 +251,8 @@ const Rankings = ({ theme }) => {
                                 >
                                     <span>10.0K</span>
                                 </div>
-                            </a>
+                            </a> */}
+                            <h2 className='text-center p-4'>Coming soon..</h2>
                         </div>
                     </div>
                 </div>

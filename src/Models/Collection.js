@@ -1,8 +1,20 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const LaunchpadSchema = new Schema({
+const CollectionSchema = new mongoose.Schema({
+    contractAddress: {
+        type: String,
+        unique: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
+    coverImage: String,
+    logo: String,
     name: String,
+    royalty: String,
+    description: String,
 });
 
 module.exports =
-    mongoose.models?.Launchpad || mongoose.model("Launchpad", LaunchpadSchema);
+    mongoose.models?.Collection || mongoose.model("Collection", CollectionSchema);

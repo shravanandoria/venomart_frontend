@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import Loader from "@/components/Loader";
 import Head from "next/head";
+import { BsDiscord } from "react-icons/bs";
 
 const EditProfile = ({ signer_address, theme }) => {
     const storage = new ThirdwebStorage();
@@ -17,7 +18,7 @@ const EditProfile = ({ signer_address, theme }) => {
         profileImage: "",
         coverImage: "",
         twitter: "",
-        instagram: "",
+        discord: "",
         customLink: "",
         isArtist: false
     });
@@ -50,7 +51,7 @@ const EditProfile = ({ signer_address, theme }) => {
                 <div className="relative pt-24 dark:bg-jacarta-900">
                     {data.coverImage == "" && coverImg_preview == "" ? (
                         <Image
-                            src="/twitterback.png"
+                            src="/gradient_dark.jpg"
                             alt="banner"
                             width={100}
                             height={100}
@@ -129,7 +130,7 @@ const EditProfile = ({ signer_address, theme }) => {
                                         htmlFor="profile-bio"
                                         className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                                     >
-                                        Bio<span className="text-red">*</span>
+                                        Bio
                                     </label>
                                     <textarea
                                         name="bio"
@@ -137,7 +138,6 @@ const EditProfile = ({ signer_address, theme }) => {
                                         onChange={handleChange}
                                         id="profile-bio"
                                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
-                                        required
                                         placeholder="Tell the world your story!"
                                     ></textarea>
                                 </div>
@@ -147,8 +147,11 @@ const EditProfile = ({ signer_address, theme }) => {
                                         htmlFor="profile-email"
                                         className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                                     >
-                                        Email address<span className="text-red">*</span>
+                                        Email address
                                     </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                        your email address will be safe with us
+                                    </p>
                                     <input
                                         type="email"
                                         name="email"
@@ -157,7 +160,6 @@ const EditProfile = ({ signer_address, theme }) => {
                                         id="profile-email"
                                         className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
                                         placeholder="Enter email"
-                                        required
                                     />
                                 </div>
 
@@ -166,7 +168,7 @@ const EditProfile = ({ signer_address, theme }) => {
                                         htmlFor="profile-email"
                                         className="mb-1 block font-display text-sm text-jacarta-700 dark:text-white"
                                     >
-                                        Are you a NFT artist ? <span className="text-red">*</span>
+                                        Are you a NFT artist ?
                                     </label>
                                     <select
                                         onChange={() =>
@@ -218,7 +220,7 @@ const EditProfile = ({ signer_address, theme }) => {
                                         <div className="relative inline-block">
                                             {data.profileImage == "" && profImg_preview == "" ? (
                                                 <Image
-                                                    src="/twitterback.png"
+                                                    src="/deflogo.png"
                                                     alt="logo"
                                                     width={100}
                                                     height={100}
@@ -307,30 +309,19 @@ const EditProfile = ({ signer_address, theme }) => {
                                             onChange={handleChange}
                                             id="profile-twitter"
                                             className="w-full rounded-t-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
-                                            placeholder="@twittername"
+                                            placeholder="@twitter"
                                         />
                                     </div>
                                     <div className="relative">
-                                        <svg
-                                            aria-hidden="true"
-                                            focusable="false"
-                                            data-prefix="fab"
-                                            data-icon="instagram"
-                                            className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400"
-                                            role="img"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 448 512"
-                                        >
-                                            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
-                                        </svg>
+                                        <BsDiscord className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 fill-jacarta-300 dark:fill-jacarta-400" />
                                         <input
-                                            name="instagram"
-                                            value={data.instagram}
+                                            name="discord"
+                                            value={data.discord}
                                             type="text"
                                             onChange={handleChange}
-                                            id="profile-instagram"
+                                            id="profile-discord"
                                             className="-mt-px w-full border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
-                                            placeholder="instagramname"
+                                            placeholder="discord username"
                                         />
                                     </div>
                                     <div className="relative">
@@ -351,7 +342,7 @@ const EditProfile = ({ signer_address, theme }) => {
                                             type="url"
                                             id="profile-website"
                                             className="-mt-px w-full rounded-b-lg border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
-                                            placeholder="yoursitename.com"
+                                            placeholder="example.com"
                                         />
                                     </div>
                                 </div>

@@ -19,6 +19,10 @@ const CreateLaunch = ({ theme }) => {
         jsonUrl: "",
         mintPrice: "",
         royalty: "",
+        startDate: "",
+        endDate: "",
+        isActive: true,
+        comments: "",
     });
 
     const handleChange = (e) => {
@@ -206,13 +210,16 @@ const CreateLaunch = ({ theme }) => {
                                 >
                                     Collection Contract Address<span className="text-red">*</span>
                                 </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    Enter official collection address of this collection
+                                </p>
                                 <input
                                     onChange={handleChange}
                                     name="contractAddress"
                                     type="text"
                                     id="item-name"
                                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f....."
                                     required
                                 />
                             </div>
@@ -225,13 +232,16 @@ const CreateLaunch = ({ theme }) => {
                                 >
                                     Creator Address<span className="text-red">*</span>
                                 </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    Make sure to enter the address of owner of this collection
+                                </p>
                                 <input
                                     onChange={handleChange}
                                     name="creatorAddress"
                                     type="text"
                                     id="item-name"
                                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f..."
                                     required
                                 />
                             </div>
@@ -261,7 +271,7 @@ const CreateLaunch = ({ theme }) => {
                                     htmlFor="item-name"
                                     className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                 >
-                                    NFT Image<span className="text-red">*</span>
+                                    NFT Image
                                 </label>
                                 <p className="mb-3 text-2xs dark:text-jacarta-300">
                                     If don't have json just add an single image URL
@@ -282,7 +292,7 @@ const CreateLaunch = ({ theme }) => {
                                     htmlFor="item-name"
                                     className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                 >
-                                    JSON URL<span className="text-red">*</span>
+                                    JSON URL
                                 </label>
                                 <p className="mb-3 text-2xs dark:text-jacarta-300">
                                     Please enter your JSON url (metadata for NFTs)
@@ -340,6 +350,90 @@ const CreateLaunch = ({ theme }) => {
                                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
                                     placeholder="Eg: 5%"
                                     required
+                                />
+                            </div>
+
+                            {/* status  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    Default live status
+                                </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    If true then the launch will be immediately created
+                                </p>
+                                <select
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    name="isActive"
+                                    onChange={handleChange}
+                                >
+                                    <option value={true}>True</option>
+                                    <option value={false}>False</option>
+                                </select>
+                            </div>
+
+                            {/* start date  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    Start Date
+                                </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    NFT minting will be live at the selected date (timer will be started on frontend)
+                                </p>
+                                <input
+                                    onChange={handleChange}
+                                    name="startDate"
+                                    type="date"
+                                    id="item-name"
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    placeholder="Eg: owner is legit and here are asset url, discord id, etc"
+                                />
+                            </div>
+
+                            {/* start date  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    End Date
+                                </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    NFT minting will end at the selected date (timer will be ended on frontend)
+                                </p>
+                                <input
+                                    onChange={handleChange}
+                                    name="endDate"
+                                    type="date"
+                                    id="item-name"
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    placeholder="Eg: owner is legit and here are asset url, discord id, etc"
+                                />
+                            </div>
+
+                            {/* other Comments  */}
+                            <div className="mb-6">
+                                <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                >
+                                    Add Comments
+                                </label>
+                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    Mention any original asset URL or owner info or anything just for future dispute reference
+                                </p>
+                                <input
+                                    onChange={handleChange}
+                                    name="comments"
+                                    type="text"
+                                    id="item-name"
+                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                    placeholder="Eg: owner is legit and here are asset url, discord id, etc"
                                 />
                             </div>
 
