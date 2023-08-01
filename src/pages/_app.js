@@ -21,7 +21,7 @@ import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-import { check_user } from "@/utils/mongo_api/user";
+import { check_user } from "@/utils/mongo_api/user/user";
 
 export default function App({ Component, pageProps }) {
   // default values
