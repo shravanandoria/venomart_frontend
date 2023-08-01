@@ -64,7 +64,7 @@ const Collections = ({ theme }) => {
               </p>
 
               {/* loop collections here  */}
-              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+              <div className="flex justify-center align-middle flex-wrap">
                 {currentCollections?.map((e, index) => (
                   <CollectionCard
                     key={index}
