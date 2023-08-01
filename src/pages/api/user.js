@@ -44,12 +44,14 @@ export default async function handler(req, res) {
           socials,
           isArtist,
         } = req.body;
+        
         let user;
         user = await User.findOne({ wallet_id });
         if (!user)
           return res
             .status(404)
             .json({ success: false, data: "Cannot Find The User" });
+            
         const update_user = await User.findOneAndUpdate(
           { wallet_id },
           {
