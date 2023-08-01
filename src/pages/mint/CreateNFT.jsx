@@ -51,7 +51,10 @@ const CreateNFT = ({
 
   const handle_submit = async (e) => {
     e.preventDefault();
-    create_nft(data, signer_address, venomProvider);
+    set_loading(true);
+    await create_nft(data, signer_address, venomProvider);
+    router.push(`/profile/${signer_address}`)
+    set_loading(false);
   };
 
   return (

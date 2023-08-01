@@ -21,7 +21,10 @@ import VenomConnect from "venom-connect";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
+// mongo imports 
 import { check_user } from "@/utils/mongo_api/user/user";
+import { get_collections } from "@/utils/mongo_api/collection/collection";
+
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -42,16 +45,8 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
-  // test collection array
-  const all_collections = [
-    {
-      Cover: defBack,
-      Logo: defLogo,
-      Name: "cover",
-      OwnerAddress: "cover",
-      CollectionAddress: "cover",
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [collections, set_collections] = useState([]);
 
   // test collection array
   const all_nfts = [
@@ -77,6 +72,18 @@ export default function App({ Component, pageProps }) {
     if (signer_address == undefined) return;
     check_user(signer_address);
   }, [signer_address]);
+
+  const fetch_all_collections = async () => {
+    setLoading(true);
+    const res = await get_collections();
+    set_collections(res.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetch_all_collections();
+  }, []);
+
 
   // connect wallet start
   const init = async () => {
@@ -172,10 +179,11 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         blockChain={blockChain}
         currency={currency}
-        all_collections={all_collections}
         all_nfts={all_nfts}
         webURL={webURL}
         copyURL={copyURL}
+        collections={collections}
+        loading={loading}
       />
       <Footer
         theme={theme}

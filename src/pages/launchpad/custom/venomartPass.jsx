@@ -21,22 +21,22 @@ const Collection = ({
     const { slug } = router.query;
 
     // customData 
-    const CoverIMG = "https://fastly.picsum.photos/id/863/536/354.jpg?hmac=Pc_Kw1tMoLab_86F77KSBtpZ0bkge2mpNZBBYVobhec";
-    const NFTIMG = "";
+    const CoverIMG = "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg";
+    const NFTIMG = "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif";
 
     const pageName = "VenomartPass";
     const ProjectName = "Venomart Passes";
-    const shortDesc = "Venomartt";
+    const shortDesc = "Get exclusive passes of venomart marketplace. exclusive pass holders will get benefits like airdrops, whitelisiting priority, etc";
     const contractAddress = "";
     const mintPrice = "1";
 
-    const twitterURL = "Venomart Passes";
-    const discordURL = "";
+    const twitterURL = "https://twitter.com/venomart23";
+    const discordURL = " https://discord.gg/wQbBr6Xean";
     const instagramURL = "";
     const telegramURL = "";
 
-    const task1Twitter = "";
-    const task2Discord = "";
+    const task1Twitter = "https://twitter.com/venomart23";
+    const task2Discord = "https://discord.gg/wQbBr6Xean";
 
 
 
@@ -45,7 +45,6 @@ const Collection = ({
 
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
-    const [collection, set_collection] = useState({});
 
     const verifyAction = () => {
         setCompLoading(true);

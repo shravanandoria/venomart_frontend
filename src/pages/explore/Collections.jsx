@@ -6,26 +6,15 @@ import Pagination from "@/components/Pagination";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
 import Loader from "@/components/Loader";
 
-const Collections = ({ theme }) => {
-  const [loading, setLoading] = useState(false);
+const Collections = ({ theme, collections, loading }) => {
+  // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
-  const [collections, set_collections] = useState([]);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollections = collections.slice(firstPostIndex, lastPostIndex);
 
-  const fetch_all_collections = async () => {
-    setLoading(true);
-    const res = await get_collections();
-    set_collections(res.data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetch_all_collections();
-  }, []);
 
   return (
     <>
@@ -48,13 +37,6 @@ const Collections = ({ theme }) => {
       ) : (
         <div className={`${theme}`}>
           <section className="relative py-24 dark:bg-jacarta-800">
-            <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-              <img
-                src="img/gradient_light.jpg"
-                alt="gradient"
-                className="h-full w-full"
-              />
-            </picture>
             <div className="container">
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore Collections
@@ -68,11 +50,8 @@ const Collections = ({ theme }) => {
                 {currentCollections?.map((e, index) => (
                   <CollectionCard
                     key={index}
-                    Cover={e.coverImage.replace(
-                      "ipfs://",
-                      "https://ipfs.io/ipfs/"
-                    )}
-                    Logo={e.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                    Cover={e.coverImage}
+                    Logo={e.logo}
                     Name={e.name}
                     OwnerAddress={e.OwnerAddress}
                     CollectionAddress={e.contractAddress}

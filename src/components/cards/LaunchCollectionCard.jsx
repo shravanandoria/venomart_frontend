@@ -10,10 +10,12 @@ const LaunchCollectionCard = ({
   Cover,
   Logo,
   Name,
+  Description,
   mintPrice,
   totalItems,
   CollectionAddress,
-  customLink
+  customLink,
+  verified
 }) => {
   return (
     <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[370px] w-[280px] overflow-hidden  m-4 sm:m-8">
@@ -57,15 +59,22 @@ const LaunchCollectionCard = ({
         >
           {Name}
         </Link>
-        <MdVerified
-          style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
-          size={25}
-        />
+        {verified ?
+          <MdVerified
+            style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
+            size={25}
+          />
+          :
+          <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "6px", marginTop: "35px" }}
+            size={20} />
+        }
       </div>
 
-      <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
-        <div className="flex flex-wrap items-center">
-          <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corrupti error qui ab consequatur, optio praesentium repellat quibusdam alias, amet nostrum. Ut, nostrum! Ut, saepe! Error aspernatur corporis molestias necessitatibus vel ipsam eum itaque, repellat obcaecati? Dolorum, ipsum, commodi enim tempore, repudiandae beatae nemo ipsam nulla officiis voluptate nostrum aut?</span>
+      <div className="mt-2 flex items-center justify-center text-sm font-medium tracking-tight">
+        <div className="flex flex-wrap justify-center items-center">
+          <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
+            {Description}
+          </span>
         </div>
       </div>
       <div className="flex justify-between align-middle my-6 mx-2">

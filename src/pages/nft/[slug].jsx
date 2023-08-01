@@ -185,7 +185,8 @@ const NFTPage = ({
                     nft?.owner?._address == signer_address && (
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
-                          onClick={() => setListSale(true)}
+                          onClick={() => alert("Listing is currently disabled!")}
+                          // onClick={() => setListSale(true)}
                           href="#"
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                         >

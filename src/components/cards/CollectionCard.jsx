@@ -9,8 +9,10 @@ const CollectionCard = ({
     Cover,
     Logo,
     Name,
+    Description,
     OwnerAddress,
-    CollectionAddress
+    CollectionAddress,
+    verified
 }) => {
     return (
         <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[300px] overflow-hidden m-4 sm:m-8">
@@ -20,8 +22,7 @@ const CollectionCard = ({
             >
                 <span className="w-[100%] h-[150px]">
                     <Image
-                        // src={Cover?.replace("ipfs://", "https://ipfs.io/ipfs/")}
-                        src={Cover}
+                        src={Cover?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                         alt="Cover Image"
                         className="h-full w-[100%] rounded-[0.625rem] object-cover"
                         loading="lazy"
@@ -31,8 +32,7 @@ const CollectionCard = ({
                 </span>
                 <span className="absolute bottom-[-25px] right-24">
                     <Image
-                        // src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
-                        src={Logo}
+                        src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                         alt="Logo"
                         className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
                         loading="lazy"
@@ -54,10 +54,16 @@ const CollectionCard = ({
                 >
                     {Name}
                 </Link>
-                <MdVerified
-                    style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
-                    size={25}
-                />
+                {verified}
+                {verified ?
+                    <MdVerified
+                        style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
+                        size={25}
+                    />
+                    :
+                    <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "6px", marginTop: "35px" }}
+                        size={20} />
+                }
             </div>
             <div className="flex">
                 <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
@@ -65,9 +71,11 @@ const CollectionCard = ({
                 </span>
             </div>
 
-            <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
-                <div className="flex flex-wrap items-center">
-                    <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente corrupti error qui ab consequatur, optio praesentium repellat quibusdam alias, amet nostrum. Ut, nostrum! Ut, saepe! Error aspernatur corporis molestias necessitatibus vel ipsam eum itaque, repellat obcaecati? Dolorum, ipsum, commodi enim tempore, repudiandae beatae nemo ipsam nulla officiis voluptate nostrum aut?</span>
+            <div className="mt-2 flex items-center justify-center text-sm font-medium tracking-tight">
+                <div className="flex justify-center flex-wrap items-center">
+                    <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
+                        {Description}
+                    </span>
                 </div>
             </div>
             <div className="flex justify-between align-middle my-6">

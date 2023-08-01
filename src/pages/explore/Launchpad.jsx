@@ -31,13 +31,6 @@ const Launchpad = ({ theme, all_collections }) => {
 
             <div className={`${theme}`}>
                 <section className="relative py-24 dark:bg-jacarta-800">
-                    <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-                        <img
-                            src="img/gradient_light.jpg"
-                            alt="gradient"
-                            className="h-full w-full"
-                        />
-                    </picture>
                     <div className="container">
                         <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                             Launchpad Collections
@@ -46,7 +39,7 @@ const Launchpad = ({ theme, all_collections }) => {
                         </p>
 
                         {/* loop public collections here  */}
-                        {/* <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+                        {/* <div className="flex justify-center align-middle flex-wrap">
                             {currentCollections?.map((e, index) => (
                                 <LaunchCollectionCard
                                     key={index}
@@ -66,11 +59,12 @@ const Launchpad = ({ theme, all_collections }) => {
                         /> */}
 
                         {/* add custom launch here  */}
-                        <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+                        <div className="flex justify-center align-middle flex-wrap">
                             <LaunchCollectionCard
-                                Cover={""}
-                                Logo={""}
+                                Cover={"https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"}
+                                Logo={"https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"}
                                 Name={"venomart Passes"}
+                                Description={"venomart Passes"}
                                 mintPrice={"1"}
                                 totalItems={"1000"}
                                 CollectionAddress={""}

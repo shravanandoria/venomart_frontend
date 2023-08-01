@@ -44,8 +44,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const get_collection_info = async () => {
     setLoading(true);
     const res = await get_collection_by_contract(slug);
-    console.log(res.data);
-    set_collection(res.data);
+    console.log(res?.data);
+    set_collection(res?.data);
     setLoading(false);
   };
 

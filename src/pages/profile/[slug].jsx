@@ -4,7 +4,7 @@ import defBack from "../../../public/gradient_dark.jpg";
 import defLogo from "../../../public/deflogo.png";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
-import CollectionCard from "@/components/cards/LaunchCollectionCard";
+import CollectionCard from "@/components/cards/CollectionCard";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import Link from "next/link";
@@ -53,10 +53,11 @@ const Profile = ({
   };
 
   const get_user = async () => {
+    set_loading(true);
     const data = await user_info(signer_address);
-
-    // console.log({ data: data });
-    // set_user_data(data.user);
+    console.log({ userdata: data });
+    set_user_data(data.data);
+    set_loading(false);
   };
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const Profile = ({
         />
         <meta
           name="keywords"
-          content={`venomart, ${user_data?.name} profile on venomart, ${user_data?.name} venomart, ${user_data?.wallet} `}
+          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${user_data?.wallet} `}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -121,7 +122,7 @@ const Profile = ({
           <div className="text-center">
             {/* username  */}
             <h2 className="mb-6 mt-[-15px] font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-              {user_data?.username}
+              {user_data?.user_name}
             </h2>
 
             {/* block URL  */}
@@ -269,9 +270,8 @@ const Profile = ({
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${
-                myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -303,9 +303,8 @@ const Profile = ({
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${
-                !myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${!myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -387,19 +386,21 @@ const Profile = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
-                  {my_collections?.map((e, index) => (
+                  {user_data?.nftCollections?.map((e, index) => (
                     <CollectionCard
                       key={index}
-                      Cover={e.Cover}
-                      Logo={e.Logo}
-                      Name={e.Name}
-                      OwnerAddress={e.OwnerAddress}
-                      CollectionAddress={e.CollectionAddress}
+                      Cover={e?.coverImage}
+                      Logo={e?.logo}
+                      Name={e?.name}
+                      Description={e?.description}
+                      OwnerAddress={e?.creatorAddress}
+                      CollectionAddress={e?.contractAddress}
+                      verified={e?.isVerified}
                     />
                   ))}
                 </div>
                 <div className="flex justify-center">
-                  {my_collections?.length <= 0 && (
+                  {user_data?.nftCollections?.length <= 0 && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No Collections to show!
                     </h2>
