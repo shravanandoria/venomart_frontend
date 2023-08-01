@@ -10,12 +10,15 @@ import { GoArrowUpRight } from "react-icons/go";
 import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "@/components/Loader";
+import { create_launchpad_nft } from "@/utils/user_nft";
 
 const Collection = ({
     blockURL,
     theme,
     webURL,
-    copyURL
+    copyURL,
+    venomProvider,
+    signer_address
 }) => {
     const router = useRouter();
     const { slug } = router.query;
@@ -28,7 +31,7 @@ const Collection = ({
     const ProjectName = "Venomart Passes";
     const shortDesc = "Get exclusive passes of venomart marketplace. exclusive pass holders will get benefits like airdrops, whitelisiting priority, etc";
     const contractAddress = "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0";
-    const mintPrice = "0.5";
+    const mintPrice = "1";
 
     const twitterURL = "https://twitter.com/venomart23";
     const discordURL = " https://discord.gg/wQbBr6Xean";
@@ -39,12 +42,28 @@ const Collection = ({
     const task2Discord = "https://discord.gg/wQbBr6Xean";
 
 
-
     const [loading, setLoading] = useState(false);
     const [comLoading, setCompLoading] = useState(false);
 
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
+
+    const [data, set_data] = useState({
+        image: NFTIMG,
+        collectionName: ProjectName,
+        name: "Venomart Early Pass",
+        description: shortDesc,
+        collectionAddress: contractAddress,
+        mintPrice: mintPrice,
+        properties: [{ type: "passType", value: "Early Pass" }, { type: "Version", value: "Testnet" }],
+    });
+
+
+    const mintLaunchNFT = async () => {
+        console.log("clk")
+        const launchMint = await create_launchpad_nft(data, signer_address, venomProvider);
+        console.log(launchMint)
+    }
 
     const verifyAction = () => {
         setCompLoading(true);
@@ -217,7 +236,7 @@ const Collection = ({
                                             {!actionVerify ?
                                                 <button onClick={() => alert("please complete the tasks and verify to continue minting!")} className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint <AiFillLock className="mt-[4px] ml-[5px]" /></button>
                                                 :
-                                                <button className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint NFT</button>
+                                                <button onClick={() => mintLaunchNFT()} className="flex justify-center w-40 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Mint NFT</button>
                                             }
 
                                             {/* share btn  */}

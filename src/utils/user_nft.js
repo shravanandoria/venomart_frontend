@@ -241,6 +241,53 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
+export const create_launchpad_nft = async (data, signer_address, venomProvider) => {
+  try {
+    const ipfs_image =
+      typeof data.image == "string"
+        ? data.image
+        : await storage.upload(data.image);
+
+    const nft_json = JSON.stringify({
+      type: "VenomartPass",
+      id: 0,
+      name: data.name,
+      description: data.description,
+      preview: {
+        source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        mimetype: "image/gif",
+      },
+      files: [
+        {
+          source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        },
+      ],
+      attributes: data.properties.filter((e) => e.type.length > 0),
+      external_url: "https://venomart.space",
+      nft_image: ipfs_image,
+      collection_name: data.collectionName,
+    });
+
+    const contract = new venomProvider.Contract(
+      collectionAbi,
+      data.collectionAddress
+    );
+
+    const { count: id } = await contract.methods
+      .totalSupply({ answerId: 0 })
+      .call();
+
+    const outputs = await contract.methods.mintNft({ json: nft_json }).send({
+      from: new Address(signer_address),
+      // amount: (data.mintPrice * 1000000000),
+      amount: "1000000000",
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const list_nft = async (
   nft_address,
   price,
