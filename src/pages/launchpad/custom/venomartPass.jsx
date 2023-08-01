@@ -12,6 +12,7 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
 
+
 const Collection = ({
     blockURL,
     theme,
@@ -60,9 +61,8 @@ const Collection = ({
 
 
     const mintLaunchNFT = async () => {
-        console.log("clk")
         const launchMint = await create_launchpad_nft(data, signer_address, venomProvider);
-        console.log(launchMint)
+        router.push(`/collection/${contractAddress}`);
     }
 
     const verifyAction = () => {
