@@ -4,10 +4,12 @@ const storage = new ThirdwebStorage();
 
 export const check_user = async (wallet_id) => {
   const current = new Date();
-  const strDate = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+  const strDate = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
 
   const res = await axios({
-    url: "/api/user",
+    url: "/api/user/user",
     method: "POST",
     data: {
       wallet_id,
@@ -20,6 +22,7 @@ export const check_user = async (wallet_id) => {
       isArtist: false,
     },
   });
+
   return res.data;
 };
 
@@ -33,7 +36,7 @@ export const update_profile = async (data) => {
     : data.coverImage;
 
   const res = await axios({
-    url: "/api/user",
+    url: "/api/user/user",
     method: "PUT",
     data: {
       wallet_id: data.wallet_id,
