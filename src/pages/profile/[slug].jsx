@@ -377,15 +377,11 @@ const Profile = ({ theme, signer_address, blockURL, standalone, webURL, copyURL 
                   {my_collections?.map((e, index) => (
                     <CollectionCard
                       key={index}
-                      Cover={e.coverImage}
-                      Logo={e.logo}
-                      Name={e.name}
-                      Description={e.description}
-                      OwnerAddress={e.owner}
-                      CollectionAddress={e.collection_address}
-                      chain_image={e.chain_image}
-                      isCollectionVerified={e.isCollectionVerified}
-                      chainImgPre={"../"}
+                      Cover={e.Cover}
+                      Logo={e.Logo}
+                      Name={e.Name}
+                      OwnerAddress={e.OwnerAddress}
+                      CollectionAddress={e.CollectionAddress}
                     />
                   ))}
                 </div>
