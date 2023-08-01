@@ -54,6 +54,7 @@ const Profile = ({
 
   const get_user = async () => {
     const data = await check_user(signer_address);
+    console.log({ data: data })
     set_user_data(data.user);
   };
 
