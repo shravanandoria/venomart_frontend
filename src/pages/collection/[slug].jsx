@@ -185,7 +185,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold mr-2">2</span>
+                      <span className="font-bold mr-2">0</span>
                       <Image
                         src={venomLogo}
                         height={100}
@@ -206,7 +206,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold mr-2">2</span>
+                      <span className="font-bold mr-2">0</span>
                       <Image
                         src={venomLogo}
                         height={100}

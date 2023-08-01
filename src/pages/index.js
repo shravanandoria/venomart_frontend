@@ -205,12 +205,12 @@ export default function Home({ theme, all_collections }) {
       </section>
 
       {/* launchpad collections  */}
-      <div className="relative py-24 dark:bg-jacarta-800">
+      {/* <div className="relative py-24 dark:bg-jacarta-800">
         <div className="container">
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Venomart Launchpad </h2>
           </div>
-          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex justify-center align-middle flex-wrap">
             {all_collections?.map((e, index) => {
               return (
                 index < 8 && (
@@ -236,7 +236,7 @@ export default function Home({ theme, all_collections }) {
             </Link>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* top collections  */}
       {/* <section className="relative py-24 dark:bg-jacarta-700">
@@ -297,7 +297,7 @@ export default function Home({ theme, all_collections }) {
           <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
             <h2 className="inline">Trending Collections </h2>
           </div>
-          <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex justify-center align-middle flex-wrap">
             {all_collections?.map((e, index) => {
               return (
                 index < 8 && (

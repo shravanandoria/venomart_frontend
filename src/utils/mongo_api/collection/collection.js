@@ -1,29 +1,39 @@
 import axios from "axios";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
+const storage = new ThirdwebStorage();
 
 export const create_collection = async (data) => {
-  console.log(data);
-  // try {
-  //   const { data } = await axios({
-  //     url: "/api/collection",
-  //     method: "POST",
-  //     data,
-  //   });
-  //   console.log(data);
-  // } catch (error) {
-  //   console.log(error.message);
-  // }
+  const { coverImage, logo } = data;
+
+  const ipfs_logo = await storage.upload(logo);
+  const ipfs_coverImage = await storage.upload(coverImage);
+  let obj = {
+    ...data,
+    coverImage: ipfs_coverImage,
+    logo: ipfs_logo,
+  };
+  try {
+    const res = await axios({
+      url: "/api/collection",
+      method: "POST",
+      data: { ...obj },
+    });
+    console.log(res.data);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const get_collection_by_id = async (data) => {
   try {
-    const { data } = await axios({
+    const res = await axios({
       url: "/api/collection",
       method: "POST",
       data: {
         id: data,
       },
     });
-    console.log(data);
+    return res.data;
   } catch (error) {
     console.log(error.message);
   }
@@ -31,14 +41,27 @@ export const get_collection_by_id = async (data) => {
 
 export const get_users_collection = async (data) => {
   try {
-    const { data } = await axios({
+    const res = await axios({
       url: "/api/collection",
       method: "POST",
       data: {
         address: data,
       },
     });
-    console.log(data);
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const get_collections = async () => {
+  try {
+    const res = await axios({
+      url: "/api/collection",
+      method: "get",
+    });
+
+    return res.data;
   } catch (error) {
     console.log(error.message);
   }

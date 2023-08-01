@@ -13,7 +13,7 @@ const CollectionCard = ({
     CollectionAddress
 }) => {
     return (
-        <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[300px] overflow-hidden">
+        <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[300px] overflow-hidden m-4 sm:m-8">
             <Link
                 href={`/collection/${CollectionAddress}`}
                 className="relative flex space-x-[0.625rem]"
@@ -42,18 +42,17 @@ const CollectionCard = ({
                 </span>
             </Link>
 
-            <div className="flex">
+            <div className="flex justify-center align-middle text-center">
                 <Link
                     href={`/collection/${CollectionAddress}`}
-                    className=" mt-8 font-display text-[22px] text-right text-jacarta-700 hover:text-accent dark:text-white "
+                    className=" mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
                     style={{
-                        width: "180px",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
                         overflow: "hidden"
                     }}
                 >
-                    CoverSigma
+                    {Name}
                 </Link>
                 <MdVerified
                     style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
@@ -62,7 +61,7 @@ const CollectionCard = ({
             </div>
             <div className="flex">
                 <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
-                    1000 Items
+                    1000+ Items
                 </span>
             </div>
 
@@ -73,12 +72,12 @@ const CollectionCard = ({
             </div>
             <div className="flex justify-between align-middle my-6">
                 <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
-                    <span className="text-jacarta-400">Owners</span> 3
+                    <span className="text-jacarta-400">Owners</span> 50+
                 </button>
                 <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                     <span className="text-jacarta-400">Floor</span>
                     <span className="flex justify-center">
-                        2
+                        0
                         <Image
                             src={venomLogo}
                             height={100}
@@ -95,7 +94,7 @@ const CollectionCard = ({
                 <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                     <span className="text-jacarta-400">Volume</span>
                     <span className="flex justify-center">
-                        2
+                        0
                         <Image
                             src={venomLogo}
                             height={100}
