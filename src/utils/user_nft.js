@@ -26,6 +26,7 @@ export const getNftImage = async (provider, nftAddress) => {
 // Returns array with NFT's images urls
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
+
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
       const imgInfo = await getNftImage(provider, nftAddress);
@@ -33,8 +34,9 @@ export const getCollectionItems = async (provider, nftAddresses) => {
       nfts.push(obj);
     })
   );
-
-  return nfts;
+  // console.log(nfts);
+  const sorted_nfts = nfts.sort((a, b) => Number(a.id) - Number(b.id));
+  return sorted_nfts;
 };
 
 // getting nft code hash
