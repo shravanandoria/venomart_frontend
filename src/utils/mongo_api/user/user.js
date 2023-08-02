@@ -18,8 +18,6 @@ export const check_user = async (wallet_id) => {
       },
     });
 
-    console.log(res.data);
-
     return res.data;
   } catch (error) {
     console.log(error.message);
