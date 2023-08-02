@@ -29,7 +29,7 @@ const Collection = ({
   const router = useRouter();
   const { slug } = router.query;
 
-  // customData
+  // customData starts here
   const CoverIMG =
     "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg";
   const NFTIMG =
@@ -42,7 +42,9 @@ const Collection = ({
   const contractAddress =
     "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2";
   const mintPrice = "1";
+  // max NFT supply count 
   const supply = "1500";
+  // status should be Upcoming, Live, Ended, Sold Out 
   const status = "Ended";
 
   const twitterURL = "https://twitter.com/venomart23";
@@ -74,6 +76,7 @@ const Collection = ({
       { type: "Version", value: "Testnet" },
     ],
   });
+  // customData ends here
 
   const connect_wallet = async () => {
     const connect = await connectWallet();
@@ -244,14 +247,44 @@ const Collection = ({
                     {supply} NFTs
                   </h1>
                 </div>
-                <div className="px-4 py-4">
-                  <h2 className="text-sm title-font text-gray-400 tracking-widest">
-                    SOLD OUT IN
-                  </h2>
-                  <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                    2 HOURS{" "}
-                  </h1>
-                </div>
+
+                {/* if live  */}
+                {status == "Live" &&
+                  <div className="px-4 py-4">
+                    <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                      MINT ENDS IN
+                    </h2>
+                    <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                      6 DAYS{" "}
+                    </h1>
+                  </div>
+                }
+
+                {/* sold out and ended  */}
+                {status == "Sold Out" || status == "Ended" &&
+                  <div className="px-4 py-4">
+                    <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                      SOLD OUT IN
+                    </h2>
+                    <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                      2 HOURS{" "}
+                    </h1>
+                  </div>
+                }
+
+                {/* upcoming  */}
+                {status == "Upcoming" &&
+                  <div className="px-4 py-4">
+                    <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                      MINT STARTS IN
+                    </h2>
+                    <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                      2 HOURS{" "}
+                    </h1>
+                  </div>
+                }
+
+                {/* mint status  */}
                 <div className="px-4 py-4">
                   <h2 className="text-sm title-font text-gray-400 tracking-widest">
                     MINTING STATUS
@@ -270,8 +303,14 @@ const Collection = ({
                   )}
                   {status == "Upcoming" && (
                     <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                      <GoDotFill className="h-[33px] w-[33px] mt-1 text-white" />
-                      <span className="text-white">{status}</span>
+                      <GoDotFill className="h-[33px] w-[33px] mt-1 text-[#2fa8b5]" />
+                      <span className="text-[#2fa8b5]">{status}</span>
+                    </h1>
+                  )}
+                  {status == "Sold Out" && (
+                    <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                      <GoDotFill className="h-[33px] w-[33px] mt-1 text-jacarta-300" />
+                      <span className="text-jacarta-300">{status}</span>
                     </h1>
                   )}
                 </div>
@@ -495,7 +534,8 @@ const Collection = ({
                         </div>
                       </button>
                     </div>
-                    {/* {!actionVerify || checkMint?.includes(contractAddress) && (
+                    {/* message checks  */}
+                    {!actionVerify && !checkMint?.includes(contractAddress) && status != "Ended" && status != "Sold Out" && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
                         style={{ zIndex: "10" }}
@@ -514,8 +554,29 @@ const Collection = ({
                           You already have this NFT in your wallet
                         </span>
                       </div>
-                    )} */}
+                    )}
+                    {status == "Upcoming" && (
+                      <div
+                        className="flex justify-end mt-[10px] text-center"
+                        style={{ zIndex: "10" }}
+                      >
+                        <span className="text-[15px] text-gray-400 text-center">
+                          You can start minting the NFTs once it gets live
+                        </span>
+                      </div>
+                    )}
                     {status == "Ended" && (
+                      <div
+                        className="flex justify-end mt-[10px] text-center"
+                        style={{ zIndex: "10" }}
+                      >
+                        <span className="text-[15px] text-gray-400 text-center">
+                          {/* The NFT minting has ended! */}
+                          All venomart early passes got sold out in 2 hours
+                        </span>
+                      </div>
+                    )}
+                    {status == "Sold Out" && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
                         style={{ zIndex: "10" }}
