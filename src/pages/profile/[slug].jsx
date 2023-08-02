@@ -45,7 +45,7 @@ const Profile = ({
     if (!standalone && !slug && !signer_address) return;
     // fetching user data 
     const data = await user_info(signer_address);
-    set_user_data(data.data);
+    set_user_data(data?.data);
 
     // getting profile nfts 
     const res = await loadNFTs_user(standalone, slug);

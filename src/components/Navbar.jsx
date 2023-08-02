@@ -39,6 +39,12 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
       });
   }, [signer_address]);
 
+  useEffect(() => {
+    setProfileDrop(false);
+    setMobieProfileDrop(false);
+    // set_search_result(false);
+  }, [router.pathname]);
+
   return (
     <div
       className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
