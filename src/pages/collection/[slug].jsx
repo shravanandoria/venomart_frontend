@@ -13,8 +13,9 @@ import venomLogo from "../../../public/venom.svg";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "@/utils/mongo_api/collection/collection";
+import collectionAbi from "../../../abi/Collection.abi.json";
 
-const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
+const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvider }) => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -23,6 +24,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
   const [nfts, set_nfts] = useState([]);
+  const [totalSupply, setTotalSupply] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(16);
@@ -32,7 +34,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
   const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const gettingCollectionInfo = async () => {
-    if (standalone == undefined && slug == undefined) return;
+    if (!standalone && !slug) return;
+    console.log(collectionAbi)
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
@@ -40,6 +43,15 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
     // getting contract info
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
+    // getting total supply 
+    if (venomProvider != undefined) {
+      const contract = new venomProvider.Contract(
+        collectionAbi,
+        slug
+      );
+      const totalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
+      setTotalSupply(totalSupply.count);
+    }
     setLoading(false);
   };
 
@@ -175,7 +187,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {nfts ? nfts?.length : "0"}
+                      {totalSupply ? totalSupply : (nfts?.length + "+")}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
@@ -186,7 +198,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                     className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {nfts ? nfts?.length : "0"}
+                      {nfts ? nfts?.length : "0"}+
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Owners

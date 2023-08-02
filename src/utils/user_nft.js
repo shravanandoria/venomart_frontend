@@ -209,7 +209,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
     .call();
-  console.log({ id });
   try {
     const ipfs_image =
       typeof data.image == "string"
