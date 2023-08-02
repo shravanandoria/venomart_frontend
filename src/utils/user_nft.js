@@ -252,6 +252,7 @@ export const create_launchpad_nft = async (
   venomProvider
 ) => {
   try {
+    
     const contract = new venomProvider.Contract(
       collectionAbi,
       data.collectionAddress
