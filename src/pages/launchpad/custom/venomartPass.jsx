@@ -81,6 +81,7 @@ const Collection = ({
     }
 
     const get_user_Data = async () => {
+        if (!signer_address) return;
         setLoading(true);
         const data = await user_info(signer_address);
         console.log({ dataUSer: data.data })
