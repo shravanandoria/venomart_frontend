@@ -4,7 +4,7 @@ import Head from "next/head";
 import CollectionCard from "@/components/cards/CollectionCard";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
-import venomLogo from "../../public/venom.svg"
+import venomLogo from "../../public/venom.svg";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
 
@@ -14,7 +14,7 @@ export default function Home({ theme, collections, loading }) {
       className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
     >
       <Head>
-        <title>Venomart - NFT Marketplace on Venom</title>
+        <title>Venomart Test- NFT Marketplace on Venom</title>
         <meta
           name="description"
           content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -27,12 +27,15 @@ export default function Home({ theme, collections, loading }) {
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      {loading ?
+      {loading ? (
         <Loader theme={theme} />
-        :
+      ) : (
         <>
           {/* hero section  */}
-          <section className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800" id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}>
+          <section
+            className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
+            id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+          >
             <div className="h-full px-6 xl:px-20">
               <div className="grid h-full items-center gap-4 lg:grid-cols-12">
                 <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
@@ -64,7 +67,7 @@ export default function Home({ theme, collections, loading }) {
                             height: "19px",
                             width: "19px",
                             marginLeft: "8px",
-                            marginTop: "6px"
+                            marginTop: "6px",
                           }}
                           alt="Venomart | NFT Marketplace"
                         />
@@ -78,9 +81,9 @@ export default function Home({ theme, collections, loading }) {
                     Buy, sell and collect NFTs.
                   </h1>
                   <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                    Venomart is the first fully-fledged NFT Marketplace on Venom.
-                    Get quick and easy access to digital collectibles and explore,
-                    buy and sell NFTs
+                    Venomart is the first fully-fledged NFT Marketplace on
+                    Venom. Get quick and easy access to digital collectibles and
+                    explore, buy and sell NFTs
                   </p>
                   <div className="flex flex-wrap justify-center align-middle space-x-4">
                     <Link
@@ -120,7 +123,10 @@ export default function Home({ theme, collections, loading }) {
                           <div className="p-6">
                             <div className="flex">
                               {/* logo  */}
-                              <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2" className="shrink-0">
+                              <Link
+                                href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
+                                className="shrink-0"
+                              >
                                 <img
                                   src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                   alt="avatar"
@@ -131,11 +137,18 @@ export default function Home({ theme, collections, loading }) {
                               </Link>
                               <div>
                                 {/* name  */}
-                                <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2" className="block">
+                                <Link
+                                  href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
+                                  className="block"
+                                >
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
                                     Venom Passes
                                     <MdVerified
-                                      style={{ color: "#4f87ff", marginBottom: "3px", marginLeft: "3px" }}
+                                      style={{
+                                        color: "#4f87ff",
+                                        marginBottom: "3px",
+                                        marginLeft: "3px",
+                                      }}
                                       size={21}
                                     />
                                   </span>
@@ -356,7 +369,7 @@ export default function Home({ theme, collections, loading }) {
             </div>
           </div>
         </>
-      }
+      )}
     </div>
   );
 }
