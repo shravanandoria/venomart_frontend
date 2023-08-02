@@ -215,13 +215,13 @@ export default function Home({ theme, collections, loading }) {
           </section>
 
           {/* launchpad collections  */}
-          {/* <div className="relative py-24 dark:bg-jacarta-800">
+          <div className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline">Venomart Launchpad </h2>
               </div>
               <div className="flex justify-center align-middle flex-wrap">
-                {all_collections?.map((e, index) => {
+                {/* {all_collections?.map((e, index) => {
                   return (
                     index < 8 && (
                       <LaunchCollectionCard
@@ -234,7 +234,26 @@ export default function Home({ theme, collections, loading }) {
                       />
                     )
                   );
-                })}
+                })} */}
+
+                {/* hardcoding here  */}
+                <LaunchCollectionCard
+                  Cover={
+                    "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"
+                  }
+                  Logo={
+                    "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
+                  }
+                  Name={"venomart Passes"}
+                  Description={"venomart Passes"}
+                  mintPrice={"1"}
+                  status={"Live"}
+                  CollectionAddress={
+                    "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"
+                  }
+                  customLink={"/custom/venomartPass"}
+                  verified={true}
+                />
               </div>
 
               <div className="mt-10 text-center">
@@ -246,7 +265,7 @@ export default function Home({ theme, collections, loading }) {
                 </Link>
               </div>
             </div>
-          </div> */}
+          </div>
 
           {/* top collections  */}
           {/* <section className="relative py-24 dark:bg-jacarta-700">

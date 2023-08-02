@@ -46,6 +46,8 @@ const Collection = ({
 
     const [loading, setLoading] = useState(false);
     const [comLoading, setCompLoading] = useState(false);
+    const [afterMint, setAfterMint] = useState(false);
+
 
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
@@ -91,6 +93,11 @@ const Collection = ({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.png" />
             </Head>
+
+            {afterMint && (
+                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-10"></div>
+            )}
+
 
             {loading ? (
                 <Loader theme={theme} />
@@ -141,12 +148,12 @@ const Collection = ({
                                     <div className="flex space-x-6">
                                         <a href={`${blockURL}accounts/${contractAddress}`}
                                             target="_blank"
-                                            className="flex w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark" >
-                                            Explorer
+                                            className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark" >
+                                            Venomscan
                                             <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                         </a>
                                         <a href={`/collection/${contractAddress}`}
-                                            className="flex w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
+                                            className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
                                             Collection
                                             <GoArrowUpRight />
                                         </a>
@@ -167,16 +174,16 @@ const Collection = ({
                     <section className="relative bg-light-base pb-12 pt-12 dark:bg-jacarta-800">
                         <section className="text-gray-600 body-font overflow-hidden">
                             {/* timer div  */}
-                            <div className="flex justify-around align-middle container px-5 pt-6">
-                                <div>
-                                    <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">2000 NFTs</h1>
+                            <div className="flex flex-wrap justify-around align-middle container px-5 pt-6">
+                                <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-500 tracking-widest">EXCLUSIVE MINT</h2>
+                                    <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">2000 NFTs</h1>
                                 </div>
-                                <div>
+                                <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-400 tracking-widest">ENDS IN</h2>
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">7 DAYS </h1>
                                 </div>
-                                <div>
+                                <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-400 tracking-widest">MINTING STATUS</h2>
                                     {status == "Live" &&
                                         <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
@@ -362,6 +369,60 @@ const Collection = ({
                             </div>
                         </section>
                     </section>
+
+                    {afterMint &&
+                        <div className="absolute top-[30%] right-[40%] w-[500px] z-20">
+                            <form
+                                className="modal-dialog max-w-2xl"
+                            >
+                                <div
+                                    className="modal-content shadow-2xl dark:bg-jacarta-800"
+                                >
+                                    <div className="modal-header">
+                                        <h5 className="modal-title" id="placeBidLabel">
+                                            Success!
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            onClick={() => setAfterMint(false)}
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                                height="24"
+                                                className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                                            >
+                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div className="modal-body p-6">
+                                        <div className="mb-2 flex items-center justify-between">
+                                            <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
+                                                You have successfully minted the {ProjectName} NFT for {mintPrice} VENOM. <br /> View your profile to see the minted NFT 🤗
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="modal-footer">
+                                        <div className="flex items-center justify-center space-x-4">
+                                            <Link href={`/profile/${signer_address}`}
+                                                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                            >
+                                                View Profile
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    }
                 </div>
             )}
         </div>
