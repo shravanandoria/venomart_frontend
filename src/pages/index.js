@@ -14,7 +14,7 @@ export default function Home({ theme, collections, loading }) {
       className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
     >
       <Head>
-        <title>Venomart Test- NFT Marketplace on Venom</title>
+        <title>Venomart - NFT Marketplace on Venom</title>
         <meta
           name="description"
           content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
