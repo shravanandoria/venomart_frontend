@@ -165,7 +165,7 @@ const NFTs = ({ theme, venomProvider }) => {
                             />
                           );
                         })}
-                        {nfts?.length <= 0 && <h2>No NFTs Found</h2>}
+                        {nfts?.length <= 0 && <h2 className="text-jacarta-700 dark:text-jacarta-200">No NFTs Found</h2>}
                       </div>
                       <Pagination
                         totalPosts={nfts?.length}
