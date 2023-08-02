@@ -11,6 +11,7 @@ import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
+import { user_info } from "@/utils/mongo_api/user/user";
 
 
 const Collection = ({
@@ -48,6 +49,8 @@ const Collection = ({
     const [comLoading, setCompLoading] = useState(false);
     const [afterMint, setAfterMint] = useState(false);
 
+    const [checkMint, setCheckMint] = useState([]);
+
 
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
@@ -62,11 +65,10 @@ const Collection = ({
         properties: [{ type: "passType", value: "Early Pass" }, { type: "Version", value: "Testnet" }],
     });
 
-
     const mintLaunchNFT = async () => {
         setLoading(true);
         const launchMint = await create_launchpad_nft(data, signer_address, venomProvider);
-        // router.push(`/profile/${signer_address}`);
+        setAfterMint(true);
         setLoading(false);
     }
 
@@ -77,6 +79,18 @@ const Collection = ({
             setCompLoading(false);
         }, 2000);
     }
+
+    const get_user_Data = async () => {
+        setLoading(true);
+        const data = await user_info(signer_address);
+        console.log({ dataUSer: data.data })
+        setCheckMint(data.data.nftCollections);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        get_user_Data();
+    }, [signer_address]);
 
     return (
         <div className={`${theme}`}>
