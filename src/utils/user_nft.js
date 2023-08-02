@@ -5,7 +5,6 @@ import collectionAbi from "../../abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
-
 const storage = new ThirdwebStorage();
 
 export const COLLECTION_ADDRESS =
@@ -250,7 +249,7 @@ export const create_launchpad_nft = async (
   try {
     const contract = new venomProvider.Contract(
       collectionAbi,
-      COLLECTION_ADDRESS
+      data.collectionAddress
     );
 
     const { count: id } = await contract.methods

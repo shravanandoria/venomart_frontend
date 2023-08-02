@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Head from "next/head";
@@ -14,7 +14,6 @@ const Collections = ({ theme, collections, loading }) => {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentCollections = collections.slice(firstPostIndex, lastPostIndex);
-
 
   return (
     <>
@@ -42,7 +41,8 @@ const Collections = ({ theme, collections, loading }) => {
                 Explore Collections
               </h1>
               <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-                Explore and trade the amazing collections on venomart marketplace
+                Explore and trade the amazing collections on venomart
+                marketplace
               </p>
 
               {/* loop collections here  */}
@@ -58,7 +58,11 @@ const Collections = ({ theme, collections, loading }) => {
                     verified={e.isVerified}
                   />
                 ))}
-                {currentCollections?.length <= 0 && <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">No Collections Found</h2>}
+                {currentCollections?.length <= 0 && (
+                  <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+                    No Collections Found
+                  </h2>
+                )}
               </div>
               <Pagination
                 totalPosts={collections.length}

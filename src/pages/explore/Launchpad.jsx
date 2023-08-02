@@ -1,45 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 
 const Launchpad = ({ theme, all_collections }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(12);
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(12);
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentCollections = all_collections?.slice(
+    firstPostIndex,
+    lastPostIndex
+  );
 
-    const lastPostIndex = currentPage * postsPerPage;
-    const firstPostIndex = lastPostIndex - postsPerPage;
-    const currentCollections = all_collections?.slice(firstPostIndex, lastPostIndex);
+  return (
+    <>
+      <Head>
+        <title>Exclusive Launchpad - Venomart Marketplace</title>
+        <meta
+          name="description"
+          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+        />
+        <meta
+          name="keywords"
+          content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/fav.png" />
+      </Head>
 
-    return (
-        <>
-            <Head>
-                <title>Exclusive Launchpad - Venomart Marketplace</title>
-                <meta
-                    name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
-                />
-                <meta
-                    name="keywords"
-                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
-                />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/fav.png" />
-            </Head>
+      <div className={`${theme}`}>
+        <section className="relative py-24 dark:bg-jacarta-800">
+          <div className="container">
+            <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+              Launchpad Collections
+            </h1>
+            <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+              Explore all the exclusive collections on venomart launchpad
+            </p>
 
-            <div className={`${theme}`}>
-                <section className="relative py-24 dark:bg-jacarta-800">
-                    <div className="container">
-                        <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                            Launchpad Collections
-                        </h1>
-                        <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">Explore all the exclusive collections on venomart launchpad
-                        </p>
-
-                        {/* loop public collections here  */}
-                        {/* <div className="flex justify-center align-middle flex-wrap">
+            {/* loop public collections here  */}
+            {/* <div className="flex justify-center align-middle flex-wrap">
                             {currentCollections?.map((e, index) => (
                                 <LaunchCollectionCard
                                     key={index}
@@ -58,24 +61,30 @@ const Launchpad = ({ theme, all_collections }) => {
                             currentPage={currentPage}
                         /> */}
 
-                        {/* add custom launch here  */}
-                        <div className="flex justify-center align-middle flex-wrap">
-                            <LaunchCollectionCard
-                                Cover={"https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"}
-                                Logo={"https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"}
-                                Name={"venomart Passes"}
-                                Description={"venomart Passes"}
-                                mintPrice={"1"}
-                                totalItems={"1000"}
-                                CollectionAddress={"0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"}
-                                customLink={"/custom/venomartPass"}
-                            />
-                        </div>
-                    </div>
-                </section>
+            {/* add custom launch here  */}
+            <div className="flex justify-center align-middle flex-wrap">
+              <LaunchCollectionCard
+                Cover={
+                  "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"
+                }
+                Logo={
+                  "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
+                }
+                Name={"venomart Passes"}
+                Description={"venomart Passes"}
+                mintPrice={"1"}
+                totalItems={"1000"}
+                CollectionAddress={
+                  "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"
+                }
+                customLink={"/custom/venomartPass"}
+              />
             </div>
-        </>
-    );
+          </div>
+        </section>
+      </div>
+    </>
+  );
 };
 
 export default Launchpad;
