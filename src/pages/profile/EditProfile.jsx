@@ -209,7 +209,8 @@ const EditProfile = ({ signer_address, theme }) => {
                   </label>
                   <button
                     type="button"
-                    className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default"
+                    className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-pointer"
+                    onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
                   >
                     <span>{signer_address}</span>
                     <svg

@@ -246,7 +246,7 @@ export default function Home({ theme, collections, loading }) {
                     "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                   }
                   Name={"venomart Passes"}
-                  Description={"venomart Passes"}
+                  Description={"Exclusive Passes On Venomart Marketplace"}
                   mintPrice={"1"}
                   status={"Sold Out"}
                   CollectionAddress={
@@ -333,12 +333,13 @@ export default function Home({ theme, collections, loading }) {
                     index < 6 && (
                       <CollectionCard
                         key={index}
-                        Cover={e.coverImage}
-                        Logo={e.logo}
-                        Name={e.name}
-                        OwnerAddress={e.OwnerAddress}
-                        CollectionAddress={e.contractAddress}
-                        verified={e.isVerified}
+                        Cover={e?.coverImage}
+                        Logo={e?.logo}
+                        Name={e?.name}
+                        Description={e?.description}
+                        OwnerAddress={e?.OwnerAddress}
+                        CollectionAddress={e?.contractAddress}
+                        verified={e?.isVerified}
                       />
                     )
                   );

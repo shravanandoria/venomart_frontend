@@ -50,12 +50,13 @@ const Collections = ({ theme, collections, loading }) => {
                 {currentCollections?.map((e, index) => (
                   <CollectionCard
                     key={index}
-                    Cover={e.coverImage}
-                    Logo={e.logo}
-                    Name={e.name}
-                    OwnerAddress={e.OwnerAddress}
-                    CollectionAddress={e.contractAddress}
-                    verified={e.isVerified}
+                    Cover={e?.coverImage}
+                    Logo={e?.logo}
+                    Name={e?.name}
+                    Description={e?.description}
+                    OwnerAddress={e?.OwnerAddress}
+                    CollectionAddress={e?.contractAddress}
+                    verified={e?.isVerified}
                   />
                 ))}
                 {currentCollections?.length <= 0 && (

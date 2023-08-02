@@ -324,6 +324,7 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                         <button
                           className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
                           data-tippy-content="Copy"
+                          onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
                         >
                           <span className="max-w-[10rem] overflow-hidden text-ellipsis">
                             {signer_address}
