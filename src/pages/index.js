@@ -248,7 +248,7 @@ export default function Home({ theme, collections, loading }) {
                   Name={"venomart Passes"}
                   Description={"venomart Passes"}
                   mintPrice={"1"}
-                  status={"Live"}
+                  status={"Sold Out"}
                   CollectionAddress={
                     "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
                   }

@@ -246,10 +246,10 @@ const Collection = ({
                 </div>
                 <div className="px-4 py-4">
                   <h2 className="text-sm title-font text-gray-400 tracking-widest">
-                    ENDS IN
+                    SOLD OUT IN
                   </h2>
                   <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                    7 DAYS{" "}
+                    2 HOURS{" "}
                   </h1>
                 </div>
                 <div className="px-4 py-4">
