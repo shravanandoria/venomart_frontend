@@ -42,8 +42,8 @@ const Collection = ({
   const contractAddress =
     "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2";
   const mintPrice = "1";
-  const supply = "1000";
-  const status = "Live";
+  const supply = "1500";
+  const status = "Ended";
 
   const twitterURL = "https://twitter.com/venomart23";
   const discordURL = " https://discord.gg/wQbBr6Xean";
@@ -392,16 +392,16 @@ const Collection = ({
                           Already Minted <AiFillLock className="mt-[4px] ml-[5px]" />
                         </button>
                         :
-                        (!actionVerify ? (
+                        (!actionVerify || status == "Ended" ? (
                           <button
                             onClick={() =>
                               alert(
-                                "please complete the tasks and verify to continue minting!"
+                                "The mint has ended! All passes sold out"
                               )
                             }
-                            className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                            className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                           >
-                            Mint <AiFillLock className="mt-[4px] ml-[5px]" />
+                            Mint Ended<AiFillLock className="mt-[4px] ml-[5px]" />
                           </button>
                         ) : (
                           (
@@ -512,6 +512,16 @@ const Collection = ({
                       >
                         <span className="text-[15px] text-gray-400 text-center">
                           You already have this NFT in your wallet
+                        </span>
+                      </div>
+                    )}
+                    {status == "Ended" && (
+                      <div
+                        className="flex justify-end mt-[10px] text-center"
+                        style={{ zIndex: "10" }}
+                      >
+                        <span className="text-[15px] text-gray-400 text-center">
+                          All venomart early passes got sold out in 2 hours
                         </span>
                       </div>
                     )}
