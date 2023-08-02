@@ -95,6 +95,7 @@ const LaunchCollectionCard = ({
               marginLeft: "7px",
               marginTop: "5px"
             }}
+            alt="Venomart | NFT Marketplace"
           />
         </button>
       </div>

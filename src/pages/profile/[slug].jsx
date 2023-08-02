@@ -42,9 +42,9 @@ const Profile = ({
 
   const getProfileData = async () => {
     set_loading(true);
-    if (!standalone && !slug && !signer_address) return;
+    if (!standalone && !slug) return;
     // fetching user data
-    const data = await user_info(signer_address);
+    const data = await user_info(slug);
     set_user_data(data?.data);
 
     // getting profile nfts
@@ -144,98 +144,99 @@ const Profile = ({
             )}
 
             {/* social accounts  */}
-            {signer_address && (
-              <div className="flex justify-center align-middle mb-10 mt-4">
-                <a
-                  href={
-                    user_data?.socials?.length ? user_data?.socials[0] : "#"
-                  }
-                  target="_blank"
-                  className="group mr-4"
-                >
-                  <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                </a>
-                <a
-                  href={
-                    user_data?.socials?.length ? user_data?.socials[1] : "#"
-                  }
-                  target="_blank"
-                  className="group"
-                >
-                  <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                </a>
-
-                <a
-                  onClick={() => setShare(!share)}
-                  className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
-                >
+            <div className="flex justify-center align-middle mb-10 mt-4">
+              {user_data && (
+                <>
                   <a
-                    className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
-                    role="button"
-                    id="collectionShare"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    data-tippy-content="Share"
+                    href={
+                      user_data?.socials?.length ? user_data?.socials[0] : "#"
+                    }
+                    target="_blank"
+                    className="group mr-4"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
-                    </svg>
+                    <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                   </a>
-
-                  {share && (
-                    <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                      <a
-                        href={`https://twitter.com/intent/tweet?text=This%20is%20my%20profile%20on%20venomart.space%20,%20check%20it%20out%20here-%20${webURL}profile/${slug}`}
-                        target="_blank"
-                        className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          focusable="false"
-                          data-prefix="fab"
-                          data-icon="twitter"
-                          className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                          role="img"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                        >
-                          <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                        </svg>
-                        <span className="mt-1 inline-block text-black dark:text-white">
-                          Twitter
-                        </span>
-                      </a>
-                      <a
-                        href="#"
-                        onClick={copyURL}
-                        className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
-                        </svg>
-                        <span className="mt-1 inline-block text-black dark:text-white">
-                          Copy
-                        </span>
-                      </a>
-                    </div>
-                  )}
+                  <a
+                    href={
+                      user_data?.socials?.length ? user_data?.socials[1] : "#"
+                    }
+                    target="_blank"
+                    className="group"
+                  >
+                    <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                  </a>
+                </>
+              )}
+              <a
+                onClick={() => setShare(!share)}
+                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
+              >
+                <a
+                  className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
+                  role="button"
+                  id="collectionShare"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  data-tippy-content="Share"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
+                  </svg>
                 </a>
-              </div>
-            )}
+
+                {share && (
+                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=This%20is%20my%20profile%20on%20venomart.space%20,%20check%20it%20out%20here-%20${webURL}profile/${slug}`}
+                      target="_blank"
+                      className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fab"
+                        data-icon="twitter"
+                        className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                      >
+                        <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                      </svg>
+                      <span className="mt-1 inline-block text-black dark:text-white">
+                        Twitter
+                      </span>
+                    </a>
+                    <a
+                      href="#"
+                      onClick={copyURL}
+                      className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
+                      >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
+                      </svg>
+                      <span className="mt-1 inline-block text-black dark:text-white">
+                        Copy
+                      </span>
+                    </a>
+                  </div>
+                )}
+              </a>
+            </div>
 
             {/* edi tprofile btn  */}
             {slug == signer_address && (
@@ -265,9 +266,8 @@ const Profile = ({
             onClick={() => setMyNFTSActive(true)}
           >
             <button
-              className={`nav-link ${
-                myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -299,9 +299,8 @@ const Profile = ({
             onClick={() => setMyNFTSActive(false)}
           >
             <button
-              className={`nav-link ${
-                !myNFTsActive && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${!myNFTsActive && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"

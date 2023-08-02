@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-// 123Snaahaha
 const mongodb_uri = process.env.NEXT_PUBLIC_Mongo_URI;
 
 if (!mongodb_uri) {

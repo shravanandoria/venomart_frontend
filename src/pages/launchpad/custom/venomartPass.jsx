@@ -365,27 +365,40 @@ const Collection = ({
                       </div>
 
                       {/* mint  */}
-                      {!actionVerify ? (
+                      {checkMint?.includes(contractAddress) ?
                         <button
                           onClick={() =>
                             alert(
-                              "please complete the tasks and verify to continue minting!"
+                              "Only 1 NFT minting is allowed for 1 user!"
                             )
                           }
-                          className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                          className="flex justify-center w-auto ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                         >
-                          Mint <AiFillLock className="mt-[4px] ml-[5px]" />
+                          Already Minted <AiFillLock className="mt-[4px] ml-[5px]" />
                         </button>
-                      ) : (
-                        !checkMint?.includes(contractAddress) && (
+                        :
+                        (!actionVerify ? (
                           <button
-                            onClick={() => mintLaunchNFT()}
+                            onClick={() =>
+                              alert(
+                                "please complete the tasks and verify to continue minting!"
+                              )
+                            }
                             className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                           >
-                            Mint NFT
+                            Mint <AiFillLock className="mt-[4px] ml-[5px]" />
                           </button>
-                        )
-                      )}
+                        ) : (
+                          (
+                            <button
+                              onClick={() => mintLaunchNFT()}
+                              className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                            >
+                              Mint NFT
+                            </button>
+                          )
+                        ))
+                      }
 
                       {/* share btn  */}
                       <button
@@ -467,13 +480,23 @@ const Collection = ({
                         </div>
                       </button>
                     </div>
-                    {!actionVerify && (
+                    {!actionVerify || checkMint?.includes(contractAddress) && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
                         style={{ zIndex: "10" }}
                       >
                         <span className="text-[15px] text-gray-400 text-center">
                           Please complete tasks to start minting
+                        </span>
+                      </div>
+                    )}
+                    {checkMint?.includes(contractAddress) && (
+                      <div
+                        className="flex justify-end mt-[10px] text-center"
+                        style={{ zIndex: "10" }}
+                      >
+                        <span className="text-[15px] text-gray-400 text-center">
+                          You already have this NFT in your wallet
                         </span>
                       </div>
                     )}

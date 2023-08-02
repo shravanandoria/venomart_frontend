@@ -357,6 +357,7 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                                   marginLeft: "7px",
                                   marginTop: "5px"
                                 }}
+                                alt="Venomart | NFT Marketplace"
                               />
                             </span>
                           </div>
@@ -582,6 +583,7 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                       marginLeft: "7px",
                       marginTop: "5px"
                     }}
+                    alt="Venomart | NFT Marketplace"
                   />
                 </span>
               </div>

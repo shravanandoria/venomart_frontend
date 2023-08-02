@@ -96,6 +96,7 @@ const CollectionCard = ({
                                 marginLeft: "8px",
                                 marginTop: "6px"
                             }}
+                            alt="Venomart | NFT Marketplace"
                         />
                     </span>
                 </button>
@@ -113,6 +114,7 @@ const CollectionCard = ({
                                 marginLeft: "8px",
                                 marginTop: "6px"
                             }}
+                            alt="Venomart | NFT Marketplace"
                         />
                     </span>
                 </button>

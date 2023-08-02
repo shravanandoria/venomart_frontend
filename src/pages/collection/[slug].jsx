@@ -207,6 +207,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           width: "13px",
                           marginTop: "3px",
                         }}
+                        alt="Venomart | NFT Marketplace"
                       />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
@@ -228,6 +229,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           width: "13px",
                           marginTop: "3px",
                         }}
+                        alt="Venomart | NFT Marketplace"
                       />
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
@@ -334,8 +336,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL }) => {
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}
