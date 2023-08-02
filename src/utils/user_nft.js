@@ -4,6 +4,8 @@ import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
+import { user_info } from "./mongo_api/user/user";
+
 import axios from "axios";
 
 const storage = new ThirdwebStorage();
@@ -291,15 +293,15 @@ export const create_launchpad_nft = async (
 
     console.log(outputs);
 
-    const { data } = await axios({
-      url: "/api/add_launchpad_user",
+    const res = await axios({
+      url: "/api/user/add_launchpad_user",
       method: "POST",
       data: {
         wallet_id: signer_address,
         collection_address: data.collectionAddress,
       },
     });
-    console.log(data);
+    console.log(res.data);
   } catch (error) {
     console.log(error.message);
   }
