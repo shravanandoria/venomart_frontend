@@ -495,7 +495,7 @@ const Collection = ({
                         </div>
                       </button>
                     </div>
-                    {!actionVerify || checkMint?.includes(contractAddress) && (
+                    {/* {!actionVerify || checkMint?.includes(contractAddress) && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
                         style={{ zIndex: "10" }}
@@ -514,7 +514,7 @@ const Collection = ({
                           You already have this NFT in your wallet
                         </span>
                       </div>
-                    )}
+                    )} */}
                     {status == "Ended" && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
