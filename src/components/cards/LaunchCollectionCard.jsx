@@ -79,10 +79,30 @@ const LaunchCollectionCard = ({
         </div>
       </div>
       <div className="flex justify-between align-middle my-6 mx-2">
-        <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-          <GoDotFill className="h-[19px] w-[19px] mt-1 text-green" />
-          <span className="text-green">{status}</span>
-        </button>
+        {status == "Live" &&
+          <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+            <GoDotFill className="h-[19px] w-[19px] mt-1 text-green" />
+            <span className="text-green">{status}</span>
+          </button>
+        }
+        {status == "Upcoming" &&
+          <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+            <GoDotFill className="h-[19px] w-[19px] mt-1 text-[#2fa8b5]" />
+            <span className="text-[#2fa8b5]">{status}</span>
+          </button>
+        }
+        {status == "Sold Out" &&
+          <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+            <GoDotFill className="h-[19px] w-[19px] mt-1 text-jacarta-300" />
+            <span className="text-jacarta-300">{status}</span>
+          </button>
+        }
+        {status == "Ended" &&
+          <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+            <GoDotFill className="h-[19px] w-[19px] mt-1 text-red" />
+            <span className="text-red">{status}</span>
+          </button>
+        }
         <button className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           {mintPrice}
           <Image

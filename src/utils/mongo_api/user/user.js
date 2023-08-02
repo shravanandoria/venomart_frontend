@@ -27,13 +27,16 @@ export const check_user = async (wallet_id) => {
 };
 
 export const update_profile = async (data) => {
-  const profile_img = data?.profileImage
-    ? await storage.upload(data.profileImage)
-    : data.profileImage;
 
-  const cover_img = data?.coverImage
-    ? await storage.upload(data.coverImage)
-    : data.coverImage;
+  let coverImg;
+  let profileImg;
+
+  if (typeof data.coverImage === "object") {
+    coverImg = await storage.upload(data.coverImage);
+  }
+  if (typeof data.profileImage === "object") {
+    profileImg = await storage.upload(data.profileImage);
+  }
 
   const res = await axios({
     url: "/api/user/user",
@@ -43,8 +46,8 @@ export const update_profile = async (data) => {
       user_name: data.user_name,
       email: data.email,
       bio: data.bio,
-      profileImage: profile_img,
-      coverImage: cover_img,
+      profileImage: profileImg ? profileImg : data.profileImage,
+      coverImage: coverImg ? coverImg : data.coverImage,
       isArtist: data.isArtist,
       socials: [data.twitter, data.discord, data.customLink],
     },

@@ -44,6 +44,7 @@ const EditProfile = ({ signer_address, theme }) => {
       discord: data.user.socials[1] ? data.user.socials[1] : "",
       customLink: data.user.socials[2] ? data.user.socials[2] : "",
     });
+    set_loading(false);
   };
 
   useEffect(() => {
@@ -51,7 +52,6 @@ const EditProfile = ({ signer_address, theme }) => {
     if (!signer_address) return;
     set_data({ ...data, walletAddress: signer_address });
     get_user();
-
     set_loading(false);
   }, [signer_address]);
 
