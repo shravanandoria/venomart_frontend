@@ -34,6 +34,7 @@ const UserSchema = new mongoose.Schema({
       ref: "Collection",
     },
   ],
+  launchpad_collections: [String],
   transactions: [String],
 });
 
