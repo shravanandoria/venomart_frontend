@@ -44,6 +44,7 @@ const EditProfile = ({ signer_address, theme }) => {
       discord: data.user.socials[1] ? data.user.socials[1] : "",
       customLink: data.user.socials[2] ? data.user.socials[2] : "",
     });
+    set_loading(false);
   };
 
   useEffect(() => {
@@ -51,7 +52,6 @@ const EditProfile = ({ signer_address, theme }) => {
     if (!signer_address) return;
     set_data({ ...data, walletAddress: signer_address });
     get_user();
-
     set_loading(false);
   }, [signer_address]);
 
@@ -209,7 +209,8 @@ const EditProfile = ({ signer_address, theme }) => {
                   </label>
                   <button
                     type="button"
-                    className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-default"
+                    className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-pointer"
+                    onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
                   >
                     <span>{signer_address}</span>
                     <svg

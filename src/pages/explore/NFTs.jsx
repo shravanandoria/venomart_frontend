@@ -18,7 +18,7 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
 
-  const [nfts, set_nfts] = useState();
+  const [nfts, set_nfts] = useState([]);
   const [listed_nfts, set_listed_nfts] = useState([]);
 
   const lastPostIndex = currentPage * postsPerPage;
@@ -34,7 +34,6 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
   const get_nfts = async () => {
     setLoading(true);
     const res = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
-    console.log({ nftss: res })
     set_nfts(res);
     setLoading(false);
   };

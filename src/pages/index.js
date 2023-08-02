@@ -50,7 +50,7 @@ export default function Home({ theme, collections, loading }) {
                     </div>
                     <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="block font-display text-3xl text-[#737EF2]">
-                        112
+                        1500+
                       </span>
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                         NFTs Minted
@@ -259,9 +259,9 @@ export default function Home({ theme, collections, loading }) {
                     "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                   }
                   Name={"venomart Passes"}
-                  Description={"venomart Passes"}
+                  Description={"Exclusive Passes On Venomart Marketplace"}
                   mintPrice={"1"}
-                  status={"Live"}
+                  status={"Sold Out"}
                   CollectionAddress={
                     "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
                   }
@@ -346,12 +346,13 @@ export default function Home({ theme, collections, loading }) {
                     index < 6 && (
                       <CollectionCard
                         key={index}
-                        Cover={e.coverImage}
-                        Logo={e.logo}
-                        Name={e.name}
-                        OwnerAddress={e.OwnerAddress}
-                        CollectionAddress={e.contractAddress}
-                        verified={e.isVerified}
+                        Cover={e?.coverImage}
+                        Logo={e?.logo}
+                        Name={e?.name}
+                        Description={e?.description}
+                        OwnerAddress={e?.OwnerAddress}
+                        CollectionAddress={e?.contractAddress}
+                        verified={e?.isVerified}
                       />
                     )
                   );

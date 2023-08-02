@@ -71,9 +71,9 @@ const Launchpad = ({ theme, all_collections }) => {
                   "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                 }
                 Name={"venomart Passes"}
-                Description={"venomart Passes"}
+                Description={"Exclusive Passes On Venomart Marketplace"}
                 mintPrice={"1"}
-                status={"Live"}
+                status={"Sold Out"}
                 CollectionAddress={
                   "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
                 }
