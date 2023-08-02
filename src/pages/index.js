@@ -106,7 +106,7 @@ export default function Home({ theme, collections, loading }) {
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
                             {/* cover imge  */}
-                            <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0">
+                            <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2">
                               <img
                                 src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                 alt="item 1"
@@ -119,7 +119,7 @@ export default function Home({ theme, collections, loading }) {
                           <div className="p-6">
                             <div className="flex">
                               {/* logo  */}
-                              <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0" className="shrink-0">
+                              <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2" className="shrink-0">
                                 <img
                                   src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
                                   alt="avatar"
@@ -130,7 +130,7 @@ export default function Home({ theme, collections, loading }) {
                               </Link>
                               <div>
                                 {/* name  */}
-                                <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0" className="block">
+                                <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2" className="block">
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
                                     Venom Passes
                                     <MdVerified
@@ -249,7 +249,7 @@ export default function Home({ theme, collections, loading }) {
                   mintPrice={"1"}
                   status={"Live"}
                   CollectionAddress={
-                    "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"
+                    "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
                   }
                   customLink={"custom/venomartPass"}
                   verified={true}

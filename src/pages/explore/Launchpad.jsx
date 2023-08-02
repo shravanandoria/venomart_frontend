@@ -75,7 +75,7 @@ const Launchpad = ({ theme, all_collections }) => {
                 mintPrice={"1"}
                 status={"Live"}
                 CollectionAddress={
-                  "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"
+                  "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
                 }
                 customLink={"custom/venomartPass"}
                 verified={true}

@@ -11,7 +11,7 @@ import axios from "axios";
 const storage = new ThirdwebStorage();
 
 export const COLLECTION_ADDRESS =
-  "0:f7a905b222847612294e633e9bbe400972418251450cdff86c9bf42301cbe634";
+  "0:bca1c325a2fc922383c8f519f2d282fa3f538aed910c9afda8d569d7d1cea88a";
 
 export const MARKETPLACE_ADDRESS =
   "0:8a67e6ca3d6b101026238a0c1e0ce1e2e7f11a4773feff934608701f01ec4cfb";
@@ -252,7 +252,7 @@ export const create_launchpad_nft = async (
   venomProvider
 ) => {
   try {
-    
+
     const contract = new venomProvider.Contract(
       collectionAbi,
       data.collectionAddress

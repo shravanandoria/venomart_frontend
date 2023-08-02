@@ -39,7 +39,7 @@ const Collection = ({
   const shortDesc =
     "Get exclusive passes of venomart marketplace. exclusive pass holders will get benefits like airdrops, whitelisiting priority, etc";
   const contractAddress =
-    "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0";
+    "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2";
   const mintPrice = "1";
   const status = "Live";
 
