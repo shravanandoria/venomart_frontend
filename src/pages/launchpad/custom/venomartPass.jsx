@@ -24,6 +24,7 @@ const Collection = ({
   copyURL,
   venomProvider,
   signer_address,
+  connectWallet
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -73,14 +74,24 @@ const Collection = ({
     ],
   });
 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  }
+
   const mintLaunchNFT = async () => {
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
     setLoading(true);
     const launchMint = await create_launchpad_nft(
       data,
       signer_address,
       venomProvider
     );
-    setAfterMint(true);
+    if (launchMint) {
+      setAfterMint(true);
+    }
     setLoading(false);
   };
 
@@ -131,7 +142,7 @@ const Collection = ({
         <div className="dark:bg-jacarta-900">
           {/* <!-- Intro Section--> */}
           <div className="relative pt-24 h-[100%] w-[100%]">
-            <div className="container h-full w-full">
+            <div className="container h-full w-full" style={{ overflow: "hidden" }}>
               <div className="grid h-full items-center gap-4 md:grid-cols-12">
                 {/* left section  */}
                 <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
@@ -203,11 +214,11 @@ const Collection = ({
                 </div>
 
                 {/* right section   */}
-                <div className="col-span-6 xl:col-span-8">
-                  <div className="relative text-center md:pl-8 md:text-right">
+                <div className="col-span-6 xl:col-span-8" >
+                  <div className="relative text-center md:pl-8 md:text-right" style={{ overflow: "hidden" }}>
                     <img
                       src={CoverIMG}
-                      alt=""
+                      alt="coverIMG"
                       style={{ borderRadius: "25px" }}
                     />
                   </div>
@@ -283,7 +294,7 @@ const Collection = ({
                     {/* follow twitter  */}
                     <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                       <p className=" text-center text-lg dark:text-jacarta-200 md:text-left">
-                        1] Follow punks on twitter
+                        1] Follow venomart on twitter
                       </p>
                       <Link
                         href={task1Twitter}
@@ -298,7 +309,7 @@ const Collection = ({
                     {/* follow discord  */}
                     <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                       <p className="text-center text-[20px] dark:text-jacarta-200 md:text-left">
-                        2] Join our discord server
+                        2] Join venomart discord server
                       </p>
                       <Link
                         href={task2Discord}

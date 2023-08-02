@@ -132,7 +132,12 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
-    setTheme(defThemeLocal);
+    if (defThemeLocal == null) {
+      setTheme("dark");
+    }
+    else {
+      setTheme(defThemeLocal);
+    }
     init();
   }, []);
 
@@ -170,6 +175,7 @@ export default function App({ Component, pageProps }) {
         copyURL={copyURL}
         collections={collections}
         loading={loading}
+        connectWallet={connect_wallet}
       />
       <Footer
         theme={theme}

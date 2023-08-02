@@ -10,6 +10,7 @@ const CreateNFT = ({
   theme,
   signer_address,
   venomProvider,
+  connectWallet
 }) => {
   const router = useRouter();
   const [loading, set_loading] = useState(false);
@@ -51,6 +52,10 @@ const CreateNFT = ({
 
   const handle_submit = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connectWallet();
+      return;
+    }
     set_loading(true);
     await create_nft(data, signer_address, venomProvider);
     router.push(`/profile/${signer_address}`)
