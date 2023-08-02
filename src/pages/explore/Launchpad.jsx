@@ -73,11 +73,12 @@ const Launchpad = ({ theme, all_collections }) => {
                 Name={"venomart Passes"}
                 Description={"venomart Passes"}
                 mintPrice={"1"}
-                totalItems={"1000"}
+                status={"Live"}
                 CollectionAddress={
                   "0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0"
                 }
                 customLink={"/custom/venomartPass"}
+                verified={true}
               />
             </div>
           </div>

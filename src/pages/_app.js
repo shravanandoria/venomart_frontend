@@ -47,19 +47,6 @@ export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [collections, set_collections] = useState([]);
 
-  // test collection array
-  const all_nfts = [
-    {
-      ImageSrc: defLogo,
-      Name: "nft",
-      Description: "test descrip",
-      Address: "cover",
-      tokenId: 1,
-      listedBool: true,
-      listingPrice: 2,
-    },
-  ];
-
   // copyURL function 
   function copyURL() {
     const el = document.createElement('input');
@@ -179,7 +166,6 @@ export default function App({ Component, pageProps }) {
         blockURL={blockURL}
         blockChain={blockChain}
         currency={currency}
-        all_nfts={all_nfts}
         webURL={webURL}
         copyURL={copyURL}
         collections={collections}

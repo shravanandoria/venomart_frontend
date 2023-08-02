@@ -6,6 +6,7 @@ import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
 import venomLogo from "../../public/venom.svg"
 import Loader from "@/components/Loader";
+import { MdVerified } from "react-icons/md";
 
 export default function Home({ theme, collections, loading }) {
   return (
@@ -130,8 +131,12 @@ export default function Home({ theme, collections, loading }) {
                               <div>
                                 {/* name  */}
                                 <Link href="/collection/0:b840eec9db67755c0f65ea61fab15f7fa39b2d41d1ab86c88d44bf35c9d333e0" className="block">
-                                  <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
                                     Venom Passes
+                                    <MdVerified
+                                      style={{ color: "#4f87ff", marginBottom: "3px", marginLeft: "3px" }}
+                                      size={21}
+                                    />
                                   </span>
                                 </Link>
 
@@ -146,7 +151,7 @@ export default function Home({ theme, collections, loading }) {
                     </div>
 
                     {/* featured 2  */}
-                    <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                    {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
                       <div>
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
@@ -186,7 +191,7 @@ export default function Home({ theme, collections, loading }) {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -211,37 +216,37 @@ export default function Home({ theme, collections, loading }) {
 
           {/* launchpad collections  */}
           {/* <div className="relative py-24 dark:bg-jacarta-800">
-        <div className="container">
-          <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-            <h2 className="inline">Venomart Launchpad </h2>
-          </div>
-          <div className="flex justify-center align-middle flex-wrap">
-            {all_collections?.map((e, index) => {
-              return (
-                index < 8 && (
-                  <LaunchCollectionCard
-                    key={index}
-                    Cover={e.Cover}
-                    Logo={e.Logo}
-                    Name={e.Name}
-                    OwnerAddress={e.OwnerAddress}
-                    CollectionAddress={e.CollectionAddress}
-                  />
-                )
-              );
-            })}
-          </div>
+            <div className="container">
+              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                <h2 className="inline">Venomart Launchpad </h2>
+              </div>
+              <div className="flex justify-center align-middle flex-wrap">
+                {all_collections?.map((e, index) => {
+                  return (
+                    index < 8 && (
+                      <LaunchCollectionCard
+                        key={index}
+                        Cover={e.Cover}
+                        Logo={e.Logo}
+                        Name={e.Name}
+                        OwnerAddress={e.OwnerAddress}
+                        CollectionAddress={e.CollectionAddress}
+                      />
+                    )
+                  );
+                })}
+              </div>
 
-          <div className="mt-10 text-center">
-            <Link
-              href="/explore/Launchpad"
-              className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-            >
-              View All
-            </Link>
-          </div>
-        </div>
-      </div> */}
+              <div className="mt-10 text-center">
+                <Link
+                  href="/explore/Launchpad"
+                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  View All
+                </Link>
+              </div>
+            </div>
+          </div> */}
 
           {/* top collections  */}
           {/* <section className="relative py-24 dark:bg-jacarta-700">
@@ -296,11 +301,11 @@ export default function Home({ theme, collections, loading }) {
             </div>
           </section> */}
 
-          {/* Trending collections  */}
+          {/* Latest collections  */}
           <div className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Trending Collections </h2>
+                <h2 className="inline">Latest Collections </h2>
               </div>
               <div className="flex justify-center align-middle flex-wrap">
                 {collections?.map((e, index) => {

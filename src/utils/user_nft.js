@@ -281,7 +281,6 @@ export const create_launchpad_nft = async (
       nft_image: ipfs_image,
       collection_name: data.collectionName,
     });
-    console.log({ mintPrice: data.mintPrice });
     const outputs = await contract.methods.mintNft({ json: nft_json }).send({
       from: new Address(signer_address),
       amount: (data.mintPrice * 1000000000).toString(),

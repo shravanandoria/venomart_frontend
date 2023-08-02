@@ -40,9 +40,14 @@ const Profile = ({
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-  const get_my_nfts = async () => {
-    if (!standalone && !slug) return;
+  const getProfileData = async () => {
     set_loading(true);
+    if (!standalone && !slug && !signer_address) return;
+    // fetching user data 
+    const data = await user_info(signer_address);
+    set_user_data(data.data);
+
+    // getting profile nfts 
     const res = await loadNFTs_user(standalone, slug);
     let nfts = [];
     res?.map((e) => {
@@ -52,18 +57,8 @@ const Profile = ({
     set_loading(false);
   };
 
-  const get_user = async () => {
-    set_loading(true);
-    const data = await user_info(signer_address);
-    console.log({ userdata: data });
-    set_user_data(data.data);
-    set_loading(false);
-  };
-
   useEffect(() => {
-    if (!signer_address) return;
-    get_my_nfts();
-    get_user();
+    getProfileData();
   }, [signer_address, standalone]);
 
   return loading ? (
