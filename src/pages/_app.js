@@ -175,6 +175,7 @@ export default function App({ Component, pageProps }) {
         copyURL={copyURL}
         collections={collections}
         loading={loading}
+        connectWallet={connect_wallet}
       />
       <Footer
         theme={theme}

@@ -24,6 +24,7 @@ const Collection = ({
   copyURL,
   venomProvider,
   signer_address,
+  connectWallet
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -73,14 +74,24 @@ const Collection = ({
     ],
   });
 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  }
+
   const mintLaunchNFT = async () => {
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
     setLoading(true);
     const launchMint = await create_launchpad_nft(
       data,
       signer_address,
       venomProvider
     );
-    setAfterMint(true);
+    if (launchMint) {
+      setAfterMint(true);
+    }
     setLoading(false);
   };
 
