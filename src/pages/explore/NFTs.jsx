@@ -10,7 +10,7 @@ import { get_listed_tokens } from "@/utils/user_nft";
 import { loadNFTs_collection } from "@/utils/user_nft";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-const NFTs = ({ theme, venomProvider }) => {
+const NFTs = ({ theme, venomProvider, standalone }) => {
 
   const [loading, setLoading] = useState(false);
   const [propShow, setPropShow] = useState(false);
@@ -33,7 +33,8 @@ const NFTs = ({ theme, venomProvider }) => {
 
   const get_nfts = async () => {
     setLoading(true);
-    const res = await loadNFTs_collection(venomProvider, COLLECTION_ADDRESS);
+    const res = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
+    console.log({ nftss: res })
     set_nfts(res);
     setLoading(false);
   };
