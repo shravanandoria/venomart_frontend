@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venom.svg"
+import { GoDotFill } from "react-icons/go";
 
 
 const LaunchCollectionCard = ({
@@ -12,7 +13,7 @@ const LaunchCollectionCard = ({
   Name,
   Description,
   mintPrice,
-  totalItems,
+  status,
   CollectionAddress,
   customLink,
   verified
@@ -78,8 +79,9 @@ const LaunchCollectionCard = ({
         </div>
       </div>
       <div className="flex justify-between align-middle my-6 mx-2">
-        <button className=" dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-          {totalItems}+ Items
+        <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+          <GoDotFill className="h-[19px] w-[19px] mt-1 text-green" />
+          <span className="text-green">{status}</span>
         </button>
         <button className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           {mintPrice}

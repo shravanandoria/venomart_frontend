@@ -10,31 +10,32 @@ import { get_listed_tokens } from "@/utils/user_nft";
 import { loadNFTs_collection } from "@/utils/user_nft";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-const NFTs = ({ theme, all_nfts, venomProvider }) => {
+const NFTs = ({ theme, venomProvider }) => {
+
   const [loading, setLoading] = useState(false);
-  const [notListedNFts, setNotListedNFts] = useState([]);
+  const [propShow, setPropShow] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
 
+  const [nfts, set_nfts] = useState();
+  const [listed_nfts, set_listed_nfts] = useState([]);
+
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentNFTs = notListedNFts.slice(firstPostIndex, lastPostIndex);
+  const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-  const [propShow, setPropShow] = useState(false);
-
-  const [listed_nfts, set_listed_nfts] = useState([]);
-  const [nfts, set_nfts] = useState();
 
   const fetch_listed_nfts = async () => {
-    if (venomProvider == undefined) return;
     const res = await get_listed_tokens(venomProvider);
-    set_listed_nfts(res);
+    // set_listed_nfts(res);
   };
 
   const get_nfts = async () => {
+    setLoading(true);
     const res = await loadNFTs_collection(venomProvider, COLLECTION_ADDRESS);
     set_nfts(res);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -78,9 +79,8 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                     <a
                       href="#"
-                      className={`${
-                        propShow && "border-transparent bg-accent text-white"
-                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${propShow && "border-transparent bg-accent text-white"
+                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -101,9 +101,8 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                   >
                     <a
                       href="#"
-                      className={`${
-                        !propShow && "border-transparent bg-accent text-white"
-                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${!propShow && "border-transparent bg-accent text-white"
+                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -142,12 +141,12 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                           chain_symbol={e?.chain_symbol}
                         />
                       ))}
-                      {all_nfts?.length <= 0 && <h2>No Listed NFTs</h2>}
+                      {listed_nfts?.length <= 0 && <h2 className="text-jacarta-700 dark:text-jacarta-200">No Listed NFTs</h2>}
                     </div>
                   ) : (
                     <>
                       <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                        {nfts?.map((e, index) => {
+                        {currentNFTs?.map((e, index) => {
                           return (
                             <NftCard
                               key={index}
@@ -169,7 +168,7 @@ const NFTs = ({ theme, all_nfts, venomProvider }) => {
                         {nfts?.length <= 0 && <h2>No NFTs Found</h2>}
                       </div>
                       <Pagination
-                        totalPosts={notListedNFts.length}
+                        totalPosts={nfts?.length}
                         postsPerPage={postsPerPage}
                         setCurrentPage={setCurrentPage}
                         currentPage={currentPage}
