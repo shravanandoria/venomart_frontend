@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 // 123Snaahaha
-const mongodb_uri =
-  "mongodb+srv://shravanandoria21437:123Snaahaha@cluster0.xdumlze.mongodb.net/?retryWrites=true&w=majority";
-// "mongodb+srv://venomartspace:anu@2000@venom-testnet.niuxzx8.mongodb.net/?retryWrites=true&w=majority";
-
+const mongodb_uri = process.env.NEXT_PUBLIC_Mongo_URI;
 
 if (!mongodb_uri) {
   throw new error("missing uri");
