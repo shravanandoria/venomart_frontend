@@ -42,6 +42,7 @@ const Collection = ({
   const contractAddress =
     "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2";
   const mintPrice = "1";
+  const supply = "1000";
   const status = "Live";
 
   const twitterURL = "https://twitter.com/venomart23";
@@ -240,7 +241,7 @@ const Collection = ({
                     EXCLUSIVE MINT
                   </h2>
                   <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                    2000 NFTs
+                    {supply} NFTs
                   </h1>
                 </div>
                 <div className="px-4 py-4">
