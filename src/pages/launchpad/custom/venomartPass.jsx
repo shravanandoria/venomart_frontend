@@ -91,6 +91,9 @@ const Collection = ({
     );
     if (launchMint) {
       setAfterMint(true);
+      setTimeout(() => {
+        router.reload();
+      }, 4000);
     }
     setLoading(false);
   };
