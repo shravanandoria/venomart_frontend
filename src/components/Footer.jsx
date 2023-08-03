@@ -3,9 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
-import { BsDiscord, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
+import { BsDiscord, BsInstagram, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
 
-const Footer = ({ theme, adminAccount, signer_address }) => {
+const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollectionStatus, onDisconnect }) => {
   return (
     <div className={`${theme}`} >
       <div className="w-full page-footer dark:bg-jacarta-900 bottom-0 left-0 block">
@@ -42,9 +42,9 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                 <a href="https://discord.gg/wQbBr6Xean" target="_blank" className="group">
                   <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                 </a>
-                {/* <a href="https://discord.gg/wQbBr6Xean" target="_blank" className="group">
-                  <BsInstagram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                </a> */}
+                <a href="https://t.me/venomart_space" target="_blank" className="group">
+                  <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                </a>
                 <a href="https://www.youtube.com/@Venomart-marketplace" target="_blank" className="group">
                   <BsYoutube className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                 </a>
@@ -112,22 +112,36 @@ const Footer = ({ theme, adminAccount, signer_address }) => {
                     Edit Profile
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/mint/CreateNFT"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Create NFT
-                  </Link>
-                </li>
-                {/* <li>
-                  <Link
-                    href="/mint/CreateNFTCollection"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Create Collection
-                  </Link>
-                </li> */}
+                {MintNFTStatus &&
+                  <li>
+                    <Link
+                      href="/mint/CreateNFT"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Create NFT
+                    </Link>
+                  </li>
+                }
+                {MintCollectionStatus &&
+                  <li>
+                    <Link
+                      href="/mint/CreateNFTCollection"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Create Collection
+                    </Link>
+                  </li>
+                }
+                {signer_address &&
+                  <li>
+                    <div
+                      onClick={onDisconnect}
+                      className="hover:text-accent dark:hover:text-white cursor-pointer"
+                    >
+                      Sign Out
+                    </div>
+                  </li>
+                }
               </ul>
             </div>
 

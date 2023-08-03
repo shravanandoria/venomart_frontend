@@ -56,7 +56,7 @@ export default function Home({ theme, collections, loading }) {
                         NFTs Minted
                       </span>
                     </div>
-                    <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                    {/* <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
                         3
                         <Image
@@ -75,7 +75,7 @@ export default function Home({ theme, collections, loading }) {
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                         Sale Volume
                       </span>
-                    </div>
+                    </div> */}
                   </div>
                   <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                     Buy, sell and collect NFTs.

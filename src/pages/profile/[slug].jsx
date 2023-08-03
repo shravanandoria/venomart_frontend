@@ -11,7 +11,7 @@ import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
 import { list_nft } from "@/utils/user_nft";
-import { BsDiscord, BsTwitter } from "react-icons/bs";
+import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { user_info } from "@/utils/mongo_api/user/user";
 
 const Profile = ({
@@ -129,6 +129,7 @@ const Profile = ({
               >
                 <span>{slug}</span>
               </a>
+              <BsArrowUpRight className="text-jacarta-700 dark:text-jacarta-200 cursor-pointer" onClick={() => window.open(`${blockURL}` + `accounts/` + `${slug}`, "_blank")} />
             </div>
 
             {/* bio  */}

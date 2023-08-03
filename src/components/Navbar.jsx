@@ -8,7 +8,7 @@ import venomLogo from "../../public/venom.svg";
 import axios from "axios";
 
 
-const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDisconnect }) => {
+const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, onDisconnect, MintNFTStatus, MintCollectionStatus, blockURL }) => {
   const router = useRouter();
 
   const [profileDrop, setProfileDrop] = useState(false);
@@ -22,7 +22,7 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
   useEffect(() => {
     if (!signer_address) return;
     axios
-      .post(baseURL, {
+      .post(apiFetchURL, {
         id: signer_address,
       })
       .then((response) => {
@@ -185,41 +185,16 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                 </li>
 
                 <li className="js-nav-dropdown group relative">
-                  <a
-                    href="#"
+                  <Link
+                    href="/explore/Rankings"
                     className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
-                    id="navDropdown-4"
+                    id="navDropdown-1"
                     aria-expanded="false"
                     role="button"
                     data-bs-toggle="dropdown"
                   >
-                    Create
-                  </a>
-                  <ul
-                    className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
-                    aria-labelledby="navDropdown-4"
-                  >
-                    <li>
-                      <Link
-                        href="/mint/CreateNFT"
-                        className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <span className="font-display text-sm text-jacarta-700 dark:text-white">
-                          Create NFT
-                        </span>
-                      </Link>
-                    </li>
-                    {/* <li>
-                      <Link
-                        href="/mint/CreateNFTCollection"
-                        className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                      >
-                        <span className="font-display text-sm text-jacarta-700 dark:text-white">
-                          Create NFT Collection
-                        </span>
-                      </Link>
-                    </li> */}
-                  </ul>
+                    Rankings
+                  </Link>
                 </li>
 
                 <li className="js-nav-dropdown group relative">
@@ -324,12 +299,12 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                         <button
                           className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
                           data-tippy-content="Copy"
-                          onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
                         >
-                          <span className="max-w-[10rem] overflow-hidden text-ellipsis">
+                          <a href={`${blockURL}accounts/${signer_address}`} target="_blank" className="max-w-[10rem] overflow-hidden text-ellipsis hover:text-blue">
                             {signer_address}
-                          </span>
+                          </a>
                           <svg
+                            onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
@@ -399,42 +374,46 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                             Edit Profile
                           </span>
                         </Link>
-                        <Link
-                          href="/mint/CreateNFT"
-                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                        {MintNFTStatus &&
+                          <Link
+                            href="/mint/CreateNFT"
+                            className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                           >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-                          </svg>
-                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                            Create NFT
-                          </span>
-                        </Link>
-                        {/* <Link
-                          href="/mint/CreateNFTCollection"
-                          className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+                            </svg>
+                            <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                              Create NFT
+                            </span>
+                          </Link>
+                        }
+                        {MintCollectionStatus &&
+                          <Link
+                            href="/mint/CreateNFTCollection"
+                            className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                           >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-                          </svg>
-                          <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                            Create Collection
-                          </span>
-                        </Link> */}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+                            </svg>
+                            <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                              Create Collection
+                            </span>
+                          </Link>
+                        }
                         <a
                           onClick={() => onDisconnect()}
                           className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -625,42 +604,46 @@ const Navbar = ({ signer_address, theme, setTheme, baseURL, connectWallet, onDis
                 Edit Profile
               </span>
             </Link>
-            <Link
-              href="/mint/CreateNFT"
-              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+            {MintNFTStatus &&
+              <Link
+                href="/mint/CreateNFT"
+                className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-              </svg>
-              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                Create NFT
-              </span>
-            </Link>
-            {/* <Link
-              href="/mint/CreateNFTCollection"
-              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+                </svg>
+                <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                  Create NFT
+                </span>
+              </Link>
+            }
+            {MintCollectionStatus &&
+              <Link
+                href="/mint/CreateNFTCollection"
+                className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-              </svg>
-              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                Create Collection
-              </span>
-            </Link> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
+                </svg>
+                <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
+                  Create Collection
+                </span>
+              </Link>
+            }
             <a
               onClick={() => onDisconnect()}
               className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Stats = () => {
+const Stats = ({ adminAccount, signer_address }) => {
     return (
-        <div>Stats</div>
+        <div>No stats yet!</div>
     )
 }
 

@@ -31,12 +31,16 @@ export default function App({ Component, pageProps }) {
   const blockChain = "Venom Testnet";
   const webURL = "https://venomart.space/";
   const blockURL = "https://testnet.venomscan.com/";
-  const baseURL = "https://testnet-api.venomscan.com/v1/accounts";
-  const adminAccount = "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
+  const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
 
-  // other
+  // other values 
+  const adminAccount = "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
+  const MintNFTStatus = true;
+  const MintCollectionStatus = false;
+
+  // variables
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
@@ -157,9 +161,12 @@ export default function App({ Component, pageProps }) {
         theme={theme}
         setTheme={setTheme}
         signer_address={signer_address}
-        baseURL={baseURL}
+        apiFetchURL={apiFetchURL}
         connectWallet={connect_wallet}
         onDisconnect={onDisconnect}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+        blockURL={blockURL}
       />
       <Component
         {...pageProps}
@@ -176,11 +183,17 @@ export default function App({ Component, pageProps }) {
         collections={collections}
         loading={loading}
         connectWallet={connect_wallet}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+        adminAccount={adminAccount}
       />
       <Footer
         theme={theme}
         signer_address={signer_address}
+        onDisconnect={onDisconnect}
         adminAccount={adminAccount}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
       />
       <Analytics />
     </>
