@@ -58,6 +58,7 @@ const Collection = ({
   const [loading, setLoading] = useState(false);
   const [comLoading, setCompLoading] = useState(false);
   const [afterMint, setAfterMint] = useState(false);
+  const [mintLock, setMintLock] = useState(false);
 
   const [checkMint, setCheckMint] = useState([]);
 
@@ -95,9 +96,7 @@ const Collection = ({
     );
     if (launchMint) {
       setAfterMint(true);
-      setTimeout(() => {
-        router.reload();
-      }, 4000);
+      setMintLock(true);
     }
     setLoading(false);
   };
@@ -122,6 +121,18 @@ const Collection = ({
   useEffect(() => {
     get_user_Data();
   }, [signer_address]);
+
+  useEffect(() => {
+    if (afterMint) {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0)
+    }
+    else {
+      document.body.style.overflow = "scroll";
+      document.body.style.overflowX = "hidden";
+      window.scrollTo(0, 0)
+    }
+  }, [afterMint]);
 
   return (
     <div className={`${theme}`}>
@@ -443,7 +454,14 @@ const Collection = ({
                             Mint Ended<AiFillLock className="mt-[4px] ml-[5px]" />
                           </button>
                         ) : (
-                          (
+                          (mintLock ?
+                            <button
+                              onClick={() => alert("You have already minted the NFT!")}
+                              className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                            >
+                              Mint NFT <AiFillLock className="mt-[4px] ml-[5px]" />
+                            </button>
+                            :
                             <button
                               onClick={() => mintLaunchNFT()}
                               className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
@@ -593,7 +611,8 @@ const Collection = ({
           </section>
 
           {afterMint && (
-            <div className="absolute top-[30%] right-[40%] w-[500px] z-20">
+            // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
+            <div className="afterMintDiv">
               <form className="modal-dialog max-w-2xl">
                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">
                   <div className="modal-header">
