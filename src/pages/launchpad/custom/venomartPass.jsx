@@ -336,7 +336,7 @@ const Collection = ({
 
                     {/* follow twitter  */}
                     <div className="flex mt-6 items-center pb-5 border-gray-100 ">
-                      <p className=" text-center text-lg dark:text-jacarta-200 md:text-left">
+                      <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
                         1] Follow venomart on twitter
                       </p>
                       <Link
@@ -351,7 +351,7 @@ const Collection = ({
 
                     {/* follow discord  */}
                     <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
-                      <p className="text-center text-[20px] dark:text-jacarta-200 md:text-left">
+                      <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                         2] Join venomart discord server
                       </p>
                       <Link
@@ -525,7 +525,7 @@ const Collection = ({
                                   <path fill="none" d="M0 0h24v24H0z" />
                                   <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
                                 </svg>
-                                <span className="mt-1 inline-block  text-jacarta-700 dark:text-jacarta-200e">
+                                <span className="mt-1 inline-block  text-jacarta-700 dark:text-jacarta-200">
                                   Copy
                                 </span>
                               </a>

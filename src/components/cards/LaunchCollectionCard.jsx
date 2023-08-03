@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
@@ -18,6 +18,9 @@ const LaunchCollectionCard = ({
   customLink,
   verified
 }) => {
+
+  const [isHovering, SetIsHovering] = useState(false);
+
   return (
     <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[370px] w-[280px] overflow-hidden  m-4 sm:m-8">
       <Link
@@ -48,7 +51,7 @@ const LaunchCollectionCard = ({
         </span>
       </Link>
 
-      <div className="flex justify-center align-middle text-center">
+      <div className="relative flex justify-center align-middle text-center">
         <Link
           href={`/launchpad/${customLink ? customLink : CollectionAddress}`}
           className="mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
@@ -64,10 +67,21 @@ const LaunchCollectionCard = ({
           <MdVerified
             style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "34px" }}
             size={25}
+            onMouseOver={() => SetIsHovering(true)}
+            onMouseOut={() => SetIsHovering(false)}
           />
           :
           <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "6px", marginTop: "35px" }}
-            size={20} />
+            size={20}
+            onMouseOver={() => SetIsHovering(true)}
+            onMouseOut={() => SetIsHovering(false)}
+          />
+        }
+        {verified && isHovering &&
+          <p className="absolute right-[0px] top-[5px] bg-blue px-[10px] py-[3px] text-white text-[12px]" style={{ borderRadius: "10px" }}>Verified</p>
+        }
+        {!verified && isHovering &&
+          <p className="absolute right-[0px] top-[5px] bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]" style={{ borderRadius: "10px" }}>Not Verified</p>
         }
       </div>
 

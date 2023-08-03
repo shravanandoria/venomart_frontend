@@ -20,6 +20,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
   const { slug } = router.query;
 
   const [loading, setLoading] = useState(false);
+  const [isHovering, SetIsHovering] = useState(false);
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -133,13 +134,25 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                     <MdVerified
                       style={{ color: "#4f87ff", cursor: "pointer" }}
                       size={30}
+                      onMouseOver={() => SetIsHovering(true)}
+                      onMouseOut={() => SetIsHovering(false)}
                     />
                   ) : (
                     <BsFillExclamationCircleFill
                       style={{ color: "#c3c944", cursor: "pointer" }}
                       size={30}
+                      onMouseOver={() => SetIsHovering(true)}
+                      onMouseOut={() => SetIsHovering(false)}
                     />
                   )}
+                </div>
+                <div className="absolute mb-6 ml-10 mt-2 inline-flex items-center justify-center">
+                  {collection?.isVerified && isHovering &&
+                    <p className="bg-blue px-[10px] py-[3px] text-white text-[12px]" style={{ borderRadius: "10px" }}>Verified</p>
+                  }
+                  {!collection?.isVerified && isHovering &&
+                    <p className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]" style={{ borderRadius: "10px" }}>Not Verified</p>
+                  }
                 </div>
               </div>
             </div>
