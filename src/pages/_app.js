@@ -53,7 +53,7 @@ export default function App({ Component, pageProps }) {
 
   // custom array of all launches 
   const customLaunchpad = [
-    // status should be Upcoming, Live, Ended, Sold Out 
+    // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
     {
       Cover: "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
       Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
@@ -66,10 +66,10 @@ export default function App({ Component, pageProps }) {
       verified: true
     },
     {
-      Cover: "https://ipfs.io/ipfs/QmUYVui5FuLVu3gDwztpy5vZU2F7jGeKdhXf3Na19gsNjz/covr.png",
-      Logo: "https://ipfs.io/ipfs/QmNspaaiBs459AucceFrHMkd2MZpwMavruxv6sPgRgbyqJ/collab%20(2).png",
+      Cover: "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
+      Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
       Name: "Venom Bears",
-      Description: "The cuddliest collection on the Venom Blockchain",
+      Description: "venomart X venom bears, presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "1",
       status: "Upcoming",
       CollectionAddress: "",
@@ -80,6 +80,8 @@ export default function App({ Component, pageProps }) {
       discord: "",
       instagram: "",
       telegram: "",
+      startDate: "08/08/2023 12:00:00",
+      endDate: "13/08/2023 12:00:00",
       verified: true
     }
   ]

@@ -76,6 +76,69 @@ const Collection = ({
         ],
     });
 
+    const [mintTime, setMintTime] = useState(false);
+    const [days, setDays] = useState(0);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        if (status == "Upcoming" || status == "Live") {
+            const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
+
+            const interval = setInterval(() => {
+                const now = new Date();
+                const difference = target.getTime() - now.getTime();
+
+                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                setDays(d);
+
+                const h = Math.floor(
+                    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                setHours(h);
+
+                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                setMinutes(m);
+
+                const s = Math.floor((difference % (1000 * 60)) / 1000);
+                setSeconds(s);
+
+                if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+                    setMintTime(true);
+                }
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+        else {
+            const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
+
+            const interval = setInterval(() => {
+                const now = new Date();
+                const difference = target.getTime() - now.getTime();
+
+                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                setDays(d);
+
+                const h = Math.floor(
+                    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                setHours(h);
+
+                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                setMinutes(m);
+
+                const s = Math.floor((difference % (1000 * 60)) / 1000);
+                setSeconds(s);
+
+                if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+                    setMintTime(true);
+                }
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+    }, []);
+
     const connect_wallet = async () => {
         const connect = await connectWallet();
     }
@@ -261,23 +324,63 @@ const Collection = ({
                                 {/* if live  */}
                                 {status == "Live" &&
                                     <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             MINT ENDS IN
                                         </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            6 DAYS{" "}
+                                        <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                                            {mintTime ? (
+                                                <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                                                    00 : 00 : 00 : 00
+                                                </h1>
+                                            ) : (
+                                                <div className="show-counter">
+                                                    <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
+                                                        <div className="countdown">
+                                                            <p>{days}</p>
+                                                            <span>Days</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{hours}</p>
+                                                            <span>Hours</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{minutes}</p>
+                                                            <span>Mins</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{seconds}</p>
+                                                            <span>Seconds</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                }
+
+                                {/* sold out */}
+                                {status == "Sold Out" &&
+                                    <div className="px-4 py-4">
+                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
+                                            SOLD OUT IN
+                                        </h2>
+                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-xl title-font font-medium mb-1">
+                                            FEW HOURS{" "}
                                         </h1>
                                     </div>
                                 }
 
-                                {/* sold out and ended  */}
-                                {status == "Sold Out" || status == "Ended" &&
+                                {/* ended */}
+                                {status == "Ended" &&
                                     <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             SOLD OUT IN
                                         </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            2 HOURS{" "}
+                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-xl title-font font-medium mb-1">
+                                            FEW HOURS{" "}
                                         </h1>
                                     </div>
                                 }
@@ -285,42 +388,70 @@ const Collection = ({
                                 {/* upcoming  */}
                                 {status == "Upcoming" &&
                                     <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                                        <h2 className="text-sm title-font text-gray-400 tracking-wides text-center">
                                             MINT STARTS IN
                                         </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            2 HOURS{" "}
-                                        </h1>
+                                        <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                                            {mintTime ? (
+                                                <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
+                                                    00 : 00 : 00 : 00
+                                                </h1>
+                                            ) : (
+                                                <div className="show-counter">
+                                                    <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
+                                                        <div className="countdown">
+                                                            <p>{days}</p>
+                                                            <span>Days</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{hours}</p>
+                                                            <span>Hours</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{minutes}</p>
+                                                            <span>Mins</span>
+                                                        </div>
+                                                        <p>:</p>
+                                                        <div className="countdown">
+                                                            <p>{seconds}</p>
+                                                            <span>Seconds</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 }
 
                                 {/* mint status  */}
                                 <div className="px-4 py-4">
-                                    <h2 className="text-sm title-font text-gray-400 tracking-widest">
+                                    <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                         MINTING STATUS
                                     </h2>
                                     {status == "Live" && (
-                                        <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <GoDotFill className="h-[33px] w-[33px] mt-1 text-green" />
-                                            <span className="text-green">{status}</span>
+                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[25px] w-[25px] text-green" />
+                                            <span className="text-green text-center" style={{ textTransform: "uppercase" }}>{status}</span>
                                         </h1>
                                     )}
                                     {status == "Ended" && (
-                                        <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <GoDotFill className="h-[33px] w-[33px] mt-1 text-red" />
-                                            <span className="text-red">{status}</span>
+                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[25px] w-[25px] text-red" />
+                                            <span className="text-red text-center" style={{ textTransform: "uppercase" }}>{status}</span>
                                         </h1>
                                     )}
                                     {status == "Upcoming" && (
-                                        <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <GoDotFill className="h-[33px] w-[33px] mt-1 text-[#2fa8b5]" />
-                                            <span className="text-[#2fa8b5]">{status}</span>
+                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[25px] w-[25px] text-[#2fa8b5]" />
+                                            <span className="text-[#2fa8b5] text-center" style={{ textTransform: "uppercase" }}>{status}</span>
                                         </h1>
                                     )}
                                     {status == "Sold Out" && (
-                                        <h1 className="flex text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <GoDotFill className="h-[33px] w-[33px] mt-1 text-jacarta-300" />
-                                            <span className="text-jacarta-300">{status}</span>
+                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[25px] w-[25px] text-jacarta-300" />
+                                            <span className="text-jacarta-300 text-center" style={{ textTransform: "uppercase" }}>{status}</span>
                                         </h1>
                                     )}
                                 </div>
@@ -589,7 +720,7 @@ const Collection = ({
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
                                                     {/* The NFT minting has ended! */}
-                                                    All venomart early passes got sold out in 2 hours
+                                                    All venomart early passes got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
@@ -599,7 +730,7 @@ const Collection = ({
                                                 style={{ zIndex: "10" }}
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
-                                                    All venomart early passes got sold out in 2 hours
+                                                    All venomart early passes got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
