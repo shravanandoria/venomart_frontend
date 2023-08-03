@@ -8,7 +8,7 @@ import venomLogo from "../../public/venom.svg";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
 
-export default function Home({ theme, collections, loading }) {
+export default function Home({ theme, collections, loading, customLaunchpad }) {
   return (
     <div
       className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
@@ -258,24 +258,25 @@ export default function Home({ theme, collections, loading }) {
                   );
                 })} */}
 
-                {/* hardcoding here  */}
-                <LaunchCollectionCard
-                  Cover={
-                    "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"
-                  }
-                  Logo={
-                    "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
-                  }
-                  Name={"venomart Passes"}
-                  Description={"Exclusive Passes On Venomart Marketplace"}
-                  mintPrice={"1"}
-                  status={"Sold Out"}
-                  CollectionAddress={
-                    "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
-                  }
-                  customLink={"custom/venomartPass"}
-                  verified={true}
-                />
+                {/* custom lauchpad fetching  */}
+                {customLaunchpad?.map((e, index) => {
+                  return (
+                    index < 8 && (
+                      <LaunchCollectionCard
+                        key={index}
+                        Cover={e.Cover}
+                        Logo={e.Logo}
+                        Name={e.Name}
+                        Description={e.Description}
+                        mintPrice={e.mintPrice}
+                        status={e.status}
+                        CollectionAddress={e.CollectionAddress}
+                        customLink={e.customLink}
+                        verified={e.verified}
+                      />
+                    )
+                  );
+                })}
               </div>
 
               <div className="mt-10 text-center">

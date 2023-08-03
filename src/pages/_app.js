@@ -51,6 +51,39 @@ export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [collections, set_collections] = useState([]);
 
+  // custom array of all launches 
+  const customLaunchpad = [
+    // status should be Upcoming, Live, Ended, Sold Out 
+    {
+      Cover: "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
+      Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
+      Name: "venomart Passes",
+      Description: "Exclusive Passes On Venomart Marketplace",
+      mintPrice: "1",
+      status: "Sold Out",
+      CollectionAddress: "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
+      customLink: "custom/venomartPass",
+      verified: true
+    },
+    {
+      Cover: "https://ipfs.io/ipfs/QmUYVui5FuLVu3gDwztpy5vZU2F7jGeKdhXf3Na19gsNjz/covr.png",
+      Logo: "https://ipfs.io/ipfs/QmNspaaiBs459AucceFrHMkd2MZpwMavruxv6sPgRgbyqJ/collab%20(2).png",
+      Name: "Venom Bears",
+      Description: "The cuddliest collection on the Venom Blockchain",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/venombears",
+      pageName: "venombears",
+      supply: "4000",
+      twitter: "",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      verified: true
+    }
+  ]
+
   // copyURL function 
   function copyURL() {
     const el = document.createElement('input');
@@ -186,6 +219,7 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
         adminAccount={adminAccount}
+        customLaunchpad={customLaunchpad}
       />
       <Footer
         theme={theme}

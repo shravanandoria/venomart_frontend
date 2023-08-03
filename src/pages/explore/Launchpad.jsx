@@ -4,13 +4,13 @@ import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 
-const Launchpad = ({ theme, all_collections }) => {
+const Launchpad = ({ theme, customLaunchpad }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollections = all_collections?.slice(
+  const currentCollections = customLaunchpad?.slice(
     firstPostIndex,
     lastPostIndex
   );
@@ -41,46 +41,46 @@ const Launchpad = ({ theme, all_collections }) => {
               Explore all the exclusive collections on venomart launchpad
             </p>
 
-            {/* loop public collections here  */}
-            {/* <div className="flex justify-center align-middle flex-wrap">
-                            {currentCollections?.map((e, index) => (
-                                <LaunchCollectionCard
-                                    key={index}
-                                    Cover={e.Cover}
-                                    Logo={e.Logo}
-                                    Name={e.Name}
-                                    OwnerAddress={e.OwnerAddress}
-                                    CollectionAddress={e.CollectionAddress}
-                                />
-                            ))}
-                        </div>
-                        <Pagination
-                            totalPosts={all_collections.length}
-                            postsPerPage={postsPerPage}
-                            setCurrentPage={setCurrentPage}
-                            currentPage={currentPage}
-                        /> */}
 
-            {/* add custom launch here  */}
             <div className="flex justify-center align-middle flex-wrap">
-              <LaunchCollectionCard
-                Cover={
-                  "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg"
-                }
-                Logo={
-                  "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
-                }
-                Name={"venomart Passes"}
-                Description={"Exclusive Passes On Venomart Marketplace"}
-                mintPrice={"1"}
-                status={"Sold Out"}
-                CollectionAddress={
-                  "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
-                }
-                customLink={"custom/venomartPass"}
-                verified={true}
-              />
+              {/* loop public launches here  */}
+              {/* {currentCollections?.map((e, index) => (
+                <LaunchCollectionCard
+                  key={index}
+                  Cover={e.Cover}
+                  Logo={e.Logo}
+                  Name={e.Name}
+                  OwnerAddress={e.OwnerAddress}
+                  CollectionAddress={e.CollectionAddress}
+                />
+              ))} */}
+
+              {/* fetching custom laucnh here  */}
+              {currentCollections?.map((e, index) => {
+                return (
+                  index < 8 && (
+                    <LaunchCollectionCard
+                      key={index}
+                      Cover={e.Cover}
+                      Logo={e.Logo}
+                      Name={e.Name}
+                      Description={e.Description}
+                      mintPrice={e.mintPrice}
+                      status={e.status}
+                      CollectionAddress={e.CollectionAddress}
+                      customLink={e.customLink}
+                      verified={e.verified}
+                    />
+                  )
+                );
+              })}
             </div>
+            <Pagination
+              totalPosts={customLaunchpad.length}
+              postsPerPage={postsPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
           </div>
         </section>
       </div>

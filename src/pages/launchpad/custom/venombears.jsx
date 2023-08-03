@@ -24,36 +24,34 @@ const Collection = ({
     copyURL,
     venomProvider,
     signer_address,
-    connectWallet
+    connectWallet,
+    customLaunchpad
 }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    // customData starts here
-    const CoverIMG =
-        "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg";
-    const NFTIMG =
-        "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif";
-
-    const pageName = "VenomartPass";
-    const ProjectName = "Venomart Passes";
-    const shortDesc =
-        "Get exclusive passes of venomart marketplace. exclusive pass holders will get benefits like airdrops, whitelisiting priority, etc";
-    const contractAddress =
-        "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2";
-    const mintPrice = "1";
-    // max NFT supply count 
-    const supply = "1500";
-    // status should be Upcoming, Live, Ended, Sold Out 
-    const status = "Ended";
-
-    const twitterURL = "https://twitter.com/venomart23";
-    const discordURL = " https://discord.gg/wQbBr6Xean";
-    const instagramURL = "";
-    const telegramURL = "";
+    // change from here
+    const launchSlug = customLaunchpad[1];
 
     const task1Twitter = "https://twitter.com/venomart23";
     const task2Discord = "https://discord.gg/wQbBr6Xean";
+    // change till here 
+
+    const CoverIMG = launchSlug.Cover;
+    const NFTIMG = launchSlug.Logo;
+    const ProjectName = launchSlug.Name;
+    const pageName = launchSlug.pageName;
+    const shortDesc = launchSlug.Description;
+    const contractAddress = launchSlug.CollectionAddress;
+    const mintPrice = launchSlug.mintPrice;
+    const supply = launchSlug.supply;
+    const status = launchSlug.status;
+    const verified = launchSlug.verified;
+
+    const twitterURL = launchSlug.twitter;
+    const discordURL = launchSlug.discord;
+    const instagramURL = launchSlug.instagram;
+    const telegramURL = launchSlug.telegram;
 
     const [loading, setLoading] = useState(false);
     const [comLoading, setCompLoading] = useState(false);
@@ -68,16 +66,15 @@ const Collection = ({
     const [data, set_data] = useState({
         image: NFTIMG,
         collectionName: ProjectName,
-        name: "Venomart Early Pass",
+        name: ProjectName,
         description: shortDesc,
         collectionAddress: contractAddress,
         mintPrice: mintPrice,
         properties: [
-            { type: "passType", value: "Early Pass" },
+            { type: "Benifit", value: "Fee Discount" },
             { type: "Version", value: "Testnet" },
         ],
     });
-    // customData ends here
 
     const connect_wallet = async () => {
         const connect = await connectWallet();
@@ -170,15 +167,17 @@ const Collection = ({
                                         style={{ fontSize: "35px" }}
                                     >
                                         <span> {ProjectName} </span>{" "}
-                                        <MdVerified
-                                            style={{
-                                                color: "#4f87ff",
-                                                cursor: "pointer",
-                                                marginTop: "5px",
-                                                marginLeft: "7px",
-                                            }}
-                                            size={30}
-                                        />
+                                        {verified &&
+                                            <MdVerified
+                                                style={{
+                                                    color: "#4f87ff",
+                                                    cursor: "pointer",
+                                                    marginTop: "5px",
+                                                    marginLeft: "7px",
+                                                }}
+                                                size={30}
+                                            />
+                                        }
                                     </h1>
                                     {/* social icons  */}
                                     <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
