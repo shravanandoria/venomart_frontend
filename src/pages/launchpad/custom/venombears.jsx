@@ -33,8 +33,12 @@ const Collection = ({
     // change from here
     const launchSlug = customLaunchpad[1];
 
-    const task1Twitter = "https://twitter.com/venomart23";
-    const task2Discord = "https://discord.gg/wQbBr6Xean";
+    const venomartTwitter = "venomart23";
+    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
+
+    const projectTwitter = "venombears";
+    const projectDiscord = "https://discord.gg/wQbBr6Xean";
+    const intendTweetId = "1686687467330768896";
     // change till here 
 
     const CoverIMG = launchSlug.Cover;
@@ -461,11 +465,18 @@ const Collection = ({
                             <div className="container px-5 py-24 mx-auto">
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
                                     {/* nftIMG  */}
-                                    <img
-                                        alt="nftImg"
-                                        className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                                        src={NFTIMG}
-                                    />
+                                    <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
+                                        <img
+                                            alt="nftImg"
+                                            className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
+                                            src={NFTIMG}
+                                        />
+                                        <div className="hideInPhoneTxt">
+                                            <p className="text-center text-[19px] m-2 dark:text-jacarta-200 md:text-left">
+                                                Mint this NFT and get benefits from venomart of this after mainnet launch 🚀🚀
+                                            </p>
+                                        </div>
+                                    </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                         <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -478,10 +489,10 @@ const Collection = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow venomart on twitter
+                                                1] Follow venom bears on twitter
                                             </p>
                                             <Link
-                                                href={task1Twitter}
+                                                href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
@@ -490,13 +501,28 @@ const Collection = ({
                                             </Link>
                                         </div>
 
-                                        {/* follow discord  */}
-                                        <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                2] Join venomart discord server
+                                        {/* follow twitter  */}
+                                        <div className="flex mt-2 items-center pb-5 border-gray-100 ">
+                                            <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                2] Follow venomart on twitter
                                             </p>
                                             <Link
-                                                href={task2Discord}
+                                                href={`https://twitter.com/intent/follow?screen_name=${venomartTwitter}`}
+                                                target="_blank"
+                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                            >
+                                                Follow{" "}
+                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                            </Link>
+                                        </div>
+
+                                        {/* join discord  */}
+                                        <div className="flex mt-2 items-center pb-5 mb-5">
+                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                3] Join venomart discord server
+                                            </p>
+                                            <Link
+                                                href={venomartDiscord}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
@@ -505,10 +531,46 @@ const Collection = ({
                                             </Link>
                                         </div>
 
-                                        <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
-                                            <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
-                                                After completing tasks please verify to start minting..
+                                        {/* join discord  */}
+                                        <div className="flex items-center pb-5 mb-5">
+                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                4] Join venom bears discord server
                                             </p>
+                                            <Link
+                                                href={projectDiscord}
+                                                target="_blank"
+                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                            >
+                                                Join{" "}
+                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                            </Link>
+                                        </div>
+
+                                        {/* retweet tweet  */}
+                                        <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
+                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                5] Retweet and like this tweet
+                                            </p>
+                                            <Link
+                                                href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
+                                                target="_blank"
+                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                            >
+                                                Retweet{" "}
+                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                            </Link>
+                                        </div>
+
+                                        <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
+                                            {actionVerify ?
+                                                <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
+                                                    If you verify without completing tasks then you might miss the rewards❌
+                                                </p>
+                                                :
+                                                <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
+                                                    After completing tasks please verify to start minting..
+                                                </p>
+                                            }
                                             {actionVerify ? (
                                                 <button className="w-[60%] flex justify-center ml-auto text-white bg-green-800 border-0 py-2 px-6 focus:outline-none rounded">
                                                     Verified
