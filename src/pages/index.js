@@ -173,13 +173,13 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                     </div>
 
                     {/* featured 2  */}
-                    {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                    <div className="space-y-6 md:w-1/2 xl:space-y-12">
                       <div>
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
                             <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"}>
                               <img
-                                src="https://ipfs.ventory.gg/ventory/upload-quest/5png1690035055140.png"
+                                src="https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif"
                                 alt="item 1"
                                 className="w-full object-cover"
                                 height="437"
@@ -191,7 +191,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                             <div className="flex">
                               <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="shrink-0">
                                 <img
-                                  src="https://ipfs.ventory.gg/ventory/upload-quest/5png1690035055140.png"
+                                  src="https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif"
                                   alt="avatar"
                                   className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
@@ -200,20 +200,28 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                               </Link>
                               <div>
                                 <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="block">
-                                  <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Chew Chew
+                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                    Venom Bears
+                                    <MdVerified
+                                      style={{
+                                        color: "#4f87ff",
+                                        marginBottom: "3px",
+                                        marginLeft: "3px",
+                                      }}
+                                      size={21}
+                                    />
                                   </span>
                                 </Link>
 
                                 <a className="text-2xs text-accent dark:text-white">
-                                  2222 Items | 1650 Owners
+                                  4000 Items | 100+ Owners
                                 </a>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,11 +267,11 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 })} */}
 
                 {/* custom lauchpad fetching  */}
-                {customLaunchpad?.map((e, index) => {
+                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                   return (
-                    index < 8 && (
+                    id < 6 && (
                       <LaunchCollectionCard
-                        key={index}
+                        key={id}
                         Cover={e.Cover}
                         Logo={e.Logo}
                         Name={e.Name}

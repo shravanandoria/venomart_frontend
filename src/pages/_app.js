@@ -55,6 +55,7 @@ export default function App({ Component, pageProps }) {
   const customLaunchpad = [
     // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
     {
+      id: 0,
       Cover: "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
       Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
       Name: "venomart Passes",
@@ -66,24 +67,45 @@ export default function App({ Component, pageProps }) {
       verified: true
     },
     {
+      id: 1,
+      Cover: "https://pbs.twimg.com/profile_banners/1664315773622288384/1688430740/1500x500",
+      Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
+      Name: "Venom Alligators",
+      Description: "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/venomalligators",
+      pageName: "venomalligators",
+      supply: "3000",
+      twitter: "",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      startDate: "08/07/2023 12:00:00",
+      endDate: "08/11/2023 12:00:00",
+      verified: true
+    },
+    {
+      id: 2,
       Cover: "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
       Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
       Name: "Venom Bears",
-      Description: "venomart X venom bears, presenting venom bears the cutest collection on the Venom Blockchain",
+      Description: "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "1",
       status: "Upcoming",
       CollectionAddress: "",
       customLink: "custom/venombears",
       pageName: "venombears",
-      supply: "4000",
+      supply: "3000",
       twitter: "",
       discord: "",
       instagram: "",
       telegram: "",
-      startDate: "08/08/2023 12:00:00",
-      endDate: "13/08/2023 12:00:00",
+      startDate: "08/09/2023 12:00:00",
+      endDate: "08/13/2023 12:00:00",
       verified: true
-    }
+    },
   ]
 
   // copyURL function 

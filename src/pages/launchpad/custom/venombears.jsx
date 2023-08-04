@@ -16,8 +16,9 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
 import { user_info } from "@/utils/mongo_api/user/user";
+import collectionAbi from "../../../../abi/Collection.abi.json";
 
-const Collection = ({
+const venombears = ({
     blockURL,
     theme,
     webURL,
@@ -31,7 +32,7 @@ const Collection = ({
     const { slug } = router.query;
 
     // change from here
-    const launchSlug = customLaunchpad[1];
+    const launchSlug = customLaunchpad[2];
 
     const venomartTwitter = "venomart23";
     const venomartDiscord = "https://discord.gg/wQbBr6Xean";
@@ -49,7 +50,7 @@ const Collection = ({
     const contractAddress = launchSlug.CollectionAddress;
     const mintPrice = launchSlug.mintPrice;
     const supply = launchSlug.supply;
-    const status = launchSlug.status;
+    const [status, setStatus] = useState(launchSlug.status);
     const verified = launchSlug.verified;
 
     const twitterURL = launchSlug.twitter;
@@ -58,6 +59,7 @@ const Collection = ({
     const telegramURL = launchSlug.telegram;
 
     const [loading, setLoading] = useState(false);
+    const [mintedNFTs, setMintedNFTs] = useState(0);
     const [comLoading, setCompLoading] = useState(false);
     const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
@@ -67,7 +69,7 @@ const Collection = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
-    const [data, set_data] = useState({
+    const [data] = useState({
         image: NFTIMG,
         collectionName: ProjectName,
         name: ProjectName,
@@ -80,14 +82,37 @@ const Collection = ({
         ],
     });
 
-    const [mintTime, setMintTime] = useState(false);
-    const [days, setDays] = useState(0);
-    const [hours, setHours] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
+    const [startdays, setStartDays] = useState(0);
+    const [starthours, setStartHours] = useState(0);
+    const [startminutes, setStartMinutes] = useState(0);
+    const [startseconds, setStartSeconds] = useState(0);
+
+    const [enddays, setEndDays] = useState(0);
+    const [endhours, setEndHours] = useState(0);
+    const [endminutes, setEndMinutes] = useState(0);
+    const [endseconds, setEndSeconds] = useState(0);
+
+    const getMintedCount = async () => {
+        setLoading(true);
+        if (venomProvider != undefined) {
+            const contract = new venomProvider.Contract(
+                collectionAbi,
+                contractAddress
+            );
+            const totalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
+            setMintedNFTs(totalSupply.count);
+        }
+        setLoading(false);
+    }
+
+    // getting minted nfts
+    useEffect(() => {
+        getMintedCount();
+    }, [venomProvider])
 
     useEffect(() => {
-        if (status == "Upcoming" || status == "Live") {
+        setLoading(true);
+        if (status == "Upcoming") {
             const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
 
             const interval = setInterval(() => {
@@ -95,52 +120,51 @@ const Collection = ({
                 const difference = target.getTime() - now.getTime();
 
                 const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-                setDays(d);
+                setStartDays(d);
 
                 const h = Math.floor(
                     (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
                 );
-                setHours(h);
+                setStartHours(h);
 
                 const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                setMinutes(m);
+                setStartMinutes(m);
 
                 const s = Math.floor((difference % (1000 * 60)) / 1000);
-                setSeconds(s);
+                setStartSeconds(s);
 
                 if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                    setMintTime(true);
+                    setStatus("Live");
+                    const target = new Date(`${launchSlug.endDate ? launchSlug.endDate : ""}`);
+
+                    const interval = setInterval(() => {
+                        const now = new Date();
+                        const difference = target.getTime() - now.getTime();
+
+                        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                        setEndDays(d);
+
+                        const h = Math.floor(
+                            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                        );
+                        setEndHours(h);
+
+                        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                        setEndMinutes(m);
+
+                        const s = Math.floor((difference % (1000 * 60)) / 1000);
+                        setEndSeconds(s);
+
+                        if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
+                            setStatus("Ended");
+                        }
+                    }, 1000);
+                    return () => clearInterval(interval);
                 }
             }, 1000);
             return () => clearInterval(interval);
         }
-        else {
-            const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
-
-            const interval = setInterval(() => {
-                const now = new Date();
-                const difference = target.getTime() - now.getTime();
-
-                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-                setDays(d);
-
-                const h = Math.floor(
-                    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                setHours(h);
-
-                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                setMinutes(m);
-
-                const s = Math.floor((difference % (1000 * 60)) / 1000);
-                setSeconds(s);
-
-                if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                    setMintTime(true);
-                }
-            }, 1000);
-            return () => clearInterval(interval);
-        }
+        setLoading(false);
     }, []);
 
     const connect_wallet = async () => {
@@ -323,6 +347,9 @@ const Collection = ({
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
                                         {supply} NFTs
                                     </h1>
+                                    <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                                        {mintedNFTs} / {supply} Minted
+                                    </p>
                                 </div>
 
                                 {/* if live  */}
@@ -332,35 +359,29 @@ const Collection = ({
                                             MINT ENDS IN
                                         </h2>
                                         <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            {mintTime ? (
-                                                <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                                    00 : 00 : 00 : 00
-                                                </h1>
-                                            ) : (
-                                                <div className="show-counter">
-                                                    <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                                                        <div className="countdown">
-                                                            <p>{days}</p>
-                                                            <span>Days</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{hours}</p>
-                                                            <span>Hours</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{minutes}</p>
-                                                            <span>Mins</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{seconds}</p>
-                                                            <span>Seconds</span>
-                                                        </div>
+                                            <div className="show-counter">
+                                                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
+                                                    <div className="countdown">
+                                                        <p>{enddays}</p>
+                                                        <span>Days</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{endhours}</p>
+                                                        <span>Hours</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{endminutes}</p>
+                                                        <span>Mins</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{endseconds}</p>
+                                                        <span>Seconds</span>
                                                     </div>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
                                     </div>
                                 }
@@ -396,35 +417,29 @@ const Collection = ({
                                             MINT STARTS IN
                                         </h2>
                                         <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            {mintTime ? (
-                                                <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                                    00 : 00 : 00 : 00
-                                                </h1>
-                                            ) : (
-                                                <div className="show-counter">
-                                                    <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                                                        <div className="countdown">
-                                                            <p>{days}</p>
-                                                            <span>Days</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{hours}</p>
-                                                            <span>Hours</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{minutes}</p>
-                                                            <span>Mins</span>
-                                                        </div>
-                                                        <p>:</p>
-                                                        <div className="countdown">
-                                                            <p>{seconds}</p>
-                                                            <span>Seconds</span>
-                                                        </div>
+                                            <div className="show-counter">
+                                                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
+                                                    <div className="countdown">
+                                                        <p>{startdays}</p>
+                                                        <span>Days</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{starthours}</p>
+                                                        <span>Hours</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{startminutes}</p>
+                                                        <span>Mins</span>
+                                                    </div>
+                                                    <p>:</p>
+                                                    <div className="countdown">
+                                                        <p>{startseconds}</p>
+                                                        <span>Seconds</span>
                                                     </div>
                                                 </div>
-                                            )}
+                                            </div>
                                         </div>
                                     </div>
                                 }
@@ -472,8 +487,8 @@ const Collection = ({
                                             src={NFTIMG}
                                         />
                                         <div className="hideInPhoneTxt">
-                                            <p className="text-center text-[19px] m-2 dark:text-jacarta-200 md:text-left">
-                                                Mint this NFT and get benefits from venomart of this after mainnet launch 🚀🚀
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                Mint this NFT and get benefits of this NFT from venomart after mainnet launch 🚀🚀
                                             </p>
                                         </div>
                                     </div>
@@ -561,54 +576,57 @@ const Collection = ({
                                             </Link>
                                         </div>
 
-                                        <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
-                                            {actionVerify ?
-                                                <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
-                                                    If you verify without completing tasks then you might miss the rewards❌
-                                                </p>
-                                                :
-                                                <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
-                                                    After completing tasks please verify to start minting..
-                                                </p>
-                                            }
-                                            {actionVerify ? (
-                                                <button className="w-[60%] flex justify-center ml-auto text-white bg-green-800 border-0 py-2 px-6 focus:outline-none rounded">
-                                                    Verified
-                                                    <AiFillCheckCircle className="ml-[4px] mt-[5px]" />
-                                                </button>
-                                            ) : (
-                                                <div className="w-[100%]">
-                                                    {comLoading ? (
-                                                        <button className="cursor-wait flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded">
-                                                            Verifying{" "}
-                                                            <svg
-                                                                aria-hidden="true"
-                                                                className="inline w-6 h-6 ml-3 text-gray-400 animate-spin fill-blue-200"
-                                                                viewBox="0 0 100 101"
-                                                                fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg"
+                                        {status == "Live" &&
+                                            <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
+                                                {actionVerify ?
+                                                    <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
+                                                        If you verify without completing tasks then you might miss the rewards❌
+                                                    </p>
+                                                    :
+                                                    <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
+                                                        After completing tasks please verify to start minting..
+                                                    </p>
+                                                }
+                                                {actionVerify ? (
+                                                    <button className="w-[60%] flex justify-center ml-auto text-white bg-green-800 border-0 py-2 px-6 focus:outline-none rounded">
+                                                        Verified
+                                                        <AiFillCheckCircle className="ml-[4px] mt-[5px]" />
+                                                    </button>
+                                                ) : (
+                                                    <div className="w-[100%]">
+                                                        {comLoading ? (
+                                                            <button className="cursor-wait flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded">
+                                                                Verifying{" "}
+                                                                <svg
+                                                                    aria-hidden="true"
+                                                                    className="inline w-6 h-6 ml-3 text-gray-400 animate-spin fill-blue-200"
+                                                                    viewBox="0 0 100 101"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <path
+                                                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                                        fill="currentColor"
+                                                                    />
+                                                                    <path
+                                                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                                        fill="currentFill"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                onClick={verifyAction}
+                                                                className="flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded"
                                                             >
-                                                                <path
-                                                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                                    fill="currentColor"
-                                                                />
-                                                                <path
-                                                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                                    fill="currentFill"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            onClick={verifyAction}
-                                                            className="flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded"
-                                                        >
-                                                            Verify Tasks
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
+                                                                Verify Tasks
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        }
+
                                         <div className="flex">
                                             {/* price  */}
                                             <div>
@@ -634,17 +652,30 @@ const Collection = ({
                                                     Already Minted <AiFillLock className="mt-[4px] ml-[5px]" />
                                                 </button>
                                                 :
-                                                (!actionVerify || status == "Ended" ? (
-                                                    <button
-                                                        onClick={() =>
-                                                            alert(
-                                                                "The mint has ended! All passes sold out"
-                                                            )
-                                                        }
-                                                        className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                    >
-                                                        Mint Ended<AiFillLock className="mt-[4px] ml-[5px]" />
-                                                    </button>
+                                                (!actionVerify ? (
+                                                    (status == "Ended" || status == "Sold Out" ?
+                                                        <button
+                                                            onClick={() =>
+                                                                alert(
+                                                                    "The mint has ended! All passes sold out"
+                                                                )
+                                                            }
+                                                            className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                        >
+                                                            Mint Ended<AiFillLock className="mt-[4px] ml-[5px]" />
+                                                        </button>
+                                                        :
+                                                        (<button
+                                                            onClick={() =>
+                                                                alert(
+                                                                    "Minting is locked or tasks are not completed!!"
+                                                                )
+                                                            }
+                                                            className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                        >
+                                                            Mint <AiFillLock className="mt-[4px] ml-[5px]" />
+                                                        </button>)
+                                                    )
                                                 ) : (
                                                     (mintLock ?
                                                         <button
@@ -782,7 +813,7 @@ const Collection = ({
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
                                                     {/* The NFT minting has ended! */}
-                                                    All venomart early passes got sold out in few hours
+                                                    All {ProjectName} got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
@@ -792,7 +823,7 @@ const Collection = ({
                                                 style={{ zIndex: "10" }}
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
-                                                    All venomart early passes got sold out in few hours
+                                                    All {ProjectName} got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
@@ -861,4 +892,4 @@ const Collection = ({
     );
 };
 
-export default Collection;
+export default venombears;

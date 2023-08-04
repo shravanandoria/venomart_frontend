@@ -56,11 +56,11 @@ const Launchpad = ({ theme, customLaunchpad }) => {
               ))} */}
 
               {/* fetching custom laucnh here  */}
-              {currentCollections?.map((e, index) => {
+              {currentCollections?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                 return (
-                  index < 8 && (
+                  id < 8 && (
                     <LaunchCollectionCard
-                      key={index}
+                      key={id}
                       Cover={e.Cover}
                       Logo={e.Logo}
                       Name={e.Name}

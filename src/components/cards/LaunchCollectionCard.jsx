@@ -117,7 +117,7 @@ const LaunchCollectionCard = ({
             <span className="text-red">{status}</span>
           </button>
         }
-        <button className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+        <Link href={`/launchpad/${customLink ? customLink : CollectionAddress}`} className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
           {mintPrice}
           <Image
             src={venomLogo}
@@ -131,7 +131,7 @@ const LaunchCollectionCard = ({
             }}
             alt="Venomart | NFT Marketplace"
           />
-        </button>
+        </Link>
       </div>
     </div >
   );

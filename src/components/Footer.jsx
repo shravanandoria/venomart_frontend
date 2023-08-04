@@ -150,7 +150,7 @@ const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollec
                 Other Links
               </h3>
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                <li>
+                {/* <li>
                   <Link
                     href="https://forms.gle/98VPnY7FSTuHCvaTA"
                     target="_blank"
@@ -158,7 +158,7 @@ const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollec
                   >
                     Apply For Launchpad
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
