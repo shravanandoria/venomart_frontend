@@ -269,7 +269,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 {/* custom lauchpad fetching  */}
                 {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                   return (
-                    id < 6 && (
+                    id < 6 && e.verified == true && (
                       <LaunchCollectionCard
                         key={id}
                         Cover={e.Cover}
