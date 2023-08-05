@@ -72,9 +72,8 @@ export default function App({ Component, pageProps }) {
     },
     {
       id: 1,
-      Cover:
-        "https://pbs.twimg.com/profile_banners/1664315773622288384/1688430740/1500x500",
-      Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
+      Cover: "https://pbs.twimg.com/profile_banners/1664315773622288384/1688430740/1500x500",
+      Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
       Name: "Venom Alligators",
       Description:
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
@@ -84,6 +83,7 @@ export default function App({ Component, pageProps }) {
       customLink: "custom/venomalligators",
       pageName: "venomalligators",
       supply: "3000",
+      twitterUserName: "",
       twitter: "",
       discord: "",
       instagram: "",
@@ -106,6 +106,7 @@ export default function App({ Component, pageProps }) {
       customLink: "custom/venombears",
       pageName: "venombears",
       supply: "3000",
+      twitterUserName: "venombears",
       twitter: "",
       discord: "",
       instagram: "",
