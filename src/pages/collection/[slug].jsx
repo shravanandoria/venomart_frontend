@@ -4,7 +4,7 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsArrowUpRight, BsFillExclamationCircleFill } from "react-icons/bs";
+import { BsArrowUpRight, BsBrowserChrome, BsDiscord, BsFillExclamationCircleFill, BsTelegram, BsTwitter } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
@@ -105,7 +105,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
           </div>
 
           {/* <!-- Collection Section --> */}
-          <section className="relative bg-light-base pb-12 pt-28 dark:bg-jacarta-800">
+          <section className="relative bg-light-base pb-6 pt-20 dark:bg-jacarta-800">
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
                 {collection?.logo ? (
@@ -158,6 +158,49 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
 
             <div className="container">
               <div className="text-center">
+                <div className="flex justify-center align-middle mb-6 mt-2">
+                  {collection?.socials && (
+                    <>
+                      <a
+                        href={
+                          collection?.socials?.length ? collection?.socials[0] : "#"
+                        }
+                        target="_blank"
+                        className="group mr-4 ml-4"
+                      >
+                        <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                      <a
+                        href={
+                          collection?.socials?.length ? collection?.socials[1] : "#"
+                        }
+                        target="_blank"
+                        className="group mr-4"
+                      >
+                        <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                      <a
+                        href={
+                          collection?.socials?.length ? collection?.socials[2] : "#"
+                        }
+                        target="_blank"
+                        className="group mr-4"
+                      >
+                        <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                      <a
+                        href={
+                          collection?.socials?.length ? collection?.socials[3] : "#"
+                        }
+                        target="_blank"
+                        className="group mr-4"
+                      >
+                        <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                    </>
+                  )}
+                </div>
+
                 <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                   <a
                     href={`${blockURL}accounts/${slug}`}
