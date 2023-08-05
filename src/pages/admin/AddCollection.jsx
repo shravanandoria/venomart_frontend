@@ -46,7 +46,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     set_loading(false);
     router.push("/explore/Collections");
   };
-
+  
   return (
     <div className={`${theme}`}>
       <Head>
