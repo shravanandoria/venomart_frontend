@@ -3,8 +3,11 @@ import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { create_collection } from "@/utils/mongo_api/collection/collection";
+import { useStorage } from "@thirdweb-dev/react";
 
 const AddCollection = ({ theme, adminAccount, signer_address }) => {
+  const storage = useStorage();
+
   const router = useRouter();
   const [loading, set_loading] = useState(false);
   const [preview, set_preview] = useState({ logo: "", cover: "" });
@@ -29,7 +32,17 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
   const handle_submit = async (e) => {
     e.preventDefault();
     set_loading(true);
-    await create_collection(data);
+
+    const ipfs_logo = await storage.upload(data.logo);
+    const ipfs_coverImage = await storage.upload(data.coverImage);
+
+    let obj = {
+      ...data,
+      coverImage: ipfs_coverImage,
+      logo: ipfs_logo,
+    };
+
+    await create_collection(obj);
     set_loading(false);
     router.push("/explore/Collections");
   };
@@ -53,7 +66,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
           onSubmit={handle_submit}
           className="relative py-24  dark:bg-jacarta-900"
         >
-          {signer_address == adminAccount ?
+          {signer_address == adminAccount ? (
             <div className="container">
               <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Add NFT Collection
@@ -179,10 +192,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     name="name"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     placeholder="Eg: Wild Hunters"
                     required
                   />
@@ -194,17 +208,19 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     htmlFor="item-name"
                     className="mb-2 block font-display text-jacarta-700 dark:text-white"
                   >
-                    Collection Contract Address<span className="text-red">*</span>
+                    Collection Contract Address
+                    <span className="text-red">*</span>
                   </label>
                   <input
                     onChange={handleChange}
                     name="contractAddress"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                     required
                   />
@@ -223,10 +239,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     name="creatorAddress"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                     required
                   />
@@ -251,10 +268,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     id="item-name"
                     max={10}
                     step="any"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     placeholder="Eg: 5%"
                     required
                   />
@@ -272,10 +290,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     If true then then collection will be verified
                   </p>
                   <select
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     name="isVerified"
                     onChange={handleChange}
                   >
@@ -300,10 +319,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     onChange={handleChange}
                     name="description"
                     id="item-description"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                    } `}
                     rows="4"
                     required
                     placeholder="Provide a detailed description of your collection."
@@ -319,16 +339,17 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                 </button>
               </div>
             </div>
-            :
+          ) : (
             <div className="container">
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 You dont have permission to view this page
               </h1>
               <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-                We are sorry for the inconvenience, if it is a mistake contact us!
+                We are sorry for the inconvenience, if it is a mistake contact
+                us!
               </p>
             </div>
-          }
+          )}
         </form>
       )}
     </div>
