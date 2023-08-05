@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/07/2023 12:00:00",
       endDate: "08/11/2023 12:00:00",
-      verified: false,
+      verified: true,
     },
     {
       id: 2,
@@ -113,7 +113,7 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/09/2023 12:00:00",
       endDate: "08/13/2023 12:00:00",
-      verified: false,
+      verified: true,
     },
   ];
 

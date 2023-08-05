@@ -221,6 +221,12 @@ const venombears = ({
         }
     }, [afterMint]);
 
+    useEffect(() => {
+        if (supply <= mintedNFTs) {
+            setStatus("Ended");
+        }
+    }, [mintedNFTs]);
+
     return (
         <div className={`${theme}`}>
             <Head>
@@ -302,21 +308,44 @@ const venombears = ({
                                     </p>
                                     {/* action  */}
                                     <div className="flex space-x-6">
-                                        <a
-                                            href={`${blockURL}accounts/${contractAddress}`}
-                                            target="_blank"
-                                            className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                        >
-                                            Venomscan
-                                            <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
-                                        </a>
-                                        <a
-                                            href={`/collection/${contractAddress}`}
-                                            className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                                        >
-                                            Collection
-                                            <GoArrowUpRight />
-                                        </a>
+                                        {contractAddress != "" ?
+                                            <>
+                                                < a
+                                                    href={`${blockURL}accounts/${contractAddress}`}
+                                                    target="_blank"
+                                                    className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                >
+                                                    Venomscan
+                                                    <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
+                                                </a>
+                                                <a
+                                                    href={`/collection/${contractAddress}`}
+                                                    className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                                >
+                                                    Collection
+                                                    <GoArrowUpRight />
+                                                </a>
+                                            </>
+                                            :
+                                            <>
+                                                <a
+                                                    href={"#"}
+                                                    onClick={() => alert("Minting not started yet!")}
+                                                    className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                >
+                                                    Venomscan
+                                                    <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
+                                                </a>
+                                                <a
+                                                    href={"#"}
+                                                    onClick={() => alert("Minting not started yet!")}
+                                                    className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                                >
+                                                    Collection
+                                                    <GoArrowUpRight />
+                                                </a>
+                                            </>
+                                        }
                                     </div>
                                 </div>
 

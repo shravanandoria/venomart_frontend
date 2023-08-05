@@ -174,13 +174,13 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                     </div>
 
                     {/* featured 2  */}
-                    {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                    <div className="space-y-6 md:w-1/2 xl:space-y-12">
                       <div>
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
-                            <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"}>
+                            <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"}>
                               <img
-                                src="https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif"
+                                src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
                                 alt="item 1"
                                 className="w-full object-cover"
                                 height="437"
@@ -190,9 +190,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                           </div>
                           <div className="p-6">
                             <div className="flex">
-                              <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="shrink-0">
+                              <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="shrink-0">
                                 <img
-                                  src="https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif"
+                                  src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
                                   alt="avatar"
                                   className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
@@ -200,9 +200,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                                 />
                               </Link>
                               <div>
-                                <Link href={"/collection/0:def84d678dd3887d627ddfa430faf4f488bc426e61237d34e1d069ccb87641cb"} className="block">
+                                <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="block">
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Venom Bears
+                                    Revolt
                                     <MdVerified
                                       style={{
                                         color: "#4f87ff",
@@ -215,14 +215,14 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                                 </Link>
 
                                 <a className="text-2xs text-accent dark:text-white">
-                                  4000 Items | 100+ Owners
+                                  2000 Items | 500+ Owners
                                 </a>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
