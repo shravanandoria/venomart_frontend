@@ -37,11 +37,11 @@ const venomalligators = ({
     const venomartTwitter = "venomart23";
     const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-    const projectTwitter = "venombears";
-    const projectDiscord = "https://discord.gg/wQbBr6Xean";
     const intendTweetId = "1686687467330768896";
     // change till here 
 
+    const projectTwitter = launchSlug.twitterUserName;
+    const projectDiscord = launchSlug.discord;
     const CoverIMG = launchSlug.Cover;
     const NFTIMG = launchSlug.Logo;
     const ProjectName = launchSlug.Name;
@@ -504,7 +504,7 @@ const venomalligators = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow venom bears on twitter
+                                                1] Follow {ProjectName} on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -549,7 +549,7 @@ const venomalligators = ({
                                         {/* join discord  */}
                                         <div className="flex items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                4] Join venom bears discord server
+                                                4] Join {ProjectName} discord server
                                             </p>
                                             <Link
                                                 href={projectDiscord}
