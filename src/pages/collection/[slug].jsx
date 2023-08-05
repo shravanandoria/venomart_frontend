@@ -161,42 +161,50 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                 <div className="flex justify-center align-middle mb-6 mt-2">
                   {collection?.socials && (
                     <>
-                      <a
-                        href={
-                          collection?.socials?.length ? collection?.socials[0] : "#"
-                        }
-                        target="_blank"
-                        className="group mr-4 ml-4"
-                      >
-                        <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                      </a>
-                      <a
-                        href={
-                          collection?.socials?.length ? collection?.socials[1] : "#"
-                        }
-                        target="_blank"
-                        className="group mr-4"
-                      >
-                        <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                      </a>
-                      <a
-                        href={
-                          collection?.socials?.length ? collection?.socials[2] : "#"
-                        }
-                        target="_blank"
-                        className="group mr-4"
-                      >
-                        <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                      </a>
-                      <a
-                        href={
-                          collection?.socials?.length ? collection?.socials[3] : "#"
-                        }
-                        target="_blank"
-                        className="group mr-4"
-                      >
-                        <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                      </a>
+                      {collection?.socials[0] != "" &&
+                        <a
+                          href={
+                            collection?.socials?.length ? collection?.socials[0] : "#"
+                          }
+                          target="_blank"
+                          className="group ml-4"
+                        >
+                          <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                        </a>
+                      }
+                      {collection?.socials[1] != "" &&
+                        <a
+                          href={
+                            collection?.socials?.length ? collection?.socials[1] : "#"
+                          }
+                          target="_blank"
+                          className="group ml-4"
+                        >
+                          <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                        </a>
+                      }
+                      {collection?.socials[2] != "" &&
+                        <a
+                          href={
+                            collection?.socials?.length ? collection?.socials[2] : "#"
+                          }
+                          target="_blank"
+                          className="group ml-4"
+                        >
+                          <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                        </a>
+                      }
+                      {collection?.socials[3] != "" &&
+                        <a
+                          href={
+                            collection?.socials?.length ? collection?.socials[3] : "#"
+                          }
+                          target="_blank"
+                          className="group ml-4"
+                        >
+                          <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                        </a>
+                      }
                     </>
                   )}
                 </div>

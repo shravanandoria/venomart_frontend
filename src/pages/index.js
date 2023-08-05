@@ -268,29 +268,24 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 })} */}
 
                 {/* custom lauchpad fetching  */}
-                {customLaunchpad
-                  ?.sort(
-                    ({ id: previousID }, { id: currentID }) =>
-                      currentID - previousID
-                  )
-                  ?.map((e, id) => {
-                    return (
-                      id < 6 && (
-                        <LaunchCollectionCard
-                          key={id}
-                          Cover={e.Cover}
-                          Logo={e.Logo}
-                          Name={e.Name}
-                          Description={e.Description}
-                          mintPrice={e.mintPrice}
-                          status={e.status}
-                          CollectionAddress={e.CollectionAddress}
-                          customLink={e.customLink}
-                          verified={e.verified}
-                        />
-                      )
-                    );
-                  })}
+                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
+                  return (
+                    id < 6 && e.verified == true && (
+                      <LaunchCollectionCard
+                        key={id}
+                        Cover={e.Cover}
+                        Logo={e.Logo}
+                        Name={e.Name}
+                        Description={e.Description}
+                        mintPrice={e.mintPrice}
+                        status={e.status}
+                        CollectionAddress={e.CollectionAddress}
+                        customLink={e.customLink}
+                        verified={e.verified}
+                      />
+                    )
+                  );
+                })}
               </div>
 
               <div className="mt-10 text-center">

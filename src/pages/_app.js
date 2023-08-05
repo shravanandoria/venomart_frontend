@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }) {
 
   // other values
   const adminAccount =
-    "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883";
+    "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
   const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
@@ -72,8 +72,7 @@ export default function App({ Component, pageProps }) {
     },
     {
       id: 1,
-      Cover:
-        "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
+      Cover: "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
       Name: "Venom Alligators",
       Description:
@@ -91,31 +90,31 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/07/2023 12:00:00",
       endDate: "08/11/2023 12:00:00",
-      verified: true,
+      verified: false,
     },
-    // {
-    //   id: 2,
-    //   Cover:
-    //     "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
-    //   Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
-    //   Name: "Venom Bears",
-    //   Description:
-    //     "Presenting venom bears the cutest collection on the Venom Blockchain",
-    //   mintPrice: "1",
-    //   status: "Upcoming",
-    //   CollectionAddress: "",
-    //   customLink: "custom/venombears",
-    //   pageName: "venombears",
-    //   supply: "3000",
-    //   twitterUserName: "venombears",
-    //   twitter: "",
-    //   discord: "",
-    //   instagram: "",
-    //   telegram: "",
-    //   startDate: "08/09/2023 12:00:00",
-    //   endDate: "08/13/2023 12:00:00",
-    //   verified: true,
-    // },
+    {
+      id: 2,
+      Cover:
+        "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
+      Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
+      Name: "Venom Bears",
+      Description:
+        "Presenting venom bears the cutest collection on the Venom Blockchain",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/venombears",
+      pageName: "venombears",
+      supply: "3000",
+      twitterUserName: "venombears",
+      twitter: "",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      startDate: "08/09/2023 12:00:00",
+      endDate: "08/13/2023 12:00:00",
+      verified: false,
+    },
   ];
 
   // copyURL function

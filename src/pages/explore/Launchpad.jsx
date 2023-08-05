@@ -58,7 +58,7 @@ const Launchpad = ({ theme, customLaunchpad }) => {
               {/* fetching custom laucnh here  */}
               {currentCollections?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                 return (
-                  id < 8 && (
+                  id < 8 && e.verified == true && (
                     <LaunchCollectionCard
                       key={id}
                       Cover={e.Cover}

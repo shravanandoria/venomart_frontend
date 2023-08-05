@@ -346,7 +346,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     placeholder="Enter website URL"
-                    required
                   />
                 </div>
 
@@ -368,7 +367,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     placeholder="Enter twitter URL"
-                    required
                   />
                 </div>
 
@@ -390,7 +388,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     placeholder="Enter discord URL"
-                    required
                   />
                 </div>
 
@@ -412,7 +409,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     placeholder="Enter telegram URL"
-                    required
                   />
                 </div>
 
