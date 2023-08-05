@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@thirdweb-dev/react": "^3.14.27",
     "@thirdweb-dev/storage": "^1.2.2",
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
