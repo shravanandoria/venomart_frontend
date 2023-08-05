@@ -4,8 +4,8 @@ import { useStorage } from "@thirdweb-dev/react";
 import { check_user } from "../user/user";
 
 export const create_collection = async (data) => {
-  
-  const storage = new useStorage();
+
+  const storage = useStorage();
 
   const { coverImage, logo, creatorAddress } = data;
   await check_user(creatorAddress);

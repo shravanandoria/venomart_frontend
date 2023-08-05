@@ -72,7 +72,7 @@ export default function App({ Component, pageProps }) {
     },
     {
       id: 1,
-      Cover: "https://pbs.twimg.com/profile_banners/1664315773622288384/1688430740/1500x500",
+      Cover: "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
       Name: "Venom Alligators",
       Description:
