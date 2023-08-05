@@ -23,7 +23,9 @@ import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 // mongo imports
 import { check_user } from "@/utils/mongo_api/user/user";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
+
+import { ThirdwebProvider } from "@thirdweb-dev/react"
+
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -218,49 +220,47 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <>
-      <ThirdwebProvider activeChain={""} clientId="9f76b4984585afb4964fb9613985b657">
-        <Navbar
-          theme={theme}
-          setTheme={setTheme}
-          signer_address={signer_address}
-          apiFetchURL={apiFetchURL}
-          connectWallet={connect_wallet}
-          onDisconnect={onDisconnect}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
-          blockURL={blockURL}
-        />
-        <Component
-          {...pageProps}
-          theme={theme}
-          standalone={standalone}
-          venomProvider={venomProvider}
-          signer_address={signer_address}
-          defaultCollectionAddress={defaultCollectionAddress}
-          blockURL={blockURL}
-          blockChain={blockChain}
-          currency={currency}
-          webURL={webURL}
-          copyURL={copyURL}
-          collections={collections}
-          loading={loading}
-          connectWallet={connect_wallet}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
-          adminAccount={adminAccount}
-          customLaunchpad={customLaunchpad}
-        />
-        <Footer
-          theme={theme}
-          signer_address={signer_address}
-          onDisconnect={onDisconnect}
-          adminAccount={adminAccount}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
-        />
-        <Analytics />
-      </ThirdwebProvider>
-    </>
+    <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
+      <Navbar
+        theme={theme}
+        setTheme={setTheme}
+        signer_address={signer_address}
+        apiFetchURL={apiFetchURL}
+        connectWallet={connect_wallet}
+        onDisconnect={onDisconnect}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+        blockURL={blockURL}
+      />
+      <Component
+        {...pageProps}
+        theme={theme}
+        standalone={standalone}
+        venomProvider={venomProvider}
+        signer_address={signer_address}
+        defaultCollectionAddress={defaultCollectionAddress}
+        blockURL={blockURL}
+        blockChain={blockChain}
+        currency={currency}
+        webURL={webURL}
+        copyURL={copyURL}
+        collections={collections}
+        loading={loading}
+        connectWallet={connect_wallet}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+        adminAccount={adminAccount}
+        customLaunchpad={customLaunchpad}
+      />
+      <Footer
+        theme={theme}
+        signer_address={signer_address}
+        onDisconnect={onDisconnect}
+        adminAccount={adminAccount}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+      />
+      <Analytics />
+    </ThirdwebProvider>
   );
 }
