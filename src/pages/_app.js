@@ -24,8 +24,7 @@ import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 import { check_user } from "@/utils/mongo_api/user/user";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
 
-import { ThirdwebProvider } from "@thirdweb-dev/react"
-
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -40,7 +39,7 @@ export default function App({ Component, pageProps }) {
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
-  const MintNFTStatus = false;
+  const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
   // variables
