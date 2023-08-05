@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import Loader from "@/components/Loader";
 import Head from "next/head";
 import { BsDiscord } from "react-icons/bs";
 import { update_profile } from "@/utils/mongo_api/user/user";
 import { check_user } from "@/utils/mongo_api/user/user";
+import { useStorage } from "@thirdweb-dev/react";
+
 
 const EditProfile = ({ signer_address, theme }) => {
-  const storage = new ThirdwebStorage();
+  const storage = useStorage();
   const [coverImg_preview, set_coverImg_preview] = useState("");
   const [profImg_preview, set_profImg_preview] = useState("");
   const [loading, set_loading] = useState(false);

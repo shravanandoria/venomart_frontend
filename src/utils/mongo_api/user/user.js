@@ -1,6 +1,4 @@
 import axios from "axios";
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
-const storage = new ThirdwebStorage();
 
 export const check_user = async (wallet_id) => {
   try {
@@ -27,15 +25,14 @@ export const check_user = async (wallet_id) => {
 };
 
 export const update_profile = async (data) => {
-
   let coverImg;
   let profileImg;
 
   if (typeof data.coverImage === "object") {
-    coverImg = await storage.upload(data.coverImage);
+    coverImg = await storage?.upload(data.coverImage);
   }
   if (typeof data.profileImage === "object") {
-    profileImg = await storage.upload(data.profileImage);
+    profileImg = await storage?.upload(data.profileImage);
   }
 
   const res = await axios({

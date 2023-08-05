@@ -24,6 +24,9 @@ import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 import { check_user } from "@/utils/mongo_api/user/user";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
 
+import { ThirdwebProvider } from "@thirdweb-dev/react"
+import { env } from "../../next.config";
+
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -213,7 +216,7 @@ export default function App({ Component, pageProps }) {
 
 
   return (
-    <>
+    <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
       <Navbar
         theme={theme}
         setTheme={setTheme}
@@ -254,6 +257,6 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
       />
       <Analytics />
-    </>
+    </ThirdwebProvider>
   );
 }
