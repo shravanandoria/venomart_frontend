@@ -201,7 +201,6 @@ const venomalligators = ({
         if (!signer_address) return;
         setLoading(true);
         const data = await user_info(signer_address);
-        console.log({ dataUSer: data?.data });
         setCheckMint(data?.data.launchpad_collections);
         setLoading(false);
     };

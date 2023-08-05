@@ -4,7 +4,7 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { BsArrowUpRight, BsFillExclamationCircleFill } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
@@ -36,7 +36,6 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
 
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
-    console.log(collectionAbi)
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
@@ -167,6 +166,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                   >
                     <span>{slug}</span>
                   </a>
+                  <BsArrowUpRight className="text-jacarta-700 dark:text-jacarta-200 cursor-pointer" onClick={() => window.open(`${blockURL}` + `accounts/` + `${slug}`, "_blank")} />
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection?.name ? collection?.name : "Undefined Collection"}

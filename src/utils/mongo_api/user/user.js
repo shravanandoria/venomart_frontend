@@ -16,8 +16,6 @@ export const check_user = async (wallet_id) => {
       },
     });
 
-    console.log({ user: res.data });
-
     return res.data;
   } catch (error) {
     console.log(error.message);
@@ -50,7 +48,6 @@ export const user_info = async (wallet_id) => {
       method: "POST",
       data: { wallet_id },
     });
-    console.log(data);
     return data;
   } catch (error) {
     console.log(error.message);
