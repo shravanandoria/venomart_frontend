@@ -401,7 +401,7 @@ const Profile = ({
                   ))}
                 </div>
                 <div className="flex justify-center">
-                  {user_data?.nftCollections?.length <= 0 && (
+                  {user_data?.nftCollections?.length <= 0 || user_data === undefined && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No Collections to show!
                     </h2>

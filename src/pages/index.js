@@ -173,7 +173,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                     </div>
 
                     {/* featured 2  */}
-                    <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                    {/* <div className="space-y-6 md:w-1/2 xl:space-y-12">
                       <div>
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
@@ -221,7 +221,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
