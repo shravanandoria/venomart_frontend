@@ -111,8 +111,8 @@ const venomalligators = ({
     }, [venomProvider])
 
     useEffect(() => {
-        setLoading(true);
         if (status == "Upcoming") {
+            setLoading(true);
             const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
 
             const interval = setInterval(() => {
@@ -162,9 +162,9 @@ const venomalligators = ({
                     return () => clearInterval(interval);
                 }
             }, 1000);
+            setLoading(false);
             return () => clearInterval(interval);
         }
-        setLoading(false);
     }, []);
 
     const connect_wallet = async () => {
@@ -214,7 +214,7 @@ const venomalligators = ({
             document.body.style.overflow = "hidden";
             window.scrollTo(0, 0)
         }
-        else {
+        if (!afterMint) {
             document.body.style.overflow = "scroll";
             document.body.style.overflowX = "hidden";
             window.scrollTo(0, 0)

@@ -111,8 +111,8 @@ const venombears = ({
     }, [venomProvider])
 
     useEffect(() => {
-        setLoading(true);
         if (status == "Upcoming") {
+            setLoading(true);
             const target = new Date(`${launchSlug.startDate ? launchSlug.startDate : ""}`);
 
             const interval = setInterval(() => {
@@ -162,9 +162,9 @@ const venombears = ({
                     return () => clearInterval(interval);
                 }
             }, 1000);
+            setLoading(false);
             return () => clearInterval(interval);
         }
-        setLoading(false);
     }, []);
 
     const connect_wallet = async () => {
