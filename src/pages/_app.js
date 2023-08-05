@@ -133,7 +133,8 @@ export default function App({ Component, pageProps }) {
   const fetch_all_collections = async () => {
     setLoading(true);
     const res = await get_collections();
-    set_collections(res.data);
+    // console.log(res);
+    set_collections(res);
     setLoading(false);
   };
 

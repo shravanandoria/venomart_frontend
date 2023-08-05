@@ -7,6 +7,7 @@ import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
 import venomLogo from "../../public/venom.svg";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
+import { useEffect } from "react";
 
 export default function Home({ theme, collections, loading, customLaunchpad }) {
   return (
@@ -267,24 +268,29 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 })} */}
 
                 {/* custom lauchpad fetching  */}
-                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
-                  return (
-                    id < 6 && (
-                      <LaunchCollectionCard
-                        key={id}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        Description={e.Description}
-                        mintPrice={e.mintPrice}
-                        status={e.status}
-                        CollectionAddress={e.CollectionAddress}
-                        customLink={e.customLink}
-                        verified={e.verified}
-                      />
-                    )
-                  );
-                })}
+                {customLaunchpad
+                  ?.sort(
+                    ({ id: previousID }, { id: currentID }) =>
+                      currentID - previousID
+                  )
+                  ?.map((e, id) => {
+                    return (
+                      id < 6 && (
+                        <LaunchCollectionCard
+                          key={id}
+                          Cover={e.Cover}
+                          Logo={e.Logo}
+                          Name={e.Name}
+                          Description={e.Description}
+                          mintPrice={e.mintPrice}
+                          status={e.status}
+                          CollectionAddress={e.CollectionAddress}
+                          customLink={e.customLink}
+                          verified={e.verified}
+                        />
+                      )
+                    );
+                  })}
               </div>
 
               <div className="mt-10 text-center">

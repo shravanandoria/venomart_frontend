@@ -16,7 +16,7 @@ export const create_collection = async (data) => {
     isVerified: data.isVerified,
     description: data.description,
   };
-  
+
   try {
     const res = await axios({
       url: "/api/collection/collection",
@@ -47,12 +47,25 @@ export const get_collection_by_contract = async (contractAddress) => {
 
 export const get_collections = async () => {
   try {
+    let nfts_verified = [];
+    let nfts_unverified = [];
     const res = await axios({
       url: "/api/collection/collection",
       method: "GET",
     });
+    for (let i = 0; i < res.data.data.length; i++) {
+      // console.log(res.data.data[i]);
+      if (res.data.data[i].isVerified) {
+        nfts_verified.push(res.data.data[i]);
+      }
+      if (!res.data.data[i].isVerified) {
+        nfts_unverified.push(res.data.data[i]);
+      }
+    }
 
-    return res.data;
+    let nfts = [...nfts_verified, ...nfts_unverified];
+
+    return nfts;
   } catch (error) {
     console.log(error.message);
   }
