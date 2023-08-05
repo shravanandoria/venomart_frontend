@@ -20,12 +20,11 @@ import defBack from "../../public/defback.png";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-// mongo imports 
+// mongo imports
 import { check_user } from "@/utils/mongo_api/user/user";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
 
-import { ThirdwebProvider } from "@thirdweb-dev/react"
-
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -37,9 +36,10 @@ export default function App({ Component, pageProps }) {
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
 
-  // other values 
-  const adminAccount = "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
-  const MintNFTStatus = false;
+  // other values
+  const adminAccount =
+    "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
+  const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
   // variables
@@ -53,27 +53,30 @@ export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [collections, set_collections] = useState([]);
 
-  // custom array of all launches 
+  // custom array of all launches
   const customLaunchpad = [
     // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
     {
       id: 0,
-      Cover: "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
+      Cover:
+        "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
       Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
       Name: "venomart Passes",
       Description: "Exclusive Passes On Venomart Marketplace",
       mintPrice: "1",
       status: "Sold Out",
-      CollectionAddress: "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
+      CollectionAddress:
+        "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
       customLink: "custom/venomartPass",
-      verified: true
+      verified: true,
     },
     {
       id: 1,
       Cover: "https://pbs.twimg.com/profile_banners/1664315773622288384/1688430740/1500x500",
       Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
       Name: "Venom Alligators",
-      Description: "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
+      Description:
+        "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "1",
       status: "Upcoming",
       CollectionAddress: "",
@@ -87,14 +90,16 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/07/2023 12:00:00",
       endDate: "08/11/2023 12:00:00",
-      verified: true
+      verified: true,
     },
     {
       id: 2,
-      Cover: "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
+      Cover:
+        "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
       Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
       Name: "Venom Bears",
-      Description: "Presenting venom bears the cutest collection on the Venom Blockchain",
+      Description:
+        "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "1",
       status: "Upcoming",
       CollectionAddress: "",
@@ -108,22 +113,22 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/09/2023 12:00:00",
       endDate: "08/13/2023 12:00:00",
-      verified: true
+      verified: true,
     },
-  ]
+  ];
 
-  // copyURL function 
+  // copyURL function
   function copyURL() {
-    const el = document.createElement('input');
+    const el = document.createElement("input");
     el.value = window.location.href;
     document.body.appendChild(el);
     el.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(el);
-    alert("Successfully copied the URL!!")
+    alert("Successfully copied the URL!!");
   }
 
-  // fetching all collections 
+  // fetching all collections
   const fetch_all_collections = async () => {
     setLoading(true);
     const res = await get_collections();
@@ -199,8 +204,7 @@ export default function App({ Component, pageProps }) {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
       setTheme("dark");
-    }
-    else {
+    } else {
       setTheme(defThemeLocal);
     }
     init();
@@ -214,7 +218,6 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     fetch_all_collections();
   }, []);
-
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>

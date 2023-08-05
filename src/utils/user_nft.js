@@ -3,12 +3,9 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { user_info } from "./mongo_api/user/user";
 
 import axios from "axios";
-
-const storage = new ThirdwebStorage();
 
 export const COLLECTION_ADDRESS =
   "0:bca1c325a2fc922383c8f519f2d282fa3f538aed910c9afda8d569d7d1cea88a";
@@ -210,29 +207,24 @@ export const create_nft = async (data, signer_address, venomProvider) => {
     .totalSupply({ answerId: 0 })
     .call();
   try {
-    const ipfs_image =
-      typeof data.image == "string"
-        ? data.image
-        : await storage.upload(data.image);
-
     const nft_json = JSON.stringify({
       type: "Basic NFT",
       id,
       name: data.name,
       description: data.description,
       preview: {
-        source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         mimetype: "image/png",
       },
       files: [
         {
-          source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         },
       ],
       attributes: data.properties.filter((e) => e.type.length > 0),
       external_url: "https://venomart.space",
-      nft_image: ipfs_image,
+      nft_image: data.image,
       collection_name: data.collection,
     });
 
@@ -240,6 +232,8 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       from: new Address(signer_address),
       amount: "1000000000",
     });
+
+    console.log({ outputs });
   } catch (error) {
     console.log(error.message);
   }
@@ -251,7 +245,6 @@ export const create_launchpad_nft = async (
   venomProvider
 ) => {
   try {
-
     const contract = new venomProvider.Contract(
       collectionAbi,
       data.collectionAddress

@@ -7,9 +7,9 @@ import { update_profile } from "@/utils/mongo_api/user/user";
 import { check_user } from "@/utils/mongo_api/user/user";
 import { useStorage } from "@thirdweb-dev/react";
 
-
 const EditProfile = ({ signer_address, theme }) => {
   const storage = useStorage();
+
   const [coverImg_preview, set_coverImg_preview] = useState("");
   const [profImg_preview, set_profImg_preview] = useState("");
   const [loading, set_loading] = useState(false);
@@ -33,7 +33,17 @@ const EditProfile = ({ signer_address, theme }) => {
   const handle_submit = async (e) => {
     e.preventDefault();
     set_loading(true);
-    await update_profile(data);
+    let obj = { ...data };
+
+    if (typeof data.coverImage === "object") {
+      let ipfs_coverImg = await storage?.upload(data.coverImage);
+      obj.coverImage = ipfs_coverImg;
+    }
+    if (typeof data.profileImage === "object") {
+      let ipfs_profileImg = await storage?.upload(data.profileImage);
+      obj.profileImage = ipfs_profileImg;
+    }
+    await update_profile(obj);
     set_loading(false);
   };
 
@@ -211,7 +221,10 @@ const EditProfile = ({ signer_address, theme }) => {
                   <button
                     type="button"
                     className="flex w-full overflow-hidden text-ellipsis whitespace-nowrap select-none items-center rounded-lg border border-jacarta-100 bg-white py-3 px-4 hover:bg-jacarta-50 dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-jacarta-300 cursor-pointer"
-                    onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
+                    onClick={() => (
+                      navigator.clipboard.writeText(`${signer_address}`),
+                      alert("copied wallet address to clipboard")
+                    )}
                   >
                     <span>{signer_address}</span>
                     <svg
@@ -253,9 +266,9 @@ const EditProfile = ({ signer_address, theme }) => {
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                "ipfs://",
-                                "https://ipfs.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
                               : profImg_preview
                           }
                           width={100}
