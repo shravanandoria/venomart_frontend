@@ -12,6 +12,7 @@ const CollectionSchema = new mongoose.Schema(
     name: String,
     royalty: String,
     description: String,
+    socials: [String],
     isVerified: Boolean,
   },
   { timestamps: true }

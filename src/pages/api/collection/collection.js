@@ -27,6 +27,7 @@ export default async function handler(req, res) {
           name,
           royalty,
           description,
+          socials,
           isVerified,
         } = req.body;
 
@@ -51,6 +52,7 @@ export default async function handler(req, res) {
           name,
           royalty,
           description,
+          socials,
           isVerified,
         });
 

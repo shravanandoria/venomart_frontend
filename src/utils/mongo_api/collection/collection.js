@@ -10,7 +10,10 @@ export const create_collection = async (data) => {
     const res = await axios({
       url: "/api/collection/collection",
       method: "POST",
-      data: { ...data },
+      data: {
+        ...data,
+        socials: [data.website, data.twitter, data.discord, data.telegram],
+      },
     });
   } catch (error) {
     console.log(error.message);

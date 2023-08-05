@@ -18,6 +18,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     logo: "",
     coverImage: "",
     royalty: "",
+    website: "",
+    twitter: "",
+    discord: "",
+    telegram: "",
     isVerified: false,
     description: "",
   });
@@ -192,11 +196,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     name="name"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     placeholder="Eg: Wild Hunters"
                     required
                   />
@@ -216,11 +219,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     name="contractAddress"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                     required
                   />
@@ -239,11 +241,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     name="creatorAddress"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                     required
                   />
@@ -268,11 +269,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     id="item-name"
                     max={10}
                     step="any"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     placeholder="Eg: 5%"
                     required
                   />
@@ -290,11 +290,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     If true then then collection will be verified
                   </p>
                   <select
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     name="isVerified"
                     onChange={handleChange}
                   >
@@ -319,15 +318,102 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     onChange={handleChange}
                     name="description"
                     id="item-description"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     rows="4"
                     required
                     placeholder="Provide a detailed description of your collection."
                   ></textarea>
+                </div>
+
+                {/* website  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Official Website
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    name="website"
+                    type="text"
+                    id="item-name"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    placeholder="Enter website URL"
+                    required
+                  />
+                </div>
+
+                {/* twitter  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Official Twitter
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    name="twitter"
+                    type="text"
+                    id="item-name"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    placeholder="Enter twitter URL"
+                    required
+                  />
+                </div>
+
+                {/* discord  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Official Discord
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    name="discord"
+                    type="text"
+                    id="item-name"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    placeholder="Enter discord URL"
+                    required
+                  />
+                </div>
+
+                {/* telegram  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Official Telegram
+                  </label>
+                  <input
+                    onChange={handleChange}
+                    name="telegram"
+                    type="text"
+                    id="item-name"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    placeholder="Enter telegram URL"
+                    required
+                  />
                 </div>
 
                 {/* <!-- Submit nft form --> */}
