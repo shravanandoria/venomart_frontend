@@ -23,8 +23,6 @@ export const create_collection = async (data) => {
       method: "POST",
       data: { ...obj },
     });
-
-    console.log(res.data);
   } catch (error) {
     console.log(error.message);
   }
