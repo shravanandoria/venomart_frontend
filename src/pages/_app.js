@@ -113,7 +113,7 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       startDate: "08/09/2023 12:00:00",
       endDate: "08/13/2023 12:00:00",
-      verified: true,
+      verified: false,
     },
   ];
 
