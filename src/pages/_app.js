@@ -12,10 +12,6 @@ import "@/styles/custom.css";
 import "@/styles/tailwind.css";
 import "@/styles/Home.module.css";
 
-// images
-import defLogo from "../../public/deflogo.png";
-import defBack from "../../public/defback.png";
-
 //Wallet Connect
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
