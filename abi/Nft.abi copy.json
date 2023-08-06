@@ -10,9 +10,9 @@
 				{"name":"sendGasTo","type":"address"},
 				{"name":"remainOnNft","type":"uint128"},
 				{"name":"json","type":"string"},
-				{"name":"codeIndex","type":"cell"},
 				{"name":"indexDeployValue","type":"uint128"},
-				{"name":"indexDestroyValue","type":"uint128"}
+				{"name":"indexDestroyValue","type":"uint128"},
+				{"name":"codeIndex","type":"cell"}
 			],
 			"outputs": [
 			]

@@ -20,7 +20,7 @@ import venomLogo from "../../../public/venom.svg";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "@/utils/mongo_api/collection/collection";
-import collectionAbi from "../../../abi_2/Collection.abi.json";
+import collectionAbi from "../../../abi/Collection.abi.json";
 
 const Collection = ({
   blockURL,
