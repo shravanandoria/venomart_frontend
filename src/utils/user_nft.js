@@ -198,6 +198,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
+  console.log({ data: data })
   const contract = new venomProvider.Contract(
     collectionAbi,
     COLLECTION_ADDRESS
