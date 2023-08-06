@@ -252,7 +252,9 @@ export const create_launchpad_nft = async (
     //   .totalSupply({ answerId: 0 })
     //   .call();
 
-    const { count: id } = await contract.methods.totalMinted({ answerId: 0 }).call();
+    const { count: id } = await contract.methods
+      .totalMinted({ answerId: 0 })
+      .call();
     console.log(id);
 
     const ipfs_image =
@@ -280,7 +282,8 @@ export const create_launchpad_nft = async (
       nft_image: ipfs_image,
       collection_name: data.collectionName,
     });
-    const outputs = await contract.methods.mintNft({ json: nft_json }).send({
+
+    const outputs = await contract.methods.mint({ _json: nft_json }).send({
       from: new Address(signer_address),
       amount: (data.mintPrice * 1000000000).toString(),
     });
@@ -293,6 +296,8 @@ export const create_launchpad_nft = async (
         collection_address: data.collectionAddress,
       },
     });
+    console.log(res.data);
+    return res.data.success;
   } catch (error) {
     console.log(error.message);
   }
