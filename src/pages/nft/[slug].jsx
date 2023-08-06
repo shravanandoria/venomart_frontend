@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import defLogo from "../../../public/deflogo.png";
-import defBack from "../../../public/defback.png";
 import Image from "next/image";
 import Head from "next/head";
 import Loader from "@/components/Loader";
@@ -24,11 +23,19 @@ const NFTPage = ({
 
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
-
   const [listSale, setListSale] = useState(false);
-  const [propShow, setPropShow] = useState(true);
+
+  const [properties, setProperties] = useState(true);
+  const [offers, setOffers] = useState(false);
+  const [details, setDetails] = useState(false);
+  const [activity, setActivity] = useState(false);
+
   const [listingPrice, set_listing_price] = useState(0);
+
   const [nft, set_nft_info] = useState({});
+  const [activeOffers, setActiveOffers] = useState([]);
+  const [activityHistory, setActivityHistory] = useState([]);
+
 
   // getting nft information onchain 
   const nft_info = async () => {
@@ -56,6 +63,34 @@ const NFTPage = ({
   const cancelNFT = async () => {
     // write here 
   };
+
+  const switchPropeties = async () => {
+    setOffers(false);
+    setDetails(false);
+    setActivity(false);
+    setProperties(true);
+  }
+
+  const switchOffers = async () => {
+    setDetails(false);
+    setActivity(false);
+    setProperties(false);
+    setOffers(true);
+  }
+
+  const switchDetails = async () => {
+    setActivity(false);
+    setProperties(false);
+    setOffers(false);
+    setDetails(true);
+  }
+
+  const switchActivity = async () => {
+    setProperties(false);
+    setOffers(false);
+    setDetails(false);
+    setActivity(true);
+  }
 
   useEffect(() => {
     nft_info();
@@ -430,18 +465,11 @@ const NFTPage = ({
                     <li
                       className="nav-item"
                       role="presentation"
-                      onClick={() => setPropShow(true)}
+                      onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${propShow && "active relative"
+                        className={`nav-link ${properties && "active relative"
                           } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-                        id="properties-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#properties"
-                        type="button"
-                        role="tab"
-                        aria-controls="properties"
-                        aria-selected="false"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -459,22 +487,37 @@ const NFTPage = ({
                       </button>
                     </li>
 
+                    {/* offers  */}
+                    <li class="nav-item" role="presentation" onClick={switchOffers}>
+                      <button
+                        className={`nav-link ${offers && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-1 h-5 w-5 fill-current"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path
+                            d="M8 4h13v2H8V4zm-5-.5h3v3H3v-3zm0 7h3v3H3v-3zm0 7h3v3H3v-3zM8 11h13v2H8v-2zm0 7h13v2H8v-2z"
+                          />
+                        </svg>
+                        <span class="font-display text-base font-medium">Offers</span>
+                      </button>
+                    </li>
+
                     {/* <!-- Details --> */}
                     <li
                       className="nav-item"
                       role="presentation"
-                      onClick={() => setPropShow(false)}
+                      onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${!propShow && "active relative"
+                        className={`nav-link ${details && "active relative"
                           } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-                        id="details-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#details"
-                        type="button"
-                        role="tab"
-                        aria-controls="details"
-                        aria-selected="false"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -491,11 +534,34 @@ const NFTPage = ({
                         </span>
                       </button>
                     </li>
+
+                    {/* activity  */}
+                    <li class="nav-item" role="presentation" onClick={switchActivity}>
+                      <button
+                        className={`nav-link ${activity && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          class="mr-1 h-5 w-5 fill-current"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path
+                            d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z"
+                          />
+                        </svg>
+                        <span class="font-display text-base font-medium">Activity</span>
+                      </button>
+                    </li>
+
                   </ul>
 
                   {/* <!-- Tab Content --> */}
                   <div className="tab-content">
-                    {propShow ? (
+                    {properties &&
                       <div>
                         <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4">
@@ -518,7 +584,67 @@ const NFTPage = ({
                           </div>
                         </div>
                       </div>
-                    ) : (
+                    }
+
+                    {offers &&
+                      <div class="tab-pane fade show active" id="offers" role="tabpanel" aria-labelledby="offers-tab">
+                        <div role="table"
+                          class="scrollbar-custom grid max-h-72 w-full grid-cols-5 overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white">
+                          <div class="contents" role="row">
+                            <div class="sticky top-0 bg-light-base py-2 px-4 dark:bg-jacarta-600" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Price</span>
+                            </div>
+                            <div class="sticky top-0 bg-light-base py-2 px-4 dark:bg-jacarta-600" role="columnheader">
+                              <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">USD
+                                Price</span>
+                            </div>
+                            <div class="sticky top-0 bg-light-base py-2 px-4 dark:bg-jacarta-600" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Expiration</span>
+                            </div>
+                            <div class="sticky top-0 bg-light-base py-2 px-4 dark:bg-jacarta-600" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">From</span>
+                            </div>
+                            <div class="sticky top-0 bg-light-base py-2 px-4 dark:bg-jacarta-600" role="columnheader">
+                              <span class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Action</span>
+                            </div>
+                          </div>
+
+                          {/* offers loop here  */}
+                          {/* <div class="contents" role="row">
+                            <div
+                              class="flex items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <span class="text-sm font-medium tracking-tight text-green">30 ETH</span>
+                            </div>
+                            <div class="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              $90,136.10
+                            </div>
+                            <div class="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              in 5 months
+                            </div>
+                            <div class="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <a href="user.html" class="text-accent">ViviGiallo</a>
+                            </div>
+                            <div class="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              Cancel
+                            </div>
+                          </div> */}
+
+                          <div class="flex p-4">
+                            {activeOffers == "" && <p className="text-jacarta-700 dark:text-white">No Offers</p>}
+                          </div>
+                        </div>
+                      </div>
+                    }
+
+                    {details &&
                       <div>
                         <div className="rounded-t-2lg rounded-b-2lg rounded-tl-none border border-jacarta-100 bg-white p-6 dark:border-jacarta-600 dark:bg-jacarta-700 md:p-10">
                           <div className="mb-2 flex items-center">
@@ -563,7 +689,133 @@ const NFTPage = ({
                           </div>
                         </div>
                       </div>
-                    )}
+                    }
+
+                    {activity &&
+                      <div class="tab-pane fade show active" id="offers" role="tabpanel" aria-labelledby="offers-tab">
+                        {/* filter  */}
+                        <div
+                          class="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
+                          <div class="flex flex-wrap">
+                            <button
+                              class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z">
+                                </path>
+                              </svg>
+                              <span class="text-2xs font-medium">Listing</span>
+                            </button>
+                            <button
+                              class="mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                class="mr-2 h-4 w-4 fill-white">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z">
+                                </path>
+                              </svg>
+                              <span class="text-2xs font-medium text-white">Bids</span>
+                            </button>
+                            <button
+                              class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z">
+                                </path>
+                              </svg>
+                              <span class="text-2xs font-medium">Transfers</span>
+                            </button>
+                            <button
+                              class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z">
+                                </path>
+                              </svg>
+                              <span class="text-2xs font-medium">Sales</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div role="table"
+                          class="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white">
+                          <div class="sticky top-0 flex bg-light-base dark:bg-jacarta-600" role="row">
+                            <div class="w-[17%] py-2 px-4" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Event</span>
+                            </div>
+                            <div class="w-[17%] py-2 px-4" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Price</span>
+                            </div>
+                            <div class="w-[22%] py-2 px-4" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">From</span>
+                            </div>
+                            <div class="w-[22%] py-2 px-4" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">To</span>
+                            </div>
+                            <div class="w-[22%] py-2 px-4" role="columnheader">
+                              <span
+                                class="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Explorer</span>
+                            </div>
+                          </div>
+
+                          {/* loop activites here  */}
+                          {/* <div class="flex" role="row">
+                            <div class="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                class="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z">
+                                </path>
+                              </svg>
+                              Bid
+                            </div>
+                            <div
+                              class="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <span class="text-sm font-medium tracking-tight text-green">30 ETH</span>
+                            </div>
+                            <div class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <a href="user.html" class="text-accent">AD496A</a>
+                            </div>
+                            <div class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <a href="user.html" class="text-accent">Polymorph: MORPH Token</a>
+                            </div>
+                            <div class="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                              role="cell">
+                              <a href="#" class="flex flex-wrap items-center text-accent" target="_blank"
+                                rel="nofollow noopener" title="Opens in a new window"
+                                data-tippy-content="March 13 2022, 2:32 pm">
+                                <span class="mr-1">19 days ago</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                  class="h-4 w-4 fill-current">
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path
+                                    d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
+                                </svg>
+                              </a>
+                            </div>
+                          </div> */}
+                          <div class="flex p-4">
+                            {activityHistory == "" && <p className="text-jacarta-700 dark:text-white">No Activity</p>}
+                          </div>
+                        </div>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
