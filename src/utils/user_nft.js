@@ -243,53 +243,56 @@ export const create_launchpad_nft = async (
   venomProvider
 ) => {
   try {
-    const contract = new venomProvider.Contract(
-      collectionAbi,
-      data.collectionAddress
-    );
+    // const contract = new venomProvider.Contract(
+    //   collectionAbi,
+    //   data.collectionAddress
+    // );
 
-    const { count: id } = await contract.methods
-      .totalSupply({ answerId: 0 })
-      .call();
+    // const { count: id } = await contract.methods
+    //   .totalSupply({ answerId: 0 })
+    //   .call();
 
-    const ipfs_image =
-      typeof data.image == "string"
-        ? data.image
-        : await storage.upload(data.image);
+    const res = await contract.methods.totalMinted({ answerId: 0 }).call();
+    console.log(res);
 
-    const nft_json = JSON.stringify({
-      type: "VenomartPass",
-      id: id,
-      name: `${data.name} #${id}`,
-      description: data.description,
-      preview: {
-        source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/gif",
-      },
-      files: [
-        {
-          source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        },
-      ],
-      attributes: data.properties.filter((e) => e.type.length > 0),
-      external_url: "https://venomart.space",
-      nft_image: ipfs_image,
-      collection_name: data.collectionName,
-    });
-    const outputs = await contract.methods.mintNft({ json: nft_json }).send({
-      from: new Address(signer_address),
-      amount: (data.mintPrice * 1000000000).toString(),
-    });
+    // const ipfs_image =
+    //   typeof data.image == "string"
+    //     ? data.image
+    //     : await storage.upload(data.image);
 
-    const res = await axios({
-      url: "/api/user/add_launchpad_user",
-      method: "POST",
-      data: {
-        wallet_id: signer_address,
-        collection_address: data.collectionAddress,
-      },
-    });
+    // const nft_json = JSON.stringify({
+    //   type: "VenomartPass",
+    //   id: id,
+    //   name: `${data.name} #${id}`,
+    //   description: data.description,
+    //   preview: {
+    //     source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    //     mimetype: "image/gif",
+    //   },
+    //   files: [
+    //     {
+    //       source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    //       mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+    //     },
+    //   ],
+    //   attributes: data.properties.filter((e) => e.type.length > 0),
+    //   external_url: "https://venomart.space",
+    //   nft_image: ipfs_image,
+    //   collection_name: data.collectionName,
+    // });
+    // const outputs = await contract.methods.mintNft({ json: nft_json }).send({
+    //   from: new Address(signer_address),
+    //   amount: (data.mintPrice * 1000000000).toString(),
+    // });
+
+    // const res = await axios({
+    //   url: "/api/user/add_launchpad_user",
+    //   method: "POST",
+    //   data: {
+    //     wallet_id: signer_address,
+    //     collection_address: data.collectionAddress,
+    //   },
+    // });
   } catch (error) {
     console.log(error.message);
   }

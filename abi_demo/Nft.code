@@ -23,9 +23,9 @@ CTOS
 LDMSGADDR
 LDU 128
 LDREF
-LDU 128
-LDU 128
 LDREF
+LDU 128
+LDU 128
 ENDS
 BLKSWAP 3, 4
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_1/TIP4_1Nft.tsol, 55
@@ -213,7 +213,7 @@ PUSHINT 32
 DICTUSETB
 SETGLOB 10
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_2/TIP4_2Nft.tsol, 0
-ROT
+ROTREV
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_3/TIP4_3Nft.tsol, 30
 SETGLOB 16
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_3/TIP4_3Nft.tsol, 31
@@ -239,8 +239,6 @@ SETGLOB 10
 CALLREF {
 	CALL $_deployIndex_internal_macro$
 }
-.loc ../contracts/Nft.tsol, 26
-ACCEPT
 .loc ../contracts/Nft.tsol, 0
 CALLREF {
 	CALL $c7_to_c4$
@@ -252,7 +250,7 @@ THROW 0
 CALL $_beforeTransfer_internal_macro$
 
 .macro _beforeTransfer_internal_macro
-.loc ../contracts/Nft.tsol, 34
+.loc ../contracts/Nft.tsol, 45
 DROP
 CALLREF {
 	CALL $_destructIndex_internal_macro$
@@ -265,7 +263,7 @@ DROP
 CALL $_afterTransfer_internal_macro$
 
 .macro _afterTransfer_internal_macro
-.loc ../contracts/Nft.tsol, 42
+.loc ../contracts/Nft.tsol, 53
 BLKDROP 3
 CALLREF {
 	CALL $_deployIndex_internal_macro$
@@ -277,7 +275,7 @@ CALLREF {
 CALL $_beforeChangeOwner_internal_macro$
 
 .macro _beforeChangeOwner_internal_macro
-.loc ../contracts/Nft.tsol, 51
+.loc ../contracts/Nft.tsol, 62
 DROP
 CALLREF {
 	CALL $_destructIndex_internal_macro$
@@ -290,7 +288,7 @@ DROP2
 CALL $_afterChangeOwner_internal_macro$
 
 .macro _afterChangeOwner_internal_macro
-.loc ../contracts/Nft.tsol, 60
+.loc ../contracts/Nft.tsol, 71
 BLKDROP 4
 CALLREF {
 	CALL $_deployIndex_internal_macro$
@@ -2204,7 +2202,7 @@ THROW 60
 
 .macro public_function_selector
 DUP
-PUSHINT 297752426
+PUSHINT 299736722
 LEQ
 IFJMPREF {
 	DUP
@@ -2212,12 +2210,6 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $indexCode$
-	}
-	DUP
-	PUSHINT 140767990
-	EQUAL
-	IFJMPREF {
-		CALL $constructor$
 	}
 	DUP
 	PUSHINT 152407530
@@ -2231,17 +2223,17 @@ IFJMPREF {
 	IFJMPREF {
 		CALL $getInfo$
 	}
-}
-DUP
-PUSHINT 839183401
-LEQ
-IFJMPREF {
 	DUP
 	PUSHINT 299736722
 	EQUAL
 	IFJMPREF {
 		CALL $transfer$
 	}
+}
+DUP
+PUSHINT 1199596240
+LEQ
+IFJMPREF {
 	DUP
 	PUSHINT 348956614
 	EQUAL
@@ -2259,6 +2251,12 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $supportsInterface$
+	}
+	DUP
+	PUSHINT 1199596240
+	EQUAL
+	IFJMPREF {
+		CALL $constructor$
 	}
 }
 DUP
