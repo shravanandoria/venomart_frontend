@@ -10,8 +10,8 @@
 				{"name":"json","type":"string"},
 				{"name":"codeIndex","type":"cell"},
 				{"name":"codeIndexBasis","type":"cell"},
-				{"name":"_owner","type":"address"},
-				{"name":"mintingFee","type":"uint128"}
+				{"name":"_minting_fees","type":"uint128"},
+				{"name":"_owner","type":"address"}
 			],
 			"outputs": [
 			]
@@ -22,31 +22,6 @@
 				{"name":"json","type":"string"}
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "withdraw",
-			"inputs": [
-				{"name":"dest","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "check_hasMinted",
-			"inputs": [
-				{"name":"user","type":"address"}
-			],
-			"outputs": [
-				{"name":"value0","type":"bool"}
-			]
-		},
-		{
-			"name": "get_balance",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"value0","type":"uint256"}
 			]
 		},
 		{
@@ -149,14 +124,6 @@
 			"outputs": [
 				{"name":"value0","type":"bool"}
 			]
-		},
-		{
-			"name": "hasMinted",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"hasMinted","type":"map(address,bool)"}
-			]
 		}
 	],
 	"data": [
@@ -200,9 +167,7 @@
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_deployIndexBasisValue","type":"uint128"},
 		{"name":"_remainOnNft","type":"uint128"},
-		{"name":"_lastTokenId","type":"uint128"},
-		{"name":"_mintingFee","type":"uint128"},
-		{"name":"owner","type":"address"},
-		{"name":"hasMinted","type":"map(address,bool)"}
+		{"name":"minting_fees","type":"uint128"},
+		{"name":"owner","type":"address"}
 	]
 }

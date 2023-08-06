@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "0:878db20e0f481d4e125a278744371458e7435d05f87be9014bf6713bbd2ef9c8",
+        "0:ecb57efd63fe76297e027aca59423c100eccbc3812b34ea5eae3869e0bd453cd",
       customLink: "custom/venomalligators",
       pageName: "venomalligators",
       supply: "3000",

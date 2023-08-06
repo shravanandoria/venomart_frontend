@@ -9,12 +9,26 @@ IFREF {
 }
 GETGLOB 6
 THROWIF 51
+OVER
+PUSHCONT {
+	LDREF
+	LDREF
+	LDREF
+	LDREF
+	ENDS
+	CTOS
+}
+PUSHCONT {
+	LDREF
+	LDREF
+	LDREF
+}
+IFELSE
 LDREF
-LDREF
-LDREF
-LDREF
+LDMSGADDR
+LDU 128
 ENDS
-ROLL 3
+ROLL 5
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_1/TIP4_1Collection.tsol, 27
 ACCEPT
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_1/TIP4_1Collection.tsol, 29
@@ -45,7 +59,7 @@ PUSHINT 32
 DICTUSETB
 SETGLOB 10
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_1/TIP4_1Collection.tsol, 0
-ROT
+ROLL 4
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_2/TIP4_2Collection.tsol, 25
 ACCEPT
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_2/TIP4_2Collection.tsol, 27
@@ -59,6 +73,8 @@ ROTREV
 PUSHINT 32
 DICTUSETB
 SETGLOB 10
+.loc ../node_modules/@broxus/tip4/contracts/TIP4_2/TIP4_2Collection.tsol, 0
+SWAP2
 .loc ../node_modules/@broxus/tip4/contracts/TIP4_3/TIP4_3Collection.tsol, 41
 OVER
 HASHCU
@@ -96,8 +112,12 @@ SETGLOB 10
 CALLREF {
 	CALL $_deployIndexBasis_internal_macro$
 }
-.loc ../contracts/Collection.tsol, 34
+.loc ../contracts/Collection.tsol, 43
 ACCEPT
+.loc ../contracts/Collection.tsol, 44
+SETGLOB 21
+.loc ../contracts/Collection.tsol, 45
+SETGLOB 22
 .loc ../contracts/Collection.tsol, 0
 CALLREF {
 	CALL $c7_to_c4$
@@ -113,7 +133,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Collection.tsol, 37
+.loc ../contracts/Collection.tsol, 48
 LDREF
 ENDS
 .loc ../contracts/Collection.tsol, 0
@@ -127,38 +147,87 @@ CALLREF {
 THROW 0
 
 .macro mintNft_internal_macro
-.loc ../contracts/Collection.tsol, 40
+.loc ../contracts/Collection.tsol, 51
 DEPTH
 ADDCONST -2
 PICK
 GETGLOB 19
-PUSHINT 100000000
+GETGLOB 21
+ADD
+UFITS 128
+PUSHINT 2
+GETGLOB 16
+MUL
+UFITS 128
 ADD
 UFITS 128
 GREATER
 THROWIFNOT 102
-.loc ../contracts/Collection.tsol, 41
-PUSHINT 0
+.loc ../contracts/Collection.tsol, 55
+GETGLOB 21
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/Collection.tsol, 43
+.loc ../contracts/Collection.tsol, 57
+GETGLOB 9
+GETGLOB 23
+PUSHINT 267
+DICTGET
+ZEROSWAPIFNOT
+PUSHCONT {
+	PLDI 1
+}
+IF
+PUSHCONT {
+	.loc ../contracts/Collection.tsol, 58
+	DEPTH
+	ADDCONST -2
+	PICK
+	GETGLOB 9
+	NEWC
+	STSLICECONST x62_
+	STSLICE
+	SWAP
+	STGRAMS
+	PUSHINT 107
+	STZEROES
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+	.loc ../contracts/Collection.tsol, 0
+}
+IF
+.loc ../contracts/Collection.tsol, 61
+GETGLOB 20
+.loc ../contracts/Collection.tsol, 62
 GETGLOB 12
-DUP
-.loc ../contracts/Collection.tsol, 44
 INC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/Collection.tsol, 46
+.loc ../contracts/Collection.tsol, 63
+GETGLOB 20
+INC
+UFITS 128
+SETGLOB 20
+.loc ../contracts/Collection.tsol, 65
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_internal_macro$
 }
-.loc ../contracts/Collection.tsol, 47
+.loc ../contracts/Collection.tsol, 66
 OVER
 CALLREF {
 	CALL $_buildNftState_internal_macro$
 }
-.loc ../contracts/Collection.tsol, 49
+.loc ../contracts/Collection.tsol, 68
+GETGLOB 9
+GETGLOB 23
+NEWC
+STONE
+ROTREV
+PUSHINT 267
+DICTSETB
+SETGLOB 23
+.loc ../contracts/Collection.tsol, 70
 GETGLOB 17
 GETGLOB 16
 GETGLOB 14
@@ -223,7 +292,7 @@ STBREFR
 ENDC
 PUSHPOW2 7
 SENDRAWMSG
-.loc ../contracts/Collection.tsol, 63
+.loc ../contracts/Collection.tsol, 84
 GETGLOB 9
 BLKPUSH 2, 0
 BLKSWAP 2, 3
@@ -254,12 +323,181 @@ PUSHINT 0
 SENDRAWMSG
 .loc ../contracts/Collection.tsol, 0
 
+.macro withdraw
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Collection.tsol, 93
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+ENDS
+.loc ../contracts/Collection.tsol, 0
+CALLREF {
+	CALL $withdraw_internal_macro$
+}
+DROP
+CALLREF {
+	CALL $c7_to_c4$
+}
+THROW 0
+
+.macro withdraw_internal_macro
+.loc ../contracts/Collection.tsol, 94
+ACCEPT
+.loc ../contracts/Collection.tsol, 95
+GETPARAM 7
+FIRST
+GETGLOB 19
+SUB
+UFITS 128
+SWAP
+NEWC
+STSLICECONST x62_
+STSLICE
+SWAP
+STGRAMS
+PUSHINT 107
+STZEROES
+ENDC
+PUSHINT 0
+SENDRAWMSG
+.loc ../contracts/Collection.tsol, 0
+
+.macro check_hasMinted
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Collection.tsol, 98
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+ENDS
+.loc ../contracts/Collection.tsol, 0
+CALLREF {
+	CALL $check_hasMinted_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2604245239
+	STUR 130
+	STI 1
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+PUSHCONT {
+	DROP
+}
+IFELSE
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.globl	check_hasMinted_internal
+.type	check_hasMinted_internal, @function
+CALL $check_hasMinted_internal_macro$
+
+.macro check_hasMinted_internal_macro
+.loc ../contracts/Collection.tsol, 99
+GETGLOB 23
+PUSHINT 267
+DICTGET
+ZEROSWAPIFNOT
+PUSHCONT {
+	PLDI 1
+}
+IF
+.loc ../contracts/Collection.tsol, 0
+
+.macro get_balance
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Collection.tsol, 102
+ENDS
+.loc ../contracts/Collection.tsol, 0
+CALLREF {
+	CALL $get_balance_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2947993516
+	STUR 130
+	STU 256
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+PUSHCONT {
+	DROP
+}
+IFELSE
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.globl	get_balance_internal
+.type	get_balance_internal, @function
+CALL $get_balance_internal_macro$
+
+.macro get_balance_internal_macro
+.loc ../contracts/Collection.tsol, 103
+GETPARAM 7
+FIRST
+.loc ../contracts/Collection.tsol, 0
+
 .globl	_buildNftState_internal
 .type	_buildNftState_internal, @function
 CALL $_buildNftState_internal_macro$
 
 .macro _buildNftState_internal_macro
-.loc ../contracts/Collection.tsol, 80
+.loc ../contracts/Collection.tsol, 113
 PUSHINT 0
 NEWC
 STU 256
@@ -1943,7 +2181,18 @@ LDU 128
 LDU 128
 LDU 128
 LDU 128
+LDU 128
+LDU 128
+LDREF
 ENDS
+CTOS
+LDMSGADDR
+LDDICT
+ENDS
+SETGLOB 23
+SETGLOB 22
+SETGLOB 21
+SETGLOB 20
 SETGLOB 19
 SETGLOB 18
 SETGLOB 17
@@ -1975,7 +2224,15 @@ PUSHCONT {
 	}
 	BLKPUSH 2, 0
 	PUSHINT 0
-	BLKPUSH 3, 0
+	BLKPUSH 5, 0
+	PUSHREFSLICE {
+		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+	}
+	NEWDICT
+	SETGLOB 23
+	SETGLOB 22
+	SETGLOB 21
+	SETGLOB 20
 	SETGLOB 19
 	SETGLOB 18
 	SETGLOB 17
@@ -2007,6 +2264,10 @@ IFREFELSE {
 }
 
 .macro c7_to_c4
+GETGLOB 23
+GETGLOB 22
+GETGLOB 21
+GETGLOB 20
 GETGLOB 19
 GETGLOB 18
 GETGLOB 17
@@ -2027,7 +2288,7 @@ STDICT
 STREF
 STU 128
 STREF
-ROLLREV 6
+ROLLREV 10
 NEWC
 STREF
 STREF
@@ -2035,6 +2296,13 @@ STU 128
 STU 128
 STU 128
 STU 128
+STU 128
+STU 128
+ROTREV
+NEWC
+STSLICE
+STDICT
+STBREFR
 STBREFR
 ENDC
 POPROOT
@@ -2106,7 +2374,9 @@ CTOS
 SBITS
 NEQINT 1
 SETGLOB 6
-PUSHSLICE x8000000000000000000000000000000000000000000000000000000000000000001_
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
 SETGLOB 9
 OVER
 CALLREF {
@@ -2156,98 +2426,152 @@ CALLREF {
 }
 THROW 60
 
+.macro hasMinted
+DROP
+ENDS
+CALLREF {
+	CALL $c4_to_c7$
+}
+GETGLOB 23
+OVER
+PUSHCONT {
+	PUSHSLICE xc00000000000000000000000008d6adbe1
+	NEWC
+	STSLICE
+	STDICT
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+IF
+THROW 0
+
 .macro public_function_selector
 DUP
-PUSHINT 618124789
+PUSHINT 1629421668
 LEQ
 IFJMPREF {
-	DUP
-	PUSHINT 64331365
-	EQUAL
-	IFJMPREF {
-		CALL $indexCode$
-	}
-	DUP
-	PUSHINT 263162756
-	EQUAL
-	IFJMPREF {
-		CALL $nftCode$
-	}
 	DUP
 	PUSHINT 348956614
-	EQUAL
+	LEQ
 	IFJMPREF {
-		CALL $indexCodeHash$
+		DUP
+		PUSHINT 64331365
+		EQUAL
+		IFJMPREF {
+			CALL $indexCode$
+		}
+		DUP
+		PUSHINT 225106913
+		EQUAL
+		IFJMPREF {
+			CALL $hasMinted$
+		}
+		DUP
+		PUSHINT 263162756
+		EQUAL
+		IFJMPREF {
+			CALL $nftCode$
+		}
+		DUP
+		PUSHINT 348956614
+		EQUAL
+		IFJMPREF {
+			CALL $indexCodeHash$
+		}
 	}
 	DUP
-	PUSHINT 618124789
-	EQUAL
+	PUSHINT 800509868
+	LEQ
 	IFJMPREF {
-		CALL $getJson$
+		DUP
+		PUSHINT 456761591
+		EQUAL
+		IFJMPREF {
+			CALL $check_hasMinted$
+		}
+		DUP
+		PUSHINT 618124789
+		EQUAL
+		IFJMPREF {
+			CALL $getJson$
+		}
+		DUP
+		PUSHINT 786351675
+		EQUAL
+		IFJMPREF {
+			CALL $nftCodeHash$
+		}
+		DUP
+		PUSHINT 800509868
+		EQUAL
+		IFJMPREF {
+			CALL $get_balance$
+		}
 	}
-}
-DUP
-PUSHINT 953907334
-LEQ
-IFJMPREF {
-	DUP
-	PUSHINT 786351675
-	EQUAL
-	IFJMPREF {
-		CALL $nftCodeHash$
-	}
-	DUP
-	PUSHINT 839183401
-	EQUAL
-	IFJMPREF {
-		CALL $supportsInterface$
-	}
-	DUP
-	PUSHINT 880007004
-	EQUAL
-	IFJMPREF {
-		CALL $indexBasisCodeHash$
-	}
-	DUP
-	PUSHINT 953907334
-	EQUAL
-	IFJMPREF {
-		CALL $resolveIndexBasis$
-	}
-}
-DUP
-PUSHINT 1560788864
-LEQ
-IFJMPREF {
 	DUP
 	PUSHINT 1383720816
-	EQUAL
+	LEQ
 	IFJMPREF {
-		CALL $nftAddress$
+		DUP
+		PUSHINT 839183401
+		EQUAL
+		IFJMPREF {
+			CALL $supportsInterface$
+		}
+		DUP
+		PUSHINT 880007004
+		EQUAL
+		IFJMPREF {
+			CALL $indexBasisCodeHash$
+		}
+		DUP
+		PUSHINT 953907334
+		EQUAL
+		IFJMPREF {
+			CALL $resolveIndexBasis$
+		}
+		DUP
+		PUSHINT 1383720816
+		EQUAL
+		IFJMPREF {
+			CALL $nftAddress$
+		}
 	}
 	DUP
-	PUSHINT 1445456515
-	EQUAL
+	PUSHINT 1629421668
+	LEQ
 	IFJMPREF {
-		CALL $constructor$
-	}
-	DUP
-	PUSHINT 1479945602
-	EQUAL
-	IFJMPREF {
-		CALL $indexBasisCode$
-	}
-	DUP
-	PUSHINT 1560788864
-	EQUAL
-	IFJMPREF {
-		CALL $mintNft$
+		DUP
+		PUSHINT 1453565441
+		EQUAL
+		IFJMPREF {
+			CALL $constructor$
+		}
+		DUP
+		PUSHINT 1479945602
+		EQUAL
+		IFJMPREF {
+			CALL $indexBasisCode$
+		}
+		DUP
+		PUSHINT 1560788864
+		EQUAL
+		IFJMPREF {
+			CALL $mintNft$
+		}
+		DUP
+		PUSHINT 1629421668
+		EQUAL
+		IFJMPREF {
+			CALL $totalSupply$
+		}
 	}
 }
 DUP
-PUSHINT 1629421668
+PUSHINT 2072717662
 EQUAL
 IFJMPREF {
-	CALL $totalSupply$
+	CALL $withdraw$
 }
 

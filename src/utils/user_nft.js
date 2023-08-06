@@ -1,8 +1,9 @@
 import { Address } from "everscale-inpage-provider";
-import indexAbi from "../../abi/Index.abi.json";
-import nftAbi from "../../abi/Nft.abi.json";
-import collectionAbi from "../../abi/CollectionDrop.abi.json";
-import marketplaceAbi from "../../abi/Marketplace.abi.json";
+import indexAbi from "../../abi_2/Index.abi.json";
+import nftAbi from "../../abi_2/Nft.abi.json";
+import collectionAbi from "../../abi_2/CollectionDrop.abi.json";
+import default_collectionAbi from "../../abi_2/Collection.abi.json";
+import marketplaceAbi from "../../abi_2/Marketplace.abi.json";
 import { user_info } from "./mongo_api/user/user";
 
 import axios from "axios";
@@ -200,7 +201,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 export const create_nft = async (data, signer_address, venomProvider) => {
   console.log({ data: data })
   const contract = new venomProvider.Contract(
-    collectionAbi,
+    default_collectionAbi,
     COLLECTION_ADDRESS
   );
 

@@ -22,16 +22,16 @@ ENDS
 CTOS
 LDMSGADDR
 ENDS
-.loc ../contracts/Marketplace.tsol, 54
-ACCEPT
 .loc ../contracts/Marketplace.tsol, 55
+ACCEPT
+.loc ../contracts/Marketplace.tsol, 56
 PUSHINT 200000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/Marketplace.tsol, 57
+.loc ../contracts/Marketplace.tsol, 58
 SWAP
 SETGLOB 12
-.loc ../contracts/Marketplace.tsol, 59
+.loc ../contracts/Marketplace.tsol, 60
 PUSHINT 100000000
 MYADDR
 GETGLOB 12
@@ -50,7 +50,7 @@ STBREFR
 ENDC
 PUSHINT 1
 SENDRAWMSG
-.loc ../contracts/Marketplace.tsol, 67
+.loc ../contracts/Marketplace.tsol, 68
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -74,7 +74,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Marketplace.tsol, 70
+.loc ../contracts/Marketplace.tsol, 71
 OVER
 PUSHCONT {
 	LDREF
@@ -95,7 +95,7 @@ CALLREF {
 THROW 0
 
 .macro onTokenWallet_internal_macro
-.loc ../contracts/Marketplace.tsol, 71
+.loc ../contracts/Marketplace.tsol, 72
 GETGLOB 9
 PARSEMSGADDR
 INDEX 3
@@ -106,13 +106,13 @@ GETGLOB 12
 SDEQ
 AND
 THROWIFNOT 101
-.loc ../contracts/Marketplace.tsol, 76
+.loc ../contracts/Marketplace.tsol, 77
 PUSHINT 200000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/Marketplace.tsol, 78
-SETGLOB 13
 .loc ../contracts/Marketplace.tsol, 79
+SETGLOB 13
+.loc ../contracts/Marketplace.tsol, 80
 GETGLOB 11
 NEWC
 STSLICECONST x42_
@@ -124,7 +124,7 @@ PUSHPOW2 7
 SENDRAWMSG
 .loc ../contracts/Marketplace.tsol, 0
 
-.macro onNftTransfer
+.macro onNftChangeManager
 DROP
 GETGLOB 6
 THROWIFNOT 76
@@ -133,7 +133,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Marketplace.tsol, 82
+.loc ../contracts/Marketplace.tsol, 84
 OVER
 PUSHCONT {
 	LDREF
@@ -161,13 +161,9 @@ CTOS
 LDMSGADDR
 LDREF
 ENDS
-CTOS
-LDMSGADDR
-LDREF
-ENDS
 .loc ../contracts/Marketplace.tsol, 0
 CALLREF {
-	CALL $onNftTransfer_internal_macro$
+	CALL $onNftChangeManager_internal_macro$
 }
 DROP
 CALLREF {
@@ -175,59 +171,26 @@ CALLREF {
 }
 THROW 0
 
-.macro onNftTransfer_internal_macro
-.loc ../contracts/Marketplace.tsol, 82
-BLKDROP 8
-.loc ../contracts/Marketplace.tsol, 0
-
-.macro listToken
-DROP
-GETGLOB 6
-THROWIFNOT 76
-GETGLOB 2
-ISNULL
-IFREF {
-	CALL $c4_to_c7$
-}
+.macro onNftChangeManager_internal_macro
 .loc ../contracts/Marketplace.tsol, 93
-OVER
-PUSHCONT {
-	LDREF
-	ENDS
-	CTOS
-}
-IF
-LDMSGADDR
-LDU 128
-ENDS
-.loc ../contracts/Marketplace.tsol, 0
-CALLREF {
-	CALL $listToken_internal_macro$
-}
-DROP
-CALLREF {
-	CALL $c7_to_c4$
-}
-THROW 0
-
-.globl	listToken_internal
-.type	listToken_internal, @function
-CALL $listToken_internal_macro$
-
-.macro listToken_internal_macro
-.loc ../contracts/Marketplace.tsol, 97
+BLKDROP 3
+PUSHINT 200000000
+PUSHINT 0
+RAWRESERVE
+.loc ../contracts/Marketplace.tsol, 95
 GETGLOB 14
-.loc ../contracts/Marketplace.tsol, 101
-PUSH2 S0, S2
+.loc ../contracts/Marketplace.tsol, 96
+DUP
 GETGLOB 9
-MYADDR
-PUSH S5
+ROLL 5
+ROLL 4
+PUSHINT 100000000
 TRUE
 TUPLE 6
-.loc ../contracts/Marketplace.tsol, 109
-OVER
+.loc ../contracts/Marketplace.tsol, 104
 GETGLOB 15
-PUSH S2
+OVER
+XCHG S2, S3
 CALLREF {
 	UNTUPLE 6
 	REVERSE 6, 0
@@ -250,8 +213,8 @@ ROTREV
 PUSHPOW2 8
 DICTUSETREF
 SETGLOB 15
-.loc ../contracts/Marketplace.tsol, 110
-PUSH S3
+.loc ../contracts/Marketplace.tsol, 105
+GETGLOB 9
 GETGLOB 16
 ROT
 CALLREF {
@@ -276,38 +239,106 @@ ROTREV
 PUSHINT 267
 DICTSETREF
 SETGLOB 16
-.loc ../contracts/Marketplace.tsol, 112
-GETGLOB 14
-INC
-SETGLOB 14
-.loc ../contracts/Marketplace.tsol, 113
-TRUE
+.loc ../contracts/Marketplace.tsol, 0
+DROP2
+
+.macro generatePayload
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Marketplace.tsol, 108
+LDU 32
+GETGLOB 4
 ROT
-MYADDR
-GETGLOB 9
-BLKSWAP 2, 4
-PUSHSLICE xc0000000000000000000000001
-NEWC
-STSLICE
-ROLLREV 6
-NEWC
-STSLICECONST x17604f4d
-STU 256
-STSLICE
-ROLLREV 4
-NEWC
-STSLICE
-ROLLREV 3
-NEWC
-STSLICE
-STU 128
-STI 1
-STBREFR
-STBREFR
-STBREFR
-ENDC
-PUSHINT 0
+SETINDEXQ 5
+SETGLOB 4
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDU 128
+ENDS
+.loc ../contracts/Marketplace.tsol, 0
+CALLREF {
+	CALL $generatePayload_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 2593242313
+	STUR 130
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
 SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro generatePayload_internal_macro
+.loc ../contracts/Marketplace.tsol, 114
+DUP
+GTINT 0
+THROWIFNOT 101
+.loc ../contracts/Marketplace.tsol, 116
+NEWC
+STU 128
+.loc ../contracts/Marketplace.tsol, 118
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+FALSE
+SETINDEXQ 1
+PUSHINT 64
+SETINDEXQ 4
+SETGLOB 4
+ENDC
 .loc ../contracts/Marketplace.tsol, 0
 
 .macro finishAuction
@@ -319,7 +350,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Marketplace.tsol, 123
+.loc ../contracts/Marketplace.tsol, 152
 OVER
 PUSHCONT {
 	LDREF
@@ -337,9 +368,8 @@ ENDS
 CALLREF {
 	CALL $finishAuction_internal_macro$
 }
-DROP
-CALLREF {
-	CALL $c7_to_c4$
+IFREF {
+	CALL $upd_only_time_in_c4$
 }
 THROW 0
 
@@ -348,18 +378,18 @@ THROW 0
 CALL $finishAuction_internal_macro$
 
 .macro finishAuction_internal_macro
-.loc ../contracts/Marketplace.tsol, 128
+.loc ../contracts/Marketplace.tsol, 157
 DEPTH
 ADDCONST -2
 PICK
 PUSHINT 1000000000
 GEQ
 THROWIFNOT 103
-.loc ../contracts/Marketplace.tsol, 130
+.loc ../contracts/Marketplace.tsol, 159
 PUSHINT 200000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/Marketplace.tsol, 132
+.loc ../contracts/Marketplace.tsol, 161
 GETGLOB 16
 PUSHINT 267
 DICTGETREF
@@ -393,25 +423,25 @@ PUSHCONT {
 	TUPLE 6
 }
 IFELSE
-.loc ../contracts/Marketplace.tsol, 133
+.loc ../contracts/Marketplace.tsol, 162
 DUP
 INDEX 4
-.loc ../contracts/Marketplace.tsol, 135
+.loc ../contracts/Marketplace.tsol, 164
 DEPTH
 ADDCONST -2
 PICK
 EQUAL
 THROWIFNOT 101
-.loc ../contracts/Marketplace.tsol, 139
+.loc ../contracts/Marketplace.tsol, 168
 FALSE
 SETINDEX 5
-.loc ../contracts/Marketplace.tsol, 140
+.loc ../contracts/Marketplace.tsol, 169
 GETGLOB 9
 SETINDEX 2
-.loc ../contracts/Marketplace.tsol, 143
+.loc ../contracts/Marketplace.tsol, 172
 PUSHREF {
 }
-.loc ../contracts/Marketplace.tsol, 144
+.loc ../contracts/Marketplace.tsol, 173
 NEWDICT
 PUSH S3
 GETGLOB 9
@@ -438,7 +468,7 @@ STBREFR
 ENDC
 PUSHINT 1
 SENDRAWMSG
-.loc ../contracts/Marketplace.tsol, 154
+.loc ../contracts/Marketplace.tsol, 183
 TRUE
 ROLL 3
 PUSHINT 100000000
@@ -479,7 +509,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Marketplace.tsol, 164
+.loc ../contracts/Marketplace.tsol, 193
 ENDS
 .loc ../contracts/Marketplace.tsol, 0
 CALLREF {
@@ -521,9 +551,9 @@ THROW 0
 CALL $getAllNFTs_internal_macro$
 
 .macro getAllNFTs_internal_macro
-.loc ../contracts/Marketplace.tsol, 165
+.loc ../contracts/Marketplace.tsol, 194
 GETGLOB 14
-.loc ../contracts/Marketplace.tsol, 166
+.loc ../contracts/Marketplace.tsol, 195
 DUP
 PUSHREF
 .compute $default_tuple_builder_t_uint256_t_address_t_address_t_address_t_uint128_t_bool$
@@ -541,16 +571,16 @@ PUSHCONT {
 REPEAT
 BLKDROP2 2, 1
 PAIR
-.loc ../contracts/Marketplace.tsol, 167
+.loc ../contracts/Marketplace.tsol, 196
 PUSHINT 0
 DUP
-.loc ../contracts/Marketplace.tsol, 168
+.loc ../contracts/Marketplace.tsol, 197
 PUSHCONT {
 	PUSH2 S0, S3
 	LESS
 }
 PUSHCONT {
-	.loc ../contracts/Marketplace.tsol, 169
+	.loc ../contracts/Marketplace.tsol, 198
 	DUP
 	GETGLOB 15
 	PUSHPOW2 8
@@ -591,7 +621,7 @@ PUSHCONT {
 	}
 	SDEQ
 	PUSHCONT {
-		.loc ../contracts/Marketplace.tsol, 170
+		.loc ../contracts/Marketplace.tsol, 199
 		DUP
 		GETGLOB 15
 		PUSHPOW2 8
@@ -626,7 +656,7 @@ PUSHCONT {
 			TUPLE 6
 		}
 		IFELSE
-		.loc ../contracts/Marketplace.tsol, 171
+		.loc ../contracts/Marketplace.tsol, 200
 		PUSH S3
 		UNPAIR
 		PUXC S4, S-1
@@ -657,20 +687,20 @@ PUSHCONT {
 		DICTUSETREF
 		PAIR
 		POP S3
-		.loc ../contracts/Marketplace.tsol, 172
+		.loc ../contracts/Marketplace.tsol, 201
 		OVER
 		INC
 		POP S2
 		.loc ../contracts/Marketplace.tsol, 0
 	}
 	IFNOT
-	.loc ../contracts/Marketplace.tsol, 168
+	.loc ../contracts/Marketplace.tsol, 197
 	INC
 	.loc ../contracts/Marketplace.tsol, 0
 }
 WHILE
 DROP2
-.loc ../contracts/Marketplace.tsol, 175
+.loc ../contracts/Marketplace.tsol, 204
 NIP
 .loc ../contracts/Marketplace.tsol, 0
 
@@ -683,7 +713,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Marketplace.tsol, 178
+.loc ../contracts/Marketplace.tsol, 207
 OVER
 PUSHCONT {
 	LDREF
@@ -747,7 +777,7 @@ THROW 0
 CALL $get_nft_by_address_internal_macro$
 
 .macro get_nft_by_address_internal_macro
-.loc ../contracts/Marketplace.tsol, 179
+.loc ../contracts/Marketplace.tsol, 208
 GETGLOB 16
 PUSHINT 267
 DICTGETREF
@@ -934,6 +964,16 @@ LDMSGADDR ; bounced src tail
 DROP
 SETGLOB 9
 MODPOW2 1
+GETGLOB 4
+TRUE
+SETINDEXQ 1
+PUSHINT 10000000
+SETINDEXQ 2
+NULL
+SETINDEXQ 3
+PUSHINT 0
+SETINDEXQ 4
+SETGLOB 4
 IFRET
 OVER
 SEMPTY ; isEmpty
@@ -1124,7 +1164,7 @@ ENDC
 
 .macro public_function_selector
 DUP
-PUSHINT 929939076
+PUSHINT 512274204
 LEQ
 IFJMPREF {
 	DUP
@@ -1140,22 +1180,28 @@ IFJMPREF {
 		CALL $_tokenWallet$
 	}
 	DUP
+	PUSHINT 445758665
+	EQUAL
+	IFJMPREF {
+		CALL $generatePayload$
+	}
+	DUP
 	PUSHINT 512274204
 	EQUAL
 	IFJMPREF {
 		CALL $_tokenRoot$
 	}
-	DUP
-	PUSHINT 929939076
-	EQUAL
-	IFJMPREF {
-		CALL $listToken$
-	}
 }
 DUP
-PUSHINT 2058972652
+PUSHINT 1241152735
 LEQ
 IFJMPREF {
+	DUP
+	PUSHINT 601546343
+	EQUAL
+	IFJMPREF {
+		CALL $onNftChangeManager$
+	}
 	DUP
 	PUSHINT 1158545205
 	EQUAL
@@ -1174,22 +1220,16 @@ IFJMPREF {
 	IFJMPREF {
 		CALL $constructor$
 	}
-	DUP
-	PUSHINT 2058972652
-	EQUAL
-	IFJMPREF {
-		CALL $address_listed_token$
-	}
 }
 DUP
 PUSHINT 2133486640
 LEQ
 IFJMPREF {
 	DUP
-	PUSHINT 2087248313
+	PUSHINT 2058972652
 	EQUAL
 	IFJMPREF {
-		CALL $onNftTransfer$
+		CALL $address_listed_token$
 	}
 	DUP
 	PUSHINT 2118212501
