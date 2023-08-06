@@ -9,6 +9,7 @@ import axios from "axios";
 import MobileNavbar from "./navcomps/MobileNavbar";
 import MobileProfileDrop from "./navcomps/MobileProfileDrop";
 import DesktopNavbar from "./navcomps/DesktopNavbar";
+import { GrClose } from "react-icons/gr"
 
 
 const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, onDisconnect, MintNFTStatus, MintCollectionStatus, blockURL }) => {
@@ -52,10 +53,10 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
 
   return (
     <div
-      className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
+      className={`${theme} overflow-x-hidden font-body text-jacarta-500`}
     >
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
-        <div className="flex items-center px-6 py-6 xl:px-24">
+        <div className={`flex items-center px-6 py-6 xl:px-24 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"} ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}>
           {/* icon  */}
           {theme === "dark" ?
             <Link href="/" className="shrink-0 relative">
@@ -422,16 +423,20 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                     className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
                     onClick={() => (setMobileNavDrop(false), setMobieProfileDrop(!mobieProfileDrop))}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
-                    </svg>
+                    {mobieProfileDrop ?
+                      <GrClose className="h-4 w-4 fill-black dark:fill-white" />
+                      :
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                      >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
+                      </svg>
+                    }
                   </button>
                 </div>
               </>
@@ -442,11 +447,15 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
           <div className="lg:hidden">
             <button
               class="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent" onClick={() => (setMobieProfileDrop(false), setMobileNavDrop(!mobileNavDrop))}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                class="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white">
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M18 18v2H6v-2h12zm3-7v2H3v-2h18zm-3-7v2H6V4h12z" />
-              </svg>
+              {mobileNavDrop ?
+                <GrClose className="h-4 w-4 fill-black dark:fill-white" />
+                :
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                  class="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white">
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M18 18v2H6v-2h12zm3-7v2H3v-2h18zm-3-7v2H6V4h12z" />
+                </svg>
+              }
             </button>
           </div>
         </div>
