@@ -30,6 +30,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
       const imgInfo = await getNftImage(provider, nftAddress);
+      console.log(imgInfo);
       let obj = { ...imgInfo, nftAddress };
       nfts.push(obj);
     })
@@ -250,6 +251,7 @@ export const create_launchpad_nft = async (
     const { count: id } = await contract.methods
       .totalSupply({ answerId: 0 })
       .call();
+
     const ipfs_image =
       typeof data.image == "string"
         ? data.image
@@ -279,7 +281,6 @@ export const create_launchpad_nft = async (
       from: new Address(signer_address),
       amount: (data.mintPrice * 1000000000).toString(),
     });
-
 
     const res = await axios({
       url: "/api/user/add_launchpad_user",

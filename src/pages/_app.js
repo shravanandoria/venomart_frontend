@@ -72,14 +72,16 @@ export default function App({ Component, pageProps }) {
     },
     {
       id: 1,
-      Cover: "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
+      Cover:
+        "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
       Name: "Venom Alligators",
       Description:
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress:
+        "0:a3d84546a9f0e3bbb720ce1415446a339b5595abd4e5ea91e770e7b6e0408168",
       customLink: "custom/venomalligators",
       pageName: "venomalligators",
       supply: "3000",
