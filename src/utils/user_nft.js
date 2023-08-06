@@ -297,7 +297,6 @@ export const create_launchpad_nft = async (
         collection_address: data.collectionAddress,
       },
     });
-    console.log(res.data);
     return res.data.success;
   } catch (error) {
     console.log(error.message);
