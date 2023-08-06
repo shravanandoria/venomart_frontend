@@ -90,7 +90,7 @@ export default function App({ Component, pageProps }) {
       discord: "https://discord.gg/MdSDtqyBwd",
       instagram: "",
       telegram: "",
-      startDate: "08/07/2023 12:00:00",
+      startDate: "08/06/2023 18:20:00",
       endDate: "08/11/2023 12:00:00",
       verified: true,
     },
