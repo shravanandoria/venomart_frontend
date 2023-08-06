@@ -16,7 +16,7 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
 import { user_info } from "@/utils/mongo_api/user/user";
-import collectionAbi from "../../../../abi/Collection.abi.json";
+import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 
 const venomalligators = ({
     blockURL,
