@@ -1,6 +1,6 @@
 import { Address } from "everscale-inpage-provider";
 import indexAbi from "../../abi_2/Index.abi.json";
-import nftAbi from "../../abi_2/Nft.abi.json";
+import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi_2/CollectionDrop.abi.json";
 import default_collectionAbi from "../../abi_2/Collection.abi.json";
 import marketplaceAbi from "../../abi_2/Marketplace.abi.json";
