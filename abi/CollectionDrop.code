@@ -669,7 +669,7 @@ PUSHINT 0
 SENDRAWMSG
 .loc ../contracts/CollectionDrop.tsol, 0
 
-.macro pause_mint
+.macro minting_status
 DROP
 GETGLOB 6
 THROWIFNOT 76
@@ -679,6 +679,91 @@ IFREF {
 	CALL $c4_to_c7$
 }
 .loc ../contracts/CollectionDrop.tsol, 99
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/CollectionDrop.tsol, 0
+CALLREF {
+	CALL $minting_status_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 3329087852
+	STUR 130
+	STI 1
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STI 1
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro minting_status_internal_macro
+.loc ../contracts/CollectionDrop.tsol, 100
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 24
+.loc ../contracts/CollectionDrop.tsol, 0
+
+.macro pause_mint
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/CollectionDrop.tsol, 103
+LDI 1
 ENDS
 .loc ../contracts/CollectionDrop.tsol, 0
 CALLREF {
@@ -717,8 +802,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 100
-TRUE
+.loc ../contracts/CollectionDrop.tsol, 104
 SETGLOB 24
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -731,7 +815,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 103
+.loc ../contracts/CollectionDrop.tsol, 107
 OVER
 PUSHCONT {
 	LDREF
@@ -774,7 +858,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 104
+.loc ../contracts/CollectionDrop.tsol, 108
 SETGLOB 21
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -787,7 +871,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 107
+.loc ../contracts/CollectionDrop.tsol, 111
 OVER
 PUSHCONT {
 	LDREF
@@ -830,7 +914,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 108
+.loc ../contracts/CollectionDrop.tsol, 112
 SETGLOB 23
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -843,7 +927,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 111
+.loc ../contracts/CollectionDrop.tsol, 115
 OVER
 PUSHCONT {
 	LDREF
@@ -887,9 +971,9 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 112
+.loc ../contracts/CollectionDrop.tsol, 116
 ACCEPT
-.loc ../contracts/CollectionDrop.tsol, 113
+.loc ../contracts/CollectionDrop.tsol, 117
 SWAP
 NEWC
 STSLICECONST x62_
@@ -908,7 +992,7 @@ SENDRAWMSG
 CALL $_buildNftState_internal_macro$
 
 .macro _buildNftState_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 120
+.loc ../contracts/CollectionDrop.tsol, 124
 PUSHINT 0
 NEWC
 STU 256
@@ -944,7 +1028,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 123
+.loc ../contracts/CollectionDrop.tsol, 127
 OVER
 PUSHCONT {
 	LDREF
@@ -994,11 +1078,11 @@ THROW 0
 CALL $resolveIndexCodeHash_internal_macro$
 
 .macro resolveIndexCodeHash_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 124
+.loc ../contracts/CollectionDrop.tsol, 128
 CALLREF {
 	CALL $_buildIndexCode_internal_macro$
 }
-.loc ../contracts/CollectionDrop.tsol, 125
+.loc ../contracts/CollectionDrop.tsol, 129
 HASHCU
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -1011,7 +1095,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 128
+.loc ../contracts/CollectionDrop.tsol, 132
 OVER
 PUSHCONT {
 	LDREF
@@ -1046,7 +1130,7 @@ CALLREF {
 THROW 0
 
 .macro acceptNftBurn_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 136
+.loc ../contracts/CollectionDrop.tsol, 140
 GETGLOB 9
 PARSEMSGADDR
 INDEX 3
@@ -1064,12 +1148,12 @@ PUSHCONT {
 }
 IF
 THROWIFNOT 100
-.loc ../contracts/CollectionDrop.tsol, 138
+.loc ../contracts/CollectionDrop.tsol, 142
 GETGLOB 12
 DEC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/CollectionDrop.tsol, 139
+.loc ../contracts/CollectionDrop.tsol, 143
 PUSH2 S3, S4
 GETGLOB 9
 PUSH S8
@@ -1093,13 +1177,13 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/CollectionDrop.tsol, 141
+.loc ../contracts/CollectionDrop.tsol, 145
 OVER
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 PUSHCONT {
-	.loc ../contracts/CollectionDrop.tsol, 142
+	.loc ../contracts/CollectionDrop.tsol, 146
 	PUSH3 S0, S2, S3
 	PUSH S7
 	GETGLOB 9
@@ -1139,7 +1223,7 @@ PUSHCONT {
 	STBREFR
 }
 PUSHCONT {
-	.loc ../contracts/CollectionDrop.tsol, 152
+	.loc ../contracts/CollectionDrop.tsol, 156
 	PUSH S2
 	NEWC
 	STSLICECONST x42_
@@ -3051,7 +3135,7 @@ PUSHCONT {
 	SETGLOB 17
 	PUSHINT 400000000
 	SETGLOB 18
-	FALSE
+	TRUE
 	SETGLOB 24
 }
 IFREFELSE {
@@ -3222,7 +3306,7 @@ THROW 60
 
 .macro public_function_selector
 DUP
-PUSHINT 1383720816
+PUSHINT 1181604204
 LEQ
 IFJMPREF {
 	DUP
@@ -3313,7 +3397,7 @@ IFJMPREF {
 		}
 	}
 	DUP
-	PUSHINT 1383720816
+	PUSHINT 1181604204
 	LEQ
 	IFJMPREF {
 		DUP
@@ -3335,10 +3419,10 @@ IFJMPREF {
 			CALL $resolveIndexBasis$
 		}
 		DUP
-		PUSHINT 1383720816
+		PUSHINT 1181604204
 		EQUAL
 		IFJMPREF {
-			CALL $nftAddress$
+			CALL $minting_status$
 		}
 	}
 }
@@ -3347,9 +3431,15 @@ PUSHINT 2132641452
 LEQ
 IFJMPREF {
 	DUP
-	PUSHINT 1629421668
+	PUSHINT 1481007036
 	LEQ
 	IFJMPREF {
+		DUP
+		PUSHINT 1383720816
+		EQUAL
+		IFJMPREF {
+			CALL $nftAddress$
+		}
 		DUP
 		PUSHINT 1420584589
 		EQUAL
@@ -3363,6 +3453,17 @@ IFJMPREF {
 			CALL $indexBasisCode$
 		}
 		DUP
+		PUSHINT 1481007036
+		EQUAL
+		IFJMPREF {
+			CALL $pause_mint$
+		}
+	}
+	DUP
+	PUSHINT 1691562154
+	LEQ
+	IFJMPREF {
+		DUP
 		PUSHINT 1594609630
 		EQUAL
 		IFJMPREF {
@@ -3374,11 +3475,6 @@ IFJMPREF {
 		IFJMPREF {
 			CALL $totalSupply$
 		}
-	}
-	DUP
-	PUSHINT 1912079397
-	LEQ
-	IFJMPREF {
 		DUP
 		PUSHINT 1659888937
 		EQUAL
@@ -3391,24 +3487,23 @@ IFJMPREF {
 		IFJMPREF {
 			CALL $hasMinted$
 		}
-		DUP
-		PUSHINT 1863572986
-		EQUAL
-		IFJMPREF {
-			CALL $pause_mint$
-		}
+	}
+	DUP
+	PUSHINT 2132641452
+	LEQ
+	IFJMPREF {
 		DUP
 		PUSHINT 1912079397
 		EQUAL
 		IFJMPREF {
 			CALL $resolveIndexCodeHash$
 		}
-	}
-	DUP
-	PUSHINT 2132641452
-	EQUAL
-	IFJMPREF {
-		CALL $mintingFee$
+		DUP
+		PUSHINT 2132641452
+		EQUAL
+		IFJMPREF {
+			CALL $mintingFee$
+		}
 	}
 }
 

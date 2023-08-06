@@ -4,7 +4,14 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsArrowUpRight, BsBrowserChrome, BsDiscord, BsFillExclamationCircleFill, BsTelegram, BsTwitter } from "react-icons/bs";
+import {
+  BsArrowUpRight,
+  BsBrowserChrome,
+  BsDiscord,
+  BsFillExclamationCircleFill,
+  BsTelegram,
+  BsTwitter,
+} from "react-icons/bs";
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import Pagination from "@/components/Pagination";
@@ -13,9 +20,16 @@ import venomLogo from "../../../public/venom.svg";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "@/utils/mongo_api/collection/collection";
-import collectionAbi from "../../../abi/Collection.abi.json";
+import collectionAbi from "../../../abi_2/Collection.abi.json";
 
-const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvider }) => {
+const Collection = ({
+  blockURL,
+  theme,
+  standalone,
+  webURL,
+  copyURL,
+  venomProvider,
+}) => {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -43,13 +57,12 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
     // getting contract info
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
-    // getting total supply 
+    // getting total supply
     if (venomProvider != undefined) {
-      const contract = new venomProvider.Contract(
-        collectionAbi,
-        slug
-      );
-      const totalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
+      const contract = new venomProvider.Contract(collectionAbi, slug);
+      const totalSupply = await contract.methods
+        .totalSupply({ answerId: 0 })
+        .call();
       setTotalSupply(totalSupply.count);
     }
     setLoading(false);
@@ -146,12 +159,22 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                   )}
                 </div>
                 <div className="absolute mb-6 ml-10 mt-2 inline-flex items-center justify-center">
-                  {collection?.isVerified && isHovering &&
-                    <p className="bg-blue px-[10px] py-[3px] text-white text-[12px]" style={{ borderRadius: "10px" }}>Verified</p>
-                  }
-                  {!collection?.isVerified && isHovering &&
-                    <p className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]" style={{ borderRadius: "10px" }}>Not Verified</p>
-                  }
+                  {collection?.isVerified && isHovering && (
+                    <p
+                      className="bg-blue px-[10px] py-[3px] text-white text-[12px]"
+                      style={{ borderRadius: "10px" }}
+                    >
+                      Verified
+                    </p>
+                  )}
+                  {!collection?.isVerified && isHovering && (
+                    <p
+                      className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]"
+                      style={{ borderRadius: "10px" }}
+                    >
+                      Not Verified
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -161,50 +184,58 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                 <div className="flex justify-center align-middle mb-6 mt-2">
                   {collection?.socials && (
                     <>
-                      {collection?.socials[0] != "" &&
+                      {collection?.socials[0] != "" && (
                         <a
                           href={
-                            collection?.socials?.length ? collection?.socials[0] : "#"
+                            collection?.socials?.length
+                              ? collection?.socials[0]
+                              : "#"
                           }
                           target="_blank"
                           className="group ml-4"
                         >
                           <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
-                      }
-                      {collection?.socials[1] != "" &&
+                      )}
+                      {collection?.socials[1] != "" && (
                         <a
                           href={
-                            collection?.socials?.length ? collection?.socials[1] : "#"
+                            collection?.socials?.length
+                              ? collection?.socials[1]
+                              : "#"
                           }
                           target="_blank"
                           className="group ml-4"
                         >
                           <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
-                      }
-                      {collection?.socials[2] != "" &&
+                      )}
+                      {collection?.socials[2] != "" && (
                         <a
                           href={
-                            collection?.socials?.length ? collection?.socials[2] : "#"
+                            collection?.socials?.length
+                              ? collection?.socials[2]
+                              : "#"
                           }
                           target="_blank"
                           className="group ml-4"
                         >
                           <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
-                      }
-                      {collection?.socials[3] != "" &&
+                      )}
+                      {collection?.socials[3] != "" && (
                         <a
                           href={
-                            collection?.socials?.length ? collection?.socials[3] : "#"
+                            collection?.socials?.length
+                              ? collection?.socials[3]
+                              : "#"
                           }
                           target="_blank"
                           className="group ml-4"
                         >
                           <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
-                      }
+                      )}
                     </>
                   )}
                 </div>
@@ -217,7 +248,15 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                   >
                     <span>{slug}</span>
                   </a>
-                  <BsArrowUpRight className="text-jacarta-700 dark:text-jacarta-200 cursor-pointer" onClick={() => window.open(`${blockURL}` + `accounts/` + `${slug}`, "_blank")} />
+                  <BsArrowUpRight
+                    className="text-jacarta-700 dark:text-jacarta-200 cursor-pointer"
+                    onClick={() =>
+                      window.open(
+                        `${blockURL}` + `accounts/` + `${slug}`,
+                        "_blank"
+                      )
+                    }
+                  />
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection?.name ? collection?.name : "Undefined Collection"}
@@ -251,7 +290,7 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                     className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {totalSupply ? totalSupply : (nfts?.length + "+")}
+                      {totalSupply ? totalSupply : nfts?.length + "+"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
@@ -412,8 +451,8 @@ const Collection = ({ blockURL, theme, standalone, webURL, copyURL, venomProvide
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                         />
                       );
                     })}

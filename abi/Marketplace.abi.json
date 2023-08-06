@@ -21,27 +21,27 @@
 			]
 		},
 		{
-			"name": "onNftTransfer",
+			"name": "onNftChangeManager",
 			"inputs": [
-				{"name":"value0","type":"uint256"},
-				{"name":"oldOwner","type":"address"},
-				{"name":"value2","type":"address"},
-				{"name":"value3","type":"address"},
-				{"name":"value4","type":"address"},
-				{"name":"value5","type":"address"},
-				{"name":"gasReceiver","type":"address"},
-				{"name":"value7","type":"cell"}
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"oldManager","type":"address"},
+				{"name":"newManager","type":"address"},
+				{"name":"collection","type":"address"},
+				{"name":"sendGasTo","type":"address"},
+				{"name":"payload","type":"cell"}
 			],
 			"outputs": [
 			]
 		},
 		{
-			"name": "listToken",
+			"name": "generatePayload",
 			"inputs": [
-				{"name":"nft_address","type":"address"},
+				{"name":"answerId","type":"uint32"},
 				{"name":"price","type":"uint128"}
 			],
 			"outputs": [
+				{"name":"payload","type":"cell"}
 			]
 		},
 		{
