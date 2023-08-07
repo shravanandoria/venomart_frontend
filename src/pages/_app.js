@@ -21,6 +21,7 @@ import { check_user } from "@/utils/mongo_api/user/user";
 import { get_collections } from "@/utils/mongo_api/collection/collection";
 
 import { ThirdwebProvider } from "@thirdweb-dev/react";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }) {
   // default values
@@ -156,7 +157,6 @@ export default function App({ Component, pageProps }) {
   const fetch_all_collections = async () => {
     setLoading(true);
     const res = await get_collections();
-    // console.log(res);
     set_collections(res);
     setLoading(false);
   };
@@ -246,6 +246,18 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
+      <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
+
+      <Script strategy="lazyOnload">
+        {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+        page_path: window.location.pathname,
+        });
+    `}
+      </Script>
       <Navbar
         theme={theme}
         setTheme={setTheme}
@@ -285,7 +297,7 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
       />
-      <Analytics />
+      {/* <Analytics /> */}
     </ThirdwebProvider>
   );
 }

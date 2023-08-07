@@ -6,28 +6,28 @@ const ActivityRecord = () => {
         <Link
             href={""}
             style={{ margin: "12px", width: "90%" }}
-            class="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
+            className="relative flex items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
         >
             {/* nft image url  */}
-            {/* <div class="mr-5 self-start">
-                <Image src="img/avatars/avatar_2.jpg" alt="avatar 2" class="rounded-2lg" loading="lazy" />
+            {/* <div className="mr-5 self-start">
+                <Image src="img/avatars/avatar_2.jpg" alt="avatar 2" className="rounded-2lg" loading="lazy" />
             </div> */}
 
             <div>
-                <h3 class="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                     Lazyone Panda
                 </h3>
-                <span class="mb-3 block text-sm text-jacarta-500">sold for 1.515 ETH</span>
-                <span class="block text-xs text-jacarta-300">30 minutes 45 seconds ago</span>
+                <span className="mb-3 block text-sm text-jacarta-500">sold for 1.515 ETH</span>
+                <span className="block text-xs text-jacarta-300">30 minutes 45 seconds ago</span>
             </div>
 
-            <div class="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600">
+            <div className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     width="24"
                     height="24"
-                    class="fill-jacarta-700 dark:fill-white"
+                    className="fill-jacarta-700 dark:fill-white"
                 >
                     <path fill="none" d="M0 0h24v24H0z" />
                     <path

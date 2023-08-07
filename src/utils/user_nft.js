@@ -31,7 +31,6 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
       const imgInfo = await getNftImage(provider, nftAddress);
-      console.log(imgInfo);
       let obj = { ...imgInfo, nftAddress };
       nfts.push(obj);
     })
@@ -199,7 +198,6 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
-  console.log({ data: data });
   const contract = new venomProvider.Contract(
     default_collectionAbi,
     COLLECTION_ADDRESS
@@ -257,7 +255,6 @@ export const create_launchpad_nft = async (
     const { count: id } = await contract.methods
       .totalMinted({ answerId: 0 })
       .call();
-    console.log(id);
 
     const ipfs_image =
       typeof data.image == "string"

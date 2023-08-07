@@ -52,7 +52,6 @@ export const get_collections = async () => {
       method: "GET",
     });
     for (let i = 0; i < res.data.data.length; i++) {
-      // console.log(res.data.data[i]);
       if (res.data.data[i].isVerified) {
         nfts_verified.push(res.data.data[i]);
       }

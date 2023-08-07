@@ -292,7 +292,7 @@ const Profile = ({
           className="nav nav-tabs scrollbar-custom pb-12 flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center"
           role="tablist"
         >
-          <li class="nav-item" role="presentation" onClick={switchToOnSale}>
+          <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
               className={`nav-link ${onSale && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -309,14 +309,14 @@ const Profile = ({
                 viewBox="0 0 24 24"
                 width="24"
                 height="24"
-                class="mr-1 h-5 w-5 fill-current"
+                className="mr-1 h-5 w-5 fill-current"
               >
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path
                   d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h16V5H4zm4.5 9H14a.5.5 0 1 0 0-1h-4a2.5 2.5 0 1 1 0-5h1V6h2v2h2.5v2H10a.5.5 0 1 0 0 1h4a2.5 2.5 0 1 1 0 5h-1v2h-2v-2H8.5v-2z"
                 />
               </svg>
-              <span class="font-display text-base font-medium">On Sale</span>
+              <span className="font-display text-base font-medium">On Sale</span>
             </button>
           </li>
           {/* owned button  */}
@@ -388,7 +388,7 @@ const Profile = ({
               </span>
             </button>
           </li>
-          <li class="nav-item" role="presentation" onClick={switchToActivity}>
+          <li className="nav-item" role="presentation" onClick={switchToActivity}>
             <button
               className={`nav-link ${activity && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -405,14 +405,14 @@ const Profile = ({
                 viewBox="0 0 24 24"
                 width="24"
                 height="24"
-                class="mr-1 h-5 w-5 fill-current"
+                className="mr-1 h-5 w-5 fill-current"
               >
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path
                   d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z"
                 />
               </svg>
-              <span class="font-display text-base font-medium">Activity</span>
+              <span className="font-display text-base font-medium">Activity</span>
             </button>
           </li>
         </ul>
@@ -556,8 +556,8 @@ const Profile = ({
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                <div class="lg:flex">
-                  <div class="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                <div className="lg:flex">
+                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                     <div className="flex justify-center align-middle flex-wrap">
                       {activityRecords?.map((e, index) => (
                         <ActivityRecord
@@ -568,20 +568,20 @@ const Profile = ({
                   </div>
                   {/* <!-- Filters --> */}
                   {activityRecords != "" &&
-                    <div class="basis-4/12 lg:pl-5">
-                      <form action="search" class="relative mb-12 block">
+                    <div className="basis-4/12 lg:pl-5">
+                      <form action="search" className="relative mb-12 block">
                         <input
                           type="search"
-                          class="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                          className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                           placeholder="Search"
                         />
-                        <span class="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                        <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            class="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                            className="h-4 w-4 fill-jacarta-500 dark:fill-white"
                           >
                             <path fill="none" d="M0 0h24v24H0z"></path>
                             <path
@@ -591,58 +591,58 @@ const Profile = ({
                         </span>
                       </form>
 
-                      <h3 class="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">Filters</h3>
-                      <div class="flex flex-wrap">
+                      <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">Filters</h3>
+                      <div className="flex flex-wrap">
                         <button
-                          class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            class="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
                               d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z"
                             />
                           </svg>
-                          <span class="text-2xs font-medium">Listing</span>
+                          <span className="text-2xs font-medium">Listing</span>
                         </button>
                         <button
-                          class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            class="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
                               d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"
                             />
                           </svg>
-                          <span class="text-2xs font-medium">Bids</span>
+                          <span className="text-2xs font-medium">Bids</span>
                         </button>
                         <button
-                          class="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            class="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path
                               d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"
                             />
                           </svg>
-                          <span class="text-2xs font-medium">Transfer</span>
+                          <span className="text-2xs font-medium">Transfer</span>
                         </button>
                       </div>
                     </div>
