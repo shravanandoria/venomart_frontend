@@ -86,8 +86,8 @@ export default function App({ Component, pageProps }) {
       discord: "https://discord.gg/MdSDtqyBwd",
       instagram: "",
       telegram: "",
-      startDate: "08/07/2023 12:00:00",
-      endDate: "08/11/2023 12:00:00",
+      startDate: "08/07/2023 12:00:00 GMT+0530",
+      endDate: "08/11/2023 12:00:00 GMT+0530",
       verified: true,
     },
     {
@@ -109,8 +109,8 @@ export default function App({ Component, pageProps }) {
       discord: "",
       instagram: "",
       telegram: "",
-      startDate: "08/09/2023 12:00:00",
-      endDate: "08/13/2023 12:00:00",
+      startDate: "08/09/2023 12:00:00 GMT+0530",
+      endDate: "08/13/2023 12:00:00 GMT+0530",
       verified: false,
     },
   ];
