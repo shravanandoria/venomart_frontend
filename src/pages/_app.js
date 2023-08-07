@@ -117,7 +117,7 @@ export default function App({ Component, pageProps }) {
       website: "https://venomape.club/",
       startDate: "08/08/2023 12:00:00 GMT+0530",
       endDate: "08/12/2023 12:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
     {
       id: 3,
