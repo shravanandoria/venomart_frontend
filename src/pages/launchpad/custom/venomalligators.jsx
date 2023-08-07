@@ -225,6 +225,13 @@ const venomalligators = ({
   }, [signer_address]);
 
   useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, [venomProvider]);
+
+  useEffect(() => {
     if (afterMint) {
       document.body.style.overflow = "hidden";
       window.scrollTo(0, 0);

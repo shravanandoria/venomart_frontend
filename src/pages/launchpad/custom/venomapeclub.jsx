@@ -233,6 +233,13 @@ const venomapeclub = ({
         }
     }, [afterMint]);
 
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 5000);
+    }, [venomProvider]);
+
     return (
         <div className={`${theme}`}>
             <Head>
