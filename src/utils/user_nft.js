@@ -264,7 +264,7 @@ export const create_launchpad_nft = async (
     const nft_json = JSON.stringify({
       type: "Venom Testnet",
       id: id,
-      name: `${data.name} #${id}`,
+      name: `${data.name}`,
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),

@@ -106,6 +106,8 @@ export default function App({ Component, pageProps }) {
       status: "Upcoming",
       statusHomeManual: "Upcoming",
       CollectionAddress: "",
+      // CollectionAddress:
+      //   "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
       supply: "3000",
@@ -131,6 +133,8 @@ export default function App({ Component, pageProps }) {
       status: "Upcoming",
       statusHomeManual: "Upcoming",
       CollectionAddress: "",
+      // CollectionAddress:
+      //   "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
       customLink: "custom/venombears",
       pageName: "venombears",
       supply: "3000",
