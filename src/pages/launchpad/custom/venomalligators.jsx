@@ -192,6 +192,9 @@ const venomalligators = ({
     if (launchMint) {
       setAfterMint(true);
       setMintLock(true);
+      setTimeout(() => {
+        setAfterMint(false);
+      }, 3000);
     }
     setLoading(false);
   };
