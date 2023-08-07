@@ -237,9 +237,9 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    if (signer_address == undefined) {
-      connect_wallet();
-    }
+    // if (signer_address == undefined) {
+    //   connect_wallet();
+    // }
     if (signer_address == undefined) return;
     check_user(signer_address);
   }, [signer_address]);
