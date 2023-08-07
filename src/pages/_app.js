@@ -117,7 +117,7 @@ export default function App({ Component, pageProps }) {
       website: "https://venomape.club/",
       startDate: "08/08/2023 12:00:00 GMT+0530",
       endDate: "08/12/2023 12:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
     {
       id: 3,
@@ -247,7 +247,10 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
-      <Script strategy="lazyOnload" src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`} />
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
 
       <Script strategy="lazyOnload">
         {`
