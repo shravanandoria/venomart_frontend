@@ -37,7 +37,7 @@ const venomalligators = ({
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-  const intendTweetId = "1686687467330768896";
+  const intendTweetId = "1688363109390659584";
   // change till here
 
   const projectTwitter = launchSlug.twitterUserName;
