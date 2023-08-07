@@ -262,7 +262,7 @@ export const create_launchpad_nft = async (
         : await storage.upload(data.image);
 
     const nft_json = JSON.stringify({
-      type: "VenomartPass",
+      type: "Venom Testnet",
       id: id,
       name: `${data.name} #${id}`,
       description: data.description,
