@@ -4,7 +4,7 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
+import { BsBrowserChrome, BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
@@ -57,6 +57,7 @@ const venomalligators = ({
   const discordURL = launchSlug.discord;
   const instagramURL = launchSlug.instagram;
   const telegramURL = launchSlug.telegram;
+  const websiteURL = launchSlug.website;
 
   const [loading, setLoading] = useState(false);
   const [mintedNFTs, setMintedNFTs] = useState(0);
@@ -280,6 +281,12 @@ const venomalligators = ({
                   </h1>
                   {/* social icons  */}
                   <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
+                    {/* website  */}
+                    {websiteURL && (
+                      <a href={websiteURL} target="_blank" className="group">
+                        <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                    )}
                     {/* twitter  */}
                     {twitterURL && (
                       <a href={twitterURL} target="_blank" className="group">

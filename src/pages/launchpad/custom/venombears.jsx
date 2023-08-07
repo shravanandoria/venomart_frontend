@@ -4,7 +4,7 @@ import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
+import { BsBrowserChrome, BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
@@ -16,7 +16,7 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
 import { user_info } from "@/utils/mongo_api/user/user";
-import collectionAbi from "../../../../abi/Collection.abi.json";
+import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 
 const venombears = ({
   blockURL,
@@ -32,16 +32,16 @@ const venombears = ({
   const { slug } = router.query;
 
   // change from here
-  const launchSlug = customLaunchpad[2];
+  const launchSlug = customLaunchpad[3];
 
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-  const projectTwitter = "venombears";
-  const projectDiscord = "https://discord.gg/wQbBr6Xean";
-  const intendTweetId = "1686687467330768896";
+  const intendTweetId = "1688363109390659584";
   // change till here
 
+  const projectTwitter = launchSlug.twitterUserName;
+  const projectDiscord = launchSlug.discord;
   const CoverIMG = launchSlug.Cover;
   const NFTIMG = launchSlug.Logo;
   const ProjectName = launchSlug.Name;
@@ -57,6 +57,7 @@ const venombears = ({
   const discordURL = launchSlug.discord;
   const instagramURL = launchSlug.instagram;
   const telegramURL = launchSlug.telegram;
+  const websiteURL = launchSlug.website;
 
   const [loading, setLoading] = useState(false);
   const [mintedNFTs, setMintedNFTs] = useState(0);
@@ -219,18 +220,13 @@ const venombears = ({
     if (afterMint) {
       document.body.style.overflow = "hidden";
       window.scrollTo(0, 0);
-    } else {
+    }
+    if (!afterMint) {
       document.body.style.overflow = "scroll";
       document.body.style.overflowX = "hidden";
       window.scrollTo(0, 0);
     }
   }, [afterMint]);
-
-  useEffect(() => {
-    if (supply <= mintedNFTs) {
-      setStatus("Ended");
-    }
-  }, [mintedNFTs]);
 
   return (
     <div className={`${theme}`}>
@@ -285,6 +281,12 @@ const venombears = ({
                   </h1>
                   {/* social icons  */}
                   <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
+                    {/* website  */}
+                    {websiteURL && (
+                      <a href={websiteURL} target="_blank" className="group">
+                        <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                      </a>
+                    )}
                     {/* twitter  */}
                     {twitterURL && (
                       <a href={twitterURL} target="_blank" className="group">
@@ -564,7 +566,7 @@ const venombears = ({
                     {/* follow twitter  */}
                     <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                       <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                        1] Follow venom bears on twitter
+                        1] Follow {ProjectName} on twitter
                       </p>
                       <Link
                         href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -609,7 +611,7 @@ const venombears = ({
                     {/* join discord  */}
                     <div className="flex items-center pb-5 mb-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        4] Join venom bears discord server
+                        4] Join {ProjectName} discord server
                       </p>
                       <Link
                         href={projectDiscord}
