@@ -78,7 +78,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "0:ecb57efd63fe76297e027aca59423c100eccbc3812b34ea5eae3869e0bd453cd",
+        "0:5a42abb162be813f0d9efd2f350baf77fcafc53acb86366e67a5571cca34d9ba",
       customLink: "custom/venomalligators",
       pageName: "venomalligators",
       supply: "3000",
@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "08/07/2023 12:10:00 GMT+0530",
+      startDate: "08/07/2023 12:05:00 GMT+0530",
       endDate: "08/11/2023 12:00:00 GMT+0530",
       verified: true,
     },
