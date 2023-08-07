@@ -62,6 +62,7 @@ export default function App({ Component, pageProps }) {
       Description: "Exclusive Passes On Venomart Marketplace",
       mintPrice: "1",
       status: "Sold Out",
+      statusHomeManual: "Sold Out",
       CollectionAddress:
         "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
       customLink: "custom/venomartPass",
@@ -103,6 +104,7 @@ export default function App({ Component, pageProps }) {
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
+      statusHomeManual: "Upcoming",
       CollectionAddress: "",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
@@ -127,6 +129,7 @@ export default function App({ Component, pageProps }) {
         "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
+      statusHomeManual: "Upcoming",
       CollectionAddress: "",
       customLink: "custom/venombears",
       pageName: "venombears",
@@ -208,10 +211,6 @@ export default function App({ Component, pageProps }) {
   };
 
   useEffect(() => {
-    init();
-  }, []);
-
-  useEffect(() => {
     const off = venomConnect?.on("connect", onConnect);
     if (venomConnect) {
       initStandalone();
@@ -234,6 +233,7 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
+    fetch_all_collections();
   }, []);
 
   useEffect(() => {
@@ -241,9 +241,10 @@ export default function App({ Component, pageProps }) {
     check_user(signer_address);
   }, [signer_address]);
 
-  useEffect(() => {
-    fetch_all_collections();
-  }, []);
+  // useEffect(() => {
+  //   if (!venomConnect && signer_address) return;
+  //   connect_wallet();
+  // }, [venomConnect]);
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
