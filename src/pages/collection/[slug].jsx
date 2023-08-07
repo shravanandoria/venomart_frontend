@@ -59,11 +59,15 @@ const Collection = ({
     set_collection(res?.data);
     // getting total supply
     if (venomProvider != undefined) {
-      const contract = new venomProvider.Contract(collectionAbi, slug);
-      const totalSupply = await contract.methods
-        .totalSupply({ answerId: 0 })
-        .call();
-      setTotalSupply(totalSupply.count);
+      try {
+        const contract = new venomProvider.Contract(collectionAbi, slug);
+        const totalSupply = await contract.methods
+          .totalSupply({ answerId: 0 })
+          .call();
+        setTotalSupply(totalSupply.count);
+      } catch (error) {
+        console.log("total supply error");
+      }
     }
     setLoading(false);
   };
@@ -451,8 +455,8 @@ const Collection = ({
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}
