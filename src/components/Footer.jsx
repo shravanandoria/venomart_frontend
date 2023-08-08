@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
-import { BsDiscord, BsInstagram, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
+import { BsDiscord, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
 
 const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollectionStatus, onDisconnect }) => {
   return (
@@ -226,14 +226,6 @@ const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollec
                       className="hover:text-accent dark:hover:text-white"
                     >
                       Create A Launch
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admin/Stats"
-                      className="hover:text-accent dark:hover:text-white"
-                    >
-                      Venomart Stats
                     </Link>
                   </li>
                 </ul>

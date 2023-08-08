@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
@@ -66,7 +65,7 @@ const Launchpad = ({ theme, customLaunchpad }) => {
                       Name={e.Name}
                       Description={e.Description}
                       mintPrice={e.mintPrice}
-                      status={e.status}
+                      status={e.statusHomeManual}
                       CollectionAddress={e.CollectionAddress}
                       customLink={e.customLink}
                       verified={e.verified}

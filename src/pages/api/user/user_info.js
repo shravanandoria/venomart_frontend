@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "../../../Models/User";
-import Collection from "../collection/collection";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -13,7 +12,6 @@ export default async function handler(req, res) {
         if (!wallet_id) return;
 
         let user;
-        // user = await User.findOne({ wallet_id }).populate("nftCollections");
         user = await User.findOne({ wallet_id }).populate("nftCollections");
 
         if (!user)

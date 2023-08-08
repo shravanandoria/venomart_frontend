@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Head from "next/head";
 import Pagination from "@/components/Pagination";

@@ -123,7 +123,7 @@ const MobileProfileDrop = ({ signer_address, venomLogo, vnmBalance, MintNFTStatu
                 </Link>
             }
             <a
-                onClick={() => (onDisconnect, setMobieProfileDrop(false))}
+                onClick={() => (onDisconnect(), setMobieProfileDrop(false))}
                 className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
             >
                 <svg

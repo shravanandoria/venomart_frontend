@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import NftCard from "@/components/cards/NftCard";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import { BsBrowserChrome, BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
@@ -37,7 +35,7 @@ const venombears = ({
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-  const intendTweetId = "1688363109390659584";
+  const intendTweetId = "1687875245225701376";
   // change till here
 
   const projectTwitter = launchSlug.twitterUserName;
@@ -96,14 +94,19 @@ const venombears = ({
   const getMintedCount = async () => {
     setLoading(true);
     if (venomProvider != undefined) {
-      const contract = new venomProvider.Contract(
-        collectionAbi,
-        contractAddress
-      );
-      const totalSupply = await contract.methods
-        .totalSupply({ answerId: 0 })
-        .call();
-      setMintedNFTs(totalSupply.count);
+      try {
+        const contract = new venomProvider.Contract(
+          collectionAbi,
+          contractAddress
+        );
+        const totalSupply = await contract.methods
+          .totalSupply({ answerId: 0 })
+          .call();
+        setMintedNFTs(totalSupply.count);
+      } catch (error) {
+        setMintedNFTs(0);
+        console.log("total supply error")
+      }
     }
     setLoading(false);
   };
@@ -227,6 +230,13 @@ const venombears = ({
       window.scrollTo(0, 0);
     }
   }, [afterMint]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [venomProvider]);
 
   return (
     <div className={`${theme}`}>
@@ -388,9 +398,11 @@ const venombears = ({
                   <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
                     {supply} NFTs
                   </h1>
-                  <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                    {mintedNFTs} / {supply} Minted
-                  </p>
+                  {mintedNFTs > 0 &&
+                    <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                      {mintedNFTs} / {supply} Minted
+                    </p>
+                  }
                 </div>
 
                 {/* if live  */}
@@ -891,6 +903,16 @@ const venombears = ({
                       </div>
                     )}
                   </div>
+                  {actionVerify &&
+                    <div
+                      className="flex justify-center mt-[16px] text-center"
+                      style={{ zIndex: "10" }}
+                    >
+                      <span className="text-[15px] text-gray-400 text-center">
+                        IMP: Before minting the NFT make sure you have completed the tasks, we are assigning the action values to your nft address and based on this winners will get selected!
+                      </span>
+                    </div>
+                  }
                 </div>
               </div>
             </section>

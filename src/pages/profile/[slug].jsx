@@ -492,6 +492,11 @@ const Profile = ({
                 role="tabpanel"
                 aria-labelledby="on-sale-tab"
               >
+                <div className="flex justify-center mb-[30px] mt-[-90px]">
+                  <h2 className="text-[15px] font-display dark:text-jacarta-200">
+                    Currently only first 50 nfts are fetched here
+                  </h2>
+                </div>
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                   {currentNFTs?.map((e, index) => {
                     return (

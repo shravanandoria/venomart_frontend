@@ -1,6 +1,5 @@
 // def
 import { useEffect, useState } from "react";
-import { Analytics } from "@vercel/analytics/react";
 
 // components
 import Navbar from "@/components/Navbar";
@@ -62,6 +61,7 @@ export default function App({ Component, pageProps }) {
       Description: "Exclusive Passes On Venomart Marketplace",
       mintPrice: "1",
       status: "Sold Out",
+      statusHomeManual: "Sold Out",
       CollectionAddress:
         "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
       customLink: "custom/venomartPass",
@@ -76,7 +76,8 @@ export default function App({ Component, pageProps }) {
       Description:
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "2",
-      status: "Live",
+      status: "Upcoming",
+      statusHomeManual: "Live",
       CollectionAddress:
         "0:5a42abb162be813f0d9efd2f350baf77fcafc53acb86366e67a5571cca34d9ba",
       customLink: "custom/venomalligators",
@@ -88,7 +89,7 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "08/07/2023 12:00:00 GMT+0530",
+      startDate: "08/07/2023 12:05:00 GMT+0530",
       endDate: "08/11/2023 12:00:00 GMT+0530",
       verified: true,
     },
@@ -102,7 +103,10 @@ export default function App({ Component, pageProps }) {
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
+      statusHomeManual: "Upcoming",
       CollectionAddress: "",
+      // CollectionAddress:
+      //   "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
       supply: "3000",
@@ -114,7 +118,7 @@ export default function App({ Component, pageProps }) {
       website: "https://venomape.club/",
       startDate: "08/08/2023 12:00:00 GMT+0530",
       endDate: "08/12/2023 12:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
     {
       id: 3,
@@ -126,7 +130,10 @@ export default function App({ Component, pageProps }) {
         "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
+      statusHomeManual: "Upcoming",
       CollectionAddress: "",
+      // CollectionAddress:
+      //   "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
       customLink: "custom/venombears",
       pageName: "venombears",
       supply: "3000",
@@ -207,10 +214,6 @@ export default function App({ Component, pageProps }) {
   };
 
   useEffect(() => {
-    init();
-  }, []);
-
-  useEffect(() => {
     const off = venomConnect?.on("connect", onConnect);
     if (venomConnect) {
       initStandalone();
@@ -233,16 +236,16 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-  }, []);
-
-  useEffect(() => {
-    if (signer_address == undefined) return;
-    check_user(signer_address);
-  }, [signer_address]);
-
-  useEffect(() => {
     fetch_all_collections();
   }, []);
+
+  useEffect(() => {
+    if (signer_address == undefined) {
+      connect_wallet();
+      return;
+    }
+    check_user(signer_address);
+  }, [signer_address]);
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
@@ -300,7 +303,6 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
       />
-      {/* <Analytics /> */}
     </ThirdwebProvider>
   );
 }

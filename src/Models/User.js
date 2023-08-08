@@ -25,7 +25,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     sparse: true,
   },
-  Date: String,
   isArtist: Boolean,
   socials: [String],
   nftCollections: [
