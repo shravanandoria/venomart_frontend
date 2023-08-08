@@ -103,10 +103,8 @@ export default function App({ Component, pageProps }) {
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
-      statusHomeManual: "Upcoming",
-      CollectionAddress: "",
-      // CollectionAddress:
-      //   "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
+      statusHomeManual: "Live",
+      CollectionAddress: "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
       supply: "3000",

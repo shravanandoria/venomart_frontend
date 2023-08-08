@@ -19,8 +19,8 @@ import {
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
-import { user_info } from "@/utils/mongo_api/user/user";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
+import { has_minted } from "@/utils/user_nft";
 
 const venombears = ({
   blockURL,
@@ -33,7 +33,6 @@ const venombears = ({
   customLaunchpad,
 }) => {
   const router = useRouter();
-  const { slug } = router.query;
 
   // change from here
   const launchSlug = customLaunchpad[3];
@@ -41,7 +40,7 @@ const venombears = ({
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-  const intendTweetId = "1687875245225701376";
+  const intendTweetId = "1688757299383541761";
   // change till here
 
   const projectTwitter = launchSlug.twitterUserName;
@@ -69,7 +68,7 @@ const venombears = ({
   const [afterMint, setAfterMint] = useState(false);
   const [mintLock, setMintLock] = useState(false);
 
-  const [checkMint, setCheckMint] = useState([]);
+  const [checkMint, setCheckMint] = useState();
 
   const [actionVerify, setActionVerify] = useState(false);
   const [share, setShare] = useState(false);
@@ -201,6 +200,9 @@ const venombears = ({
     if (launchMint) {
       setAfterMint(true);
       setMintLock(true);
+      setTimeout(() => {
+        setAfterMint(false);
+      }, 3000);
     }
     setLoading(false);
   };
@@ -216,14 +218,25 @@ const venombears = ({
   const get_user_Data = async () => {
     if (!signer_address) return;
     setLoading(true);
-    const data = await user_info(signer_address);
-    setCheckMint(data?.data.launchpad_collections);
+    const data = await has_minted(
+      venomProvider,
+      contractAddress,
+      signer_address
+    );
+    setCheckMint(data);
     setLoading(false);
   };
 
   useEffect(() => {
     get_user_Data();
   }, [signer_address]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, [venomProvider]);
 
   useEffect(() => {
     if (afterMint) {
@@ -236,13 +249,6 @@ const venombears = ({
       window.scrollTo(0, 0);
     }
   }, [afterMint]);
-
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, [venomProvider]);
 
   return (
     <div className={`${theme}`}>
@@ -722,7 +728,7 @@ const venombears = ({
                       </div>
 
                       {/* mint  */}
-                      {checkMint?.includes(contractAddress) ? (
+                      {checkMint ? (
                         <button
                           onClick={() =>
                             alert("Only 1 NFT minting is allowed for 1 user!")
@@ -855,7 +861,7 @@ const venombears = ({
                     </div>
                     {/* message checks  */}
                     {!actionVerify &&
-                      !checkMint?.includes(contractAddress) &&
+                      !checkMint &&
                       status != "Ended" &&
                       status != "Sold Out" && (
                         <div
@@ -867,7 +873,7 @@ const venombears = ({
                           </span>
                         </div>
                       )}
-                    {checkMint?.includes(contractAddress) && (
+                    {checkMint && (
                       <div
                         className="flex justify-end mt-[10px] text-center"
                         style={{ zIndex: "10" }}

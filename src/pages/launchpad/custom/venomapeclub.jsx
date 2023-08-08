@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsBrowserChrome, BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
+import {
+    BsBrowserChrome,
+    BsDiscord,
+    BsInstagram,
+    BsTelegram,
+    BsTwitter,
+} from "react-icons/bs";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
@@ -13,8 +19,8 @@ import {
 import Head from "next/head";
 import Loader from "@/components/Loader";
 import { create_launchpad_nft } from "@/utils/user_nft";
-import { user_info } from "@/utils/mongo_api/user/user";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
+import { has_minted } from "@/utils/user_nft";
 
 const venomapeclub = ({
     blockURL,
@@ -27,7 +33,6 @@ const venomapeclub = ({
     customLaunchpad,
 }) => {
     const router = useRouter();
-    const { slug } = router.query;
 
     // change from here
     const launchSlug = customLaunchpad[2];
@@ -63,7 +68,7 @@ const venomapeclub = ({
     const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
-    const [checkMint, setCheckMint] = useState([]);
+    const [checkMint, setCheckMint] = useState();
 
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
@@ -105,7 +110,7 @@ const venomapeclub = ({
                 setMintedNFTs(totalSupply.count);
             } catch (error) {
                 setMintedNFTs(0);
-                console.log("total supply error")
+                console.log("total supply error");
             }
         }
         setLoading(false);
@@ -195,6 +200,9 @@ const venomapeclub = ({
         if (launchMint) {
             setAfterMint(true);
             setMintLock(true);
+            setTimeout(() => {
+                setAfterMint(false);
+            }, 3000);
         }
         setLoading(false);
     };
@@ -210,14 +218,25 @@ const venomapeclub = ({
     const get_user_Data = async () => {
         if (!signer_address) return;
         setLoading(true);
-        const data = await user_info(signer_address);
-        setCheckMint(data?.data.launchpad_collections);
+        const data = await has_minted(
+            venomProvider,
+            contractAddress,
+            signer_address
+        );
+        setCheckMint(data);
         setLoading(false);
     };
 
     useEffect(() => {
         get_user_Data();
     }, [signer_address]);
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000);
+    }, [venomProvider]);
 
     useEffect(() => {
         if (afterMint) {
@@ -230,13 +249,6 @@ const venomapeclub = ({
             window.scrollTo(0, 0);
         }
     }, [afterMint]);
-
-    useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
-    }, [venomProvider]);
 
     return (
         <div className={`${theme}`}>
@@ -398,11 +410,11 @@ const venomapeclub = ({
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
                                         {supply} NFTs
                                     </h1>
-                                    {mintedNFTs > 0 &&
+                                    {mintedNFTs > 0 && (
                                         <p className="text-jacarta-700 dark:text-white text-sm mb-1">
                                             {mintedNFTs} / {supply} Minted
                                         </p>
-                                    }
+                                    )}
                                 </div>
 
                                 {/* if live  */}
@@ -716,7 +728,7 @@ const venomapeclub = ({
                                             </div>
 
                                             {/* mint  */}
-                                            {checkMint?.includes(contractAddress) ? (
+                                            {checkMint ? (
                                                 <button
                                                     onClick={() =>
                                                         alert("Only 1 NFT minting is allowed for 1 user!")
@@ -849,7 +861,7 @@ const venomapeclub = ({
                                         </div>
                                         {/* message checks  */}
                                         {!actionVerify &&
-                                            !checkMint?.includes(contractAddress) &&
+                                            !checkMint &&
                                             status != "Ended" &&
                                             status != "Sold Out" && (
                                                 <div
@@ -861,7 +873,7 @@ const venomapeclub = ({
                                                     </span>
                                                 </div>
                                             )}
-                                        {checkMint?.includes(contractAddress) && (
+                                        {checkMint && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
@@ -903,16 +915,18 @@ const venomapeclub = ({
                                             </div>
                                         )}
                                     </div>
-                                    {actionVerify &&
+                                    {actionVerify && (
                                         <div
                                             className="flex justify-center mt-[16px] text-center"
                                             style={{ zIndex: "10" }}
                                         >
                                             <span className="text-[15px] text-gray-400 text-center">
-                                                IMP: Before minting the NFT make sure you have completed the tasks, we are assigning the action values to your nft address and based on this winners will get selected!
+                                                IMP: Before minting the NFT make sure you have completed
+                                                the tasks, we are assigning the action values to your
+                                                nft address and based on this winners will get selected!
                                             </span>
                                         </div>
-                                    }
+                                    )}
                                 </div>
                             </div>
                         </section>

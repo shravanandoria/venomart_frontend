@@ -18,10 +18,10 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "@/components/Loader";
-import { COLLECTION_ADDRESS, create_launchpad_nft } from "@/utils/user_nft";
-import { user_info } from "@/utils/mongo_api/user/user";
+import { create_launchpad_nft } from "@/utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "@/utils/user_nft";
+
 const venomalligators = ({
   blockURL,
   theme,
@@ -33,7 +33,6 @@ const venomalligators = ({
   customLaunchpad,
 }) => {
   const router = useRouter();
-  const { slug } = router.query;
 
   // change from here
   const launchSlug = customLaunchpad[1];
@@ -224,8 +223,6 @@ const venomalligators = ({
       contractAddress,
       signer_address
     );
-    console.log({ data });
-    // const data = await user_info(signer_address);
     setCheckMint(data);
     setLoading(false);
   };
