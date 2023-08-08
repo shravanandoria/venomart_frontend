@@ -75,7 +75,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:5a42abb162be813f0d9efd2f350baf77fcafc53acb86366e67a5571cca34d9ba",
       customLink: "custom/venomalligators",
