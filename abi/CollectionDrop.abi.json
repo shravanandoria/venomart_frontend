@@ -89,7 +89,7 @@
 		{
 			"name": "setMintingFee",
 			"inputs": [
-				{"name":"mintingFee","type":"uint128"}
+				{"name":"mintingFeee","type":"uint128"}
 			],
 			"outputs": [
 			]

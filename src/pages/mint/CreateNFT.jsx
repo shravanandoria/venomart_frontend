@@ -64,7 +64,6 @@ const CreateNFT = ({
     const ipfs_image = await storage.upload(data.image);
 
     let obj = { ...data, image: ipfs_image };
-
     await create_nft(obj, signer_address, venomProvider);
     set_loading(false);
   };
@@ -164,10 +163,11 @@ const CreateNFT = ({
                     name="name"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
                         ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                         : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    } `}
                     placeholder="Item name"
                     required
                   />
@@ -189,10 +189,11 @@ const CreateNFT = ({
                     onChange={handleChange}
                     name="description"
                     id="item-description"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                      theme == "dark"
                         ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                         : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
+                    } `}
                     rows="4"
                     required
                     placeholder="Provide a detailed description of your item."
@@ -223,10 +224,11 @@ const CreateNFT = ({
                     name="collection"
                     value={data.collection}
                     onChange={handleChange}
-                    className={`dropdown my-1 cursor-pointer w-[100%] ${theme == "dark"
+                    className={`dropdown my-1 cursor-pointer w-[100%] ${
+                      theme == "dark"
                         ? "dark:bg-jacarta-900 dark:text-white"
                         : "bg-white text-black"
-                      }`}
+                    }`}
                     required
                   >
                     <option>Select Collection</option>
@@ -338,10 +340,11 @@ const CreateNFT = ({
                                   value={data.properties[index].type}
                                   name="type"
                                   type="text"
-                                  className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                  className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${
+                                    theme == "dark"
                                       ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                    }`}
+                                  }`}
                                   placeholder="Type"
                                 />
                               </div>
@@ -354,10 +357,11 @@ const CreateNFT = ({
                                   value={data.properties[index].value}
                                   name="value"
                                   type="text"
-                                  className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                  className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${
+                                    theme == "dark"
                                       ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                    }`}
+                                  }`}
                                   placeholder="Value"
                                 />
                               </div>

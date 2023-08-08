@@ -2,17 +2,16 @@ import { Address } from "everscale-inpage-provider";
 import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
-import default_collectionAbi from "../../abi/Collection.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { user_info } from "./mongo_api/user/user";
 
 import axios from "axios";
 
 export const COLLECTION_ADDRESS =
-  "0:bca1c325a2fc922383c8f519f2d282fa3f538aed910c9afda8d569d7d1cea88a";
+  "0:b906abecb4001b2e5c941e104beb07a25ffe5c1dfcce033df270e053da4cc639";
 
 export const MARKETPLACE_ADDRESS =
-  "0:8a67e6ca3d6b101026238a0c1e0ce1e2e7f11a4773feff934608701f01ec4cfb";
+  "0:b814173db4fe357afc5a52ffe6df9a73b47aa0c8367e49638dc162951ade3fab";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -199,7 +198,7 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 
 export const create_nft = async (data, signer_address, venomProvider) => {
   const contract = new venomProvider.Contract(
-    default_collectionAbi,
+    collectionAbi,
     COLLECTION_ADDRESS
   );
 
@@ -228,9 +227,9 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       collection_name: data.collection,
     });
 
-    const outputs = await contract.methods.mintNft({ json: nft_json }).send({
+    const outputs = await contract.methods.mint({ _json: nft_json }).send({
       from: new Address(signer_address),
-      amount: "1000000000",
+      amount: "2000000000",
     });
   } catch (error) {
     console.log(error.message);
@@ -307,38 +306,52 @@ export const list_nft = async (
   venomProvider,
   signer_address
 ) => {
+  console.log({ nft_address });
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
   );
 
+  const _payload = await marketplace_contract.methods
+    .generatePayload({ answerId: 0, price: "1000000000" })
+    .call();
+
+  console.log(_payload.payload);
+
   const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
   const output = await nft_contract.methods
     .changeManager({
-      newManager: MARKETPLACE_ADDRESS,
-      sendGasTo: signer_address,
+      newManager: new Address(MARKETPLACE_ADDRESS),
+      sendGasTo: new Address(signer_address),
       callbacks: [
-        {
-          nft_price: "2000000000",
-          sample_data: "hello world",
-        },
+        [
+          new Address(MARKETPLACE_ADDRESS),
+          { value: "2000000000", payload: _payload.payload },
+        ],
       ],
     })
     .send({
-      from: new Address(signer_address),
-      amount: "200000000",
+      from: new Address(
+        "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883"
+      ),
+      amount: "3000000000",
     });
 
-  const outputs = await marketplace_contract.methods
-    .listToken({
-      nft_address,
-      price,
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: "200000000",
-    });
+  const res = await marketplace_contract.methods
+    .get_nftId({ answerId: 0 })
+    .call();
+  console.log({ res });
+
+  // const outputs = await marketplace_contract.methods
+  //   .listToken({
+  //     nft_address,
+  //     price,
+  //   })
+  //   .send({
+  //     from: new Address(signer_address),
+  //     amount: "200000000",
+  //   });
 };
 
 export const get_listed_tokens = async (venomProvider) => {
