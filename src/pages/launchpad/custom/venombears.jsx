@@ -398,9 +398,11 @@ const venombears = ({
                   <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
                     {supply} NFTs
                   </h1>
-                  <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                    {mintedNFTs} / {supply} Minted
-                  </p>
+                  {mintedNFTs > 0 &&
+                    <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                      {mintedNFTs} / {supply} Minted
+                    </p>
+                  }
                 </div>
 
                 {/* if live  */}
