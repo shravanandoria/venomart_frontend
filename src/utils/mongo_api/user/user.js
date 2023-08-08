@@ -15,7 +15,7 @@ export const check_user = async (wallet_id) => {
         isArtist: false,
       },
     });
-  
+
     return res.data;
   } catch (error) {
     console.log(error.message);

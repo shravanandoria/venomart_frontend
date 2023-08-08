@@ -3,7 +3,7 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { user_info } from "./mongo_api/user/user";
+import { check_user, user_info } from "./mongo_api/user/user";
 
 import axios from "axios";
 
@@ -185,8 +185,8 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
     const indexesAddresses = await getAddressesFromIndex(provider, codeHash);
     if (!indexesAddresses || !indexesAddresses.length) {
       if (indexesAddresses && !indexesAddresses.length)
-        setListIsEmpty_user(true);
-      return;
+        // setListIsEmpty_user(true);
+        return;
     }
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, indexesAddresses);
@@ -292,15 +292,7 @@ export const create_launchpad_nft = async (
       amount: (data.mintPrice * 1000000000).toString(),
     });
 
-    const res = await axios({
-      url: "/api/user/add_launchpad_user",
-      method: "POST",
-      data: {
-        wallet_id: signer_address,
-        collection_address: data.collectionAddress,
-      },
-    });
-    return res.data.success;
+    return true;
   } catch (error) {
     console.log(error.message);
   }
@@ -312,7 +304,6 @@ export const list_nft = async (
   venomProvider,
   signer_address
 ) => {
-  console.log({ nft_address });
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
@@ -321,8 +312,6 @@ export const list_nft = async (
   const _payload = await marketplace_contract.methods
     .generatePayload({ answerId: 0, price: "1000000000" })
     .call();
-
-  console.log(_payload.payload);
 
   const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
@@ -347,7 +336,6 @@ export const list_nft = async (
   const res = await marketplace_contract.methods
     .get_nftId({ answerId: 0 })
     .call();
-  console.log({ res });
 
   // const outputs = await marketplace_contract.methods
   //   .listToken({

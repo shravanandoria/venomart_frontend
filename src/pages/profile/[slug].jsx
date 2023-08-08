@@ -69,7 +69,7 @@ const Profile = ({
   };
 
   const sell_nft = async () => {
-    
+
   }
 
   const switchToOnSale = async () => {
@@ -307,9 +307,8 @@ const Profile = ({
         >
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
-              className={`nav-link ${
-                onSale && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${onSale && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="on-sale-tab"
               data-bs-toggle="tab"
               data-bs-target="#on-sale"
@@ -336,9 +335,8 @@ const Profile = ({
           {/* owned button  */}
           <li className="nav-item" role="presentation" onClick={switchToOwned}>
             <button
-              className={`nav-link ${
-                owned && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${owned && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -370,9 +368,8 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${
-                collections && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${collections && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -406,9 +403,8 @@ const Profile = ({
             onClick={switchToActivity}
           >
             <button
-              className={`nav-link ${
-                activity && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${activity && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="activity-tab"
               data-bs-toggle="tab"
               data-bs-target="#activity"
@@ -492,11 +488,14 @@ const Profile = ({
                 role="tabpanel"
                 aria-labelledby="on-sale-tab"
               >
-                <div className="flex justify-center mb-[30px] mt-[-90px]">
-                  <h2 className="text-[15px] font-display dark:text-jacarta-200">
-                    Currently only first 50 nfts are fetched here
-                  </h2>
-                </div>
+                {currentNFTs?.length > 0 && (
+                  <div className="flex justify-center mb-[30px] mt-[-90px]">
+                    <h2 className="text-[15px] font-display dark:text-jacarta-200">
+                      Currently only first 50 nfts are fetched here
+                    </h2>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
                   {currentNFTs?.map((e, index) => {
                     return (
@@ -513,6 +512,7 @@ const Profile = ({
                     );
                   })}
                 </div>
+
                 <div className="flex justify-center">
                   {currentNFTs?.length <= 0 && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">

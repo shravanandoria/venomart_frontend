@@ -50,10 +50,10 @@ const EditProfile = ({ signer_address, theme }) => {
   const get_user = async () => {
     const data = await check_user(signer_address);
     set_data({
-      ...data.user,
-      twitter: data.user.socials[0] ? data.user.socials[0] : "",
-      discord: data.user.socials[1] ? data.user.socials[1] : "",
-      customLink: data.user.socials[2] ? data.user.socials[2] : "",
+      ...data?.user,
+      twitter: data?.user?.socials[0] ? data?.user?.socials[0] : "",
+      discord: data?.user?.socials[1] ? data?.user?.socials[1] : "",
+      customLink: data?.user?.socials[2] ? data?.user?.socials[2] : "",
     });
     set_loading(false);
   };
@@ -266,9 +266,9 @@ const EditProfile = ({ signer_address, theme }) => {
                           src={
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )
                               : profImg_preview
                           }
                           width={100}
