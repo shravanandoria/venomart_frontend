@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -165,8 +165,8 @@ const CreateNFT = ({
                     type="text"
                     id="item-name"
                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     placeholder="Item name"
                     required
@@ -190,8 +190,8 @@ const CreateNFT = ({
                     name="description"
                     id="item-description"
                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     rows="4"
                     required
@@ -224,8 +224,8 @@ const CreateNFT = ({
                     value={data.collection}
                     onChange={handleChange}
                     className={`dropdown my-1 cursor-pointer w-[100%] ${theme == "dark"
-                        ? "dark:bg-jacarta-900 dark:text-white"
-                        : "bg-white text-black"
+                      ? "dark:bg-jacarta-900 dark:text-white"
+                      : "bg-white text-black"
                       }`}
                     required
                   >
@@ -339,8 +339,8 @@ const CreateNFT = ({
                                   name="type"
                                   type="text"
                                   className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
-                                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                     }`}
                                   placeholder="Type"
                                 />
@@ -355,8 +355,8 @@ const CreateNFT = ({
                                   name="value"
                                   type="text"
                                   className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
-                                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                     }`}
                                   placeholder="Value"
                                 />

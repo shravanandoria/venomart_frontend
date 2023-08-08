@@ -4,10 +4,8 @@ import Head from "next/head";
 import CollectionCard from "@/components/cards/CollectionCard";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
-import venomLogo from "../../public/venom.svg";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
-import { useEffect } from "react";
 
 
 export default function Home({ theme, collections, loading, customLaunchpad }) {
@@ -52,7 +50,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                     </div>
                     <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="block font-display text-3xl text-[#737EF2]">
-                        2500+
+                        3500+
                       </span>
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                         NFTs Minted

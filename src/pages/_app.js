@@ -1,6 +1,5 @@
 // def
 import { useEffect, useState } from "react";
-import { Analytics } from "@vercel/analytics/react";
 
 // components
 import Navbar from "@/components/Navbar";
@@ -245,7 +244,6 @@ export default function App({ Component, pageProps }) {
       connect_wallet();
       return;
     }
-    // if (signer_address == undefined) return;
     check_user(signer_address);
   }, [signer_address]);
 
@@ -305,7 +303,6 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
       />
-      {/* <Analytics /> */}
     </ThirdwebProvider>
   );
 }

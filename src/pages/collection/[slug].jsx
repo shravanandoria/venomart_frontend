@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NftCard from "@/components/cards/NftCard";
-import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import {
   BsArrowUpRight,
