@@ -118,9 +118,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
                             {/* cover imge  */}
-                            <Link href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2">
+                            <Link href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0">
                               <img
-                                src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
+                                src="https://ipfs.io/ipfs/QmXAnjyk3us68C1ADJkX54ozFgpFK2Bu8HP4KGSqJ8AJU6/nft.gif"
                                 alt="item 1"
                                 className="w-full object-cover"
                                 height="437"
@@ -132,11 +132,11 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                             <div className="flex">
                               {/* logo  */}
                               <Link
-                                href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
+                                href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0"
                                 className="shrink-0"
                               >
                                 <img
-                                  src="https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif"
+                                  src="https://ipfs.io/ipfs/QmXAnjyk3us68C1ADJkX54ozFgpFK2Bu8HP4KGSqJ8AJU6/nft.gif"
                                   alt="avatar"
                                   className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
@@ -146,11 +146,11 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                               <div>
                                 {/* name  */}
                                 <Link
-                                  href="/collection/0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2"
+                                  href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0"
                                   className="block"
                                 >
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Venom Passes
+                                    Venom Ape Club
                                     <MdVerified
                                       style={{
                                         color: "#4f87ff",
@@ -163,7 +163,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                                 </Link>
 
                                 <a className="text-2xs text-accent dark:text-white">
-                                  1000+ Items | 200+ Owners
+                                  2000+ Items | 1200+ Owners
                                 </a>
                               </div>
                             </div>
@@ -277,10 +277,12 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                         Name={e.Name}
                         Description={e.Description}
                         mintPrice={e.mintPrice}
-                        status={e.statusHomeManual}
+                        status={e.status}
                         CollectionAddress={e.CollectionAddress}
                         customLink={e.customLink}
                         verified={e.verified}
+                        startDate={e.startDate}
+                        endDate={e.endDate}
                       />
                     )
                   );

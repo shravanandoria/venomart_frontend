@@ -65,10 +65,12 @@ const Launchpad = ({ theme, customLaunchpad }) => {
                       Name={e.Name}
                       Description={e.Description}
                       mintPrice={e.mintPrice}
-                      status={e.statusHomeManual}
+                      status={e.status}
                       CollectionAddress={e.CollectionAddress}
                       customLink={e.customLink}
                       verified={e.verified}
+                      startDate={e.startDate}
+                      endDate={e.endDate}
                     />
                   )
                 );

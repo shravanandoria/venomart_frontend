@@ -61,7 +61,6 @@ export default function App({ Component, pageProps }) {
       Description: "Exclusive Passes On Venomart Marketplace",
       mintPrice: "1",
       status: "Sold Out",
-      statusHomeManual: "Sold Out",
       CollectionAddress:
         "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
       customLink: "custom/venomartPass",
@@ -77,7 +76,6 @@ export default function App({ Component, pageProps }) {
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
-      statusHomeManual: "Live",
       CollectionAddress:
         "0:5a42abb162be813f0d9efd2f350baf77fcafc53acb86366e67a5571cca34d9ba",
       customLink: "custom/venomalligators",
@@ -103,7 +101,6 @@ export default function App({ Component, pageProps }) {
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
-      statusHomeManual: "Live",
       CollectionAddress: "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
@@ -128,7 +125,6 @@ export default function App({ Component, pageProps }) {
         "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
-      statusHomeManual: "Upcoming",
       CollectionAddress: "",
       // CollectionAddress:
       //   "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
@@ -143,6 +139,30 @@ export default function App({ Component, pageProps }) {
       website: "https://venom-bears.vercel.app/",
       startDate: "08/09/2023 12:00:00 GMT+0530",
       endDate: "08/13/2023 12:00:00 GMT+0530",
+      verified: false,
+    },
+    {
+      id: 4,
+      Cover:
+        "https://ipfs.io/ipfs/QmSdHjGkkDgHVhrMtHXwvMSdhB3ysgj5UZyW4sgumDHpij/600x200.jpg",
+      Logo: "https://ipfs.io/ipfs/QmRmGfZXsCxXZwJrLN7cBgPMKKkcV9jiXDKZuMuN9vxVGQ/rave.gif",
+      Name: "Rave - Race on venom",
+      Description:
+        "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/rave",
+      pageName: "rave",
+      supply: "3000",
+      twitterUserName: "ravegamenft",
+      twitter: "https://twitter.com/ravegamenft",
+      discord: "https://discord.com/invite/CyHyDa5ZYv",
+      instagram: "",
+      telegram: "",
+      website: "https://ravegame.net/",
+      startDate: "08/15/2023 12:00:00 GMT+0530",
+      endDate: "08/19/2023 12:00:00 GMT+0530",
       verified: false,
     },
   ];
