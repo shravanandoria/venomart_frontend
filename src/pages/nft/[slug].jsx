@@ -41,6 +41,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
+    console.log({ nft_info: nft_info })
     set_nft_info(nft_info);
     setPageLoading(false);
   };
@@ -220,7 +221,7 @@ const NFTPage = ({
                   {/* -------------------------- all action buttons start ------------------------  */}
                   {/* <!-- list nft --> */}
                   {listSale == false ? (
-                    nft?.owner?._address == signer_address && (
+                    nft?.manager?._address == signer_address && (
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
                           // onClick={() => alert("Listing is currently disabled!")}
@@ -341,7 +342,7 @@ const NFTPage = ({
 
                   {/* buy now section  */}
                   {nft?.isListed == true &&
-                    nft?.owner?._address !== signer_address && (
+                    nft?.manager?._address !== signer_address && (
                       <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <div className="mb-8 sm:flex sm:flex-wrap">
                           <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
@@ -441,7 +442,7 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- not listed --> */}
-                  {nft?.owner?._address !== signer_address &&
+                  {nft?.manager?._address !== signer_address &&
                     nft?.isListed == false && (
                       <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button

@@ -7,6 +7,12 @@ import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default function Home({ theme, collections, loading, customLaunchpad }) {
   return (
@@ -267,26 +273,50 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 })} */}
 
                 {/* custom lauchpad fetching  */}
-                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
-                  return (
-                    id < 6 && e.verified == true && (
-                      <LaunchCollectionCard
-                        key={id}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        Description={e.Description}
-                        mintPrice={e.mintPrice}
-                        status={e.status}
-                        CollectionAddress={e.CollectionAddress}
-                        customLink={e.customLink}
-                        verified={e.verified}
-                        startDate={e.startDate}
-                        endDate={e.endDate}
-                      />
-                    )
-                  );
-                })}
+                <Swiper
+                  modules={[Pagination]}
+                  spaceBetween={30}
+                  slidesPerView={1}
+                  pagination={{ clickable: true }}
+                  breakpoints={{
+                    300: {
+                      slidesPerView: 1,
+                      spaceBetween: 20,
+                    },
+                    800: {
+                      slidesPerView: 2,
+                      spaceBetween: 20,
+                    },
+                    1204: {
+                      slidesPerView: 3,
+                      spaceBetween: 30,
+                    }
+                  }}
+                  className="mySwiper"
+                >
+                  {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
+                    return (
+                      id < 6 && e.verified == true && (
+                        <SwiperSlide>
+                          <LaunchCollectionCard
+                            key={id}
+                            Cover={e.Cover}
+                            Logo={e.Logo}
+                            Name={e.Name}
+                            Description={e.Description}
+                            mintPrice={e.mintPrice}
+                            status={e.status}
+                            CollectionAddress={e.CollectionAddress}
+                            customLink={e.customLink}
+                            verified={e.verified}
+                            startDate={e.startDate}
+                            endDate={e.endDate}
+                          />
+                        </SwiperSlide>
+                      )
+                    );
+                  })}
+                </Swiper>
               </div>
 
               <div className="mt-10 text-center">
