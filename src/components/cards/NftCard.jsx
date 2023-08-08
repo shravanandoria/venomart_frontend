@@ -12,7 +12,7 @@ const NftCard = ({
   listingPrice,
 }) => {
   return (
-    <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
+    <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden">
       <div className="relative">
         {onClickOpen == true ? (
           <Link href={`/nft/${Address}`}>

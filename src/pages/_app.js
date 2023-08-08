@@ -137,8 +137,8 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "https://venom-bears.vercel.app/",
-      startDate: "08/09/2023 12:00:00 GMT+0530",
-      endDate: "08/13/2023 12:00:00 GMT+0530",
+      startDate: "08/09/2023 17:00:00 GMT+0530",
+      endDate: "08/13/2023 17:00:00 GMT+0530",
       verified: true,
     },
     {

@@ -251,7 +251,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
           </section>
 
           {/* launchpad collections  */}
-          <div className="relative py-24 dark:bg-jacarta-800">
+          <div className="relative py-24 dark:bg-jacarta-800" style={{ userSelect: "none" }}>
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline">Venomart Launchpad </h2>

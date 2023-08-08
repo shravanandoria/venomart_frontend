@@ -53,6 +53,7 @@ export const getNftAddresses = async (codeHash, provider) => {
   const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
   });
+  console.log({ addresses: addresses.continuation })
   return addresses?.accounts;
 };
 
@@ -66,7 +67,7 @@ export const loadNFTs_collection = async (provider, collection_address) => {
 
     const nftAddresses = await getNftAddresses(nftCodeHash, provider);
     if (!nftAddresses || !nftAddresses.length) {
-      if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
+      // if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
@@ -116,6 +117,7 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash) => {
   const addresses = await standaloneProvider?.getAccountsByCodeHash({
     codeHash,
   });
+  console.log({ continuation: addresses.continuation })
   return addresses?.accounts;
 };
 

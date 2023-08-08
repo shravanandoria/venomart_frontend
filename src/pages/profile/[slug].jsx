@@ -10,11 +10,10 @@ import Head from "next/head";
 import Link from "next/link";
 import Pagination from "@/components/Pagination";
 import { loadNFTs_user } from "@/utils/user_nft";
-import { list_nft } from "@/utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { user_info } from "@/utils/mongo_api/user/user";
 import ActivityRecord from "@/components/cards/ActivityRecord";
-import { loadNFTs_collection } from "@/utils/user_nft";
+
 const Profile = ({
   theme,
   signer_address,
@@ -300,22 +299,12 @@ const Profile = ({
       </section>
 
       {/* switch buttons  */}
-      <section className="pt-6 dark:bg-jacarta-900">
-        <ul
-          className="nav nav-tabs scrollbar-custom pb-12 flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center"
-          role="tablist"
-        >
+      <section className="pt-6 dark:bg-jacarta-900 pb-12">
+        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
               className={`nav-link ${onSale && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-              id="on-sale-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#on-sale"
-              type="button"
-              role="tab"
-              aria-controls="on-sale"
-              aria-selected="true"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

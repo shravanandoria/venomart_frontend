@@ -52,6 +52,7 @@ const Collection = ({
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
+    console.log({ nfts: nfts })
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
