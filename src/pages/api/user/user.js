@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       try {
         const { wallet_id } = req.body;
         if (!wallet_id) return;
-
+      
         let user;
         user = await User.findOne({ wallet_id });
 

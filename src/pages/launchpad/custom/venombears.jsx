@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { BsBrowserChrome, BsDiscord, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
+import {
+  BsBrowserChrome,
+  BsDiscord,
+  BsInstagram,
+  BsTelegram,
+  BsTwitter,
+} from "react-icons/bs";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
@@ -105,7 +111,7 @@ const venombears = ({
         setMintedNFTs(totalSupply.count);
       } catch (error) {
         setMintedNFTs(0);
-        console.log("total supply error")
+        console.log("total supply error");
       }
     }
     setLoading(false);
@@ -398,11 +404,11 @@ const venombears = ({
                   <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
                     {supply} NFTs
                   </h1>
-                  {mintedNFTs > 0 &&
+                  {mintedNFTs > 0 && (
                     <p className="text-jacarta-700 dark:text-white text-sm mb-1">
                       {mintedNFTs} / {supply} Minted
                     </p>
-                  }
+                  )}
                 </div>
 
                 {/* if live  */}
@@ -903,16 +909,18 @@ const venombears = ({
                       </div>
                     )}
                   </div>
-                  {actionVerify &&
+                  {actionVerify && (
                     <div
                       className="flex justify-center mt-[16px] text-center"
                       style={{ zIndex: "10" }}
                     >
                       <span className="text-[15px] text-gray-400 text-center">
-                        IMP: Before minting the NFT make sure you have completed the tasks, we are assigning the action values to your nft address and based on this winners will get selected!
+                        IMP: Before minting the NFT make sure you have completed
+                        the tasks, we are assigning the action values to your
+                        nft address and based on this winners will get selected!
                       </span>
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             </section>

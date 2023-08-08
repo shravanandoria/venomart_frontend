@@ -236,6 +236,16 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
+export const has_minted = async (venomProvider, collection_address, signer_address) => {
+  const contract = new venomProvider.Contract(collectionAbi, collection_address);
+
+  const _has_minted = await contract.methods
+    .hasMinted({ answerId: 0, account: signer_address })
+    .call();
+
+  return _has_minted.value0;
+};
+
 export const create_launchpad_nft = async (
   data,
   signer_address,
@@ -246,10 +256,6 @@ export const create_launchpad_nft = async (
       collectionAbi,
       data.collectionAddress
     );
-
-    // const { count: id } = await contract.methods
-    //   .totalSupply({ answerId: 0 })
-    //   .call();
 
     const { count: id } = await contract.methods
       .totalMinted({ answerId: 0 })
