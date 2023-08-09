@@ -297,7 +297,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                   {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                     return (
                       id < 6 && e.verified == true && (
-                        <SwiperSlide>
+                        <SwiperSlide style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                           <LaunchCollectionCard
                             key={id}
                             Cover={e.Cover}
