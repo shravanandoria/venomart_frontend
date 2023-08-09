@@ -40,7 +40,7 @@ const venombears = ({
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
 
-  const intendTweetId = "1688757299383541761";
+  const intendTweetId = "1689223829267394560";
   // change till here
 
   const projectTwitter = launchSlug.twitterUserName;
@@ -171,7 +171,7 @@ const venombears = ({
             setEndSeconds(s);
 
             if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-              setStatus("Ended");
+              setStatus("Sold Out");
             }
           }, 1000);
           return () => clearInterval(interval);

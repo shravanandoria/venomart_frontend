@@ -83,7 +83,7 @@ const LaunchCollectionCard = ({
             setEndSeconds(s);
 
             if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-              setStatusNew("Ended");
+              setStatusNew("Sold Out");
             }
           }, 1000);
           return () => clearInterval(interval);
