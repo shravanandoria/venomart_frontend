@@ -162,7 +162,7 @@ export default function App({ Component, pageProps }) {
       website: "https://ravegame.net/",
       startDate: "08/15/2023 12:00:00 GMT+0530",
       endDate: "08/19/2023 12:00:00 GMT+0530",
-      verified: true,
+      verified: false,
     },
   ];
 
