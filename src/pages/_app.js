@@ -142,9 +142,9 @@ export default function App({ Component, pageProps }) {
     {
       id: 4,
       Cover:
-        "https://ipfs.io/ipfs/QmSdHjGkkDgHVhrMtHXwvMSdhB3ysgj5UZyW4sgumDHpij/600x200.jpg",
+        "https://ipfs.io/ipfs/QmQNUSRnqAuzNmkNWVZu83qyC4Cna46TxeceA6e6QmikqN/tt.jpg",
       Logo: "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
-      Name: "Rave - Race on venom",
+      Name: "Rave - Passport",
       Description:
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
