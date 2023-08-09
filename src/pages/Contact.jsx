@@ -142,7 +142,7 @@ const Contact = ({ theme }) => {
                                         <span className="block font-display text-base text-jacarta-700 dark:text-white">Email</span>
                                         <a
                                             href="mailto:venomarthack@gmail.com"
-                                            className="text-sm not-italic hover:text-accent dark:text-jacarta-300">contact@venomart.space</a>
+                                            className="text-sm not-italic hover:text-accent dark:text-jacarta-300">contact@venomart.io</a>
                                     </div>
                                 </div>
                             </div>

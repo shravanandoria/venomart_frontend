@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }) {
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
-  const webURL = "https://venomart.space/";
+  const webURL = "https://venomart.io/";
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;

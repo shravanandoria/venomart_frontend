@@ -818,7 +818,7 @@ const venomapeclub = ({
                                                     {share && (
                                                         <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                                             <a
-                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.space%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${pageName}%20`}
+                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.io%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${pageName}%20`}
                                                                 target="_blank"
                                                                 className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                                             >

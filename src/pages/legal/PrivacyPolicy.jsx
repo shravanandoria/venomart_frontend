@@ -25,7 +25,7 @@ const PrivacyPolicy = ({ theme }) => {
                     <div className="article-content mx-auto max-w-[48.125rem]">
                         <p>Last Updated: July 30, 2023</p>
                         <p>
-                            Venomart was built with your privacy in mind. This Privacy Policy (“Policy”) describes how we at Venomart collect, use, share, and secure your Personal Data when you visit the Venomart Platform (https://venomart.space/ , Application and Services) (the “Platform”) or use it by creating, buying, transfering, or trading unique Venomart Goods in our Market (the “Market”).
+                            Venomart was built with your privacy in mind. This Privacy Policy (“Policy”) describes how we at Venomart collect, use, share, and secure your Personal Data when you visit the Venomart Platform (https://venomart.io/ , Application and Services) (the “Platform”) or use it by creating, buying, transfering, or trading unique Venomart Goods in our Market (the “Market”).
                         </p>
                         <p>
                             By accessing the Platform or trading Venomart goods through the Marketplace services, you consent to following this Privacy Policy and our Terms of Use.
@@ -77,8 +77,8 @@ const PrivacyPolicy = ({ theme }) => {
                         <h2>Your Rights</h2>
 
                         <p>
-                            You may contact us at venomart.space@gmail.com to update or correct any Personal Information we collected about you. <br />
-                            If at any time you would like to unsubscribe from receiving future emails, you can email us at venomart.space@gmail.com  and we will promptly remove you from ALL correspondence.
+                            You may contact us at venomart.io@gmail.com to update or correct any Personal Information we collected about you. <br />
+                            If at any time you would like to unsubscribe from receiving future emails, you can email us at venomart.io@gmail.com  and we will promptly remove you from ALL correspondence.
                         </p>
 
                         <h2>Changes to this Policy</h2>
