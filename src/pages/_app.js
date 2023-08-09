@@ -143,10 +143,10 @@ export default function App({ Component, pageProps }) {
       id: 4,
       Cover:
         "https://ipfs.io/ipfs/QmSdHjGkkDgHVhrMtHXwvMSdhB3ysgj5UZyW4sgumDHpij/600x200.jpg",
-      Logo: "https://ipfs.io/ipfs/QmRmGfZXsCxXZwJrLN7cBgPMKKkcV9jiXDKZuMuN9vxVGQ/rave.gif",
+      Logo: "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
       Name: "Rave - Race on venom",
       Description:
-        "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎",
+        "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress: "",
@@ -155,6 +155,7 @@ export default function App({ Component, pageProps }) {
       supply: "3000",
       twitterUserName: "ravegamenft",
       twitter: "https://twitter.com/ravegamenft",
+      tweetID: "1687875245225701376",
       discord: "https://discord.com/invite/CyHyDa5ZYv",
       instagram: "",
       telegram: "",

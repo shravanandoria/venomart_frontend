@@ -33,16 +33,15 @@ const rave = ({
   customLaunchpad,
 }) => {
   const router = useRouter();
-
   // change from here
+
   const launchSlug = customLaunchpad[4];
+
+  // change till here
 
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";
-
-  const intendTweetId = "1688757299383541761";
-  // change till here
-
+  const intendTweetId = launchSlug.tweetID;
   const projectTwitter = launchSlug.twitterUserName;
   const projectDiscord = launchSlug.discord;
   const CoverIMG = launchSlug.Cover;
