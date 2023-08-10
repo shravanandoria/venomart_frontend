@@ -123,7 +123,7 @@ export default function App({ Component, pageProps }) {
       Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
       Name: "Venom Bears",
       Description:
-        "Presenting venom bear the cutest collection on the Venom Blockchain",
+        "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
