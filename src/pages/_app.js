@@ -101,7 +101,8 @@ export default function App({ Component, pageProps }) {
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress: "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
+      CollectionAddress:
+        "0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0",
       customLink: "custom/venomapeclub",
       pageName: "venomapeclub",
       supply: "3000",
@@ -125,7 +126,8 @@ export default function App({ Component, pageProps }) {
         "Presenting venom bears the cutest collection on the Venom Blockchain",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress: "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
+      CollectionAddress:
+        "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
       customLink: "custom/venombears",
       pageName: "venombears",
       supply: "3000",
@@ -144,7 +146,7 @@ export default function App({ Component, pageProps }) {
       Cover:
         "https://ipfs.io/ipfs/QmQNUSRnqAuzNmkNWVZu83qyC4Cna46TxeceA6e6QmikqN/tt.jpg",
       Logo: "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
-      Name: "Rave - Passport",
+      Name: "Rave - Passports",
       Description:
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
@@ -162,7 +164,7 @@ export default function App({ Component, pageProps }) {
       website: "https://ravegame.net/",
       startDate: "08/15/2023 12:00:00 GMT+0530",
       endDate: "08/19/2023 12:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
   ];
 
