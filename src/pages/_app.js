@@ -157,7 +157,7 @@ export default function App({ Component, pageProps }) {
       supply: "3000",
       twitterUserName: "ravegamenft",
       twitter: "https://twitter.com/ravegamenft",
-      tweetID: "1687875245225701376",
+      tweetID: "1689694946717220867",
       discord: "https://discord.com/invite/CyHyDa5ZYv",
       instagram: "",
       telegram: "",
