@@ -572,8 +572,14 @@ const rave = ({
                     />
                     <div className="hideInPhoneTxt">
                       <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                        Mint this NFT and get benefits of this NFT from venomart
-                        after mainnet launch 🚀🚀
+                        Mint this NFT and get benefits like zero fee trading on venomart
+                        after mainnet launch 🚀
+                      </p>
+                      <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                        10 winners will get $VMART token airdrop (exclusive for rave community) 🥳
+                      </p>
+                      <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                        5 other winners will get premium version of venomart marketplace 💰
                       </p>
                     </div>
                   </div>
@@ -634,7 +640,7 @@ const rave = ({
                     {/* join discord  */}
                     <div className="flex items-center pb-5 mb-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        4] Join {ProjectName} discord server
+                        4] Join rave discord server
                       </p>
                       <Link
                         href={projectDiscord}
