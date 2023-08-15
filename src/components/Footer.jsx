@@ -159,7 +159,7 @@ const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollec
                     Apply For Launchpad
                   </Link>
                 </li> */}
-                <li>
+                {/* <li>
                   <Link
                     href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
                     target="_blank"
@@ -167,7 +167,7 @@ const Footer = ({ theme, adminAccount, signer_address, MintNFTStatus, MintCollec
                   >
                     Verify Your Collection
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     href="https://forms.gle/DvYFih5vwvzJdwRL6"

@@ -267,10 +267,6 @@ export const create_launchpad_nft = async (
       data.collectionAddress
     );
 
-    // const { count: id } = await contract.methods
-    //   .totalSupply({ answerId: 0 })
-    //   .call();
-
     const { count: id } = await contract.methods
       .totalMinted({ answerId: 0 })
       .call();
@@ -306,15 +302,7 @@ export const create_launchpad_nft = async (
       amount: (data.mintPrice * 1000000000).toString(),
     });
 
-    const res = await axios({
-      url: "/api/user/add_launchpad_user",
-      method: "POST",
-      data: {
-        wallet_id: signer_address,
-        collection_address: data.collectionAddress,
-      },
-    });
-    return res.data.success;
+    return true;
   } catch (error) {
     console.log(error.message);
   }
