@@ -179,7 +179,7 @@ const Footer = ({
                     target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Apply For Launchpad
+                    Apply For Launchpads
                   </Link>
                 </li>
                 {/* <li>
