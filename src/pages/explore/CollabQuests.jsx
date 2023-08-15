@@ -3,7 +3,7 @@ import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 
-const Launchpad = ({ theme, customLaunchpad }) => {
+const CollabQuests = ({ theme, customLaunchpad }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(12);
 
@@ -89,4 +89,4 @@ const Launchpad = ({ theme, customLaunchpad }) => {
     );
 };
 
-export default Launchpad;
+export default CollabQuests;
