@@ -125,7 +125,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Presenting venom bear the cutest collection on the Venom Blockchain",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
       customLink: "custom/venombears",
@@ -151,7 +151,7 @@ export default function App({ Component, pageProps }) {
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
       customLink: "custom/rave",
       pageName: "rave",
       supply: "3000",
