@@ -3,15 +3,15 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { check_user, user_info } from "./mongo_api/user/user";
+import { user_info } from "./mongo_api/user/user";
 
 import axios from "axios";
 
 export const COLLECTION_ADDRESS =
-  "0:b906abecb4001b2e5c941e104beb07a25ffe5c1dfcce033df270e053da4cc639";
+  "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:b814173db4fe357afc5a52ffe6df9a73b47aa0c8367e49638dc162951ade3fab";
+  "0:7545da926a55be5b5ca47a9127fac538e6e03747ba0f5b2768fd9b8410ea0d58";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -53,7 +53,6 @@ export const getNftAddresses = async (codeHash, provider) => {
   const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
   });
-  console.log({ addresses: addresses.continuation })
   return addresses?.accounts;
 };
 
@@ -61,13 +60,19 @@ export const getNftAddresses = async (codeHash, provider) => {
 export const loadNFTs_collection = async (provider, collection_address) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
+
     if (!nftCodeHash) {
       return;
     }
 
-    const nftAddresses = await getNftAddresses(nftCodeHash, provider);
+    const nftAddresses = await getNftAddresses(
+      nftCodeHash.length === 64
+        ? nftCodeHash
+        : "0b32ff933d1c07b1fe11658eef6e8ebfdc0a2656b150484f76f7ab7dcae43c1e",
+      provider
+    );
     if (!nftAddresses || !nftAddresses.length) {
-      // if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
+      if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses);
@@ -117,7 +122,6 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash) => {
   const addresses = await standaloneProvider?.getAccountsByCodeHash({
     codeHash,
   });
-  console.log({ continuation: addresses.continuation })
   return addresses?.accounts;
 };
 
@@ -161,9 +165,12 @@ export const get_nft_by_address = async (provider, nft_address) => {
 
   const res = await marketplace_contract.methods
     .get_nft_by_address({
+      answerId: 0,
       nft_address,
     })
     .call();
+
+  console.log(res);
 
   let nft = {
     ...JSON.parse(nft_json.json),
@@ -187,8 +194,8 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
     const indexesAddresses = await getAddressesFromIndex(provider, codeHash);
     if (!indexesAddresses || !indexesAddresses.length) {
       if (indexesAddresses && !indexesAddresses.length)
-        // setListIsEmpty_user(true);
-        return;
+        setListIsEmpty_user(true);
+      return;
     }
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, indexesAddresses);
@@ -207,6 +214,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
     .call();
+
   try {
     const nft_json = JSON.stringify({
       type: "Basic NFT",
@@ -224,7 +232,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         },
       ],
       attributes: data.properties.filter((e) => e.type.length > 0),
-      external_url: "https://venomart.io",
+      external_url: "https://venomart.space",
       nft_image: data.image,
       collection_name: data.collection,
     });
@@ -238,16 +246,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (venomProvider, collection_address, signer_address) => {
-  const contract = new venomProvider.Contract(collectionAbi, collection_address);
-
-  const _has_minted = await contract.methods
-    .hasMinted({ answerId: 0, account: signer_address })
-    .call();
-
-  return _has_minted.value0;
-};
-
 export const create_launchpad_nft = async (
   data,
   signer_address,
@@ -258,6 +256,10 @@ export const create_launchpad_nft = async (
       collectionAbi,
       data.collectionAddress
     );
+
+    // const { count: id } = await contract.methods
+    //   .totalSupply({ answerId: 0 })
+    //   .call();
 
     const { count: id } = await contract.methods
       .totalMinted({ answerId: 0 })
@@ -271,7 +273,7 @@ export const create_launchpad_nft = async (
     const nft_json = JSON.stringify({
       type: "Venom Testnet",
       id: id,
-      name: `${data.name}`,
+      name: `${data.name} #${id}`,
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
@@ -284,7 +286,7 @@ export const create_launchpad_nft = async (
         },
       ],
       attributes: data.properties.filter((e) => e.type.length > 0),
-      external_url: "https://venomart.io",
+      external_url: "https://venomart.space",
       nft_image: ipfs_image,
       collection_name: data.collectionName,
     });
@@ -294,7 +296,15 @@ export const create_launchpad_nft = async (
       amount: (data.mintPrice * 1000000000).toString(),
     });
 
-    return true;
+    const res = await axios({
+      url: "/api/user/add_launchpad_user",
+      method: "POST",
+      data: {
+        wallet_id: signer_address,
+        collection_address: data.collectionAddress,
+      },
+    });
+    return res.data.success;
   } catch (error) {
     console.log(error.message);
   }
@@ -312,8 +322,10 @@ export const list_nft = async (
   );
 
   const _payload = await marketplace_contract.methods
-    .generatePayload({ answerId: 0, price: "1000000000" })
+    .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
     .call();
+
+  console.log({ _payload });
 
   const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
@@ -329,25 +341,14 @@ export const list_nft = async (
       ],
     })
     .send({
-      from: new Address(
-        "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883"
-      ),
+      from: new Address(signer_address),
       amount: "3000000000",
     });
 
   const res = await marketplace_contract.methods
-    .get_nftId({ answerId: 0 })
+    .getAllNFTs({ answerId: 0 })
     .call();
-
-  // const outputs = await marketplace_contract.methods
-  //   .listToken({
-  //     nft_address,
-  //     price,
-  //   })
-  //   .send({
-  //     from: new Address(signer_address),
-  //     amount: "200000000",
-  //   });
+  console.log({ res });
 };
 
 export const get_listed_tokens = async (venomProvider) => {
@@ -387,9 +388,24 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
   );
 
   const res = await marketplace_contract.methods
-    .finishAuction({ sendRemainingGasTo: signer_address, nft_address })
+    .buyNft({
+      sendRemainingGasTo: new Address(signer_address),
+      nft_address: new Address(nft_address),
+    })
     .send({
       from: new Address(signer_address),
-      amount: "2000000000",
+      amount: (parseInt(price) + 2000000000).toString(),
     });
+
+  console.log(res);
+
+  const res2 = await marketplace_contract.methods
+    .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
+    .call();
+  console.log({ res2 });
+
+  const res3 = await marketplace_contract.methods
+    .check_test({ answerId: 0 })
+    .call();
+  console.log({ res3 });
 };
