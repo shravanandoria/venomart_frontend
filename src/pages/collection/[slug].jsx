@@ -52,7 +52,7 @@ const Collection = ({
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
-    console.log({ nfts: nfts })
+    console.log({ nfts: nfts });
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
@@ -455,8 +455,8 @@ const Collection = ({
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                         />
                       );
                     })}
