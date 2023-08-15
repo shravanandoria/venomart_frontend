@@ -150,7 +150,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress: "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
       customLink: "custom/rave",
       pageName: "rave",
