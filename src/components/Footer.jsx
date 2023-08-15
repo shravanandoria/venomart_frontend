@@ -173,15 +173,15 @@ const Footer = ({
                 Other Links
               </h3>
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                <li>
+                {/* <li>
                   <Link
                     href="https://forms.gle/98VPnY7FSTuHCvaTA"
                     target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Apply For Launchpads
+                    Apply For Launchpad
                   </Link>
-                </li>
+                </li> */}
                 {/* <li>
                   <Link
                     href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
