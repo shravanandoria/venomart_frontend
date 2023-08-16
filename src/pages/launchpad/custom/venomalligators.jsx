@@ -30,12 +30,12 @@ const venomalligators = ({
   venomProvider,
   signer_address,
   connectWallet,
-  customLaunchpad,
+  collabQuests,
 }) => {
   const router = useRouter();
 
   // change from here
-  const launchSlug = customLaunchpad[1];
+  const launchSlug = collabQuests[0];
 
   const venomartTwitter = "venomart23";
   const venomartDiscord = "https://discord.gg/wQbBr6Xean";

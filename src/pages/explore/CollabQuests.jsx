@@ -3,13 +3,13 @@ import Head from "next/head";
 import Pagination from "@/components/Pagination";
 import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
 
-const CollabQuests = ({ theme, customLaunchpad }) => {
+const CollabQuests = ({ theme, collabQuests }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(12);
 
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
-    const currentCollections = customLaunchpad?.slice(
+    const currentCollections = collabQuests?.slice(
         firstPostIndex,
         lastPostIndex
     );
@@ -37,7 +37,7 @@ const CollabQuests = ({ theme, customLaunchpad }) => {
                             Collab Quests
                         </h1>
                         <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-                            Explore all the exclusive collab quests on venomart
+                            Explore all the exclusive collab quests of venomart
                         </p>
 
 
@@ -77,7 +77,7 @@ const CollabQuests = ({ theme, customLaunchpad }) => {
                             })}
                         </div>
                         <Pagination
-                            totalPosts={customLaunchpad.length}
+                            totalPosts={collabQuests.length}
                             postsPerPage={postsPerPage}
                             setCurrentPage={setCurrentPage}
                             currentPage={currentPage}

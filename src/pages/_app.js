@@ -49,29 +49,15 @@ export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [collections, set_collections] = useState([]);
 
-  // custom array of all launches
-  const customLaunchpad = [
-    // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
+  // custom array of all collabs
+  // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
+  const collabQuests = [
     {
       id: 0,
       Cover:
-        "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
-      Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
-      Name: "venomart Passes",
-      Description: "Exclusive Passes On Venomart Marketplace",
-      mintPrice: "1",
-      status: "Sold Out",
-      CollectionAddress:
-        "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
-      customLink: "custom/venomartPass",
-      verified: true,
-    },
-    {
-      id: 1,
-      Cover:
         "https://ipfs.io/ipfs/QmamHq9mXQTDkVMrMhHgqZc1xCszcSRVtRqWuzHv85sDs2/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
-      Name: "Venom Alligators",
+      Name: "Venomart x Alligators",
       Description:
         "Voracious alligators getting set to defend their swamp on the Venom Blockchain",
       mintPrice: "2",
@@ -92,11 +78,11 @@ export default function App({ Component, pageProps }) {
       verified: true,
     },
     {
-      id: 2,
+      id: 1,
       Cover:
         "https://ipfs.io/ipfs/QmXHBc2yztjMjCbkjwa7DNpv9WSzC9somdL68yQZDcj1cV/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmXAnjyk3us68C1ADJkX54ozFgpFK2Bu8HP4KGSqJ8AJU6/nft.gif",
-      Name: "Venom Ape Club",
+      Name: "Venomart x Ape Club",
       Description:
         "Presenting venom apes | 3333 rare, random & rad Apes living on the Venom Blockchain",
       mintPrice: "2",
@@ -117,11 +103,11 @@ export default function App({ Component, pageProps }) {
       verified: true,
     },
     {
-      id: 3,
+      id: 2,
       Cover:
         "https://ipfs.io/ipfs/QmWMSjnNzQMm9u1x8X2DbpVD4uUiDizLvBp4hVJkyy2tPJ/bearcover%20(1).png",
       Logo: "https://ipfs.io/ipfs/QmT6jxgAtUh99X1fhaEbBCuNqKAwMRPqf5LcCzo4YoQVaG/nft.gif",
-      Name: "Venom Bears",
+      Name: "Venomart x Bears",
       Description:
         "Presenting venom bear the cutest collection on the Venom Blockchain",
       mintPrice: "2",
@@ -140,9 +126,27 @@ export default function App({ Component, pageProps }) {
       startDate: "08/09/2023 17:00:00 GMT+0530",
       endDate: "08/13/2023 17:00:00 GMT+0530",
       verified: true,
+    }
+  ];
+
+  // custom array of all launches
+  const customLaunchpad = [
+    {
+      id: 0,
+      Cover:
+        "https://ipfs.io/ipfs/QmdhUuDUXrAfHEwx7tEWw6LnFRhTx4DurmieaBW5WvFARu/20230729_204210.jpg",
+      Logo: "https://ipfs.io/ipfs/QmNRgw61q81mUb2dRarA6NBFqdE3E9rsYYhRWfdfgcPMnL/earlypass.gif",
+      Name: "Venomart Passes",
+      Description: "Exclusive Passes On Venomart Marketplace",
+      mintPrice: "1",
+      status: "Sold Out",
+      CollectionAddress:
+        "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
+      customLink: "custom/venomartPass",
+      verified: true,
     },
     {
-      id: 4,
+      id: 1,
       Cover:
         "https://ipfs.io/ipfs/QmQNUSRnqAuzNmkNWVZu83qyC4Cna46TxeceA6e6QmikqN/tt.jpg",
       Logo: "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
@@ -164,6 +168,31 @@ export default function App({ Component, pageProps }) {
       website: "https://ravegame.net/",
       startDate: "08/15/2023 12:00:00 GMT+0530",
       endDate: "08/19/2023 12:00:00 GMT+0530",
+      verified: true,
+    },
+    {
+      id: 2,
+      Cover:
+        "https://ipfs.io/ipfs/Qmc3PfRuUGrNWhAiuxg5TXg9yqhhJxnQyfbijCKsg5gZnK/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmPoEvU9hZTxEDv3bbXaSenFqmxU7YMnSxi5AiKJ2VU1Q7/gif.gif",
+      Name: "Venom Lions",
+      Description:
+        "Introducing venom lions | 5555 Lions have spawned from a wild forest | First Racing P2E Game on #venom | Stake your Lions and earn $LION token 🦁",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "launch/venomLions",
+      pageName: "venomLions",
+      supply: "5555",
+      twitterUserName: "",
+      twitter: "",
+      tweetID: "",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "08/28/2023 12:00:00 GMT+0530",
+      endDate: "08/30/2023 12:00:00 GMT+0530",
       verified: true,
     },
   ];
@@ -311,6 +340,7 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
         adminAccount={adminAccount}
         customLaunchpad={customLaunchpad}
+        collabQuests={collabQuests}
       />
       <Footer
         theme={theme}

@@ -22,7 +22,7 @@ import { create_launchpad_nft } from "@/utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "@/utils/user_nft";
 
-const venomapeclub = ({
+const venomLions = ({
     blockURL,
     theme,
     webURL,
@@ -30,19 +30,17 @@ const venomapeclub = ({
     venomProvider,
     signer_address,
     connectWallet,
-    collabQuests,
+    customLaunchpad,
 }) => {
-    const router = useRouter();
 
     // change from here
-    const launchSlug = collabQuests[1];
-
-    const venomartTwitter = "venomart23";
-    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
-
-    const intendTweetId = "1688757299383541761";
+    const launchSlug = customLaunchpad[2];
     // change till here
 
+    const router = useRouter();
+    const venomartTwitter = "venomart23";
+    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
+    const intendTweetId = launchSlug.tweetID;
     const projectTwitter = launchSlug.twitterUserName;
     const projectDiscord = launchSlug.discord;
     const CoverIMG = launchSlug.Cover;
@@ -994,4 +992,4 @@ const venomapeclub = ({
     );
 };
 
-export default venomapeclub;
+export default venomLions;

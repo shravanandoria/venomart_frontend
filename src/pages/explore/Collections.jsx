@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Head from "next/head";
 import Pagination from "@/components/Pagination";
-import { get_collections } from "@/utils/mongo_api/collection/collection";
 import Loader from "@/components/Loader";
 
 const Collections = ({ theme, collections, loading }) => {
   // const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(12);
+  const [postsPerPage] = useState(9);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;

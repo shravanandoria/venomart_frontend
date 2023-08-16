@@ -35,7 +35,7 @@ const rave = ({
   const router = useRouter();
   // change from here
 
-  const launchSlug = customLaunchpad[4];
+  const launchSlug = customLaunchpad[1];
 
   // change till here
 

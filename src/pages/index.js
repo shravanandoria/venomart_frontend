@@ -124,9 +124,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                         <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                           <div className="relative">
                             {/* cover imge  */}
-                            <Link href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0">
+                            <Link href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277">
                               <img
-                                src="https://ipfs.io/ipfs/QmXAnjyk3us68C1ADJkX54ozFgpFK2Bu8HP4KGSqJ8AJU6/nft.gif"
+                                src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
                                 alt="item 1"
                                 className="w-full object-cover"
                                 height="437"
@@ -138,11 +138,11 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                             <div className="flex">
                               {/* logo  */}
                               <Link
-                                href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0"
+                                href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
                                 className="shrink-0"
                               >
                                 <img
-                                  src="https://ipfs.io/ipfs/QmXAnjyk3us68C1ADJkX54ozFgpFK2Bu8HP4KGSqJ8AJU6/nft.gif"
+                                  src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
                                   alt="avatar"
                                   className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
@@ -152,11 +152,11 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                               <div>
                                 {/* name  */}
                                 <Link
-                                  href="/collection/0:ae6ab9601f5d75a65851e2a826422de14bb193be0200506d34d1ae4c4c27dba0"
+                                  href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
                                   className="block"
                                 >
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Venom Ape Club
+                                    Rave - Passports
                                     <MdVerified
                                       style={{
                                         color: "#4f87ff",
@@ -169,7 +169,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                                 </Link>
 
                                 <a className="text-2xs text-accent dark:text-white">
-                                  2000+ Items | 1200+ Owners
+                                  3000 Items | 2800+ Owners
                                 </a>
                               </div>
                             </div>

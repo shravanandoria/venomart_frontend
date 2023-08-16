@@ -162,10 +162,10 @@ const Collection = ({
                     />
                   )}
                 </div>
-                <div className="absolute mb-6 ml-10 mt-2 inline-flex items-center justify-center">
+                <div className="absolute mb-6 ml-[24px] mt-[-12px] inline-flex items-center justify-center">
                   {collection?.isVerified && isHovering && (
                     <p
-                      className="bg-blue px-[10px] py-[3px] text-white text-[12px]"
+                      className="bg-blue px-[20px] py-[3px] text-white text-[12px]"
                       style={{ borderRadius: "10px" }}
                     >
                       Verified
@@ -455,8 +455,8 @@ const Collection = ({
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
+                        // listedBool={e.isListed}
+                        // listingPrice={e.listingPrice}
                         />
                       );
                     })}

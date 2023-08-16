@@ -12,8 +12,12 @@ const Pagination = ({
         pages.push(i);
     }
 
+    const toTop = () => {
+        window.scrollTo(0, 0);
+    }
+
     return (
-        <div className='pagination' style={{ marginTop: "120px" }}>
+        <div className='pagination' style={{ marginTop: "120px" }} onClick={toTop}>
             {pages.map((page, index) => {
                 return (
                     <button
