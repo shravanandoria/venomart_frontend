@@ -455,8 +455,8 @@ const Collection = ({
                           Name={e?.name}
                           Description={e?.description}
                           Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                         />
                       );
                     })}

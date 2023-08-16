@@ -163,20 +163,20 @@ export const get_nft_by_address = async (provider, nft_address) => {
     MARKETPLACE_ADDRESS
   );
 
-  const res = await marketplace_contract.methods
-    .get_nft_by_address({
-      answerId: 0,
-      nft_address,
-    })
-    .call();
+  // const res = await marketplace_contract.methods
+  //   .get_nft_by_address({
+  //     answerId: 0,
+  //     nft_address: new Address(nft_address),
+  //   })
+  //   .call();
 
-  console.log(res);
+  // console.log(res);
 
   let nft = {
     ...JSON.parse(nft_json.json),
     ...getNftInfo,
-    isListed: res.value0.currentlyListed,
-    price: res.value0.price,
+    isListed: false,
+    price: 0,
   };
   return nft;
 };
@@ -246,8 +246,15 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (venomProvider, collection_address, signer_address) => {
-  const contract = new venomProvider.Contract(collectionAbi, collection_address);
+export const has_minted = async (
+  venomProvider,
+  collection_address,
+  signer_address
+) => {
+  const contract = new venomProvider.Contract(
+    collectionAbi,
+    collection_address
+  );
 
   const _has_minted = await contract.methods
     .hasMinted({ answerId: 0, account: signer_address })
