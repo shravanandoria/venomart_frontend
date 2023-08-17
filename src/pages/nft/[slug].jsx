@@ -42,7 +42,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
-    // console.log(nft_info);
+    console.log(nft_info);
     set_nft_info(nft_info);
     setPageLoading(false);
   };
@@ -51,19 +51,43 @@ const NFTPage = ({
   const sell_nft = async (e) => {
     e.preventDefault();
     set_loading(true);
-    await list_nft(slug, listingPrice, venomProvider, signer_address);
-    set_loading(false);
+    try {
+      await list_nft(slug, listingPrice, venomProvider, signer_address);
+      set_loading(false);
+      router.reload();
+    }
+    catch (error) {
+      console.log(error);
+      set_loading(false);
+    }
   };
 
   // buy nft
   const buyNFT = async () => {
-    buy_nft(venomProvider, slug, nft.price, signer_address);
+    set_loading(true);
+    try {
+      await buy_nft(venomProvider, slug, nft.price, signer_address);
+      set_loading(false);
+      router.reload();
+    }
+    catch (error) {
+      console.log(error);
+      set_loading(false);
+    }
   };
 
   // cancel nft sale
   const cancelNFT = async () => {
-    // write here
-    await cancel_listing(slug, venomProvider, signer_address);
+    set_loading(true);
+    try {
+      await cancel_listing(slug, venomProvider, signer_address);
+      set_loading(false);
+      router.reload();
+    }
+    catch (error) {
+      console.log(error);
+      set_loading(false);
+    }
   };
 
   const switchPropeties = async () => {
@@ -176,9 +200,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
                                 : defLogo
                             }
                             height={40}
@@ -359,9 +383,9 @@ const NFTPage = ({
                               <div>
                                 <div className="flex items-center whitespace-nowrap">
                                   <span className="text-lg font-medium leading-tight tracking-tight text-green">
-                                    {nft?.price ? nft?.price : "0.00"}{" "}
+                                    {nft?.price ? (nft?.price / 1000000000) : "0.00"}{" "}
                                   </span>
-                                  <span className="text-[19px] text-jacarta-700 ml-2">
+                                  <span className="text-[19px] text-jacarta-700 dark:text-jacarta-200 ml-2">
                                     {currency}
                                   </span>
                                 </div>
@@ -410,7 +434,7 @@ const NFTPage = ({
                   {/* <!-- cancel nft sale --> */}
                   {nft?.owner?._address == signer_address &&
                     nft?.isListed == true && (
-                      <div className="rounded-2lg  border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                      <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         {loading ? (
                           <button
                             type="button"
@@ -447,7 +471,7 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- not listed --> */}
-                  {nft?.manger?._address !== signer_address &&
+                  {nft?.manager?._address !== signer_address &&
                     nft?.isListed == false && (
                       <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
@@ -475,9 +499,8 @@ const NFTPage = ({
                       onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${
-                          properties && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${properties && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -502,9 +525,8 @@ const NFTPage = ({
                       onClick={switchOffers}
                     >
                       <button
-                        className={`nav-link ${
-                          offers && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${offers && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -529,9 +551,8 @@ const NFTPage = ({
                       onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${
-                          details && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${details && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -556,9 +577,8 @@ const NFTPage = ({
                       onClick={switchActivity}
                     >
                       <button
-                        className={`nav-link ${
-                          activity && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${activity && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

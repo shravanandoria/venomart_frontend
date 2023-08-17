@@ -352,7 +352,7 @@ export const list_nft = async (
     })
     .send({
       from: new Address(signer_address),
-      amount: "2000000000",
+      amount: "2500000000",
     });
 
   const res = await marketplace_contract.methods
