@@ -43,12 +43,12 @@ export const get_collection_by_contract = async (contractAddress) => {
   }
 };
 
-export const get_collections = async () => {
+export const get_collections = async (skip) => {
   try {
     let nfts_verified = [];
     let nfts_unverified = [];
     const res = await axios({
-      url: "/api/collection/collection",
+      url: `/api/collection/collection?skip=${skip}`,
       method: "GET",
     });
     for (let i = 0; i < res.data.data.length; i++) {

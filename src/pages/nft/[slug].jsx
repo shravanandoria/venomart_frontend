@@ -42,7 +42,6 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
-
     set_nft_info(nft_info);
     setPageLoading(false);
   };

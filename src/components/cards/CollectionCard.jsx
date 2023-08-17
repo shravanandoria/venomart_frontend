@@ -47,7 +47,7 @@ const CollectionCard = ({
 
                 <div className="relative flex justify-center align-middle text-center">
                     <div
-                        className=" mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white "
+                        className="mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white"
                         style={{
                             whiteSpace: "nowrap",
                             textOverflow: "ellipsis",

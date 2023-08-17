@@ -233,7 +233,7 @@ const Collection = ({
                   <div className="relative text-center md:pl-8 md:text-right" style={{ overflow: "hidden" }}>
                     <img
                       src={CoverIMG}
-                      alt="coverIMG"
+                      alt="coverIMGG"
                       style={{ borderRadius: "25px" }}
                     />
                   </div>

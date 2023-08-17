@@ -243,3 +243,11 @@
   justify-content: center;
   align-items: center;
 } */
+
+.scroll-list {
+  height: 100vh;
+  overflow-y: scroll;
+}
+.scroll-list::-webkit-scrollbar {
+  display: none;
+}
