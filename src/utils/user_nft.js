@@ -11,7 +11,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:7545da926a55be5b5ca47a9127fac538e6e03747ba0f5b2768fd9b8410ea0d58";
+  "0:a702dfb8e67555baf8e9c930c2a0e8f7160eb309485c2ab32081bbec8ead1b31";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -60,17 +60,11 @@ export const getNftAddresses = async (codeHash, provider) => {
 export const loadNFTs_collection = async (provider, collection_address) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
-
     if (!nftCodeHash) {
       return;
     }
 
-    const nftAddresses = await getNftAddresses(
-      nftCodeHash.length === 64
-        ? nftCodeHash
-        : "0b32ff933d1c07b1fe11658eef6e8ebfdc0a2656b150484f76f7ab7dcae43c1e",
-      provider
-    );
+    const nftAddresses = await getNftAddresses(nftCodeHash, provider);
     if (!nftAddresses || !nftAddresses.length) {
       if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;
@@ -246,16 +240,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (venomProvider, collection_address, signer_address) => {
-  const contract = new venomProvider.Contract(collectionAbi, collection_address);
-
-  const _has_minted = await contract.methods
-    .hasMinted({ answerId: 0, account: signer_address })
-    .call();
-
-  return _has_minted.value0;
-};
-
 export const create_launchpad_nft = async (
   data,
   signer_address,
@@ -266,6 +250,10 @@ export const create_launchpad_nft = async (
       collectionAbi,
       data.collectionAddress
     );
+
+    // const { count: id } = await contract.methods
+    //   .totalSupply({ answerId: 0 })
+    //   .call();
 
     const { count: id } = await contract.methods
       .totalMinted({ answerId: 0 })
@@ -302,7 +290,15 @@ export const create_launchpad_nft = async (
       amount: (data.mintPrice * 1000000000).toString(),
     });
 
-    return true;
+    const res = await axios({
+      url: "/api/user/add_launchpad_user",
+      method: "POST",
+      data: {
+        wallet_id: signer_address,
+        collection_address: data.collectionAddress,
+      },
+    });
+    return res.data.success;
   } catch (error) {
     console.log(error.message);
   }
@@ -347,6 +343,35 @@ export const list_nft = async (
     .getAllNFTs({ answerId: 0 })
     .call();
   console.log({ res });
+
+  get_my_listed_tokens(venomProvider, signer_address);
+};
+
+export const cancel_listing = async (
+  nft_address,
+  venomProvider,
+  signer_address
+) => {
+  const marketplace_contract = new venomProvider.Contract(
+    marketplaceAbi,
+    MARKETPLACE_ADDRESS
+  );
+
+  const output = await marketplace_contract.methods
+    .cancel_listing({
+      nft_address,
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: "100000000",
+    });
+
+  console.log(output);
+
+  const res2 = await marketplace_contract.methods
+    .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
+    .call();
+  console.log({ res2 });
 };
 
 export const get_listed_tokens = async (venomProvider) => {
@@ -387,12 +412,12 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
 
   const res = await marketplace_contract.methods
     .buyNft({
-      sendRemainingGasTo: new Address(signer_address),
+      sendRemainingGasTo: new Address(MARKETPLACE_ADDRESS),
       nft_address: new Address(nft_address),
     })
     .send({
       from: new Address(signer_address),
-      amount: (parseInt(price) + 2000000000).toString(),
+      amount: (parseInt(price) + 3000000000).toString(),
     });
 
   console.log(res);
@@ -401,9 +426,18 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
     .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
     .call();
   console.log({ res2 });
+};
 
-  const res3 = await marketplace_contract.methods
-    .check_test({ answerId: 0 })
-    .call();
-  console.log({ res3 });
+export const get_my_listed_tokens = async (provider, signer_address) => {
+  console.log(signer_address);
+  const marketplace_contract = new provider.Contract(
+    marketplaceAbi,
+    MARKETPLACE_ADDRESS
+  );
+
+  const res2 = await marketplace_contract.methods
+    .getMyNFTs({ answerId: 0, user_address: new Address(signer_address) })
+    .call({ from: new Address(signer_address) });
+
+  console.log(res2);
 };

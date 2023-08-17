@@ -6,7 +6,10 @@
 		{
 			"name": "constructor",
 			"inputs": [
-				{"name":"sendRemainingGasTo","type":"address"}
+				{"name":"sendRemainingGasTo","type":"address"},
+				{"name":"sale_cost","type":"uint128"},
+				{"name":"listing_cost","type":"uint128"},
+				{"name":"owner","type":"address"}
 			],
 			"outputs": [
 			]
@@ -36,7 +39,7 @@
 			]
 		},
 		{
-			"name": "finishAuction",
+			"name": "buyNft",
 			"inputs": [
 				{"name":"sendRemainingGasTo","type":"address"},
 				{"name":"nft_address","type":"address"}
@@ -56,18 +59,63 @@
 		{
 			"name": "getAllNFTs",
 			"inputs": [
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
-				{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"value0","type":"tuple[]"}
+				{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"value0","type":"tuple[]"}
+			]
+		},
+		{
+			"name": "getMyNFTs",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"user_address","type":"address"}
+			],
+			"outputs": [
+				{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"value0","type":"tuple[]"}
 			]
 		},
 		{
 			"name": "get_nft_by_address",
 			"inputs": [
+				{"name":"answerId","type":"uint32"},
 				{"name":"nft_address","type":"address"}
 			],
 			"outputs": [
-				{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"value0","type":"tuple"}
+				{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "withdraw",
+			"inputs": [
+				{"name":"receipient","type":"address"},
+				{"name":"value","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cancel_listing",
+			"inputs": [
+				{"name":"nft_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
 			]
 		},
 		{
@@ -83,7 +131,7 @@
 			"inputs": [
 			],
 			"outputs": [
-				{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"id_listed_token","type":"map(uint256,tuple)"}
+				{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"id_listed_token","type":"map(uint128,tuple)"}
 			]
 		},
 		{
@@ -91,7 +139,7 @@
 			"inputs": [
 			],
 			"outputs": [
-				{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"address_listed_token","type":"map(address,tuple)"}
+				{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"address_listed_token","type":"map(address,tuple)"}
 			]
 		}
 	],
@@ -102,12 +150,21 @@
 		{
 			"name": "TokenListedSuccess",
 			"inputs": [
-				{"name":"nftId","type":"uint256"},
+				{"name":"nftId","type":"uint128"},
 				{"name":"nft_address","type":"address"},
 				{"name":"owner","type":"address"},
 				{"name":"manager","type":"address"},
 				{"name":"price","type":"uint128"},
 				{"name":"currentlyListed","type":"bool"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "OwnershipTransferred",
+			"inputs": [
+				{"name":"oldOwner","type":"address"},
+				{"name":"newOwner","type":"address"}
 			],
 			"outputs": [
 			]
@@ -117,10 +174,13 @@
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
+		{"name":"owner_","type":"address"},
 		{"name":"_nonce","type":"uint256"},
 		{"name":"_tokenWallet","type":"address"},
 		{"name":"_nftId","type":"uint128"},
-		{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"id_listed_token","type":"map(uint256,tuple)"},
-		{"components":[{"name":"nftId","type":"uint256"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"address_listed_token","type":"map(address,tuple)"}
+		{"name":"_sale_cost","type":"uint128"},
+		{"name":"_listing_cost","type":"uint128"},
+		{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"id_listed_token","type":"map(uint128,tuple)"},
+		{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"address_listed_token","type":"map(address,tuple)"}
 	]
 }

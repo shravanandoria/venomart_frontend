@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }) {
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
-  const MintNFTStatus = false;
+  const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
   // variables
@@ -126,7 +126,7 @@ export default function App({ Component, pageProps }) {
       startDate: "08/09/2023 17:00:00 GMT+0530",
       endDate: "08/13/2023 17:00:00 GMT+0530",
       verified: true,
-    }
+    },
   ];
 
   // custom array of all launches
@@ -155,7 +155,8 @@ export default function App({ Component, pageProps }) {
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress: "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
+      CollectionAddress:
+        "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
       customLink: "custom/rave",
       pageName: "rave",
       supply: "3000",
