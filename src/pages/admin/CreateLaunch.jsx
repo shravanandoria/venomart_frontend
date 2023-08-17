@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Loader from "@/components/Loader";
+import Loader from "../../components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
 

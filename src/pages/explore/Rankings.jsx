@@ -1,4 +1,4 @@
-import CollectionRankingCard from '@/components/cards/CollectionRankingCard'
+import CollectionRankingCard from '../../components/cards/CollectionRankingCard'
 import Head from 'next/head'
 import React from 'react'
 

@@ -121,7 +121,7 @@ const Footer = ({
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
                 <li>
                   <Link
-                    href="/profile"
+                    href={`/profile/${signer_address}`}
                     className="hover:text-accent dark:hover:text-white"
                   >
                     My Profile

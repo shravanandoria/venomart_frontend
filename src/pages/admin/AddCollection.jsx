@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Loader from "@/components/Loader";
+import Loader from "../../components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { create_collection } from "@/utils/mongo_api/collection/collection";
+import { create_collection } from "../../utils/mongo_api/collection/collection";
 import { useStorage } from "@thirdweb-dev/react";
 
 const AddCollection = ({ theme, adminAccount, signer_address }) => {
@@ -50,7 +50,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     set_loading(false);
     router.push("/explore/Collections");
   };
-  
+
   return (
     <div className={`${theme}`}>
       <Head>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import NftCard from "@/components/cards/NftCard";
+import NftCard from "../../components/cards/NftCard";
 import { MdVerified } from "react-icons/md";
 import {
   BsArrowUpRight,
@@ -12,13 +12,13 @@ import {
   BsTwitter,
 } from "react-icons/bs";
 import Head from "next/head";
-import Loader from "@/components/Loader";
-import Pagination from "@/components/Pagination";
-import { loadNFTs_collection } from "@/utils/user_nft";
+import Loader from "../../components/Loader";
+import Pagination from "../../components/Pagination";
+import { loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venom.svg";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { get_collection_by_contract } from "@/utils/mongo_api/collection/collection";
+import { get_collection_by_contract } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 
 const Collection = ({

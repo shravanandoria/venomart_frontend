@@ -11,9 +11,10 @@ import {
   AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "@/components/Loader";
-import { create_launchpad_nft } from "@/utils/user_nft";
-import { user_info } from "@/utils/mongo_api/user/user";
+import Loader from "../../../components/Loader";
+import { create_launchpad_nft } from "../../../utils/user_nft";
+import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
+import { has_minted } from "../../../utils/user_nft";
 
 const Collection = ({
   blockURL,

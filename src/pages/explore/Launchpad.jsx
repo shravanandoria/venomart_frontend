@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import Pagination from "@/components/Pagination";
-import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
+import Pagination from "../../components/Pagination";
+import LaunchCollectionCard from "../../components/cards/LaunchCollectionCard";
 
 const Launchpad = ({ theme, customLaunchpad }) => {
   const [currentPage, setCurrentPage] = useState(1);

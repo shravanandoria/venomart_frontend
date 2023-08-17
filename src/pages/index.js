@@ -2,10 +2,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import CollectionCard from "@/components/cards/CollectionCard";
-import LaunchCollectionCard from "@/components/cards/LaunchCollectionCard";
-import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
-import Loader from "@/components/Loader";
+import CollectionCard from "../components/cards/CollectionCard";
+import LaunchCollectionCard from "../components/cards/LaunchCollectionCard";
+import SmallCollectionCard from "../components/cards/SmallCollectionCard";
+import Loader from "../components/Loader";
 import { MdVerified } from "react-icons/md";
 
 import venomLogo from "../../public/venom.svg";
