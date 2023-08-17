@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CollectionCard from "@/components/cards/CollectionCard";
 import Head from "next/head";
-import Pagination from "@/components/Pagination";
 import Loader from "@/components/Loader";
+import { get_collections } from "@/utils/mongo_api/collection/collection";
 
-const Collections = ({ theme, collections, loading }) => {
-  // const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(9);
+const Collections = ({ theme }) => {
 
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollections = collections.slice(firstPostIndex, lastPostIndex);
+  const [collections, set_collections] = useState([]);
+  const [skip, setSkip] = useState(3);
+
+  const [loading, setLoading] = useState(false);
+
+  const scrollFetchCollections = async () => {
+    const collectionsJSON = await get_collections(skip);
+    set_collections([...collections, ...collectionsJSON]);
+  };
+
+  const handleScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setSkip(collections.length);
+    }
+  }
+
+  useEffect(() => {
+    scrollFetchCollections();
+  }, [skip])
 
   return (
     <>
@@ -32,7 +46,7 @@ const Collections = ({ theme, collections, loading }) => {
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className={`${theme}`}>
+        <div className={`${theme} scroll-list`} onScroll={handleScroll}>
           <section className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
@@ -45,7 +59,7 @@ const Collections = ({ theme, collections, loading }) => {
 
               {/* loop collections here  */}
               <div className="flex justify-center align-middle flex-wrap">
-                {currentCollections?.map((e, index) => (
+                {collections?.map((e, index) => (
                   <CollectionCard
                     key={index}
                     Cover={e?.coverImage}
@@ -57,18 +71,12 @@ const Collections = ({ theme, collections, loading }) => {
                     verified={e?.isVerified}
                   />
                 ))}
-                {currentCollections?.length <= 0 && (
+                {collections?.length <= 0 && (
                   <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                     No Collections Found
                   </h2>
                 )}
               </div>
-              <Pagination
-                totalPosts={collections.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
             </div>
           </section>
         </div>

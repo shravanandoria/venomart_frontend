@@ -1,14 +1,33 @@
+import CollectionRankingCard from '@/components/cards/CollectionRankingCard'
+import Head from 'next/head'
 import React from 'react'
 
-const Rankings = ({ theme }) => {
+const Rankings = ({ theme, topCollections }) => {
     return (
         <section className={`${theme}`}>
+            <Head>
+                <title>Rankings - Venomart Marketplace</title>
+                <meta
+                    name="description"
+                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                />
+                <meta
+                    name="keywords"
+                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/fav.png" />
+            </Head>
+
             <div className={`relative py-24 dark:bg-jacarta-800`}>
                 <div className="container">
-                    <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Rankings</h1>
+                    <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Rankings</h1>
+                    <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+                        Top Collections ranked by volume, floor price and more
+                    </p>
                     <div className="mb-8 flex flex-wrap items-center justify-between">
-                        {/* future filter  */}
-                        {/* <div className="flex flex-wrap items-center">
+                        {/* categories filter  */}
+                        <div className="flex flex-wrap items-center">
                             <div className="my-1 mr-2.5">
                                 <button
                                     className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
@@ -28,7 +47,7 @@ const Rankings = ({ theme }) => {
                                             d="M20 16h2v6h-6v-2H8v2H2v-6h2V8H2V2h6v2h8V2h6v6h-2v8zm-2 0V8h-2V6H8v2H6v8h2v2h8v-2h2zM4 4v2h2V4H4zm0 14v2h2v-2H4zM18 4v2h2V4h-2zm0 14v2h2v-2h-2z"
                                         />
                                     </svg>
-                                    <span>All Chains</span>
+                                    <span>All Categories</span>
                                 </button>
                                 <div
                                     className="dropdown-menu z-10 hidden min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
@@ -40,7 +59,7 @@ const Rankings = ({ theme }) => {
                                                 href="#"
                                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                             >
-                                                <span className="text-jacarta-700 dark:text-white">Ethereum</span>
+                                                <span className="text-jacarta-700 dark:text-white">NFTs</span>
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24"
@@ -53,34 +72,10 @@ const Rankings = ({ theme }) => {
                                                 </svg>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                            >
-                                                Polygon
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                            >
-                                                Flow
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="#"
-                                                className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                            >
-                                                Tezos
-                                            </a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
 
                         {/* days filter  */}
                         <div className="dropdown relative my-1 cursor-pointer">
@@ -168,10 +163,10 @@ const Rankings = ({ theme }) => {
                                     >Volume</span>
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">24h %</span>
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">7D %</span>
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">7d %</span>
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Royalty %</span>
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
@@ -187,72 +182,26 @@ const Rankings = ({ theme }) => {
                             </div>
 
                             {/* loop all the collections here  */}
-                            {/* <a href="user.html" className="flex transition-shadow hover:shadow-lg" role="row">
-                                <div
-                                    className="flex w-[28%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span className="mr-2 lg:mr-4">1</span>
-                                    <figure className="relative mr-2 w-8 shrink-0 self-start lg:mr-5 lg:w-12">
-                                        <img src="img/avatars/avatar_1.jpg" alt="avatar 1" className="rounded-2lg" loading="lazy" />
-                                        <div
-                                            className="absolute -right-2 -bottom-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                                            data-tippy-content="Verified Collection"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                                height="24"
-                                                className="h-[.875rem] w-[.875rem] fill-white"
-                                            >
-                                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                            </svg>
-                                        </div>
-                                    </figure>
-                                    <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-                                        NFT Funny Cat
-                                    </span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span className="text-sm font-medium tracking-tight">30,643.01</span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span className="text-red">-35.75%</span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span className="text-red">-49.99%</span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span className="text-sm font-medium tracking-tight">15.49</span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span>3.5K</span>
-                                </div>
-                                <div
-                                    className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                                    role="cell"
-                                >
-                                    <span>10.0K</span>
-                                </div>
-                            </a> */}
-                            <h2 className='text-center p-4'>Coming soon..</h2>
+
+                            {topCollections?.map((e, index) => (
+                                <CollectionRankingCard
+                                    key={index}
+                                    id={index + 1}
+                                    Logo={e.logo}
+                                    Name={e.name}
+                                    OwnerAddress={e.creatorAddress}
+                                    contractAddress={e.contractAddress}
+                                    theme={theme}
+                                    isVerified={e.isVerified}
+                                    Volume={"0.00"}
+                                    Floor={"0.00"}
+                                    Owners={"500+"}
+                                    Items={"2000+"}
+                                />
+                            ))}
+                            {topCollections?.length <= 0 && (
+                                <h2 className='text-center p-4'>Coming soon..</h2>
+                            )}
                         </div>
                     </div>
                 </div>

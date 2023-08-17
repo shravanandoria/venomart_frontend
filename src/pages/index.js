@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
@@ -7,6 +8,8 @@ import SmallCollectionCard from "@/components/cards/SmallCollectionCard";
 import Loader from "@/components/Loader";
 import { MdVerified } from "react-icons/md";
 
+import venomLogo from "../../public/venom.svg";
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 
@@ -14,7 +17,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Home({ theme, collections, loading, customLaunchpad }) {
+export default function Home({ theme, customLaunchpad, topCollections }) {
+
+  const [loading, setLoading] = useState(false);
+
   return (
     <div
       className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
@@ -48,7 +54,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                   <div className="mb-10 w-full sm:flex sm:space-x-4">
                     <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="block font-display text-3xl text-[#8DD059]">
-                        {collections?.length}
+                        12
                       </span>
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                         NFT Collections
@@ -62,9 +68,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                         NFTs Minted
                       </span>
                     </div>
-                    {/* <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                    <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
-                        3
+                        18230
                         <Image
                           src={venomLogo}
                           height={100}
@@ -79,9 +85,9 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                         />
                       </span>
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                        Sale Volume
+                        Mint Volume
                       </span>
-                    </div> */}
+                    </div>
                   </div>
                   <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                     Buy, sell and collect NFTs.
@@ -331,13 +337,12 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
           </div>
 
           {/* top collections  */}
-          {/* <section className="relative py-24 dark:bg-jacarta-700">
+          <section className="relative py-24 dark:bg-jacarta-700">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Top collections over</h2>
+                <h2 className="inline mr-2">Top collections over</h2>
                 <div className="dropdown inline cursor-pointer">
-                  <button className="dropdown-toggle inline-flex items-center text-accent" type="button" id="collectionSort"
-                    data-bs-toggle="dropdown" aria-expanded="false">
+                  <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
                     last 7 days
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
                       className="h-8 w-8 fill-accent">
@@ -358,33 +363,36 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-[1.875rem] lg:grid-cols-4">
-                {all_collections?.map((e, index) => {
+              <div className="flex justify-center align-middle flex-wrap">
+                {topCollections?.map((e, index) => {
                   return (
                     index < 8 && (
                       <SmallCollectionCard
                         key={index}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        OwnerAddress={e.OwnerAddress}
-                        CollectionAddress={e.CollectionAddress}
+                        id={index + 1}
+                        Logo={e.logo}
+                        Name={e.name}
+                        OwnerAddress={e.creatorAddress}
+                        CollectionAddress={e.contractAddress}
                         theme={theme}
+                        isVerified={e.isVerified}
+                        Volume={"0.00"}
+                        Floor={"0.00"}
                       />
                     )
                   );
                 })}
               </div>
               <div className="mt-10 text-center">
-                <a href="rankings.html"
+                <Link href="/explore/Rankings"
                   className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
-                  to Rankings</a>
+                  to Rankings</Link>
               </div>
             </div>
-          </section> */}
+          </section>
 
           {/* Latest collections  */}
-          <div className="relative py-24 dark:bg-jacarta-800">
+          {/* <div className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline">Latest Collections </h2>
@@ -417,7 +425,7 @@ export default function Home({ theme, collections, loading, customLaunchpad }) {
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </>
       )}
     </div>

@@ -330,8 +330,6 @@ export const list_nft = async (
     .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
     .call();
 
-  console.log({ _payload });
-
   const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
   const output = await nft_contract.methods
@@ -353,7 +351,6 @@ export const list_nft = async (
   const res = await marketplace_contract.methods
     .getAllNFTs({ answerId: 0 })
     .call();
-  console.log({ res });
 };
 
 export const get_listed_tokens = async (venomProvider) => {
@@ -402,15 +399,11 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
       amount: (parseInt(price) + 2000000000).toString(),
     });
 
-  console.log(res);
-
   const res2 = await marketplace_contract.methods
     .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
     .call();
-  console.log({ res2 });
 
   const res3 = await marketplace_contract.methods
     .check_test({ answerId: 0 })
     .call();
-  console.log({ res3 });
 };

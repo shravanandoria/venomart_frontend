@@ -1,36 +1,86 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
+import { MdVerified } from 'react-icons/md'
+import venomLogo from "../../../public/venom.svg"
+import { BsFillExclamationCircleFill } from 'react-icons/bs'
 
-const SmallCollectionCard = ({ Logo, theme }) => {
+
+const SmallCollectionCard = ({ Logo, theme, id, Name, CollectionAddress, Volume, Floor, isVerified }) => {
     return (
-        <div
-            className={`flex rounded-2.5xl border ${theme == "dark" ? "border-jacarta:900" : "border-jacarta-100"} bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800`}>
-            <figure className="mr-4 shrink-0">
-                <a href="collection.html" className="relative block">
-                    <Image src={Logo} alt="avatar 1" className="rounded-2lg h-[60px] w-[auto]" height={100} width={100} loading="lazy" />
-                    <div
-                        className="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600">
-                        1
+        <Link href={`/collection/${CollectionAddress}`}>
+            <div
+                className={`flex rounded-2.5xl border ${theme == "dark" ? "border-jacarta:900" : "border-jacarta-100"} bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800 h-[100px] w-[300px]  m-4 sm:m-6 overflow-hidden`}>
+                <div className="mr-4 shrink-0">
+                    <div className="relative block">
+                        <Image src={Logo.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="avatar 1" className="rounded-2lg h-[60px] w-[auto]" height={100} width={100} loading="lazy" />
+                        <div
+                            className="absolute -left-3 top-[10px] flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600">
+                            {id}
+                        </div>
+                        {isVerified ?
+                            <div
+                                className="absolute right-[-5px] top-[80%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+                                <MdVerified
+                                    style={{ color: "#4f87ff" }}
+                                    size={25}
+                                />
+                            </div>
+                            :
+                            <div
+                                className="absolute right-[-5px] top-[80%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+                                <BsFillExclamationCircleFill style={{ color: "#c3c944" }}
+                                    size={20}
+                                />
+                            </div>
+                        }
                     </div>
-                    <div
-                        className="absolute -left-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                        data-tippy-content="Verified Collection">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                            className="h-[.875rem] w-[.875rem] fill-white">
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                        </svg>
+                </div>
+                <div>
+                    <div className="block relative">
+                        <span className="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
+                            style={{
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                                overflow: "hidden"
+                            }}
+                        >{Name}</span>
                     </div>
-                </a>
-            </figure>
-            <div>
-                <a href="collection.html" className="block">
-                    <span className="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white">NFT Funny
-                        Cat</span>
-                </a>
-                <span className="text-sm dark:text-jacarta-300">7,080.95 ETH</span>
+                    <span className="text-sm dark:text-jacarta-300 flex">
+                        Floor price : {" "}
+                        {Floor}
+                        <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            style={{
+                                height: "11px",
+                                width: "11px",
+                                marginLeft: "7px",
+                                marginTop: "3px"
+                            }}
+                            alt="Venomart | NFT Marketplace"
+                        />
+                    </span>
+                    <span className="text-sm mt-[5px] dark:text-jacarta-300 flex">
+                        Volume : {" "}
+                        {Volume}
+                        <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            style={{
+                                height: "11px",
+                                width: "11px",
+                                marginLeft: "7px",
+                                marginTop: "3px"
+                            }}
+                            alt="Venomart | NFT Marketplace"
+                        />
+                    </span>
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

@@ -15,14 +15,12 @@ import "@/styles/Home.module.css";
 import { initVenomConnect } from "@/utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "@/utils/user_nft";
 
-// mongo imports
-import { check_user } from "@/utils/mongo_api/user/user";
-import { get_collections } from "@/utils/mongo_api/collection/collection";
-
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
+import { get_collections } from "@/utils/mongo_api/collection/collection";
 
 export default function App({ Component, pageProps }) {
+
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
@@ -46,8 +44,7 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
-  const [loading, setLoading] = useState(false);
-  const [collections, set_collections] = useState([]);
+  const [topCollections, setTopCollections] = useState([]);
 
   // custom array of all collabs
   // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
@@ -208,14 +205,6 @@ export default function App({ Component, pageProps }) {
     alert("Successfully copied the URL!!");
   }
 
-  // fetching all collections
-  const fetch_all_collections = async () => {
-    setLoading(true);
-    const res = await get_collections();
-    set_collections(res);
-    setLoading(false);
-  };
-
   // connect wallet start
   const init = async () => {
     const _venomConnect = await initVenomConnect();
@@ -276,6 +265,11 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet end
 
+  const fetchTopCollections = async () => {
+    const topCollections = await get_collections(0);
+    setTopCollections(topCollections);
+  };
+
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
@@ -284,7 +278,7 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-    fetch_all_collections();
+    fetchTopCollections();
   }, []);
 
   useEffect(() => {
@@ -333,14 +327,13 @@ export default function App({ Component, pageProps }) {
         currency={currency}
         webURL={webURL}
         copyURL={copyURL}
-        collections={collections}
-        loading={loading}
         connectWallet={connect_wallet}
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
         adminAccount={adminAccount}
         customLaunchpad={customLaunchpad}
         collabQuests={collabQuests}
+        topCollections={topCollections}
       />
       <Footer
         theme={theme}
