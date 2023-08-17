@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { create_nft } from "@/utils/user_nft";
+import { create_nft } from "../../utils/user_nft";
 import { useStorage } from "@thirdweb-dev/react";
 
 const CreateNFT = ({

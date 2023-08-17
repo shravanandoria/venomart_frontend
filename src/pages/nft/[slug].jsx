@@ -6,9 +6,9 @@ import Head from "next/head";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { buy_nft, get_nft_by_address } from "@/utils/user_nft";
-import { list_nft, cancel_listing } from "@/utils/user_nft";
-import { get_my_listed_tokens } from "@/utils/user_nft";
+import { buy_nft, get_nft_by_address } from "../../utils/user_nft";
+import { list_nft, cancel_listing } from "../../utils/user_nft";
+import { get_my_listed_tokens } from "../../utils/user_nft";
 
 const NFTPage = ({
   signer_address,
@@ -42,6 +42,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
+    // console.log(nft_info);
     set_nft_info(nft_info);
     setPageLoading(false);
   };

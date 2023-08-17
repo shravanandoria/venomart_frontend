@@ -11,7 +11,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:a702dfb8e67555baf8e9c930c2a0e8f7160eb309485c2ab32081bbec8ead1b31";
+  "0:38d0a2cd226f2b8df4f80c2befaa038eb9dd377db93b6eecc8167b6dc17cbc94";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -157,20 +157,21 @@ export const get_nft_by_address = async (provider, nft_address) => {
     MARKETPLACE_ADDRESS
   );
 
-  // const res = await marketplace_contract.methods
-  //   .get_nft_by_address({
-  //     answerId: 0,
-  //     nft_address: new Address(nft_address),
-  //   })
-  //   .call();
+  const res = await marketplace_contract.methods
+    .get_nft_by_address({
+      answerId: 0,
+      nft_address: new Address(nft_address),
+    })
+    .call();
 
-  // console.log(res);
+  console.log(res);
+  // console.log(res)
 
   let nft = {
     ...JSON.parse(nft_json.json),
     ...getNftInfo,
-    isListed: false,
-    price: 0,
+    isListed: res.value0.currentlyListed,
+    price: res.value0.price,
   };
   return nft;
 };
@@ -345,13 +346,13 @@ export const list_nft = async (
       callbacks: [
         [
           new Address(MARKETPLACE_ADDRESS),
-          { value: "2000000000", payload: _payload.payload },
+          { value: "1000000000", payload: _payload.payload },
         ],
       ],
     })
     .send({
       from: new Address(signer_address),
-      amount: "3000000000",
+      amount: "2000000000",
     });
 
   const res = await marketplace_contract.methods
@@ -432,7 +433,7 @@ export const buy_nft = async (provider, nft_address, price, signer_address) => {
     })
     .send({
       from: new Address(signer_address),
-      amount: (parseInt(price) + 3000000000).toString(),
+      amount: (parseInt(price) + 1000000000).toString(),
     });
 
   const res2 = await marketplace_contract.methods

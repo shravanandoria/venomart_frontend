@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CollectionCard from "@/components/cards/CollectionCard";
+import CollectionCard from "../../components/cards/CollectionCard";
 import Head from "next/head";
-import Loader from "@/components/Loader";
-import { get_collections } from "@/utils/mongo_api/collection/collection";
+import Loader from "../../components/Loader";
+import { get_collections } from "../../utils/mongo_api/collection/collection";
 
 const Collections = ({ theme }) => {
-
   const [collections, set_collections] = useState([]);
   const [skip, setSkip] = useState(3);
 
@@ -21,11 +20,11 @@ const Collections = ({ theme }) => {
     if (offsetHeight + scrollTop + 10 >= scrollHeight) {
       setSkip(collections.length);
     }
-  }
+  };
 
   useEffect(() => {
     scrollFetchCollections();
-  }, [skip])
+  }, [skip]);
 
   return (
     <>

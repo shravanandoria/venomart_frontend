@@ -7,8 +7,8 @@
 			"name": "constructor",
 			"inputs": [
 				{"name":"sendRemainingGasTo","type":"address"},
-				{"name":"sale_cost","type":"uint128"},
-				{"name":"listing_cost","type":"uint128"},
+				{"name":"_sale_commission","type":"uint128"},
+				{"name":"_listing_commission","type":"uint128"},
 				{"name":"owner","type":"address"}
 			],
 			"outputs": [
@@ -43,6 +43,22 @@
 			"inputs": [
 				{"name":"sendRemainingGasTo","type":"address"},
 				{"name":"nft_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_listing_fees",
+			"inputs": [
+				{"name":"_listing_commission","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_commission",
+			"inputs": [
+				{"name":"commission","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -178,8 +194,8 @@
 		{"name":"_nonce","type":"uint256"},
 		{"name":"_tokenWallet","type":"address"},
 		{"name":"_nftId","type":"uint128"},
-		{"name":"_sale_cost","type":"uint128"},
-		{"name":"_listing_cost","type":"uint128"},
+		{"name":"sale_commission","type":"uint128"},
+		{"name":"listing_commission","type":"uint128"},
 		{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"id_listed_token","type":"map(uint128,tuple)"},
 		{"components":[{"name":"nftId","type":"uint128"},{"name":"nft_address","type":"address"},{"name":"owner","type":"address"},{"name":"manager","type":"address"},{"name":"price","type":"uint128"},{"name":"currentlyListed","type":"bool"}],"name":"address_listed_token","type":"map(address,tuple)"}
 	]
