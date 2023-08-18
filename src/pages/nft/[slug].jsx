@@ -986,7 +986,7 @@ const NFTPage = ({
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center mt-1">
-                            <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm flex">
+                            <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 text-sm flex">
                               Listing Fees:
                               <span className="flex align-middle justify-center">
                                 <Image
