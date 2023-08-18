@@ -15,7 +15,7 @@ import Head from "next/head";
 import Loader from "../../components/Loader";
 import Pagination from "../../components/Pagination";
 import { loadNFTs_collection } from "../../utils/user_nft";
-import venomLogo from "../../../public/venom.svg";
+import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "../../utils/mongo_api/collection/collection";
@@ -315,18 +315,18 @@ const Collection = ({
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold mr-2">0</span>
                       <Image
                         src={venomLogo}
                         height={100}
                         width={100}
                         style={{
-                          height: "13px",
-                          width: "13px",
-                          marginTop: "3px",
+                          height: "15px",
+                          width: "15px",
+                          marginTop: "2px",
                         }}
-                        alt="Venomart | NFT Marketplace"
+                        alt="Venomart"
                       />
+                      <span className="font-bold ml-1">0</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -337,18 +337,18 @@ const Collection = ({
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
-                      <span className="font-bold mr-2">0</span>
                       <Image
                         src={venomLogo}
                         height={100}
                         width={100}
                         style={{
-                          height: "13px",
-                          width: "13px",
-                          marginTop: "3px",
+                          height: "15px",
+                          width: "15px",
+                          marginTop: "2px",
                         }}
-                        alt="Venomart | NFT Marketplace"
+                        alt="Venomart"
                       />
+                      <span className="font-bold ml-1">0</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded

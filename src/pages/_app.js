@@ -6,10 +6,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 // sty;es
-import "@/styles/globals.css";
-import "@/styles/custom.css";
-import "@/styles/tailwind.css";
-import "@/styles/Home.module.css";
+import "../styles/globals.css";
+import "../styles/custom.css";
+import "../styles/tailwind.css";
+import "../styles/Home.module.css";
 
 //Wallet Connect
 import { initVenomConnect } from "@/utils/wallet_connect";
@@ -111,7 +111,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Presenting venom bear the cutest collection on the Venom Blockchain",
       mintPrice: "2",
-      status: "Sold Out",
+      status: "Ended",
       CollectionAddress:
         "0:688c1bfc7415643585c81a0f769f8cc9a1432c5d2348b36eb9f27efad19a0690",
       customLink: "custom/venombears",

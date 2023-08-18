@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import venomLogo from "../../../public/venom.svg"
+import venomLogo from "../../../public/venomBG.webp"
 import { GoDotFill } from "react-icons/go";
 
 
@@ -285,19 +285,19 @@ const LaunchCollectionCard = ({
             </button>
           }
           <div className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-            {mintPrice}
             <Image
               src={venomLogo}
               height={100}
               width={100}
               style={{
-                height: "13px",
-                width: "13px",
-                marginLeft: "7px",
+                height: "16px",
+                width: "16px",
+                marginRight: "7px",
                 marginTop: "5px"
               }}
-              alt="Venomart | NFT Marketplace"
+              alt="VenomLogo"
             />
+            {mintPrice}
           </div>
         </div>
       </div >

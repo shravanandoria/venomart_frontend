@@ -64,7 +64,13 @@ export const loadNFTs_collection = async (provider, collection_address) => {
       return;
     }
 
-    const nftAddresses = await getNftAddresses(nftCodeHash, provider);
+    // const nftAddresses = await getNftAddresses(nftCodeHash, provider);
+    const nftAddresses = await getNftAddresses(
+      nftCodeHash.length === 64
+        ? nftCodeHash
+        : "0b32ff933d1c07b1fe11658eef6e8ebfdc0a2656b150484f76f7ab7dcae43c1e",
+      provider
+    );
     if (!nftAddresses || !nftAddresses.length) {
       if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
-import venomLogo from "../../public/venom.svg";
+import venomLogo from "../../public/venomBG.webp";
 import axios from "axios";
 import MobileNavbar from "./navcomps/MobileNavbar";
 import MobileProfileDrop from "./navcomps/MobileProfileDrop";
@@ -237,7 +237,6 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                           </span>
                           <div className="flex items-center">
                             <span className="flex  justify-center align-middletext-lg font-bold text-green">
-                              {vnmBalance}
                               <Image
                                 src={venomLogo}
                                 height={100}
@@ -245,11 +244,12 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                                 style={{
                                   height: "14px",
                                   width: "14px",
-                                  marginLeft: "7px",
+                                  marginRight: "7px",
                                   marginTop: "5px"
                                 }}
-                                alt="Venomart | NFT Marketplace"
+                                alt="VenomLogo"
                               />
+                              {vnmBalance}
                             </span>
                           </div>
                         </div>

@@ -8,7 +8,7 @@ import SmallCollectionCard from "../components/cards/SmallCollectionCard";
 import Loader from "../components/Loader";
 import { MdVerified } from "react-icons/md";
 
-import venomLogo from "../../public/venom.svg";
+import venomLogo from "../../public/venomBG.webp";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -70,19 +70,19 @@ export default function Home({ theme, customLaunchpad, topCollections }) {
                     </div>
                     <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                       <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
-                        18230
                         <Image
                           src={venomLogo}
                           height={100}
                           width={100}
                           style={{
-                            height: "19px",
-                            width: "19px",
-                            marginLeft: "8px",
+                            height: "23px",
+                            width: "23px",
+                            marginRight: "8px",
                             marginTop: "6px",
                           }}
-                          alt="Venomart | NFT Marketplace"
+                          alt="VenomLogo"
                         />
+                        18230
                       </span>
                       <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                         Mint Volume

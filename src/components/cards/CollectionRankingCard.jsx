@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { BsFillExclamationCircleFill } from 'react-icons/bs'
 import { MdVerified } from 'react-icons/md'
-import venomLogo from "../../../public/venom.svg"
+import venomLogo from "../../../public/venomBG.webp"
 
 
 const CollectionRankingCard = ({ id, contractAddress, Logo, Name, Volume, isVerified, Floor, Owners, Items }) => {
@@ -40,19 +40,19 @@ const CollectionRankingCard = ({ id, contractAddress, Logo, Name, Volume, isVeri
                 role="cell"
             >
                 <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
-                    {Volume}
                     <Image
                         src={venomLogo}
                         height={100}
                         width={100}
                         style={{
-                            height: "11px",
-                            width: "11px",
-                            marginLeft: "8px",
-                            marginTop: "6px"
+                            height: "13px",
+                            width: "13px",
+                            marginRight: "6px",
+                            marginTop: "4px"
                         }}
-                        alt="Venomart | NFT Marketplace"
+                        alt="VenomLogo"
                     />
+                    {Volume}
                 </span>
             </div>
             <div
@@ -74,19 +74,19 @@ const CollectionRankingCard = ({ id, contractAddress, Logo, Name, Volume, isVeri
                 role="cell"
             >
                 <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
-                    {Floor}
                     <Image
                         src={venomLogo}
                         height={100}
                         width={100}
                         style={{
-                            height: "11px",
-                            width: "11px",
-                            marginLeft: "8px",
-                            marginTop: "6px"
+                            height: "13px",
+                            width: "13px",
+                            marginRight: "6px",
+                            marginTop: "4px"
                         }}
-                        alt="Venomart | NFT Marketplace"
+                        alt="VenomLogo"
                     />
+                    {Volume}
                 </span>
             </div>
 

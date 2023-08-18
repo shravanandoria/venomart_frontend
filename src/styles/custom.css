@@ -139,15 +139,18 @@
 
 @media only screen and (max-width: 575px) {
   .afterMintDiv {
-    width: 400px;
+    width: 90%;
+  }
+  .feesSectionTarget {
+    display: none;
   }
 }
-
+/* 
 @media only screen and (max-width: 435px) {
   .afterMintDiv {
-    width: 300px;
+    width: 100%;
   }
-}
+} */
 
 .expired-notice {
   text-align: center;
