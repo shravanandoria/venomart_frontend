@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import venomLogo from "../../../public/venom.svg"
+import venomLogo from "../../../public/venomBG.webp"
 
 const CollectionCard = ({
     Cover,
@@ -98,37 +98,37 @@ const CollectionCard = ({
                     <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                         <span className="text-jacarta-400">Floor</span>
                         <span className="flex justify-center">
-                            0
                             <Image
                                 src={venomLogo}
                                 height={100}
                                 width={100}
                                 style={{
-                                    height: "12px",
-                                    width: "12px",
-                                    marginLeft: "8px",
+                                    height: "14px",
+                                    width: "14px",
+                                    marginRight: "8px",
                                     marginTop: "6px"
                                 }}
-                                alt="Venomart | NFT Marketplace"
+                                alt="VenomLogo"
                             />
+                            0
                         </span>
                     </button>
                     <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                         <span className="text-jacarta-400">Volume</span>
                         <span className="flex justify-center">
-                            0
                             <Image
                                 src={venomLogo}
                                 height={100}
                                 width={100}
                                 style={{
-                                    height: "12px",
-                                    width: "12px",
-                                    marginLeft: "8px",
+                                    height: "14px",
+                                    width: "14px",
+                                    marginRight: "8px",
                                     marginTop: "6px"
                                 }}
-                                alt="Venomart | NFT Marketplace"
+                                alt="VenomLogo"
                             />
+                            0
                         </span>
                     </button>
                 </div>

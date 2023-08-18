@@ -168,7 +168,7 @@ const venomLions = ({
             setEndSeconds(s);
 
             if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-              setStatus("Sold Out");
+              setStatus("Ended");
             }
           }, 1000);
           return () => clearInterval(interval);

@@ -30,19 +30,19 @@ const MobileProfileDrop = ({ signer_address, venomLogo, vnmBalance, MintNFTStatu
                 </span>
                 <div className="flex items-center">
                     <span className="flex justify-center align-middle text-lg font-bold text-green">
-                        {vnmBalance}
                         <Image
                             src={venomLogo}
                             height={100}
                             width={100}
                             style={{
-                                height: "14px",
-                                width: "14px",
-                                marginLeft: "7px",
-                                marginTop: "5px"
+                                height: "17px",
+                                width: "17px",
+                                marginRight: "7px",
+                                marginTop: "6px"
                             }}
-                            alt="Venomart | NFT Marketplace"
+                            alt="VenomLogo"
                         />
+                        {vnmBalance}
                     </span>
                 </div>
             </div>
