@@ -117,16 +117,16 @@ ROT
 CALLREF {
 	CALL $_transferOwnership_internal_macro$
 }
-.loc ../contracts/CollectionDrop.tsol, 45
-ACCEPT
 .loc ../contracts/CollectionDrop.tsol, 46
+ACCEPT
+.loc ../contracts/CollectionDrop.tsol, 47
 PUSHINT 1000000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/CollectionDrop.tsol, 47
+.loc ../contracts/CollectionDrop.tsol, 48
 SWAP
 SETGLOB 21
-.loc ../contracts/CollectionDrop.tsol, 48
+.loc ../contracts/CollectionDrop.tsol, 49
 SETGLOB 23
 .loc ../contracts/CollectionDrop.tsol, 0
 CALLREF {
@@ -143,7 +143,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 51
+.loc ../contracts/CollectionDrop.tsol, 52
 ENDS
 .loc ../contracts/CollectionDrop.tsol, 0
 CALLREF {
@@ -181,7 +181,7 @@ THROW 0
 CALL $codeDepth_internal_macro$
 
 .macro codeDepth_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 52
+.loc ../contracts/CollectionDrop.tsol, 53
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_internal_macro$
@@ -198,7 +198,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 55
+.loc ../contracts/CollectionDrop.tsol, 56
 LDREF
 ENDS
 .loc ../contracts/CollectionDrop.tsol, 0
@@ -216,10 +216,10 @@ THROW 0
 CALL $mint_internal_macro$
 
 .macro mint_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 56
+.loc ../contracts/CollectionDrop.tsol, 57
 GETGLOB 24
 THROWIF 101
-.loc ../contracts/CollectionDrop.tsol, 57
+.loc ../contracts/CollectionDrop.tsol, 58
 GETGLOB 9
 GETGLOB 25
 PUSHINT 267
@@ -230,7 +230,7 @@ PUSHCONT {
 }
 IF
 THROWIF 105
-.loc ../contracts/CollectionDrop.tsol, 58
+.loc ../contracts/CollectionDrop.tsol, 59
 DEPTH
 ADDCONST -2
 PICK
@@ -248,11 +248,11 @@ ADD
 UFITS 128
 GREATER
 THROWIFNOT 104
-.loc ../contracts/CollectionDrop.tsol, 60
+.loc ../contracts/CollectionDrop.tsol, 61
 GETGLOB 23
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/CollectionDrop.tsol, 63
+.loc ../contracts/CollectionDrop.tsol, 64
 GETGLOB 9
 SWAP
 PUSHINT 0
@@ -271,7 +271,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 66
+.loc ../contracts/CollectionDrop.tsol, 67
 LDU 32
 GETGLOB 4
 ROT
@@ -337,7 +337,7 @@ IFREF {
 THROW 0
 
 .macro totalMinted_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 67
+.loc ../contracts/CollectionDrop.tsol, 68
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -358,7 +358,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 70
+.loc ../contracts/CollectionDrop.tsol, 71
 LDU 32
 GETGLOB 4
 ROT
@@ -421,7 +421,7 @@ IFREF {
 THROW 0
 
 .macro mintingFee_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 71
+.loc ../contracts/CollectionDrop.tsol, 72
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -442,7 +442,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 74
+.loc ../contracts/CollectionDrop.tsol, 75
 LDU 32
 GETGLOB 4
 ROT
@@ -513,7 +513,7 @@ IFREF {
 THROW 0
 
 .macro hasMinted_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 75
+.loc ../contracts/CollectionDrop.tsol, 76
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -537,31 +537,31 @@ IF
 CALL $_mintNft_internal_macro$
 
 .macro _mintNft_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 79
+.loc ../contracts/CollectionDrop.tsol, 80
 GETGLOB 24
 THROWIF 101
-.loc ../contracts/CollectionDrop.tsol, 80
+.loc ../contracts/CollectionDrop.tsol, 81
 GETGLOB 22
 DUP
-.loc ../contracts/CollectionDrop.tsol, 81
+.loc ../contracts/CollectionDrop.tsol, 82
 INC
 SETGLOB 22
-.loc ../contracts/CollectionDrop.tsol, 82
+.loc ../contracts/CollectionDrop.tsol, 83
 GETGLOB 12
 INC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/CollectionDrop.tsol, 84
+.loc ../contracts/CollectionDrop.tsol, 85
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_internal_macro$
 }
-.loc ../contracts/CollectionDrop.tsol, 85
+.loc ../contracts/CollectionDrop.tsol, 86
 OVER
 CALLREF {
 	CALL $_buildNftState_internal_macro$
 }
-.loc ../contracts/CollectionDrop.tsol, 86
+.loc ../contracts/CollectionDrop.tsol, 87
 GETGLOB 17
 GETGLOB 16
 GETGLOB 14
@@ -629,7 +629,7 @@ STBREFR
 ENDC
 ROLL 3
 SENDRAWMSG
-.loc ../contracts/CollectionDrop.tsol, 96
+.loc ../contracts/CollectionDrop.tsol, 97
 GETGLOB 9
 PUSH S3
 BLKSWAP 3, 2
@@ -669,7 +669,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 99
+.loc ../contracts/CollectionDrop.tsol, 100
 LDU 32
 GETGLOB 4
 ROT
@@ -732,7 +732,7 @@ IFREF {
 THROW 0
 
 .macro minting_status_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 100
+.loc ../contracts/CollectionDrop.tsol, 101
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -753,7 +753,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 103
+.loc ../contracts/CollectionDrop.tsol, 104
 LDI 1
 ENDS
 .loc ../contracts/CollectionDrop.tsol, 0
@@ -793,7 +793,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 104
+.loc ../contracts/CollectionDrop.tsol, 105
 SETGLOB 24
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -806,7 +806,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 107
+.loc ../contracts/CollectionDrop.tsol, 108
 OVER
 PUSHCONT {
 	LDREF
@@ -849,7 +849,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 108
+.loc ../contracts/CollectionDrop.tsol, 109
 SETGLOB 21
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -862,7 +862,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 111
+.loc ../contracts/CollectionDrop.tsol, 112
 OVER
 PUSHCONT {
 	LDREF
@@ -905,7 +905,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 112
+.loc ../contracts/CollectionDrop.tsol, 113
 SETGLOB 23
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -918,7 +918,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 115
+.loc ../contracts/CollectionDrop.tsol, 116
 OVER
 PUSHCONT {
 	LDREF
@@ -962,9 +962,9 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/CollectionDrop.tsol, 116
-ACCEPT
 .loc ../contracts/CollectionDrop.tsol, 117
+ACCEPT
+.loc ../contracts/CollectionDrop.tsol, 118
 SWAP
 NEWC
 STSLICECONST x62_
@@ -983,7 +983,7 @@ SENDRAWMSG
 CALL $_buildNftState_internal_macro$
 
 .macro _buildNftState_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 124
+.loc ../contracts/CollectionDrop.tsol, 125
 PUSHINT 0
 NEWC
 STU 256
@@ -1019,7 +1019,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 127
+.loc ../contracts/CollectionDrop.tsol, 128
 OVER
 PUSHCONT {
 	LDREF
@@ -1069,11 +1069,11 @@ THROW 0
 CALL $resolveIndexCodeHash_internal_macro$
 
 .macro resolveIndexCodeHash_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 128
+.loc ../contracts/CollectionDrop.tsol, 129
 CALLREF {
 	CALL $_buildIndexCode_internal_macro$
 }
-.loc ../contracts/CollectionDrop.tsol, 129
+.loc ../contracts/CollectionDrop.tsol, 130
 HASHCU
 .loc ../contracts/CollectionDrop.tsol, 0
 
@@ -1086,7 +1086,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/CollectionDrop.tsol, 132
+.loc ../contracts/CollectionDrop.tsol, 133
 OVER
 PUSHCONT {
 	LDREF
@@ -1121,7 +1121,7 @@ CALLREF {
 THROW 0
 
 .macro acceptNftBurn_internal_macro
-.loc ../contracts/CollectionDrop.tsol, 140
+.loc ../contracts/CollectionDrop.tsol, 141
 GETGLOB 9
 PARSEMSGADDR
 INDEX 3
@@ -1139,12 +1139,12 @@ PUSHCONT {
 }
 IF
 THROWIFNOT 100
-.loc ../contracts/CollectionDrop.tsol, 142
+.loc ../contracts/CollectionDrop.tsol, 143
 GETGLOB 12
 DEC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/CollectionDrop.tsol, 143
+.loc ../contracts/CollectionDrop.tsol, 144
 PUSH2 S3, S4
 GETGLOB 9
 PUSH S8
@@ -1168,13 +1168,13 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/CollectionDrop.tsol, 145
+.loc ../contracts/CollectionDrop.tsol, 146
 OVER
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 PUSHCONT {
-	.loc ../contracts/CollectionDrop.tsol, 146
+	.loc ../contracts/CollectionDrop.tsol, 147
 	PUSH3 S0, S2, S3
 	PUSH S7
 	GETGLOB 9
@@ -1214,7 +1214,7 @@ PUSHCONT {
 	STBREFR
 }
 PUSHCONT {
-	.loc ../contracts/CollectionDrop.tsol, 156
+	.loc ../contracts/CollectionDrop.tsol, 157
 	PUSH S2
 	NEWC
 	STSLICECONST x42_

@@ -8,7 +8,6 @@ import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import { buy_nft, get_nft_by_address } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
-import { get_my_listed_tokens } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 
 const NFTPage = ({
@@ -67,11 +66,19 @@ const NFTPage = ({
   };
 
   // buy nft
-  const buyNFT = async (e) => {
+  const buy_NFT_ = async (e) => {
     e.preventDefault();
     set_loading(true);
     try {
-      await buy_nft(venomProvider, slug, nft.price, signer_address);
+      await buy_nft(
+        venomProvider,
+        slug,
+        nft.price,
+        signer_address,
+        "2000000000",
+        "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
+        "250000000"
+      );
       set_loading(false);
       router.reload();
     } catch (error) {
@@ -124,7 +131,6 @@ const NFTPage = ({
   useEffect(() => {
     if (!signer_address) return;
     nft_info();
-    get_my_listed_tokens(venomProvider, signer_address);
   }, [standalone, slug, signer_address]);
 
   useEffect(() => {
@@ -1189,7 +1195,7 @@ const NFTPage = ({
           {/* buy modal  */}
           {buyModal && (
             <div className="afterMintDiv">
-              <form onSubmit={buyNFT} className="modal-dialog max-w-2xl">
+              <form onSubmit={buy_NFT_} className="modal-dialog max-w-2xl">
                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">
