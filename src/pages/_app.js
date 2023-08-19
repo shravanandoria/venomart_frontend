@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 
 // components
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 // sty;es
 import "../styles/globals.css";
@@ -12,12 +12,12 @@ import "../styles/tailwind.css";
 import "../styles/Home.module.css";
 
 //Wallet Connect
-import { initVenomConnect } from "@/utils/wallet_connect";
+import { initVenomConnect } from "../utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "../utils/user_nft";
 
 // mongo imports
-import { check_user } from "@/utils/mongo_api/user/user";
-import { get_collections } from "@/utils/mongo_api/collection/collection";
+import { check_user } from "../utils/mongo_api/user/user";
+import { get_collections } from "../utils/mongo_api/collection/collection";
 
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
