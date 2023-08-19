@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import Collection from "../../../Models/Collection";
 
@@ -9,9 +9,15 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const skip = req.query.skip && /^\d+$/.test(req.query.skip) ? Number(req.query.skip) : 0;
+        const skip =
+          req.query.skip && /^\d+$/.test(req.query.skip)
+            ? Number(req.query.skip)
+            : 0;
 
-        const collections = await Collection.find({}, undefined, { skip, limit: 9 });
+        const collections = await Collection.find({}, undefined, {
+          skip,
+          limit: 9,
+        });
         // const collections = await Collection.find({}).skip(req.query.skip);
         res.status(200).json({ success: true, data: collections });
       } catch (error) {
