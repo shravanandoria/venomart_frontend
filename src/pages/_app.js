@@ -16,13 +16,12 @@ import { initVenomConnect } from "../utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "../utils/user_nft";
 
 // mongo imports
-import { check_user } from "../utils/mongo_api/user/user";
 import { get_collections } from "../utils/mongo_api/collection/collection";
-
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 
 export default function App({ Component, pageProps }) {
+
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
@@ -35,7 +34,7 @@ export default function App({ Component, pageProps }) {
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
-  const MintNFTStatus = true;
+  const MintNFTStatus = false;
   const MintCollectionStatus = false;
 
   // variables
@@ -46,8 +45,7 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
-  const [loading, setLoading] = useState(false);
-  const [collections, set_collections] = useState([]);
+  const [topCollections, setTopCollections] = useState([]);
 
   // custom array of all collabs
   // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
@@ -183,8 +181,7 @@ export default function App({ Component, pageProps }) {
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress:
-        "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
+      CollectionAddress: "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
       customLink: "custom/rave",
       pageName: "rave",
       supply: "3000",
@@ -236,14 +233,6 @@ export default function App({ Component, pageProps }) {
     document.body.removeChild(el);
     alert("Successfully copied the URL!!");
   }
-
-  // fetching all collections
-  const fetch_all_collections = async () => {
-    setLoading(true);
-    const res = await get_collections();
-    set_collections(res);
-    setLoading(false);
-  };
 
   // connect wallet start
   const init = async () => {
@@ -305,6 +294,11 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet end
 
+  const fetchTopCollections = async () => {
+    const topCollections = await get_collections(0);
+    setTopCollections(topCollections);
+  };
+
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
@@ -313,7 +307,7 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-    fetch_all_collections();
+    fetchTopCollections();
   }, []);
 
   useEffect(() => {
@@ -362,14 +356,13 @@ export default function App({ Component, pageProps }) {
         currency={currency}
         webURL={webURL}
         copyURL={copyURL}
-        collections={collections}
-        loading={loading}
         connectWallet={connect_wallet}
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
         adminAccount={adminAccount}
         customLaunchpad={customLaunchpad}
         collabQuests={collabQuests}
+        topCollections={topCollections}
       />
       <Footer
         theme={theme}
