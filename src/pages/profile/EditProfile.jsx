@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Loader from "@/components/Loader";
+import Loader from "../../components/Loader";
 import Head from "next/head";
 import { BsDiscord } from "react-icons/bs";
-import { update_profile } from "@/utils/mongo_api/user/user";
-import { check_user } from "@/utils/mongo_api/user/user";
+import { update_profile } from "../../utils/mongo_api/user/user";
+import { check_user } from "../../utils/mongo_api/user/user";
 import { useStorage } from "@thirdweb-dev/react";
 
 const EditProfile = ({ signer_address, theme }) => {
