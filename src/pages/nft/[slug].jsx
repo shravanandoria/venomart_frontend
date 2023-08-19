@@ -36,6 +36,8 @@ const NFTPage = ({
   const [activity, setActivity] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
+  const [creatorRoyalty, setCreatorRoyalty] = useState(0);
+  const [platformFees, setPlatformFees] = useState(0);
 
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
@@ -46,7 +48,6 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_info = await get_nft_by_address(standalone, slug);
-    console.log(nft_info);
     set_nft_info(nft_info);
     setPageLoading(false);
   };
@@ -225,9 +226,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
                                 : defLogo
                             }
                             height={40}
@@ -431,9 +432,8 @@ const NFTPage = ({
                       onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${
-                          properties && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${properties && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -458,9 +458,8 @@ const NFTPage = ({
                       onClick={switchOffers}
                     >
                       <button
-                        className={`nav-link ${
-                          offers && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${offers && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -485,9 +484,8 @@ const NFTPage = ({
                       onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${
-                          details && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${details && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -512,9 +510,8 @@ const NFTPage = ({
                       onClick={switchActivity}
                     >
                       <button
-                        className={`nav-link ${
-                          activity && "active relative"
-                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${activity && "active relative"
+                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -944,7 +941,8 @@ const NFTPage = ({
                         <input
                           required
                           type="text"
-                          onChange={(e) => set_listing_price(e.target.value)}
+                          onChange={(e) => (set_listing_price(e.target.value), setCreatorRoyalty((5 * e.target.value) / 100),
+                            setPlatformFees((2.5 * e.target.value) / 100))}
                           className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                           placeholder="Enter price"
                         />
@@ -1064,7 +1062,7 @@ const NFTPage = ({
                             />
                           </span>
                           <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                            1.55
+                            {listingPrice}
                           </span>
                         </span>
                         <span className="mb-1 flex items-center whitespace-nowrap">
@@ -1077,7 +1075,7 @@ const NFTPage = ({
                             />
                           </span>
                           <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                            1.55
+                            {creatorRoyalty}
                           </span>
                         </span>
                         <span className="mb-1 flex items-center whitespace-nowrap">
@@ -1090,27 +1088,16 @@ const NFTPage = ({
                             />
                           </span>
                           <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                            1.55
+                            {platformFees}
                           </span>
                         </span>
                         <span className="mb-1 flex items-center whitespace-nowrap">
-                          <span>
-                            <Image
-                              src={venomLogo}
-                              height={100}
-                              width={100}
-                              className="h-4 w-4 mr-2"
-                            />
-                          </span>
-                          <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                            1.55
-                          </span>
                         </span>
                       </div>
                     </div>
                     <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
                       <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
-                        Your profit
+                        Total listing price
                       </span>
                       <div className="ml-auto">
                         <span className="flex items-center whitespace-nowrap">
@@ -1123,7 +1110,7 @@ const NFTPage = ({
                             />
                           </span>
                           <span className="text-green font-medium tracking-tight">
-                            0.00
+                            {(parseFloat(listingPrice) + parseFloat(creatorRoyalty) + parseFloat(platformFees)).toFixed(2)}
                           </span>
                         </span>
                       </div>

@@ -34,7 +34,16 @@ const UserSchema = new mongoose.Schema({
     },
   ],
   launchpad_collections: [String],
-  transactions: [String],
+  listedNFTs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "NFT",
+    },
+  ],
+  transactions: [{
+    type: Schema.Types.ObjectId,
+    ref: "Transaction",
+  }],
 });
 
 module.exports = mongoose.models?.User || mongoose.model("User", UserSchema);

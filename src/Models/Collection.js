@@ -14,6 +14,12 @@ const CollectionSchema = new mongoose.Schema(
     description: String,
     socials: [String],
     isVerified: Boolean,
+    NFTs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "NFT",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -8,11 +8,21 @@ const NFTSchema = new mongoose.Schema(
         },
         ownerAddress: String,
         managerAddress: String,
-        logo: String,
+        imageURL: String,
         title: String,
         description: String,
-        socials: [String],
-        isVerified: Boolean,
+        isListed: Boolean,
+        isLike: String,
+        listingPrice: String,
+        properties: [String],
+        collection: {
+            type: Schema.Types.ObjectId,
+            ref: "Collection",
+        },
+        transactions: [{
+            type: Schema.Types.ObjectId,
+            ref: "Transaction",
+        }],
     },
     { timestamps: true }
 );
