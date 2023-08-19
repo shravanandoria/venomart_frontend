@@ -20,7 +20,7 @@ const DesktopNavbar = () => {
                         className="dropdown-menu group-hover:visible lg:invisible left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2"
                         aria-labelledby="navDropdown-4"
                     >
-                        {/* <li>
+                        <li>
                             <Link
                                 href="/explore/NFTs"
                                 className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -41,7 +41,7 @@ const DesktopNavbar = () => {
                                     All NFTs
                                 </span>
                             </Link>
-                        </li> */}
+                        </li>
 
                         <li>
                             <Link

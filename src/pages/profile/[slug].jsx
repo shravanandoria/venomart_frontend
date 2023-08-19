@@ -467,7 +467,7 @@ const Profile = ({
       {/* fetch owned nfts  */}
       {owned && (
         <section className="relative py-24 pt-20 dark:bg-jacarta-900">
-          <div className="container">
+          <div>
             <div className="tab-content">
               <div
                 className="tab-pane fade show active"
@@ -483,7 +483,7 @@ const Profile = ({
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
+                <div className="flex justify-center align-middle flex-wrap">
                   {currentNFTs?.map((e, index) => {
                     return (
                       <NftCard
@@ -566,7 +566,7 @@ const Profile = ({
       {/* //fetch collections here */}
       {collections && (
         <section className="relative py-24 pt-20 dark:bg-jacarta-900">
-          <div className="container">
+          <div>
             <div className="tab-content">
               <div
                 className="tab-pane fade show active"

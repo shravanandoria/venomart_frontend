@@ -25,7 +25,7 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
 
   const fetch_listed_nfts = async () => {
     const res = await get_listed_tokens(venomProvider);
-    // set_listed_nfts(res);
+    set_listed_nfts(res);
   };
 
   const get_nfts = async () => {
@@ -62,7 +62,7 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
       ) : (
         <div className={`${theme}`}>
           <section className="relative py-24 dark:bg-jacarta-800">
-            <div className="container">
+            <div>
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore NFTs
               </h1>
@@ -71,7 +71,7 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
               </p>
 
               {/* <!-- Filters --> */}
-              <div className="mb-8 flex flex-wrap items-center justify-between">
+              <div className="mb-8 mx-12 flex flex-wrap items-center justify-between">
                 <ul className="flex flex-wrap items-center">
                   <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                     <a
@@ -118,9 +118,9 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
               </div>
 
               <div>
-                <div className="container">
+                <div>
                   {propShow ? (
-                    <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                    <div className="flex justify-center align-middle flex-wrap">
                       {listed_nfts?.map((e, index) => (
                         <NftCard
                           key={index}
@@ -142,7 +142,7 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                     </div>
                   ) : (
                     <>
-                      <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                      <div className="flex justify-center align-middle flex-wrap">
                         {currentNFTs?.map((e, index) => {
                           return (
                             <NftCard

@@ -434,7 +434,7 @@ const Collection = ({
 
           {/* nft section  */}
           <section className="relative py-24 pt-20">
-            <div className="container">
+            <div>
               <div className="tab-content">
                 <div
                   className="tab-pane fade show active"
@@ -442,7 +442,7 @@ const Collection = ({
                   role="tabpanel"
                   aria-labelledby="on-sale-tab"
                 >
-                  <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                  <div className="flex justify-center align-middle flex-wrap">
                     {currentCollectionNFTs?.map((e, index) => {
                       return (
                         <NftCard
