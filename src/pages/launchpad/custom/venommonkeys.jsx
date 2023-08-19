@@ -17,10 +17,10 @@ import {
     AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "@/components/Loader";
-import { create_launchpad_nft } from "@/utils/user_nft";
+import Loader from "../../..//components/Loader";
+import { create_launchpad_nft } from "../../..//utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
-import { has_minted } from "@/utils/user_nft";
+import { has_minted } from "../../..//utils/user_nft";
 
 const venomMonkeys = ({
     blockURL,
