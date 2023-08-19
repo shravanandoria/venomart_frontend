@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import NftCard from "@/components/cards/NftCard";
+import NftCard from "../../components/cards/NftCard";
 import Head from "next/head";
-import Loader from "@/components/Loader";
-import Pagination from "@/components/Pagination";
-import { get_listed_tokens } from "@/utils/user_nft";
-import { loadNFTs_collection } from "@/utils/user_nft";
-import { COLLECTION_ADDRESS } from "@/utils/user_nft";
+import Loader from "../../components/Loader";
+import Pagination from "../../components/Pagination";
+import { get_listed_tokens } from "../../utils/user_nft";
+import { loadNFTs_collection } from "../../utils/user_nft";
+import { COLLECTION_ADDRESS } from "../../utils/user_nft";
 
 const NFTs = ({ theme, venomProvider, standalone }) => {
 
