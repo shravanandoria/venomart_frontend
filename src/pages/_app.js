@@ -136,8 +136,7 @@ export default function App({ Component, pageProps }) {
       Description: "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress:
-        "",
+      CollectionAddress: "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
       customLink: "custom/venommonkeys",
       pageName: "venommonkeys",
       supply: "3000",
