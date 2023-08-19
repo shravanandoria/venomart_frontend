@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "../../../lib/dbConnect";
 import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
