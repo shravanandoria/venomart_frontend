@@ -1,4 +1,4 @@
-import dbConnect from "@/lib/dbConnect";
+import dbConnect from "../../../lib/dbConnect";
 import Launchpad from "../../Models/Launchpad";
 
 export default async function handler(req, res) {
