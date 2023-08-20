@@ -150,7 +150,31 @@ export default function App({ Component, pageProps }) {
       startDate: "08/19/2023 12:00:00 GMT+0530",
       endDate: "08/22/2023 12:00:00 GMT+0530",
       verified: true,
-    }
+    },
+    {
+      id: 4,
+      Cover:
+        "https://ipfs.io/ipfs/QmcTgJzYKLjUAd75NEeEzvLcopJ6kZPHLioYGMGsjUrGL9/ladyback.jpg",
+      Logo: "https://ipfs.io/ipfs/QmYGCp8tKSQsb4a9tqe9VibrtuKT9NDnwnQU51GPeGMSpg/nft.gif",
+      Name: "Venomart x Crypto Lady",
+      Description: "Crypto Lady Building inspiration for the community | 3333 stunning ladies coming to VENOM",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/cryptolady",
+      pageName: "cryptolady",
+      supply: "3000",
+      twitterUserName: "VenomCryptoLady",
+      twitter: "https://twitter.com/VenomCryptoLady",
+      tweetID: "1687875245225701376",
+      discord: "https://discord.com/invite/fN4ssCc9KG",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "08/21/2023 12:00:00 GMT+0530",
+      endDate: "08/24/2023 12:00:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // custom array of all launches
