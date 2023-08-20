@@ -1,78 +1,46 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
-
+// import Collection from
 export default async function handler(req, res) {
-    const { method } = req;
-    await dbConnect();
+  const { method } = req;
+  await dbConnect();
 
-    switch (method) {
-        case "GET":
-            try {
-                const skip =
-                    req.query.skip && /^\d+$/.test(req.query.skip)
-                        ? Number(req.query.skip)
-                        : 0;
+  switch (method) {
+    // GET NFT BY NFT ADDRESS
+    case "GET":
+      try {
+        const { NFTAddress } = req.query;
+        let nft = await NFT.findOne({ NFTAddress });
+        if (!nft)
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This NFT" });
 
-                const collections = await Collection.find({}, undefined, {
-                    skip,
-                    limit: 9,
-                });
-                // const collections = await Collection.find({}).skip(req.query.skip);
-                res.status(200).json({ success: true, data: collections });
-            } catch (error) {
-                res.status(400).json({ success: false });
-            }
-            break;
-        case "POST":
-            try {
-                let collection;
-                const {
-                    contractAddress,
-                    creatorAddress,
-                    coverImage,
-                    logo,
-                    name,
-                    royalty,
-                    description,
-                    socials,
-                    isVerified,
-                } = req.body;
+        res.status(200).json({ success: false, data: nft });
+      } catch (error) {
+        res.status(400).json({ success: false });
+      }
+      break;
 
-                const check_col = await Collection.findOne({ contractAddress });
-                if (check_col)
-                    return res.status(400).json({
-                        success: false,
-                        data: "A collection with this contractAddress already exists",
-                    });
+    //CREATE NEW NFT
+    case "POST":
+      try {
+        let nft = await NFT.findOne({ NFTAddress: req.body.NFTAddress });
+        if (nft)
+          return res
+            .status(400)
+            .json({ success: false, data: "This nft already exists" });
 
-                const owner = await User.findOne({ wallet_id: creatorAddress });
-                if (!owner)
-                    return res
-                        .status(400)
-                        .json({ success: false, data: "cannot find the user" });
+        nft = await NFT.create({ ...req.body });
 
-                collection = await Collection.create({
-                    contractAddress,
-                    creatorAddress,
-                    coverImage,
-                    logo,
-                    name,
-                    royalty,
-                    description,
-                    socials,
-                    isVerified,
-                });
-
-                await owner.nftCollections.push(collection);
-                await owner.save();
-                res.status(200).json({ success: true, data: collection });
-            } catch (error) {
-                res.status(400).json({ success: false, data: error.message });
-            }
-            break;
-        default:
-            res.status(400).json({ success: false });
-            break;
-    }
+        res.status(200).json({ success: true, data: nft });
+      } catch (error) {
+        res.status(400).json({ success: false, data: error.message });
+      }
+      break;
+    default:
+      res.status(400).json({ success: false });
+      break;
+  }
 }

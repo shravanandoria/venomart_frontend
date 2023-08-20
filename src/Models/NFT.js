@@ -1,31 +1,32 @@
 import mongoose from "mongoose";
-
+const { Schema } = mongoose;
 const NFTSchema = new mongoose.Schema(
-    {
-        NFTAddress: {
-            type: String,
-            unique: true,
-        },
-        ownerAddress: String,
-        managerAddress: String,
-        imageURL: String,
-        title: String,
-        description: String,
-        isListed: Boolean,
-        isLike: String,
-        listingPrice: String,
-        properties: [String],
-        collection: {
-            type: Schema.Types.ObjectId,
-            ref: "Collection",
-        },
-        transactions: [{
-            type: Schema.Types.ObjectId,
-            ref: "Transaction",
-        }],
+  {
+    NFTAddress: {
+      type: String,
+      unique: true,
     },
-    { timestamps: true }
+    ownerAddress: String,
+    managerAddress: String,
+    imageURL: String,
+    title: String,
+    description: String,
+    isListed: Boolean,
+    isLike: String,
+    listingPrice: String,
+    properties: [String],
+    NFTCollection: {
+      type: Schema.Types.ObjectId,
+      ref: "Collection",
+    },
+    transactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Transaction",
+      },
+    ],
+  },
+  { timestamps: true }
 );
 
-module.exports =
-    mongoose.models?.NFT || mongoose.model("NFT", NFTSchema);
+module.exports = mongoose.models?.NFT || mongoose.model("NFT", NFTSchema);
