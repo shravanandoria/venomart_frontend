@@ -18,7 +18,6 @@ export default async function handler(req, res) {
           skip,
           limit: 9,
         });
-        // const collections = await Collection.find({}).skip(req.query.skip);
         res.status(200).json({ success: true, data: collections });
       } catch (error) {
         res.status(400).json({ success: false });

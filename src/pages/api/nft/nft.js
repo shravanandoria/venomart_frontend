@@ -1,7 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
-// import Collection from
+
 export default async function handler(req, res) {
   const { method } = req;
   await dbConnect();
@@ -10,14 +10,13 @@ export default async function handler(req, res) {
     // GET NFT BY NFT ADDRESS
     case "GET":
       try {
-        const { page, NFTAddress, ownerAddress, isListed } = req.query;
-        let contentPerPage = 3;
+        const { skipNFTs, NFTAddress, ownerAddress, isListed } = req.query;
+
+        const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
 
         // GET USER'S NFTS
         if (ownerAddress) {
-          let nfts = await NFT.find({ ownerAddress })
-            .skip(page * contentPerPage)
-            .limit(contentPerPage);
+          let nfts = await NFT.find({ ownerAddress });
           return res.status(200).json({ success: false, data: nfts });
         }
 
@@ -34,9 +33,10 @@ export default async function handler(req, res) {
         }
 
         //SEND ALL NFTS
-        let nfts = await NFT.find()
-          .skip(page * contentPerPage)
-          .limit(contentPerPage);
+        let nfts = await NFT.find({}, undefined, {
+          skip,
+          limit: 9,
+        });
         res.status(200).json({ success: false, data: nfts });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
