@@ -316,6 +316,7 @@ const NFTPage = ({
                                       src={venomLogo}
                                       height={100}
                                       width={100}
+                                      alt="venomLogo"
                                       className="h-5 w-5"
                                     />
                                   </span>
@@ -974,7 +975,7 @@ const NFTPage = ({
                     <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                       <div className="mr-5 self-start">
                         <Image
-                          src={nft?.nft_image.replace(
+                          src={onchainNFTData ? nft?.preview?.source : nft?.nft_image?.replace(
                             "ipfs://",
                             "https://ipfs.io/ipfs/"
                           )}
@@ -986,12 +987,12 @@ const NFTPage = ({
                       </div>
                       <div>
                         <Link
-                          href={`/collection/${nft?.NFTCollection?.contractAddress}`}
+                          href={`/collection/${onchainNFTData ? nft?.collection?._address : nft?.NFTCollection?.contractAddress}`}
                           className="text-accent text-sm"
                         >
-                          {nft?.NFTCollection?.contractAddress?.slice(0, 8) +
+                          {(onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
                             "..." +
-                            nft?.NFTCollection?.contractAddress?.slice(60)}
+                            (onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(60))}
                         </Link>
                         <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                           {nft?.name}
@@ -1041,6 +1042,7 @@ const NFTPage = ({
                                   src={venomLogo}
                                   height={100}
                                   width={100}
+                                  alt="venomLogo"
                                   className="h-3 w-3 mr-1 ml-1 mt-1"
                                 />
                                 0.1
@@ -1137,7 +1139,7 @@ const NFTPage = ({
                         required
                       />
                       <label
-                        for="buyNowTerms"
+                        htmlFor="buyNowTerms"
                         className="dark:text-jacarta-200 text-sm"
                       >
                         By checking this box, I agree to{" "}
@@ -1265,6 +1267,7 @@ const NFTPage = ({
                               src={venomLogo}
                               height={100}
                               width={100}
+                              alt="venomLogo"
                               className="h-5 w-5 mr-2"
                             />
                           </span>
@@ -1282,7 +1285,7 @@ const NFTPage = ({
                         required
                       />
                       <label
-                        for="buyNowTerms"
+                        htmlFor="buyNowTerms"
                         className="dark:text-jacarta-200 text-sm"
                       >
                         By checking this box, I agree to{" "}

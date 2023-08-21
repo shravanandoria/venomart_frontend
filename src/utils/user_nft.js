@@ -327,10 +327,11 @@ export const list_nft = async (
   onchainNFTData
 ) => {
 
-  if (onchainNFTData) {
-    const createNFTInDatabase = await create_nft(nft, signer_address, venomProvider);
-    console.log(createNFTInDatabase);
-  }
+  // if (onchainNFTData) {
+  //   console.log("on chain NFT found so inserting it")
+  //   const createNFTInDatabase = await create_nft(nft, signer_address, venomProvider);
+  //   console.log(createNFTInDatabase);
+  // }
 
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
