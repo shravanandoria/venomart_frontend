@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }) {
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
   const MintNFTStatus = true;
-  const MintCollectionStatus = false;
+  const MintCollectionStatus = true;
 
   // variables
   const [theme, setTheme] = useState(defTheme);

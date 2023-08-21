@@ -3,6 +3,7 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
+import { BsChevronDown } from "react-icons/bs";
 
 const Collections = ({ theme }) => {
   const [collections, set_collections] = useState([]);
@@ -67,11 +68,8 @@ const Collections = ({ theme }) => {
                       className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
                       onClick={() => openFilterCategories(!filterCategories)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M14 10v4h-4v-4h4zm2 0h5v4h-5v-4zm-2 11h-4v-5h4v5zm2 0v-5h5v4a1 1 0 0 1-1 1h-4zM14 3v5h-4V3h4zm2 0h4a1 1 0 0 1 1 1v4h-5V3zm-8 7v4H3v-4h5zm0 11H4a1 1 0 0 1-1-1v-4h5v5zM8 3v5H3V4a1 1 0 0 1 1-1h4z"></path>
-                      </svg>
                       <span>All Categories</span>
+                      <BsChevronDown className="h-[15px] w-[15px] ml-4" />
                     </button>
 
                     {filterCategories &&
@@ -145,14 +143,13 @@ const Collections = ({ theme }) => {
                     <form
                       action="search"
                       className="relative ml-12 mr-8 basis-3/12 xl:ml-[8%]"
-                      id="searchInp"
                     >
                       <input
                         type="search"
                         // onFocus={() => set_search_result([])}
                         // onChange={find_nft}
-                        className="w-full rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                        placeholder="search collection"
+                        className="w-[275px] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                        placeholder="search for collections..."
                       />
                       <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                         <svg

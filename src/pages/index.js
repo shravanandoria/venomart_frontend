@@ -97,7 +97,7 @@ export default function Home({ theme, customLaunchpad, topCollections }) {
                     Venom. Get quick and easy access to digital collectibles and
                     explore, buy and sell NFTs
                   </p>
-                  {/* <div className="flex flex-wrap justify-center align-middle space-x-4">
+                  <div className="flex flex-wrap justify-center align-middle space-x-4">
                     <Link
                       href="/explore/NFTs"
                       className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -107,14 +107,6 @@ export default function Home({ theme, customLaunchpad, topCollections }) {
                     <Link
                       href="/explore/Collections"
                       className="w-45 mb-4 rounded-full bg-white py-3 px-8 ml-[-225px] text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                    >
-                      Explore Collections
-                    </Link>
-                  </div> */}
-                  <div className="flex flex-wrap justify-center align-middle space-x-4">
-                    <Link
-                      href="/explore/Collections"
-                      className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Explore Collections
                     </Link>
