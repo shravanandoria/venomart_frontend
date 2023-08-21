@@ -214,7 +214,7 @@ const rave = ({
     }, 2000);
   };
 
-  const get_user_Data = async () => {
+  const get_minted_data = async () => {
     if (!signer_address) return;
     setLoading(true);
     const data = await has_minted(
@@ -227,7 +227,7 @@ const rave = ({
   };
 
   useEffect(() => {
-    get_user_Data();
+    get_minted_data();
   }, [signer_address]);
 
   useEffect(() => {
