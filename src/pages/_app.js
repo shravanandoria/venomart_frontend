@@ -21,7 +21,6 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 
 export default function App({ Component, pageProps }) {
-
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
@@ -134,10 +133,12 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmVhZToKviQLqScMjrvs5Lnuv8n3aX452b6DrbLzi125gk/back.jpg",
       Logo: "https://ipfs.io/ipfs/QmeKs3c2MJ4jrKxYgHSTZjmeBApbPV3ecSqfoTvC2bNVuB/moky.gif",
       Name: "Venomart x Monkeys",
-      Description: "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
+      Description:
+        "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress: "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
+      CollectionAddress:
+        "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
       customLink: "custom/venommonkeys",
       pageName: "venommonkeys",
       supply: "3000",
@@ -151,7 +152,7 @@ export default function App({ Component, pageProps }) {
       startDate: "08/19/2023 12:00:00 GMT+0530",
       endDate: "08/22/2023 12:00:00 GMT+0530",
       verified: true,
-    }
+    },
   ];
 
   // custom array of all launches
@@ -180,7 +181,8 @@ export default function App({ Component, pageProps }) {
         "Introducing An NFT car racing metaverse game on venom | Collect, rave and earn 🏎 | Mint this passport and get access to several features 🚀",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress: "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
+      CollectionAddress:
+        "0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277",
       customLink: "custom/rave",
       pageName: "rave",
       supply: "3000",
@@ -250,6 +252,7 @@ export default function App({ Component, pageProps }) {
   };
 
   const onConnect = async (provider) => {
+    console.log(provider);
     await onProviderReady(provider);
     setVenomProvider(provider);
   };

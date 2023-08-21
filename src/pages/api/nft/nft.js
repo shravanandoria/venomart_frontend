@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     case "GET":
       try {
         const { page, NFTAddress, ownerAddress, isListed } = req.query;
-        let contentPerPage = 20;
+        let contentPerPage = 3;
 
         // GET USER'S NFTS
         if (ownerAddress) {
