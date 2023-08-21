@@ -3,7 +3,6 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { user_info } from "./mongo_api/user/user";
 import { createNFT } from "./mongo_api/nfts/nfts";
 
 import { Subscriber } from "everscale-inpage-provider";

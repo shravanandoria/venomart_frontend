@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const CollectionSchema = new mongoose.Schema(
   {
@@ -14,12 +15,12 @@ const CollectionSchema = new mongoose.Schema(
     description: String,
     socials: [String],
     isVerified: Boolean,
-    // NFTs: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "NFT",
-    //   },
-    // ],
+    activity: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Activity",
+      },
+    ],
   },
   { timestamps: true }
 );

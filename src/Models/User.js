@@ -40,10 +40,12 @@ const UserSchema = new mongoose.Schema({
       ref: "NFT",
     },
   ],
-  transactions: [{
-    type: Schema.Types.ObjectId,
-    ref: "Transaction",
-  }],
+  activity: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Activity",
+    },
+  ],
 });
 
 module.exports = mongoose.models?.User || mongoose.model("User", UserSchema);
