@@ -157,26 +157,11 @@ export const get_nft_by_address = async (provider, nft_address) => {
 
   const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();
 
-  const marketplace_contract = new provider.Contract(
-    marketplaceAbi,
-    MARKETPLACE_ADDRESS
-  );
-
-  const res = await marketplace_contract.methods
-    .get_nft_by_address({
-      answerId: 0,
-      nft_address: new Address(nft_address),
-    })
-    .call();
-
-  console.log(res);
-  // console.log(res)
-
   let nft = {
     ...JSON.parse(nft_json.json),
     ...getNftInfo,
-    isListed: res.value0.currentlyListed,
-    price: res.value0.price,
+    isListed: false,
+    price: "0",
   };
   return nft;
 };
@@ -335,8 +320,16 @@ export const list_nft = async (
   nft_address,
   price,
   venomProvider,
-  signer_address
+  signer_address,
+  nft,
+  onchainNFTData
 ) => {
+
+  if (onchainNFTData) {
+    const createNFTInDatabase = await create_nft(nft, signer_address, venomProvider);
+    console.log(createNFTInDatabase);
+  }
+
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
