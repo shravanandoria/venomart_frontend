@@ -193,10 +193,12 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 export const create_nft = async (data, signer_address, venomProvider) => {
   const subscriber = new Subscriber(venomProvider);
 
-  const contract = new venomProvider.Contract(
-    collectionAbi,
-    COLLECTION_ADDRESS
-  );
+  const contract = new venomProvider.Contract(collectionAbi, COLLECTION_ADDRESS)
+    .events(subscriber)
+    .filter((event) => event.event === "NftCreated")
+    .on(async (e) => {
+      console.log({ e });
+    });
 
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })

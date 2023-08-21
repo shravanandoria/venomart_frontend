@@ -12,10 +12,7 @@ export default async function handler(req, res) {
       try {
         const { skipNFTs, NFTAddress, ownerAddress, isListed } = req.query;
 
-        const skip =
-          skipNFTs && /^\d+$/.test(skipNFTs)
-            ? Number(skipNFTs)
-            : 0;
+        const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
 
         // GET USER'S NFTS
         if (ownerAddress) {
@@ -39,7 +36,7 @@ export default async function handler(req, res) {
         let nfts = await NFT.find({}, undefined, {
           skip,
           limit: 9,
-        });;
+        });
         res.status(200).json({ success: false, data: nfts });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
