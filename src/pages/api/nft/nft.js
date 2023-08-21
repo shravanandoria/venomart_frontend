@@ -1,6 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
+import Collection from "../../../Models/Collection.js";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -56,12 +57,23 @@ export default async function handler(req, res) {
           attributes,
           NFTCollection,
         } = req.body;
+        console.log(NFTCollection);
 
         let nft = await NFT.findOne({ NFTAddress });
         if (nft)
           return res
             .status(400)
             .json({ success: false, data: "This nft already exists" });
+
+        const collection = await Collection.findOne({
+          contractAddress: NFTCollection,
+        });
+
+        if (!collection) {
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This Collection" });
+        }
 
         nft = await NFT.create({
           NFTAddress,
@@ -74,7 +86,7 @@ export default async function handler(req, res) {
           isLike: false,
           listingPrice: 0,
           attributes,
-          NFTCollection,
+          NFTCollection: collection,
           transactions: [],
         });
 

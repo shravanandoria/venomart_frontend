@@ -4,9 +4,9 @@ import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { user_info } from "./mongo_api/user/user";
-import CreateNFT from "../pages/mint/CreateNFT";
-import { Subscriber } from "everscale-inpage-provider";
+import { createNFT } from "./mongo_api/nfts/nfts";
 
+import { Subscriber } from "everscale-inpage-provider";
 import axios from "axios";
 
 const listing_fees = 100000000;
@@ -191,14 +191,29 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
-  const subscriber = new Subscriber(venomProvider);
+  const contract = new venomProvider.Contract(
+    collectionAbi,
+    new Address(COLLECTION_ADDRESS)
+  );
 
-  const contract = new venomProvider.Contract(collectionAbi, COLLECTION_ADDRESS)
-    .events(subscriber)
-    .filter((event) => event.event === "NftCreated")
-    .on(async (e) => {
-      console.log({ e });
-    });
+  const subscriber = new Subscriber(venomProvider);
+  const contractEvents = contract.events(subscriber);
+
+  contractEvents.on((event) => {
+    console.log(event.data.nft._address);
+    let obj = {
+      NFTAddress: event.data.nft._address,
+      ownerAddress: signer_address,
+      managerAddress: signer_address,
+      imageURL: data.image,
+      title: data.title,
+      description: data.description,
+      properties: data.properties,
+      NFTCollection: data.collection,
+    };
+    console.log({ obj });
+    createNFT(obj);
+  });
 
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
@@ -231,7 +246,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       amount: "2000000000",
     });
 
-    // CreateNFT(data);
+    // contractEvents.unsubscribe();
   } catch (error) {
     console.log(error.message);
   }

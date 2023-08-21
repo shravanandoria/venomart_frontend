@@ -252,7 +252,6 @@ export default function App({ Component, pageProps }) {
   };
 
   const onConnect = async (provider) => {
-    console.log(provider);
     await onProviderReady(provider);
     setVenomProvider(provider);
   };

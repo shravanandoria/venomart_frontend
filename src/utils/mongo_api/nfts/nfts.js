@@ -12,6 +12,7 @@ export const fetch_nfts = async (skip) => {
   }
 };
 export const createNFT = async (data) => {
+  console.log(data);
   try {
     const res = await axios({
       url: `/api/nft/nft`,
@@ -21,12 +22,13 @@ export const createNFT = async (data) => {
         ownerAddress: data.ownerAddress,
         managerAddress: data.managerAddress,
         imageURL: data.imageURL,
-        title: data.title,
+        title: data.name,
         description: data.description,
         properties: data.properties,
         NFTCollection: data.NFTCollection,
       },
     });
+    console.log({ res: res.data });
     return res.data.data;
   } catch (error) {
     console.log(error.message);
