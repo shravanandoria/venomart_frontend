@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
     },
   ],
   launchpad_collections: [String],
-  listedNFTs: [
+  NFTs: [
     {
       type: Schema.Types.ObjectId,
       ref: "NFT",
