@@ -10,8 +10,8 @@ export default async function handler(req, res) {
     // GET NFT BY NFT ADDRESS
     case "GET":
       try {
-        const { page, NFTAddress, ownerAddress } = req.query;
-        let contentPerPage = 9;
+        const { page, NFTAddress, ownerAddress, isListed } = req.query;
+        let contentPerPage = 20;
 
         // GET USER'S NFTS
         if (ownerAddress) {
@@ -23,9 +23,7 @@ export default async function handler(req, res) {
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress })
-            .skip(page * contentPerPage)
-            .limit(contentPerPage);
+          let nft = await NFT.findOne({ NFTAddress }).populate("NFTCollection");
 
           if (!nft)
             return res
@@ -52,10 +50,10 @@ export default async function handler(req, res) {
           NFTAddress,
           ownerAddress,
           managerAddress,
-          imageURL,
-          title,
+          nft_image,
+          name,
           description,
-          properties,
+          attributes,
           NFTCollection,
         } = req.body;
 
@@ -69,13 +67,13 @@ export default async function handler(req, res) {
           NFTAddress,
           ownerAddress,
           managerAddress,
-          imageURL,
-          title,
+          nft_image,
+          name,
           description,
           isListed: false,
           isLike: false,
           listingPrice: 0,
-          properties,
+          attributes,
           NFTCollection,
           transactions: [],
         });
@@ -85,6 +83,26 @@ export default async function handler(req, res) {
         res.status(400).json({ success: false, data: error.message });
       }
       break;
+
+    case "PUT":
+      try {
+        const { NFTAddress, price, new_manager } = req.body;
+        let nft = await NFT.findOne({ NFTAddress });
+        if (!nft)
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This NFT" });
+
+        nft.isListed = true;
+        nft.listingPrice = price;
+        nft.managerAddress = new_manager;
+
+        await nft.save();
+
+        res.status(200).json({ success: false, data: nft });
+      } catch (error) {
+        res.status(400).json({ success: false, data: error.message });
+      }
     default:
       res.status(400).json({ success: false });
       break;

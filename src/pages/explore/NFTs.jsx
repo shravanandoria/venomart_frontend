@@ -6,9 +6,9 @@ import Pagination from "../../components/Pagination";
 import { get_listed_tokens } from "../../utils/user_nft";
 import { loadNFTs_collection } from "../../utils/user_nft";
 import { COLLECTION_ADDRESS } from "../../utils/user_nft";
+import { fetch_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const NFTs = ({ theme, venomProvider, standalone }) => {
-
   const [loading, setLoading] = useState(false);
   const [propShow, setPropShow] = useState(false);
 
@@ -22,15 +22,16 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
-
   const fetch_listed_nfts = async () => {
-    const res = await get_listed_tokens(venomProvider);
-    set_listed_nfts(res);
+    // const res = await get_listed_tokens(venomProvider);
+    // set_listed_nfts(res);
   };
 
   const get_nfts = async () => {
     setLoading(true);
-    const res = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
+    const res = await fetch_nfts(0);
+    console.log(res);
+    // const res = await loadNFTs_collection(standalone, COLLECTION_ADDRESS);
     set_nfts(res);
     setLoading(false);
   };
@@ -76,8 +77,9 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                   <li className="my-1 mr-2.5" onClick={() => setPropShow(true)}>
                     <a
                       href="#"
-                      className={`${propShow && "border-transparent bg-accent text-white"
-                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${
+                        propShow && "border-transparent bg-accent text-white"
+                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -98,8 +100,9 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                   >
                     <a
                       href="#"
-                      className={`${!propShow && "border-transparent bg-accent text-white"
-                        } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
+                      className={`${
+                        !propShow && "border-transparent bg-accent text-white"
+                      } group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-500 transition-colors `}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +141,11 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                           chain_symbol={e?.chain_symbol}
                         />
                       ))}
-                      {listed_nfts?.length <= 0 && <h2 className="text-jacarta-700 dark:text-jacarta-200">No Listed NFTs</h2>}
+                      {listed_nfts?.length <= 0 && (
+                        <h2 className="text-jacarta-700 dark:text-jacarta-200">
+                          No Listed NFTs
+                        </h2>
+                      )}
                     </div>
                   ) : (
                     <>
@@ -153,8 +160,8 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                               )}
                               Name={e?.name}
                               Description={e?.description}
-                              Address={e.nftAddress._address}
-                              tokenId={e?.id}
+                              Address={e.NFTAddress}
+                              tokenId={e?._id}
                               chainImgPre={"../"}
                               // listedBool={e?.isListed}
                               chain_image={e?.chain_image}
@@ -162,7 +169,11 @@ const NFTs = ({ theme, venomProvider, standalone }) => {
                             />
                           );
                         })}
-                        {nfts?.length <= 0 && <h2 className="text-jacarta-700 dark:text-jacarta-200">No NFTs Found</h2>}
+                        {nfts?.length <= 0 && (
+                          <h2 className="text-jacarta-700 dark:text-jacarta-200">
+                            No NFTs Found
+                          </h2>
+                        )}
                       </div>
                       <Pagination
                         totalPosts={nfts?.length}

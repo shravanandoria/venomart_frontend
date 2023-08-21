@@ -4,6 +4,8 @@ import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { user_info } from "./mongo_api/user/user";
+import CreateNFT from "../pages/mint/CreateNFT";
+import { Subscriber } from "everscale-inpage-provider";
 
 import axios from "axios";
 
@@ -204,6 +206,8 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
+  const subscriber = new Subscriber(venomProvider);
+
   const contract = new venomProvider.Contract(
     collectionAbi,
     COLLECTION_ADDRESS
@@ -239,6 +243,8 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       from: new Address(signer_address),
       amount: "2000000000",
     });
+
+    // CreateNFT(data);
   } catch (error) {
     console.log(error.message);
   }
