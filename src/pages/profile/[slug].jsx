@@ -37,7 +37,7 @@ const Profile = ({
 
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
   const [nfts, set_nfts] = useState([]);
-  const [lastNFT, setLastNFT] = useState();
+  const [lastNFT, setLastNFT] = useState("");
   const [activityRecords, setActivityRecords] = useState([]);
 
   const getProfileData = async () => {
@@ -45,6 +45,7 @@ const Profile = ({
     if (!standalone && !slug) return;
     // fetching user data
     const data = await user_info(slug);
+    console.log({ data })
     set_user_data(data?.data);
 
     // getting profile nfts
@@ -68,16 +69,23 @@ const Profile = ({
         return false;
       }
     });
-    setLastNFT();
-    console.log({ nfts })
   };
 
   const handleScroll = (e) => {
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      let nftarraylength = nfts.length - 1;
-      let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
-      setLastNFT(lastNFTAddress);
+    if (lastNFT != undefined) {
+      const { offsetHeight, scrollTop, scrollHeight } = e.target;
+      if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+        let nftarraylength = nfts.length - 1;
+        let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
+        console.log({ lastNFTAddress, lastNFT })
+        if (lastNFTAddress === lastNFT && nfts.length >= 42) {
+          setLastNFT(undefined);
+          return;
+        }
+        else {
+          setLastNFT(lastNFTAddress);
+        }
+      }
     }
   };
 

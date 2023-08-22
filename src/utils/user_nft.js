@@ -79,7 +79,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 15,
+    limit: 40,
   });
   return addresses?.accounts;
 };
@@ -204,7 +204,7 @@ export const getAddressesFromIndex = async (
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 15,
+    limit: 40,
   });
   return addresses?.accounts;
 };
@@ -218,6 +218,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
     if (!codeHash) {
       return;
     }
+
     // Fetch all Indexes by hash
     const indexesAddresses = await getAddressesFromIndex(
       provider,
@@ -226,8 +227,8 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
     );
     if (!indexesAddresses || !indexesAddresses.length) {
       if (indexesAddresses && !indexesAddresses.length)
-        setListIsEmpty_user(true);
-      return;
+        // setListIsEmpty_user(true);
+        return;
     }
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, indexesAddresses);
