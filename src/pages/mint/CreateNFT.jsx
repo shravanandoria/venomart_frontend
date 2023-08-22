@@ -66,7 +66,7 @@ const CreateNFT = ({
     let obj = { ...data, image: ipfs_image };
     await create_nft(obj, signer_address, venomProvider);
     set_loading(false);
-    router.push(`/profile/${signer_address}`)
+    // router.push(`/profile/${signer_address}`)
   };
 
   return (
