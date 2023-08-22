@@ -6,7 +6,22 @@ import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import { createNFT } from "./mongo_api/nfts/nfts";
 
 import { Subscriber } from "everscale-inpage-provider";
-import axios from "axios";
+import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
+import { EverscaleStandaloneClient } from "everscale-standalone-client";
+
+const ever = new ProviderRpcClient({
+  fallback: () =>
+    EverscaleStandaloneClient.create({
+      connection: {
+        id: 1000,
+        group: "venom_testnet",
+        type: "jrpc",
+        data: {
+          endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+        },
+      },
+    }),
+});
 
 const listing_fees = 100000000;
 const platform_fees = "2500";
@@ -45,7 +60,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
 // getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
-  const contract = new provider.Contract(collectionAbi, collectionAddress);
+  const contract = new ever.Contract(collectionAbi, collectionAddress);
   const { codeHash } = await contract.methods
     .nftCodeHash({ answerId: 0 })
     .call({ responsible: true });
@@ -54,14 +69,24 @@ export const getNftCodeHash = async (provider, collection_address) => {
 
 // Method, that return NFT's addresses by single query with fetched code hash
 export const getNftAddresses = async (codeHash, provider) => {
-  const addresses = await provider?.getAccountsByCodeHash({
+  const addresses = await ever?.getAccountsByCodeHash({
     codeHash,
+    continuation: "",
+    limit: 10,
   });
+  console.log({ addresses });
   return addresses?.accounts;
 };
 
 // loading all the nft collection nfts
 export const loadNFTs_collection = async (provider, collection_address) => {
+  const contract = new provider.Contract(
+    collectionAbi,
+    new Address(COLLECTION_ADDRESS)
+  );
+
+  const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
+
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
@@ -153,7 +178,6 @@ export const get_nft_by_address = async (provider, nft_address) => {
 
   const nftContract = new provider.Contract(nftAbi, nft_address);
   const nft_json = await nftContract.methods.getJson({ answerId: 0 }).call();
-
   const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();
 
   let nft = {
@@ -328,7 +352,6 @@ export const list_nft = async (
   nft,
   onchainNFTData
 ) => {
-
   // if (onchainNFTData) {
   //   console.log("on chain NFT found so inserting it")
   //   const createNFTInDatabase = await create_nft(nft, signer_address, venomProvider);
