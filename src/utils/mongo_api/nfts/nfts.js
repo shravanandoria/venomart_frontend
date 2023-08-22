@@ -24,7 +24,7 @@ export const createNFT = async (data) => {
         nft_image: data.imageURL,
         name: data.name,
         description: data.description,
-        attributes: "data.properties",
+        attributes: JSON.stringify(data.properties),
         NFTCollection: data.NFTCollection,
       },
     });
