@@ -58,35 +58,34 @@ const Profile = ({
       }
     });
     set_nfts(nfts);
-    console.log(nfts)
     set_loading(false);
   };
 
-  // const scrollFetchNFTs = async () => {
-  //   const res = await loadNFTs_user(standalone, slug);
-  //   let nfts = [];
-  //   res?.map((nft) => {
-  //     try {
-  //       nfts.push({ ...JSON.parse(nft.json), ...nft });
-  //     } catch (error) {
-  //       return false;
-  //     }
-  //   });
-  //   set_nfts(nfts);
-  // };
+  const scrollFetchNFTs = async () => {
+    const res = await loadNFTs_user(standalone, slug, lastNFT);
+    let nfts = [];
+    res?.map((nft) => {
+      try {
+        nfts.push({ ...JSON.parse(nft.json), ...nft });
+      } catch (error) {
+        return false;
+      }
+    });
+    set_nfts(nfts);
+  };
 
-  // const handleScroll = (e) => {
-  //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
-  //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-  //     nftarraylength = nfts.length - 1;
-  //     nfts[nftarraylength]
-  //     setLastNFT();
-  //   }
-  // };
+  const handleScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      let nftarraylength = nfts.length - 1;
+      let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
+      setLastNFT(lastNFTAddress);
+    }
+  };
 
-  // useEffect(() => {
-  //   scrollFetchNFTs();
-  // }, [lastNFT]);
+  useEffect(() => {
+    scrollFetchNFTs();
+  }, [lastNFT]);
 
   const switchToOnSale = async () => {
     setOwned(false);
