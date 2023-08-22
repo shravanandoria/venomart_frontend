@@ -98,7 +98,6 @@ export default async function handler(req, res) {
     case "PUT":
       try {
         const { NFTAddress, isListed, price, new_manager, new_owner } = req.body;
-        console.log({ NFTAddress, isListed, price, new_manager })
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res

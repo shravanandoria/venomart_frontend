@@ -37,14 +37,8 @@ const Profile = ({
 
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
   const [nfts, set_nfts] = useState([]);
+  const [lastNFT, setLastNFT] = useState();
   const [activityRecords, setActivityRecords] = useState([]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(12);
-
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const getProfileData = async () => {
     set_loading(true);
@@ -56,18 +50,43 @@ const Profile = ({
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
     let nfts = [];
-    res?.map((e) => {
+    res?.map((nft) => {
       try {
-        nfts.push({ ...JSON.parse(e.json), ...e });
+        nfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
     set_nfts(nfts);
+    console.log(nfts)
     set_loading(false);
   };
 
-  const sell_nft = async () => { };
+  // const scrollFetchNFTs = async () => {
+  //   const res = await loadNFTs_user(standalone, slug);
+  //   let nfts = [];
+  //   res?.map((nft) => {
+  //     try {
+  //       nfts.push({ ...JSON.parse(nft.json), ...nft });
+  //     } catch (error) {
+  //       return false;
+  //     }
+  //   });
+  //   set_nfts(nfts);
+  // };
+
+  // const handleScroll = (e) => {
+  //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
+  //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+  //     nftarraylength = nfts.length - 1;
+  //     nfts[nftarraylength]
+  //     setLastNFT();
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   scrollFetchNFTs();
+  // }, [lastNFT]);
 
   const switchToOnSale = async () => {
     setOwned(false);
@@ -343,7 +362,7 @@ const Profile = ({
                 <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
               </svg>
               <span className="font-display text-base font-medium">
-                Owned ({nfts?.length ? nfts?.length : "0"})
+                Owned
               </span>
             </button>
           </li>
@@ -453,12 +472,6 @@ const Profile = ({
                   )}
                 </div>
               </div>
-              <Pagination
-                totalPosts={onSaleNFTs?.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
             </div>
           </div>
         </section>
@@ -475,16 +488,8 @@ const Profile = ({
                 role="tabpanel"
                 aria-labelledby="on-sale-tab"
               >
-                {currentNFTs?.length > 0 && (
-                  <div className="flex justify-center mb-[30px] mt-[-90px]">
-                    <h2 className="text-[15px] font-display dark:text-jacarta-200">
-                      Currently only first 50 nfts are fetched here
-                    </h2>
-                  </div>
-                )}
-
                 <div className="flex justify-center align-middle flex-wrap">
-                  {currentNFTs?.map((e, index) => {
+                  {nfts?.map((e, index) => {
                     return (
                       <NftCard
                         key={index}
@@ -501,19 +506,13 @@ const Profile = ({
                 </div>
 
                 <div className="flex justify-center">
-                  {currentNFTs?.length <= 0 && (
+                  {nfts?.length <= 0 && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs to show!
                     </h2>
                   )}
                 </div>
               </div>
-              <Pagination
-                totalPosts={nfts?.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
             </div>
           </div>
         </section>
@@ -694,12 +693,6 @@ const Profile = ({
                   </h2>
                 )}
               </div>
-              <Pagination
-                totalPosts={activityRecords?.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
             </div>
           </div>
         </section>

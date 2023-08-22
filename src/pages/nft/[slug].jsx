@@ -51,7 +51,6 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    console.log(nft_database)
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -103,7 +102,8 @@ const NFTPage = ({
         ((nft.listingPrice * 1000000000).toString()),
         signer_address,
         "2000000000",
-        "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+        "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
+        "25000000"
       );
       set_loading(false);
       // router.reload();

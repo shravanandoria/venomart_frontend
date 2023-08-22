@@ -75,7 +75,6 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
     continuation: undefined || last_nft_addr,
     limit: 15,
   });
-  console.log({ addresses });
   return addresses?.accounts;
 };
 
@@ -266,7 +265,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       properties: data.properties,
       NFTCollection: data.collection,
     };
-    console.log({ obj });
     createNFT(obj);
   });
 
@@ -416,8 +414,6 @@ export const list_nft = async (
       amount: (listing_fees + 1000000000).toString(),
     });
 
-  console.log({ output: output })
-
   if (output) {
     let obj = {
       NFTAddress: nft_address,
@@ -461,9 +457,6 @@ export const cancel_listing = async (
       amount: "100000000",
     });
 
-  console.log({ output: output })
-
-
   if (output) {
     let obj = {
       NFTAddress: nft_address,
@@ -496,19 +489,9 @@ export const buy_nft = async (
   price,
   signer_address,
   royalty,
-  royalty_address
+  royalty_address,
+  _platform_fees
 ) => {
-  console.log({
-    provider,
-    nft_address,
-    prev_nft_Owner,
-    collection_address,
-    salePrice,
-    price,
-    signer_address,
-    royalty,
-    royalty_address
-  })
   const marketplace_contract = new provider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
@@ -530,8 +513,6 @@ export const buy_nft = async (
       from: new Address(signer_address),
       amount: fees,
     });
-
-  console.log({ output: output })
 
   if (output) {
     let obj = {
