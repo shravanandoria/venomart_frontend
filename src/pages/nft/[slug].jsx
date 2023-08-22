@@ -51,7 +51,11 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    set_nft_info(nft_database);
+    let obj = {
+      ...nft_database,
+      attributes: JSON.parse(nft_database.attributes),
+    };
+    set_nft_info({ ...obj });
 
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
@@ -195,9 +199,9 @@ const NFTPage = ({
                       onchainNFTData
                         ? nft?.preview?.source
                         : nft?.nft_image?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )
                     }
                     width={100}
                     height={100}
@@ -212,10 +216,11 @@ const NFTPage = ({
                     {/* <!-- Collection --> */}
                     <div className="flex items-center">
                       <Link
-                        href={`/collection/${onchainNFTData
-                          ? nft?.collection?._address
-                          : nft?.NFTCollection?.contractAddress
-                          }`}
+                        href={`/collection/${
+                          onchainNFTData
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
+                        }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
                         {(onchainNFTData
@@ -252,9 +257,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
                                 : defLogo
                             }
                             height={40}
@@ -285,10 +290,11 @@ const NFTPage = ({
                           Owned by
                         </span>
                         <Link
-                          href={`/profile/${onchainNFTData
-                            ? nft?.owner?._address
-                            : nft?.ownerAddress
-                            }`}
+                          href={`/profile/${
+                            onchainNFTData
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
+                          }`}
                           className="block text-accent"
                         >
                           <span className="text-sm font-bold">
@@ -310,19 +316,19 @@ const NFTPage = ({
                   {(onchainNFTData
                     ? nft?.manager?._address
                     : nft?.managerAddress) == signer_address && (
-                      <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
-                        <button
-                          // onClick={() => alert("Listing is currently disabled!")}
-                          onClick={() => (
-                            setListSale(true), setAnyModalOpen(true)
-                          )}
-                          href="#"
-                          className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                        >
-                          List For Sale
-                        </button>
-                      </div>
-                    )}
+                    <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
+                      <button
+                        // onClick={() => alert("Listing is currently disabled!")}
+                        onClick={() => (
+                          setListSale(true), setAnyModalOpen(true)
+                        )}
+                        href="#"
+                        className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        List For Sale
+                      </button>
+                    </div>
+                  )}
 
                   {/* buy now section  */}
                   {nft?.isListed == true &&
@@ -474,8 +480,9 @@ const NFTPage = ({
                       onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${properties && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          properties && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -500,8 +507,9 @@ const NFTPage = ({
                       onClick={switchOffers}
                     >
                       <button
-                        className={`nav-link ${offers && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          offers && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -526,8 +534,9 @@ const NFTPage = ({
                       onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${details && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          details && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -552,8 +561,9 @@ const NFTPage = ({
                       onClick={switchActivity}
                     >
                       <button
-                        className={`nav-link ${activity && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          activity && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -704,9 +714,10 @@ const NFTPage = ({
                               href={
                                 `${blockURL}` +
                                 `accounts/` +
-                                `${onchainNFTData
-                                  ? nft?.collection?._address
-                                  : nft?.NFTCollection?.contractAddress
+                                `${
+                                  onchainNFTData
+                                    ? nft?.collection?._address
+                                    : nft?.NFTCollection?.contractAddress
                                 }`
                               }
                               target="_blank"
@@ -715,15 +726,15 @@ const NFTPage = ({
                               {(onchainNFTData
                                 ? nft?.collection?._address?.slice(0, 8)
                                 : nft?.NFTCollection?.contractAddress?.slice(
-                                  0,
-                                  8
-                                )) +
+                                    0,
+                                    8
+                                  )) +
                                 "..." +
                                 (onchainNFTData
                                   ? nft?.collection?._address?.slice(0, 8)
                                   : nft?.NFTCollection?.contractAddress?.slice(
-                                    60
-                                  ))}
+                                      60
+                                    ))}
                             </a>
                           </div>
                           <div className="mb-2 flex items-center">
@@ -1031,9 +1042,9 @@ const NFTPage = ({
                             onchainNFTData
                               ? nft?.preview?.source
                               : nft?.nft_image?.replace(
-                                "ipfs://",
-                                "https://ipfs.io/ipfs/"
-                              )
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
                           }
                           alt="nftPreview"
                           width="70"
@@ -1043,18 +1054,19 @@ const NFTPage = ({
                       </div>
                       <div>
                         <Link
-                          href={`/collection/${onchainNFTData
-                            ? nft?.collection?._address
-                            : nft?.NFTCollection?.contractAddress
-                            }`}
+                          href={`/collection/${
+                            onchainNFTData
+                              ? nft?.collection?._address
+                              : nft?.NFTCollection?.contractAddress
+                          }`}
                           className="text-accent text-sm"
                         >
                           {(onchainNFTData
                             ? nft?.collection?._address?.slice(0, 8)
                             : nft?.NFTCollection?.contractAddress?.slice(
-                              0,
-                              8
-                            )) +
+                                0,
+                                8
+                              )) +
                             "..." +
                             (onchainNFTData
                               ? nft?.collection?._address?.slice(0, 8)
