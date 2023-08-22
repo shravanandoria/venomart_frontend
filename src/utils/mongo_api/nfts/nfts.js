@@ -35,6 +35,7 @@ export const createNFT = async (data) => {
 };
 
 export const updateNFT = async (data) => {
+  console.log({ data });
   try {
     const res = await axios({
       url: `/api/nft/nft`,
@@ -42,9 +43,10 @@ export const updateNFT = async (data) => {
       data: {
         NFTAddress: data.NFTAddress,
         price: data.price,
-        new_manager: data.new_manager
+        new_manager: data.new_manager,
       },
     });
+    console.log(res.data);
     return res.data.data;
   } catch (error) {
     console.log(error.message);

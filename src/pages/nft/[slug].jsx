@@ -53,11 +53,10 @@ const NFTPage = ({
     const nft_database = await nftInfo(slug);
     set_nft_info(nft_database);
 
-
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
       setOnchainNFTData(true);
-      console.log(nft_onchain)
+      console.log(nft_onchain);
       set_nft_info(nft_onchain);
     }
     setPageLoading(false);
@@ -68,9 +67,16 @@ const NFTPage = ({
     e.preventDefault();
     set_loading(true);
     try {
-      await list_nft(slug, finalListingPrice, venomProvider, signer_address, nft, onchainNFTData);
+      await list_nft(
+        slug,
+        finalListingPrice,
+        venomProvider,
+        signer_address,
+        nft,
+        onchainNFTData
+      );
       set_loading(false);
-      router.reload();
+      // router.reload();
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -186,10 +192,14 @@ const NFTPage = ({
               <div className="md:flex md:flex-wrap">
                 <div className="relative mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
                   <Image
-                    src={onchainNFTData ? nft?.preview?.source : nft?.nft_image?.replace(
-                      "ipfs://",
-                      "https://ipfs.io/ipfs/"
-                    )}
+                    src={
+                      onchainNFTData
+                        ? nft?.preview?.source
+                        : nft?.nft_image?.replace(
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )
+                    }
                     width={100}
                     height={100}
                     alt="item"
@@ -203,12 +213,20 @@ const NFTPage = ({
                     {/* <!-- Collection --> */}
                     <div className="flex items-center">
                       <Link
-                        href={`/collection/${onchainNFTData ? nft?.collection?._address : nft?.NFTCollection?.contractAddress}`}
+                        href={`/collection/${
+                          onchainNFTData
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
+                        }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
-                        {(onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
+                        {(onchainNFTData
+                          ? nft?.collection?._address?.slice(0, 8)
+                          : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
                           "..." +
-                          (onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(60))}
+                          (onchainNFTData
+                            ? nft?.collection?._address?.slice(0, 8)
+                            : nft?.NFTCollection?.contractAddress?.slice(60))}
                       </Link>
                       <MdVerified
                         style={{ color: "#4f87ff", marginLeft: "-4px" }}
@@ -236,9 +254,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
                                 : defLogo
                             }
                             height={40}
@@ -269,13 +287,21 @@ const NFTPage = ({
                           Owned by
                         </span>
                         <Link
-                          href={`/profile/${onchainNFTData ? nft?.owner?._address : nft?.ownerAddress}`}
+                          href={`/profile/${
+                            onchainNFTData
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
+                          }`}
                           className="block text-accent"
                         >
                           <span className="text-sm font-bold">
-                            {(onchainNFTData ? nft?.owner?._address?.slice(0, 8) : nft?.ownerAddress?.slice(0, 8)) +
+                            {(onchainNFTData
+                              ? nft?.owner?._address?.slice(0, 8)
+                              : nft?.ownerAddress?.slice(0, 8)) +
                               "..." +
-                              (onchainNFTData ? nft?.owner?._address?.slice(0, 8) : nft?.ownerAddress?.slice(60))}
+                              (onchainNFTData
+                                ? nft?.owner?._address?.slice(0, 8)
+                                : nft?.ownerAddress?.slice(60))}
                           </span>
                         </Link>
                       </div>
@@ -284,7 +310,9 @@ const NFTPage = ({
 
                   {/* -------------------------- all action buttons start ------------------------  */}
                   {/* <!-- list nft --> */}
-                  {(onchainNFTData ? nft?.manager?._address : nft?.managerAddress) == signer_address && (
+                  {(onchainNFTData
+                    ? nft?.manager?._address
+                    : nft?.managerAddress) == signer_address && (
                     <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                       <button
                         // onClick={() => alert("Listing is currently disabled!")}
@@ -301,7 +329,9 @@ const NFTPage = ({
 
                   {/* buy now section  */}
                   {nft?.isListed == true &&
-                    (onchainNFTData ? nft?.owner?._address : nft?.ownerAddress) !== signer_address && (
+                    (onchainNFTData
+                      ? nft?.owner?._address
+                      : nft?.ownerAddress) !== signer_address && (
                       <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <div className="mb-8 sm:flex sm:flex-wrap">
                           <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
@@ -376,7 +406,9 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- cancel nft sale --> */}
-                  {(onchainNFTData ? nft?.owner?._address : nft?.ownerAddress) == signer_address &&
+                  {(onchainNFTData
+                    ? nft?.owner?._address
+                    : nft?.ownerAddress) == signer_address &&
                     nft?.isListed == true && (
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         {loading ? (
@@ -415,7 +447,9 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- not listed --> */}
-                  {(onchainNFTData ? nft?.manager?._address : nft?.managerAddress) !== signer_address &&
+                  {(onchainNFTData
+                    ? nft?.manager?._address
+                    : nft?.managerAddress) !== signer_address &&
                     nft?.isListed == false && (
                       <div className="rounded-2lg border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
@@ -443,8 +477,9 @@ const NFTPage = ({
                       onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${properties && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          properties && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -469,8 +504,9 @@ const NFTPage = ({
                       onClick={switchOffers}
                     >
                       <button
-                        className={`nav-link ${offers && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          offers && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -495,8 +531,9 @@ const NFTPage = ({
                       onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${details && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          details && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -521,8 +558,9 @@ const NFTPage = ({
                       onClick={switchActivity}
                     >
                       <button
-                        className={`nav-link ${activity && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          activity && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -673,14 +711,27 @@ const NFTPage = ({
                               href={
                                 `${blockURL}` +
                                 `accounts/` +
-                                `${onchainNFTData ? nft?.collection?._address : nft?.NFTCollection?.contractAddress}`
+                                `${
+                                  onchainNFTData
+                                    ? nft?.collection?._address
+                                    : nft?.NFTCollection?.contractAddress
+                                }`
                               }
                               target="_blank"
                               className="text-accent"
                             >
-                              {(onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
+                              {(onchainNFTData
+                                ? nft?.collection?._address?.slice(0, 8)
+                                : nft?.NFTCollection?.contractAddress?.slice(
+                                    0,
+                                    8
+                                  )) +
                                 "..." +
-                                (onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(60))}
+                                (onchainNFTData
+                                  ? nft?.collection?._address?.slice(0, 8)
+                                  : nft?.NFTCollection?.contractAddress?.slice(
+                                      60
+                                    ))}
                             </a>
                           </div>
                           <div className="mb-2 flex items-center">
@@ -956,7 +1007,13 @@ const NFTPage = ({
                             set_listing_price(e.target.value),
                             setCreatorRoyalty((5 * e.target.value) / 100),
                             setPlatformFees((2.5 * e.target.value) / 100),
-                            setFinalListingPrice((parseFloat(e.target.value) + parseFloat((5 * e.target.value) / 100) + parseFloat((2.5 * e.target.value) / 100)).toFixed(2))
+                            setFinalListingPrice(
+                              (
+                                parseFloat(e.target.value) +
+                                parseFloat((5 * e.target.value) / 100) +
+                                parseFloat((2.5 * e.target.value) / 100)
+                              ).toFixed(2)
+                            )
                           )}
                           className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                           placeholder="Enter price"
@@ -978,10 +1035,14 @@ const NFTPage = ({
                     <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                       <div className="mr-5 self-start">
                         <Image
-                          src={onchainNFTData ? nft?.preview?.source : nft?.nft_image?.replace(
-                            "ipfs://",
-                            "https://ipfs.io/ipfs/"
-                          )}
+                          src={
+                            onchainNFTData
+                              ? nft?.preview?.source
+                              : nft?.nft_image?.replace(
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
+                          }
                           alt="nftPreview"
                           width="70"
                           height="70"
@@ -990,12 +1051,23 @@ const NFTPage = ({
                       </div>
                       <div>
                         <Link
-                          href={`/collection/${onchainNFTData ? nft?.collection?._address : nft?.NFTCollection?.contractAddress}`}
+                          href={`/collection/${
+                            onchainNFTData
+                              ? nft?.collection?._address
+                              : nft?.NFTCollection?.contractAddress
+                          }`}
                           className="text-accent text-sm"
                         >
-                          {(onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
+                          {(onchainNFTData
+                            ? nft?.collection?._address?.slice(0, 8)
+                            : nft?.NFTCollection?.contractAddress?.slice(
+                                0,
+                                8
+                              )) +
                             "..." +
-                            (onchainNFTData ? nft?.collection?._address?.slice(0, 8) : nft?.NFTCollection?.contractAddress?.slice(60))}
+                            (onchainNFTData
+                              ? nft?.collection?._address?.slice(0, 8)
+                              : nft?.NFTCollection?.contractAddress?.slice(60))}
                         </Link>
                         <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                           {nft?.name}

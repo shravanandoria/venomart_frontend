@@ -110,7 +110,7 @@ export default async function handler(req, res) {
 
         await nft.save();
 
-        res.status(200).json({ success: false, data: nft });
+        res.status(200).json({ success: true, data: nft });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }

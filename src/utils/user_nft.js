@@ -222,7 +222,7 @@ export const create_nft_database = async (data, nft_address) => {
     name: data.name,
     description: data.description,
     properties: data.attributes,
-    NFTCollection: data.collection._address
+    NFTCollection: data.collection._address,
   };
   createNFT(obj);
 };
@@ -366,13 +366,12 @@ export const list_nft = async (
   nft,
   onchainNFTData
 ) => {
-
-  // creating nft in database if not exists 
+  // creating nft in database if not exists
   if (onchainNFTData) {
     const createNFTInDatabase = await create_nft_database(nft, nft_address);
   }
 
-  // updating nft data in database after successful listing 
+  // updating nft data in database after successful listing
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
@@ -382,7 +381,6 @@ export const list_nft = async (
   const contractEvents = marketplace_contract.events(subscriber);
 
   contractEvents.on((event) => {
-    console.log(event.data.nft._address);
     let obj = {
       NFTAddress: nft_address,
       price: price,
@@ -391,7 +389,7 @@ export const list_nft = async (
     updateNFT(obj);
   });
 
-  // listing nft on marketplace 
+  // listing nft on marketplace
   const _payload = await marketplace_contract.methods
     .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
     .call();
