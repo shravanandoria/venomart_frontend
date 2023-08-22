@@ -61,7 +61,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
 // getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
-  const contract = new ever.Contract(collectionAbi, collectionAddress);
+  const contract = new provider.Contract(collectionAbi, collectionAddress);
   const { codeHash } = await contract.methods
     .nftCodeHash({ answerId: 0 })
     .call({ responsible: true });
@@ -70,7 +70,7 @@ export const getNftCodeHash = async (provider, collection_address) => {
 
 // Method, that return NFT's addresses by single query with fetched code hash
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
-  const addresses = await ever?.getAccountsByCodeHash({
+  const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 15,
@@ -196,7 +196,7 @@ export const getAddressesFromIndex = async (
   codeHash,
   last_nft_addr
 ) => {
-  const addresses = await ever?.getAccountsByCodeHash({
+  const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 15,
