@@ -57,7 +57,6 @@ export default async function handler(req, res) {
           attributes,
           NFTCollection,
         } = req.body;
-        console.log(NFTCollection);
 
         let nft = await NFT.findOne({ NFTAddress });
         if (nft)

@@ -38,6 +38,7 @@ const NFTPage = ({
   const [activity, setActivity] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
+  const [finalListingPrice, setFinalListingPrice] = useState(0);
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
   const [platformFees, setPlatformFees] = useState(0);
 
@@ -56,6 +57,7 @@ const NFTPage = ({
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
       setOnchainNFTData(true);
+      console.log(nft_onchain)
       set_nft_info(nft_onchain);
     }
     setPageLoading(false);
@@ -66,7 +68,7 @@ const NFTPage = ({
     e.preventDefault();
     set_loading(true);
     try {
-      await list_nft(slug, listingPrice, venomProvider, signer_address, nft, onchainNFTData);
+      await list_nft(slug, finalListingPrice, venomProvider, signer_address, nft, onchainNFTData);
       set_loading(false);
       router.reload();
     } catch (error) {
@@ -953,7 +955,8 @@ const NFTPage = ({
                           onChange={(e) => (
                             set_listing_price(e.target.value),
                             setCreatorRoyalty((5 * e.target.value) / 100),
-                            setPlatformFees((2.5 * e.target.value) / 100)
+                            setPlatformFees((2.5 * e.target.value) / 100),
+                            setFinalListingPrice((parseFloat(e.target.value) + parseFloat((5 * e.target.value) / 100) + parseFloat((2.5 * e.target.value) / 100)).toFixed(2))
                           )}
                           className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                           placeholder="Enter price"
@@ -1122,11 +1125,7 @@ const NFTPage = ({
                             />
                           </span>
                           <span className="text-green font-medium tracking-tight">
-                            {(
-                              parseFloat(listingPrice) +
-                              parseFloat(creatorRoyalty) +
-                              parseFloat(platformFees)
-                            ).toFixed(2)}
+                            {finalListingPrice}
                           </span>
                         </span>
                       </div>

@@ -3,7 +3,7 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { createNFT } from "./mongo_api/nfts/nfts";
+import { createNFT, updateNFT } from "./mongo_api/nfts/nfts";
 
 import { Subscriber } from "everscale-inpage-provider";
 import axios from "axios";
@@ -189,10 +189,24 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
   }
 };
 
+export const create_nft_database = async (data, nft_address) => {
+  let obj = {
+    NFTAddress: nft_address,
+    ownerAddress: data.owner._address,
+    managerAddress: data.manager._address,
+    imageURL: data.preview.source,
+    name: data.name,
+    description: data.description,
+    properties: data.attributes,
+    NFTCollection: data.collection._address
+  };
+  createNFT(obj);
+};
+
 export const create_nft = async (data, signer_address, venomProvider) => {
   const contract = new venomProvider.Contract(
     collectionAbi,
-    new Address(COLLECTION_ADDRESS)
+    new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
   );
 
   const subscriber = new Subscriber(venomProvider);
@@ -329,17 +343,31 @@ export const list_nft = async (
   onchainNFTData
 ) => {
 
-  // if (onchainNFTData) {
-  //   console.log("on chain NFT found so inserting it")
-  //   const createNFTInDatabase = await create_nft(nft, signer_address, venomProvider);
-  //   console.log(createNFTInDatabase);
-  // }
+  // creating nft in database if not exists 
+  if (onchainNFTData) {
+    const createNFTInDatabase = await create_nft_database(nft, nft_address);
+  }
 
+  // updating nft data in database after successful listing 
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
   );
 
+  const subscriber = new Subscriber(venomProvider);
+  const contractEvents = marketplace_contract.events(subscriber);
+
+  contractEvents.on((event) => {
+    console.log(event.data.nft._address);
+    let obj = {
+      NFTAddress: nft_address,
+      price: price,
+      new_manager: MARKETPLACE_ADDRESS,
+    };
+    updateNFT(obj);
+  });
+
+  // listing nft on marketplace 
   const _payload = await marketplace_contract.methods
     .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
     .call();
@@ -365,7 +393,6 @@ export const list_nft = async (
   const res = await marketplace_contract.methods
     .getAllNFTs({ answerId: 0 })
     .call();
-  console.log({ res });
 };
 
 export const cancel_listing = async (
