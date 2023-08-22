@@ -58,6 +58,7 @@ const Profile = ({
       }
     });
     set_nfts(nfts);
+    console.log(nfts)
     set_loading(false);
   };
 
@@ -71,7 +72,8 @@ const Profile = ({
         return false;
       }
     });
-    set_nfts({ ...nfts, scrollNfts });
+    // set_nfts({ ...nfts, scrollNfts });
+    console.log(nfts)
   };
 
   const handleScroll = (e) => {
