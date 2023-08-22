@@ -420,6 +420,9 @@ export const list_nft = async (
       amount: (listing_fees + 1000000000).toString(),
     });
 
+  console.log({ output })
+
+
   if (output) {
     let obj = {
       NFTAddress: nft_address,
@@ -462,6 +465,8 @@ export const cancel_listing = async (
       from: new Address(signer_address),
       amount: "100000000",
     });
+
+  console.log({ output })
 
   if (output) {
     let obj = {

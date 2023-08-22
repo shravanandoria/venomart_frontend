@@ -99,7 +99,7 @@ const NFTPage = ({
         nft?.ownerAddress,
         nft?.NFTCollection?.contractAddress,
         nft.listingPrice,
-        ((1 * 1000000000).toString()),
+        ((nft.listingPrice * 1000000000).toString()),
         signer_address,
         "2000000000",
         "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
