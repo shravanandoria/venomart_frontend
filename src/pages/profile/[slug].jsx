@@ -63,15 +63,15 @@ const Profile = ({
 
   const scrollFetchNFTs = async () => {
     const res = await loadNFTs_user(standalone, slug, lastNFT);
-    let nfts = [];
+    let scrollNfts = [];
     res?.map((nft) => {
       try {
-        nfts.push({ ...JSON.parse(nft.json), ...nft });
+        scrollNfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
-    set_nfts(nfts);
+    set_nfts({ ...nfts, scrollNfts });
   };
 
   const handleScroll = (e) => {
