@@ -3,7 +3,8 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { createNFT, updateNFT } from "./mongo_api/nfts/nfts";
+import { createNFT, updateNFTListing, cancelNFTListing, updateNFTsale } from "./mongo_api/nfts/nfts";
+import { addActivity } from "./mongo_api/activity/activity";
 
 import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
@@ -360,36 +361,22 @@ export const create_launchpad_nft = async (
 
 export const list_nft = async (
   nft_address,
+  collection_address,
   price,
   venomProvider,
   signer_address,
   nft,
   onchainNFTData
 ) => {
-  // creating nft in database if not exists
   if (onchainNFTData) {
     const createNFTInDatabase = await create_nft_database(nft, nft_address);
   }
 
-  // updating nft data in database after successful listing
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
     MARKETPLACE_ADDRESS
   );
 
-  const subscriber = new Subscriber(venomProvider);
-  const contractEvents = marketplace_contract.events(subscriber);
-
-  contractEvents.on((event) => {
-    let obj = {
-      NFTAddress: nft_address,
-      price: price,
-      new_manager: MARKETPLACE_ADDRESS,
-    };
-    updateNFT(obj);
-  });
-
-  // listing nft on marketplace
   const _payload = await marketplace_contract.methods
     .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
     .call();
@@ -412,13 +399,34 @@ export const list_nft = async (
       amount: (listing_fees + 1000000000).toString(),
     });
 
-  const res = await marketplace_contract.methods
-    .getAllNFTs({ answerId: 0 })
-    .call();
+  console.log({ output: output })
+
+  if (output) {
+    let obj = {
+      NFTAddress: nft_address,
+      isListed: true,
+      price: price,
+      new_manager: MARKETPLACE_ADDRESS
+    };
+    await updateNFTListing(obj);
+
+    let activityOBJ = {
+      hash: output.id.hash,
+      from: signer_address,
+      to: MARKETPLACE_ADDRESS,
+      price: price,
+      type: "list",
+      wallet_id: signer_address,
+      nft_address: nft_address,
+      collection_address: collection_address,
+    };
+    await addActivity(activityOBJ);
+  }
 };
 
 export const cancel_listing = async (
   nft_address,
+  collection_address,
   venomProvider,
   signer_address
 ) => {
@@ -436,14 +444,103 @@ export const cancel_listing = async (
       amount: "100000000",
     });
 
-  console.log(output);
+  console.log({ output: output })
 
-  const res2 = await marketplace_contract.methods
-    .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
-    .call();
-  console.log({ res2 });
+
+  if (output) {
+    let obj = {
+      NFTAddress: nft_address,
+      isListed: false,
+      price: "0",
+      new_manager: signer_address,
+    };
+    await cancelNFTListing(obj);
+
+    let activityOBJ = {
+      hash: output.id.hash,
+      from: MARKETPLACE_ADDRESS,
+      to: signer_address,
+      price: "0",
+      type: "cancel",
+      wallet_id: signer_address,
+      nft_address: nft_address,
+      collection_address: collection_address,
+    };
+    await addActivity(activityOBJ);
+  }
 };
 
+export const buy_nft = async (
+  provider,
+  nft_address,
+  prev_nft_Owner,
+  collection_address,
+  salePrice,
+  price,
+  signer_address,
+  royalty,
+  royalty_address
+) => {
+  console.log({
+    provider,
+    nft_address,
+    prev_nft_Owner,
+    collection_address,
+    salePrice,
+    price,
+    signer_address,
+    royalty,
+    royalty_address
+  })
+  const marketplace_contract = new provider.Contract(
+    marketplaceAbi,
+    MARKETPLACE_ADDRESS
+  );
+
+  const fees = (
+    parseInt(price) +
+    1000000000
+  ).toString();
+
+  const output = await marketplace_contract.methods
+    .buyNft({
+      sendRemainingGasTo: new Address(MARKETPLACE_ADDRESS),
+      nft_address: new Address(nft_address),
+      royalty: royalty,
+      royalty_address: new Address(royalty_address),
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: fees,
+    });
+
+  console.log({ output: output })
+
+  if (output) {
+    let obj = {
+      NFTAddress: nft_address,
+      isListed: false,
+      price: "0",
+      new_owner: signer_address,
+      new_manager: signer_address,
+    };
+    await updateNFTsale(obj);
+
+    let activityOBJ = {
+      hash: output.id.hash,
+      from: prev_nft_Owner,
+      to: signer_address,
+      price: salePrice,
+      type: "sale",
+      wallet_id: signer_address,
+      nft_address: nft_address,
+      collection_address: collection_address,
+    };
+    await addActivity(activityOBJ);
+  }
+};
+
+// getting all listed tokens on marketplace 
 export const get_listed_tokens = async (venomProvider) => {
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
@@ -474,57 +571,3 @@ export const get_listed_tokens = async (venomProvider) => {
   return nfts;
 };
 
-export const buy_nft = async (
-  provider,
-  nft_address,
-  price,
-  signer_address,
-  royalty,
-  royalty_address,
-  _platform_fees
-) => {
-  const marketplace_contract = new provider.Contract(
-    marketplaceAbi,
-    MARKETPLACE_ADDRESS
-  );
-
-  const fees = (
-    parseInt(price) +
-    parseInt(royalty) +
-    parseInt(_platform_fees) +
-    1000000000
-  ).toString();
-
-  console.log({ fees });
-
-  const res = await marketplace_contract.methods
-    .buyNft({
-      sendRemainingGasTo: new Address(MARKETPLACE_ADDRESS),
-      nft_address: new Address(nft_address),
-      royalty: royalty,
-      royalty_address: new Address(royalty_address),
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: fees,
-    });
-
-  // const res2 = await marketplace_contract.methods
-  //   .get_nft_by_address({ answerId: 0, nft_address: new Address(nft_address) })
-  //   .call();
-  // console.log({ res2 });
-};
-
-// export const get_my_listed_tokens = async (provider, signer_address) => {
-//   console.log(signer_address);
-//   const marketplace_contract = new provider.Contract(
-//     marketplaceAbi,
-//     MARKETPLACE_ADDRESS
-//   );
-
-//   const res2 = await marketplace_contract.methods
-//     .getMyNFTs({ answerId: 0, user_address: new Address(signer_address) })
-//     .call({ from: new Address(signer_address) });
-
-//   console.log(res2);
-// };

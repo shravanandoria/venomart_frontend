@@ -34,19 +34,56 @@ export const createNFT = async (data) => {
   }
 };
 
-export const updateNFT = async (data) => {
-  console.log({ data });
+export const updateNFTListing = async (data) => {
   try {
     const res = await axios({
       url: `/api/nft/nft`,
       method: "PUT",
       data: {
         NFTAddress: data.NFTAddress,
+        isListed: data.isListed,
+        price: data.price,
+        new_manager: data.new_manager
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const cancelNFTListing = async (data) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "PUT",
+      data: {
+        NFTAddress: data.NFTAddress,
+        isListed: data.isListed,
         price: data.price,
         new_manager: data.new_manager,
       },
     });
-    console.log(res.data);
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+export const updateNFTsale = async (data) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "PUT",
+      data: {
+        NFTAddress: data.NFTAddress,
+        isListed: data.isListed,
+        price: data.price,
+        new_owner: data.new_owner,
+        new_manager: data.new_manager,
+      },
+    });
     return res.data.data;
   } catch (error) {
     console.log(error.message);

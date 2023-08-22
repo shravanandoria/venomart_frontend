@@ -86,7 +86,7 @@ export default async function handler(req, res) {
           listingPrice: 0,
           attributes,
           NFTCollection: collection,
-          transactions: [],
+          activity: [],
         });
 
         res.status(200).json({ success: true, data: nft });
@@ -97,16 +97,20 @@ export default async function handler(req, res) {
 
     case "PUT":
       try {
-        const { NFTAddress, price, new_manager } = req.body;
+        const { NFTAddress, isListed, price, new_manager, new_owner } = req.body;
+        console.log({ NFTAddress, isListed, price, new_manager })
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res
             .status(400)
             .json({ success: false, data: "Cannot Find This NFT" });
 
-        nft.isListed = true;
+        nft.isListed = isListed;
         nft.listingPrice = price;
         nft.managerAddress = new_manager;
+        if (new_owner) {
+          nft.ownerAddress = new_owner;
+        }
 
         await nft.save();
 
