@@ -478,7 +478,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900">
+        <section className="relative py-24 pt-20 dark:bg-jacarta-900 scroll-list" onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div
@@ -516,50 +516,6 @@ const Profile = ({
           </div>
         </section>
       )}
-      {/* {owned && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900">
-          <div className="container">
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="on-sale"
-                role="tabpanel"
-                aria-labelledby="on-sale-tab"
-              >
-                <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
-                  {currentNFTs?.map((e, index) => {
-                    return (
-                      <NftCard
-                        key={index}
-                        ImageSrc={e?.preview?.source?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )}
-                        Name={e?.name}
-                        Description={e?.description}
-                        Address={e.nft._address}
-                      />
-                    );
-                  })}
-                </div>
-                <div className="flex justify-center">
-                  {currentNFTs?.length <= 0 && (
-                    <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
-                      No NFTs to show!
-                    </h2>
-                  )}
-                </div>
-              </div>
-              <Pagination
-                totalPosts={nfts?.length}
-                postsPerPage={postsPerPage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-              />
-            </div>
-          </div>
-        </section>
-      )} */}
 
       {/* //fetch collections here */}
       {collections && (
