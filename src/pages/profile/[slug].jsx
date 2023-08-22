@@ -49,31 +49,27 @@ const Profile = ({
 
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
-    let Defnfts = [];
     res?.map((nft) => {
       try {
-        Defnfts.push({ ...JSON.parse(nft.json), ...nft });
+        nfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
-    // set_nfts({ ...nfts, Defnfts });
-    console.log({ Defnfts })
     set_loading(false);
   };
 
   const scrollFetchNFTs = async () => {
     const res = await loadNFTs_user(standalone, slug, lastNFT);
-    let scrollNfts = [];
     res?.map((nft) => {
       try {
-        scrollNfts.push({ ...JSON.parse(nft.json), ...nft });
+        nfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
-    // set_nfts({ ...nfts, scrollNfts });
-    console.log({ scrollNfts })
+    setLastNFT();
+    console.log({ nfts })
   };
 
   const handleScroll = (e) => {

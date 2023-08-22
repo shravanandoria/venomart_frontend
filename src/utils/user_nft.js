@@ -261,6 +261,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const contractEvents = contract.events(subscriber);
 
   contractEvents.on((event) => {
+    console.log({ event });
     let obj = {
       NFTAddress: event.data.nft._address,
       ownerAddress: signer_address,
@@ -516,6 +517,8 @@ export const buy_nft = async (
       from: new Address(signer_address),
       amount: fees,
     });
+
+  console.log({ output });
 
   if (output) {
     let obj = {
