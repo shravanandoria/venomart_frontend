@@ -11,8 +11,8 @@ export const fetch_nfts = async (skip) => {
     console.log(error.message);
   }
 };
+
 export const createNFT = async (data) => {
-  console.log(data);
   try {
     const res = await axios({
       url: `/api/nft/nft`,
@@ -21,14 +21,30 @@ export const createNFT = async (data) => {
         NFTAddress: data.NFTAddress,
         ownerAddress: data.ownerAddress,
         managerAddress: data.managerAddress,
-        imageURL: data.imageURL,
-        title: data.name,
+        nft_image: data.imageURL,
+        name: data.name,
         description: data.description,
-        properties: data.properties,
+        attributes: "data.properties",
         NFTCollection: data.NFTCollection,
       },
     });
-    console.log({ res: res.data });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const updateNFT = async (data) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "PUT",
+      data: {
+        NFTAddress: data.NFTAddress,
+        price: data.price,
+        new_manager: data.new_manager
+      },
+    });
     return res.data.data;
   } catch (error) {
     console.log(error.message);
