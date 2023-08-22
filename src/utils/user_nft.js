@@ -517,6 +517,8 @@ export const buy_nft = async (
       amount: fees,
     });
 
+  console.log({ output })
+
   if (output) {
     let obj = {
       NFTAddress: nft_address,
