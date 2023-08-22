@@ -37,7 +37,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:69b2f8778a74b744ddb6e463f9dfed624540bf0b01cc42f86a325ef9ee2e142c";
+  "0:30cc7be3f97e69f902e312a1aa90ee291292ef54f0c81a34cf90d94ba2185697";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
