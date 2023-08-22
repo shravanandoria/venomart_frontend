@@ -1,0 +1,85 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"codeIndex","type":"cell"},
+				{"name":"codeIndexBasis","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "indexCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"collection","type":"address"},
+				{"name":"owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"indexCode","type":"cell"}
+			]
+		},
+		{
+			"name": "indexCodeWithoutSalt",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"indexCode","type":"cell"}
+			]
+		},
+		{
+			"name": "indexCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"collection","type":"address"},
+				{"name":"owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"indexCodeHash","type":"uint256"}
+			]
+		},
+		{
+			"name": "indexCodeHashWithoutSalt",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"indexCodeHash","type":"uint256"}
+			]
+		},
+		{
+			"name": "indexBasisCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"indexBasisCodeHash","type":"uint256"}
+			]
+		},
+		{
+			"name": "indexBasisCodeHashWithoutSalt",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"indexBasisCodeHash","type":"uint256"}
+			]
+		}
+	],
+	"data": [
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_codeIndex","type":"cell"},
+		{"name":"_codeIndexBasis","type":"cell"}
+	]
+}
