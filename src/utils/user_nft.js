@@ -68,18 +68,22 @@ export const getNftCodeHash = async (provider, collection_address) => {
 };
 
 // Method, that return NFT's addresses by single query with fetched code hash
-export const getNftAddresses = async (codeHash, provider) => {
+export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await ever?.getAccountsByCodeHash({
     codeHash,
-    continuation: "",
-    limit: 10,
+    continuation: undefined || last_nft_addr,
+    limit: 15,
   });
   console.log({ addresses });
   return addresses?.accounts;
 };
 
 // loading all the nft collection nfts
-export const loadNFTs_collection = async (provider, collection_address) => {
+export const loadNFTs_collection = async (
+  provider,
+  collection_address,
+  last_nft_addr
+) => {
   const contract = new provider.Contract(
     collectionAbi,
     new Address(COLLECTION_ADDRESS)
@@ -93,7 +97,11 @@ export const loadNFTs_collection = async (provider, collection_address) => {
       return;
     }
 
-    const nftAddresses = await getNftAddresses(nftCodeHash, provider);
+    const nftAddresses = await getNftAddresses(
+      nftCodeHash,
+      provider,
+      last_nft_addr
+    );
     if (!nftAddresses || !nftAddresses.length) {
       if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
       return;
@@ -140,14 +148,6 @@ export const saltCode = async (provider, ownerAddress) => {
   return saltedCode;
 };
 
-// Method, that return Index'es addresses by single query with fetched code hash
-export const getAddressesFromIndex = async (standaloneProvider, codeHash) => {
-  const addresses = await standaloneProvider?.getAccountsByCodeHash({
-    codeHash,
-  });
-  return addresses?.accounts;
-};
-
 export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nfts = [];
   const nftAddresses = await Promise.all(
@@ -189,7 +189,21 @@ export const get_nft_by_address = async (provider, nft_address) => {
   return nft;
 };
 
-export const loadNFTs_user = async (provider, ownerAddress) => {
+// Method, that return Index'es addresses by single query with fetched code hash
+export const getAddressesFromIndex = async (
+  standaloneProvider,
+  codeHash,
+  last_nft_addr
+) => {
+  const addresses = await ever?.getAccountsByCodeHash({
+    codeHash,
+    continuation: undefined || last_nft_addr,
+    limit: 15,
+  });
+  return addresses?.accounts;
+};
+
+export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
@@ -199,7 +213,11 @@ export const loadNFTs_user = async (provider, ownerAddress) => {
       return;
     }
     // Fetch all Indexes by hash
-    const indexesAddresses = await getAddressesFromIndex(provider, codeHash);
+    const indexesAddresses = await getAddressesFromIndex(
+      provider,
+      codeHash,
+      last_nft_addr
+    );
     if (!indexesAddresses || !indexesAddresses.length) {
       if (indexesAddresses && !indexesAddresses.length)
         setListIsEmpty_user(true);
@@ -237,7 +255,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const contractEvents = contract.events(subscriber);
 
   contractEvents.on((event) => {
-    console.log(event.data.nft._address);
     let obj = {
       NFTAddress: event.data.nft._address,
       ownerAddress: signer_address,
