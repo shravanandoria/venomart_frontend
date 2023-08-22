@@ -3,26 +3,31 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { createNFT, updateNFTListing, cancelNFTListing, updateNFTsale } from "./mongo_api/nfts/nfts";
+import {
+  createNFT,
+  updateNFTListing,
+  cancelNFTListing,
+  updateNFTsale,
+} from "./mongo_api/nfts/nfts";
 import { addActivity } from "./mongo_api/activity/activity";
 
 import { Subscriber } from "everscale-inpage-provider";
-import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
-import { EverscaleStandaloneClient } from "everscale-standalone-client";
+// import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
+// import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
-const ever = new ProviderRpcClient({
-  fallback: () =>
-    EverscaleStandaloneClient.create({
-      connection: {
-        id: 1000,
-        group: "venom_testnet",
-        type: "jrpc",
-        data: {
-          endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-        },
-      },
-    }),
-});
+// const ever = new ProviderRpcClient({
+//   fallback: () =>
+//     EverscaleStandaloneClient.create({
+//       connection: {
+//         id: 1000,
+//         group: "venom_testnet",
+//         type: "jrpc",
+//         data: {
+//           endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+//         },
+//       },
+//     }),
+// });
 
 const listing_fees = 100000000;
 const platform_fees = "2500";
@@ -61,7 +66,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
 // getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
-  const contract = new ever.Contract(collectionAbi, collectionAddress);
+  const contract = new provider.Contract(collectionAbi, collectionAddress);
   const { codeHash } = await contract.methods
     .nftCodeHash({ answerId: 0 })
     .call({ responsible: true });
@@ -70,7 +75,7 @@ export const getNftCodeHash = async (provider, collection_address) => {
 
 // Method, that return NFT's addresses by single query with fetched code hash
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
-  const addresses = await ever?.getAccountsByCodeHash({
+  const addresses = await provider?.getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 15,
@@ -195,7 +200,7 @@ export const getAddressesFromIndex = async (
   codeHash,
   last_nft_addr
 ) => {
-  const addresses = await ever?.getAccountsByCodeHash({
+  const addresses = await standaloneProvider?.getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 15,
@@ -419,7 +424,7 @@ export const list_nft = async (
       NFTAddress: nft_address,
       isListed: true,
       price: price,
-      new_manager: MARKETPLACE_ADDRESS
+      new_manager: MARKETPLACE_ADDRESS,
     };
     await updateNFTListing(obj);
 
@@ -497,10 +502,7 @@ export const buy_nft = async (
     MARKETPLACE_ADDRESS
   );
 
-  const fees = (
-    parseInt(price) +
-    1000000000
-  ).toString();
+  const fees = (parseInt(price) + 1000000000).toString();
 
   const output = await marketplace_contract.methods
     .buyNft({
@@ -538,7 +540,7 @@ export const buy_nft = async (
   }
 };
 
-// getting all listed tokens on marketplace 
+// getting all listed tokens on marketplace
 export const get_listed_tokens = async (venomProvider) => {
   const marketplace_contract = new venomProvider.Contract(
     marketplaceAbi,
@@ -568,4 +570,3 @@ export const get_listed_tokens = async (venomProvider) => {
 
   return nfts;
 };
-
