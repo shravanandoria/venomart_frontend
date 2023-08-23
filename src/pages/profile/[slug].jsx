@@ -45,8 +45,9 @@ const Profile = ({
     if (!standalone && !slug) return;
     // fetching user data
     const data = await user_info(slug);
-    console.log({ data })
+    console.log({ data: data?.data })
     set_user_data(data?.data);
+    setActivityRecords(data?.data?.activity);
 
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
@@ -484,7 +485,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900 scroll-list" onScroll={handleScroll}>
+        <section className={`relative py-24 pt-20 dark:bg-jacarta-900 scroll-list`} onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div
