@@ -416,7 +416,7 @@ export const list_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(

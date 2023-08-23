@@ -68,6 +68,7 @@ export default async function handler(req, res) {
         nft.activity.push(activity);
         await nft.save();
         user.activity.push(activity);
+        user.NFTs.push(nft);
         await user.save();
         collection.activity.push(activity);
         await collection.save();

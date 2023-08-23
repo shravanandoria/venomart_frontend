@@ -8,7 +8,6 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import Pagination from "../../components/Pagination";
 import { loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { user_info } from "../../utils/mongo_api/user/user";
@@ -35,9 +34,13 @@ const Profile = ({
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
 
-  const [onSaleNFTs, setOnSaleNFTs] = useState([]);
-  const [nfts, set_nfts] = useState([]);
   const [lastNFT, setLastNFT] = useState("");
+
+  const [activitySkip, setActivitySkip] = useState(0);
+
+  const [onSaleNFTs, setOnSaleNFTs] = useState([]);
+  const [nfts] = useState([]);
+  const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
 
   const getProfileData = async () => {
@@ -48,6 +51,8 @@ const Profile = ({
     console.log({ data: data?.data })
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
+    setOnSaleNFTs(data?.data?.NFTs);
+    setNFTCollections(data?.data?.nftCollections);
 
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
@@ -72,7 +77,7 @@ const Profile = ({
     });
   };
 
-  const handleScroll = (e) => {
+  const handleOwnedNFTScroll = (e) => {
     if (lastNFT != undefined) {
       const { offsetHeight, scrollTop, scrollHeight } = e.target;
       if (offsetHeight + scrollTop + 10 >= scrollHeight) {
@@ -90,9 +95,27 @@ const Profile = ({
     }
   };
 
+  const scrollActivityFetch = async () => {
+    const newArray = await user_info(slug, activitySkip);
+    setActivityRecords([...activityRecords, ...newArray.data.activity]);
+    console.log({ tt: newArray.data.activity })
+  };
+
+  const handleActivityScroll = (e) => {
+    console.log("scrollinmg")
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setActivitySkip(activityRecords.length);
+    }
+  };
+
   useEffect(() => {
     scrollFetchNFTs();
   }, [lastNFT]);
+
+  useEffect(() => {
+    scrollActivityFetch();
+  }, [activitySkip]);
 
   const switchToOnSale = async () => {
     setOwned(false);
@@ -409,43 +432,45 @@ const Profile = ({
               </span>
             </button>
           </li>
-          <li
-            className="nav-item"
-            role="presentation"
-            onClick={switchToActivity}
-          >
-            <button
-              className={`nav-link ${activity && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-              id="activity-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#activity"
-              type="button"
-              role="tab"
-              aria-controls="activity"
-              aria-selected="false"
+          {signer_address === slug &&
+            <li
+              className="nav-item"
+              role="presentation"
+              onClick={switchToActivity}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="mr-1 h-5 w-5 fill-current"
+              <button
+                className={`nav-link ${activity && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                id="activity-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#activity"
+                type="button"
+                role="tab"
+                aria-controls="activity"
+                aria-selected="false"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z" />
-              </svg>
-              <span className="font-display text-base font-medium">
-                Activity
-              </span>
-            </button>
-          </li>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="mr-1 h-5 w-5 fill-current"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z" />
+                </svg>
+                <span className="font-display text-base font-medium">
+                  Activity
+                </span>
+              </button>
+            </li>
+          }
         </ul>
       </section>
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
             <div className="tab-content">
               <div
@@ -454,18 +479,16 @@ const Profile = ({
                 role="tabpanel"
                 aria-labelledby="on-sale-tab"
               >
-                <div className="grid grid-cols-1 gap-[2rem] md:grid-cols-3 lg:grid-cols-4">
+                <div className="flex justify-center align-middle flex-wrap">
                   {onSaleNFTs?.map((e, index) => {
                     return (
+                      e.isListed == true &&
                       <NftCard
                         key={index}
-                        ImageSrc={e?.preview?.source?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )}
+                        ImageSrc={e?.nft_image}
                         Name={e?.name}
                         Description={e?.description}
-                        Address={e.nft._address}
+                        Address={e?.NFTAddress}
                       />
                     );
                   })}
@@ -485,7 +508,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className={`relative py-24 pt-20 dark:bg-jacarta-900 scroll-list`} onScroll={handleScroll}>
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900 scroll-list`} onScroll={handleOwnedNFTScroll}>
           <div>
             <div className="tab-content">
               <div
@@ -526,7 +549,7 @@ const Profile = ({
 
       {/* //fetch collections here */}
       {collections && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div>
             <div className="tab-content">
               <div
@@ -536,7 +559,7 @@ const Profile = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="flex justify-center align-middle flex-wrap">
-                  {user_data?.nftCollections?.map((e, index) => (
+                  {NFTCollections?.map((e, index) => (
                     <CollectionCard
                       key={index}
                       Cover={e?.coverImage}
@@ -550,12 +573,11 @@ const Profile = ({
                   ))}
                 </div>
                 <div className="flex justify-center">
-                  {user_data?.nftCollections?.length <= 0 ||
-                    (user_data === undefined && (
-                      <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
-                        No Collections to show!
-                      </h2>
-                    ))}
+                  {NFTCollections?.length <= 0 &&
+                    <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
+                      No Collections to show!
+                    </h2>
+                  }
                 </div>
               </div>
             </div>
@@ -564,16 +586,28 @@ const Profile = ({
       )}
 
       {/* fetch activity here  */}
-      {activity && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900">
+      {signer_address === slug && (
+        activity &&
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
                 <div className="lg:flex">
-                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
                     <div className="flex justify-center align-middle flex-wrap">
                       {activityRecords?.map((e, index) => (
-                        <ActivityRecord key={index} />
+                        <ActivityRecord
+                          key={index}
+                          NFTImage={e?.item?.nft_image}
+                          NFTName={e?.item?.name}
+                          Price={e?.price}
+                          ActivityTime={e?.createdAt}
+                          ActivityType={e?.type}
+                          blockURL={blockURL}
+                          ActivityHash={e?.hash}
+                          From={e?.from}
+                          To={e?.to}
+                        />
                       ))}
                     </div>
                   </div>
@@ -617,6 +651,37 @@ const Profile = ({
                           </svg>
                           <span className="text-2xs font-medium">Listing</span>
                         </button>
+
+                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                          </svg>
+                          <span className="text-2xs font-medium">Remove Listing</span>
+                        </button>
+
+                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path
+                              d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z"
+                            />
+                          </svg>
+                          <span className="text-2xs font-medium">Sale</span>
+                        </button>
+
                         <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -630,6 +695,7 @@ const Profile = ({
                           </svg>
                           <span className="text-2xs font-medium">Bids</span>
                         </button>
+
                         <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

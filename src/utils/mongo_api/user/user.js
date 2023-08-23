@@ -41,10 +41,10 @@ export const update_profile = async (data) => {
   return res.data;
 };
 
-export const user_info = async (wallet_id) => {
+export const user_info = async (wallet_id, activitySkip) => {
   try {
     const { data } = await axios({
-      url: "/api/user/user_info",
+      url: `/api/user/user_info?activitySkip=${activitySkip}`,
       method: "POST",
       data: { wallet_id },
     });

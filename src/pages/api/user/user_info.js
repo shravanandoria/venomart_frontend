@@ -1,6 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import Activity from "../../../Models/Activity";
+import NFT from "../../../Models/NFT";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -9,15 +10,21 @@ export default async function handler(req, res) {
   switch (method) {
     case "POST":
       try {
-        const { wallet_id } = req.body;
+        const { wallet_id, activitySkip } = req.body;
         if (!wallet_id) return;
+
+        const skip =
+          req.query.activitySkip && /^\d+$/.test(req.query.activitySkip)
+            ? Number(req.query.activitySkip)
+            : 0;
 
         let user;
         user = await User.findOne({ wallet_id })
           .populate("nftCollections")
+          .populate("NFTs")
           .populate({
             path: "activity",
-            options: { limit: 10 },
+            options: { skip: skip, limit: 5 },
             populate: { path: "item" },
           });
 
