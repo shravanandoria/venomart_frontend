@@ -216,34 +216,6 @@ contract Marketplace is  INftChangeManager, OwnableInternal {
         return { value: 0, flag: 64, bounce: false }  (nfts);
     }
 
-    // function getMyNFTs(address user_address) public view responsible returns (ListedToken[]) {
-    //     uint128 totalItemCount = _nftId;
-    //     uint128 itemCount = 0;
-    //     uint128 currentIndex = 0;
-
-    //     for (uint128 i = 0; i < totalItemCount; i++) {
-    //         if (id_listed_token[i].currentlyListed) {
-    //             if(address(id_listed_token[i].owner) == address(user_address)) {
-    //                 itemCount++;
-    //             }
-    //         }
-    //     }
-
-    //     ListedToken[] items = new ListedToken[](itemCount);
-    //     for (uint128 i = 0; i < totalItemCount; i++) {
-    //         if (id_listed_token[i].currentlyListed)  {
-    //             if(address(id_listed_token[i].owner) == address(user_address)) {
-    //                 uint128 currentId = i;
-    //                 ListedToken currentItem = id_listed_token[currentId];
-    //                 items[currentIndex] = currentItem;
-    //                 currentIndex++;
-    //             }
-    //         }
-    //     }
-
-    //     return { value: 0, flag: 64, bounce: false } (items);
-    // }
-
     function get_nft_by_address (address nft_address) public view responsible returns (ListedToken) {
         ListedToken token = address_listed_token[nft_address];
         return { value: 0, flag: 64, bounce: false } (token);
