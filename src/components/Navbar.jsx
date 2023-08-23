@@ -51,6 +51,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
     // set_search_result(false);
   }, [router.pathname]);
 
+
   return (
     <div
       className={`${theme} overflow-x-hidden font-body text-jacarta-500`}

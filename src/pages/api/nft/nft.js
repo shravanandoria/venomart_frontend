@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         //SEND ALL NFTS
         let nfts = await NFT.find({}, undefined, {
           skip,
-          limit: 9,
+          limit: 20,
         });
         res.status(200).json({ success: false, data: nfts });
       } catch (error) {

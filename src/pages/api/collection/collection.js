@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
         const collections = await Collection.find({}, undefined, {
           skip,
-          limit: 9,
+          limit: 20,
         });
         res.status(200).json({ success: true, data: collections });
       } catch (error) {

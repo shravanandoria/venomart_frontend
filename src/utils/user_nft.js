@@ -15,6 +15,7 @@ import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
+
 const ever = () =>
   new ProviderRpcClient({
     fallback: () =>
@@ -306,8 +307,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       from: new Address(signer_address),
       amount: "2000000000",
     });
-
-    // contractEvents.unsubscribe();
   } catch (error) {
     console.log(error.message);
   }
@@ -407,7 +406,7 @@ export const list_nft = async (
       await updateNFTListing(obj);
 
       let activityOBJ = {
-        hash: output ? output?.id?.hash : "",
+        hash: output ? output?.id?.hash : undefined,
         from: signer_address,
         to: MARKETPLACE_ADDRESS,
         price: finalListingPrice,
@@ -417,6 +416,7 @@ export const list_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -459,6 +459,7 @@ export const list_nft = async (
       });
   } catch (error) {
     console.log(error);
+    window.location.reload();
   }
 };
 
@@ -479,7 +480,7 @@ export const cancel_listing = async (
       await cancelNFTListing(obj);
 
       let activityOBJ = {
-        hash: output ? output?.id?.hash : "",
+        hash: output ? output?.id?.hash : undefined,
         from: MARKETPLACE_ADDRESS,
         to: signer_address,
         price: "0",
@@ -489,6 +490,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -518,6 +520,7 @@ export const cancel_listing = async (
       });
   } catch (error) {
     console.log(error);
+    window.location.reload();
   }
 };
 
@@ -550,7 +553,7 @@ export const buy_nft = async (
       await updateNFTsale(obj);
 
       let activityOBJ = {
-        hash: output ? output?.id?.hash : "",
+        hash: output ? output?.id?.hash : undefined,
         from: prev_nft_Owner,
         to: signer_address,
         price: salePrice,
@@ -560,6 +563,7 @@ export const buy_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
+      window.location.reload();
     };
 
     const subscriber = new Subscriber(provider);
@@ -589,6 +593,7 @@ export const buy_nft = async (
       });
   } catch (error) {
     console.log(error);
+    window.location.reload();
   }
 };
 

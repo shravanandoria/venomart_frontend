@@ -484,7 +484,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className="relative py-24 pt-20 dark:bg-jacarta-900 scroll-list" onScroll={handleScroll}>
+        <section className={`relative py-24 pt-20 dark:bg-jacarta-900 scroll-list`} onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div

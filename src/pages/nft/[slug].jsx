@@ -81,8 +81,6 @@ const NFTPage = ({
         onchainNFTData,
         finalListingPrice
       );
-      set_loading(false);
-      // router.reload();
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -106,8 +104,6 @@ const NFTPage = ({
         "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
         "25000000"
       );
-      set_loading(false);
-      // router.reload();
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -124,8 +120,6 @@ const NFTPage = ({
         venomProvider,
         signer_address
       );
-      set_loading(false);
-      // router.reload();
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -228,8 +222,8 @@ const NFTPage = ({
                     <div className="flex items-center">
                       <Link
                         href={`/collection/${onchainNFTData
-                            ? nft?.collection?._address
-                            : nft?.NFTCollection?.contractAddress
+                          ? nft?.collection?._address
+                          : nft?.NFTCollection?.contractAddress
                           }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
@@ -301,8 +295,8 @@ const NFTPage = ({
                         </span>
                         <Link
                           href={`/profile/${onchainNFTData
-                              ? nft?.owner?._address
-                              : nft?.ownerAddress
+                            ? nft?.owner?._address
+                            : nft?.ownerAddress
                             }`}
                           className="block text-accent"
                         >
@@ -423,6 +417,38 @@ const NFTPage = ({
                     : nft?.ownerAddress) == signer_address &&
                     nft?.isListed == true && (
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
+                        <div className="mb-8 sm:flex sm:flex-wrap">
+                          <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
+                            <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
+                              <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                Listed on sale for
+                              </span>
+                            </div>
+                            <div className="mt-3 flex">
+                              <div>
+                                <div className="flex items-center whitespace-nowrap align-middle">
+                                  <span className="dark:text-jacarta-200 mr-2 mt-1">
+                                    <Image
+                                      src={venomLogo}
+                                      height={100}
+                                      width={100}
+                                      alt="venomLogo"
+                                      className="h-5 w-5"
+                                    />
+                                  </span>
+                                  <span className="text-[24px] font-medium leading-tight tracking-tight text-green">
+                                    {nft?.listingPrice
+                                      ? nft?.listingPrice
+                                      : "0.00"}
+                                  </span>
+                                  {/* <span className="text-[19px] text-jacarta-700 dark:text-jacarta-200 ml-2">
+                                    {currency}
+                                  </span> */}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                         {loading ? (
                           <button
                             type="button"
@@ -1059,8 +1085,8 @@ const NFTPage = ({
                       <div>
                         <Link
                           href={`/collection/${onchainNFTData
-                              ? nft?.collection?._address
-                              : nft?.NFTCollection?.contractAddress
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
                             }`}
                           className="text-accent text-sm"
                         >
