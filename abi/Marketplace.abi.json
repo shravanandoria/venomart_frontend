@@ -181,6 +181,22 @@
 			]
 		},
 		{
+			"name": "TokenCancelStatus",
+			"inputs": [
+				{"name":"status","type":"bool"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "TokenSaleStatus",
+			"inputs": [
+				{"name":"status","type":"bool"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "OwnershipTransferred",
 			"inputs": [
 				{"name":"oldOwner","type":"address"},
