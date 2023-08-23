@@ -1496,8 +1496,9 @@ THROWIFNOT 101
 .loc ../contracts/Marketplace.tsol, 262
 NEWDICT
 .loc ../contracts/Marketplace.tsol, 264
+MYADDR
 GETGLOB 9
-PUSH2 S0, S3
+PUSH S4
 FALSE
 NEWC
 STSLICECONST x6_
