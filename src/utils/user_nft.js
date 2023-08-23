@@ -392,66 +392,75 @@ export const list_nft = async (
   onchainNFTData,
   finalListingPrice
 ) => {
-  if (onchainNFTData) {
-    const createNFTInDatabase = await create_nft_database(nft, nft_address);
-  }
+  try {
+    if (onchainNFTData) {
+      const createNFTInDatabase = await create_nft_database(nft, nft_address);
+    }
 
-  const marketplace_contract = new venomProvider.Contract(
-    marketplaceAbi,
-    MARKETPLACE_ADDRESS
-  );
+    const afterEvent = async () => {
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: true,
+        price: finalListingPrice,
+        new_manager: MARKETPLACE_ADDRESS,
+      };
+      await updateNFTListing(obj);
 
-  const subscriber = new Subscriber(venomProvider);
-  const contractEvents = marketplace_contract.events(subscriber);
+      let activityOBJ = {
+        hash: output.id.hash,
+        from: signer_address,
+        to: MARKETPLACE_ADDRESS,
+        price: finalListingPrice,
+        type: "list",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+      };
+      await addActivity(activityOBJ);
+    }
 
-  contractEvents.on((event) => {
-    console.log({ event });
-  });
+    const marketplace_contract = new venomProvider.Contract(
+      marketplaceAbi,
+      MARKETPLACE_ADDRESS
+    );
 
-  const _payload = await marketplace_contract.methods
-    .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
-    .call();
+    const subscriber = new Subscriber(venomProvider);
+    const contractEvents = marketplace_contract.events(subscriber);
 
-  const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
-
-  const output = await nft_contract.methods
-    .changeManager({
-      newManager: new Address(MARKETPLACE_ADDRESS),
-      sendGasTo: new Address(signer_address),
-      callbacks: [
-        [
-          new Address(MARKETPLACE_ADDRESS),
-          { value: "1000000000", payload: _payload.payload },
-        ],
-      ],
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: (listing_fees + 1000000000).toString(),
+    contractEvents.on((event) => {
+      console.log({ event });
+      if (event?.data?.currentlyListed == true) {
+        afterEvent();
+      }
+      else {
+        console.log("failed to list the NFT")
+      }
     });
 
-  console.log({ output });
+    const _payload = await marketplace_contract.methods
+      .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
+      .call();
 
-  if (output) {
-    let obj = {
-      NFTAddress: nft_address,
-      isListed: true,
-      price: finalListingPrice,
-      new_manager: MARKETPLACE_ADDRESS,
-    };
-    await updateNFTListing(obj);
+    const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
-    let activityOBJ = {
-      hash: output.id.hash,
-      from: signer_address,
-      to: MARKETPLACE_ADDRESS,
-      price: finalListingPrice,
-      type: "list",
-      wallet_id: signer_address,
-      nft_address: nft_address,
-      collection_address: collection_address,
-    };
-    await addActivity(activityOBJ);
+    const output = await nft_contract.methods
+      .changeManager({
+        newManager: new Address(MARKETPLACE_ADDRESS),
+        sendGasTo: new Address(signer_address),
+        callbacks: [
+          [
+            new Address(MARKETPLACE_ADDRESS),
+            { value: "1000000000", payload: _payload.payload },
+          ],
+        ],
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: (listing_fees + 1000000000).toString(),
+      });
+
+  } catch (error) {
+    console.log(error)
   }
 };
 
@@ -461,49 +470,59 @@ export const cancel_listing = async (
   venomProvider,
   signer_address
 ) => {
-  const marketplace_contract = new venomProvider.Contract(
-    marketplaceAbi,
-    MARKETPLACE_ADDRESS
-  );
+  try {
+    const afterEvent = async () => {
+      console.log("entered aftrer event")
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: false,
+        price: "0",
+        new_manager: signer_address,
+      };
+      await cancelNFTListing(obj);
 
-  const subscriber = new Subscriber(venomProvider);
-  const contractEvents = marketplace_contract.events(subscriber);
+      let activityOBJ = {
+        hash: output.id.hash,
+        from: MARKETPLACE_ADDRESS,
+        to: signer_address,
+        price: "0",
+        type: "cancel",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+      };
+      await addActivity(activityOBJ);
+    }
 
-  contractEvents.on((event) => {
-    console.log({ event });
-  });
+    const marketplace_contract = new venomProvider.Contract(
+      marketplaceAbi,
+      MARKETPLACE_ADDRESS
+    );
 
-  const output = await marketplace_contract.methods
-    .cancel_listing({
-      nft_address,
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: "100000000",
+    const subscriber = new Subscriber(venomProvider);
+    const contractEvents = marketplace_contract.events(subscriber);
+
+    contractEvents.on((event) => {
+      console.log({ event });
+      if (event?.data?.status == true) {
+        afterEvent();
+      }
+      else {
+        console.log("failed to cancel the NFT")
+      }
     });
 
-  console.log({ output });
+    const output = await marketplace_contract.methods
+      .cancel_listing({
+        nft_address,
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: "100000000",
+      });
 
-  if (output) {
-    let obj = {
-      NFTAddress: nft_address,
-      isListed: false,
-      price: "0",
-      new_manager: signer_address,
-    };
-    await cancelNFTListing(obj);
-
-    let activityOBJ = {
-      hash: output.id.hash,
-      from: MARKETPLACE_ADDRESS,
-      to: signer_address,
-      price: "0",
-      type: "cancel",
-      wallet_id: signer_address,
-      nft_address: nft_address,
-      collection_address: collection_address,
-    };
-    await addActivity(activityOBJ);
+  } catch (error) {
+    console.log(error)
   }
 };
 
@@ -525,11 +544,40 @@ export const buy_nft = async (
       MARKETPLACE_ADDRESS
     );
 
+    const afterEvent = async () => {
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: false,
+        price: "0",
+        new_owner: signer_address,
+        new_manager: signer_address,
+      };
+      await updateNFTsale(obj);
+
+      let activityOBJ = {
+        hash: output.id.hash,
+        from: prev_nft_Owner,
+        to: signer_address,
+        price: salePrice,
+        type: "sale",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+      };
+      await addActivity(activityOBJ);
+    }
+
     const subscriber = new Subscriber(provider);
     const contractEvents = marketplace_contract.events(subscriber);
 
     contractEvents.on((event) => {
       console.log({ event });
+      if (event?.data?.status == true) {
+        afterEvent();
+      }
+      else {
+        console.log("failed to buy the NFT")
+      }
     });
 
     const fees = (parseInt(price) + 1000000000).toString();
@@ -546,30 +594,6 @@ export const buy_nft = async (
         amount: fees,
       });
 
-    console.log({ output });
-
-    // if (output) {
-    //   let obj = {
-    //     NFTAddress: nft_address,
-    //     isListed: false,
-    //     price: "0",
-    //     new_owner: signer_address,
-    //     new_manager: signer_address,
-    //   };
-    //   await updateNFTsale(obj);
-
-    //   let activityOBJ = {
-    //     hash: output.id.hash,
-    //     from: prev_nft_Owner,
-    //     to: signer_address,
-    //     price: salePrice,
-    //     type: "sale",
-    //     wallet_id: signer_address,
-    //     nft_address: nft_address,
-    //     collection_address: collection_address,
-    //   };
-    //   await addActivity(activityOBJ);
-    // }
   } catch (error) {
     console.log(error);
   }
