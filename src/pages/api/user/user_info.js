@@ -13,7 +13,13 @@ export default async function handler(req, res) {
         if (!wallet_id) return;
 
         let user;
-        user = await User.findOne({ wallet_id }).populate("nftCollections").populate("activity");
+        user = await User.findOne({ wallet_id })
+          .populate("nftCollections")
+          .populate({
+            path: "activity",
+            options: { limit: 10 },
+            populate: { path: "item" },
+          });
 
         if (!user)
           return res
