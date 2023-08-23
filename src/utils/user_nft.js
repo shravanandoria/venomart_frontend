@@ -37,7 +37,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:503811859625d2b71d059117202d8dd9113dc4119143c78dc5fa2322117eca61";
+  "0:02f38f7920c37f06adb76c20777a970f53961990c0abc8f5f546d727267863b7";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -417,7 +417,7 @@ export const list_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-    }
+    };
 
     const marketplace_contract = new venomProvider.Contract(
       marketplaceAbi,
@@ -431,9 +431,8 @@ export const list_nft = async (
       console.log({ event });
       if (event?.data?.currentlyListed == true) {
         afterEvent();
-      }
-      else {
-        console.log("failed to list the NFT")
+      } else {
+        console.log("failed to list the NFT");
       }
     });
 
@@ -458,9 +457,8 @@ export const list_nft = async (
         from: new Address(signer_address),
         amount: (listing_fees + 1000000000).toString(),
       });
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -472,7 +470,7 @@ export const cancel_listing = async (
 ) => {
   try {
     const afterEvent = async () => {
-      console.log("entered aftrer event")
+      console.log("entered aftrer event");
       let obj = {
         NFTAddress: nft_address,
         isListed: false,
@@ -492,7 +490,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-    }
+    };
 
     const marketplace_contract = new venomProvider.Contract(
       marketplaceAbi,
@@ -506,9 +504,8 @@ export const cancel_listing = async (
       console.log({ event });
       if (event?.data?.status == true) {
         afterEvent();
-      }
-      else {
-        console.log("failed to cancel the NFT")
+      } else {
+        console.log("failed to cancel the NFT");
       }
     });
 
@@ -520,9 +517,8 @@ export const cancel_listing = async (
         from: new Address(signer_address),
         amount: "100000000",
       });
-
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -565,7 +561,7 @@ export const buy_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-    }
+    };
 
     const subscriber = new Subscriber(provider);
     const contractEvents = marketplace_contract.events(subscriber);
@@ -574,9 +570,8 @@ export const buy_nft = async (
       console.log({ event });
       if (event?.data?.status == true) {
         afterEvent();
-      }
-      else {
-        console.log("failed to buy the NFT")
+      } else {
+        console.log("failed to buy the NFT");
       }
     });
 
@@ -593,7 +588,6 @@ export const buy_nft = async (
         from: new Address(signer_address),
         amount: fees,
       });
-
   } catch (error) {
     console.log(error);
   }
