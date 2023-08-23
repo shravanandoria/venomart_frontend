@@ -421,8 +421,7 @@ export const list_nft = async (
       amount: (listing_fees + 1000000000).toString(),
     });
 
-  console.log({ output })
-
+  console.log({ output });
 
   if (output) {
     let obj = {
@@ -467,7 +466,7 @@ export const cancel_listing = async (
       amount: "100000000",
     });
 
-  console.log({ output })
+  console.log({ output });
 
   if (output) {
     let obj = {
