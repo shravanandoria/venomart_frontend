@@ -407,7 +407,7 @@ export const list_nft = async (
       await updateNFTListing(obj);
 
       let activityOBJ = {
-        hash: output.id.hash,
+        hash: output?.id?.hash,
         from: signer_address,
         to: MARKETPLACE_ADDRESS,
         price: finalListingPrice,
@@ -480,7 +480,7 @@ export const cancel_listing = async (
       await cancelNFTListing(obj);
 
       let activityOBJ = {
-        hash: output.id.hash,
+        hash: output?.id?.hash,
         from: MARKETPLACE_ADDRESS,
         to: signer_address,
         price: "0",
@@ -551,7 +551,7 @@ export const buy_nft = async (
       await updateNFTsale(obj);
 
       let activityOBJ = {
-        hash: output.id.hash,
+        hash: output?.id?.hash,
         from: prev_nft_Owner,
         to: signer_address,
         price: salePrice,
