@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "POST":
       try {
-        const { wallet_id, activitySkip } = req.body;
+        const { wallet_id } = req.body;
         if (!wallet_id) return;
 
         const skip =

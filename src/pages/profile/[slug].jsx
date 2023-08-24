@@ -96,12 +96,10 @@ const Profile = ({
 
   const scrollActivityFetch = async () => {
     const newArray = await user_info(slug, activitySkip);
-    setActivityRecords([...activityRecords, ...newArray.data.activity]);
-    console.log({ tt: newArray.data.activity });
+    setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
   };
 
   const handleActivityScroll = (e) => {
-    console.log("scrollinmg");
     const { offsetHeight, scrollTop, scrollHeight } = e.target;
     if (offsetHeight + scrollTop + 10 >= scrollHeight) {
       setActivitySkip(activityRecords.length);
@@ -344,8 +342,8 @@ const Profile = ({
       </section>
 
       {/* switch buttons  */}
-      <section className="pt-6 dark:bg-jacarta-900 pb-12">
-        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center">
+      <section className="pt-6 dark:bg-jacarta-800 pb-12">
+        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
               className={`nav-link ${onSale && "active relative"
@@ -467,7 +465,7 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
           <div>
             <div className="tab-content">
               <div
@@ -507,7 +505,7 @@ const Profile = ({
       {/* fetch owned nfts  */}
       {owned && (
         <section
-          className={`relative pt-6 pb-24 dark:bg-jacarta-900 scroll-list`}
+          className={`relative pt-6 pb-24 dark:bg-jacarta-800 scroll-list`}
           onScroll={handleOwnedNFTScroll}
         >
           <div>
@@ -550,7 +548,7 @@ const Profile = ({
 
       {/* //fetch collections here */}
       {collections && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
           <div>
             <div className="tab-content">
               <div
@@ -588,12 +586,12 @@ const Profile = ({
 
       {/* fetch activity here  */}
       {signer_address === slug && activity && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
                 {activityRecords != "" && (
-                  <div className="lg:flex">
+                  <div className="flexActivitySection">
                     <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
                       onScroll={handleActivityScroll}>
                       <div className="flex justify-center align-middle flex-wrap">

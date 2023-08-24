@@ -4,12 +4,8 @@ import React from 'react'
 
 const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From = "12", To = "12" }) => {
     return (
-        <Link
-            href={`${blockURL}transactions/${ActivityHash}`}
-            target='_blank'
-            style={{ margin: "12px", width: "90%" }}
-            className="relative flex flex-wrap justify-center align-middle items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
-        >
+        <div style={{ margin: "12px", width: "90%" }}
+            className="relative flex flex-wrap justify-center align-middle items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
             {/* nft image url  */}
             <Link href={`/nft/${NFTAddress}`}>
                 <div className="mr-5 mb-4 self-start">
@@ -83,7 +79,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     <span className="block text-[17px] text-jacarta-400 font-medium pl-1">Sale</span>
                 </div>
             }
-        </Link>
+        </div>
     )
 }
 

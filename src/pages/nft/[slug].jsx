@@ -11,6 +11,7 @@ import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import { nftInfo } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const NFTPage = ({
   signer_address,
@@ -26,6 +27,7 @@ const NFTPage = ({
 
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
+  const [isHovering, SetIsHovering] = useState(false);
 
   const [anyModalOpen, setAnyModalOpen] = useState(false);
   const [listSale, setListSale] = useState(false);
@@ -230,18 +232,46 @@ const NFTPage = ({
                           }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
-                        {(onchainNFTData
-                          ? nft?.collection?._address?.slice(0, 8)
-                          : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
-                          "..." +
-                          (onchainNFTData
-                            ? nft?.collection?._address?.slice(0, 8)
-                            : nft?.NFTCollection?.contractAddress?.slice(60))}
+                        {onchainNFTData ?
+                          (nft?.collection?._address?.slice(0, 8) + "..." + nft?.collection?._address?.slice(0, 8))
+                          :
+                          nft?.NFTCollection?.name
+                        }
                       </Link>
-                      <MdVerified
-                        style={{ color: "#4f87ff", marginLeft: "-4px" }}
-                        size={25}
-                      />
+                      {!onchainNFTData &&
+                        (nft?.NFTCollection?.isVerified ?
+                          <MdVerified
+                            style={{ color: "#4f87ff", marginLeft: "-4px" }}
+                            size={25}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />
+                          :
+                          <BsFillExclamationCircleFill
+                            style={{ color: "#c3c944", marginLeft: "-4px" }}
+                            size={20}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />)
+                      }
+                    </div>
+                    <div className="absolute mb-6 ml-44 inline-flex items-center justify-center">
+                      {nft?.NFTCollection?.isVerified && isHovering && (
+                        <p
+                          className="bg-blue px-[20px] py-[3px] text-white text-[12px]"
+                          style={{ borderRadius: "10px" }}
+                        >
+                          Verified
+                        </p>
+                      )}
+                      {!nft?.NFTCollection?.isVerified && isHovering && (
+                        <p
+                          className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]"
+                          style={{ borderRadius: "10px" }}
+                        >
+                          Not Verified
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -255,10 +285,10 @@ const NFTPage = ({
                     {nft?.description}
                   </p>
 
-                  {/* <!-- Owner --> */}
                   <div className="mb-8 flex flex-wrap">
+                    {/* <!-- Owner --> */}
                     <div className="mb-4 flex">
-                      <figure className="mr-4 shrink-0">
+                      <div className="mr-4 shrink-0">
                         <a className="relative block">
                           <Image
                             src={
@@ -275,44 +305,96 @@ const NFTPage = ({
                             className="rounded-2lg "
                             loading="lazy"
                           />
-                          <div
-                            className="absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                            data-tippy-content="Verified Collection"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-[.875rem] w-[.875rem] fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                            </svg>
-                          </div>
                         </a>
-                      </figure>
+                      </div>
                       <div className="flex flex-col justify-center">
                         <span className="block text-sm text-jacarta-400 dark:text-white">
-                          Owned by
+                          Owner
                         </span>
-                        <Link
-                          href={`/profile/${onchainNFTData
-                            ? nft?.owner?._address
-                            : nft?.ownerAddress
-                            }`}
-                          className="block text-accent"
-                        >
-                          <span className="text-sm font-bold">
-                            {(onchainNFTData
-                              ? nft?.owner?._address?.slice(0, 8)
-                              : nft?.ownerAddress?.slice(0, 8)) +
-                              "..." +
-                              (onchainNFTData
-                                ? nft?.owner?._address?.slice(0, 8)
-                                : nft?.ownerAddress?.slice(60))}
-                          </span>
-                        </Link>
+                        {MARKETPLACE_ADDRESS === nft?.ownerAddress ?
+                          <Link
+                            href={`/profile/${MARKETPLACE_ADDRESS}`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              Market
+                            </span>
+                          </Link>
+                          :
+                          <Link
+                            href={`/profile/${onchainNFTData
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
+                              }`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              {(onchainNFTData
+                                ? nft?.owner?._address?.slice(0, 5)
+                                : nft?.ownerAddress?.slice(0, 5)) +
+                                "..." +
+                                (onchainNFTData
+                                  ? nft?.owner?._address?.slice(63)
+                                  : nft?.ownerAddress?.slice(63))}
+                            </span>
+                          </Link>
+                        }
+                      </div>
+                    </div>
+
+                    {/* manager  */}
+                    <div className="mb-4 ml-12 flex">
+                      <div className="mr-4 shrink-0">
+                        <a className="relative block">
+                          <Image
+                            src={
+                              nft?.ownerImage
+                                ? nft?.ownerImage.replace(
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
+                                : defLogo
+                            }
+                            height={40}
+                            width={40}
+                            alt="avatar 1"
+                            className="rounded-2lg "
+                            loading="lazy"
+                          />
+                        </a>
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <span className="block text-sm text-jacarta-400 dark:text-white">
+                          Manager
+                        </span>
+                        {MARKETPLACE_ADDRESS === nft?.managerAddress ?
+                          <Link
+                            href={`/profile/${MARKETPLACE_ADDRESS}`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              Market
+                            </span>
+                          </Link>
+                          :
+                          <Link
+                            href={`/profile/${onchainNFTData
+                              ? nft?.manager?._address
+                              : nft?.managerAddress
+                              }`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              {(onchainNFTData
+                                ? nft?.manager?._address?.slice(0, 5)
+                                : nft?.managerAddress?.slice(0, 5)) +
+                                "..." +
+                                (onchainNFTData
+                                  ? nft?.manager?._address?.slice(63)
+                                  : nft?.managerAddress?.slice(63))}
+                            </span>
+                          </Link>
+                        }
                       </div>
                     </div>
                   </div>
@@ -1025,6 +1107,11 @@ const NFTPage = ({
                             </div>
                           ))}
                           <div className="flex p-4">
+                            {onchainNFTData && (
+                              <p className="text-jacarta-700 dark:text-white">
+                                No Activity
+                              </p>
+                            )}
                             {activityHistory == "" && (
                               <p className="text-jacarta-700 dark:text-white">
                                 No Activity
