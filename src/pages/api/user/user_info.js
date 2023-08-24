@@ -15,10 +15,9 @@ export default async function handler(req, res) {
         let user;
         user = await User.findOne({ wallet_id }).populate("nftCollections");
 
-        if (!user)
-          return res
-            .status(400)
-            .json({ success: false, data: "Cannot Find The User" });
+        if (user) return res.status(201).json({ success: true, data: user });
+
+        user = await User.create(req.body);
 
         res.status(201).json({ success: true, data: user });
       } catch (error) {
