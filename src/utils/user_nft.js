@@ -204,7 +204,7 @@ export const getAddressesFromIndex = async (
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 40 ,
+    limit: 40,
   });
   return addresses?.accounts;
 };
