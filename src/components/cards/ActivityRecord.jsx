@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From, To }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From = "12", To = "12" }) => {
     return (
         <Link
             href={`${blockURL}transactions/${ActivityHash}`}
