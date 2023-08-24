@@ -38,6 +38,7 @@ const UserSchema = new mongoose.Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "NFT",
+      unique: true
     },
   ],
   activity: [
