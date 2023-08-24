@@ -125,7 +125,6 @@ const Navbar = ({
           <form onSubmit={(e) => e.preventDefault()} className="relative ml-12 mr-8 basis-3/12" id="searchInpForm">
             <input
               type="search"
-              onFocus={() => set_search_result([])}
               onChange={(e) => {
                 handle_search(e.target.value);
               }}

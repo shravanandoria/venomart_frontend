@@ -29,7 +29,6 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
             <form onSubmit={(e) => e.preventDefault()} className="relative mb-8 w-full">
                 <input
                     type="search"
-                    onFocus={() => set_search_result([])}
                     onChange={(e) => {
                         handle_search(e.target.value);
                     }}
