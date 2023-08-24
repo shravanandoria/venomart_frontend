@@ -204,7 +204,7 @@ export const getAddressesFromIndex = async (
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 40 ,
+    limit: 40,
   });
   return addresses?.accounts;
 };
@@ -544,8 +544,7 @@ export const buy_nft = async (
   price,
   signer_address,
   royalty,
-  royalty_address,
-  _platform_fees
+  royalty_address
 ) => {
   try {
     const marketplace_contract = new provider.Contract(
