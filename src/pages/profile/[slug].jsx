@@ -12,6 +12,7 @@ import { loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { user_info } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Profile = ({
   theme,
@@ -39,7 +40,7 @@ const Profile = ({
   const [activitySkip, setActivitySkip] = useState(0);
 
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
-  const [nfts] = useState([]);
+  const [nfts, set_nfts] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
 
@@ -56,42 +57,63 @@ const Profile = ({
 
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
-    res?.map((nft) => {
+    console.log(res);
+    let nfts = [];
+
+    res?.map((nft, index) => {
       try {
+        if (res.length - 1 == index) {
+          setLastNFT(nft.nft._address);
+        }
         nfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
+
+    set_nfts(nfts);
     set_loading(false);
   };
 
-  const scrollFetchNFTs = async () => {
+  const fetch_more_data = async () => {
     const res = await loadNFTs_user(standalone, slug, lastNFT);
+    let new_nfts = [...nfts];
     res?.map((nft) => {
       try {
-        nfts.push({ ...JSON.parse(nft.json), ...nft });
+        new_nfts.push({ ...JSON.parse(nft.json), ...nft });
       } catch (error) {
         return false;
       }
     });
+    set_nfts(new_nfts);
+  };
+
+  const scrollFetchNFTs = async () => {
+    // const res = await loadNFTs_user(standalone, slug, lastNFT);
+    // res?.map((nft) => {
+    //   try {
+    //     nfts.push({ ...JSON.parse(nft.json), ...nft });
+    //   } catch (error) {
+    //     return false;
+    //   }
+    // });
   };
 
   const handleOwnedNFTScroll = (e) => {
-    if (lastNFT != undefined) {
-      const { offsetHeight, scrollTop, scrollHeight } = e.target;
-      if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-        let nftarraylength = nfts.length - 1;
-        let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
-        console.log({ lastNFTAddress, lastNFT });
-        if (lastNFTAddress === lastNFT && nfts.length >= 42) {
-          setLastNFT(undefined);
-          return;
-        } else {
-          setLastNFT(lastNFTAddress);
-        }
-      }
-    }
+    // if (lastNFT != undefined) {
+    //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+    //     let nftarraylength = nfts.length - 1;
+    //     let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
+    //     console.log({ lastNFTAddress, lastNFT });
+    //     if (lastNFTAddress === lastNFT && nfts.length >= 42) {
+    //       setLastNFT(undefined);
+    //       return;
+    //     } else {
+    //       setLastNFT(lastNFTAddress);
+    //     }
+    //   }
+    // }
   };
 
   const scrollActivityFetch = async () => {
@@ -106,9 +128,13 @@ const Profile = ({
     }
   };
 
+  // useEffect(() => {
+  //   scrollFetchNFTs();
+  // }, [lastNFT]);
+
   useEffect(() => {
-    scrollFetchNFTs();
-  }, [lastNFT]);
+    getProfileData();
+  }, [signer_address, standalone]);
 
   useEffect(() => {
     scrollActivityFetch();
@@ -138,10 +164,6 @@ const Profile = ({
     setCollections(false);
     setActivity(true);
   };
-
-  useEffect(() => {
-    getProfileData();
-  }, [signer_address, standalone]);
 
   return loading ? (
     <Loader theme={theme} />
@@ -346,8 +368,9 @@ const Profile = ({
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
-              className={`nav-link ${onSale && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                onSale && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -367,8 +390,9 @@ const Profile = ({
           {/* owned button  */}
           <li className="nav-item" role="presentation" onClick={switchToOwned}>
             <button
-              className={`nav-link ${owned && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                owned && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -398,8 +422,9 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${collections && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                collections && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -434,8 +459,9 @@ const Profile = ({
               onClick={switchToActivity}
             >
               <button
-                className={`nav-link ${activity && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                className={`nav-link ${
+                  activity && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 id="activity-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#activity"
@@ -517,20 +543,28 @@ const Profile = ({
                 aria-labelledby="on-sale-tab"
               >
                 <div className="flex justify-center align-middle flex-wrap">
-                  {nfts?.map((e, index) => {
-                    return (
-                      <NftCard
-                        key={index}
-                        ImageSrc={e?.preview?.source?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )}
-                        Name={e?.name}
-                        Description={e?.description}
-                        Address={e.nft._address}
-                      />
-                    );
-                  })}
+                  <InfiniteScroll
+                    dataLength={nfts.length}
+                    next={fetch_more_data}
+                    hasMore={true}
+                    className="flex flex-wrap"
+                    loader={<h4 className="text-white">Loading...</h4>}
+                  >
+                    {nfts?.map((e, index) => {
+                      return (
+                        <NftCard
+                          key={index}
+                          ImageSrc={e?.preview?.source?.replace(
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )}
+                          Name={e?.name}
+                          Description={e?.description}
+                          Address={e.nft._address}
+                        />
+                      );
+                    })}
+                  </InfiniteScroll>
                 </div>
 
                 <div className="flex justify-center">
@@ -592,8 +626,10 @@ const Profile = ({
               <div className="tab-pane fade show active">
                 {activityRecords != "" && (
                   <div className="flexActivitySection">
-                    <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
-                      onScroll={handleActivityScroll}>
+                    <div
+                      className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
+                      onScroll={handleActivityScroll}
+                    >
                       <div className="flex justify-center align-middle flex-wrap">
                         {activityRecords?.map((e, index) => (
                           <ActivityRecord

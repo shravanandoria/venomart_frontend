@@ -39,12 +39,19 @@
 			]
 		},
 		{
+			"name": "get_fee",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
 			"name": "check_fees",
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
-				{"name":"nft_address","type":"address"},
-				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"}
+				{"name":"nft_address","type":"address"}
 			],
 			"outputs": [
 				{"name":"value0","type":"uint128"}

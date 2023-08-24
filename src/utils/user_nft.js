@@ -37,7 +37,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:d33f153cef00bff13a04be81903bc2e8006795f4356a1a0621e5ad7ea16301dd";
+  "0:aaf3186db2e2df7cfb22df7123d938c16a0cbc41d0068869f4b649afc44d0ddb";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -204,7 +204,7 @@ export const getAddressesFromIndex = async (
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 40,
+    limit: 40 ,
   });
   return addresses?.accounts;
 };
@@ -415,13 +415,18 @@ export const list_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
+
+    const res = await marketplace_contract.methods
+      .get_fee({ answerId: 0 })
+      .call();
+    console.log({ res });
 
     const subscriber = new Subscriber(venomProvider);
     const contractEvents = marketplace_contract.events(subscriber);
@@ -434,6 +439,8 @@ export const list_nft = async (
         console.log("failed to list the NFT");
       }
     });
+
+    console.log({ price });
 
     const _payload = await marketplace_contract.methods
       .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
@@ -456,6 +463,11 @@ export const list_nft = async (
         from: new Address(signer_address),
         amount: (listing_fees + 1000000000).toString(),
       });
+
+    const fees = await marketplace_contract.methods
+      .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
+      .call();
+    console.log({ fees });
   } catch (error) {
     console.log(error);
     window.location.reload();
