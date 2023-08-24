@@ -47,7 +47,7 @@ const Profile = ({
     set_loading(true);
     if (!standalone && !slug) return;
     // fetching user data
-    const data = await user_info(slug);
+    const data = await user_info(slug, activitySkip);
     console.log({ data: data?.data });
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);

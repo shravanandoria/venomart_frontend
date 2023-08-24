@@ -113,7 +113,7 @@ const Collection = ({
   const get_user_Data = async () => {
     if (!signer_address) return;
     setLoading(true);
-    const data = await user_info(signer_address);
+    const data = await user_info(signer_address, 0);
     setCheckMint(data?.data.launchpad_collections);
     setLoading(false);
   };
