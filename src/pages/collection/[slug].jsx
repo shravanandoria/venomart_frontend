@@ -13,7 +13,6 @@ import {
 } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import Pagination from "../../components/Pagination";
 import { loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
@@ -39,13 +38,6 @@ const Collection = ({
   const [collection, set_collection] = useState({});
   const [nfts, set_nfts] = useState([]);
   const [totalSupply, setTotalSupply] = useState(0);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(16);
-
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
@@ -121,7 +113,7 @@ const Collection = ({
           </div>
 
           {/* <!-- Collection Section --> */}
-          <section className="relative bg-light-base pb-6 pt-20 dark:bg-jacarta-800">
+          <section className="relative pb-6 pt-20 dark:bg-jacarta-900">
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
                 {collection?.logo ? (
@@ -432,9 +424,47 @@ const Collection = ({
             </div>
           </section>
 
-          {/* nft section  */}
-          <section className="relative py-24 pt-20">
+          {/* main section  */}
+          <section className="relative pb-24 pt-12">
             <div>
+              <ul class="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Items</span>
+                  </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link relative flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      class="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z"
+                      />
+                    </svg>
+                    <span class="font-display text-base font-medium">Activity</span>
+                  </button>
+                </li>
+              </ul>
+
               <div className="tab-content">
                 <div
                   className="tab-pane fade show active"
@@ -443,7 +473,7 @@ const Collection = ({
                   aria-labelledby="on-sale-tab"
                 >
                   <div className="flex justify-center align-middle flex-wrap">
-                    {currentCollectionNFTs?.map((e, index) => {
+                    {nfts?.map((e, index) => {
                       return (
                         <NftCard
                           key={index}
@@ -461,19 +491,13 @@ const Collection = ({
                     })}
                   </div>
                   <div className="flex justify-center">
-                    {currentCollectionNFTs?.length <= 0 && (
+                    {nfts?.length <= 0 && (
                       <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
                         This collection has no NFTs !!
                       </h2>
                     )}
                   </div>
                 </div>
-                <Pagination
-                  totalPosts={nfts?.length}
-                  postsPerPage={postsPerPage}
-                  setCurrentPage={setCurrentPage}
-                  currentPage={currentPage}
-                />
               </div>
             </div>
           </section>

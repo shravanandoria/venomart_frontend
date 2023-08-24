@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
@@ -17,9 +17,20 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Home({ theme, customLaunchpad, topCollections }) {
+import { get_collections } from "../utils/mongo_api/collection/collection";
+
+export default function Home({ theme, customLaunchpad, topCollections, setTopCollections }) {
 
   const [loading, setLoading] = useState(false);
+
+  const fetchTopCollections = async () => {
+    const topCollections = await get_collections(0);
+    setTopCollections(topCollections);
+  };
+
+  useEffect(() => {
+    fetchTopCollections();
+  }, []);
 
   return (
     <div

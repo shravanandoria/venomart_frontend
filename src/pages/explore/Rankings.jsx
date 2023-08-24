@@ -1,8 +1,19 @@
 import CollectionRankingCard from '../../components/cards/CollectionRankingCard'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { get_collections } from '../../utils/mongo_api/collection/collection'
 
-const Rankings = ({ theme, topCollections }) => {
+const Rankings = ({ theme, topCollections, setTopCollections }) => {
+
+    const fetchTopCollections = async () => {
+        const topCollections = await get_collections(0);
+        setTopCollections(topCollections);
+    };
+
+    useEffect(() => {
+        fetchTopCollections();
+    }, []);
+
     return (
         <section className={`${theme}`}>
             <Head>

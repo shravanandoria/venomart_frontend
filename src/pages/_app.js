@@ -295,10 +295,7 @@ export default function App({ Component, pageProps }) {
 
   // connect wallet end
 
-  const fetchTopCollections = async () => {
-    const topCollections = await get_collections(0);
-    setTopCollections(topCollections);
-  };
+
 
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
@@ -308,7 +305,7 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-    fetchTopCollections();
+    // fetchTopCollections();
   }, []);
 
   useEffect(() => {
@@ -364,6 +361,7 @@ export default function App({ Component, pageProps }) {
         customLaunchpad={customLaunchpad}
         collabQuests={collabQuests}
         topCollections={topCollections}
+        setTopCollections={setTopCollections}
       />
       <Footer
         theme={theme}
