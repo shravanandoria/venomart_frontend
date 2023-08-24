@@ -107,17 +107,17 @@ const Collection = ({
     }, 2000);
   };
 
-  const get_user_Data = async () => {
-    if (!signer_address) return;
-    setLoading(true);
-    const data = await user_info(signer_address);
-    setCheckMint(data?.data.launchpad_collections);
-    setLoading(false);
-  };
+  // const get_user_Data = async () => {
+  //   if (!signer_address) return;
+  //   setLoading(true);
+  //   const data = await user_info(signer_address);
+  //   setCheckMint(data?.data.launchpad_collections);
+  //   setLoading(false);
+  // };
 
-  useEffect(() => {
-    get_user_Data();
-  }, [signer_address]);
+  // useEffect(() => {
+  //   get_user_Data();
+  // }, [signer_address]);
 
   useEffect(() => {
     if (afterMint) {
