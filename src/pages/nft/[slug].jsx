@@ -10,6 +10,8 @@ import { buy_nft, get_nft_by_address } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import { nftInfo } from "../../utils/mongo_api/nfts/nfts";
+import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const NFTPage = ({
   signer_address,
@@ -25,6 +27,7 @@ const NFTPage = ({
 
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
+  const [isHovering, SetIsHovering] = useState(false);
 
   const [anyModalOpen, setAnyModalOpen] = useState(false);
   const [listSale, setListSale] = useState(false);
@@ -51,6 +54,8 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
+    console.log({ nft_database })
+    setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -228,18 +233,46 @@ const NFTPage = ({
                         }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
-                        {(onchainNFTData
-                          ? nft?.collection?._address?.slice(0, 8)
-                          : nft?.NFTCollection?.contractAddress?.slice(0, 8)) +
-                          "..." +
-                          (onchainNFTData
-                            ? nft?.collection?._address?.slice(0, 8)
-                            : nft?.NFTCollection?.contractAddress?.slice(60))}
+                        {onchainNFTData ?
+                          (nft?.collection?._address?.slice(0, 8) + "..." + nft?.collection?._address?.slice(0, 8))
+                          :
+                          nft?.NFTCollection?.name
+                        }
                       </Link>
-                      <MdVerified
-                        style={{ color: "#4f87ff", marginLeft: "-4px" }}
-                        size={25}
-                      />
+                      {!onchainNFTData &&
+                        (nft?.NFTCollection?.isVerified ?
+                          <MdVerified
+                            style={{ color: "#4f87ff", marginLeft: "-4px" }}
+                            size={25}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />
+                          :
+                          <BsFillExclamationCircleFill
+                            style={{ color: "#c3c944", marginLeft: "-4px" }}
+                            size={20}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />)
+                      }
+                    </div>
+                    <div className="absolute mb-6 ml-44 inline-flex items-center justify-center">
+                      {nft?.NFTCollection?.isVerified && isHovering && (
+                        <p
+                          className="bg-blue px-[20px] py-[3px] text-white text-[12px]"
+                          style={{ borderRadius: "10px" }}
+                        >
+                          Verified
+                        </p>
+                      )}
+                      {!nft?.NFTCollection?.isVerified && isHovering && (
+                        <p
+                          className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]"
+                          style={{ borderRadius: "10px" }}
+                        >
+                          Not Verified
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -253,10 +286,10 @@ const NFTPage = ({
                     {nft?.description}
                   </p>
 
-                  {/* <!-- Owner --> */}
                   <div className="mb-8 flex flex-wrap">
+                    {/* <!-- Owner --> */}
                     <div className="mb-4 flex">
-                      <figure className="mr-4 shrink-0">
+                      <div className="mr-4 shrink-0">
                         <a className="relative block">
                           <Image
                             src={
@@ -273,27 +306,13 @@ const NFTPage = ({
                             className="rounded-2lg "
                             loading="lazy"
                           />
-                          <div
-                            className="absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-green dark:border-jacarta-600"
-                            data-tippy-content="Verified Collection"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-[.875rem] w-[.875rem] fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                            </svg>
-                          </div>
                         </a>
-                      </figure>
+                      </div>
                       <div className="flex flex-col justify-center">
                         <span className="block text-sm text-jacarta-400 dark:text-white">
-                          Owned by
+                          Owner
                         </span>
+<<<<<<< HEAD
                         <Link
                           href={`/profile/${
                             onchainNFTData
@@ -312,6 +331,92 @@ const NFTPage = ({
                                 : nft?.ownerAddress?.slice(60))}
                           </span>
                         </Link>
+=======
+                        {MARKETPLACE_ADDRESS === nft?.ownerAddress ?
+                          <Link
+                            href={`/profile/${MARKETPLACE_ADDRESS}`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              Market
+                            </span>
+                          </Link>
+                          :
+                          <Link
+                            href={`/profile/${onchainNFTData
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
+                              }`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              {(onchainNFTData
+                                ? nft?.owner?._address?.slice(0, 5)
+                                : nft?.ownerAddress?.slice(0, 5)) +
+                                "..." +
+                                (onchainNFTData
+                                  ? nft?.owner?._address?.slice(63)
+                                  : nft?.ownerAddress?.slice(63))}
+                            </span>
+                          </Link>
+                        }
+                      </div>
+                    </div>
+
+                    {/* manager  */}
+                    <div className="mb-4 ml-12 flex">
+                      <div className="mr-4 shrink-0">
+                        <a className="relative block">
+                          <Image
+                            src={
+                              nft?.ownerImage
+                                ? nft?.ownerImage.replace(
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )
+                                : defLogo
+                            }
+                            height={40}
+                            width={40}
+                            alt="avatar 1"
+                            className="rounded-2lg "
+                            loading="lazy"
+                          />
+                        </a>
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <span className="block text-sm text-jacarta-400 dark:text-white">
+                          Manager
+                        </span>
+                        {MARKETPLACE_ADDRESS === nft?.managerAddress ?
+                          <Link
+                            href={`/profile/${MARKETPLACE_ADDRESS}`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              Market
+                            </span>
+                          </Link>
+                          :
+                          <Link
+                            href={`/profile/${onchainNFTData
+                              ? nft?.manager?._address
+                              : nft?.managerAddress
+                              }`}
+                            className="block text-accent"
+                          >
+                            <span className="text-sm font-bold">
+                              {(onchainNFTData
+                                ? nft?.manager?._address?.slice(0, 5)
+                                : nft?.managerAddress?.slice(0, 5)) +
+                                "..." +
+                                (onchainNFTData
+                                  ? nft?.manager?._address?.slice(63)
+                                  : nft?.managerAddress?.slice(63))}
+                            </span>
+                          </Link>
+                        }
+>>>>>>> 1b805d585fff37ade7e7fe2c524428a7c2ffe7b6
                       </div>
                     </div>
                   </div>
@@ -814,7 +919,7 @@ const NFTPage = ({
                         aria-labelledby="offers-tab"
                       >
                         {/* filter  */}
-                        <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
+                        {/* <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
                           <div className="flex flex-wrap">
                             <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
                               <svg
@@ -877,12 +982,9 @@ const NFTPage = ({
                               </span>
                             </button>
                           </div>
-                        </div>
+                        </div> */}
 
-                        <div
-                          role="table"
-                          className="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                        >
+                        <div className="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white">
                           <div
                             className="sticky top-0 flex bg-light-base dark:bg-jacarta-600"
                             role="row"
@@ -930,47 +1032,113 @@ const NFTPage = ({
                           </div>
 
                           {/* loop activites here  */}
-                          {/* <div className="flex" role="row">
-                            <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                                className="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white">
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path
-                                  d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z">
-                                </path>
-                              </svg>
-                              Bid
+                          {activityHistory?.map((e, index) => (
+                            <div className="flex" key={index}>
+                              {/* event  */}
+                              <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                {e?.type == "list" &&
+                                  <div className="flex items-center">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                                    </svg>
+                                    Listing
+                                  </div>
+                                }
+                                {e?.type == "cancel" &&
+                                  <div className="flex items-center">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                                    </svg>
+                                    Cancel Listing
+                                  </div>
+                                }
+                                {e?.type == "sale" &&
+                                  <div className="flex items-center">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                                    </svg>
+                                    Sale
+                                  </div>
+                                }
+                              </div>
+
+                              {/* price  */}
+                              <div
+                                className="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                {e?.type == "list" &&
+                                  <span className="text-sm font-medium tracking-tight text-green">{e?.price} VENOM</span>
+                                }
+                                {e?.type == "cancel" &&
+                                  <span className="text-sm font-medium tracking-tight text-green">---</span>
+                                }
+                                {e?.type == "sale" &&
+                                  <span className="text-sm font-medium tracking-tight text-green">{e?.price} VENOM</span>
+                                }
+                              </div>
+
+                              {/* from  */}
+                              <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                {MARKETPLACE_ADDRESS === e?.from ?
+                                  <Link href="#" className="text-accent">Market</Link>
+                                  :
+                                  <Link href={`/profile/${e?.from}`} className="text-accent">{e?.from.slice(0, 5) + "..." + e?.from.slice(62)}</Link>
+                                }
+                              </div>
+
+                              {/* to  */}
+                              <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                {MARKETPLACE_ADDRESS === e?.to ?
+                                  <Link href="#" className="text-accent">Market</Link>
+                                  :
+                                  <Link href={`/profile/${e?.to}`} className="text-accent">{e?.to.slice(0, 5) + "..." + e?.to.slice(62)}</Link>
+                                }
+                              </div>
+
+                              {/* exploerer  */}
+                              <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                role="cell">
+                                <a href={`${blockURL}transactions/${e?.hash}`} className="flex flex-wrap items-center text-accent" target="_blank"
+                                  rel="nofollow noopener" title="Opens in a new window"
+                                  data-tippy-content="March 13 2022, 2:32 pm">
+                                  <span className="mr-1">few days ago</span>
+                                  {/* redirect svg  */}
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                    className="h-4 w-4 fill-current">
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path
+                                      d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
+                                  </svg>
+                                </a>
+                              </div>
                             </div>
-                            <div
-                              className="flex w-[17%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <span className="text-sm font-medium tracking-tight text-green">30 ETH</span>
-                            </div>
-                            <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <a href="user.html" className="text-accent">AD496A</a>
-                            </div>
-                            <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <a href="user.html" className="text-accent">Polymorph: MORPH Token</a>
-                            </div>
-                            <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <a href="#" className="flex flex-wrap items-center text-accent" target="_blank"
-                                rel="nofollow noopener" title="Opens in a new window"
-                                data-tippy-content="March 13 2022, 2:32 pm">
-                                <span className="mr-1">19 days ago</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                                  className="h-4 w-4 fill-current">
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path
-                                    d="M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3h8z" />
-                                </svg>
-                              </a>
-                            </div>
-                          </div> */}
+                          ))}
                           <div className="flex p-4">
+                            {onchainNFTData && (
+                              <p className="text-jacarta-700 dark:text-white">
+                                No Activity
+                              </p>
+                            )}
                             {activityHistory == "" && (
                               <p className="text-jacarta-700 dark:text-white">
                                 No Activity

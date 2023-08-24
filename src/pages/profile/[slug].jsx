@@ -48,7 +48,8 @@ const Profile = ({
     set_loading(true);
     if (!standalone && !slug) return;
     // fetching user data
-    const data = await user_info(slug);
+    const data = await user_info(slug, activitySkip);
+    console.log({ data: data?.data });
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
     setOnSaleNFTs(data?.data?.NFTs);
@@ -116,17 +117,15 @@ const Profile = ({
   };
 
   const scrollActivityFetch = async () => {
-    // const newArray = await user_info(slug, activitySkip);
-    // setActivityRecords([...activityRecords, ...newArray?.data.activity]);
-    // console.log({ tt: newArray.data.activity });
+    const newArray = await user_info(slug, activitySkip);
+    setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
   };
 
   const handleActivityScroll = (e) => {
-    // console.log("scrollinmg");
-    // const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    // if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-    //   setActivitySkip(activityRecords.length);
-    // }
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setActivitySkip(activityRecords.length);
+    }
   };
 
   // useEffect(() => {
@@ -365,8 +364,8 @@ const Profile = ({
       </section>
 
       {/* switch buttons  */}
-      <section className="pt-6 dark:bg-jacarta-900 pb-12">
-        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center">
+      <section className="pt-6 dark:bg-jacarta-800 pb-12">
+        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
               className={`nav-link ${
@@ -492,8 +491,8 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
-          <div className="container">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+          <div>
             <div className="tab-content">
               <div
                 className="tab-pane fade show active"
@@ -504,7 +503,7 @@ const Profile = ({
                 <div className="flex justify-center align-middle flex-wrap">
                   {onSaleNFTs?.map((e, index) => {
                     return (
-                      e.isListed == true && (
+                      e.isListed === true && (
                         <NftCard
                           key={index}
                           ImageSrc={e?.nft_image}
@@ -532,11 +531,8 @@ const Profile = ({
       {/* fetch owned nfts  */}
       {owned && (
         <section
-          className={`relative pt-6 pb-24 dark:bg-jacarta-900 scroll-list`}
-          onScroll={(e) => {
-            // e.target.
-            handleOwnedNFTScroll(e);
-          }}
+          className={`relative pt-6 pb-24 dark:bg-jacarta-800 scroll-list`}
+          onScroll={handleOwnedNFTScroll}
         >
           <div>
             <div className="tab-content">
@@ -586,7 +582,7 @@ const Profile = ({
 
       {/* //fetch collections here */}
       {collections && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
           <div>
             <div className="tab-content">
               <div
@@ -624,34 +620,36 @@ const Profile = ({
 
       {/* fetch activity here  */}
       {signer_address === slug && activity && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                <div className="lg:flex">
-                  <div
-                    className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
-                    onScroll={handleActivityScroll}
-                  >
-                    <div className="flex justify-center align-middle flex-wrap">
-                      {activityRecords?.map((e, index) => (
-                        <ActivityRecord
-                          key={index}
-                          NFTImage={e?.item?.nft_image}
-                          NFTName={e?.item?.name}
-                          Price={e?.price}
-                          ActivityTime={e?.createdAt}
-                          ActivityType={e?.type}
-                          blockURL={blockURL}
-                          ActivityHash={e?.hash}
-                          From={e?.from}
-                          To={e?.to}
-                        />
-                      ))}
+                {activityRecords != "" && (
+                  <div className="flexActivitySection">
+                    <div
+                      className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
+                      onScroll={handleActivityScroll}
+                    >
+                      <div className="flex justify-center align-middle flex-wrap">
+                        {activityRecords?.map((e, index) => (
+                          <ActivityRecord
+                            key={index}
+                            NFTImage={e?.item?.nft_image}
+                            NFTName={e?.item?.name}
+                            NFTAddress={e?.item?.NFTAddress}
+                            Price={e?.price}
+                            ActivityTime={e?.createdAt}
+                            ActivityType={e?.type}
+                            blockURL={blockURL}
+                            ActivityHash={e?.hash}
+                            From={e?.from}
+                            To={e?.to}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  {/* <!-- Filters --> */}
-                  {activityRecords != "" && (
+
+                    {/* <!-- Filters --> */}
                     <div className="basis-4/12 lg:pl-5">
                       <form action="search" className="relative mb-12 block">
                         <input
@@ -750,8 +748,8 @@ const Profile = ({
                         </button>
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
               <div className="flex justify-center text-center">
                 {activityRecords?.length <= 0 && (

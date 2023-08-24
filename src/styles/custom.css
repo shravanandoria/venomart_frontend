@@ -215,12 +215,21 @@
   margin-top: 50px;
 }
 
+.flexActivitySection {
+  display: flex;
+}
+
 @media only screen and (max-width: 980px) {
   .launchImage {
     margin-top: 0;
   }
   .hideInPhoneTxt {
     display: none;
+  }
+  .flexActivitySection {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap-reverse;
   }
 }
 

@@ -12,6 +12,7 @@ const CollectionSchema = new mongoose.Schema(
     logo: String,
     name: String,
     royalty: String,
+    royaltyAddress: String,
     description: String,
     socials: [String],
     isVerified: Boolean,
@@ -21,6 +22,10 @@ const CollectionSchema = new mongoose.Schema(
         ref: "Activity",
       },
     ],
+    TotalSupply: String,
+    FloorPrice: String,
+    TotalVolume: String,
+
   },
   { timestamps: true }
 );

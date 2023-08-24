@@ -13,13 +13,13 @@ import {
 } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import Pagination from "../../components/Pagination";
 import { loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
+import ActivityRecord from "../../components/cards/ActivityRecord";
 
 const Collection = ({
   blockURL,
@@ -35,17 +35,15 @@ const Collection = ({
   const [loading, setLoading] = useState(false);
   const [isHovering, SetIsHovering] = useState(false);
 
+  const [itemsTab, showItemsTab] = useState(true);
+  const [analyticsTab, showAnalyticsTab] = useState(false);
+  const [activityTab, showActivityTab] = useState(false);
+
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
   const [nfts, set_nfts] = useState([]);
+  const [activity, set_activity] = useState([]);
   const [totalSupply, setTotalSupply] = useState(0);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(16);
-
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollectionNFTs = nfts?.slice(firstPostIndex, lastPostIndex);
 
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
@@ -55,7 +53,9 @@ const Collection = ({
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
+    console.log({ res: res?.data?.activity })
     set_collection(res?.data);
+    set_activity(res?.data?.activity);
     // getting total supply
     if (venomProvider != undefined) {
       try {
@@ -121,7 +121,7 @@ const Collection = ({
           </div>
 
           {/* <!-- Collection Section --> */}
-          <section className="relative bg-light-base pb-6 pt-20 dark:bg-jacarta-800">
+          <section className="relative pb-6 pt-20 dark:bg-jacarta-900">
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <div className="relative">
                 {collection?.logo ? (
@@ -432,49 +432,220 @@ const Collection = ({
             </div>
           </section>
 
-          {/* nft section  */}
-          <section className="relative py-24 pt-20">
+          {/* main section  */}
+          <section className="relative pb-24 pt-12">
             <div>
-              <div className="tab-content">
-                <div
-                  className="tab-pane fade show active"
-                  id="on-sale"
-                  role="tabpanel"
-                  aria-labelledby="on-sale-tab"
-                >
-                  <div className="flex justify-center align-middle flex-wrap">
-                    {currentCollectionNFTs?.map((e, index) => {
-                      return (
-                        <NftCard
-                          key={index}
-                          ImageSrc={e?.preview?.source?.replace(
-                            "ipfs://",
-                            "https://ipfs.io/ipfs/"
-                          )}
-                          Name={e?.name}
-                          Description={e?.description}
-                          Address={e?.nftAddress?._address}
-                        // listedBool={e.isListed}
-                        // listingPrice={e.listingPrice}
-                        />
-                      );
-                    })}
+              <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
+                <li className="nav-item" role="presentation">
+                  <button onClick={() => (showActivityTab(false), showItemsTab(true))} className={`nav-link ${itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z"
+                      />
+                    </svg>
+                    <span className="font-display text-base font-medium">Items</span>
+                  </button>
+                </li>
+
+                <li className="nav-item" role="presentation">
+                  <button onClick={() => (showItemsTab(false), showActivityTab(true))} className={`nav-link ${activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="mr-1 h-5 w-5 fill-current"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path
+                        d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z"
+                      />
+                    </svg>
+                    <span className="font-display text-base font-medium">Activity</span>
+                  </button>
+                </li>
+              </ul>
+
+              {/* items  */}
+              {itemsTab &&
+                <div className="tab-content">
+                  <div
+                    className="tab-pane fade show active"
+                    id="on-sale"
+                    role="tabpanel"
+                    aria-labelledby="on-sale-tab"
+                  >
+                    <div className="flex justify-center align-middle flex-wrap">
+                      {nfts?.map((e, index) => {
+                        return (
+                          <NftCard
+                            key={index}
+                            ImageSrc={e?.preview?.source?.replace(
+                              "ipfs://",
+                              "https://ipfs.io/ipfs/"
+                            )}
+                            Name={e?.name}
+                            Description={e?.description}
+                            Address={e?.nftAddress?._address}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
+                          />
+                        );
+                      })}
+                    </div>
+                    <div className="flex justify-center">
+                      {nfts?.length <= 0 && (
+                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                          This collection has no NFTs !!
+                        </h2>
+                      )}
+                    </div>
                   </div>
+                </div>
+              }
+
+              {/* activity  */}
+              {activityTab &&
+                <div className="container">
+                  {activity && (
+                    <div className="flexActivitySection">
+                      <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                        <div className="flex justify-center align-middle flex-wrap">
+                          {activity?.map((e, index) => (
+                            <ActivityRecord
+                              key={index}
+                              NFTImage={e?.item?.nft_image}
+                              NFTName={e?.item?.name}
+                              NFTAddress={e?.item?.NFTAddress}
+                              Price={e?.price}
+                              ActivityTime={e?.createdAt}
+                              ActivityType={e?.type}
+                              blockURL={blockURL}
+                              ActivityHash={e?.hash}
+                              From={e?.from}
+                              To={e?.to}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="basis-4/12 lg:pl-5">
+                        <form action="search" className="relative mb-12 block">
+                          <input
+                            type="search"
+                            className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                            placeholder="Search"
+                          />
+                          <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z"></path>
+                              <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
+                            </svg>
+                          </span>
+                        </form>
+
+                        <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
+                          Filters
+                        </h3>
+                        <div className="flex flex-wrap">
+                          <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                            </svg>
+                            <span className="text-2xs font-medium">Listing</span>
+                          </button>
+
+                          <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                            </svg>
+                            <span className="text-2xs font-medium">
+                              Remove Listing
+                            </span>
+                          </button>
+
+                          <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                            </svg>
+                            <span className="text-2xs font-medium">Sale</span>
+                          </button>
+
+                          <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z" />
+                            </svg>
+                            <span className="text-2xs font-medium">Bids</span>
+                          </button>
+
+                          <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 h-4 w-4 group-hover:fill-white dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z" />
+                            </svg>
+                            <span className="text-2xs font-medium">Transfer</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <div className="flex justify-center">
-                    {currentCollectionNFTs?.length <= 0 && (
+                    {!activity && (
                       <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                        This collection has no NFTs !!
+                        No activities yet!
                       </h2>
                     )}
                   </div>
                 </div>
-                <Pagination
-                  totalPosts={nfts?.length}
-                  postsPerPage={postsPerPage}
-                  setCurrentPage={setCurrentPage}
-                  currentPage={currentPage}
-                />
-              </div>
+              }
             </div>
           </section>
         </div>

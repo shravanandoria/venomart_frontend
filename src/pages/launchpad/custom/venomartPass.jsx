@@ -15,6 +15,8 @@ import Loader from "../../../components/Loader";
 import { create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
+import { user_info } from "../../../utils/mongo_api/user/user";
+
 
 const Collection = ({
   blockURL,
@@ -111,7 +113,7 @@ const Collection = ({
   const get_user_Data = async () => {
     if (!signer_address) return;
     setLoading(true);
-    const data = await user_info(signer_address);
+    const data = await user_info(signer_address, 0);
     setCheckMint(data?.data.launchpad_collections);
     setLoading(false);
   };
