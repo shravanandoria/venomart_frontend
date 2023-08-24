@@ -592,31 +592,30 @@ const Profile = ({
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                <div className="lg:flex">
-                  <div
-                    className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
-                    onScroll={handleActivityScroll}
-                  >
-                    <div className="flex justify-center align-middle flex-wrap">
-                      {activityRecords?.map((e, index) => (
-                        <ActivityRecord
-                          key={index}
-                          NFTImage={e?.item?.nft_image}
-                          NFTName={e?.item?.name}
-                          NFTAddress={e?.item?.NFTAddress}
-                          Price={e?.price}
-                          ActivityTime={e?.createdAt}
-                          ActivityType={e?.type}
-                          blockURL={blockURL}
-                          ActivityHash={e?.hash}
-                          From={e?.from}
-                          To={e?.to}
-                        />
-                      ))}
+                {activityRecords != "" && (
+                  <div className="lg:flex">
+                    <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
+                      onScroll={handleActivityScroll}>
+                      <div className="flex justify-center align-middle flex-wrap">
+                        {activityRecords?.map((e, index) => (
+                          <ActivityRecord
+                            key={index}
+                            NFTImage={e?.item?.nft_image}
+                            NFTName={e?.item?.name}
+                            NFTAddress={e?.item?.NFTAddress}
+                            Price={e?.price}
+                            ActivityTime={e?.createdAt}
+                            ActivityType={e?.type}
+                            blockURL={blockURL}
+                            ActivityHash={e?.hash}
+                            From={e?.from}
+                            To={e?.to}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  {/* <!-- Filters --> */}
-                  {activityRecords != "" && (
+
+                    {/* <!-- Filters --> */}
                     <div className="basis-4/12 lg:pl-5">
                       <form action="search" className="relative mb-12 block">
                         <input
@@ -715,8 +714,8 @@ const Profile = ({
                         </button>
                       </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
               <div className="flex justify-center text-center">
                 {activityRecords?.length <= 0 && (
