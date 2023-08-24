@@ -1,10 +1,12 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
+import Activity from "../../../Models/Activity";
+import NFT from "../../../Models/NFT";
+import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
-  const { method } = req;
-
   await dbConnect();
+  const { method } = req;
 
   switch (method) {
     case "GET":
