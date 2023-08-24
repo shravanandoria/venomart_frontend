@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const ActivityRecord = ({ NFTImage, NFTName, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From, To }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From, To }) => {
     return (
         <Link
             href={`${blockURL}transactions/${ActivityHash}`}
@@ -11,15 +11,19 @@ const ActivityRecord = ({ NFTImage, NFTName, Price, ActivityTime, ActivityType, 
             className="relative flex flex-wrap justify-center align-middle items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700"
         >
             {/* nft image url  */}
-            <div className="mr-5 mb-4 self-start">
-                <Image src={NFTImage} alt="nftImage" height={100} width={100} className="rounded-2lg" loading="lazy" />
-            </div>
+            <Link href={`/nft/${NFTAddress}`}>
+                <div className="mr-5 mb-4 self-start">
+                    <Image src={NFTImage} alt="nftImage" height={100} width={100} className="rounded-2lg" loading="lazy" />
+                </div>
+            </Link>
 
             <div className='mb-4'>
                 {/* nft name  */}
-                <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
-                    {NFTName}
-                </h3>
+                <Link href={`/nft/${NFTAddress}`}>
+                    <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
+                        {NFTName}
+                    </h3>
+                </Link>
 
                 {/* value  */}
                 <span className="mb-3 block text-sm text-jacarta-500">sold for {Price} VENOM</span>

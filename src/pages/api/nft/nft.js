@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress }).populate("NFTCollection");
+          let nft = await NFT.findOne({ NFTAddress }).populate("NFTCollection").populate("activity");
 
           if (!nft)
             return res
