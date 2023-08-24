@@ -312,26 +312,6 @@ const NFTPage = ({
                         <span className="block text-sm text-jacarta-400 dark:text-white">
                           Owner
                         </span>
-<<<<<<< HEAD
-                        <Link
-                          href={`/profile/${
-                            onchainNFTData
-                              ? nft?.owner?._address
-                              : nft?.ownerAddress
-                          }`}
-                          className="block text-accent"
-                        >
-                          <span className="text-sm font-bold">
-                            {(onchainNFTData
-                              ? nft?.owner?._address?.slice(0, 8)
-                              : nft?.ownerAddress?.slice(0, 8)) +
-                              "..." +
-                              (onchainNFTData
-                                ? nft?.owner?._address?.slice(0, 8)
-                                : nft?.ownerAddress?.slice(60))}
-                          </span>
-                        </Link>
-=======
                         {MARKETPLACE_ADDRESS === nft?.ownerAddress ?
                           <Link
                             href={`/profile/${MARKETPLACE_ADDRESS}`}
@@ -416,7 +396,6 @@ const NFTPage = ({
                             </span>
                           </Link>
                         }
->>>>>>> 1b805d585fff37ade7e7fe2c524428a7c2ffe7b6
                       </div>
                     </div>
                   </div>
