@@ -135,7 +135,7 @@ PUSHCONT {
 PUSHCONT {
 	.loc ../contracts/Marketplace.tsol, 90
 	GETGLOB 15
-	PUSHINT 0
+	PUSHINT 4
 	RAWRESERVE
 	.loc ../contracts/Marketplace.tsol, 92
 	GETGLOB 14
@@ -237,7 +237,7 @@ PUSHCONT {
 	PUSHINT 111
 	STZEROES
 	ENDC
-	PUSHINT 64
+	PUSHPOW2 7
 }
 IFELSE
 SENDRAWMSG
@@ -606,7 +606,7 @@ PUSHCONT {
 PUSHCONT {
 	.loc ../contracts/Marketplace.tsol, 168
 	DUP
-	PUSHINT 0
+	PUSHINT 4
 	RAWRESERVE
 	.loc ../contracts/Marketplace.tsol, 170
 	NEWDICT

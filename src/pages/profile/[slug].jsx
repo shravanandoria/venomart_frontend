@@ -45,7 +45,7 @@ const Profile = ({
     if (!standalone && !slug) return;
     // fetching user data
     const data = await user_info(slug);
-    console.log({ data: data?.data })
+    console.log({ data: data?.data });
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
 
@@ -73,21 +73,21 @@ const Profile = ({
   };
 
   const handleScroll = (e) => {
-    if (lastNFT != undefined) {
-      const { offsetHeight, scrollTop, scrollHeight } = e.target;
-      if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-        let nftarraylength = nfts.length - 1;
-        let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
-        console.log({ lastNFTAddress, lastNFT })
-        if (lastNFTAddress === lastNFT && nfts.length >= 42) {
-          setLastNFT(undefined);
-          return;
-        }
-        else {
-          setLastNFT(lastNFTAddress);
-        }
-      }
-    }
+    // if (lastNFT != undefined) {
+    //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+    //     let nftarraylength = nfts.length - 1;
+    //     let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
+    //     console.log({ lastNFTAddress, lastNFT })
+    //     if (lastNFTAddress === lastNFT && nfts.length >= 42) {
+    //       setLastNFT(undefined);
+    //       return;
+    //     }
+    //     else {
+    //       setLastNFT(lastNFTAddress);
+    //     }
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -326,8 +326,9 @@ const Profile = ({
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
-              className={`nav-link ${onSale && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                onSale && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -347,8 +348,9 @@ const Profile = ({
           {/* owned button  */}
           <li className="nav-item" role="presentation" onClick={switchToOwned}>
             <button
-              className={`nav-link ${owned && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                owned && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -367,9 +369,7 @@ const Profile = ({
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
               </svg>
-              <span className="font-display text-base font-medium">
-                Owned
-              </span>
+              <span className="font-display text-base font-medium">Owned</span>
             </button>
           </li>
 
@@ -380,8 +380,9 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${collections && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                collections && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -415,8 +416,9 @@ const Profile = ({
             onClick={switchToActivity}
           >
             <button
-              className={`nav-link ${activity && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                activity && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="activity-tab"
               data-bs-toggle="tab"
               data-bs-target="#activity"
@@ -485,7 +487,10 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className={`relative py-24 pt-20 dark:bg-jacarta-900 scroll-list`} onScroll={handleScroll}>
+        <section
+          className={`relative py-24 pt-20 dark:bg-jacarta-900 scroll-list`}
+          onScroll={handleScroll}
+        >
           <div>
             <div className="tab-content">
               <div

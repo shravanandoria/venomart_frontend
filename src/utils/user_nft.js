@@ -15,7 +15,6 @@ import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
-
 const ever = () =>
   new ProviderRpcClient({
     fallback: () =>
@@ -38,7 +37,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:23c22e97dfa6c67247b1d3756f562cadfb9cc054c3f2b6742a14161f25f55cc5";
+  "0:d33f153cef00bff13a04be81903bc2e8006795f4356a1a0621e5ad7ea16301dd";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -582,7 +581,7 @@ export const buy_nft = async (
 
     const output = await marketplace_contract.methods
       .buyNft({
-        sendRemainingGasTo: new Address(MARKETPLACE_ADDRESS),
+        sendRemainingGasTo: new Address(signer_address),
         nft_address: new Address(nft_address),
         royalty: royalty,
         royalty_address: new Address(royalty_address),
