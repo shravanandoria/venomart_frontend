@@ -49,6 +49,7 @@ const Profile = ({
     if (!standalone && !slug) return;
     // fetching user data
     const data = await user_info(slug, activitySkip);
+    
     console.log({ data: data?.data });
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
@@ -88,33 +89,7 @@ const Profile = ({
     set_nfts(new_nfts);
   };
 
-  const scrollFetchNFTs = async () => {
-    // const res = await loadNFTs_user(standalone, slug, lastNFT);
-    // res?.map((nft) => {
-    //   try {
-    //     nfts.push({ ...JSON.parse(nft.json), ...nft });
-    //   } catch (error) {
-    //     return false;
-    //   }
-    // });
-  };
-
-  const handleOwnedNFTScroll = (e) => {
-    // if (lastNFT != undefined) {
-    //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-    //     let nftarraylength = nfts.length - 1;
-    //     let lastNFTAddress = nfts[nftarraylength]?.nft?._address;
-    //     console.log({ lastNFTAddress, lastNFT });
-    //     if (lastNFTAddress === lastNFT && nfts.length >= 42) {
-    //       setLastNFT(undefined);
-    //       return;
-    //     } else {
-    //       setLastNFT(lastNFTAddress);
-    //     }
-    //   }
-    // }
-  };
+  
 
   const scrollActivityFetch = async () => {
     const newArray = await user_info(slug, activitySkip);

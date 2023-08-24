@@ -9,20 +9,50 @@ import axios from "axios";
 import MobileNavbar from "./navcomps/MobileNavbar";
 import MobileProfileDrop from "./navcomps/MobileProfileDrop";
 import DesktopNavbar from "./navcomps/DesktopNavbar";
-import { GrClose } from "react-icons/gr"
+import { GrClose } from "react-icons/gr";
+import { search } from "../utils/mongo_api/search";
 
-
-const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, onDisconnect, MintNFTStatus, MintCollectionStatus, blockURL }) => {
+const Navbar = ({
+  signer_address,
+  theme,
+  setTheme,
+  apiFetchURL,
+  connectWallet,
+  onDisconnect,
+  MintNFTStatus,
+  MintCollectionStatus,
+  blockURL,
+}) => {
   const router = useRouter();
 
   const [profileDrop, setProfileDrop] = useState(false);
   const [mobieProfileDrop, setMobieProfileDrop] = useState(false);
   const [mobileNavDrop, setMobileNavDrop] = useState(false);
 
+  //{cols: [], nfts: []}
   const [search_result, set_search_result] = useState([]);
+  const [query_search, set_query_search] = useState("");
+  const [isTyping, set_isTyping] = useState(true);
 
   const [explorerLog, SetExplorerLog] = useState("");
   const [vnmBalance, setVnmBalance] = useState("");
+
+  const handle_search = async (data) => {
+    set_query_search(data);
+    set_isTyping(true);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      set_isTyping(false);
+      if (isTyping || !query_search) return;
+      const res = await search(query_search);
+      console.log(res);
+      set_search_result(res);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isTyping]);
 
   useEffect(() => {
     if (!signer_address) return;
@@ -32,13 +62,12 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
       })
       .then((response) => {
         SetExplorerLog(response?.data);
-        const balance = parseFloat(response?.data?.balance / 1000000000).toFixed(
-          2
-        );
+        const balance = parseFloat(
+          response?.data?.balance / 1000000000
+        ).toFixed(2);
         if (response.data) {
           setVnmBalance(balance);
-        }
-        else {
+        } else {
           setVnmBalance("0.00");
         }
       });
@@ -51,15 +80,16 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
     // set_search_result(false);
   }, [router.pathname]);
 
-
   return (
-    <div
-      className={`${theme} overflow-x-hidden font-body text-jacarta-500`}
-    >
+    <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
-        <div className={`flex items-center px-6 py-6 xl:px-24 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"} ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}>
+        <div
+          className={`flex items-center px-6 py-6 xl:px-24 ${
+            mobileNavDrop && "bg-white dark:bg-jacarta-800"
+          } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
+        >
           {/* icon  */}
-          {theme === "dark" ?
+          {theme === "dark" ? (
             <Link href="/" className="shrink-0 relative">
               <Image
                 src={darkPng}
@@ -68,7 +98,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                 alt="Venomart | NFT Marketplace"
               />
             </Link>
-            :
+          ) : (
             <Link href="/" className="shrink-0 relative">
               <Image
                 src={whitePng}
@@ -77,7 +107,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                 alt="Venomart | NFT Marketplace"
               />
             </Link>
-          }
+          )}
 
           {/* search form  */}
           <form
@@ -88,7 +118,9 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
             <input
               type="search"
               // onFocus={() => set_search_result([])}
-              // onChange={find_nft}
+              onChange={(e) => {
+                handle_search(e.target.value);
+              }}
               className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
               placeholder="Search"
             />
@@ -106,22 +138,33 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
             </span>
 
             {/* SEARCH FUNCTIONALITY */}
-            {/* <div
+            <div
               className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4"
               onClick={() => set_search_result([])}
             >
-              {search_result?.map((e, index) => (
+              {search_result?.collections?.map((e, index) => (
+                <Link
+                  key={index}
+                  href={`/collection/${e.contractAddress}`}
+                  className="rounded-2xl"
+                >
+                  <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                    {e?.name}
+                  </div>
+                </Link>
+              ))}
+              {/* {search_result?.map((e, index) => (
                 <Link
                   key={index}
                   href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}
                   className="rounded-2xl"
                 >
                   <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
-                    {e?.nft_name}
+                    {e?.name}
                   </div>
                 </Link>
-              ))}
-            </div> */}
+              ))} */}
+            </div>
           </form>
 
           <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
@@ -216,11 +259,20 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                           className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
                           data-tippy-content="Copy"
                         >
-                          <a href={`${blockURL}accounts/${signer_address}`} target="_blank" className="max-w-[10rem] overflow-hidden text-ellipsis hover:text-blue">
+                          <a
+                            href={`${blockURL}accounts/${signer_address}`}
+                            target="_blank"
+                            className="max-w-[10rem] overflow-hidden text-ellipsis hover:text-blue"
+                          >
                             {signer_address}
                           </a>
                           <svg
-                            onClick={() => (navigator.clipboard.writeText(`${signer_address}`), alert("copied wallet address to clipboard"))}
+                            onClick={() => (
+                              navigator.clipboard.writeText(
+                                `${signer_address}`
+                              ),
+                              alert("copied wallet address to clipboard")
+                            )}
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
@@ -246,7 +298,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                                   height: "14px",
                                   width: "14px",
                                   marginRight: "7px",
-                                  marginTop: "5px"
+                                  marginTop: "5px",
                                 }}
                                 alt="VenomLogo"
                               />
@@ -290,7 +342,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                             Edit Profile
                           </span>
                         </Link>
-                        {MintNFTStatus &&
+                        {MintNFTStatus && (
                           <Link
                             href="/mint/CreateNFT"
                             className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -309,8 +361,8 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                               Create NFT
                             </span>
                           </Link>
-                        }
-                        {MintCollectionStatus &&
+                        )}
+                        {MintCollectionStatus && (
                           <Link
                             href="/mint/CreateNFTCollection"
                             className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -329,7 +381,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                               Create Collection
                             </span>
                           </Link>
-                        }
+                        )}
                         <a
                           onClick={() => onDisconnect()}
                           className="cursor-pointer flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -422,11 +474,14 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                   {/* profile icon */}
                   <button
                     className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
-                    onClick={() => (setMobileNavDrop(false), setMobieProfileDrop(!mobieProfileDrop))}
+                    onClick={() => (
+                      setMobileNavDrop(false),
+                      setMobieProfileDrop(!mobieProfileDrop)
+                    )}
                   >
-                    {mobieProfileDrop ?
+                    {mobieProfileDrop ? (
                       <GrClose className="h-4 w-4 fill-black dark:fill-white" />
-                      :
+                    ) : (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -437,7 +492,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z" />
                       </svg>
-                    }
+                    )}
                   </button>
                 </div>
               </>
@@ -447,16 +502,25 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
           {/* mobile navbar switch button  */}
           <div className="lg:hidden">
             <button
-              className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent" onClick={() => (setMobieProfileDrop(false), setMobileNavDrop(!mobileNavDrop))}>
-              {mobileNavDrop ?
+              className="group ml-2 flex h-10 w-10 items-center justify-center rounded-full border border-jacarta-100 bg-white transition-colors hover:border-transparent hover:bg-accent focus:border-transparent focus:bg-accent dark:border-transparent dark:bg-white/[.15] dark:hover:bg-accent"
+              onClick={() => (
+                setMobieProfileDrop(false), setMobileNavDrop(!mobileNavDrop)
+              )}
+            >
+              {mobileNavDrop ? (
                 <GrClose className="h-4 w-4 fill-black dark:fill-white" />
-                :
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white">
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white"
+                >
                   <path fill="none" d="M0 0h24v24H0z" />
                   <path d="M18 18v2H6v-2h12zm3-7v2H3v-2h18zm-3-7v2H6V4h12z" />
                 </svg>
-              }
+              )}
             </button>
           </div>
         </div>
@@ -475,9 +539,7 @@ const Navbar = ({ signer_address, theme, setTheme, apiFetchURL, connectWallet, o
         )}
 
         {/* mobile nav dropdown  */}
-        {mobileNavDrop &&
-          <MobileNavbar />
-        }
+        {mobileNavDrop && <MobileNavbar />}
       </div>
     </div>
   );
