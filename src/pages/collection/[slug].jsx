@@ -53,7 +53,7 @@ const Collection = ({
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
-    console.log({ res: res?.data?.activity })
+    console.log({ res: res?.data?.activity.length })
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     // getting total supply
@@ -516,7 +516,7 @@ const Collection = ({
               {/* activity  */}
               {activityTab &&
                 <div className="container">
-                  {activity && (
+                  {(activity?.length >= 1) && (
                     <div className="flexActivitySection">
                       <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                         <div className="flex justify-center align-middle flex-wrap">
@@ -638,7 +638,7 @@ const Collection = ({
                     </div>
                   )}
                   <div className="flex justify-center">
-                    {!activity && (
+                    {((activity?.length <= 0) || (activity === undefined)) && (
                       <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
                         No activities yet!
                       </h2>

@@ -14,10 +14,10 @@ export default async function handler(req, res) {
             ? Number(req.query.skip)
             : 0;
 
-        const collections = await Collection.find({}, undefined, {
+        const collections = await Collection.find({}, { activity: 0, socials: 0 }, {
           skip,
           limit: 20,
-        });
+        }).sort({ isVerified: -1 });
         res.status(200).json({ success: true, data: collections });
       } catch (error) {
         res.status(400).json({ success: false });

@@ -29,12 +29,12 @@ export default async function handler(req, res) {
             populate: { path: "item" },
           });
 
-        if (!user)
-          return res
-            .status(400)
-            .json({ success: false, data: "Cannot Find The User" });
+        if (user) return res.status(201).json({ success: true, data: user });
+
+        user = await User.create(req.body);
 
         res.status(201).json({ success: true, data: user });
+
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }
