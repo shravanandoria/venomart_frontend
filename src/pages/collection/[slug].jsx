@@ -21,6 +21,7 @@ import { get_collection_by_contract } from "../../utils/mongo_api/collection/col
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { get_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const Collection = ({
   blockURL,
@@ -45,12 +46,14 @@ const Collection = ({
   const [nfts, set_nfts] = useState([]);
   const [activity, set_activity] = useState([]);
   const [totalSupply, setTotalSupply] = useState(0);
+  const [lastNFT, setLastNFT] = useState(undefined);
+  const [page, set_page] = useState(0);
 
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
     setLoading(true);
     // getting nfts
-    const nfts = await loadNFTs_collection(standalone, slug);
+    const nfts = await fetch_nfts();
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
@@ -69,6 +72,13 @@ const Collection = ({
       }
     }
     setLoading(false);
+  };
+
+  const fetch_nfts = async () => {
+    let nfts;
+    nfts = await loadNFTs_collection(standalone, slug, "", page);
+    set_page(page + 1);
+    return nfts;
   };
 
   useEffect(() => {
@@ -262,7 +272,9 @@ const Collection = ({
                   />
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                  {collection?.name ? collection?.name : "Unverified Collection"}
+                  {collection?.name
+                    ? collection?.name
+                    : "Unverified Collection"}
                 </h2>
                 <div className="mb-4"></div>
 
@@ -439,8 +451,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${itemsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -461,8 +474,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${activityTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -491,22 +505,29 @@ const Collection = ({
                     aria-labelledby="on-sale-tab"
                   >
                     <div className="flex justify-center align-middle flex-wrap">
-                      {nfts?.map((e, index) => {
-                        return (
-                          <NftCard
-                            key={index}
-                            ImageSrc={e?.preview?.source?.replace(
-                              "ipfs://",
-                              "https://ipfs.io/ipfs/"
-                            )}
-                            Name={e?.name}
-                            Description={e?.description}
-                            Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
-                          />
-                        );
-                      })}
+                      <InfiniteScroll
+                        dataLength={nfts.length}
+                        next={fetch_nfts}
+                        hasMore={lastNFT}
+                        className="flex flex-wrap justify-center align-middle"
+                      >
+                        {nfts?.map((e, index) => {
+                          return (
+                            <NftCard
+                              key={index}
+                              ImageSrc={e?.preview?.source?.replace(
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )}
+                              Name={e?.name}
+                              Description={e?.description}
+                              Address={e?.nftAddress?._address}
+                              // listedBool={e.isListed}
+                              // listingPrice={e.listingPrice}
+                            />
+                          );
+                        })}
+                      </InfiniteScroll>
                     </div>
                     <div className="flex justify-center">
                       {nfts?.length <= 0 && (

@@ -5,6 +5,7 @@ import Loader from "../../components/Loader";
 import { fetch_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { BsChevronDown } from "react-icons/bs";
 import { search_nfts } from "../../utils/mongo_api/search";
+import { get_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const NFTs = ({ theme }) => {
   const [loading, setLoading] = useState(false);
@@ -324,6 +325,12 @@ const NFTs = ({ theme }) => {
               <div>
                 <div>
                   <div className="flex justify-center align-middle flex-wrap">
+                    {/* <InfiniteScroll
+                      dataLength={nfts.length}
+                      next={() => get_collection_nfts()}
+                      hasMore={lastNFT}
+                      className="flex flex-wrap justify-center align-middle"
+                    > */}
                     {nfts?.map((e, index) => {
                       return (
                         <NftCard
@@ -340,6 +347,7 @@ const NFTs = ({ theme }) => {
                         />
                       );
                     })}
+                    {/* </InfiniteScroll> */}
                     {nfts?.length <= 0 && (
                       <h2 className="text-jacarta-700 dark:text-jacarta-200">
                         No NFTs Found

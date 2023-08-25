@@ -26,7 +26,7 @@ export const createNFT = async (data) => {
         description: data.description,
         attributes: JSON.stringify(data.properties),
         NFTCollection: data.NFTCollection,
-        signer_address: data.signer_address
+        signer_address: data.signer_address,
       },
     });
     return res.data.data;
@@ -45,7 +45,7 @@ export const updateNFTListing = async (data) => {
         isListed: data.isListed,
         price: data.price,
         demandPrice: data.demandPrice,
-        new_manager: data.new_manager
+        new_manager: data.new_manager,
       },
     });
     return res.data.data;
@@ -73,7 +73,6 @@ export const cancelNFTListing = async (data) => {
   }
 };
 
-
 export const updateNFTsale = async (data) => {
   try {
     const res = await axios({
@@ -98,6 +97,18 @@ export const nftInfo = async (nftAddress) => {
   try {
     const res = await axios({
       url: `/api/nft/nft?NFTAddress=${nftAddress}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const get_collection_nfts = async (col_address, page) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?collection_address=${col_address}&page=${page}`,
       method: "GET",
     });
     return res.data.data;

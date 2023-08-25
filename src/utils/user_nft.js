@@ -31,7 +31,7 @@ const ever = () =>
       }),
   });
 
-// STRICT -- dont change this values, this values are used in transactions 
+// STRICT -- dont change this values, this values are used in transactions
 export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
@@ -254,7 +254,11 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
   }
 };
 
-export const create_nft_database = async (data, nft_address, signer_address) => {
+export const create_nft_database = async (
+  data,
+  nft_address,
+  signer_address
+) => {
   let obj = {
     NFTAddress: nft_address,
     ownerAddress: data.owner._address,
@@ -409,7 +413,11 @@ export const list_nft = async (
 ) => {
   try {
     if (onchainNFTData) {
-      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
+      const createNFTInDatabase = await create_nft_database(
+        nft,
+        nft_address,
+        signer_address
+      );
     }
     let output;
     const afterEvent = async () => {

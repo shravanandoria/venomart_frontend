@@ -26,21 +26,23 @@ export default async function handler(req, res) {
             .sort({ isVerified: 1 });
           results.push({ collections: col_search });
         }
-        
-        const nfts_search = await NFT.find({
-          $or: [
-            { name: { $regex: query, $options: "i" } },
-            { NFTAddress: { $regex: query, $options: "i" } },
-          ],
-        })
-          .select(["name", "NFTAddress", "nft_image", "NFTCollection"])
-          .populate({
-            path: "NFTCollection",
-            select: { isVerified: 1, contractAddress: 1 },
-          })
-          .limit(10);
 
-        results.push({ nfts: nfts_search });
+        if (type !== "collection") {
+          const nfts_search = await NFT.find({
+            $or: [
+              { name: { $regex: query, $options: "i" } },
+              { NFTAddress: { $regex: query, $options: "i" } },
+            ],
+          })
+            .select(["name", "NFTAddress", "nft_image", "NFTCollection"])
+            .populate({
+              path: "NFTCollection",
+              select: { isVerified: 1, contractAddress: 1 },
+            })
+            .limit(10);
+
+          results.push({ nfts: nfts_search });
+        }
 
         res.status(200).json({ success: true, data: results });
       } catch (error) {
