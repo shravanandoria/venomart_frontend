@@ -323,9 +323,8 @@ const Profile = ({
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={switchToOnSale}>
             <button
-              className={`nav-link ${
-                onSale && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${onSale && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -345,9 +344,8 @@ const Profile = ({
           {/* owned button  */}
           <li className="nav-item" role="presentation" onClick={switchToOwned}>
             <button
-              className={`nav-link ${
-                owned && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${owned && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -377,9 +375,8 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${
-                collections && "active relative"
-              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${collections && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -414,9 +411,8 @@ const Profile = ({
               onClick={switchToActivity}
             >
               <button
-                className={`nav-link ${
-                  activity && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                className={`nav-link ${activity && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 id="activity-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#activity"
@@ -471,7 +467,7 @@ const Profile = ({
                   })}
                 </div>
                 <div className="flex justify-center">
-                  {onSaleNFTs?.length <= 0 && (
+                  {onSaleNFTs && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs listed!
                     </h2>

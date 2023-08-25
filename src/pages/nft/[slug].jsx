@@ -1224,8 +1224,8 @@ const NFTPage = ({
                               )
                           }
                           alt="nftPreview"
-                          width="70"
-                          height="70"
+                          width="80"
+                          height="80"
                           className="rounded-2lg"
                         />
                       </div>
@@ -1237,16 +1237,32 @@ const NFTPage = ({
                             }`}
                           className="text-accent text-sm"
                         >
-                          {(onchainNFTData
-                            ? nft?.collection?._address?.slice(0, 8)
-                            : nft?.NFTCollection?.contractAddress?.slice(
-                              0,
-                              8
-                            )) +
-                            "..." +
-                            (onchainNFTData
-                              ? nft?.collection?._address?.slice(0, 8)
-                              : nft?.NFTCollection?.contractAddress?.slice(60))}
+                          {onchainNFTData &&
+                            (nft?.collection?._address?.slice(0, 8) +
+                              "..." +
+                              nft?.collection?._address?.slice(60))
+                          }
+
+                          {!onchainNFTData &&
+                            <div className="flex align-middle mb-2">
+                              {nft?.NFTCollection?.name}
+                              {nft?.NFTCollection?.isVerified ?
+                                <MdVerified
+                                  style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "3px" }}
+                                  size={16}
+                                  onMouseOver={() => SetIsHovering(true)}
+                                  onMouseOut={() => SetIsHovering(false)}
+                                />
+                                :
+                                <BsFillExclamationCircleFill
+                                  style={{ color: "#c3c944", marginLeft: "4px", marginTop: "4px" }}
+                                  size={15}
+                                  onMouseOver={() => SetIsHovering(true)}
+                                  onMouseOut={() => SetIsHovering(false)}
+                                />
+                              }
+                            </div>
+                          }
                         </Link>
                         <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                           {nft?.name}
