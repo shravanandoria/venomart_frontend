@@ -81,10 +81,10 @@ export const getNftCodeHash = async (provider, collection_address) => {
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
-    continuation: undefined || last_nft_addr,
+    continuation: last_nft_addr || undefined,
     limit: 40,
   });
-  return addresses?.accounts;
+  return addresses;
 };
 
 // loading all the nft collection nfts
@@ -94,16 +94,22 @@ export const loadNFTs_collection = async (
   last_nft_addr,
   page
 ) => {
+  console.log({ collection_address, page });
   const res = await axios({
     url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
     method: "GET",
   });
   let newArr = [];
   res.data.data.map((e) => {
-    let obj = { ...e, preview: { source: e.nft_image } };
+    let obj = {
+      ...e,
+      preview: { source: e.nft_image },
+      nftAddress: { _address: e.NFTAddress },
+    };
     newArr.push(obj);
   });
-  if (res.data.data.length) return newArr;
+
+  if (res.data.data.length) return { nfts: newArr };
 
   const contract = new provider.Contract(
     collectionAbi,
@@ -123,12 +129,15 @@ export const loadNFTs_collection = async (
       provider,
       last_nft_addr
     );
-    if (!nftAddresses || !nftAddresses.length) {
-      if (nftAddresses && !nftAddresses.length) setListIsEmpty(true);
+    const { continuation } = nftAddresses;
+
+    if (!nftAddresses || !nftAddresses.accounts.length) {
+      if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
       return;
     }
-    const nftURLs = await getCollectionItems(provider, nftAddresses);
-    return nftURLs;
+    const nftURLs = await getCollectionItems(provider, nftAddresses.accounts);
+    console.log({ nftURLs, continuation });
+    return { nfts: nftURLs, continuation };
   } catch (e) {
     console.error(e);
   }
@@ -218,7 +227,7 @@ export const getAddressesFromIndex = async (
 ) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
-    continuation: last_nft_addr,
+    continuation: undefined || last_nft_addr,
     limit: 40,
   });
   return addresses;

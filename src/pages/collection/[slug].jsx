@@ -53,8 +53,9 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
     // getting nfts
-    const nfts = await fetch_nfts();
-    set_nfts(nfts);
+    const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
+    console.log(nfts);
+    set_nfts(nfts.nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
@@ -75,13 +76,20 @@ const Collection = ({
         console.log("total supply error");
       }
     }
-  }
+  };
 
   const fetch_nfts = async () => {
-    let nfts;
-    nfts = await loadNFTs_collection(standalone, slug, "", page);
-    set_page(page + 1);
-    return nfts;
+    console.log({ page });
+    console.log(nfts.length);
+
+    let res = await loadNFTs_collection(standalone, slug, lastNFT, page + 1);
+    if (res.nfts.length) {
+      let all_nfts = [...nfts, ...res.nfts];
+      set_nfts(all_nfts);
+      set_page(page + 1);
+      setLastNFT(res?.continuation);
+      return all_nfts;
+    }
   };
 
   useEffect(() => {
@@ -92,6 +100,8 @@ const Collection = ({
   useEffect(() => {
     gettingTotalSupply();
   }, [venomProvider]);
+
+  useEffect(() => {}, [page]);
 
   return (
     <div className={`${theme}`}>
@@ -356,7 +366,10 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1"> {collection?.FloorPrice ? collection?.FloorPrice : "0"}</span>
+                      <span className="font-bold ml-1">
+                        {" "}
+                        {collection?.FloorPrice ? collection?.FloorPrice : "0"}
+                      </span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -378,7 +391,11 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1">{collection?.TotalVolume ? collection?.TotalVolume : "0"}</span>
+                      <span className="font-bold ml-1">
+                        {collection?.TotalVolume
+                          ? collection?.TotalVolume
+                          : "0"}
+                      </span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded
@@ -522,9 +539,9 @@ const Collection = ({
                     role="tabpanel"
                     aria-labelledby="on-sale-tab"
                   >
-                    <div className="flex justify-center align-middle flex-wrap">
+                    <div className="flex justify-center align-middle flex-wrap ">
                       <InfiniteScroll
-                        dataLength={nfts.length}
+                        dataLength={nfts?.length}
                         next={fetch_nfts}
                         hasMore={lastNFT}
                         className="flex flex-wrap justify-center align-middle"
