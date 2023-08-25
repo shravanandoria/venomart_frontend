@@ -26,7 +26,7 @@ export const createNFT = async (data) => {
         description: data.description,
         attributes: JSON.stringify(data.properties),
         NFTCollection: data.NFTCollection,
-        signer_address: signer_address
+        signer_address: data.signer_address
       },
     });
     return res.data.data;

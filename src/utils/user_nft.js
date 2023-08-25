@@ -98,14 +98,11 @@ export const loadNFTs_collection = async (
     url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
     method: "GET",
   });
-
-  console.log({ myData: res.data.data });
   let newArr = [];
   res.data.data.map((e) => {
     let obj = { ...e, preview: { source: e.nft_image } };
     newArr.push(obj);
   });
-  console.log(newArr);
   if (res.data.data.length) return newArr;
 
   const contract = new provider.Contract(
@@ -282,7 +279,6 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const contractEvents = contract.events(subscriber);
 
   contractEvents.on((event) => {
-    console.log({ event });
     let obj = {
       NFTAddress: event.data.nft._address,
       ownerAddress: signer_address,
@@ -449,21 +445,17 @@ export const list_nft = async (
     const res = await marketplace_contract.methods
       .get_fee({ answerId: 0 })
       .call();
-    console.log({ res });
 
     const subscriber = new Subscriber(venomProvider);
     const contractEvents = marketplace_contract.events(subscriber);
 
     contractEvents.on((event) => {
-      console.log({ event });
       if (event?.data?.currentlyListed == true) {
         afterEvent();
       } else {
         console.log("failed to list the NFT");
       }
     });
-
-    console.log({ price });
 
     const _payload = await marketplace_contract.methods
       .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
@@ -490,7 +482,6 @@ export const list_nft = async (
     const fees = await marketplace_contract.methods
       .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
       .call();
-    console.log({ fees });
   } catch (error) {
     console.log(error);
     // window.location.reload();
@@ -538,7 +529,6 @@ export const cancel_listing = async (
     const contractEvents = marketplace_contract.events(subscriber);
 
     contractEvents.on((event) => {
-      console.log({ event });
       if (event?.data?.status == true) {
         afterEvent();
       } else {
@@ -571,17 +561,6 @@ export const buy_nft = async (
   royalty,
   royalty_address
 ) => {
-  console.log({
-    provider,
-    nft_address,
-    prev_nft_Owner,
-    collection_address,
-    salePrice,
-    price,
-    signer_address,
-    royalty,
-    royalty_address
-  })
   try {
     const marketplace_contract = new provider.Contract(
       marketplaceAbi,
@@ -618,7 +597,6 @@ export const buy_nft = async (
     const contractEvents = marketplace_contract.events(subscriber);
 
     contractEvents.on((event) => {
-      console.log({ event });
       if (event?.data?.status == true) {
         afterEvent();
       } else {

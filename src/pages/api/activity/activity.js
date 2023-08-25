@@ -35,8 +35,6 @@ export default async function handler(req, res) {
           newFloorPrice,
         } = req.body;
 
-        console.log({ price, newFloorPrice })
-
         let user = await User.findOne({ wallet_id });
 
         let collection;
@@ -55,7 +53,6 @@ export default async function handler(req, res) {
             collection.TotalListed++;
             if (newFloorPrice != 0 || newFloorPrice != undefined) {
               collection.FloorPrice = newFloorPrice;
-              console.log(collection.FloorPrice)
             }
             await collection.save();
           }

@@ -51,7 +51,6 @@ const Collection = ({
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
-    // console.log(nfts);
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
@@ -440,9 +439,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${
-                      itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${itemsTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -463,9 +461,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${
-                      activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${activityTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -505,8 +502,8 @@ const Collection = ({
                             Name={e?.name}
                             Description={e?.description}
                             Address={e?.nftAddress?._address}
-                            // listedBool={e.isListed}
-                            // listingPrice={e.listingPrice}
+                          // listedBool={e.isListed}
+                          // listingPrice={e.listingPrice}
                           />
                         );
                       })}

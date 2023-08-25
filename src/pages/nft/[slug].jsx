@@ -66,7 +66,6 @@ const NFTPage = ({
     }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
-      console.log({ nft_onchain })
       setOnchainNFTData(true);
       set_nft_info(nft_onchain);
     }
@@ -105,7 +104,6 @@ const NFTPage = ({
     e.preventDefault();
     set_loading(true);
     let royaltyFinalAmount = (parseFloat(nft?.demandPrice) / parseFloat(nft?.NFTCollection?.royalty)) * 1000000000;
-    console.log({ royaltyFinalAmount })
     try {
       await buy_nft(
         venomProvider,
@@ -143,7 +141,6 @@ const NFTPage = ({
   // getting collection info if onChainData 
   const getCollectionDataForOnchain = async () => {
     const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
-    console.log({ collection_data });
     setCollectionData(collection_data);
   }
 
@@ -431,6 +428,7 @@ const NFTPage = ({
                   </div>
 
                   {/* -------------------------- all action buttons start ------------------------  */}
+
                   {/* <!-- list nft --> */}
                   {(onchainNFTData
                     ? nft?.manager?._address
@@ -438,7 +436,7 @@ const NFTPage = ({
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
                           onClick={() => (
-                            getCollectionDataForOnchain(), setListSale(true), setAnyModalOpen(true)
+                            (onchainNFTData && getCollectionDataForOnchain()), setListSale(true), setAnyModalOpen(true)
                           )}
                           href="#"
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -1272,7 +1270,9 @@ const NFTPage = ({
 
                           {!onchainNFTData ?
                             (<div className="flex align-middle mb-2">
-                              {nft?.NFTCollection?.name}
+                              {nft?.NFTCollection?.name ? nft?.NFTCollection?.name : (nft?.NFTCollection?.contractAddress?.slice(0, 8) +
+                                "..." +
+                                nft?.NFTCollection?.contractAddress?.slice(60))}
                               {nft?.NFTCollection?.isVerified ?
                                 <MdVerified
                                   style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "3px" }}
@@ -1292,9 +1292,9 @@ const NFTPage = ({
                             :
                             (collectionData ?
                               (<div className="flex align-middle mb-2">
-                                {collectionData?.data?.name ? collectionData?.data?.name : (nft?.collection?._address?.slice(0, 8) +
+                                {collectionData?.data?.name ? collectionData?.data?.name : (collectionData?.data?.contractAddress?.slice(0, 8) +
                                   "..." +
-                                  nft?.collection?._address?.slice(60))}
+                                  collectionData?.data?.contractAddress?.slice(60))}
 
                                 {collectionData?.data?.isVerified ?
                                   <MdVerified
