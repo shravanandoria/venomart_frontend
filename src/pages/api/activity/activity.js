@@ -32,26 +32,55 @@ export default async function handler(req, res) {
           wallet_id,
           nft_address,
           collection_address,
+          newFloorPrice,
         } = req.body;
+
+        console.log({ price, newFloorPrice })
 
         let user = await User.findOne({ wallet_id });
 
-        let collection = await Collection.findOne({
+        let collection;
+
+        collection = await Collection.findOne({
           contractAddress: collection_address,
         });
 
         if (!collection) {
-          return res
-            .status(400)
-            .json({ success: false, data: "Cannot Find This Collection" });
+          collection = await Collection.create({ contractAddress: collection_address, TotalListed: 1 });
+          res.status(201).json({ success: true, data: collection });
         }
+
+        if (collection) {
+          if (type == "list") {
+            collection.TotalListed++;
+            if (newFloorPrice != 0 || newFloorPrice != undefined) {
+              collection.FloorPrice = newFloorPrice;
+              console.log(collection.FloorPrice)
+            }
+            await collection.save();
+          }
+          if (type == "cancel") {
+            if (collection.TotalListed <= 0) return;
+            collection.TotalListed--;
+            await collection.save();
+          }
+          if (type == "sale") {
+            let floatPrice = parseFloat(price);
+            collection.TotalVolume += floatPrice;
+            await collection.save();
+            if (collection.TotalListed <= 0) return;
+            collection.TotalListed--;
+            await collection.save();
+          }
+        }
+
 
         let nft = await NFT.findOne({ NFTAddress: nft_address });
 
         if (!nft) {
           return res
             .status(400)
-            .json({ success: false, data: "Cannot Find This nft" });
+            .json({ success: false, data: "Cannot Find This NFT" });
         }
 
         const activity = await Activity.create({

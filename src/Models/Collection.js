@@ -26,7 +26,6 @@ const CollectionSchema = new mongoose.Schema(
     TotalListed: Number,
     FloorPrice: Number,
     TotalVolume: Number,
-
   },
   { timestamps: true }
 );

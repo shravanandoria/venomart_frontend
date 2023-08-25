@@ -6,12 +6,13 @@ import Head from "next/head";
 import Loader from "../../components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import { buy_nft, get_nft_by_address } from "../../utils/user_nft";
+import { buy_nft, get_nft_by_address, listing_fees, platform_fees } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import { nftInfo } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
 
 const NFTPage = ({
   signer_address,
@@ -33,12 +34,13 @@ const NFTPage = ({
   const [listSale, setListSale] = useState(false);
   const [buyModal, setBuyModal] = useState(false);
   const [onchainNFTData, setOnchainNFTData] = useState(false);
-  const [listModalActive, setListModalActive] = useState(false);
+  const [collectionData, setCollectionData] = useState(false);
 
   const [properties, setProperties] = useState(true);
   const [offers, setOffers] = useState(false);
   const [details, setDetails] = useState(false);
   const [activity, setActivity] = useState(false);
+  const [confirmChecked, setConfirmChecked] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
   const [finalListingPrice, setFinalListingPrice] = useState(0);
@@ -54,7 +56,6 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    console.log({ nft_database })
     setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
@@ -65,6 +66,7 @@ const NFTPage = ({
     }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
+      console.log({ nft_onchain })
       setOnchainNFTData(true);
       set_nft_info(nft_onchain);
     }
@@ -75,6 +77,11 @@ const NFTPage = ({
   const sell_nft = async (e) => {
     e.preventDefault();
     set_loading(true);
+
+    let newFloorPrice = 0;
+    if (finalListingPrice < nft?.NFTCollection?.FloorPrice) {
+      newFloorPrice = finalListingPrice;
+    }
     try {
       await list_nft(
         slug,
@@ -84,7 +91,8 @@ const NFTPage = ({
         signer_address,
         nft,
         onchainNFTData,
-        finalListingPrice
+        finalListingPrice,
+        newFloorPrice
       );
     } catch (error) {
       console.log(error);
@@ -96,6 +104,8 @@ const NFTPage = ({
   const buy_NFT_ = async (e) => {
     e.preventDefault();
     set_loading(true);
+    let royaltyFinalAmount = (parseFloat(nft?.demandPrice) / parseFloat(nft?.NFTCollection?.royalty)) * 1000000000;
+    console.log({ royaltyFinalAmount })
     try {
       await buy_nft(
         venomProvider,
@@ -106,7 +116,7 @@ const NFTPage = ({
         (nft.listingPrice * 1000000000).toString(),
         signer_address,
         "0",
-        "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+        nft?.NFTCollection?.royaltyAddress ? nft?.NFTCollection?.royaltyAddress : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
     } catch (error) {
       console.log(error);
@@ -129,6 +139,13 @@ const NFTPage = ({
       set_loading(false);
     }
   };
+
+  // getting collection info if onChainData 
+  const getCollectionDataForOnchain = async () => {
+    const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
+    console.log({ collection_data });
+    setCollectionData(collection_data);
+  }
 
   const switchPropeties = async () => {
     setOffers(false);
@@ -232,13 +249,28 @@ const NFTPage = ({
                         className="mr-2 text-sm font-bold text-accent"
                       >
                         {onchainNFTData ?
-                          (nft?.collection?._address?.slice(0, 8) + "..." + nft?.collection?._address?.slice(0, 8))
+                          (collectionData?.data?.name ? collectionData?.data?.name : nft?.collection?._address?.slice(0, 5) + "..." + nft?.collection?._address?.slice(63))
                           :
-                          nft?.NFTCollection?.name
+                          nft?.NFTCollection?.name ? nft?.NFTCollection?.name : (nft?.NFTCollection?.contractAddress?.slice(0, 5) + "..." + nft?.NFTCollection?.contractAddress?.slice(63))
                         }
                       </Link>
-                      {!onchainNFTData &&
+                      {!onchainNFTData ?
                         (nft?.NFTCollection?.isVerified ?
+                          <MdVerified
+                            style={{ color: "#4f87ff", marginLeft: "-4px" }}
+                            size={25}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />
+                          :
+                          <BsFillExclamationCircleFill
+                            style={{ color: "#c3c944", marginLeft: "-4px" }}
+                            size={20}
+                            onMouseOver={() => SetIsHovering(true)}
+                            onMouseOut={() => SetIsHovering(false)}
+                          />)
+                        :
+                        (collectionData?.data?.isVerified ?
                           <MdVerified
                             style={{ color: "#4f87ff", marginLeft: "-4px" }}
                             size={25}
@@ -405,9 +437,8 @@ const NFTPage = ({
                     : nft?.managerAddress) == signer_address && (
                       <div className="rounded-2lg  border-jacarta-100 p-8 dark:border-jacarta-600">
                         <button
-                          // onClick={() => alert("Listing is currently disabled!")}
                           onClick={() => (
-                            setListSale(true), setAnyModalOpen(true)
+                            getCollectionDataForOnchain(), setListSale(true), setAnyModalOpen(true)
                           )}
                           href="#"
                           className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -845,7 +876,7 @@ const NFTPage = ({
                                 )) +
                                 "..." +
                                 (onchainNFTData
-                                  ? nft?.collection?._address?.slice(0, 8)
+                                  ? nft?.collection?._address?.slice(60)
                                   : nft?.NFTCollection?.contractAddress?.slice(
                                     60
                                   ))}
@@ -1126,6 +1157,7 @@ const NFTPage = ({
             </div>
           </div>
 
+
           {/* listing modal  */}
           {listSale && (
             <div className="afterMintDiv">
@@ -1185,13 +1217,13 @@ const NFTPage = ({
                           type="text"
                           onChange={(e) => (
                             set_listing_price(e.target.value),
-                            setCreatorRoyalty((5 * e.target.value) / 100),
-                            setPlatformFees((2.5 * e.target.value) / 100),
+                            setCreatorRoyalty((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : 0) * e.target.value) / 100),
+                            setPlatformFees((platform_fees * e.target.value) / 100),
                             setFinalListingPrice(
                               (
                                 parseFloat(e.target.value) +
-                                parseFloat((5 * e.target.value) / 100) +
-                                parseFloat((2.5 * e.target.value) / 100)
+                                parseFloat((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : 0) * e.target.value) / 100) +
+                                parseFloat((platform_fees * e.target.value) / 100)
                               ).toFixed(2)
                             )
                           )}
@@ -1237,14 +1269,9 @@ const NFTPage = ({
                             }`}
                           className="text-accent text-sm"
                         >
-                          {onchainNFTData &&
-                            (nft?.collection?._address?.slice(0, 8) +
-                              "..." +
-                              nft?.collection?._address?.slice(60))
-                          }
 
-                          {!onchainNFTData &&
-                            <div className="flex align-middle mb-2">
+                          {!onchainNFTData ?
+                            (<div className="flex align-middle mb-2">
                               {nft?.NFTCollection?.name}
                               {nft?.NFTCollection?.isVerified ?
                                 <MdVerified
@@ -1261,7 +1288,34 @@ const NFTPage = ({
                                   onMouseOut={() => SetIsHovering(false)}
                                 />
                               }
-                            </div>
+                            </div>)
+                            :
+                            (collectionData ?
+                              (<div className="flex align-middle mb-2">
+                                {collectionData?.data?.name ? collectionData?.data?.name : (nft?.collection?._address?.slice(0, 8) +
+                                  "..." +
+                                  nft?.collection?._address?.slice(60))}
+
+                                {collectionData?.data?.isVerified ?
+                                  <MdVerified
+                                    style={{ color: "#4f87ff", marginLeft: "4px", marginTop: "3px" }}
+                                    size={16}
+                                    onMouseOver={() => SetIsHovering(true)}
+                                    onMouseOut={() => SetIsHovering(false)}
+                                  />
+                                  :
+                                  <BsFillExclamationCircleFill
+                                    style={{ color: "#c3c944", marginLeft: "4px", marginTop: "4px" }}
+                                    size={15}
+                                    onMouseOver={() => SetIsHovering(true)}
+                                    onMouseOut={() => SetIsHovering(false)}
+                                  />
+                                }
+                              </div>)
+                              :
+                              (nft?.collection?._address?.slice(0, 8) +
+                                "..." +
+                                nft?.collection?._address?.slice(60)))
                           }
                         </Link>
                         <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
@@ -1272,7 +1326,7 @@ const NFTPage = ({
                         <div className="feesSectionTarget">
                           <div className="flex flex-wrap items-center mt-2">
                             <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
-                              Creator Royalty: 5%
+                              Creator Royalty: {nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : 0}%
                             </span>
                             <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
                               <svg
@@ -1289,7 +1343,7 @@ const NFTPage = ({
                           </div>
                           <div className="flex flex-wrap items-center mt-1">
                             <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
-                              Platform Fees: 2.5%
+                              Platform Fees: {platform_fees}%
                             </span>
                             <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
                               <svg
@@ -1315,7 +1369,7 @@ const NFTPage = ({
                                   alt="venomLogo"
                                   className="h-3 w-3 mr-1 ml-1 mt-1"
                                 />
-                                0.1
+                                {listing_fees / 1000000000}
                               </span>
                             </span>
                             <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
@@ -1402,6 +1456,7 @@ const NFTPage = ({
                         type="checkbox"
                         id="buyNowTerms"
                         className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                        onClick={() => setConfirmChecked(!confirmChecked)}
                         required
                       />
                       <label
@@ -1421,6 +1476,11 @@ const NFTPage = ({
                   </div>
 
                   <div className="modal-footer">
+                    {finalListingPrice < nft?.NFTCollection?.FloorPrice && confirmChecked &&
+                      <h3 className=" mb-6 text-[14px] text-red text-center">
+                        Please confirm you are listing your item below collection floor price, the current floor price is {nft?.NFTCollection?.FloorPrice} VENOM
+                      </h3>
+                    }
                     <div className="flex items-center justify-center space-x-4">
                       {loading ? (
                         <button

@@ -262,7 +262,7 @@ const Collection = ({
                   />
                 </div>
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                  {collection?.name ? collection?.name : "Undefined Collection"}
+                  {collection?.name ? collection?.name : "Unverified Collection"}
                 </h2>
                 <div className="mb-4"></div>
 

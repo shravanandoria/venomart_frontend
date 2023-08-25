@@ -26,6 +26,7 @@ export const createNFT = async (data) => {
         description: data.description,
         attributes: JSON.stringify(data.properties),
         NFTCollection: data.NFTCollection,
+        signer_address: signer_address
       },
     });
     return res.data.data;
@@ -43,6 +44,7 @@ export const updateNFTListing = async (data) => {
         NFTAddress: data.NFTAddress,
         isListed: data.isListed,
         price: data.price,
+        demandPrice: data.demandPrice,
         new_manager: data.new_manager
       },
     });
@@ -61,6 +63,7 @@ export const cancelNFTListing = async (data) => {
         NFTAddress: data.NFTAddress,
         isListed: data.isListed,
         price: data.price,
+        demandPrice: data.demandPrice,
         new_manager: data.new_manager,
       },
     });
@@ -80,6 +83,7 @@ export const updateNFTsale = async (data) => {
         NFTAddress: data.NFTAddress,
         isListed: data.isListed,
         price: data.price,
+        demandPrice: data.demandPrice,
         new_owner: data.new_owner,
         new_manager: data.new_manager,
       },

@@ -30,8 +30,10 @@ const ever = () =>
       }),
   });
 
-const listing_fees = 100000000;
-const platform_fees = "2500";
+// STRICT -- dont change this values, this values are used in transactions 
+export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom
+export const platform_fees = 2.5; //value in percent 2.5%
+// dont change this values, this values are used in transactions -- STRICT
 
 export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
@@ -239,7 +241,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
   }
 };
 
-export const create_nft_database = async (data, nft_address) => {
+export const create_nft_database = async (data, nft_address, signer_address) => {
   let obj = {
     NFTAddress: nft_address,
     ownerAddress: data.owner._address,
@@ -249,6 +251,7 @@ export const create_nft_database = async (data, nft_address) => {
     description: data.description,
     properties: data.attributes,
     NFTCollection: data.collection._address,
+    signer_address: signer_address,
   };
   createNFT(obj);
 };
@@ -389,18 +392,20 @@ export const list_nft = async (
   signer_address,
   nft,
   onchainNFTData,
-  finalListingPrice
+  finalListingPrice,
+  newFloorPrice
 ) => {
   try {
     if (onchainNFTData) {
-      const createNFTInDatabase = await create_nft_database(nft, nft_address);
+      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
     }
-
+    let output;
     const afterEvent = async () => {
       let obj = {
         NFTAddress: nft_address,
         isListed: true,
         price: finalListingPrice,
+        demandPrice: price,
         new_manager: MARKETPLACE_ADDRESS,
       };
       await updateNFTListing(obj);
@@ -414,9 +419,10 @@ export const list_nft = async (
         wallet_id: signer_address,
         nft_address: nft_address,
         collection_address: collection_address,
+        newFloorPrice: parseFloat(newFloorPrice),
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -449,7 +455,7 @@ export const list_nft = async (
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
-    const output = await nft_contract.methods
+    output = await nft_contract.methods
       .changeManager({
         newManager: new Address(MARKETPLACE_ADDRESS),
         sendGasTo: new Address(signer_address),
@@ -471,7 +477,7 @@ export const list_nft = async (
     console.log({ fees });
   } catch (error) {
     console.log(error);
-    window.location.reload();
+    // window.location.reload();
   }
 };
 
@@ -482,11 +488,13 @@ export const cancel_listing = async (
   signer_address
 ) => {
   try {
+    let output;
     const afterEvent = async () => {
       let obj = {
         NFTAddress: nft_address,
         isListed: false,
         price: "0",
+        demandPrice: "0",
         new_manager: signer_address,
       };
       await cancelNFTListing(obj);
@@ -502,7 +510,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -522,7 +530,7 @@ export const cancel_listing = async (
       }
     });
 
-    const output = await marketplace_contract.methods
+    output = await marketplace_contract.methods
       .cancel_listing({
         nft_address,
       })
@@ -532,7 +540,7 @@ export const cancel_listing = async (
       });
   } catch (error) {
     console.log(error);
-    window.location.reload();
+    // window.location.reload();
   }
 };
 
@@ -547,17 +555,30 @@ export const buy_nft = async (
   royalty,
   royalty_address
 ) => {
+  console.log({
+    provider,
+    nft_address,
+    prev_nft_Owner,
+    collection_address,
+    salePrice,
+    price,
+    signer_address,
+    royalty,
+    royalty_address
+  })
   try {
     const marketplace_contract = new provider.Contract(
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
 
+    let output;
     const afterEvent = async () => {
       let obj = {
         NFTAddress: nft_address,
         isListed: false,
         price: "0",
+        demandPrice: "0",
         new_owner: signer_address,
         new_manager: signer_address,
       };
@@ -574,7 +595,7 @@ export const buy_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const subscriber = new Subscriber(provider);
@@ -591,7 +612,7 @@ export const buy_nft = async (
 
     const fees = (parseInt(price) + 1000000000).toString();
 
-    const output = await marketplace_contract.methods
+    output = await marketplace_contract.methods
       .buyNft({
         sendRemainingGasTo: new Address(signer_address),
         nft_address: new Address(nft_address),
@@ -604,7 +625,7 @@ export const buy_nft = async (
       });
   } catch (error) {
     console.log(error);
-    window.location.reload();
+    // window.location.reload();
   }
 };
 

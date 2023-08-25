@@ -14,6 +14,7 @@ export const addActivity = async (data) => {
                 wallet_id: data.wallet_id,
                 nft_address: data.nft_address,
                 collection_address: data.collection_address,
+                newFloorPrice: data.newFloorPrice
             },
         });
         return res.data.data;
