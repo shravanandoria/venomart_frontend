@@ -11,7 +11,13 @@ export default async function handler(req, res) {
     // GET NFT BY NFT ADDRESS
     case "GET":
       try {
-        const { skipNFTs, NFTAddress, ownerAddress, isListed } = req.query;
+        const {
+          skipNFTs,
+          NFTAddress,
+          ownerAddress,
+          isListed,
+          collection_address,
+        } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
 
@@ -23,7 +29,24 @@ export default async function handler(req, res) {
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress }).populate({ path: "NFTCollection", select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 } }).populate({ path: "activity", sort: { type: -1 }, options: { limit: 10 }, select: { createdAt: 1, from: 1, hash: 1, price: 1, type: 1, to: 1 } });
+          let nft = await NFT.findOne({ NFTAddress })
+            .populate({
+              path: "NFTCollection",
+              select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
+            })
+            .populate({
+              path: "activity",
+              sort: { type: -1 },
+              options: { limit: 10 },
+              select: {
+                createdAt: 1,
+                from: 1,
+                hash: 1,
+                price: 1,
+                type: 1,
+                to: 1,
+              },
+            });
 
           if (!nft)
             return res
@@ -31,6 +54,27 @@ export default async function handler(req, res) {
               .json({ success: false, data: "Cannot Find This NFT" });
 
           return res.status(200).json({ success: false, data: nft });
+        }
+
+        // IF COLLECTION ADDR IS PROVIDED, SEND ALL NFTS WITH THAT COL ADDRESS
+        if (collection_address) {
+          const col = await Collection.findOne({
+            contractAddress: collection_address,
+          });
+
+          if (!col) {
+            return res
+              .status(400)
+              .json({ success: false, data: "Cannot find this collection" });
+          }
+
+          const nfts = await NFT.find({ NFTCollection: col }).select([
+            "-activity",
+            "-NFTCollection",
+            "-managerAddress",
+            "-isLike",
+          ]);
+          return res.status(200).json({ success: true, data: nfts });
         }
 
         //SEND ALL NFTS
@@ -94,7 +138,8 @@ export default async function handler(req, res) {
 
     case "PUT":
       try {
-        const { NFTAddress, isListed, price, new_manager, new_owner } = req.body;
+        const { NFTAddress, isListed, price, new_manager, new_owner } =
+          req.body;
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res

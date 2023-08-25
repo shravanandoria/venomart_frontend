@@ -14,6 +14,7 @@ import { addActivity } from "./mongo_api/activity/activity";
 import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
+import axios from "axios";
 
 const ever = () =>
   new ProviderRpcClient({
@@ -88,8 +89,23 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
 export const loadNFTs_collection = async (
   provider,
   collection_address,
-  last_nft_addr
+  last_nft_addr,
+  page
 ) => {
+  const res = await axios({
+    url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
+    method: "GET",
+  });
+
+  console.log({ myData: res.data.data });
+  let newArr = [];
+  res.data.data.map((e) => {
+    let obj = { ...e, preview: { source: e.nft_image } };
+    newArr.push(obj);
+  });
+  console.log(newArr);
+  if (res.data.data.length) return newArr;
+
   const contract = new provider.Contract(
     collectionAbi,
     new Address(COLLECTION_ADDRESS)

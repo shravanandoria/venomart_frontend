@@ -25,7 +25,7 @@ export default async function handler(req, res) {
             success: false,
             data: "Cannot Find This Collection",
           });
-
+          
         res.status(200).json({ success: true, data: collection });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
