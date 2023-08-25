@@ -12,7 +12,9 @@ export default async function handler(req, res) {
       try {
         const { contractAddress } = req.body;
 
-        const collection = await Collection.findOne({ contractAddress }).populate({
+        const collection = await Collection.findOne({
+          contractAddress,
+        }).populate({
           path: "activity",
           options: { limit: 5 },
           populate: { path: "item" },
