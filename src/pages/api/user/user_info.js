@@ -27,6 +27,7 @@ export default async function handler(req, res) {
             path: "activity",
             options: { skip: skip, limit: 5 },
             populate: { path: "item" },
+            // select: { hash: 1 }
           });
 
         if (user) return res.status(201).json({ success: true, data: user });

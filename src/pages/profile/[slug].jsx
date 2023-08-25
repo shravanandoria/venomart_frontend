@@ -49,7 +49,7 @@ const Profile = ({
     if (!standalone && !slug) return;
     // fetching user data
     const data = await user_info(slug, activitySkip);
-    
+
     console.log({ data: data?.data });
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
@@ -58,7 +58,6 @@ const Profile = ({
 
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug);
-    console.log(res);
     let nfts = [];
 
     res?.map((nft, index) => {
@@ -89,8 +88,6 @@ const Profile = ({
     set_nfts(new_nfts);
   };
 
-  
-
   const scrollActivityFetch = async () => {
     const newArray = await user_info(slug, activitySkip);
     setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
@@ -102,10 +99,6 @@ const Profile = ({
       setActivitySkip(activityRecords.length);
     }
   };
-
-  // useEffect(() => {
-  //   scrollFetchNFTs();
-  // }, [lastNFT]);
 
   useEffect(() => {
     getProfileData();
@@ -501,10 +494,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section
-          className={`relative pt-6 pb-24 dark:bg-jacarta-800 scroll-list`}
-          onScroll={handleOwnedNFTScroll}
-        >
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800`}>
           <div>
             <div className="tab-content">
               <div
@@ -518,8 +508,7 @@ const Profile = ({
                     dataLength={nfts.length}
                     next={fetch_more_data}
                     hasMore={true}
-                    className="flex flex-wrap"
-                    loader={<h4 className="text-white">Loading...</h4>}
+                    className="flex flex-wrap justify-center align-middle"
                   >
                     {nfts?.map((e, index) => {
                       return (

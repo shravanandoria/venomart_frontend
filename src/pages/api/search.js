@@ -19,7 +19,7 @@ export default async function handler(req, res) {
             { name: { $regex: query, $options: "i" } },
             { contractAddress: { $regex: query, $options: "i" } },
           ],
-        }).select(["contractAddress", "name", "logo"]);
+        }).select(["contractAddress", "name", "logo", "isVerified"]).limit(10).sort({ isVerified: 1 });
         results.push({ collections: col_search });
 
         const nfts_search = await NFT.find({
@@ -27,9 +27,10 @@ export default async function handler(req, res) {
             { name: { $regex: query, $options: "i" } },
             { NFTAddress: { $regex: query, $options: "i" } },
           ],
-        }).select(["name", "NFTAddress", "nft_image"]);
-    
+        }).select(["name", "NFTAddress", "nft_image", "NFTCollection"]).populate({ path: "NFTCollection", select: { isVerified: 1, contractAddress: 1 } }).limit(10);
+
         results.push({ nfts: nfts_search });
+
         res.status(200).json({ success: true, data: results });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });

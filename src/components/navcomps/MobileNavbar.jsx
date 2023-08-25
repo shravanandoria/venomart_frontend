@@ -1,14 +1,19 @@
+import Image from 'next/image';
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi';
+import { BsFillExclamationCircleFill } from 'react-icons/bs';
+import { MdVerified } from 'react-icons/md';
+import { RxCrossCircled } from 'react-icons/rx';
 
-const MobileNavbar = () => {
+const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onInput, search_result, setSearchValueState, showSearchCollections, showSearchNFTs, searchLoading, isTyping, searchNFTs, searchCollections }) => {
 
     const [explore, setExplore] = useState(false);
 
     return (
         <nav className="navbar w-full bg-white dark:bg-jacarta-800 p-6 mt-[-20px] lg:hidden">
             {/* mobile search  */}
-            <form action="search" className="relative mb-8 w-full">
+            {/* <form action="search" className="relative mb-8 w-full">
                 <input type="search"
                     className="w-full rounded-2xl border border-jacarta-100 py-3 px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                     placeholder="Search" />
@@ -20,8 +25,156 @@ const MobileNavbar = () => {
                             d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
                     </svg>
                 </span>
+            </form> */}
+            <form onSubmit={(e) => e.preventDefault()} className="relative mb-8 w-full">
+                <input
+                    type="search"
+                    onChange={(e) => {
+                        handle_search(e.target.value);
+                    }}
+                    className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                    placeholder="Search"
+                    value={searchValueState}
+                    onInput={onInput}
+                />
+                <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                    >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
+                    </svg>
+                </span>
+                {search_result[0] &&
+                    <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                        <RxCrossCircled onClick={() => (setSearchValueState(""), set_search_result([]))} className="h-6 w-6 text-jacarta-500 dark:text-white cursor-pointer" />
+                    </span>
+                }
+
+                {/* SEARCH FUNCTIONALITY */}
+                {search_result[0] &&
+                    <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4 z-40">
+                        <div className="flex justify-start align-middle h-[40px] pt-2">
+                            <span onClick={() => (showSearchNFTs(false), showSearchCollections(true))} className={`p-2 ml-4 ${searchCollections && "border-b border-jacarta-100 dark:border-jacarta-600"} cursor-pointer`}>Collections</span>
+                            <span onClick={() => (showSearchCollections(false), showSearchNFTs(true))} className={`p-2 ml-4 ${searchNFTs && "border-b border-jacarta-100 dark:border-jacarta-600"} cursor-pointer`}>NFTs</span>
+                        </div>
+                        {isTyping || searchLoading ?
+                            <div className="w-full rounded-2xl bg-[#F6F1F8] absolute border-r-4">
+                                <div className="flex justify-center align-middle h-[50px] p-4">
+                                    <BiLoaderAlt className="animate-spin" />
+                                </div>
+                            </div>
+                            :
+                            <div>
+                                {searchCollections &&
+                                    search_result[0]?.collections?.map((e, index) => (
+                                        <Link
+                                            key={index}
+                                            href={`/collection/${e.contractAddress}`}
+                                            className="rounded-2xl"
+                                        >
+                                            <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                                                <Image
+                                                    src={e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                    height={100}
+                                                    width={100}
+                                                    className="h-[46px] w-[46px] rounded-[50%] mr-2"
+                                                />
+                                                <div className="flex flex-col align-middle">
+                                                    <div className="flex align-middle justify-center">
+                                                        {e?.name}
+                                                        {e?.isVerified ?
+                                                            <MdVerified
+                                                                style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                                                size={17}
+                                                            />
+                                                            :
+                                                            <BsFillExclamationCircleFill
+                                                                style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                                                size={17}
+                                                            />
+                                                        }
+                                                    </div>
+                                                    <div className="flex align-middle">
+                                                        {e?.contractAddress.slice(0, 4) + "..." + e?.contractAddress.slice(63)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                                {searchCollections &&
+                                    (search_result[0]?.collections?.length <= 0 &&
+                                        <div className="rounded-2xl">
+                                            <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                                                No Collections Found
+                                            </div>
+                                        </div>)
+                                }
+
+                                {searchNFTs &&
+                                    search_result[1]?.nfts?.map((e, index) => (
+                                        <Link
+                                            key={index}
+                                            href={`/collection/${e.NFTAddress}`}
+                                            className="rounded-2xl"
+                                        >
+                                            <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                                                <Image
+                                                    src={e?.nft_image.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                    height={100}
+                                                    width={100}
+                                                    className="h-[46px] w-[46px] rounded-[50%] mr-2"
+                                                />
+                                                <div className="flex flex-col align-middle">
+                                                    <div className="flex align-middle justify-center">
+                                                        {e?.name}
+                                                    </div>
+                                                    <div className="flex align-middle">
+                                                        {e?.NFTCollection?.contractAddress.slice(0, 4) + "..." + e?.NFTCollection?.contractAddress.slice(63)}
+                                                        {e?.NFTCollection?.isVerified ?
+                                                            <MdVerified
+                                                                style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                                                size={17}
+                                                            />
+                                                            :
+                                                            <BsFillExclamationCircleFill
+                                                                style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                                                size={17}
+                                                            />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                                {searchNFTs &&
+                                    (search_result[1]?.nfts?.length <= 0 &&
+                                        <div className="rounded-2xl">
+                                            <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                                                No NFTs Found
+                                            </div>
+                                        </div>)
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+                {isTyping || searchLoading &&
+                    <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4">
+                        <div className="flex justify-start align-middle h-[40px] pt-2">
+                            <BiLoaderAlt className="animate-spin" />
+                        </div>
+                    </div>
+                }
             </form>
-            <ul className="flex flex-col lg:flex-row">
+
+            <ul className="flex flex-col lg:flex-row z-20">
                 <li className="group relative">
                     <Link
                         href="#"

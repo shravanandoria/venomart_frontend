@@ -544,8 +544,7 @@ export const buy_nft = async (
   price,
   signer_address,
   royalty,
-  royalty_address,
-  _platform_fees
+  royalty_address
 ) => {
   try {
     const marketplace_contract = new provider.Contract(
