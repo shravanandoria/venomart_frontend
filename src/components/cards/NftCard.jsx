@@ -1,44 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { MdVerified } from "react-icons/md";
 
 const NftCard = ({
   ImageSrc,
   Name,
   Description,
   Address,
-  onClickOpen = true,
   listedBool = false,
   listingPrice,
+  NFTCollectionAddress,
+  NFTCollectionName,
+  NFTCollectionStatus,
+  currency
 }) => {
+  const [isHovering, SetIsHovering] = useState(false);
+
+
   return (
-    <div className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px] ">
-      <div className="relative">
-        {onClickOpen == true ? (
-          <Link href={`/nft/${Address}`}>
-            <Image
-              src={ImageSrc}
-              height={100}
-              width={100}
-              alt="item 5"
-              className="h-[220px] w-full rounded-[0.625rem]"
-              loading="lazy"
-            />
-          </Link>
-        ) : (
-          <Link href="#">
-            <Image
-              src={ImageSrc}
-              height={100}
-              width={100}
-              alt="item 5"
-              className="h-[220px] w-full rounded-[0.625rem]"
-              loading="lazy"
-            />
-          </Link>
-        )}
+    <Link href={`/nft/${Address}`} className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px] ">
+      <div className="relative mb-4">
+        <Image
+          src={ImageSrc}
+          height={100}
+          width={100}
+          alt="item 5"
+          className="h-[220px] w-full rounded-[0.625rem]"
+          loading="lazy"
+        />
       </div>
-      <div className="mt-7 flex items-center justify-between">
+      {NFTCollectionName &&
+        <div className="relative flex align-middle" href={`/nft/${NFTCollectionAddress}`}>
+          <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+            {NFTCollectionName}
+          </span>
+          {NFTCollectionStatus ?
+            <MdVerified
+              style={{ color: "#4f87ff", marginLeft: "4px" }}
+              size={17}
+              onMouseOver={() => SetIsHovering(true)}
+              onMouseOut={() => SetIsHovering(false)}
+            />
+            :
+            <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "4px" }}
+              size={16}
+              onMouseOver={() => SetIsHovering(true)}
+              onMouseOut={() => SetIsHovering(false)}
+            />
+          }
+          {NFTCollectionStatus && isHovering &&
+            <p className="absolute left-[110px] bg-blue px-[8px] py-[2px] text-white text-[11px]" style={{ borderRadius: "10px" }}>Verified</p>
+          }
+          {NFTCollectionStatus && isHovering &&
+            <p className="absolute left-[110px] bg-[#c3c944] px-[8px] py-[2px] text-black text-[11px]" style={{ borderRadius: "10px" }}>Not Verified</p>
+          }
+        </div>
+      }
+      <div className="mt-2 flex items-center justify-between">
         <div
           style={{
             width: "240px",
@@ -47,24 +67,16 @@ const NftCard = ({
             overflow: "hidden",
           }}
         >
-          {onClickOpen == true ? (
-            <Link href={`/nft/${Address}`}>
-              <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-                {Name}
-              </span>
-            </Link>
-          ) : (
-            <Link href="#">
-              <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-                {Name}
-              </span>
-            </Link>
-          )}
+          <div href={`/nft/${Address}`}>
+            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+              {Name}
+            </span>
+          </div>
         </div>
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
             <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {"VENOM"}
+              {listingPrice} {currency}
             </span>
           </span>
         )}
@@ -82,7 +94,7 @@ const NftCard = ({
           {Description}
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -18,9 +18,8 @@ const SmallCollectionCard = ({
   return (
     <Link href={`/collection/${CollectionAddress}`}>
       <div
-        className={`flex rounded-2.5xl border ${
-          theme == "dark" ? "border-jacarta:900" : "border-jacarta-100"
-        } bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800 h-[100px] w-[300px] m-4 sm:m-6 overflow-hidden`}
+        className={`flex rounded-2.5xl border ${theme == "dark" ? "border-jacarta:900" : "border-jacarta-100"
+          } bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800 h-[100px] w-[300px] m-4 sm:m-6 overflow-hidden`}
       >
         <div className="mr-4 shrink-0">
           <div className="relative block">
@@ -77,7 +76,7 @@ const SmallCollectionCard = ({
               }}
               alt="VenomLogo"
             />
-            {Floor}
+            {Floor ? Floor : "0"}
           </span>
           <span className="text-sm mt-[5px] dark:text-jacarta-300 flex">
             Volume :{" "}
@@ -94,7 +93,7 @@ const SmallCollectionCard = ({
               }}
               alt="VenomLogo"
             />
-            {Volume}
+            {Volume ? Volume : "0"}
           </span>
         </div>
       </div>

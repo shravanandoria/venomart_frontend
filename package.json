@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "everscale-inpage-provider": "^0.3.61",
     "everscale-standalone-client": "^2.1.21",
+    "moment": "^2.29.4",
     "mongoose": "^7.4.1",
     "next": "13.4.10",
     "postcss": "8.4.26",
