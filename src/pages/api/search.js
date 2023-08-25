@@ -10,24 +10,35 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { query } = req.query;
+        const { query, type } = req.query;
         if (!query) return;
         let results = [];
 
-        const col_search = await Collection.find({
-          $or: [
-            { name: { $regex: query, $options: "i" } },
-            { contractAddress: { $regex: query, $options: "i" } },
-          ],
-        }).select(["contractAddress", "name", "logo", "isVerified"]).limit(10).sort({ isVerified: 1 });
-        results.push({ collections: col_search });
-
+        if (type !== "nft") {
+          const col_search = await Collection.find({
+            $or: [
+              { name: { $regex: query, $options: "i" } },
+              { contractAddress: { $regex: query, $options: "i" } },
+            ],
+          })
+            .select(["contractAddress", "name", "logo", "isVerified"])
+            .limit(10)
+            .sort({ isVerified: 1 });
+          results.push({ collections: col_search });
+        }
+        
         const nfts_search = await NFT.find({
           $or: [
             { name: { $regex: query, $options: "i" } },
             { NFTAddress: { $regex: query, $options: "i" } },
           ],
-        }).select(["name", "NFTAddress", "nft_image", "NFTCollection"]).populate({ path: "NFTCollection", select: { isVerified: 1, contractAddress: 1 } }).limit(10);
+        })
+          .select(["name", "NFTAddress", "nft_image", "NFTCollection"])
+          .populate({
+            path: "NFTCollection",
+            select: { isVerified: 1, contractAddress: 1 },
+          })
+          .limit(10);
 
         results.push({ nfts: nfts_search });
 

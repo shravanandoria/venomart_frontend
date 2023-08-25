@@ -29,7 +29,24 @@ export default async function handler(req, res) {
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress }).populate({ path: "NFTCollection", select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 } }).populate({ path: "activity", sort: { createdAt: -1 }, options: { limit: 10 }, select: { createdAt: 1, from: 1, hash: 1, price: 1, type: 1, to: 1 } });
+          let nft = await NFT.findOne({ NFTAddress })
+            .populate({
+              path: "NFTCollection",
+              select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
+            })
+            .populate({
+              path: "activity",
+              sort: { createdAt: -1 },
+              options: { limit: 10 },
+              select: {
+                createdAt: 1,
+                from: 1,
+                hash: 1,
+                price: 1,
+                type: 1,
+                to: 1,
+              },
+            });
 
           if (!nft)
             return res
@@ -80,7 +97,7 @@ export default async function handler(req, res) {
           description,
           attributes,
           NFTCollection,
-          signer_address
+          signer_address,
         } = req.body;
 
         let user = await User.findOne({ signer_address });
@@ -100,7 +117,9 @@ export default async function handler(req, res) {
         });
 
         if (!collection) {
-          collection = await Collection.create({ contractAddress: NFTCollection });
+          collection = await Collection.create({
+            contractAddress: NFTCollection,
+          });
           res.status(200).json({ success: true, data: collection });
         }
 
@@ -128,7 +147,14 @@ export default async function handler(req, res) {
 
     case "PUT":
       try {
-        const { NFTAddress, isListed, price, demandPrice, new_manager, new_owner } = req.body;
+        const {
+          NFTAddress,
+          isListed,
+          price,
+          demandPrice,
+          new_manager,
+          new_owner,
+        } = req.body;
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res
