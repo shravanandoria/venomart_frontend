@@ -30,24 +30,7 @@ export default async function handler(req, res) {
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress })
-            .populate({
-              path: "NFTCollection",
-              select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-            })
-            .populate({
-              path: "activity",
-              sort: { createdAt: -1 },
-              options: { limit: 10 },
-              select: {
-                createdAt: 1,
-                from: 1,
-                hash: 1,
-                price: 1,
-                type: 1,
-                to: 1,
-              },
-            });
+          let nft = await NFT.findOne({ NFTAddress }).populate({ path: "NFTCollection", select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 } }).populate({ path: "activity", sort: { createdAt: -1 }, options: { limit: 15 }, select: { createdAt: 1, from: 1, hash: 1, price: 1, type: 1, to: 1 } });
 
           if (!nft)
             return res
@@ -123,7 +106,7 @@ export default async function handler(req, res) {
         });
 
         if (!collection) {
-          collection = await Collection.create({ contractAddress: NFTCollection, TotalSupply: 0, TotalListed: 0, FloorPrice: 1000, TotalVolume: 0 });
+          collection = await Collection.create({ contractAddress: NFTCollection, isVerified: false, TotalSupply: 0, TotalListed: 0, FloorPrice: 1000, TotalVolume: 0 });
           res.status(200).json({ success: true, data: collection });
         }
 
@@ -142,6 +125,18 @@ export default async function handler(req, res) {
           NFTCollection: collection,
           activity: [],
         });
+
+        let nftNew = await NFT.findOne({ NFTAddress });
+        let NFTOwner = await User.findOne({ wallet_id: ownerAddress });
+        NFTOwner.NFTs.push(nftNew);
+        await NFTOwner.save();
+
+        if (!NFTOwner) {
+          CreateNFTOwner = await User.create({ wallet_id: ownerAddress });
+          NFTOwner = await User.findOne({ wallet_id: ownerAddress });
+          NFTOwner.NFTs.push(nftNew);
+          await NFTOwner.save();
+        }
 
         res.status(200).json({ success: true, data: nft });
       } catch (error) {

@@ -81,8 +81,8 @@ export const getNftCodeHash = async (provider, collection_address) => {
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
-    continuation: last_nft_addr || undefined,
-    limit: 40,
+    continuation: undefined || last_nft_addr,
+    limit: 25,
   });
   return addresses;
 };
@@ -227,8 +227,8 @@ export const getAddressesFromIndex = async (
 ) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
-    continuation: undefined || last_nft_addr,
-    limit: 40,
+    continuation: last_nft_addr,
+    limit: 25,
   });
   return addresses;
 };
@@ -451,7 +451,7 @@ export const list_nft = async (
         newFloorPrice: parseFloat(newFloorPrice),
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -501,7 +501,7 @@ export const list_nft = async (
       .call();
   } catch (error) {
     console.log(error);
-    // window.location.reload();
+    window.location.reload();
   }
 };
 
@@ -534,7 +534,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -563,7 +563,7 @@ export const cancel_listing = async (
       });
   } catch (error) {
     console.log(error);
-    // window.location.reload();
+    window.location.reload();
   }
 };
 
@@ -607,7 +607,7 @@ export const buy_nft = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const subscriber = new Subscriber(provider);
@@ -636,7 +636,7 @@ export const buy_nft = async (
       });
   } catch (error) {
     console.log(error);
-    // window.location.reload();
+    window.location.reload();
   }
 };
 

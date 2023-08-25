@@ -1,15 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import moment from 'moment';
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From = "12", To = "12" }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From = "market", To = "market" }) => {
+
+    const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
+
     return (
         <div style={{ margin: "12px", width: "90%" }}
             className="relative flex flex-wrap justify-center align-middle items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
             {/* nft image url  */}
             <Link href={`/nft/${NFTAddress}`}>
                 <div className="mr-5 mb-4 self-start">
-                    <Image src={NFTImage} alt="nftImage" height={100} width={100} className="rounded-2lg" loading="lazy" />
+                    <Image src={NFTImage.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="rounded-2lg" loading="lazy" />
                 </div>
             </Link>
 
@@ -22,18 +26,44 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                 </Link>
 
                 {/* value  */}
-                <span className="mb-3 block text-sm text-jacarta-500">sold for {Price} VENOM</span>
+                {ActivityType == "mint" &&
+                    <span className="mb-3 block text-sm text-jacarta-500">Minted a brand new NFT</span>
+                }
+                {ActivityType == "list" &&
+                    <span className="mb-3 block text-sm text-jacarta-500">listed for {Price} VENOM</span>
+                }
+                {ActivityType == "cancel" &&
+                    <span className="mb-3 block text-sm text-jacarta-500">removed from listing</span>
+                }
+                {ActivityType == "sale" &&
+                    <span className="mb-3 block text-sm text-jacarta-500">sold for {Price} VENOM</span>
+                }
 
                 {/* from and to  */}
                 <span className="block text-xs text-jacarta-300">Transfer from  <a href={`${blockURL}accounts/${From}`} target='_blank' className='text-blue'>{From.slice(0, 5) + "..." + From.slice(63)}</a> to <a href={`${blockURL}accounts/${To}`} target='_blank' className='text-blue'>{To.slice(0, 5) + "..." + To.slice(63)}</a></span>
 
                 {/* time  */}
-                <span className="block text-xs text-jacarta-200 mt-2 font-medium">{ActivityTime}</span>
+                <span className="block text-xs text-jacarta-200 mt-2 font-medium">about {dateTimeAgo}</span>
             </div>
 
             {/* activity type  */}
+            {ActivityType == "mint" &&
+                <Link href={`${blockURL}transactions/${ActivityHash}`} target='_blank' className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="fill-jacarta-700 dark:fill-white"
+                    >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                    </svg>
+                    <span className="block text-[17px] text-jacarta-400 font-medium pl-1 pb-1">Mint</span>
+                </Link>
+            }
             {ActivityType == "list" &&
-                <div className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
+                <Link href={`${blockURL}transactions/${ActivityHash}`} target='_blank' className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -45,10 +75,10 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                     </svg>
                     <span className="block text-[17px] text-jacarta-400 font-medium pl-1 pb-1">Listing</span>
-                </div>
+                </Link>
             }
             {ActivityType == "cancel" &&
-                <div className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
+                <Link href={`${blockURL}transactions/${ActivityHash}`} target='_blank' className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -59,11 +89,11 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                     </svg>
-                    <span className="block text-[17px] text-jacarta-400 font-medium pl-1 pb-1">Cancel Listing</span>
-                </div>
+                    <span className="block text-[17px] text-jacarta-400 font-medium pl-1 pb-1">Remove Listing</span>
+                </Link>
             }
             {ActivityType == "sale" &&
-                <div className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
+                <Link href={`${blockURL}transactions/${ActivityHash}`} target='_blank' className="ml-auto rounded-full border border-jacarta-100 p-3 dark:border-jacarta-600 flex align-middle justify-around">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -77,7 +107,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         />
                     </svg>
                     <span className="block text-[17px] text-jacarta-400 font-medium pl-1">Sale</span>
-                </div>
+                </Link>
             }
         </div>
     )
