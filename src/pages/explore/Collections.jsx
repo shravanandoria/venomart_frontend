@@ -4,6 +4,7 @@ import Head from "next/head";
 import Loader from "../../components/Loader";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
 import { BsChevronDown } from "react-icons/bs";
+import { search_collections } from "../../utils/mongo_api/search";
 
 const Collections = ({ theme, venomProvider }) => {
   const [collections, set_collections] = useState([]);
@@ -12,6 +13,11 @@ const Collections = ({ theme, venomProvider }) => {
   const [loading, setLoading] = useState(false);
   const [filterCategories, openFilterCategories] = useState(false);
   const [filterSort, openFilterSort] = useState(false);
+
+  const [isTyping, set_isTyping] = useState(true);
+  const [query_search, set_query_search] = useState("");
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [search_result, set_search_result] = useState([]);
 
   const scrollFetchCollections = async () => {
     const collectionsJSON = await get_collections(skip);
@@ -24,6 +30,26 @@ const Collections = ({ theme, venomProvider }) => {
       setSkip(collections.length);
     }
   };
+
+  const handle_search = async (data) => {
+    // console.log(data);
+    set_query_search(data);
+    set_isTyping(true);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      set_isTyping(false);
+      if (isTyping || !query_search) return;
+      setSearchLoading(true);
+      const res = await search_collections(query_search);
+      console.log(res);
+      setSearchLoading(false);
+      set_search_result(res);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isTyping]);
 
   useEffect(() => {
     scrollFetchCollections();
@@ -72,7 +98,7 @@ const Collections = ({ theme, venomProvider }) => {
                       <BsChevronDown className="h-[15px] w-[15px] ml-4" />
                     </button>
 
-                    {filterCategories &&
+                    {filterCategories && (
                       <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                         <ul className="flex flex-col flex-wrap">
                           <li>
@@ -80,7 +106,9 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">All Categories</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                All Categories
+                              </span>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -98,7 +126,9 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">Art</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Art
+                              </span>
                             </a>
                           </li>
                           <li>
@@ -106,7 +136,9 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">Collectibles</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Collectibles
+                              </span>
                             </a>
                           </li>
                           <li>
@@ -114,7 +146,9 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">Games</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Games
+                              </span>
                             </a>
                           </li>
                           <li>
@@ -122,7 +156,9 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">Memes</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Memes
+                              </span>
                             </a>
                           </li>
                           <li>
@@ -130,12 +166,14 @@ const Collections = ({ theme, venomProvider }) => {
                               href="#"
                               className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                             >
-                              <span className="text-jacarta-700 dark:text-white">Utility</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Utility
+                              </span>
                             </a>
                           </li>
                         </ul>
                       </div>
-                    }
+                    )}
                   </div>
 
                   {/* searchbar  */}
@@ -147,7 +185,7 @@ const Collections = ({ theme, venomProvider }) => {
                       <input
                         type="search"
                         // onFocus={() => set_search_result([])}
-                        // onChange={find_nft}
+                        onChange={(e) => handle_search(e.target.value)}
                         className="w-[275px] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                         placeholder="search for collections..."
                       />
@@ -191,7 +229,9 @@ const Collections = ({ theme, venomProvider }) => {
                     className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                     onClick={() => openFilterSort(!filterSort)}
                   >
-                    <span className="font-display text-jacarta-700 dark:text-white">Top Volume</span>
+                    <span className="font-display text-jacarta-700 dark:text-white">
+                      Top Volume
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -204,11 +244,9 @@ const Collections = ({ theme, venomProvider }) => {
                     </svg>
                   </div>
 
-                  {filterSort &&
+                  {filterSort && (
                     <div className="absolute dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
-                      <button
-                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
+                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                         Top Volume
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -221,18 +259,14 @@ const Collections = ({ theme, venomProvider }) => {
                           <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                         </svg>
                       </button>
-                      <button
-                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
+                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                         Trending
                       </button>
-                      <button
-                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                      >
+                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                         Recently Created
                       </button>
                     </div>
-                  }
+                  )}
                 </div>
               </div>
 

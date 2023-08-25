@@ -17,6 +17,7 @@ export default async function handler(req, res) {
           ownerAddress,
           isListed,
           collection_address,
+          page,
         } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
@@ -41,6 +42,7 @@ export default async function handler(req, res) {
 
         // IF COLLECTION ADDR IS PROVIDED, SEND ALL NFTS WITH THAT COL ADDRESS
         if (collection_address) {
+          const contentPerPage = 3;
           const col = await Collection.findOne({
             contractAddress: collection_address,
           });
@@ -51,12 +53,16 @@ export default async function handler(req, res) {
               .json({ success: false, data: "Cannot find this collection" });
           }
 
-          const nfts = await NFT.find({ NFTCollection: col }).select([
-            "-activity",
-            "-NFTCollection",
-            "-managerAddress",
-            "-isLike",
-          ]);
+          const nfts = await NFT.find({ NFTCollection: col })
+            .select([
+              "-activity",
+              "-NFTCollection",
+              "-managerAddress",
+              "-isLike",
+            ])
+            .skip(contentPerPage * page)
+            .limit(contentPerPage);
+
           return res.status(200).json({ success: true, data: nfts });
         }
 
@@ -80,7 +86,7 @@ export default async function handler(req, res) {
           description,
           attributes,
           NFTCollection,
-          signer_address
+          signer_address,
         } = req.body;
 
         let user = await User.findOne({ wallet_id: signer_address });
@@ -140,7 +146,14 @@ export default async function handler(req, res) {
 
     case "PUT":
       try {
-        const { NFTAddress, isListed, price, demandPrice, new_manager, new_owner } = req.body;
+        const {
+          NFTAddress,
+          isListed,
+          price,
+          demandPrice,
+          new_manager,
+          new_owner,
+        } = req.body;
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res
