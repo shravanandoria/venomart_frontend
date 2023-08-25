@@ -59,7 +59,11 @@ const Collection = ({
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
     set_activity(res?.data?.activity);
-    // getting total supply
+    setLoading(false);
+  };
+
+  // getting total supply
+  const gettingTotalSupply = async () => {
     if (venomProvider != undefined) {
       try {
         const contract = new venomProvider.Contract(collectionAbi, slug);
@@ -71,8 +75,7 @@ const Collection = ({
         console.log("total supply error");
       }
     }
-    setLoading(false);
-  };
+  }
 
   const fetch_nfts = async () => {
     let nfts;
@@ -85,6 +88,10 @@ const Collection = ({
     if (!slug) return;
     gettingCollectionInfo();
   }, [standalone, slug]);
+
+  useEffect(() => {
+    gettingTotalSupply();
+  }, [venomProvider]);
 
   return (
     <div className={`${theme}`}>
@@ -305,13 +312,13 @@ const Collection = ({
                     className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {totalSupply ? totalSupply : nfts?.length + "+"}
+                      {totalSupply ? totalSupply : 100 + "+"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
                     </div>
                   </a>
-                  <a
+                  {/* <a
                     href="#"
                     className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
                   >
@@ -320,6 +327,17 @@ const Collection = ({
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Owners
+                    </div>
+                  </a> */}
+                  <a
+                    href="#"
+                    className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
+                  >
+                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
+                      {collection?.totalListed ? collection?.totalListed : "0"}
+                    </div>
+                    <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
+                      For Sale
                     </div>
                   </a>
                   <a
@@ -338,7 +356,7 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1">0</span>
+                      <span className="font-bold ml-1"> {collection?.FloorPrice ? collection?.FloorPrice : "0"}</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
@@ -360,7 +378,7 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1">0</span>
+                      <span className="font-bold ml-1">{collection?.TotalVolume ? collection?.TotalVolume : "0"}</span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded

@@ -373,14 +373,14 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                       <SmallCollectionCard
                         key={index}
                         id={index + 1}
-                        Logo={e.logo}
-                        Name={e.name}
-                        OwnerAddress={e.creatorAddress}
-                        CollectionAddress={e.contractAddress}
+                        Logo={e?.logo}
+                        Name={e?.name}
+                        OwnerAddress={e?.creatorAddress}
+                        CollectionAddress={e?.contractAddress}
                         theme={theme}
-                        isVerified={e.isVerified}
-                        Volume={"0.00"}
-                        Floor={"0.00"}
+                        isVerified={e?.isVerified}
+                        Volume={e?.TotalVolume}
+                        Floor={e?.FloorPrice}
                       />
                     )
                   );

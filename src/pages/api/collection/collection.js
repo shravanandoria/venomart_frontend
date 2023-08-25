@@ -61,6 +61,10 @@ export default async function handler(req, res) {
           description,
           socials,
           isVerified,
+          TotalSupply: 0,
+          TotalListed: 0,
+          FloorPrice: 1000,
+          TotalVolume: 0,
         });
 
         await owner.nftCollections.push(collection);

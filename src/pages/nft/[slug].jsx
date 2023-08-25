@@ -103,7 +103,7 @@ const NFTPage = ({
   const buy_NFT_ = async (e) => {
     e.preventDefault();
     set_loading(true);
-    let royaltyFinalAmount = (parseFloat(nft?.demandPrice) / parseFloat(nft?.NFTCollection?.royalty)) * 1000000000;
+    let royaltyFinalAmount = (((parseFloat(nft?.demandPrice) * parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : 0)) / 100) * 1000000000);
     try {
       await buy_nft(
         venomProvider,
@@ -113,7 +113,7 @@ const NFTPage = ({
         nft.listingPrice,
         (nft.listingPrice * 1000000000).toString(),
         signer_address,
-        "0",
+        royaltyFinalAmount,
         nft?.NFTCollection?.royaltyAddress ? nft?.NFTCollection?.royaltyAddress : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
     } catch (error) {

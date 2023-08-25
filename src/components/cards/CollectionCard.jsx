@@ -1,9 +1,10 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venomBG.webp"
+import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 
 const CollectionCard = ({
     Cover,
@@ -12,10 +13,33 @@ const CollectionCard = ({
     Description,
     OwnerAddress,
     CollectionAddress,
-    verified
+    verified,
+    Listing,
+    Volume,
+    FloorPrice,
+    venomProvider
 }) => {
-
     const [isHovering, SetIsHovering] = useState(false);
+    const [totalSupply, setTotalSupply] = useState(0);
+
+    // getting total supply
+    const gettingTotalSupply = async () => {
+        if (venomProvider != undefined) {
+            try {
+                const contract = new venomProvider.Contract(collectionAbi, CollectionAddress);
+                const totalSupply = await contract.methods
+                    .totalSupply({ answerId: 0 })
+                    .call();
+                setTotalSupply(totalSupply.count);
+            } catch (error) {
+                console.log("total supply error");
+            }
+        }
+    }
+
+    useEffect(() => {
+        gettingTotalSupply();
+    }, [venomProvider]);
 
     return (
         <Link href={`/collection/${CollectionAddress}`}>
@@ -80,7 +104,7 @@ const CollectionCard = ({
                 </div>
                 <div className="flex">
                     <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
-                        1000+ Items
+                        {totalSupply ? totalSupply : "0"} Items
                     </span>
                 </div>
 
@@ -93,7 +117,7 @@ const CollectionCard = ({
                 </div>
                 <div className="flex justify-between align-middle my-6">
                     <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
-                        <span className="text-jacarta-400">Owners</span> 50+
+                        <span className="text-jacarta-400">Listings</span> {Listing ? Listing : "0"}
                     </button>
                     <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
                         <span className="text-jacarta-400">Floor</span>
@@ -110,7 +134,7 @@ const CollectionCard = ({
                                 }}
                                 alt="VenomLogo"
                             />
-                            0
+                            {FloorPrice ? FloorPrice : "0"}
                         </span>
                     </button>
                     <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
@@ -128,7 +152,7 @@ const CollectionCard = ({
                                 }}
                                 alt="VenomLogo"
                             />
-                            0
+                            {Volume ? Volume : "0"}
                         </span>
                     </button>
                 </div>

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import React, { useEffect } from 'react'
 import { get_collections } from '../../utils/mongo_api/collection/collection'
 
-const Rankings = ({ theme, topCollections, setTopCollections }) => {
+const Rankings = ({ theme, topCollections, setTopCollections, venomProvider }) => {
 
     const fetchTopCollections = async () => {
         const topCollections = await get_collections(0);
@@ -185,7 +185,7 @@ const Rankings = ({ theme, topCollections, setTopCollections }) => {
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100"
-                                    >Owners</span>
+                                    >Listings</span>
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">Items</span>
@@ -195,19 +195,21 @@ const Rankings = ({ theme, topCollections, setTopCollections }) => {
                             {/* loop all the collections here  */}
 
                             {topCollections?.map((e, index) => (
+                                e?.name != undefined &&
                                 <CollectionRankingCard
                                     key={index}
                                     id={index + 1}
-                                    Logo={e.logo}
-                                    Name={e.name}
-                                    OwnerAddress={e.creatorAddress}
-                                    contractAddress={e.contractAddress}
+                                    Logo={e?.logo}
+                                    Name={e?.name}
+                                    OwnerAddress={e?.creatorAddress}
+                                    contractAddress={e?.contractAddress}
                                     theme={theme}
-                                    isVerified={e.isVerified}
-                                    Volume={"0.00"}
-                                    Floor={"0.00"}
-                                    Owners={"500+"}
-                                    Items={"2000+"}
+                                    isVerified={e?.isVerified}
+                                    Royalty={e?.royalty}
+                                    Volume={e?.TotalVolume}
+                                    Floor={e?.FloorPrice}
+                                    Listings={e?.TotalListing}
+                                    venomProvider={venomProvider}
                                 />
                             ))}
                             {topCollections?.length <= 0 && (
