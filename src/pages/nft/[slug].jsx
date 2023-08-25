@@ -226,8 +226,8 @@ const NFTPage = ({
                     <div className="flex items-center">
                       <Link
                         href={`/collection/${onchainNFTData
-                            ? nft?.collection?._address
-                            : nft?.NFTCollection?.contractAddress
+                          ? nft?.collection?._address
+                          : nft?.NFTCollection?.contractAddress
                           }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
@@ -1232,8 +1232,8 @@ const NFTPage = ({
                       <div>
                         <Link
                           href={`/collection/${onchainNFTData
-                              ? nft?.collection?._address
-                              : nft?.NFTCollection?.contractAddress
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
                             }`}
                           className="text-accent text-sm"
                         >

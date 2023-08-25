@@ -22,9 +22,10 @@ const CollectionSchema = new mongoose.Schema(
         ref: "Activity",
       },
     ],
-    TotalSupply: String,
-    FloorPrice: String,
-    TotalVolume: String,
+    TotalSupply: Number,
+    TotalListed: Number,
+    FloorPrice: Number,
+    TotalVolume: Number,
 
   },
   { timestamps: true }
