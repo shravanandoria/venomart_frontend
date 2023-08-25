@@ -71,7 +71,6 @@ const Profile = ({
       }
     });
     setLastNFT(res?.continuation);
-    console.log(res?.continuation);
     set_nfts(new_nfts);
   };
 

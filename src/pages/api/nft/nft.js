@@ -83,7 +83,7 @@ export default async function handler(req, res) {
           signer_address
         } = req.body;
 
-        let user = await User.findOne({ signer_address });
+        let user = await User.findOne({ wallet_id: signer_address });
         if (!user) {
           user = await User.create({ wallet_id: signer_address });
         }
