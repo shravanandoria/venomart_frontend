@@ -20,6 +20,7 @@ import defBack from "../../../public/defback.png";
 import { get_collection_by_contract } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Collection = ({
   blockURL,
@@ -50,10 +51,10 @@ const Collection = ({
     setLoading(true);
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug);
+    // console.log(nfts);
     set_nfts(nfts);
     // getting contract info
     const res = await get_collection_by_contract(slug);
-    console.log({ res: res?.data?.activity.length })
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     // getting total supply
@@ -437,8 +438,12 @@ const Collection = ({
             <div>
               <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
                 <li className="nav-item" role="presentation">
-                  <button onClick={() => (showActivityTab(false), showItemsTab(true))} className={`nav-link ${itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}>
+                  <button
+                    onClick={() => (showActivityTab(false), showItemsTab(true))}
+                    className={`nav-link ${
+                      itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -447,17 +452,21 @@ const Collection = ({
                       className="mr-1 h-5 w-5 fill-current"
                     >
                       <path fill="none" d="M0 0h24v24H0z" />
-                      <path
-                        d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z"
-                      />
+                      <path d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z" />
                     </svg>
-                    <span className="font-display text-base font-medium">Items</span>
+                    <span className="font-display text-base font-medium">
+                      Items
+                    </span>
                   </button>
                 </li>
 
                 <li className="nav-item" role="presentation">
-                  <button onClick={() => (showItemsTab(false), showActivityTab(true))} className={`nav-link ${activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}>
+                  <button
+                    onClick={() => (showItemsTab(false), showActivityTab(true))}
+                    className={`nav-link ${
+                      activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -466,17 +475,17 @@ const Collection = ({
                       className="mr-1 h-5 w-5 fill-current"
                     >
                       <path fill="none" d="M0 0h24v24H0z" />
-                      <path
-                        d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z"
-                      />
+                      <path d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z" />
                     </svg>
-                    <span className="font-display text-base font-medium">Activity</span>
+                    <span className="font-display text-base font-medium">
+                      Activity
+                    </span>
                   </button>
                 </li>
               </ul>
 
               {/* items  */}
-              {itemsTab &&
+              {itemsTab && (
                 <div className="tab-content">
                   <div
                     className="tab-pane fade show active"
@@ -496,8 +505,8 @@ const Collection = ({
                             Name={e?.name}
                             Description={e?.description}
                             Address={e?.nftAddress?._address}
-                          // listedBool={e.isListed}
-                          // listingPrice={e.listingPrice}
+                            // listedBool={e.isListed}
+                            // listingPrice={e.listingPrice}
                           />
                         );
                       })}
@@ -511,12 +520,12 @@ const Collection = ({
                     </div>
                   </div>
                 </div>
-              }
+              )}
 
               {/* activity  */}
-              {activityTab &&
+              {activityTab && (
                 <div className="container">
-                  {(activity?.length >= 1) && (
+                  {activity?.length >= 1 && (
                     <div className="flexActivitySection">
                       <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                         <div className="flex justify-center align-middle flex-wrap">
@@ -573,7 +582,9 @@ const Collection = ({
                               <path fill="none" d="M0 0h24v24H0z" />
                               <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                             </svg>
-                            <span className="text-2xs font-medium">Listing</span>
+                            <span className="text-2xs font-medium">
+                              Listing
+                            </span>
                           </button>
 
                           <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
@@ -631,21 +642,23 @@ const Collection = ({
                               <path fill="none" d="M0 0h24v24H0z" />
                               <path d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z" />
                             </svg>
-                            <span className="text-2xs font-medium">Transfer</span>
+                            <span className="text-2xs font-medium">
+                              Transfer
+                            </span>
                           </button>
                         </div>
                       </div>
                     </div>
                   )}
                   <div className="flex justify-center">
-                    {((activity?.length <= 0) || (activity === undefined)) && (
+                    {(activity?.length <= 0 || activity === undefined) && (
                       <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
                         No activities yet!
                       </h2>
                     )}
                   </div>
                 </div>
-              }
+              )}
             </div>
           </section>
         </div>
