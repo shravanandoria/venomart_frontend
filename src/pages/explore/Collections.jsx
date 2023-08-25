@@ -5,7 +5,7 @@ import Loader from "../../components/Loader";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
 import { BsChevronDown } from "react-icons/bs";
 
-const Collections = ({ theme }) => {
+const Collections = ({ theme, venomProvider }) => {
   const [collections, set_collections] = useState([]);
   const [skip, setSkip] = useState(0);
 
@@ -248,6 +248,10 @@ const Collections = ({ theme }) => {
                     OwnerAddress={e?.OwnerAddress}
                     CollectionAddress={e?.contractAddress}
                     verified={e?.isVerified}
+                    Listing={e?.TotalListing}
+                    Volume={e?.TotalVolume}
+                    FloorPrice={e?.FloorPrice}
+                    venomProvider={venomProvider}
                   />
                 ))}
                 {collections?.length <= 0 && (

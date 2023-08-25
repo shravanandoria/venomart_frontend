@@ -43,11 +43,6 @@ export default async function handler(req, res) {
           contractAddress: collection_address,
         });
 
-        if (!collection) {
-          collection = await Collection.create({ contractAddress: collection_address, TotalListed: 1 });
-          res.status(201).json({ success: true, data: collection });
-        }
-
         if (collection) {
           if (type == "list") {
             collection.TotalListed++;
@@ -69,6 +64,12 @@ export default async function handler(req, res) {
             collection.TotalListed--;
             await collection.save();
           }
+        }
+
+        if (!collection) {
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This Collection" });
         }
 
 

@@ -1,7 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
-import Collection from "../../../Models/Collection.js";
+import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
         });
 
         if (!collection) {
-          collection = await Collection.create({ contractAddress: NFTCollection });
+          collection = await Collection.create({ contractAddress: NFTCollection, TotalSupply: 0, TotalListed: 0, FloorPrice: 1000, TotalVolume: 0 });
           res.status(200).json({ success: true, data: collection });
         }
 
