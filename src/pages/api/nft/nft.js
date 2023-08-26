@@ -13,6 +13,7 @@ export default async function handler(req, res) {
       try {
         const {
           skipNFTs,
+          skipCollectionNFTs,
           NFTAddress,
           ownerAddress,
           isListed,
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
         } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
+        const skipCol = skipCollectionNFTs && /^\d+$/.test(skipCollectionNFTs) ? Number(skipCollectionNFTs) : 0;
 
         // GET USER'S NFTS
         if (ownerAddress) {
@@ -58,26 +60,24 @@ export default async function handler(req, res) {
 
         // IF COLLECTION ADDR IS PROVIDED, SEND ALL NFTS WITH THAT COL ADDRESS
         if (collection_address) {
-          const contentPerPage = 4;
-          const col = await Collection.findOne({
+          const collection = await Collection.findOne({
             contractAddress: collection_address,
           });
 
-          if (!col) {
+          if (!collection) {
             return res
               .status(400)
               .json({ success: false, data: "Cannot find this collection" });
           }
 
-          const nfts = await NFT.find({ NFTCollection: col })
+          const nfts = await NFT.find({ NFTCollection: collection })
             .select([
               "-activity",
               "-NFTCollection",
               "-managerAddress",
               "-isLike",
-            ])
-            .skip(contentPerPage * page)
-            .limit(contentPerPage);
+              "-attributes",
+            ]).skip(skipCol).limit(20);
 
           return res.status(200).json({ success: true, data: nfts });
         }

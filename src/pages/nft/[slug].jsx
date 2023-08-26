@@ -1131,12 +1131,12 @@ const NFTPage = ({
                           type="text"
                           onChange={(e) => (
                             set_listing_price(e.target.value),
-                            setCreatorRoyalty((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : collectionData?.data?.royalty) * e.target.value) / 100),
+                            setCreatorRoyalty((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : (collectionData?.data?.royalty ? collectionData?.data?.royalty : 0)) * e.target.value) / 100),
                             setPlatformFees((platform_fees * e.target.value) / 100),
                             setFinalListingPrice(
                               (
                                 parseFloat(e.target.value) +
-                                parseFloat((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : collectionData?.data?.royalty) * e.target.value) / 100) +
+                                parseFloat((parseFloat(nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : (collectionData?.data?.royalty ? collectionData?.data?.royalty : 0)) * e.target.value) / 100) +
                                 parseFloat((platform_fees * e.target.value) / 100)
                               ).toFixed(2)
                             )
@@ -1242,7 +1242,7 @@ const NFTPage = ({
                         <div className="feesSectionTarget">
                           <div className="flex flex-wrap items-center mt-2">
                             <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
-                              Creator Royalty: {nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : collectionData?.data?.royalty}%
+                              Creator Royalty: {nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : (collectionData?.data?.royalty ? collectionData?.data?.royalty : 0)}%
                             </span>
                             <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
                               <svg

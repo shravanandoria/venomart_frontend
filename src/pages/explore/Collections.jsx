@@ -3,7 +3,7 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
-import { BsChevronDown } from "react-icons/bs";
+import { BsChevronDown, BsUiChecksGrid } from "react-icons/bs";
 import { search_collections } from "../../utils/mongo_api/search";
 
 const Collections = ({ theme, venomProvider }) => {
@@ -16,11 +16,15 @@ const Collections = ({ theme, venomProvider }) => {
 
   const [isTyping, set_isTyping] = useState(true);
   const [query_search, set_query_search] = useState("");
+  const [def_query, set_def_query] = useState(undefined);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const scrollFetchCollections = async () => {
+    setMoreLoading(true);
     const collectionsJSON = await get_collections(skip);
     set_collections([...collections, ...collectionsJSON]);
+    setMoreLoading(false);
   };
 
   const handleScroll = (e) => {
@@ -31,32 +35,21 @@ const Collections = ({ theme, venomProvider }) => {
   };
 
   const handle_search = async (data) => {
-    // console.log(data);
+    setSearchLoading(true);
     set_query_search(data);
     set_isTyping(true);
+    set_def_query("");
   };
 
   useEffect(() => {
-    console.log(query_search);
     const timer = setTimeout(async () => {
-      console.log(query_search);
-      if (!query_search) {
-        const collectionsJSON = await get_collections(skip);
-        set_collections([...collectionsJSON]);
-      }
-
       set_isTyping(false);
-      if (isTyping) return;
+      if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
       const res = await search_collections(query_search);
-      // console.log(res.collections);
-      const filter_col = collections.filter((e) =>
-        res.collections.some((item) => item._id === e._id)
-      );
-      console.log(filter_col);
-      set_collections(filter_col);
-      setSearchLoading(false);
+      set_collections(res.collections);
       set_isTyping(false);
+      setSearchLoading(false);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -85,8 +78,8 @@ const Collections = ({ theme, venomProvider }) => {
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className={`${theme} scroll-list`} onScroll={handleScroll}>
-          <section className="relative py-24 dark:bg-jacarta-800">
+        <div className={`${theme} dark:bg-jacarta-700 bg-white`} >
+          <section className="relative py-24 dark:bg-jacarta-800 scroll-list" onScroll={handleScroll}>
             <div>
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore Collections
@@ -192,6 +185,7 @@ const Collections = ({ theme, venomProvider }) => {
                     <form
                       action="search"
                       className="relative ml-12 mr-8 basis-3/12 xl:ml-[8%]"
+                      onSubmit={(e) => e.preventDefault()}
                     >
                       <input
                         type="search"
@@ -281,29 +275,46 @@ const Collections = ({ theme, venomProvider }) => {
               </div>
 
               {/* loop collections here  */}
-              <div className="flex justify-center align-middle flex-wrap">
-                {collections?.map((e, index) => (
-                  <CollectionCard
-                    key={index}
-                    Cover={e?.coverImage}
-                    Logo={e?.logo}
-                    Name={e?.name}
-                    Description={e?.description}
-                    OwnerAddress={e?.OwnerAddress}
-                    CollectionAddress={e?.contractAddress}
-                    verified={e?.isVerified}
-                    Listing={e?.TotalListing}
-                    Volume={e?.TotalVolume}
-                    FloorPrice={e?.FloorPrice}
-                    venomProvider={venomProvider}
-                  />
-                ))}
-                {collections?.length <= 0 && (
-                  <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-                    No Collections Found
-                  </h2>
-                )}
-              </div>
+              {searchLoading ?
+                <div className="flex items-center justify-center space-x-2 mt-[200px]">
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                </div>
+                :
+                <div className="flex justify-center align-middle flex-wrap">
+                  {collections?.map((e, index) => (
+                    <CollectionCard
+                      key={index}
+                      Cover={e?.coverImage}
+                      Logo={e?.logo}
+                      Name={e?.name}
+                      Description={e?.description}
+                      OwnerAddress={e?.OwnerAddress}
+                      CollectionAddress={e?.contractAddress}
+                      verified={e?.isVerified}
+                      Listing={e?.TotalListing}
+                      Volume={e?.TotalVolume}
+                      FloorPrice={e?.FloorPrice}
+                      venomProvider={venomProvider}
+                    />
+                  ))}
+
+                  {moreLoading &&
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  }
+
+                  {collections?.length <= 0 && (
+                    <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+                      No Collections Found
+                    </h2>
+                  )}
+                </div>
+              }
             </div>
           </section>
         </div>

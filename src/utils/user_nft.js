@@ -92,36 +92,8 @@ export const loadNFTs_collection = async (
   provider,
   collection_address,
   last_nft_addr,
-  page
 ) => {
-  console.log({ page });
-  // fetching off chain
   try {
-    const res = await axios({
-      url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
-      method: "GET",
-    });
-
-    let newArr = [];
-
-    res.data.data.map((e) => {
-      let obj = {
-        ...e,
-        preview: { source: e.nft_image },
-        nftAddress: { _address: e.NFTAddress },
-      };
-      newArr.push(obj);
-    });
-
-    console.log({ newArr });
-
-    if (res.data.data.length > 0)
-      return { nfts: newArr, continuation: res.data.data.length };
-
-    if (page > 0 && !res.data.data.length) return;
-
-    console.log("onchain");
-    // fetching on chain
     const contract = new provider.Contract(
       collectionAbi,
       new Address(COLLECTION_ADDRESS)
@@ -464,7 +436,7 @@ export const list_nft = async (
         newFloorPrice: parseFloat(newFloorPrice),
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -547,7 +519,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -623,7 +595,7 @@ export const buy_nft = async (
         newFloorPrice: 0,
       };
       await addActivity(activityOBJ);
-      // window.location.reload();
+      window.location.reload();
     };
 
     const subscriber = new Subscriber(provider);
