@@ -82,7 +82,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 25,
+    limit: 40,
   });
   return addresses;
 };
@@ -94,12 +94,13 @@ export const loadNFTs_collection = async (
   last_nft_addr,
   page
 ) => {
-  console.log({ collection_address, page });
   const res = await axios({
     url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
     method: "GET",
   });
+
   let newArr = [];
+
   res.data.data.map((e) => {
     let obj = {
       ...e,
@@ -108,9 +109,8 @@ export const loadNFTs_collection = async (
     };
     newArr.push(obj);
   });
-
-  if (res.data.data.length) return { nfts: newArr };
-
+  if (res.data.data.length)
+    return { nfts: newArr, continuation: newArr.length };
   const contract = new provider.Contract(
     collectionAbi,
     new Address(COLLECTION_ADDRESS)
@@ -123,7 +123,6 @@ export const loadNFTs_collection = async (
     if (!nftCodeHash) {
       return;
     }
-
     const nftAddresses = await getNftAddresses(
       nftCodeHash,
       provider,

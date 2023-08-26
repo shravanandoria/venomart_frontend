@@ -21,7 +21,6 @@ import { get_collection_by_contract } from "../../utils/mongo_api/collection/col
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { get_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const Collection = ({
   blockURL,
@@ -46,7 +45,7 @@ const Collection = ({
   const [nfts, set_nfts] = useState([]);
   const [activity, set_activity] = useState([]);
   const [totalSupply, setTotalSupply] = useState(0);
-  const [lastNFT, setLastNFT] = useState(undefined);
+  const [lastNFT, setLastNFT] = useState(true);
   const [page, set_page] = useState(0);
 
   const gettingCollectionInfo = async () => {
@@ -55,7 +54,10 @@ const Collection = ({
     // getting nfts
     const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
     console.log(nfts);
+    setLastNFT(nfts?.continuation);
+
     set_nfts(nfts.nfts);
+
     // getting contract info
     const res = await get_collection_by_contract(slug);
     set_collection(res?.data);
@@ -79,17 +81,19 @@ const Collection = ({
   };
 
   const fetch_nfts = async () => {
-    console.log({ page });
-    console.log(nfts.length);
-
-    let res = await loadNFTs_collection(standalone, slug, lastNFT, page + 1);
-    if (res.nfts.length) {
+    let res = await loadNFTs_collection(standalone, slug, lastNFT, page);
+    setLastNFT(res?.continuation);
+    console.log(res?.continuation);
+    if (res?.nfts?.length) {
       let all_nfts = [...nfts, ...res.nfts];
       set_nfts(all_nfts);
       set_page(page + 1);
-      setLastNFT(res?.continuation);
+      console.log(page + 1);
+      console.log(all_nfts.length);
       return all_nfts;
     }
+
+    console.log({ page });
   };
 
   useEffect(() => {
