@@ -82,14 +82,17 @@ const Collection = ({
   };
 
   const fetch_nfts = async () => {
-    let res = await loadNFTs_collection(standalone, slug, lastNFT, page);
+    console.log("calling");
+    let newPage = page + 1;
+    let res = await loadNFTs_collection(standalone, slug, lastNFT, newPage);
+    console.log(res);
 
     setLastNFT(res?.continuation);
-    console.log(res?.continuation);
+
     if (res?.nfts?.length && res?.continuation) {
       let all_nfts = [...nfts, ...res.nfts];
       set_nfts(all_nfts);
-      set_page(page + 1);
+      set_page(newPage);
       return all_nfts;
     }
 
