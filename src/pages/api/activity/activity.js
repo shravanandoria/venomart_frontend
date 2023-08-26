@@ -41,11 +41,25 @@ export default async function handler(req, res) {
         }
 
         let collection;
-
         collection = await Collection.findOne({
           contractAddress: collection_address,
         });
+        // we are creating collection while creating nft so no worry 
+        if (!collection) {
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This Collection" });
+        }
 
+        let nft = await NFT.findOne({ NFTAddress: nft_address });
+        // we are creating nft while listing nft so no worry again
+        if (!nft) {
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This NFT" });
+        }
+
+        // doing the collection stats calculation part here 
         if (collection) {
           if (type == "list") {
             // updating totaListed 
@@ -71,9 +85,11 @@ export default async function handler(req, res) {
             // updating FloorPrice
             if (newFloorPrice == 0) {
               const nfts = await NFT.find({ NFTCollection: collection, isListed: true }).sort({ listingPrice: -1 }).select({ listingPrice: 1, isListed: 1 }).limit(25);
-              lowestFloorPrice = parseFloat(nfts[0].listingPrice);
-              collection.FloorPrice = lowestFloorPrice;
-              await collection.save();
+              if (nfts.length > 0) {
+                let lowestFloorPrice = nfts[0].listingPrice;
+                collection.FloorPrice == lowestFloorPrice;
+                await collection.save();
+              }
             }
 
             // updating totaListed 
@@ -83,23 +99,8 @@ export default async function handler(req, res) {
           }
         }
 
-        if (!collection) {
-          return res
-            .status(400)
-            .json({ success: false, data: "Cannot Find This Collection" });
-        }
-
-
-        let nft = await NFT.findOne({ NFTAddress: nft_address });
-
-        if (!nft) {
-          return res
-            .status(400)
-            .json({ success: false, data: "Cannot Find This NFT" });
-        }
-
+        // creating activity here 
         user = await User.findOne({ wallet_id });
-
         const activity = await Activity.create({
           hash,
           from,
@@ -117,7 +118,7 @@ export default async function handler(req, res) {
         await user.save();
         collection.activity.push(activity);
         await collection.save();
-
+        console.log("activity created")
         res
           .status(200)
           .json({ success: true, data: "Activity has been created" });

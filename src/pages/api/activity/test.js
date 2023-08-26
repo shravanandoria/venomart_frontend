@@ -13,6 +13,7 @@ export default async function handler(req, res) {
             try {
                 const { collection_address } = req.body;
 
+
                 let collection;
 
                 collection = await Collection.findOne({
@@ -20,7 +21,11 @@ export default async function handler(req, res) {
                 });
 
                 const nfts = await NFT.find({ NFTCollection: collection, isListed: true }).sort({ listingPrice: -1 }).select({ listingPrice: 1, isListed: 1 }).limit(1);
-                console.log(parseFloat(nfts[0].listingPrice))
+                // let lowestFloorPrice = nfts[0].listingPrice;
+                // console.log(nfts[0].listingPrice)
+                if (nfts.length > 0) {
+                    console.log(nfts[0].listingPrice)
+                }
 
                 res.status(200).json({ success: true, data: nfts });
 

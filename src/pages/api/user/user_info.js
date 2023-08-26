@@ -34,7 +34,7 @@ export default async function handler(req, res) {
           })
           .populate({
             path: "activity",
-            options: { skip: skip, limit: 5 },
+            options: { skip: skip, limit: 5, sort: [{ createdAt: -1 }] },
             populate: { path: "item", select: { activity: 0, attributes: 0, description: 0, updatedAt: 0, _id: 0 } },
             select: { nft_collection: 0, owner: 0, updatedAt: 0, _id: 0 }
           });

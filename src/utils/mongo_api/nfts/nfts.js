@@ -85,6 +85,8 @@ export const updateNFTsale = async (data) => {
         demandPrice: data.demandPrice,
         new_owner: data.new_owner,
         new_manager: data.new_manager,
+        old_owner: data.old_owner,
+        transaction_type: data.transaction_type
       },
     });
     return res.data.data;
