@@ -57,10 +57,11 @@ const Collection = ({
     console.log(nfts);
     setLastNFT(nfts?.continuation);
 
-    set_nfts(nfts.nfts);
+    set_nfts(nfts?.nfts);
 
     // getting contract info
     const res = await get_collection_by_contract(slug);
+    console.log(res?.data?.TotalListed)
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     setLoading(false);
@@ -348,7 +349,7 @@ const Collection = ({
                     className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {collection?.totalListed ? collection?.totalListed : "0"}
+                      {collection?.TotalListed ? collection?.TotalListed : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       For Sale
@@ -543,7 +544,7 @@ const Collection = ({
                   >
                     <div className="flex justify-center align-middle flex-wrap ">
                       <InfiniteScroll
-                        dataLength={nfts?.length}
+                        dataLength={nfts ? nfts?.length : 0}
                         next={fetch_nfts}
                         hasMore={lastNFT}
                         className="flex flex-wrap justify-center align-middle"
