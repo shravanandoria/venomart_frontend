@@ -60,13 +60,14 @@ const CreateNFT = ({
       connectWallet();
       return;
     }
+
     set_loading(true);
     const ipfs_image = await storage.upload(data.image);
 
     let obj = { ...data, image: ipfs_image };
     await create_nft(obj, signer_address, venomProvider);
     set_loading(false);
-    router.push(`/profile/${signer_address}`)
+    router.push(`/profile/${signer_address}`);
   };
 
   return (

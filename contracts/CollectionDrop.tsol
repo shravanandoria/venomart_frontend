@@ -27,7 +27,6 @@ contract CollectionDrop is TIP4_2Collection, TIP4_3Collection, IBurnableCollecti
 
   mapping(address => bool) _minted;
 
-  
   constructor(
     TvmCell codeNft,
     TvmCell codeIndex,
@@ -93,7 +92,7 @@ contract CollectionDrop is TIP4_2Collection, TIP4_3Collection, IBurnableCollecti
       _indexDeployValue,
       _indexDestroyValue
     );
-    
+  
     emit NftCreated(id, nftAddr, owner, owner, msg.sender);
   }
 

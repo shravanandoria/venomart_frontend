@@ -340,10 +340,14 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       collection_name: data.collection,
     });
 
-    const outputs = await contract.methods.mint({ _json: nft_json }).send({
-      from: new Address(signer_address),
-      amount: "2000000000",
-    });
+    const outputs = await contract.methods
+      .mint({
+        _json: nft_json,
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: "2000000000",
+      });
   } catch (error) {
     console.log(error.message);
   }
