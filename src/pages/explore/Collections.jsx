@@ -17,7 +17,6 @@ const Collections = ({ theme, venomProvider }) => {
   const [isTyping, set_isTyping] = useState(true);
   const [query_search, set_query_search] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
-  const [search_result, set_search_result] = useState([]);
 
   const scrollFetchCollections = async () => {
     const collectionsJSON = await get_collections(skip);
@@ -38,13 +37,16 @@ const Collections = ({ theme, venomProvider }) => {
   };
 
   useEffect(() => {
+    console.log(query_search);
     const timer = setTimeout(async () => {
+      console.log(query_search);
       if (!query_search) {
         const collectionsJSON = await get_collections(skip);
         set_collections([...collectionsJSON]);
       }
+
       set_isTyping(false);
-      if (isTyping || !query_search) return;
+      if (isTyping) return;
       setSearchLoading(true);
       const res = await search_collections(query_search);
       // console.log(res.collections);
@@ -54,7 +56,7 @@ const Collections = ({ theme, venomProvider }) => {
       console.log(filter_col);
       set_collections(filter_col);
       setSearchLoading(false);
-      set_search_result(res);
+      set_isTyping(false);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -193,7 +195,6 @@ const Collections = ({ theme, venomProvider }) => {
                     >
                       <input
                         type="search"
-                        // onFocus={() => set_search_result([])}
                         onChange={(e) => handle_search(e.target.value)}
                         className="w-[275px] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                         placeholder="search for collections..."

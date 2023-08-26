@@ -10,9 +10,8 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { query, type } = req.query;
+        const { query, type, page } = req.query;
         let results = {};
-
         if (type !== "nft") {
           const col_search = await Collection.find({
             $or: [

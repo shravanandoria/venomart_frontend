@@ -11,10 +11,10 @@ export const search = async (query) => {
   } catch (error) {}
 };
 
-export const search_nfts = async (query) => {
+export const search_nfts = async (query, page) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=nft`,
+      url: `/api/search?query=${query}&type=nft&page=${page}`,
       method: "GET",
     });
 
@@ -22,13 +22,13 @@ export const search_nfts = async (query) => {
   } catch (error) {}
 };
 
-export const search_collections = async (query) => {
+export const search_collections = async (query, page) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=collection`,
+      url: `/api/search?query=${query}&type=collection&page=${page}`,
       method: "GET",
     });
-    
+
     return res.data.data;
   } catch (error) {}
 };

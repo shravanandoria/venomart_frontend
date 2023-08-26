@@ -17,7 +17,6 @@ const NFTs = ({ theme, currency }) => {
   const [query_search, set_query_search] = useState("");
   const [isTyping, set_isTyping] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [search_result, set_search_result] = useState([]);
 
   const [nfts, set_nfts] = useState([]);
 
@@ -42,13 +41,21 @@ const NFTs = ({ theme, currency }) => {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      if (!query_search) {
+        const res = await fetch_nfts(skip);
+        set_nfts([...res]);
+      }
+
       set_isTyping(false);
       if (isTyping || !query_search) return;
       setSearchLoading(true);
       const res = await search_nfts(query_search);
-      console.log(res);
+      // console.log(res.collections);
+      const filter_col = nfts.filter((e) =>
+        res.nfts.some((item) => item._id === e._id)
+      );
+      set_nfts(filter_col);
       setSearchLoading(false);
-      set_search_result(res);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -234,7 +241,6 @@ const NFTs = ({ theme, currency }) => {
                     >
                       <input
                         type="search"
-                        // onFocus={() => set_search_result([])}
                         onChange={(e) => handle_search(e.target.value)}
                         className="w-[275px] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                         placeholder="search for nfts..."
