@@ -37,8 +37,7 @@ export default async function handler(req, res) {
             })
             .populate({
               path: "activity",
-              sort: { createdAt: -1 },
-              options: { limit: 15 },
+              options: { limit: 15, sort: [{ createdAt: -1 }] },
               select: {
                 createdAt: 1,
                 from: 1,
@@ -137,6 +136,7 @@ export default async function handler(req, res) {
           res.status(200).json({ success: true, data: collection });
         }
 
+        // creating the nft 
         nft = await NFT.create({
           NFTAddress,
           ownerAddress,
@@ -153,6 +153,7 @@ export default async function handler(req, res) {
           activity: [],
         });
 
+        // adding the nft to the user wallet 
         let nftNew = await NFT.findOne({ NFTAddress });
         let NFTOwner = await User.findOne({ wallet_id: ownerAddress });
         NFTOwner.NFTs.push(nftNew);
@@ -180,12 +181,20 @@ export default async function handler(req, res) {
           demandPrice,
           new_manager,
           new_owner,
+          old_owner,
+          transaction_type
         } = req.body;
+
         let nft = await NFT.findOne({ NFTAddress });
         if (!nft)
           return res
             .status(400)
             .json({ success: false, data: "Cannot Find This NFT" });
+
+        let user = await User.findOne({ wallet_id: new_owner });
+        if (!user) {
+          user = await User.create({ wallet_id: new_owner });
+        }
 
         nft.isListed = isListed;
         nft.listingPrice = price;
@@ -194,8 +203,18 @@ export default async function handler(req, res) {
         if (new_owner) {
           nft.ownerAddress = new_owner;
         }
+        if (transaction_type == "sale" && old_owner != undefined) {
+          user = await User.findOne({ wallet_id: new_owner });
+          let old_user = await User.findOne({ wallet_id: old_owner });
+
+          old_user.NFTs.remove(nft);
+          await old_user.save();
+          user.NFTs.push(nft);
+          await user.save();
+        }
 
         await nft.save();
+
 
         res.status(200).json({ success: true, data: nft });
       } catch (error) {

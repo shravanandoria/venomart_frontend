@@ -55,6 +55,7 @@ const Profile = ({
 
     set_user_data(data?.data);
     setActivityRecords(data?.data?.activity);
+    console.log(data?.data)
     setOnSaleNFTs(data?.data?.NFTs);
     setNFTCollections(data?.data?.nftCollections);
     set_loading(false);
@@ -64,6 +65,7 @@ const Profile = ({
   const fetch_user_nfts = async () => {
     // getting profile nfts
     const res = await loadNFTs_user(standalone, slug, lastNFT);
+    console.log({ res })
     let new_nfts = [...nfts];
     res?.nfts?.map((e) => {
       try {
@@ -472,7 +474,7 @@ const Profile = ({
                   })}
                 </div>
                 <div className="flex justify-center">
-                  {onSaleNFTs.length <= 0 && (
+                  {onSaleNFTs?.length <= 0 && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs listed!
                     </h2>

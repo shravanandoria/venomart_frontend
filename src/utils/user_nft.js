@@ -459,7 +459,7 @@ export const list_nft = async (
         newFloorPrice: parseFloat(newFloorPrice),
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -542,7 +542,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -601,6 +601,8 @@ export const buy_nft = async (
         demandPrice: "0",
         new_owner: signer_address,
         new_manager: signer_address,
+        old_owner: prev_nft_Owner,
+        transaction_type: "sale"
       };
       await updateNFTsale(obj);
 
@@ -616,7 +618,7 @@ export const buy_nft = async (
         newFloorPrice: 0
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      // window.location.reload();
     };
 
     const subscriber = new Subscriber(provider);
