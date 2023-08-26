@@ -112,10 +112,14 @@ export const loadNFTs_collection = async (
       };
       newArr.push(obj);
     });
+
+    console.log({ newArr });
+
     if (res.data.data.length > 0)
       return { nfts: newArr, continuation: res.data.data.length };
 
     if (page > 0 && !res.data.data.length) return;
+
     console.log("onchain");
     // fetching on chain
     const contract = new provider.Contract(
@@ -599,7 +603,7 @@ export const buy_nft = async (
         new_owner: signer_address,
         new_manager: signer_address,
         old_owner: prev_nft_Owner,
-        transaction_type: "sale"
+        transaction_type: "sale",
       };
       await updateNFTsale(obj);
 
