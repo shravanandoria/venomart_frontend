@@ -11,7 +11,6 @@ export default async function handler(req, res) {
     case "GET":
       try {
         const { query, type } = req.query;
-        if (!query) return;
         let results = {};
 
         if (type !== "nft") {

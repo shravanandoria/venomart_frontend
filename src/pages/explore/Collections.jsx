@@ -39,11 +39,20 @@ const Collections = ({ theme, venomProvider }) => {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      if (!query_search) {
+        const collectionsJSON = await get_collections(skip);
+        set_collections([...collectionsJSON]);
+      }
       set_isTyping(false);
       if (isTyping || !query_search) return;
       setSearchLoading(true);
       const res = await search_collections(query_search);
-      console.log(res);
+      // console.log(res.collections);
+      const filter_col = collections.filter((e) =>
+        res.collections.some((item) => item._id === e._id)
+      );
+      console.log(filter_col);
+      set_collections(filter_col);
       setSearchLoading(false);
       set_search_result(res);
     }, 1000);

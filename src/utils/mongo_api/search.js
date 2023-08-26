@@ -28,7 +28,7 @@ export const search_collections = async (query) => {
       url: `/api/search?query=${query}&type=collection`,
       method: "GET",
     });
-
+    
     return res.data.data;
   } catch (error) {}
 };
