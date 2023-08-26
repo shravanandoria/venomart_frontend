@@ -36,6 +36,9 @@ export default async function handler(req, res) {
         } = req.body;
 
         let user = await User.findOne({ wallet_id });
+        if (!user) {
+          user = await User.create({ wallet_id });
+        }
 
         let collection;
 
@@ -45,21 +48,35 @@ export default async function handler(req, res) {
 
         if (collection) {
           if (type == "list") {
+            // updating totaListed 
             collection.TotalListed++;
             if (newFloorPrice != 0 || newFloorPrice != undefined) {
+              // updating FloorPrice
               collection.FloorPrice = newFloorPrice;
             }
             await collection.save();
           }
           if (type == "cancel") {
+            // updating totaListed 
             if (collection.TotalListed <= 0) return;
             collection.TotalListed--;
             await collection.save();
           }
           if (type == "sale") {
+            // adding volume 
             let floatPrice = parseFloat(price);
             collection.TotalVolume += floatPrice;
             await collection.save();
+
+            // updating FloorPrice
+            if (newFloorPrice == 0) {
+              const nfts = await NFT.find({ NFTCollection: collection, isListed: true }).sort({ listingPrice: -1 }).select({ listingPrice: 1, isListed: 1 }).limit(25);
+              lowestFloorPrice = parseFloat(nfts[0].listingPrice);
+              collection.FloorPrice = lowestFloorPrice;
+              await collection.save();
+            }
+
+            // updating totaListed 
             if (collection.TotalListed <= 0) return;
             collection.TotalListed--;
             await collection.save();
@@ -80,6 +97,8 @@ export default async function handler(req, res) {
             .status(400)
             .json({ success: false, data: "Cannot Find This NFT" });
         }
+
+        user = await User.findOne({ wallet_id });
 
         const activity = await Activity.create({
           hash,

@@ -57,6 +57,7 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
+    console.log({ nft_database })
     setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
