@@ -29,7 +29,7 @@ const Collection = ({
   webURL,
   copyURL,
   venomProvider,
-  currency
+  currency,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -61,7 +61,6 @@ const Collection = ({
 
     // getting contract info
     const res = await get_collection_by_contract(slug);
-    console.log(res?.data?.TotalListed)
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     setLoading(false);
@@ -84,14 +83,13 @@ const Collection = ({
 
   const fetch_nfts = async () => {
     let res = await loadNFTs_collection(standalone, slug, lastNFT, page);
+
     setLastNFT(res?.continuation);
     console.log(res?.continuation);
-    if (res?.nfts?.length) {
+    if (res?.nfts?.length && res?.continuation) {
       let all_nfts = [...nfts, ...res.nfts];
       set_nfts(all_nfts);
       set_page(page + 1);
-      console.log(page + 1);
-      console.log(all_nfts.length);
       return all_nfts;
     }
 
@@ -106,7 +104,7 @@ const Collection = ({
     gettingTotalSupply();
   }, [venomProvider]);
 
-  useEffect(() => { }, [page]);
+  useEffect(() => {}, [page]);
 
   return (
     <div className={`${theme}`}>
@@ -491,8 +489,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${itemsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -513,8 +512,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${activityTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -562,7 +562,9 @@ const Collection = ({
                               Address={e?.nftAddress?._address}
                               listedBool={e?.isListed}
                               listingPrice={e?.listingPrice}
-                              NFTCollectionAddress={e?.NFTCollection?.contractAddress}
+                              NFTCollectionAddress={
+                                e?.NFTCollection?.contractAddress
+                              }
                               NFTCollectionName={e?.NFTCollection?.name}
                               NFTCollectionStatus={e?.NFTCollection?.isVerified}
                               currency={currency}

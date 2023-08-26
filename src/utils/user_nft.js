@@ -94,40 +94,37 @@ export const loadNFTs_collection = async (
   last_nft_addr,
   page
 ) => {
-  // fetching off chain 
+  console.log({ page });
+  // fetching off chain
   try {
     const res = await axios({
       url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
       method: "GET",
     });
 
-    if (res) {
-      let newArr = [];
+    let newArr = [];
 
-      res.data.data.map((e) => {
-        let obj = {
-          ...e,
-          preview: { source: e.nft_image },
-          nftAddress: { _address: e.NFTAddress },
-        };
-        newArr.push(obj);
-      });
-      if (res.data.data.length)
-        return { nfts: newArr, continuation: newArr?.length };
-    }
-  } catch (error) {
-    console.error(error);
-  }
+    res.data.data.map((e) => {
+      let obj = {
+        ...e,
+        preview: { source: e.nft_image },
+        nftAddress: { _address: e.NFTAddress },
+      };
+      newArr.push(obj);
+    });
+    if (res.data.data.length > 0)
+      return { nfts: newArr, continuation: res.data.data.length };
 
-  // fetching on chain 
-  const contract = new provider.Contract(
-    collectionAbi,
-    new Address(COLLECTION_ADDRESS)
-  );
+    if (page > 0 && !res.data.data.length) return;
+    console.log("onchain");
+    // fetching on chain
+    const contract = new provider.Contract(
+      collectionAbi,
+      new Address(COLLECTION_ADDRESS)
+    );
 
-  const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
+    const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
 
-  try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
@@ -615,7 +612,7 @@ export const buy_nft = async (
         wallet_id: signer_address,
         nft_address: nft_address,
         collection_address: collection_address,
-        newFloorPrice: 0
+        newFloorPrice: 0,
       };
       await addActivity(activityOBJ);
       // window.location.reload();
