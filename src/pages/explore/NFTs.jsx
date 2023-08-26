@@ -7,7 +7,7 @@ import { BsChevronDown } from "react-icons/bs";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { get_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 
-const NFTs = ({ theme }) => {
+const NFTs = ({ theme, currency }) => {
   const [loading, setLoading] = useState(false);
   const [skip, setSkip] = useState(0);
 
@@ -22,6 +22,7 @@ const NFTs = ({ theme }) => {
 
   const scroll_get_all_nfts = async () => {
     const res = await fetch_nfts(skip);
+    console.log({ res })
     set_nfts([...nfts, ...res]);
   };
 
@@ -349,7 +350,12 @@ const NFTs = ({ theme }) => {
                           Description={e?.description}
                           Address={e.NFTAddress}
                           tokenId={e?._id}
-                          // listedBool={e?.isListed}
+                          listedBool={e?.isListed}
+                          listingPrice={e?.listingPrice}
+                          NFTCollectionAddress={e?.NFTCollection?.contractAddress}
+                          NFTCollectionName={e?.NFTCollection?.name}
+                          NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                          currency={currency}
                         />
                       );
                     })}

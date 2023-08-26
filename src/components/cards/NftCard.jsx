@@ -32,46 +32,51 @@ const NftCard = ({
         />
       </div>
       {NFTCollectionName &&
-        <div className="relative flex align-middle" href={`/nft/${NFTCollectionAddress}`}>
-          <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
+        <div className="relative flex" href={`/nft/${NFTCollectionAddress}`} >
+          <span className="font-display text-[13px] text-jacarta-700 hover:text-accent dark:text-white"
+            style={{
+              width: "170px",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              display: "flex"
+            }}>
             {NFTCollectionName}
+            {NFTCollectionStatus ?
+              <MdVerified
+                style={{ color: "#4f87ff", marginLeft: "4px" }}
+                size={17}
+                onMouseOver={() => SetIsHovering(true)}
+                onMouseOut={() => SetIsHovering(false)}
+              />
+              :
+              <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "4px" }}
+                size={16}
+                onMouseOver={() => SetIsHovering(true)}
+                onMouseOut={() => SetIsHovering(false)}
+              />
+            }
+            {NFTCollectionStatus && isHovering &&
+              <p className="absolute right-[30px] bg-blue px-[6px] py-[2px] text-white text-[10px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
+            }
+            {!NFTCollectionStatus && isHovering &&
+              <p className="absolute right-[30px] bg-[#c3c944] px-[6px] py-[2px] text-black text-[10px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
+            }
           </span>
-          {NFTCollectionStatus ?
-            <MdVerified
-              style={{ color: "#4f87ff", marginLeft: "4px" }}
-              size={17}
-              onMouseOver={() => SetIsHovering(true)}
-              onMouseOut={() => SetIsHovering(false)}
-            />
-            :
-            <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "4px" }}
-              size={16}
-              onMouseOver={() => SetIsHovering(true)}
-              onMouseOut={() => SetIsHovering(false)}
-            />
-          }
-          {NFTCollectionStatus && isHovering &&
-            <p className="absolute left-[110px] bg-blue px-[8px] py-[2px] text-white text-[11px]" style={{ borderRadius: "10px" }}>Verified</p>
-          }
-          {NFTCollectionStatus && isHovering &&
-            <p className="absolute left-[110px] bg-[#c3c944] px-[8px] py-[2px] text-black text-[11px]" style={{ borderRadius: "10px" }}>Not Verified</p>
-          }
         </div>
       }
       <div className="mt-2 flex items-center justify-between">
         <div
           style={{
-            width: "240px",
+            width: "170px",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
           }}
         >
-          <div href={`/nft/${Address}`}>
-            <span className="font-display text-base text-jacarta-700 hover:text-accent dark:text-white">
-              {Name}
-            </span>
-          </div>
+          <span className="font-display text-base text-jacarta-700 dark:text-white">
+            {Name}
+          </span>
         </div>
         {listedBool && (
           <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">

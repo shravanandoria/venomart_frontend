@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             try {
                 const { contractAddress } = req.body;
 
-                const collection = await Collection.findOne({ contractAddress }, { royalty: 1, name: 1, isVerified: 1, contractAddress: 1 });
+                const collection = await Collection.findOne({ contractAddress }, { royalty: 1, name: 1, isVerified: 1, contractAddress: 1, FloorPrice: 1 });
 
                 if (!collection)
                     return res.status(400).json({

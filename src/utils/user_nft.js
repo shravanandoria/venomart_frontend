@@ -94,23 +94,32 @@ export const loadNFTs_collection = async (
   last_nft_addr,
   page
 ) => {
-  const res = await axios({
-    url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
-    method: "GET",
-  });
+  // fetching off chain 
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?collection_address=${collection_address}&page=${page}`,
+      method: "GET",
+    });
 
-  let newArr = [];
+    if (res) {
+      let newArr = [];
 
-  res.data.data.map((e) => {
-    let obj = {
-      ...e,
-      preview: { source: e.nft_image },
-      nftAddress: { _address: e.NFTAddress },
-    };
-    newArr.push(obj);
-  });
-  if (res.data.data.length)
-    return { nfts: newArr, continuation: newArr.length };
+      res.data.data.map((e) => {
+        let obj = {
+          ...e,
+          preview: { source: e.nft_image },
+          nftAddress: { _address: e.NFTAddress },
+        };
+        newArr.push(obj);
+      });
+      if (res.data.data.length)
+        return { nfts: newArr, continuation: newArr?.length };
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  // fetching on chain 
   const contract = new provider.Contract(
     collectionAbi,
     new Address(COLLECTION_ADDRESS)
@@ -604,6 +613,7 @@ export const buy_nft = async (
         wallet_id: signer_address,
         nft_address: nft_address,
         collection_address: collection_address,
+        newFloorPrice: 0
       };
       await addActivity(activityOBJ);
       window.location.reload();
