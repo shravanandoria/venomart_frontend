@@ -13,9 +13,7 @@ import { GrClose } from "react-icons/gr";
 import { search } from "../utils/mongo_api/search";
 import { MdVerified } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
-import {
-  BsFillExclamationCircleFill
-} from "react-icons/bs";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const Navbar = ({
@@ -41,7 +39,7 @@ const Navbar = ({
   const [searchNFTs, showSearchNFTs] = useState(false);
 
   //{cols: [], nfts: []}
-  const [search_result, set_search_result] = useState([]);
+  const [search_result, set_search_result] = useState({});
   const [query_search, set_query_search] = useState("");
   const [isTyping, set_isTyping] = useState(true);
 
@@ -63,6 +61,7 @@ const Navbar = ({
       if (isTyping || !query_search) return;
       setSearchLoading(true);
       const res = await search(query_search);
+      console.log(res);
       setSearchLoading(false);
       set_search_result(res);
     }, 1000);
@@ -99,7 +98,11 @@ const Navbar = ({
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
-        <div className={`flex items-center justify-around px-8 py-6 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"} ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}>
+        <div
+          className={`flex items-center justify-around px-8 py-6 ${
+            mobileNavDrop && "bg-white dark:bg-jacarta-800"
+          } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
+        >
           {/* icon  */}
           {theme === "dark" ? (
             <Link href="/" className="shrink-0 relative">
@@ -122,7 +125,11 @@ const Navbar = ({
           )}
 
           {/* search form  */}
-          <form onSubmit={(e) => e.preventDefault()} className="relative ml-12 mr-8 basis-3/12" id="searchInpForm">
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="relative ml-12 mr-8 basis-3/12"
+            id="searchInpForm"
+          >
             <input
               type="search"
               onChange={(e) => {
@@ -146,29 +153,54 @@ const Navbar = ({
                 <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
               </svg>
             </span>
-            {search_result[0] &&
+            {search_result.collections && (
               <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-                <RxCrossCircled onClick={() => (setSearchValueState(""), set_search_result([]))} className="h-6 w-6 text-jacarta-500 dark:text-white cursor-pointer" />
+                <RxCrossCircled
+                  onClick={() => (
+                    setSearchValueState(""), set_search_result([])
+                  )}
+                  className="h-6 w-6 text-jacarta-500 dark:text-white cursor-pointer"
+                />
               </span>
-            }
+            )}
 
             {/* SEARCH FUNCTIONALITY */}
-            {search_result[0] &&
+            {search_result.collections && (
               <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4">
                 <div className="flex justify-start align-middle h-[40px] pt-2">
-                  <span onClick={() => (showSearchNFTs(false), showSearchCollections(true))} className={`p-2 ml-4 ${searchCollections && "border-b border-jacarta-100 dark:border-jacarta-600"} cursor-pointer`}>Collections</span>
-                  <span onClick={() => (showSearchCollections(false), showSearchNFTs(true))} className={`p-2 ml-4 ${searchNFTs && "border-b border-jacarta-100 dark:border-jacarta-600"} cursor-pointer`}>NFTs</span>
+                  <span
+                    onClick={() => (
+                      showSearchNFTs(false), showSearchCollections(true)
+                    )}
+                    className={`p-2 ml-4 ${
+                      searchCollections &&
+                      "border-b border-jacarta-100 dark:border-jacarta-600"
+                    } cursor-pointer`}
+                  >
+                    Collections
+                  </span>
+                  <span
+                    onClick={() => (
+                      showSearchCollections(false), showSearchNFTs(true)
+                    )}
+                    className={`p-2 ml-4 ${
+                      searchNFTs &&
+                      "border-b border-jacarta-100 dark:border-jacarta-600"
+                    } cursor-pointer`}
+                  >
+                    NFTs
+                  </span>
                 </div>
-                {isTyping || searchLoading ?
+                {isTyping || searchLoading ? (
                   <div className="w-full rounded-2xl bg-[#F6F1F8] absolute border-r-4">
                     <div className="flex justify-center align-middle h-[50px] p-4">
                       <BiLoaderAlt className="animate-spin" />
                     </div>
                   </div>
-                  :
+                ) : (
                   <div>
                     {searchCollections &&
-                      search_result[0]?.collections?.map((e, index) => (
+                      search_result.collections?.map((e, index) => (
                         <Link
                           key={index}
                           href={`/collection/${e.contractAddress}`}
@@ -176,7 +208,10 @@ const Navbar = ({
                         >
                           <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                             <Image
-                              src={e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                              src={e?.logo.replace(
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )}
                               height={100}
                               width={100}
                               className="h-[46px] w-[46px] rounded-[50%] mr-2"
@@ -184,37 +219,48 @@ const Navbar = ({
                             <div className="flex flex-col align-middle">
                               <div className="flex align-middle justify-center">
                                 {e?.name}
-                                {e?.isVerified ?
+                                {e?.isVerified ? (
                                   <MdVerified
-                                    style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                    style={{
+                                      color: "#4f87ff",
+                                      cursor: "pointer",
+                                      marginLeft: "3px",
+                                      marginTop: "4px",
+                                    }}
                                     size={17}
                                   />
-                                  :
+                                ) : (
                                   <BsFillExclamationCircleFill
-                                    style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                    style={{
+                                      color: "#c3c944",
+                                      cursor: "pointer",
+                                      marginLeft: "3px",
+                                      marginTop: "4px",
+                                    }}
                                     size={17}
                                   />
-                                }
+                                )}
                               </div>
                               <div className="flex align-middle">
-                                {e?.contractAddress.slice(0, 4) + "..." + e?.contractAddress.slice(63)}
+                                {e?.contractAddress.slice(0, 4) +
+                                  "..." +
+                                  e?.contractAddress.slice(63)}
                               </div>
                             </div>
                           </div>
                         </Link>
-                      ))
-                    }
+                      ))}
                     {searchCollections &&
-                      (search_result[0]?.collections?.length <= 0 &&
+                      search_result.collections?.collections?.length <= 0 && (
                         <div className="rounded-2xl">
                           <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                             No Collections Found
                           </div>
-                        </div>)
-                    }
+                        </div>
+                      )}
 
                     {searchNFTs &&
-                      search_result[1]?.nfts?.map((e, index) => (
+                      search_result.nfts?.map((e, index) => (
                         <Link
                           key={index}
                           href={`/collection/${e.NFTAddress}`}
@@ -222,7 +268,10 @@ const Navbar = ({
                         >
                           <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                             <Image
-                              src={e?.nft_image.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                              src={e?.nft_image.replace(
+                                "ipfs://",
+                                "https://ipfs.io/ipfs/"
+                              )}
                               height={100}
                               width={100}
                               className="h-[46px] w-[46px] rounded-[50%] mr-2"
@@ -232,43 +281,54 @@ const Navbar = ({
                                 {e?.name}
                               </div>
                               <div className="flex align-middle">
-                                {e?.NFTCollection?.contractAddress.slice(0, 4) + "..." + e?.NFTCollection?.contractAddress.slice(63)}
-                                {e?.NFTCollection?.isVerified ?
+                                {e?.NFTCollection?.contractAddress.slice(0, 4) +
+                                  "..." +
+                                  e?.NFTCollection?.contractAddress.slice(63)}
+                                {e?.NFTCollection?.isVerified ? (
                                   <MdVerified
-                                    style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                    style={{
+                                      color: "#4f87ff",
+                                      cursor: "pointer",
+                                      marginLeft: "3px",
+                                      marginTop: "4px",
+                                    }}
                                     size={17}
                                   />
-                                  :
+                                ) : (
                                   <BsFillExclamationCircleFill
-                                    style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "4px" }}
+                                    style={{
+                                      color: "#c3c944",
+                                      cursor: "pointer",
+                                      marginLeft: "3px",
+                                      marginTop: "4px",
+                                    }}
                                     size={17}
                                   />
-                                }
+                                )}
                               </div>
                             </div>
                           </div>
                         </Link>
-                      ))
-                    }
-                    {searchNFTs &&
-                      (search_result[1]?.nfts?.length <= 0 &&
-                        <div className="rounded-2xl">
-                          <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
-                            No NFTs Found
-                          </div>
-                        </div>)
-                    }
+                      ))}
+                    {searchNFTs && search_result.nfts?.nfts?.length <= 0 && (
+                      <div className="rounded-2xl">
+                        <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
+                          No NFTs Found
+                        </div>
+                      </div>
+                    )}
                   </div>
-                }
+                )}
               </div>
-            }
-            {isTyping || searchLoading &&
-              <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4">
-                <div className="flex justify-start align-middle h-[40px] pt-2">
-                  <BiLoaderAlt className="animate-spin" />
+            )}
+            {isTyping ||
+              (searchLoading && (
+                <div className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4">
+                  <div className="flex justify-start align-middle h-[40px] pt-2">
+                    <BiLoaderAlt className="animate-spin" />
+                  </div>
                 </div>
-              </div>
-            }
+              ))}
           </form>
 
           <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
@@ -643,7 +703,7 @@ const Navbar = ({
         )}
 
         {/* mobile nav dropdown  */}
-        {mobileNavDrop &&
+        {mobileNavDrop && (
           <MobileNavbar
             searchValueState={searchValueState}
             search_result={search_result}
@@ -657,7 +717,8 @@ const Navbar = ({
             showSearchCollections={showSearchCollections}
             isTyping={isTyping}
             searchLoading={searchLoading}
-          />}
+          />
+        )}
       </div>
     </div>
   );

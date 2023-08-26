@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       try {
         const { query, type } = req.query;
         if (!query) return;
-        let results = [];
+        let results = {};
 
         if (type !== "nft") {
           const col_search = await Collection.find({
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             .select(["contractAddress", "name", "logo", "isVerified"])
             .limit(10)
             .sort({ isVerified: 1 });
-          results.push({ collections: col_search });
+          results.collections = col_search;
         }
 
         if (type !== "collection") {
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
             })
             .limit(10);
 
-          results.push({ nfts: nfts_search });
+          results.nfts = nfts_search;
         }
 
         res.status(200).json({ success: true, data: results });
