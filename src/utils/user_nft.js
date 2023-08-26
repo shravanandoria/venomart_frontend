@@ -115,7 +115,7 @@ export const loadNFTs_collection = async (
     if (res.data.data.length > 0)
       return { nfts: newArr, continuation: res.data.data.length };
 
-    if (page > 0 && !res.data.data.length) return;
+    // if (page > 0 && !res.data.data.length) return;
     console.log("onchain");
     // fetching on chain
     const contract = new provider.Contract(

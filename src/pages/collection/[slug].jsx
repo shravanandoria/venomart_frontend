@@ -53,11 +53,11 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
     // getting nfts
-    // const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
-    // console.log(nfts);
-    // setLastNFT(nfts?.continuation);
+    const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
+    console.log(nfts);
+    setLastNFT(nfts?.continuation);
 
-    // set_nfts(nfts?.nfts);
+    set_nfts(nfts?.nfts);
 
     // getting contract info
     const res = await get_collection_by_contract(slug);
@@ -104,7 +104,7 @@ const Collection = ({
     gettingTotalSupply();
   }, [venomProvider]);
 
-  useEffect(() => {}, [page]);
+  useEffect(() => { }, [page]);
 
   return (
     <div className={`${theme}`}>
@@ -489,9 +489,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${
-                      itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${itemsTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -512,9 +511,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${
-                      activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${activityTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -548,6 +546,12 @@ const Collection = ({
                         next={fetch_nfts}
                         hasMore={lastNFT}
                         className="flex flex-wrap justify-center align-middle"
+                        loader={
+                          <div className="flex items-center justify-center space-x-2">
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>}
                       >
                         {nfts?.map((e, index) => {
                           return (
