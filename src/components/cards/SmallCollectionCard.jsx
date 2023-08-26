@@ -93,7 +93,7 @@ const SmallCollectionCard = ({
               }}
               alt="VenomLogo"
             />
-            {Volume ? Volume : "0"}
+            {Volume ? (Volume.toFixed(2)) : "0"}
           </span>
         </div>
       </div>

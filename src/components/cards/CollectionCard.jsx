@@ -152,7 +152,7 @@ const CollectionCard = ({
                                 }}
                                 alt="VenomLogo"
                             />
-                            {Volume ? Volume : "0"}
+                            {Volume ? (Volume.toFixed(2)) : "0"}
                         </span>
                     </button>
                 </div>

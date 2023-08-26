@@ -53,11 +53,11 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
     // getting nfts
-    const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
-    console.log(nfts);
-    setLastNFT(nfts?.continuation);
+    // const nfts = await loadNFTs_collection(standalone, slug, undefined, 0);
+    // console.log(nfts);
+    // setLastNFT(nfts?.continuation);
 
-    set_nfts(nfts?.nfts);
+    // set_nfts(nfts?.nfts);
 
     // getting contract info
     const res = await get_collection_by_contract(slug);
@@ -398,7 +398,7 @@ const Collection = ({
                       />
                       <span className="font-bold ml-1">
                         {collection?.TotalVolume
-                          ? collection?.TotalVolume
+                          ? (collection?.TotalVolume).toFixed(2)
                           : "0"}
                       </span>
                     </div>
