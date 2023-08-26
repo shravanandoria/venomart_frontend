@@ -12,6 +12,18 @@ export const fetch_nfts = async (skip) => {
   }
 };
 
+export const fetch_collection_nfts = async (collection_address, skip) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?collection_address=${collection_address}&skipCollectionNFTs=${skip}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const createNFT = async (data) => {
   try {
     const res = await axios({

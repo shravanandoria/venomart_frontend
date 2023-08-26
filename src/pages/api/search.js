@@ -15,13 +15,12 @@ export default async function handler(req, res) {
         if (type !== "nft") {
           const col_search = await Collection.find({
             $or: [
-              { name: { $regex: query, $options: "i" } },
-              { contractAddress: { $regex: query, $options: "i" } },
+              { name: { $regex: query, $options: "i" } }
             ],
           })
-            .select(["contractAddress", "name", "logo", "isVerified"])
+            .select(["contractAddress", "name", "logo", "coverImage", "isVerified", "description", "Category", "TotalListed", "FloorPrice", "TotalVolume"])
             .limit(10)
-            .sort({ isVerified: 1 });
+            .sort({ isVerified: -1 });
           results.collections = col_search;
         }
 

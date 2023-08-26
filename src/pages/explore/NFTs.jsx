@@ -4,8 +4,6 @@ import Head from "next/head";
 import Loader from "../../components/Loader";
 import { fetch_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { BsChevronDown } from "react-icons/bs";
-import { search_nfts } from "../../utils/mongo_api/search";
-import { get_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const NFTs = ({ theme, currency }) => {
   const [loading, setLoading] = useState(false);
@@ -14,16 +12,15 @@ const NFTs = ({ theme, currency }) => {
   const [collectionFilter, openCollectionFilter] = useState(false);
   const [filterCategories, openFilterCategories] = useState(false);
   const [filterSort, openFilterSort] = useState(false);
-  const [query_search, set_query_search] = useState("");
-  const [isTyping, set_isTyping] = useState(true);
-  const [searchLoading, setSearchLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const [nfts, set_nfts] = useState([]);
 
   const scroll_get_all_nfts = async () => {
+    setMoreLoading(true);
     const res = await fetch_nfts(skip);
-    console.log({ res })
     set_nfts([...nfts, ...res]);
+    setMoreLoading(false);
   };
 
   const handleScroll = (e) => {
@@ -32,34 +29,6 @@ const NFTs = ({ theme, currency }) => {
       setSkip(nfts.length);
     }
   };
-
-  const handle_search = async (data) => {
-    // console.log(data);
-    set_query_search(data);
-    set_isTyping(true);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (!query_search) {
-        const res = await fetch_nfts(skip);
-        set_nfts([...res]);
-      }
-
-      set_isTyping(false);
-      if (isTyping || !query_search) return;
-      setSearchLoading(true);
-      const res = await search_nfts(query_search);
-      // console.log(res.collections);
-      const filter_col = nfts.filter((e) =>
-        res.nfts.some((item) => item._id === e._id)
-      );
-      set_nfts(filter_col);
-      setSearchLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [isTyping]);
 
   useEffect(() => {
     scroll_get_all_nfts();
@@ -232,51 +201,6 @@ const NFTs = ({ theme, currency }) => {
                       </div>
                     )}
                   </div>
-
-                  {/* searchbar  */}
-                  <div className="my-1 mr-2.5">
-                    <form
-                      action="search"
-                      className="relative ml-12 mr-8 basis-3/12 xl:ml-[8%]"
-                    >
-                      <input
-                        type="search"
-                        onChange={(e) => handle_search(e.target.value)}
-                        className="w-[275px] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                        placeholder="search for nfts..."
-                      />
-                      <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
-                        </svg>
-                      </span>
-
-                      {/* SEARCH FUNCTIONALITY */}
-                      {/* <div
-                        className="w-full rounded-2xl bg-[#F6F1F8] absolute mt-2 border-r-4"
-                        onClick={() => set_search_result([])}
-                      >
-                        {search_result?.map((e, index) => (
-                          <Link
-                            key={index}
-                            href={`/nft/${e.ipfsData.collection}/${e.tokenId}`}
-                            className="rounded-2xl"
-                          >
-                            <div className="w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
-                              {e?.nft_name}
-                            </div>
-                          </Link>
-                        ))}
-                      </div> */}
-                    </form>
-                  </div>
                 </div>
 
                 {/* listed filter  */}
@@ -332,12 +256,6 @@ const NFTs = ({ theme, currency }) => {
               <div>
                 <div>
                   <div className="flex justify-center align-middle flex-wrap">
-                    {/* <InfiniteScroll
-                      dataLength={nfts.length}
-                      next={() => get_collection_nfts()}
-                      hasMore={lastNFT}
-                      className="flex flex-wrap justify-center align-middle"
-                    > */}
                     {nfts?.map((e, index) => {
                       return (
                         <NftCard
@@ -359,7 +277,13 @@ const NFTs = ({ theme, currency }) => {
                         />
                       );
                     })}
-                    {/* </InfiniteScroll> */}
+                    {moreLoading &&
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      </div>
+                    }
                     {nfts?.length <= 0 && (
                       <h2 className="text-jacarta-700 dark:text-jacarta-200">
                         No NFTs Found
