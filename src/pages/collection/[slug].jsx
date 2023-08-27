@@ -22,6 +22,7 @@ import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
+import { search_nfts } from "../../utils/mongo_api/search";
 
 const Collection = ({
   blockURL,
@@ -55,6 +56,11 @@ const Collection = ({
   const [onChainData, setOnChainData] = useState(false);
   const [skip, setSkip] = useState(0);
 
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [query_search, set_query_search] = useState("");
+  const [isTyping, set_isTyping] = useState(true);
+  const [def_query, set_def_query] = useState(undefined);
+
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
     setLoading(true);
@@ -64,7 +70,11 @@ const Collection = ({
     set_nfts(nfts_offchain);
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
-      const nfts_onchain = await loadNFTs_collection(standalone, slug, undefined);
+      const nfts_onchain = await loadNFTs_collection(
+        standalone,
+        slug,
+        undefined
+      );
       setOnChainData(true);
       setLastNFT(nfts_onchain?.continuation);
       set_nfts(nfts_onchain?.nfts);
@@ -98,15 +108,15 @@ const Collection = ({
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
     }
-  }
-
-  const handleScroll = (e) => {
-    if (onChainData == true) return;
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setSkip(nfts.length);
-    }
   };
+
+  // const handleScroll = (e) => {
+  //   if (onChainData == true) return;
+  //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
+  //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+  //     setSkip(nfts.length);
+  //   }
+  // };
 
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
@@ -119,6 +129,28 @@ const Collection = ({
       return all_nfts;
     }
   };
+
+  const handle_search = async (data) => {
+    setSearchLoading(true);
+    console.log(data);
+    set_query_search(data);
+    set_isTyping(true);
+    set_def_query("");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      set_isTyping(false);
+      if (isTyping || def_query == undefined) return;
+      setSearchLoading(true);
+      const res = await search_nfts(query_search);
+      set_nfts(res.nfts);
+      set_isTyping(false);
+      setSearchLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isTyping]);
 
   useEffect(() => {
     if (!slug) return;
@@ -517,8 +549,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${itemsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -539,8 +572,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${activityTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -561,15 +595,25 @@ const Collection = ({
 
               {/* items  */}
               {itemsTab && (
-                <div className={`tab-content ${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
+                <div
+                  className={`tab-content ${!onChainData && "scroll-list"}`}
+                  // onScroll={handleScroll}
+                >
                   <div className="tab-pane fade show active">
                     {/* filters  */}
-                    <div class="mb-8 p-4 flex flex-wrap items-center justify-around bg-white dark:bg-jacarta-900" style={{ position: "sticky", top: "90px", zIndex: "15" }}>
+                    <div
+                      class="mb-8 p-4 flex flex-wrap items-center justify-around bg-white dark:bg-jacarta-900"
+                      style={{ position: "sticky", top: "90px", zIndex: "15" }}
+                    >
                       <div class="flex flex-wrap items-center mx-6">
                         {/* sale type  */}
                         <div class="relative my-1 mr-2.5">
                           <button
-                            onClick={() => (showListedFilter(false), showPriceRangeFilter(false), showSaleTypeFilter(!saleTypeFilter))}
+                            onClick={() => (
+                              showListedFilter(false),
+                              showPriceRangeFilter(false),
+                              showSaleTypeFilter(!saleTypeFilter)
+                            )}
                             class="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
                           >
                             <svg
@@ -580,9 +624,7 @@ const Collection = ({
                               class="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
                             >
                               <path fill="none" d="M0 0h24v24H0z" />
-                              <path
-                                d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z"
-                              />
+                              <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
                             </svg>
                             <span>Sale type</span>
                             <svg
@@ -597,7 +639,7 @@ const Collection = ({
                             </svg>
                           </button>
 
-                          {saleTypeFilter &&
+                          {saleTypeFilter && (
                             <div class="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                               <ul class="flex flex-col flex-wrap">
                                 <li>
@@ -605,7 +647,9 @@ const Collection = ({
                                     href="#"
                                     class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    <span class="text-jacarta-700 dark:text-white">Timed auction</span>
+                                    <span class="text-jacarta-700 dark:text-white">
+                                      Timed auction
+                                    </span>
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -613,7 +657,10 @@ const Collection = ({
                                       height="24"
                                       class="mb-[3px] h-4 w-4 fill-accent"
                                     >
-                                      <path fill="none" d="M0 0h24v24H0z"></path>
+                                      <path
+                                        fill="none"
+                                        d="M0 0h24v24H0z"
+                                      ></path>
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                                     </svg>
                                   </a>
@@ -644,9 +691,7 @@ const Collection = ({
                                 </li>
                               </ul>
 
-                              <div
-                                class="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600"
-                              >
+                              <div class="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                 <button
                                   type="button"
                                   class="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
@@ -661,15 +706,20 @@ const Collection = ({
                                 </button>
                               </div>
                             </div>
-                          }
+                          )}
                         </div>
 
                         {/* price range  */}
                         <div class="relative my-1 mr-2.5">
                           <button
-                            onClick={() => (showListedFilter(false), showSaleTypeFilter(false), showPriceRangeFilter(!priceRangeFilter))}
+                            onClick={() => (
+                              showListedFilter(false),
+                              showSaleTypeFilter(false),
+                              showPriceRangeFilter(!priceRangeFilter)
+                            )}
                             class="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                            id="priceRangeFilter">
+                            id="priceRangeFilter"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -678,9 +728,7 @@ const Collection = ({
                               class="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
                             >
                               <path fill="none" d="M0 0h24v24H0z" />
-                              <path
-                                d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z"
-                              />
+                              <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
                             </svg>
                             <span>Price Range</span>
                             <svg
@@ -695,7 +743,7 @@ const Collection = ({
                             </svg>
                           </button>
 
-                          {priceRangeFilter &&
+                          {priceRangeFilter && (
                             <div class="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                               <div class="flex items-center space-x-3 px-5 pb-2">
                                 <input
@@ -710,9 +758,7 @@ const Collection = ({
                                 />
                               </div>
 
-                              <div
-                                class="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600"
-                              >
+                              <div class="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                 <button
                                   type="button"
                                   class="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
@@ -727,13 +773,17 @@ const Collection = ({
                                 </button>
                               </div>
                             </div>
-                          }
+                          )}
                         </div>
 
                         {/* all nft and listed filter  */}
                         <div class="relative my-1 mr-2.5 cursor-pointer">
                           <div
-                            onClick={() => (showPriceRangeFilter(false), showSaleTypeFilter(false), showListedFilter(!listedFilter))}
+                            onClick={() => (
+                              showPriceRangeFilter(false),
+                              showSaleTypeFilter(false),
+                              showListedFilter(!listedFilter)
+                            )}
                             class="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                           >
                             <span class="font-display">Recently Added</span>
@@ -748,13 +798,12 @@ const Collection = ({
                               <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
                             </svg>
                           </div>
-                          {listedFilter &&
-                            <div
-                              class="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                              <span class="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">Sort By</span>
-                              <button
-                                class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
+                          {listedFilter && (
+                            <div class="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                              <span class="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                                Sort By
+                              </span>
+                              <button class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Recently Added
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -767,27 +816,21 @@ const Collection = ({
                                   <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                 </svg>
                               </button>
-                              <button
-                                class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
+                              <button class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Price: Low to High
                               </button>
 
-                              <button
-                                class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
+                              <button class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Price: High to Low
                               </button>
 
-                              <button
-                                class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
+                              <button class="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Auction ending soon
                               </button>
-                              <span class="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">Options</span>
-                              <div
-                                class="dropdown-item block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
+                              <span class="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                                Options
+                              </span>
+                              <div class="dropdown-item block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 <span class="flex items-center justify-between">
                                   <span>Verified Only</span>
                                   <input
@@ -800,7 +843,7 @@ const Collection = ({
                                 </span>
                               </div>
                             </div>
-                          }
+                          )}
                         </div>
                       </div>
 
@@ -809,11 +852,11 @@ const Collection = ({
                         <form
                           action="search"
                           className="relative"
-                        // onSubmit={(e) => e.preventDefault()}
+                          // onSubmit={(e) => e.preventDefault()}
                         >
                           <input
                             type="search"
-                            // onChange={(e) => handle_search(e.target.value)}
+                            onChange={(e) => handle_search(e.target.value)}
                             className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                             placeholder="search"
                           />
@@ -830,12 +873,11 @@ const Collection = ({
                             </svg>
                           </span>
                         </form>
-
                       </div>
                     </div>
 
                     <div className="flex justify-center align-middle flex-wrap ">
-                      {onChainData ?
+                      {onChainData ? (
                         <InfiniteScroll
                           dataLength={nfts ? nfts?.length : 0}
                           next={fetch_more_nftsOnChain}
@@ -853,51 +895,63 @@ const Collection = ({
                             return (
                               <NftCard
                                 key={index}
-                                ImageSrc={(onChainData ? (e?.preview?.source) : e?.nft_image)?.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )}
+                                ImageSrc={(onChainData
+                                  ? e?.preview?.source
+                                  : e?.nft_image
+                                )?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                 Name={e?.name}
                                 Description={e?.description}
-                                Address={onChainData ? (e?.nftAddress?._address) : e?.NFTAddress}
+                                Address={
+                                  onChainData
+                                    ? e?.nftAddress?._address
+                                    : e?.NFTAddress
+                                }
                                 listedBool={e?.isListed}
                                 listingPrice={e?.listingPrice}
                                 NFTCollectionAddress={
                                   e?.NFTCollection?.contractAddress
                                 }
                                 NFTCollectionName={e?.NFTCollection?.name}
-                                NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                                NFTCollectionStatus={
+                                  e?.NFTCollection?.isVerified
+                                }
                                 currency={currency}
                               />
                             );
                           })}
                         </InfiniteScroll>
-                        :
+                      ) : (
                         <>
                           {nfts?.map((e, index) => {
                             return (
                               <NftCard
                                 key={index}
-                                ImageSrc={(onChainData ? (e?.preview?.source) : e?.nft_image)?.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )}
+                                ImageSrc={(onChainData
+                                  ? e?.preview?.source
+                                  : e?.nft_image
+                                )?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                 Name={e?.name}
                                 Description={e?.description}
-                                Address={onChainData ? (e?.nftAddress?._address) : e?.NFTAddress}
+                                Address={
+                                  onChainData
+                                    ? e?.nftAddress?._address
+                                    : e?.NFTAddress
+                                }
                                 listedBool={e?.isListed}
                                 listingPrice={e?.listingPrice}
                                 NFTCollectionAddress={
                                   e?.NFTCollection?.contractAddress
                                 }
                                 NFTCollectionName={e?.NFTCollection?.name}
-                                NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                                NFTCollectionStatus={
+                                  e?.NFTCollection?.isVerified
+                                }
                                 currency={currency}
                               />
                             );
                           })}
                         </>
-                      }
+                      )}
                     </div>
                     <div className="flex justify-center">
                       {nfts?.length <= 0 && (
