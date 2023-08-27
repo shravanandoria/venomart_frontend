@@ -28,7 +28,8 @@ export default async function handler(req, res) {
           })
           .populate({
             path: "NFTs",
-            options: { limit: 50 },
+            match: { isListed: true },
+            options: { limit: 25 },
             populate: { path: "NFTCollection", select: { activity: 0, socials: 0, updatedAt: 0, _id: 0 } },
             select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0, _id: 0 }
           })
