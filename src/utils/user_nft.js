@@ -91,7 +91,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
 export const loadNFTs_collection = async (
   provider,
   collection_address,
-  last_nft_addr,
+  last_nft_addr
 ) => {
   try {
     const contract = new provider.Contract(
@@ -272,7 +272,8 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   const subscriber = new Subscriber(venomProvider);
   const contractEvents = contract.events(subscriber);
 
-  contractEvents.on((event) => {
+  contractEvents.on(async (event) => {
+    console.log({ event });
     let obj = {
       NFTAddress: event.data.nft._address,
       ownerAddress: signer_address,
@@ -283,12 +284,32 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       properties: data.properties,
       NFTCollection: data.collection,
     };
-    createNFT(obj);
+
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "POST",
+      data: {
+        NFTAddress: obj.NFTAddress,
+        ownerAddress: obj.ownerAddress,
+        managerAddress: obj.managerAddress,
+        nft_image: obj.imageURL,
+        name: obj.name,
+        description: obj.description,
+        attributes: JSON.stringify(obj.properties),
+        NFTCollection: obj.NFTCollection,
+        signer_address: obj.signer_address,
+      },
+    });
+
+    console.log(res.data);
+    // createNFT(obj);
   });
 
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
     .call();
+
+  console.log(data.image);
 
   try {
     const nft_json = JSON.stringify({

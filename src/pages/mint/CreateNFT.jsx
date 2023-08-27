@@ -6,6 +6,10 @@ import Head from "next/head";
 import { create_nft } from "../../utils/user_nft";
 import { useStorage } from "@thirdweb-dev/react";
 
+import img1 from "../../../public/default_images/1.png";
+
+import Image from "next/image";
+
 const CreateNFT = ({
   defaultCollectionAddress,
   theme,
@@ -22,6 +26,7 @@ const CreateNFT = ({
   const [preview, set_preview] = useState("");
   const [user_collections, set_user_collections] = useState([]);
 
+  const [default_imgs] = useState([""]);
   const [properties, set_properties] = useState([{ type: "", value: "" }]);
   const [data, set_data] = useState({
     image: "",
@@ -30,6 +35,11 @@ const CreateNFT = ({
     collection: defaultCollectionAddress,
     properties: [{ type: "", value: "" }],
   });
+
+  const default_images = [
+    "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
+    "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
+  ];
 
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
@@ -60,14 +70,18 @@ const CreateNFT = ({
       connectWallet();
       return;
     }
-
+    console.log(data);
+    if (!data.name && !data.description && !data.image)
+      return alert("Please fill complete form");
     set_loading(true);
-    const ipfs_image = await storage.upload(data.image);
 
-    let obj = { ...data, image: ipfs_image };
+    // UNCOMMENT THIS WHEN IN PRODUCTION
+    // const ipfs_image = await storage.upload(data.image);
+
+    let obj = { ...data, image: data.image };
     await create_nft(obj, signer_address, venomProvider);
     set_loading(false);
-    router.push(`/profile/${signer_address}`);
+    // router.push(`/profile/${signer_address}`);
   };
 
   return (
@@ -119,8 +133,8 @@ const CreateNFT = ({
                       </div>
                     </>
                   ) : (
-                    <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
-                      <div className="relative z-10 cursor-pointer">
+                    <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700 ">
+                      {/* <div className="relative z-10 cursor-pointer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -135,8 +149,19 @@ const CreateNFT = ({
                           JPG, PNG, GIF, SVG. Max size: 100 MB
                         </p>
                       </div>
-                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
-                      <input
+                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div> */}
+                      <div className="flex w-auto">
+                        {default_images.map((e) => (
+                          <Image
+                            src={e}
+                            className="w-52 h-52"
+                            width={100}
+                            height={100}
+                            onClick={() => set_data({ ...data, image: e })}
+                          />
+                        ))}
+                      </div>
+                      {/* <input
                         onChange={(e) => {
                           set_preview(URL.createObjectURL(e.target.files[0]));
                           set_data({ ...data, image: e.target.files[0] });
@@ -147,7 +172,7 @@ const CreateNFT = ({
                         id="file-upload"
                         className="absolute inset-0 z-20 cursor-pointer opacity-0"
                         required
-                      />
+                      /> */}
                     </div>
                   )}
                 </div>
