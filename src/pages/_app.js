@@ -19,8 +19,11 @@ import { COLLECTION_ADDRESS } from "../utils/user_nft";
 import { get_collections } from "../utils/mongo_api/collection/collection";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+
   // default values
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
@@ -45,6 +48,8 @@ export default function App({ Component, pageProps }) {
   const [standalone, set_standalone] = useState();
 
   const [topCollections, setTopCollections] = useState([]);
+  const [anyModalOpen, setAnyModalOpen] = useState(false);
+
 
   // custom array of all collabs
   // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
@@ -314,6 +319,22 @@ export default function App({ Component, pageProps }) {
     }
   }, [signer_address]);
 
+  useEffect(() => {
+    if (anyModalOpen) {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    }
+    if (!anyModalOpen) {
+      document.body.style.overflow = "scroll";
+      document.body.style.overflowX = "hidden";
+      window.scrollTo(0, 0);
+    }
+  }, [anyModalOpen]);
+
+  useEffect(() => {
+    setAnyModalOpen(false);
+  }, [router.pathname])
+
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
       <Script
@@ -362,6 +383,8 @@ export default function App({ Component, pageProps }) {
         collabQuests={collabQuests}
         topCollections={topCollections}
         setTopCollections={setTopCollections}
+        anyModalOpen={anyModalOpen}
+        setAnyModalOpen={setAnyModalOpen}
       />
       <Footer
         theme={theme}
