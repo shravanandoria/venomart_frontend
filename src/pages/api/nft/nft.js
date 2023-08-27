@@ -22,12 +22,15 @@ export default async function handler(req, res) {
         } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
-        const skipCol = skipCollectionNFTs && /^\d+$/.test(skipCollectionNFTs) ? Number(skipCollectionNFTs) : 0;
+        const skipCol =
+          skipCollectionNFTs && /^\d+$/.test(skipCollectionNFTs)
+            ? Number(skipCollectionNFTs)
+            : 0;
 
         // GET USER'S NFTS
         if (ownerAddress) {
           let nfts = await NFT.find({ ownerAddress });
-          return res.status(200).json({ success: false, data: nfts });
+          return res.status(200).json({ success: true, data: nfts });
         }
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
@@ -55,7 +58,7 @@ export default async function handler(req, res) {
               .status(400)
               .json({ success: false, data: "Cannot Find This NFT" });
 
-          return res.status(200).json({ success: false, data: nft });
+          return res.status(200).json({ success: true, data: nft });
         }
 
         // IF COLLECTION ADDR IS PROVIDED, SEND ALL NFTS WITH THAT COL ADDRESS
@@ -77,17 +80,22 @@ export default async function handler(req, res) {
               "-managerAddress",
               "-isLike",
               "-attributes",
-            ]).skip(skipCol).limit(20);
+            ])
+            .skip(skipCol)
+            .limit(20);
 
           return res.status(200).json({ success: true, data: nfts });
         }
 
         //SEND ALL NFTS
-        let nfts = await NFT.find({ isListed: true }, undefined, { skip, limit: 20 }).populate({
+        let nfts = await NFT.find({ isListed: true }, undefined, {
+          skip,
+          limit: 20,
+        }).populate({
           path: "NFTCollection",
           select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
         });
-        res.status(200).json({ success: false, data: nfts });
+        res.status(200).json({ success: true, data: nfts });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }
@@ -136,7 +144,7 @@ export default async function handler(req, res) {
           res.status(200).json({ success: true, data: collection });
         }
 
-        // creating the nft 
+        // creating the nft
         nft = await NFT.create({
           NFTAddress,
           ownerAddress,
@@ -153,7 +161,7 @@ export default async function handler(req, res) {
           activity: [],
         });
 
-        // adding the nft to the user wallet 
+        // adding the nft to the user wallet
         let nftNew = await NFT.findOne({ NFTAddress });
         let NFTOwner = await User.findOne({ wallet_id: ownerAddress });
         NFTOwner.NFTs.push(nftNew);
@@ -182,7 +190,7 @@ export default async function handler(req, res) {
           new_manager,
           new_owner,
           old_owner,
-          transaction_type
+          transaction_type,
         } = req.body;
 
         let nft = await NFT.findOne({ NFTAddress });
@@ -214,7 +222,6 @@ export default async function handler(req, res) {
         }
 
         await nft.save();
-
 
         res.status(200).json({ success: true, data: nft });
       } catch (error) {

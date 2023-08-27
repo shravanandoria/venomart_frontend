@@ -14,11 +14,20 @@ export default async function handler(req, res) {
         let results = {};
         if (type !== "nft") {
           const col_search = await Collection.find({
-            $or: [
-              { name: { $regex: query, $options: "i" } }
-            ],
+            $or: [{ name: { $regex: query, $options: "i" } }],
           })
-            .select(["contractAddress", "name", "logo", "coverImage", "isVerified", "description", "Category", "TotalListed", "FloorPrice", "TotalVolume"])
+            .select([
+              "contractAddress",
+              "name",
+              "logo",
+              "coverImage",
+              "isVerified",
+              "description",
+              "Category",
+              "TotalListed",
+              "FloorPrice",
+              "TotalVolume",
+            ])
             .limit(10)
             .sort({ isVerified: -1 });
           results.collections = col_search;
@@ -40,7 +49,7 @@ export default async function handler(req, res) {
 
           results.nfts = nfts_search;
         }
-
+        console.log("all");
         res.status(200).json({ success: true, data: results });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });

@@ -1,6 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import Collection from "../../../Models/Collection";
+import NFT from "../../../Models/NFT";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -9,18 +10,37 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
+        const { col_id, query } = req.query;
+
+        if (col_id) {
+          const nfts = await NFT.find({
+            $or: [
+              {
+                NFTCollection: col_id,
+              },
+              { name: { $regex: query, $options: "i" } },
+              { NFTAddress: { $regex: query, $options: "i" } },
+            ],
+          }).select(["name", "NFTAddress", "NFTCollection"]);
+
+          return res.status(200).json({ success: true, data: nfts });
+        }
         const skip =
           req.query.skip && /^\d+$/.test(req.query.skip)
             ? Number(req.query.skip)
             : 0;
 
-        const collections = await Collection.find({}, { activity: 0, socials: 0 }, {
-          skip,
-          limit: 20,
-        }).sort({ isVerified: -1 });
+        const collections = await Collection.find(
+          {},
+          { activity: 0, socials: 0 },
+          {
+            skip,
+            limit: 20,
+          }
+        ).sort({ isVerified: -1 });
         res.status(200).json({ success: true, data: collections });
       } catch (error) {
-        res.status(400).json({ success: false });
+        res.status(400).json({ success: false, data: error.message });
       }
       break;
     case "POST":

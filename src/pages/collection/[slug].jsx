@@ -66,7 +66,6 @@ const Collection = ({
     setLoading(true);
 
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
-    console.log({ nfts_offchain });
     set_nfts(nfts_offchain);
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
@@ -82,6 +81,7 @@ const Collection = ({
 
     // getting contract info
     const res = await get_collection_by_contract(slug);
+    console.log(res.data);
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     setLoading(false);
@@ -110,14 +110,6 @@ const Collection = ({
     }
   };
 
-  // const handleScroll = (e) => {
-  //   if (onChainData == true) return;
-  //   const { offsetHeight, scrollTop, scrollHeight } = e.target;
-  //   if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-  //     setSkip(nfts.length);
-  //   }
-  // };
-
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
     let res = await loadNFTs_collection(standalone, slug, lastNFT);
@@ -143,12 +135,12 @@ const Collection = ({
       set_isTyping(false);
       if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
-      const res = await search_nfts(query_search);
+      const res = await search_nfts(query_search, "", collection._id);
+      console.log(res);
       set_nfts(res.nfts);
       set_isTyping(false);
       setSearchLoading(false);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [isTyping]);
 
