@@ -17,12 +17,12 @@ import {
     AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "../../..//components/Loader";
+import Loader from "../../../components/Loader";
 import { create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
-const venomMonkeys = ({
+const venommushies = ({
     blockURL,
     theme,
     webURL,
@@ -31,17 +31,18 @@ const venomMonkeys = ({
     signer_address,
     connectWallet,
     collabQuests,
+    anyModalOpen,
+    setAnyModalOpen
 }) => {
     const router = useRouter();
-
     // change from here
-    const launchSlug = collabQuests[3];
 
-    const venomartTwitter = "venomart23";
-    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
+    const launchSlug = collabQuests[4];
 
     // change till here
 
+    const venomartTwitter = "venomart23";
+    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
     const intendTweetId = launchSlug.tweetID;
     const projectTwitter = launchSlug.twitterUserName;
     const projectDiscord = launchSlug.discord;
@@ -65,7 +66,6 @@ const venomMonkeys = ({
     const [loading, setLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [comLoading, setCompLoading] = useState(false);
-    const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
     const [checkMint, setCheckMint] = useState();
@@ -198,11 +198,8 @@ const venomMonkeys = ({
             venomProvider
         );
         if (launchMint) {
-            setAfterMint(true);
+            setAnyModalOpen(true);
             setMintLock(true);
-            setTimeout(() => {
-                setAfterMint(false);
-            }, 3000);
         }
         setLoading(false);
     };
@@ -215,7 +212,7 @@ const venomMonkeys = ({
         }, 2000);
     };
 
-    const get_user_Data = async () => {
+    const get_minted_data = async () => {
         if (!signer_address) return;
         setLoading(true);
         const data = await has_minted(
@@ -228,7 +225,7 @@ const venomMonkeys = ({
     };
 
     useEffect(() => {
-        get_user_Data();
+        get_minted_data();
     }, [signer_address]);
 
     useEffect(() => {
@@ -237,18 +234,6 @@ const venomMonkeys = ({
             setLoading(false);
         }, 3000);
     }, [venomProvider]);
-
-    useEffect(() => {
-        if (afterMint) {
-            document.body.style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        }
-        if (!afterMint) {
-            document.body.style.overflow = "scroll";
-            document.body.style.overflowX = "hidden";
-            window.scrollTo(0, 0);
-        }
-    }, [afterMint]);
 
     return (
         <div className={`${theme}`}>
@@ -266,8 +251,8 @@ const venomMonkeys = ({
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            {afterMint && (
-                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-10"></div>
+            {anyModalOpen && (
+                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
             )}
 
             {loading ? (
@@ -350,13 +335,13 @@ const venomMonkeys = ({
                                                     Venomscan
                                                     <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                                 </a>
-                                                <a
+                                                <Link
                                                     href={`/collection/${contractAddress}`}
                                                     className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                                 >
                                                     Collection
                                                     <GoArrowUpRight />
-                                                </a>
+                                                </Link>
                                             </>
                                         ) : (
                                             <>
@@ -933,7 +918,7 @@ const venomMonkeys = ({
                         </section>
                     </section>
 
-                    {afterMint && (
+                    {anyModalOpen && (
                         // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
                         <div className="afterMintDiv">
                             <form className="modal-dialog max-w-2xl">
@@ -947,7 +932,7 @@ const venomMonkeys = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => setAfterMint(false)}
+                                            onClick={() => setAnyModalOpen(false)}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -992,4 +977,4 @@ const venomMonkeys = ({
     );
 };
 
-export default venomMonkeys;
+export default venommushies;

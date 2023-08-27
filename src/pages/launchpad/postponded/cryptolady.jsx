@@ -17,12 +17,12 @@ import {
     AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "../../..//components/Loader";
-import { create_launchpad_nft } from "../../../utils/user_nft";
+import Loader from "@/components/Loader";
+import { create_launchpad_nft } from "@/utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
-import { has_minted } from "../../../utils/user_nft";
+import { has_minted } from "@/utils/user_nft";
 
-const venomMonkeys = ({
+const cryptolady = ({
     blockURL,
     theme,
     webURL,
@@ -35,7 +35,7 @@ const venomMonkeys = ({
     const router = useRouter();
 
     // change from here
-    const launchSlug = collabQuests[3];
+    const launchSlug = collabQuests[4];
 
     const venomartTwitter = "venomart23";
     const venomartDiscord = "https://discord.gg/wQbBr6Xean";
@@ -992,4 +992,4 @@ const venomMonkeys = ({
     );
 };
 
-export default venomMonkeys;
+export default cryptolady;
