@@ -22,7 +22,7 @@ export default async function handler(req, res) {
             skip,
             limit: 20,
           }
-        ).sort({ isVerified: -1 });
+        ).sort({ TotalVolume: -1, TotalListed: -1, isVerified: -1, });
         res.status(200).json({ success: true, data: collections });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
