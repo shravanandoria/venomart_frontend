@@ -2,6 +2,7 @@ import dbConnect from "../../lib/dbConnect";
 import Launchpad from "../../Models/Launchpad";
 import NFT from "../../Models/NFT";
 import Collection from "../../Models/Collection";
+
 export default async function handler(req, res) {
   const { method } = req;
 
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { query, type, page, col_id } = req.query;
+        const { query, type, collection_id } = req.query;
         let results = {};
         if (type !== "nft") {
           const col_search = await Collection.find({
@@ -34,13 +35,19 @@ export default async function handler(req, res) {
         }
 
         if (type !== "collection") {
+          const ObjectId = require('mongoose').Types.ObjectId;
+          const collectionObjectId = new ObjectId(collection_id);
+
           const nfts_search = await NFT.find({
             $or: [
               { name: { $regex: query, $options: "i" } },
               { NFTAddress: { $regex: query, $options: "i" } },
             ],
+            $and: [
+              { NFTCollection: collectionObjectId },
+            ],
           })
-            .select(["name", "NFTAddress", "nft_image", "NFTCollection"])
+            .select(["name", "NFTAddress", "description", "nft_image", "NFTCollection"])
             .populate({
               path: "NFTCollection",
               select: { isVerified: 1, contractAddress: 1 },

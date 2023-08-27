@@ -8,15 +8,20 @@ export default async function handler(req, res) {
   await dbConnect();
 
   switch (method) {
-    case "POST":
+    case "GET":
       try {
-        const { contractAddress } = req.body;
+        const { contractAddress, skipActivity } = req.query;
+
+        const skip =
+          skipActivity && /^\d+$/.test(skipActivity)
+            ? Number(skipActivity)
+            : 0;
 
         const collection = await Collection.findOne({
           contractAddress,
         }).populate({
           path: "activity",
-          options: { limit: 5, sort: [{ createdAt: -1 }] },
+          options: { skip, limit: 7, sort: [{ createdAt: -1 }] },
           populate: { path: "item" },
         });
 

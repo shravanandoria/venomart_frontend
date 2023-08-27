@@ -45,6 +45,7 @@ const Profile = ({
   const [nfts, set_nfts] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const getProfileData = async () => {
     set_loading(true);
@@ -59,7 +60,6 @@ const Profile = ({
     setOnSaleNFTs(data?.data?.NFTs);
     setNFTCollections(data?.data?.nftCollections);
     set_loading(false);
-
   };
 
   const fetch_user_nfts = async () => {
@@ -79,8 +79,12 @@ const Profile = ({
   };
 
   const scrollActivityFetch = async () => {
+    setMoreLoading(true);
     const newArray = await user_info(slug, activitySkip);
-    setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
+    if (newArray) {
+      setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
+    }
+    setMoreLoading(false);
   };
 
   const handleActivityScroll = (e) => {
@@ -503,6 +507,13 @@ const Profile = ({
                     next={fetch_user_nfts}
                     hasMore={lastNFT}
                     className="flex flex-wrap justify-center align-middle"
+                    loader={
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      </div>
+                    }
                   >
                     {nfts?.map((e, index) => {
                       return (
@@ -604,6 +615,12 @@ const Profile = ({
                             To={e?.to}
                           />
                         ))}
+                        {moreLoading &&
+                          <div className="flex items-center justify-center space-x-2">
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>}
                       </div>
                     </div>
 

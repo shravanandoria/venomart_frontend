@@ -16,7 +16,7 @@ const CollectionSchema = new mongoose.Schema(
     description: String,
     socials: [String],
     isVerified: Boolean,
-    Category: String,
+    Category: [String],
     activity: [
       {
         type: Schema.Types.ObjectId,

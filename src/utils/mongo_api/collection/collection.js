@@ -28,14 +28,12 @@ export const create_collection = async (data) => {
   }
 };
 
-export const get_collection_by_contract = async (contractAddress) => {
+export const get_collection_by_contract = async (contractAddress, skipActivity) => {
+  console.log({ contractAddress, skipActivity })
   try {
     const res = await axios({
-      url: "/api/collection/slug_collection",
-      method: "POST",
-      data: {
-        contractAddress,
-      },
+      url: `/api/collection/slug_collection?contractAddress=${contractAddress}&skipActivity=${skipActivity}`,
+      method: "GET"
     });
     return res.data;
   } catch (error) {
@@ -60,17 +58,11 @@ export const get_collection_if_nft_onchain = async (contractAddress) => {
 
 export const get_collections = async (skip) => {
   try {
-    let nfts = [];
     const res = await axios({
       url: `/api/collection/collection?skip=${skip}`,
       method: "GET",
     });
-    for (let i = 0; i < res.data.data.length; i++) {
-      if (res.data.data[i]) {
-        nfts.push(res.data.data[i]);
-      }
-    }
-    return nfts;
+    return res.data.data;
   } catch (error) {
     console.log(error.message);
   }

@@ -55,6 +55,7 @@ const Collection = ({
   const [lastNFT, setLastNFT] = useState(true);
   const [onChainData, setOnChainData] = useState(false);
   const [skip, setSkip] = useState(0);
+  const [skipActivity, setSkipActivity] = useState(0);
 
   const [searchLoading, setSearchLoading] = useState(false);
   const [query_search, set_query_search] = useState("");
@@ -80,8 +81,7 @@ const Collection = ({
     }
 
     // getting contract info
-    const res = await get_collection_by_contract(slug);
-    console.log(res.data);
+    const res = await get_collection_by_contract(slug, 0);
     set_collection(res?.data);
     set_activity(res?.data?.activity);
     setLoading(false);
@@ -102,22 +102,7 @@ const Collection = ({
     }
   };
 
-  const fetch_more_nftsOffChain = async () => {
-    if (onChainData == true) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, skip);
-    if (nfts_offchain) {
-      set_nfts([...nfts, ...nfts_offchain]);
-    }
-  };
-
-  const handleScroll = (e) => {
-    if (onChainData == true) return;
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setSkip(nfts.length);
-    }
-  };
-
+  // fetching on onchain scroll 
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
     let res = await loadNFTs_collection(standalone, slug, lastNFT);
@@ -130,6 +115,43 @@ const Collection = ({
     }
   };
 
+  // fetching on offchain scroll 
+  const fetch_more_nftsOffChain = async () => {
+    if (onChainData == true) return;
+    const nfts_offchain = await fetch_collection_nfts(slug, skip);
+    if (nfts_offchain) {
+      set_nfts([...nfts, ...nfts_offchain]);
+    }
+  };
+
+
+  const handleScroll = (e) => {
+    if (onChainData == true) return;
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setSkip(nfts.length);
+    }
+  };
+
+  // acitivty scroll function 
+  const scrollFetchActivity = async () => {
+    setSearchLoading(true);
+    const res = await get_collection_by_contract(slug, skipActivity);
+    console.log(res?.data?.activity)
+    if (res) {
+      set_activity([...activity, ...res?.data?.activity]);
+    }
+    setSearchLoading(false);
+  };
+
+  const handleActivityScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setSkipActivity(activity.length);
+    }
+  };
+
+  // handling search 
   const handle_search = async (data) => {
     setSearchLoading(true);
     set_query_search(data);
@@ -137,18 +159,19 @@ const Collection = ({
     set_def_query("");
   };
 
+  // use effects 
   useEffect(() => {
-    if (!slug) return;
     const timer = setTimeout(async () => {
       set_isTyping(false);
       if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
-      const res = await search_nfts(query_search, slug);
+      const res = await search_nfts(query_search, collection._id);
       console.log({ res });
       set_nfts(res.nfts);
       set_isTyping(false);
       setSearchLoading(false);
     }, 1000);
+
     return () => clearTimeout(timer);
   }, [isTyping]);
 
@@ -165,6 +188,10 @@ const Collection = ({
   useEffect(() => {
     gettingTotalSupply();
   }, [venomProvider]);
+
+  useEffect(() => {
+    scrollFetchActivity();
+  }, [skipActivity]);
 
   return (
     <div className={`${theme}`}>
@@ -549,9 +576,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${
-                      itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${itemsTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -572,9 +598,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${
-                      activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${activityTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -917,37 +942,47 @@ const Collection = ({
                           </InfiniteScroll>
                         ) : (
                           <>
-                            {nfts?.map((e, index) => {
-                              return (
-                                <NftCard
-                                  key={index}
-                                  ImageSrc={(onChainData
-                                    ? e?.preview?.source
-                                    : e?.nft_image
-                                  )?.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )}
-                                  Name={e?.name}
-                                  Description={e?.description}
-                                  Address={
-                                    onChainData
-                                      ? e?.nftAddress?._address
-                                      : e?.NFTAddress
-                                  }
-                                  listedBool={e?.isListed}
-                                  listingPrice={e?.listingPrice}
-                                  NFTCollectionAddress={
-                                    e?.NFTCollection?.contractAddress
-                                  }
-                                  NFTCollectionName={e?.NFTCollection?.name}
-                                  NFTCollectionStatus={
-                                    e?.NFTCollection?.isVerified
-                                  }
-                                  currency={currency}
-                                />
-                              );
-                            })}
+                            {searchLoading ?
+                              <div className="flex items-center justify-center space-x-2">
+                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              </div>
+                              :
+                              <>
+                                {nfts?.map((e, index) => {
+                                  return (
+                                    <NftCard
+                                      key={index}
+                                      ImageSrc={(onChainData
+                                        ? e?.preview?.source
+                                        : e?.nft_image
+                                      )?.replace(
+                                        "ipfs://",
+                                        "https://ipfs.io/ipfs/"
+                                      )}
+                                      Name={e?.name}
+                                      Description={e?.description}
+                                      Address={
+                                        onChainData
+                                          ? e?.nftAddress?._address
+                                          : e?.NFTAddress
+                                      }
+                                      listedBool={e?.isListed}
+                                      listingPrice={e?.listingPrice}
+                                      NFTCollectionAddress={
+                                        e?.NFTCollection?.contractAddress
+                                      }
+                                      NFTCollectionName={e?.NFTCollection?.name}
+                                      NFTCollectionStatus={
+                                        e?.NFTCollection?.isVerified
+                                      }
+                                      currency={currency}
+                                    />
+                                  );
+                                })}
+                              </>
+                            }
                           </>
                         )}
                       </div>
@@ -957,7 +992,7 @@ const Collection = ({
                             This collection has no NFTs !!
                           </h2>
                         )}
-                        {nfts?.length <= 0 && def_query == "" && (
+                        {nfts?.length <= 0 && def_query == "" && !searchLoading && (
                           <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
                             No search results found!!
                           </h2>
@@ -970,10 +1005,10 @@ const Collection = ({
 
               {/* activity  */}
               {activityTab && (
-                <div className="container">
+                <div className="container" >
                   {activity?.length >= 1 && (
                     <div className="flexActivitySection">
-                      <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
+                      <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
                         <div className="flex justify-center align-middle flex-wrap">
                           {activity?.map((e, index) => (
                             <ActivityRecord
@@ -990,8 +1025,16 @@ const Collection = ({
                               To={e?.to}
                             />
                           ))}
+                          {searchLoading &&
+                            <div className="flex items-center justify-center space-x-2">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          }
                         </div>
                       </div>
+                      {/* activity filters  */}
                       <div className="basis-4/12 lg:pl-5">
                         <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
                           Filters

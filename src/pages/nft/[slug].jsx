@@ -196,15 +196,15 @@ const NFTPage = ({
 
       {/* modal background  */}
       {listSale && (
-        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-20"></div>
+        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-30"></div>
       )}
 
       {buyModal && (
-        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-20"></div>
+        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-30"></div>
       )}
 
       {cancelModal && (
-        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-20"></div>
+        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-30"></div>
       )}
 
       {pageLoading ? (

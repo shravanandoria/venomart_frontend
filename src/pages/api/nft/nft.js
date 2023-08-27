@@ -135,7 +135,16 @@ export default async function handler(req, res) {
         if (!collection) {
           collection = await Collection.create({
             contractAddress: NFTCollection,
+            creatorAddress: "",
+            coverImage: "",
+            logo: "",
+            name: "",
+            royalty: "",
+            royaltyAddress: "",
+            description: "",
+            socials: [],
             isVerified: false,
+            Category: [],
             TotalSupply: 0,
             TotalListed: 0,
             FloorPrice: 1000,

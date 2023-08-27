@@ -59,6 +59,26 @@ export default async function handler(req, res) {
             .json({ success: false, data: "Cannot Find This NFT" });
         }
 
+        // creating activity here 
+        user = await User.findOne({ wallet_id });
+        const activity = await Activity.create({
+          hash,
+          from,
+          to,
+          price,
+          item: nft,
+          type,
+          owner: user,
+          nft_collection: collection,
+        });
+
+        nft.activity.push(activity);
+        await nft.save();
+        user.activity.push(activity);
+        await user.save();
+        collection.activity.push(activity);
+        await collection.save();
+
         // doing the collection stats calculation part here 
         if (collection) {
           if (type == "list") {
@@ -99,26 +119,6 @@ export default async function handler(req, res) {
           }
         }
 
-        // creating activity here 
-        user = await User.findOne({ wallet_id });
-        const activity = await Activity.create({
-          hash,
-          from,
-          to,
-          price,
-          item: nft,
-          type,
-          owner: user,
-          nft_collection: collection,
-        });
-
-        nft.activity.push(activity);
-        await nft.save();
-        user.activity.push(activity);
-        await user.save();
-        collection.activity.push(activity);
-        await collection.save();
-        console.log("activity created")
         res
           .status(200)
           .json({ success: true, data: "Activity has been created" });

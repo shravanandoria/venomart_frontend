@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             : 0;
 
         const collections = await Collection.find(
-          {},
+          { name: { $ne: "" } },
           { activity: 0, socials: 0 },
           {
             skip,
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
           logo,
           name,
           royalty,
+          royaltyAddress,
           description,
           socials,
           isVerified,
@@ -63,9 +64,11 @@ export default async function handler(req, res) {
           logo,
           name,
           royalty,
+          royaltyAddress: "",
           description,
           socials,
           isVerified,
+          Category: ["Collectible"],
           TotalSupply: 0,
           TotalListed: 0,
           FloorPrice: 1000,
