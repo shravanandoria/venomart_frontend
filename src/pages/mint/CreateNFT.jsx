@@ -33,8 +33,10 @@ const CreateNFT = ({
   });
 
   const default_images = [
-    "https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif",
-    "https://ipfs.io/ipfs/QmSPoW63yLi3aEE4jLEBaLwTbZ79bxwCmXjRHQHHFLPPmA/alligators.gif",
+    "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
+    "https://ipfs.io/ipfs/QmRSPF3cFpssXTZnYbgXqb1HncepyoY9oY1AHgESoLCdTY/2.webp",
+    "https://ipfs.io/ipfs/QmNqPGLMkkbJezyjuZTShnLe3GzGoU7VcjyACXcAeFiiWV/3.webp",
+    "https://ipfs.io/ipfs/QmWYVwPg2vVxc684M8AmUPuYPWaQqGs9LHhgbG8rHro4AE/4.webp",
   ];
 
   const handleChange = (e) => {
