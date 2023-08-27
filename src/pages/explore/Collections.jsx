@@ -23,7 +23,6 @@ const Collections = ({ theme, venomProvider }) => {
   const scrollFetchCollections = async () => {
     setMoreLoading(true);
     const collectionsJSON = await get_collections(skip);
-    console.log({ collectionsJSON })
     set_collections([...collections, ...collectionsJSON]);
     setMoreLoading(false);
   };

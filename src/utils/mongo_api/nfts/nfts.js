@@ -6,7 +6,6 @@ export const fetch_nfts = async (skip) => {
       url: `/api/nft/nft?skipNFTs=${skip}`,
       method: "GET",
     });
-    console.log(res.data);
     return res.data.data;
   } catch (error) {
     console.log(error.message);

@@ -66,7 +66,6 @@ const CreateNFT = ({
       connectWallet();
       return;
     }
-    console.log(data);
     if (!data.name && !data.description && !data.image)
       return alert("Please fill complete form");
     set_loading(true);
@@ -77,7 +76,7 @@ const CreateNFT = ({
     let obj = { ...data, image: data.image };
     await create_nft(obj, signer_address, venomProvider);
     set_loading(false);
-    // router.push(`/profile/${signer_address}`);
+    router.push(`/profile/${signer_address}`);
   };
 
   return (
@@ -134,7 +133,7 @@ const CreateNFT = ({
                             className="w-32 h-32 m-4 cursor-pointer hover:shadow-2xl"
                             width={100}
                             height={100}
-                            onClick={() => (set_data({ ...data, image: e }), set_preview(e), console.log(e))}
+                            onClick={() => (set_data({ ...data, image: e }), set_preview(e))}
                           />
                         ))}
                       </div>

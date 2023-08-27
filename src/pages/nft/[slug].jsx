@@ -58,7 +58,6 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    console.log({ nft_database })
     setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
@@ -145,7 +144,6 @@ const NFTPage = ({
   // getting collection info if onChainData 
   const getCollectionDataForOnchain = async () => {
     const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
-    console.log({ collection_data })
     setCollectionData(collection_data);
   }
 

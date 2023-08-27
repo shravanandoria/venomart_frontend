@@ -137,7 +137,6 @@ const Collection = ({
   const scrollFetchActivity = async () => {
     setSearchLoading(true);
     const res = await get_collection_by_contract(slug, skipActivity);
-    console.log(res?.data?.activity)
     if (res) {
       set_activity([...activity, ...res?.data?.activity]);
     }
@@ -166,7 +165,6 @@ const Collection = ({
       if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
       const res = await search_nfts(query_search, collection._id);
-      console.log({ res });
       set_nfts(res.nfts);
       set_isTyping(false);
       setSearchLoading(false);

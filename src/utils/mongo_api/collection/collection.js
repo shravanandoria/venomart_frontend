@@ -29,7 +29,6 @@ export const create_collection = async (data) => {
 };
 
 export const get_collection_by_contract = async (contractAddress, skipActivity) => {
-  console.log({ contractAddress, skipActivity })
   try {
     const res = await axios({
       url: `/api/collection/slug_collection?contractAddress=${contractAddress}&skipActivity=${skipActivity}`,
