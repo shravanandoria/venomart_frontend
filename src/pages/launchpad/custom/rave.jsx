@@ -31,6 +31,8 @@ const rave = ({
   signer_address,
   connectWallet,
   customLaunchpad,
+  anyModalOpen,
+  setAnyModalOpen
 }) => {
   const router = useRouter();
   // change from here
@@ -64,7 +66,6 @@ const rave = ({
   const [loading, setLoading] = useState(false);
   const [mintedNFTs, setMintedNFTs] = useState(0);
   const [comLoading, setCompLoading] = useState(false);
-  const [afterMint, setAfterMint] = useState(false);
   const [mintLock, setMintLock] = useState(false);
 
   const [checkMint, setCheckMint] = useState();
@@ -197,11 +198,8 @@ const rave = ({
       venomProvider
     );
     if (launchMint) {
-      setAfterMint(true);
+      setAnyModalOpen(true);
       setMintLock(true);
-      setTimeout(() => {
-        setAfterMint(false);
-      }, 3000);
     }
     setLoading(false);
   };
@@ -237,18 +235,6 @@ const rave = ({
     }, 3000);
   }, [venomProvider]);
 
-  useEffect(() => {
-    if (afterMint) {
-      document.body.style.overflow = "hidden";
-      window.scrollTo(0, 0);
-    }
-    if (!afterMint) {
-      document.body.style.overflow = "scroll";
-      document.body.style.overflowX = "hidden";
-      window.scrollTo(0, 0);
-    }
-  }, [afterMint]);
-
   return (
     <div className={`${theme}`}>
       <Head>
@@ -265,7 +251,7 @@ const rave = ({
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      {afterMint && (
+      {anyModalOpen && (
         <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
       )}
 
@@ -940,7 +926,7 @@ const rave = ({
             </section>
           </section>
 
-          {afterMint && (
+          {anyModalOpen && (
             // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
             <div className="afterMintDiv">
               <form className="modal-dialog max-w-2xl">
@@ -954,7 +940,7 @@ const rave = ({
                       className="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
-                      onClick={() => setAfterMint(false)}
+                      onClick={() => setAnyModalOpen(false)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

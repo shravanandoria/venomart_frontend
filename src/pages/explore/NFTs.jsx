@@ -53,8 +53,8 @@ const NFTs = ({ theme, currency }) => {
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className={`${theme} scroll-list`} onScroll={handleScroll}>
-          <section className="relative py-24 dark:bg-jacarta-800">
+        <div className={`${theme}`} >
+          <section className="relative py-24 dark:bg-jacarta-800 scroll-list" onScroll={handleScroll}>
             <div>
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore NFTs
