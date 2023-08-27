@@ -11,21 +11,21 @@ export const search = async (query) => {
   } catch (error) {}
 };
 
-export const search_nfts = async (query, page, col_id) => {
+export const search_nfts = async (query, collection) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=nft&page=${page}&col_id=${col_id}`,
+      url: `/api/search?query=${query}&collection=${collection}&type=nft`,
       method: "GET",
     });
-    
+
     return res.data.data;
   } catch (error) {}
 };
 
-export const search_collections = async (query, page) => {
+export const search_collections = async (query) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=collection&page=${page}`,
+      url: `/api/search?query=${query}&type=collection`,
       method: "GET",
     });
 

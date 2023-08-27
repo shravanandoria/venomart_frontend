@@ -10,8 +10,10 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { query, type, page } = req.query;
+        const { query, type } = req.query;
         let results = {};
+
+        // searching collections on explore collection page
         if (type !== "nft") {
           const col_search = await Collection.find({
             $or: [{ name: { $regex: query, $options: "i" } }],
@@ -33,6 +35,7 @@ export default async function handler(req, res) {
           results.collections = col_search;
         }
 
+        // searching collection nfts on speific collection page
         if (type !== "collection") {
           const nfts_search = await NFT.find({
             $or: [
@@ -40,7 +43,7 @@ export default async function handler(req, res) {
               { NFTAddress: { $regex: query, $options: "i" } },
             ],
           })
-            .select(["name", "NFTAddress", "nft_image", "NFTCollection"])
+            .select(["name", "NFTAddress", "description", "nft_image", "NFTCollection"])
             .populate({
               path: "NFTCollection",
               select: { isVerified: 1, contractAddress: 1 },
