@@ -5,9 +5,6 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { create_nft } from "../../utils/user_nft";
 import { useStorage } from "@thirdweb-dev/react";
-
-import img1 from "../../../public/default_images/1.png";
-
 import Image from "next/image";
 
 const CreateNFT = ({
@@ -26,7 +23,6 @@ const CreateNFT = ({
   const [preview, set_preview] = useState("");
   const [user_collections, set_user_collections] = useState([]);
 
-  const [default_imgs] = useState([""]);
   const [properties, set_properties] = useState([{ type: "", value: "" }]);
   const [data, set_data] = useState({
     image: "",
@@ -115,6 +111,45 @@ const CreateNFT = ({
                 {/* <!-- File Upload --> */}
                 <div className="mb-6">
                   <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                    Select Image
+                    <span className="text-red">*</span>
+                  </label>
+
+                  {preview ? (
+                    <>
+                      <div>
+                        <img
+                          src={preview}
+                          alt=""
+                          className="h-44 rounded-lg border-2 border-gray-500"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-5 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700 ">
+                      <div className="flex flex-wrap w-auto">
+                        {default_images.map((e) => (
+                          <Image
+                            src={e}
+                            className="w-32 h-32 m-4 cursor-pointer hover:shadow-2xl"
+                            width={100}
+                            height={100}
+                            onClick={() => (set_data({ ...data, image: e }), set_preview(e), console.log(e))}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {preview &&
+                    <p onClick={() => set_preview("")} className="mb-3 mt-3 text-2xs dark:text-jacarta-300 cursor-pointer">
+                      Click here to re-select image
+                    </p>
+                  }
+                </div>
+
+                {/* uncomment this while in PRODUCTION  */}
+                {/* <div className="mb-6">
+                  <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
                     Select Image Or Video
                     <span className="text-red">*</span>
                   </label>
@@ -134,7 +169,7 @@ const CreateNFT = ({
                     </>
                   ) : (
                     <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700 ">
-                      {/* <div className="relative z-10 cursor-pointer">
+                      <div className="relative z-10 cursor-pointer">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -149,19 +184,8 @@ const CreateNFT = ({
                           JPG, PNG, GIF, SVG. Max size: 100 MB
                         </p>
                       </div>
-                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div> */}
-                      <div className="flex w-auto">
-                        {default_images.map((e) => (
-                          <Image
-                            src={e}
-                            className="w-52 h-52"
-                            width={100}
-                            height={100}
-                            onClick={() => set_data({ ...data, image: e })}
-                          />
-                        ))}
-                      </div>
-                      {/* <input
+                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                      <input
                         onChange={(e) => {
                           set_preview(URL.createObjectURL(e.target.files[0]));
                           set_data({ ...data, image: e.target.files[0] });
@@ -172,10 +196,10 @@ const CreateNFT = ({
                         id="file-upload"
                         className="absolute inset-0 z-20 cursor-pointer opacity-0"
                         required
-                      /> */}
+                      />
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 {/* <!-- Name --> */}
                 <div className="mb-6">
@@ -190,11 +214,10 @@ const CreateNFT = ({
                     name="name"
                     type="text"
                     id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     placeholder="Item name"
                     required
                   />
@@ -216,11 +239,10 @@ const CreateNFT = ({
                     onChange={handleChange}
                     name="description"
                     id="item-description"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
-                      theme == "dark"
-                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                    } `}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
                     rows="4"
                     required
                     placeholder="Provide a detailed description of your item."
@@ -251,11 +273,10 @@ const CreateNFT = ({
                     name="collection"
                     value={data.collection}
                     onChange={handleChange}
-                    className={`dropdown my-1 cursor-pointer w-[100%] ${
-                      theme == "dark"
-                        ? "dark:bg-jacarta-900 dark:text-white"
-                        : "bg-white text-black"
-                    }`}
+                    className={`dropdown my-1 cursor-pointer w-[100%] ${theme == "dark"
+                      ? "dark:bg-jacarta-900 dark:text-white"
+                      : "bg-white text-black"
+                      }`}
                     required
                   >
                     <option>Select Collection</option>
@@ -367,11 +388,10 @@ const CreateNFT = ({
                                   value={data.properties[index].type}
                                   name="type"
                                   type="text"
-                                  className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${
-                                    theme == "dark"
-                                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                  }`}
+                                  className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                    }`}
                                   placeholder="Type"
                                 />
                               </div>
@@ -384,11 +404,10 @@ const CreateNFT = ({
                                   value={data.properties[index].value}
                                   name="value"
                                   type="text"
-                                  className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${
-                                    theme == "dark"
-                                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                  }`}
+                                  className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                    }`}
                                   placeholder="Value"
                                 />
                               </div>

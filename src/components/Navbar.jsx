@@ -99,9 +99,8 @@ const Navbar = ({
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
       <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
         <div
-          className={`flex items-center justify-around px-8 py-6 ${
-            mobileNavDrop && "bg-white dark:bg-jacarta-800"
-          } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
+          className={`flex items-center justify-around px-8 py-6 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
+            } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
         >
           {/* icon  */}
           {theme === "dark" ? (
@@ -172,10 +171,9 @@ const Navbar = ({
                     onClick={() => (
                       showSearchNFTs(false), showSearchCollections(true)
                     )}
-                    className={`p-2 ml-4 ${
-                      searchCollections &&
+                    className={`p-2 ml-4 ${searchCollections &&
                       "border-b border-jacarta-100 dark:border-jacarta-600"
-                    } cursor-pointer`}
+                      } cursor-pointer`}
                   >
                     Collections
                   </span>
@@ -183,10 +181,9 @@ const Navbar = ({
                     onClick={() => (
                       showSearchCollections(false), showSearchNFTs(true)
                     )}
-                    className={`p-2 ml-4 ${
-                      searchNFTs &&
+                    className={`p-2 ml-4 ${searchNFTs &&
                       "border-b border-jacarta-100 dark:border-jacarta-600"
-                    } cursor-pointer`}
+                      } cursor-pointer`}
                   >
                     NFTs
                   </span>
@@ -251,7 +248,7 @@ const Navbar = ({
                         </Link>
                       ))}
                     {searchCollections &&
-                      search_result.collections?.collections?.length <= 0 && (
+                      search_result.collections?.length <= 0 && (
                         <div className="rounded-2xl">
                           <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                             No Collections Found
@@ -310,7 +307,7 @@ const Navbar = ({
                           </div>
                         </Link>
                       ))}
-                    {searchNFTs && search_result.nfts?.nfts?.length <= 0 && (
+                    {searchNFTs && search_result?.nfts?.length <= 0 && (
                       <div className="rounded-2xl">
                         <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                           No NFTs Found
