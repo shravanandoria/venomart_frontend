@@ -19,6 +19,7 @@ const NFTs = ({ theme, currency }) => {
   const scroll_get_all_nfts = async () => {
     setMoreLoading(true);
     const res = await fetch_nfts(skip);
+    console.log({ res })
     set_nfts([...nfts, ...res]);
     setMoreLoading(false);
   };
