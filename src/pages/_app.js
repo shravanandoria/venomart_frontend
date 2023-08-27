@@ -141,7 +141,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
       customLink: "custom/venommonkeys",
@@ -156,6 +156,32 @@ export default function App({ Component, pageProps }) {
       website: "",
       startDate: "08/19/2023 12:00:00 GMT+0530",
       endDate: "08/22/2023 12:00:00 GMT+0530",
+      verified: true,
+    },
+    {
+      id: 4,
+      Cover:
+        "https://ipfs.io/ipfs/QmbYth9zG5Uto89hdyHYJKeiyzHVKVY2DRKahXnZMPQxVC/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmX4trXptRtqc5dEk3qsRsJVbs8bMeaKHqbxFHWHRV4BDV/mushies.gif",
+      Name: "Venomart x Mushies",
+      Description:
+        "Introducing Venom Mushies, Exclusive pack of Mushies NFT coming soon on venom blockchain",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress:
+        "",
+      customLink: "custom/venommushies",
+      pageName: "venommushies",
+      supply: "3000",
+      twitterUserName: "VenomMushies",
+      twitter: "https://twitter.com/VenomMushies",
+      tweetID: "1687875245225701376",
+      discord: "https://discord.com/invite/qusCWJpX3N",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "08/28/2023 14:00:00 GMT+0530",
+      endDate: "08/31/2023 14:00:00 GMT+0530",
       verified: true,
     },
   ];
@@ -202,31 +228,31 @@ export default function App({ Component, pageProps }) {
       endDate: "08/19/2023 12:00:00 GMT+0530",
       verified: true,
     },
-    {
-      id: 2,
-      Cover:
-        "https://ipfs.io/ipfs/Qmc3PfRuUGrNWhAiuxg5TXg9yqhhJxnQyfbijCKsg5gZnK/back.jpg",
-      Logo: "https://ipfs.io/ipfs/QmPoEvU9hZTxEDv3bbXaSenFqmxU7YMnSxi5AiKJ2VU1Q7/gif.gif",
-      Name: "Venom Lions",
-      Description:
-        "Introducing venom lions | 5555 Lions have spawned from a wild forest | First Racing P2E Game on #venom | Stake your Lions and earn $LION token 🦁",
-      mintPrice: "2",
-      status: "Upcoming",
-      CollectionAddress: "",
-      customLink: "launch/venomLions",
-      pageName: "venomLions",
-      supply: "5555",
-      twitterUserName: "",
-      twitter: "",
-      tweetID: "",
-      discord: "",
-      instagram: "",
-      telegram: "",
-      website: "",
-      startDate: "08/28/2023 12:00:00 GMT+0530",
-      endDate: "08/30/2023 12:00:00 GMT+0530",
-      verified: true,
-    },
+    // {
+    //   id: 2,
+    //   Cover:
+    //     "https://ipfs.io/ipfs/Qmc3PfRuUGrNWhAiuxg5TXg9yqhhJxnQyfbijCKsg5gZnK/back.jpg",
+    //   Logo: "https://ipfs.io/ipfs/QmPoEvU9hZTxEDv3bbXaSenFqmxU7YMnSxi5AiKJ2VU1Q7/gif.gif",
+    //   Name: "Venom Lions",
+    //   Description:
+    //     "Introducing venom lions | 5555 Lions have spawned from a wild forest | First Racing P2E Game on #venom | Stake your Lions and earn $LION token 🦁",
+    //   mintPrice: "2",
+    //   status: "Upcoming",
+    //   CollectionAddress: "",
+    //   customLink: "launch/venomLions",
+    //   pageName: "venomLions",
+    //   supply: "5555",
+    //   twitterUserName: "",
+    //   twitter: "",
+    //   tweetID: "",
+    //   discord: "",
+    //   instagram: "",
+    //   telegram: "",
+    //   website: "",
+    //   startDate: "09/02/2023 12:00:00 GMT+0530",
+    //   endDate: "09/5/2023 12:00:00 GMT+0530",
+    //   verified: true,
+    // },
   ];
 
   // copyURL function
