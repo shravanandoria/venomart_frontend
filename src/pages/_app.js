@@ -167,7 +167,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "",
+        "0:8434fd234c59d904f43594112b57cb0a2b5d65a1c800f9848b0c93a2dd052e7e",
       customLink: "custom/venommushies",
       pageName: "venommushies",
       supply: "3000",
@@ -249,7 +249,7 @@ export default function App({ Component, pageProps }) {
       website: "",
       startDate: "09/02/2023 12:00:00 GMT+0530",
       endDate: "09/5/2023 12:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
   ];
 

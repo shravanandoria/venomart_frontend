@@ -585,7 +585,7 @@ const venomLions = ({
                     </h1>
 
                     {/* follow twitter  */}
-                    <div className="flex mt-6 items-center pb-5 border-gray-100 ">
+                    {/* <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                       <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
                         1] Follow {ProjectName} on twitter
                       </p>
@@ -597,12 +597,12 @@ const venomLions = ({
                         Follow{" "}
                         <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                       </Link>
-                    </div>
+                    </div> */}
 
                     {/* follow twitter  */}
                     <div className="flex mt-2 items-center pb-5 border-gray-100 ">
                       <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                        2] Follow venomart on twitter
+                        1] Follow venomart on twitter
                       </p>
                       <Link
                         href={`https://twitter.com/intent/follow?screen_name=${venomartTwitter}`}
@@ -617,7 +617,7 @@ const venomLions = ({
                     {/* join discord  */}
                     <div className="flex mt-2 items-center pb-5 mb-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        3] Join venomart discord server
+                        2] Join venomart discord server
                       </p>
                       <Link
                         href={venomartDiscord}
@@ -630,7 +630,7 @@ const venomLions = ({
                     </div>
 
                     {/* join discord  */}
-                    <div className="flex items-center pb-5 mb-5">
+                    {/* <div className="flex items-center pb-5 mb-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                         4] Join {ProjectName} discord server
                       </p>
@@ -642,10 +642,10 @@ const venomLions = ({
                         Join{" "}
                         <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                       </Link>
-                    </div>
+                    </div> */}
 
                     {/* retweet tweet  */}
-                    <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
+                    {/* <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                         5] Retweet and like this tweet
                       </p>
@@ -657,7 +657,7 @@ const venomLions = ({
                         Retweet{" "}
                         <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                       </Link>
-                    </div>
+                    </div> */}
 
                     {status == "Live" && !checkMint && (
                       <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">

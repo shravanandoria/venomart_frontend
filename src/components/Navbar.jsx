@@ -97,7 +97,8 @@ const Navbar = ({
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
-      <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-800  transition-colors">
+      {/* <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-800  transition-colors"> */}
+      <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur transition-colors">
         <div
           className={`flex items-center justify-around px-8 py-6 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
             } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}

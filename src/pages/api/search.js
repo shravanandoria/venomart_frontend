@@ -58,29 +58,30 @@ export default async function handler(req, res) {
 
             results.nfts = nfts_search;
           }
-          const nfts_search = await NFT.find({
-            $or: [
-              { name: { $regex: query, $options: "i" } },
-              { NFTAddress: { $regex: query, $options: "i" } },
-            ],
-            // $and: [{ NFTCollection: collection_id }],
-          })
-            .select([
-              "name",
-              "NFTAddress",
-              "description",
-              "nft_image",
-              "NFTCollection",
-            ])
-            .populate({
-              path: "NFTCollection",
-              select: { isVerified: 1, contractAddress: 1 },
+          else {
+            const nfts_search = await NFT.find({
+              $or: [
+                { name: { $regex: query, $options: "i" } },
+                { NFTAddress: { $regex: query, $options: "i" } },
+              ],
             })
-            .limit(10);
+              .select([
+                "name",
+                "NFTAddress",
+                "description",
+                "nft_image",
+                "NFTCollection",
+              ])
+              .populate({
+                path: "NFTCollection",
+                select: { isVerified: 1, contractAddress: 1 },
+              })
+              .limit(10);
 
-          results.nfts = nfts_search;
+            results.nfts = nfts_search;
+          }
         }
-        console.log("all");
+
         res.status(200).json({ success: true, data: results });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
