@@ -35,19 +35,43 @@ export default async function handler(req, res) {
         }
 
         if (type !== "collection") {
-          const ObjectId = require('mongoose').Types.ObjectId;
-          const collectionObjectId = new ObjectId(collection_id);
+          if (collection_id) {
+            const nfts_search = await NFT.find({
+              $or: [
+                { name: { $regex: query, $options: "i" } },
+                { NFTAddress: { $regex: query, $options: "i" } },
+              ],
+              $and: [{ NFTCollection: collection_id }],
+            })
+              .select([
+                "name",
+                "NFTAddress",
+                "description",
+                "nft_image",
+                "NFTCollection",
+              ])
+              .populate({
+                path: "NFTCollection",
+                select: { isVerified: 1, contractAddress: 1 },
+              })
+              .limit(10);
 
+            results.nfts = nfts_search;
+          }
           const nfts_search = await NFT.find({
             $or: [
               { name: { $regex: query, $options: "i" } },
               { NFTAddress: { $regex: query, $options: "i" } },
             ],
-            $and: [
-              { NFTCollection: collectionObjectId },
-            ],
+            // $and: [{ NFTCollection: collection_id }],
           })
-            .select(["name", "NFTAddress", "description", "nft_image", "NFTCollection"])
+            .select([
+              "name",
+              "NFTAddress",
+              "description",
+              "nft_image",
+              "NFTCollection",
+            ])
             .populate({
               path: "NFTCollection",
               select: { isVerified: 1, contractAddress: 1 },
