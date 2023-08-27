@@ -88,7 +88,7 @@ export default async function handler(req, res) {
         }
 
         //SEND ALL NFTS
-        let nfts = await NFT.find({ isListed: true }, undefined, {
+        let nfts = await NFT.find({ isListed: false }, undefined, {
           skip,
           limit: 20,
         }).populate({

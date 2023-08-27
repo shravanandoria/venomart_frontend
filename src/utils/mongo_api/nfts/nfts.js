@@ -6,6 +6,7 @@ export const fetch_nfts = async (skip) => {
       url: `/api/nft/nft?skipNFTs=${skip}`,
       method: "GET",
     });
+    console.log(res.data);
     return res.data.data;
   } catch (error) {
     console.log(error.message);
@@ -98,7 +99,7 @@ export const updateNFTsale = async (data) => {
         new_owner: data.new_owner,
         new_manager: data.new_manager,
         old_owner: data.old_owner,
-        transaction_type: data.transaction_type
+        transaction_type: data.transaction_type,
       },
     });
     return res.data.data;
