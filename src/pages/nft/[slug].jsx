@@ -13,7 +13,7 @@ import { nftInfo } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
-import NFTHistoryCard from "../../components/cards/NFTHistoryCard";
+import NFTActivityCard from "../../components/cards/NFTActivityCard";
 
 const NFTPage = ({
   signer_address,
@@ -1038,7 +1038,7 @@ const NFTPage = ({
 
                           {/* loop activites here  */}
                           {activityHistory?.map((e, index) => (
-                            <NFTHistoryCard
+                            <NFTActivityCard
                               key={index}
                               type={e?.type}
                               price={e?.price}

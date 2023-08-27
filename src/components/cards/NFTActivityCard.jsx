@@ -2,7 +2,7 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react'
 
-const NFTHistoryCard = ({ type, key, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt }) => {
+const NFTActivityCard = ({ type, key, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
 
     return (
@@ -123,4 +123,4 @@ const NFTHistoryCard = ({ type, key, price, from, to, MARKETPLACE_ADDRESS, hash,
     )
 }
 
-export default NFTHistoryCard
+export default NFTActivityCard

@@ -32,7 +32,7 @@ const NftCard = ({
         />
       </div>
       {NFTCollectionName &&
-        <div className="relative flex" href={`/nft/${NFTCollectionAddress}`} >
+        <div className="relative flex" >
           <span className="font-display text-[13px] text-jacarta-700 hover:text-accent dark:text-white"
             style={{
               width: "170px",

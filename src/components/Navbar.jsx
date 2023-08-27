@@ -97,7 +97,7 @@ const Navbar = ({
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
-      <div className="js-page-header fixed top-0 z-20 w-full backdrop-blur transition-colors">
+      <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-800  transition-colors">
         <div
           className={`flex items-center justify-around px-8 py-6 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
             } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
@@ -328,7 +328,7 @@ const Navbar = ({
               ))}
           </form>
 
-          <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
+          <div className="js-mobile-menu invisible lg:visible fixed inset-0 z-25 ml-auto items-center bg-white opacity-0 dark:bg-jacarta-800 lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent">
             {/* pc navbar  */}
             <DesktopNavbar />
 
@@ -415,7 +415,7 @@ const Navbar = ({
 
                     {/* profile dropdown  */}
                     {profileDrop && (
-                      <div className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl">
+                      <div className="!-right-4 !top-[85%] !left-auto z-30 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl">
                         <button
                           className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white"
                           data-tippy-content="Copy"
