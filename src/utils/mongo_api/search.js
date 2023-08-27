@@ -8,27 +8,27 @@ export const search = async (query) => {
     });
 
     return res.data.data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const search_nfts = async (query, page) => {
+export const search_nfts = async (query, collection) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=nft&page=${page}`,
+      url: `/api/search?query=${query}&collection=${collection}&type=nft`,
       method: "GET",
     });
 
     return res.data.data;
-  } catch (error) {}
+  } catch (error) { }
 };
 
-export const search_collections = async (query, page) => {
+export const search_collections = async (query) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&type=collection&page=${page}`,
+      url: `/api/search?query=${query}&type=collection`,
       method: "GET",
     });
 
     return res.data.data;
-  } catch (error) {}
+  } catch (error) { }
 };

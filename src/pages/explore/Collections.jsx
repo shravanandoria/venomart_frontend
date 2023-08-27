@@ -232,6 +232,9 @@ const Collections = ({ theme, venomProvider }) => {
 
                   {filterSort && (
                     <div className="absolute dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                      <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                        Sort By
+                      </span>
                       <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                         Top Volume
                         <svg
@@ -251,6 +254,21 @@ const Collections = ({ theme, venomProvider }) => {
                       <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                         Recently Created
                       </button>
+                      <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                        Options
+                      </span>
+                      <div className="dropdown-item block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                        <span className="flex items-center justify-between">
+                          <span>Verified Only</span>
+                          <input
+                            type="checkbox"
+                            value="checkbox"
+                            name="check"
+                            checked
+                            className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
+                          />
+                        </span>
+                      </div>
                     </div>
                   )}
                 </div>
