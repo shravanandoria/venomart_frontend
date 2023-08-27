@@ -10,21 +10,6 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { col_id, query } = req.query;
-
-        if (col_id) {
-          const nfts = await NFT.find({
-            $or: [
-              {
-                NFTCollection: col_id,
-              },
-              { name: { $regex: query, $options: "i" } },
-              { NFTAddress: { $regex: query, $options: "i" } },
-            ],
-          }).select(["name", "NFTAddress", "NFTCollection"]);
-
-          return res.status(200).json({ success: true, data: nfts });
-        }
         const skip =
           req.query.skip && /^\d+$/.test(req.query.skip)
             ? Number(req.query.skip)
