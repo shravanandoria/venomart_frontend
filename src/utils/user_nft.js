@@ -17,7 +17,7 @@ import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import axios from "axios";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -114,6 +114,8 @@ export const loadNFTs_collection = async (
   last_nft_addr
 ) => {
   try {
+    // const myEver = new MyEver();
+    // const myProvider = myEver.ever();
     const contract = new provider.Contract(
       collectionAbi,
       new Address(COLLECTION_ADDRESS)

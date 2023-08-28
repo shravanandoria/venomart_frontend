@@ -65,6 +65,7 @@ const Collection = ({
   const [def_query, set_def_query] = useState(undefined);
 
   const gettingCollectionInfo = async () => {
+    console.log({ standalone, slug })
     if (!standalone && !slug) return;
     setLoading(true);
 
@@ -186,12 +187,12 @@ const Collection = ({
   }, [isTyping]);
 
   useEffect(() => {
-    if (!slug) return;
+    if (!slug) return
     gettingCollectionInfo();
   }, [standalone, slug]);
 
   useEffect(() => {
-    if (!slug) return;
+    if (!slug) return
     fetch_more_nftsOffChain();
   }, [skip]);
 
@@ -586,9 +587,8 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${
-                      itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${itemsTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -613,9 +613,8 @@ const Collection = ({
                       showItemsTab(false),
                       showActivityTab(true)
                     )}
-                    className={`nav-link ${
-                      activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${activityTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

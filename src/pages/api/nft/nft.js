@@ -154,7 +154,6 @@ export default async function handler(req, res) {
           demandPrice: 0,
           attributes,
           NFTCollection: collection,
-          activity: [],
         });
 
         res.status(200).json({ success: true, data: nft });

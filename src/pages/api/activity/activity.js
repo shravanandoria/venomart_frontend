@@ -18,7 +18,7 @@ export default async function handler(req, res) {
           const user_activity = await Activity.find({ owner: user_id }).populate({
             path: "item",
             select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
-          }).skip(skip).limit(15);
+          }).skip(skip).limit(15).sort({ createdAt: -1 });
           return res.status(200).json({ success: true, data: user_activity });
         }
 
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
           const collection_activity = await Activity.find({ nft_collection: collection_id }).populate({
             path: "item",
             select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
-          }).skip(skip).limit(15);
+          }).skip(skip).limit(15).sort({ createdAt: -1 });
           return res.status(200).json({ success: true, data: collection_activity });
         }
 
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
           const nft_activity = await Activity.find({ item: nft_id }).populate({
             path: "item",
             select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
-          }).skip(skip).limit(15);
+          }).skip(skip).limit(15).sort({ createdAt: -1 });
           return res.status(200).json({ success: true, data: nft_activity });
         }
       } catch (error) {
