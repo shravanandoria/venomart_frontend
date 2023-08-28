@@ -5,6 +5,7 @@ import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venomBG.webp"
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
+import { ever } from "../../utils/user_nft"
 
 const CollectionCard = ({
     Cover,
@@ -24,16 +25,14 @@ const CollectionCard = ({
 
     // getting total supply
     const gettingTotalSupply = async () => {
-        if (venomProvider != undefined) {
-            try {
-                const contract = new venomProvider.Contract(collectionAbi, CollectionAddress);
-                const totalSupply = await contract.methods
-                    .totalSupply({ answerId: 0 })
-                    .call();
-                setTotalSupply(totalSupply.count);
-            } catch (error) {
-                console.log("total supply error");
-            }
+        try {
+            const contract = new ever.Contract(collectionAbi, CollectionAddress);
+            const totalSupply = await contract.methods
+                .totalSupply({ answerId: 0 })
+                .call();
+            setTotalSupply(totalSupply.count);
+        } catch (error) {
+            console.log(error.message);
         }
     }
 

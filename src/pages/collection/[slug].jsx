@@ -13,7 +13,7 @@ import {
 } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { loadNFTs_collection } from "../../utils/user_nft";
+import { ever, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
@@ -89,16 +89,14 @@ const Collection = ({
 
   // getting total supply
   const gettingTotalSupply = async () => {
-    if (venomProvider != undefined) {
-      try {
-        const contract = new venomProvider.Contract(collectionAbi, slug);
-        const totalSupply = await contract.methods
-          .totalSupply({ answerId: 0 })
-          .call();
-        setTotalSupply(totalSupply.count);
-      } catch (error) {
-        console.log("total supply error");
-      }
+    try {
+      const contract = new ever.Contract(collectionAbi, slug);
+      const totalSupply = await contract.methods
+        .totalSupply({ answerId: 0 })
+        .call();
+      setTotalSupply(totalSupply.count);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
