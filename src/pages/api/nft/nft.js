@@ -33,7 +33,7 @@ export default async function handler(req, res) {
           })
             .skip(skipNFTs)
             .limit(15);
-          
+
           return res.status(200).json({ success: true, data: nfts });
         }
 
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
         }).populate({
           path: "NFTCollection",
           select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-        });
+        }).sort({ isListed: -1 });
         res.status(200).json({ success: true, data: nfts });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
