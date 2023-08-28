@@ -110,7 +110,7 @@ const LaunchCollectionCard = ({
               src={Cover}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
-              loading="lazy"
+
               height={100}
               width={100}
             />
@@ -121,7 +121,7 @@ const LaunchCollectionCard = ({
               src={Logo}
               alt="Logo"
               className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
-              loading="lazy"
+
               height={100}
               width={100}
             />

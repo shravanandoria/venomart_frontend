@@ -29,7 +29,7 @@ const SmallCollectionCard = ({
               className="rounded-2lg h-[60px] w-[auto]"
               height={100}
               width={100}
-              loading="lazy"
+
             />
             <div className="absolute -left-3 top-[10px] flex h-6 w-6 -translate-y-2/4 items-center justify-center rounded-full border-2 border-white bg-jacarta-700 text-xs text-white dark:border-jacarta-600">
               {id}

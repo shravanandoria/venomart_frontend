@@ -340,7 +340,7 @@ const NFTPage = ({
                             width={40}
                             alt="avatar 1"
                             className="rounded-2lg "
-                            loading="lazy"
+
                           />
                         </a>
                       </div>
@@ -396,7 +396,7 @@ const NFTPage = ({
                             width={40}
                             alt="avatar 1"
                             className="rounded-2lg "
-                            loading="lazy"
+
                           />
                         </a>
                       </div>

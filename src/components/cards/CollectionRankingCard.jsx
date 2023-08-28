@@ -70,7 +70,7 @@ const CollectionRankingCard = ({
             width={100}
             alt="collectionlogo"
             className="rounded-2lg"
-            loading="lazy"
+
           />
           {isVerified ? (
             <div className="absolute -right-1 -bottom-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">

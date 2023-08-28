@@ -28,7 +28,6 @@ const NftCard = ({
           width={100}
           alt="item 5"
           className="h-[220px] w-full rounded-[0.625rem]"
-          loading="lazy"
         />
       </div>
       {NFTCollectionName &&

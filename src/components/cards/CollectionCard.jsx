@@ -54,7 +54,7 @@ const CollectionCard = ({
               src={Cover?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
-              loading="lazy"
+
               height={100}
               width={100}
             />
@@ -64,7 +64,7 @@ const CollectionCard = ({
               src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Logo"
               className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
-              loading="lazy"
+
               height={100}
               width={100}
             />
