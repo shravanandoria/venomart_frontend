@@ -260,7 +260,7 @@ const Navbar = ({
                       search_result.nfts?.map((e, index) => (
                         <Link
                           key={index}
-                          href={`/collection/${e.NFTAddress}`}
+                          href={`/nft/${e.NFTAddress}`}
                           className="rounded-2xl"
                         >
                           <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">

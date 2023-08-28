@@ -35,21 +35,6 @@ export class MyEver {
   };
 }
 
-// export const ever = () =>
-//   new ProviderRpcClient({
-//     fallback: () =>
-//       EverscaleStandaloneClient.create({
-//         connection: {
-//           id: 1000,
-//           group: "venom_testnet",
-//           type: "jrpc",
-//           data: {
-//             endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-//           },
-//         },
-//       }),
-//   });
-
 // STRICT -- dont change this values, this values are used in transactions
 export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom
 export const platform_fees = 2.5; //value in percent 2.5%
@@ -574,7 +559,7 @@ export const cancel_listing = async (
   }
 
 
-  
+
 };
 
 export const buy_nft = async (
