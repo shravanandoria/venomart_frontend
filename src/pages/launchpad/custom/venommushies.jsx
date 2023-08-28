@@ -18,7 +18,7 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../../components/Loader";
-import { create_launchpad_nft, ever } from "../../../utils/user_nft";
+import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
@@ -97,7 +97,9 @@ const venommushies = ({
     const getMintedCount = async () => {
         setLoading(true);
         try {
-            const contract = new ever.Contract(
+            let myEver = new MyEver();
+            const providerRpcClient = myEver.ever();
+            const contract = new providerRpcClient.Contract(
                 collectionAbi,
                 contractAddress
             );
