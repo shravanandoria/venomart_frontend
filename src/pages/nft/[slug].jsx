@@ -14,6 +14,7 @@ import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
 import NFTActivityCard from "../../components/cards/NFTActivityCard";
+import { getActivity } from "../../utils/mongo_api/activity/activity";
 
 const NFTPage = ({
   signer_address,
@@ -58,7 +59,7 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    setActivityHistory(nft_database?.activity)
+    // setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -73,6 +74,13 @@ const NFTPage = ({
     }
     setPageLoading(false);
   };
+
+  // fetching nft activity 
+  const fetch_nft_activity = async () => {
+    if (nft._id == undefined) return;
+    const res = await getActivity("", "", nft._id, 0);
+    setActivityHistory(res);
+  }
 
   // list nft for sale
   const sell_nft = async (e) => {
@@ -179,6 +187,9 @@ const NFTPage = ({
     nft_info();
   }, [slug]);
 
+  useEffect(() => {
+    fetch_nft_activity();
+  }, [slug, nft]);
 
   return (
     <>

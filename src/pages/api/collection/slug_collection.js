@@ -19,10 +19,6 @@ export default async function handler(req, res) {
 
         const collection = await Collection.findOne({
           contractAddress,
-        }).populate({
-          path: "activity",
-          options: { skip, limit: 7, sort: [{ createdAt: -1 }] },
-          populate: { path: "item" },
         });
 
         if (!collection)

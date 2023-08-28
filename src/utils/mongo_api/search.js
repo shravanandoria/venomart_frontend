@@ -8,7 +8,9 @@ export const search = async (query) => {
     });
 
     return res.data.data;
-  } catch (error) { }
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const search_nfts = async (query, collection_id) => {
@@ -19,7 +21,9 @@ export const search_nfts = async (query, collection_id) => {
     });
 
     return res.data.data;
-  } catch (error) { }
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 export const search_collections = async (query) => {
@@ -30,5 +34,7 @@ export const search_collections = async (query) => {
     });
 
     return res.data.data;
-  } catch (error) { }
+  } catch (error) {
+    console.log(error.message);
+  }
 };

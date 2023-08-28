@@ -23,6 +23,7 @@ import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
+import { getActivity } from "../../utils/mongo_api/activity/activity";
 
 const Collection = ({
   blockURL,
@@ -83,9 +84,15 @@ const Collection = ({
     // getting contract info
     const res = await get_collection_by_contract(slug, 0);
     set_collection(res?.data);
-    set_activity(res?.data?.activity);
     setLoading(false);
   };
+
+  // fetching collection activity 
+  const fetch_collection_activity = async () => {
+    if (collection._id == undefined) return;
+    const res = await getActivity("", collection._id, "", skipActivity);
+    set_activity(res);
+  }
 
   // getting total supply
   const gettingTotalSupply = async () => {
@@ -133,10 +140,11 @@ const Collection = ({
 
   // acitivty scroll function 
   const scrollFetchActivity = async () => {
+    if (collection._id == undefined) return;
     setSearchLoading(true);
-    const res = await get_collection_by_contract(slug, skipActivity);
+    const res = await getActivity("", collection._id, "", skipActivity);
     if (res) {
-      set_activity([...activity, ...res?.data?.activity]);
+      set_activity([...activity, ...res]);
     }
     setSearchLoading(false);
   };
@@ -188,6 +196,10 @@ const Collection = ({
   useEffect(() => {
     scrollFetchActivity();
   }, [skipActivity]);
+
+  useEffect(() => {
+    fetch_collection_activity();
+  }, [slug, collection]);
 
   return (
     <div className={`${theme}`}>

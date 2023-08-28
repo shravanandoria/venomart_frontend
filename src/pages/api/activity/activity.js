@@ -11,14 +11,36 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const { activity_id } = req.query;
+        const { user_id, collection_id, nft_id, skip } = req.query;
 
-        if (activity_id) {
-          const activity = await Activity.findById(activity_id);
-          return res.status(200).json({ success: true, data: activity });
+        // getting user activity 
+        if (user_id != '' && user_id != undefined) {
+          const user_activity = await Activity.find({ owner: user_id }).populate({
+            path: "item",
+            select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
+          }).skip(skip).limit(15);
+          return res.status(200).json({ success: true, data: user_activity });
+        }
+
+        // getting collection activity 
+        if (collection_id != '' && collection_id != undefined) {
+          const collection_activity = await Activity.find({ nft_collection: collection_id }).populate({
+            path: "item",
+            select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
+          }).skip(skip).limit(15);
+          return res.status(200).json({ success: true, data: collection_activity });
+        }
+
+        // getting nft activity 
+        if (nft_id != '' && nft_id != undefined) {
+          const nft_activity = await Activity.find({ item: nft_id }).populate({
+            path: "item",
+            select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 }
+          }).skip(skip).limit(15);
+          return res.status(200).json({ success: true, data: nft_activity });
         }
       } catch (error) {
-        res.status(400).json({ success: false });
+        res.status(400).json({ success: false, data: error.message });
       }
       break;
     case "POST":
@@ -71,13 +93,6 @@ export default async function handler(req, res) {
           owner: user,
           nft_collection: collection,
         });
-
-        nft.activity.push(activity);
-        await nft.save();
-        user.activity.push(activity);
-        await user.save();
-        collection.activity.push(activity);
-        await collection.save();
 
         // doing the collection stats calculation part here 
         if (collection) {
