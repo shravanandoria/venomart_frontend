@@ -110,7 +110,7 @@ const cryptolady = ({
                 setMintedNFTs(totalSupply.count);
             } catch (error) {
                 setMintedNFTs(0);
-                console.log("total supply error");
+                console.log(error.message);
             }
         }
         setLoading(false);

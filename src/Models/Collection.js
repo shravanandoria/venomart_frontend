@@ -17,12 +17,6 @@ const CollectionSchema = new mongoose.Schema(
     socials: [String],
     isVerified: Boolean,
     Category: [String],
-    activity: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Activity",
-      },
-    ],
     TotalSupply: Number,
     TotalListed: Number,
     FloorPrice: Number,

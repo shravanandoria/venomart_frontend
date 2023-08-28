@@ -13,7 +13,7 @@ import {
 } from "react-icons/bs";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { loadNFTs_collection } from "../../utils/user_nft";
+import { ever, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
@@ -23,6 +23,7 @@ import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
+import { getActivity } from "../../utils/mongo_api/activity/activity";
 
 const Collection = ({
   blockURL,
@@ -83,22 +84,26 @@ const Collection = ({
     // getting contract info
     const res = await get_collection_by_contract(slug, 0);
     set_collection(res?.data);
-    set_activity(res?.data?.activity);
     setLoading(false);
   };
 
+  // fetching collection activity 
+  const fetch_collection_activity = async () => {
+    if (collection._id == undefined) return;
+    const res = await getActivity("", collection._id, "", skipActivity);
+    set_activity(res);
+  }
+
   // getting total supply
   const gettingTotalSupply = async () => {
-    if (venomProvider != undefined) {
-      try {
-        const contract = new venomProvider.Contract(collectionAbi, slug);
-        const totalSupply = await contract.methods
-          .totalSupply({ answerId: 0 })
-          .call();
-        setTotalSupply(totalSupply.count);
-      } catch (error) {
-        console.log("total supply error");
-      }
+    try {
+      const contract = new ever.Contract(collectionAbi, slug);
+      const totalSupply = await contract.methods
+        .totalSupply({ answerId: 0 })
+        .call();
+      setTotalSupply(totalSupply.count);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -135,10 +140,11 @@ const Collection = ({
 
   // acitivty scroll function 
   const scrollFetchActivity = async () => {
+    if (collection._id == undefined) return;
     setSearchLoading(true);
-    const res = await get_collection_by_contract(slug, skipActivity);
+    const res = await getActivity("", collection._id, "", skipActivity);
     if (res) {
-      set_activity([...activity, ...res?.data?.activity]);
+      set_activity([...activity, ...res]);
     }
     setSearchLoading(false);
   };
@@ -190,6 +196,10 @@ const Collection = ({
   useEffect(() => {
     scrollFetchActivity();
   }, [skipActivity]);
+
+  useEffect(() => {
+    fetch_collection_activity();
+  }, [slug, collection]);
 
   return (
     <div className={`${theme}`}>

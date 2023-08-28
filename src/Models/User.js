@@ -33,18 +33,11 @@ const UserSchema = new mongoose.Schema({
       ref: "Collection",
     },
   ],
-  launchpad_collections: [String],
   NFTs: [
     {
       type: Schema.Types.ObjectId,
       ref: "NFT",
       unique: true
-    },
-  ],
-  activity: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Activity",
     },
   ],
 });

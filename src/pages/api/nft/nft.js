@@ -39,18 +39,6 @@ export default async function handler(req, res) {
             .populate({
               path: "NFTCollection",
               select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-            })
-            .populate({
-              path: "activity",
-              options: { limit: 15, sort: [{ createdAt: -1 }] },
-              select: {
-                createdAt: 1,
-                from: 1,
-                hash: 1,
-                price: 1,
-                type: 1,
-                to: 1,
-              },
             });
 
           if (!nft)

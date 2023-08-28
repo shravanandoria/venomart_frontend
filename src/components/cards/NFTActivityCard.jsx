@@ -2,11 +2,11 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react'
 
-const NFTActivityCard = ({ type, key, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt }) => {
+const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
 
     return (
-        <div className="flex" key={key}>
+        <div className="flex">
             {/* event  */}
             <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 {type == "mint" &&

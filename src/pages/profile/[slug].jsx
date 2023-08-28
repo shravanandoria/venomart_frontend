@@ -13,6 +13,7 @@ import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { user_info } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { getActivity } from "../../utils/mongo_api/activity/activity";
 
 const Profile = ({
   theme,
@@ -53,13 +54,18 @@ const Profile = ({
     // fetching user data
     const data = await user_info(slug, activitySkip);
     const nftFetch = await fetch_user_nfts();
-
     set_user_data(data?.data);
-    setActivityRecords(data?.data?.activity);
     setOnSaleNFTs(data?.data?.NFTs);
     setNFTCollections(data?.data?.nftCollections);
     set_loading(false);
   };
+
+  // fetching user activity 
+  const fetch_user_activity = async () => {
+    if (user_data._id == undefined) return;
+    const res = await getActivity(user_data._id, "", "", activitySkip);
+    setActivityRecords(res);
+  }
 
   const fetch_user_nfts = async () => {
     // getting profile nfts
@@ -77,10 +83,11 @@ const Profile = ({
   };
 
   const scrollActivityFetch = async () => {
+    if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const newArray = await user_info(slug, activitySkip);
+    const newArray = await getActivity(user_data._id, "", "", activitySkip);
     if (newArray) {
-      setActivityRecords([...activityRecords, ...newArray?.data?.activity]);
+      setActivityRecords([...activityRecords, ...newArray]);
     }
     setMoreLoading(false);
   };
@@ -91,6 +98,10 @@ const Profile = ({
       setActivitySkip(activityRecords.length);
     }
   };
+
+  useEffect(() => {
+    fetch_user_activity()
+  }, [user_data, slug]);
 
   useEffect(() => {
     getProfileData();

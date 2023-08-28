@@ -1,5 +1,17 @@
 import axios from "axios";
 
+export const getActivity = async (user_id, collection_id, nft_id, skip) => {
+    try {
+        const res = await axios({
+            url: `/api/activity/activity?user_id=${user_id}&collection_id=${collection_id}&nft_id=${nft_id}&skip=${skip}`,
+            method: "GET"
+        });
+        return res.data.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const addActivity = async (data) => {
     try {
         const res = await axios({

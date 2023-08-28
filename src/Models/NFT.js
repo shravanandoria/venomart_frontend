@@ -20,12 +20,6 @@ const NFTSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "Collection",
     },
-    activity: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Activity",
-      },
-    ],
   },
   { timestamps: true }
 );

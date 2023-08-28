@@ -306,7 +306,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         },
       ],
       attributes: data.properties.filter((e) => e.type.length > 0),
-      external_url: "https://venomart.space",
+      external_url: "https://venomart.io",
       nft_image: data.image,
       collection_name: data.collection,
     });
@@ -377,7 +377,7 @@ export const create_launchpad_nft = async (
         },
       ],
       attributes: data.properties.filter((e) => e.type.length > 0),
-      external_url: "https://venomart.space",
+      external_url: "https://venomart.io",
       nft_image: ipfs_image,
       collection_name: data.collectionName,
     });

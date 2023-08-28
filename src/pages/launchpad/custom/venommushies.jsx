@@ -18,7 +18,7 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../../components/Loader";
-import { create_launchpad_nft } from "../../../utils/user_nft";
+import { create_launchpad_nft, ever } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
@@ -36,9 +36,7 @@ const venommushies = ({
 }) => {
     const router = useRouter();
     // change from here
-
     const launchSlug = collabQuests[4];
-
     // change till here
 
     const venomartTwitter = "venomart23";
@@ -98,20 +96,18 @@ const venommushies = ({
 
     const getMintedCount = async () => {
         setLoading(true);
-        if (venomProvider != undefined) {
-            try {
-                const contract = new venomProvider.Contract(
-                    collectionAbi,
-                    contractAddress
-                );
-                const totalSupply = await contract.methods
-                    .totalSupply({ answerId: 0 })
-                    .call();
-                setMintedNFTs(totalSupply.count);
-            } catch (error) {
-                setMintedNFTs(0);
-                console.log("total supply error");
-            }
+        try {
+            const contract = new ever.Contract(
+                collectionAbi,
+                contractAddress
+            );
+            const totalSupply = await contract.methods
+                .totalSupply({ answerId: 0 })
+                .call();
+            setMintedNFTs(totalSupply.count);
+        } catch (error) {
+            setMintedNFTs(0);
+            console.log(error.message);
         }
         setLoading(false);
     };
@@ -119,7 +115,7 @@ const venommushies = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
-    }, [venomProvider]);
+    }, []);
 
     useEffect(() => {
         if (status == "Upcoming") {

@@ -32,12 +32,6 @@ export default async function handler(req, res) {
             options: { limit: 25 },
             populate: { path: "NFTCollection", select: { activity: 0, socials: 0, updatedAt: 0, _id: 0 } },
             select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0, _id: 0 }
-          })
-          .populate({
-            path: "activity",
-            options: { skip: skip, limit: 5, sort: [{ createdAt: -1 }] },
-            populate: { path: "item", select: { activity: 0, attributes: 0, description: 0, updatedAt: 0, _id: 0 } },
-            select: { nft_collection: 0, owner: 0, updatedAt: 0, _id: 0 }
           });
 
         if (user) return res.status(201).json({ success: true, data: user });
