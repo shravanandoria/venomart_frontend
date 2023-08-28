@@ -44,7 +44,7 @@ export const COLLECTION_ADDRESS =
   "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
 
 export const MARKETPLACE_ADDRESS =
-  "0:aaf3186db2e2df7cfb22df7123d938c16a0cbc41d0068869f4b649afc44d0ddb";
+  "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -557,9 +557,6 @@ export const cancel_listing = async (
     console.log(error);
     window.location.reload();
   }
-
-
-
 };
 
 export const buy_nft = async (
