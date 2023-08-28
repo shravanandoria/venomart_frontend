@@ -669,7 +669,7 @@ const Navbar = ({
               )}
             >
               {mobileNavDrop ? (
-                <GrClose className="h-4 w-4 fill-black dark:fill-white" />
+                <GrClose onClick={() => (setSearchValueState(""), set_search_result([]))} className="h-4 w-4 fill-black dark:fill-white" />
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

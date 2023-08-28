@@ -64,192 +64,194 @@ const NFTs = ({ theme, currency }) => {
               </p>
 
               {/* fliter div  */}
-              <div className="mb-8 mx-12 flex flex-wrap items-center justify-between">
-                <div className="relative flex flex-wrap items-center">
-                  {/* collections filter  */}
-                  <div className="my-1 mr-2.5">
-                    <button
-                      className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                      onClick={() => openCollectionFilter(!collectionFilter)}
-                    >
-                      <span>All Collections</span>
-                      <BsChevronDown className="h-[15px] w-[15px] ml-4" />
-                    </button>
+              <div className="hideAllFilterPhone">
+                <div className="mb-8 mx-12 flex flex-wrap items-center justify-between">
+                  <div className="relative flex flex-wrap items-center">
+                    {/* collections filter  */}
+                    <div className="my-1 mr-2.5">
+                      <button
+                        className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
+                        onClick={() => openCollectionFilter(!collectionFilter)}
+                      >
+                        <span>All Collections</span>
+                        <BsChevronDown className="h-[15px] w-[15px] ml-4" />
+                      </button>
 
-                    {collectionFilter && (
-                      <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
-                        <ul className="flex flex-col flex-wrap">
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                All Collections
-                              </span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="mb-[3px] h-4 w-4 fill-accent"
+                      {collectionFilter && (
+                        <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                          <ul className="flex flex-col flex-wrap">
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                              </svg>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Rave
-                              </span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* cats filter  */}
-                  <div className="my-1 mr-2.5">
-                    <button
-                      className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                      onClick={() => openFilterCategories(!filterCategories)}
-                    >
-                      <span>All Categories</span>
-                      <BsChevronDown className="h-[15px] w-[15px] ml-4" />
-                    </button>
-
-                    {filterCategories && (
-                      <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
-                        <ul className="flex flex-col flex-wrap">
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                All Categories
-                              </span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="mb-[3px] h-4 w-4 fill-accent"
+                                <span className="text-jacarta-700 dark:text-white">
+                                  All Collections
+                                </span>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                </svg>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                              </svg>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Art
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Collectibles
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Games
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Memes
-                              </span>
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
-                              <span className="text-jacarta-700 dark:text-white">
-                                Utility
-                              </span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* listed filter  */}
-                <div className="dropdown relative my-1 cursor-pointer">
-                  <div
-                    className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                    onClick={() => openFilterSort(!filterSort)}
-                  >
-                    <span className="font-display text-jacarta-700 dark:text-white">
-                      Recently Listed
-                    </span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </div>
-
-                  {filterSort && (
-                    <div className="absolute dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
-                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                        Recently Listed
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="mb-[3px] h-4 w-4 fill-accent"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                        </svg>
-                      </button>
-                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                        Trending
-                      </button>
-                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                        Price: Low to High
-                      </button>
-                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                        Price: High to Low
-                      </button>
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Rave
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                  )}
+
+                    {/* cats filter  */}
+                    <div className="my-1 mr-2.5">
+                      <button
+                        className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
+                        onClick={() => openFilterCategories(!filterCategories)}
+                      >
+                        <span>All Categories</span>
+                        <BsChevronDown className="h-[15px] w-[15px] ml-4" />
+                      </button>
+
+                      {filterCategories && (
+                        <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                          <ul className="flex flex-col flex-wrap">
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  All Categories
+                                </span>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                </svg>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Art
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Collectibles
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Games
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Memes
+                                </span>
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                href="#"
+                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Utility
+                                </span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* listed filter  */}
+                  <div className="dropdown relative my-1 cursor-pointer">
+                    <div
+                      className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                      onClick={() => openFilterSort(!filterSort)}
+                    >
+                      <span className="font-display text-jacarta-700 dark:text-white">
+                        Recently Listed
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                      >
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                      </svg>
+                    </div>
+
+                    {filterSort && (
+                      <div className="absolute dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                          Recently Listed
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mb-[3px] h-4 w-4 fill-accent"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                          </svg>
+                        </button>
+                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                          Trending
+                        </button>
+                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                          Price: Low to High
+                        </button>
+                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                          Price: High to Low
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
