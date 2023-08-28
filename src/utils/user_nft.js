@@ -98,7 +98,8 @@ export const getNftCodeHash = async (provider, collection_address) => {
 
 // Method, that return NFT's addresses by single query with fetched code hash
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
-  const addresses = await ever().getAccountsByCodeHash({
+  const myEver = new MyEver();
+  const addresses = await myEver.ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 40,
@@ -224,7 +225,8 @@ export const getAddressesFromIndex = async (
   codeHash,
   last_nft_addr
 ) => {
-  const addresses = await ever().getAccountsByCodeHash({
+  const myEver = new MyEver();
+  const addresses = await myEver.ever().getAccountsByCodeHash({
     codeHash,
     continuation: last_nft_addr,
     limit: 25,
@@ -595,7 +597,7 @@ export const buy_nft = async (
         price: "0",
         demandPrice: "0",
         new_owner: signer_address,
-        new_manager: signer_address
+        new_manager: signer_address,
       };
       await updateNFTsale(obj);
 
