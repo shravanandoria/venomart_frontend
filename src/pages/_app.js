@@ -178,8 +178,8 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "08/28/2023 14:00:00 GMT+0530",
-      endDate: "08/31/2023 14:00:00 GMT+0530",
+      startDate: "08/28/2023 14:30:00 GMT+0530",
+      endDate: "08/31/2023 14:30:00 GMT+0530",
       verified: true,
     },
   ];
