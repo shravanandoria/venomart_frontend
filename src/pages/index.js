@@ -340,59 +340,61 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
           </div>
 
           {/* top collections  */}
-          <section className="relative py-24 dark:bg-jacarta-700">
-            <div className="container">
-              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline mr-2">Top collections over</h2>
-                <div className="dropdown inline cursor-pointer">
-                  <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
-                    last 7 days
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                      className="h-8 w-8 fill-accent">
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </button>
-                  <div
-                    className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
-                    aria-labelledby="collectionSort">
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 24 Hours</a>
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 7 Days</a>
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 30 Days</a>
+          {topCollections &&
+            <section className="relative py-24 dark:bg-jacarta-700">
+              <div className="container">
+                <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                  <h2 className="inline mr-2">Top collections over</h2>
+                  <div className="dropdown inline cursor-pointer">
+                    <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
+                      last 7 days
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                        className="h-8 w-8 fill-accent">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                      </svg>
+                    </button>
+                    <div
+                      className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                      aria-labelledby="collectionSort">
+                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        href="#">Last 24 Hours</a>
+                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        href="#">Last 7 Days</a>
+                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        href="#">Last 30 Days</a>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex justify-center align-middle flex-wrap">
-                {topCollections?.map((e, index) => {
-                  return (
-                    index < 8 && (
-                      <SmallCollectionCard
-                        key={index}
-                        id={index + 1}
-                        Logo={e?.logo}
-                        Name={e?.name}
-                        OwnerAddress={e?.creatorAddress}
-                        CollectionAddress={e?.contractAddress}
-                        theme={theme}
-                        isVerified={e?.isVerified}
-                        Volume={e?.TotalVolume}
-                        Floor={e?.FloorPrice}
-                      />
-                    )
-                  );
-                })}
+                <div className="flex justify-center align-middle flex-wrap">
+                  {topCollections?.map((e, index) => {
+                    return (
+                      index < 8 && (
+                        <SmallCollectionCard
+                          key={index}
+                          id={index + 1}
+                          Logo={e?.logo}
+                          Name={e?.name}
+                          OwnerAddress={e?.creatorAddress}
+                          CollectionAddress={e?.contractAddress}
+                          theme={theme}
+                          isVerified={e?.isVerified}
+                          Volume={e?.TotalVolume}
+                          Floor={e?.FloorPrice}
+                        />
+                      )
+                    );
+                  })}
+                </div>
+                <div className="mt-10 text-center">
+                  <Link href="/explore/Rankings"
+                    className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
+                    to Rankings</Link>
+                </div>
               </div>
-              <div className="mt-10 text-center">
-                <Link href="/explore/Rankings"
-                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
-                  to Rankings</Link>
-              </div>
-            </div>
-          </section>
+            </section>
+          }
 
           {/* Latest collections  */}
           {/* <div className="relative py-24 dark:bg-jacarta-800">
@@ -401,7 +403,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                 <h2 className="inline">Latest Collections </h2>
               </div>
               <div className="flex justify-center align-middle flex-wrap">
-                {collections?.map((e, index) => {
+                {topCollections?.map((e, index) => {
                   return (
                     index < 6 && (
                       <CollectionCard

@@ -71,9 +71,8 @@ export default async function handler(req, res) {
               "-managerAddress",
               "-isLike",
               "-attributes",
-            ])
-            .skip(skipCol)
-            .limit(20);
+            ]).skip(skipCol)
+            .limit(10).sort({ isListed: -1, listingPrice: 1 });
 
           return res.status(200).json({ success: true, data: nfts });
         }

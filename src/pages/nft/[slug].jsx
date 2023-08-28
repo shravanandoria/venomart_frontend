@@ -45,6 +45,7 @@ const NFTPage = ({
   const [activity, setActivity] = useState(false);
   const [confirmChecked, setConfirmChecked] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
+  const [fetchedNFTActivity, setfetchedNFTActivity] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
   const [finalListingPrice, setFinalListingPrice] = useState(0);
@@ -58,7 +59,7 @@ const NFTPage = ({
 
   // getting nft information
   const nft_info = async () => {
-    if (!standalone && !slug && !signer_address) return;
+    if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
     if (nft_database) {
@@ -82,6 +83,7 @@ const NFTPage = ({
     setMoreLoading(true);
     const res = await getActivity("", "", nft._id, 0);
     setActivityHistory(res);
+    setfetchedNFTActivity(true);
     setMoreLoading(false);
   }
 
@@ -712,7 +714,7 @@ const NFTPage = ({
                     <li
                       className="nav-item"
                       role="presentation"
-                      onClick={() => (fetch_nft_activity(), switchActivity())}
+                      onClick={() => ((!fetchedNFTActivity && fetch_nft_activity()), switchActivity())}
                     >
                       <button
                         className={`nav-link ${activity && "active relative"

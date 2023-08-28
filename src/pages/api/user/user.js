@@ -33,7 +33,6 @@ export default async function handler(req, res) {
         }
 
         res.status(201).json({ success: true, data: user });
-
       } catch (error) {
         res.status(500).json({ success: false, message: "An error occurred" });
       }

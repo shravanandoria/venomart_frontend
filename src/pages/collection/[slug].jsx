@@ -58,6 +58,7 @@ const Collection = ({
   const [onChainData, setOnChainData] = useState(false);
   const [skip, setSkip] = useState(0);
   const [skipActivity, setSkipActivity] = useState(0);
+  const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
 
   const [searchLoading, setSearchLoading] = useState(false);
   const [query_search, set_query_search] = useState("");
@@ -94,6 +95,7 @@ const Collection = ({
     setSearchLoading(true);
     const res = await getActivity("", collection._id, "", skipActivity);
     set_activity(res);
+    setFetchedCollectionActivity(true);
     setSearchLoading(false);
   };
 
@@ -115,6 +117,7 @@ const Collection = ({
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
+    console.log("run1on")
     let res = await loadNFTs_collection(standalone, slug, lastNFT);
     setLastNFT(res?.continuation);
 
@@ -127,7 +130,8 @@ const Collection = ({
 
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
-    if (onChainData == true) return;
+    if (onChainData == true || skip == 0) return;
+    console.log("run1off")
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
@@ -189,7 +193,7 @@ const Collection = ({
   }, [standalone, slug]);
 
   useEffect(() => {
-    if (!slug) return
+    if (!slug) return;
     fetch_more_nftsOffChain();
   }, [skip]);
 
@@ -606,7 +610,7 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (
-                      fetch_collection_activity(),
+                      (!fetchedCollectionActivity && fetch_collection_activity()),
                       showItemsTab(false),
                       showActivityTab(true)
                     )}

@@ -27,17 +27,19 @@ const Profile = ({
   venomProvider
 }) => {
   const [user_data, set_user_data] = useState({});
-  const [loading, set_loading] = useState(false);
 
   const router = useRouter();
   const { slug } = router.query;
 
   const [share, setShare] = useState(false);
-
+  const [loading, set_loading] = useState(false);
   const [onSale, setOnSale] = useState(false);
   const [owned, setOwned] = useState(true);
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
+  const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
+  const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const [lastNFT, setLastNFT] = useState(undefined);
 
@@ -47,11 +49,10 @@ const Profile = ({
   const [nfts, set_nfts] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
-  const [moreLoading, setMoreLoading] = useState(false);
 
   const getProfileData = async () => {
     set_loading(true);
-    if (!standalone && !slug) return;
+    if (!slug) return;
     // fetching user data
     const data = await check_user(slug);
     const nftFetch = await fetch_user_nfts();
@@ -66,6 +67,7 @@ const Profile = ({
     setMoreLoading(true);
     const res = await getActivity(user_data._id, "", "", activitySkip);
     setActivityRecords(res);
+    setFetchedProfileActivity(true);
     setMoreLoading(false);
   }
 
@@ -75,6 +77,7 @@ const Profile = ({
     setMoreLoading(true);
     const res = await fetch_user_listed_nfts(slug, 0);
     setOnSaleNFTs(res);
+    setFetchedOnSaleNFTs(true);
     setMoreLoading(false);
   };
 
@@ -111,8 +114,9 @@ const Profile = ({
   };
 
   useEffect(() => {
+    if (!slug) return;
     getProfileData();
-  }, [signer_address, standalone]);
+  }, [slug]);
 
   useEffect(() => {
     scrollActivityFetch();
@@ -344,7 +348,7 @@ const Profile = ({
       {/* switch buttons  */}
       <section className="pt-6 dark:bg-jacarta-800 pb-12">
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
-          <li className="nav-item" role="presentation" onClick={() => (getting_user_listed_nfts(), switchToOnSale())}>
+          <li className="nav-item" role="presentation" onClick={() => ((!fetchedOnSaleNFTs && getting_user_listed_nfts()), switchToOnSale())}>
             <button
               className={`nav-link ${onSale && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -431,7 +435,7 @@ const Profile = ({
             <li
               className="nav-item"
               role="presentation"
-              onClick={() => (fetch_user_activity(), switchToActivity())}
+              onClick={() => ((!fetchedProfileActivity && fetch_user_activity()), switchToActivity())}
             >
               <button
                 className={`nav-link ${activity && "active relative"
@@ -500,7 +504,7 @@ const Profile = ({
                     </div>}
                 </div>
                 <div className="flex justify-center">
-                  {onSaleNFTs?.length <= 0 && (
+                  {onSaleNFTs.length <= 0 && !moreLoading && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs listed!
                     </h2>
