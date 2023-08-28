@@ -15,10 +15,8 @@ export default async function handler(req, res) {
           skipNFTs,
           skipCollectionNFTs,
           NFTAddress,
-          ownerAddress,
-          isListed,
-          collection_address,
-          page,
+          owner_address,
+          collection_address
         } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
@@ -28,8 +26,8 @@ export default async function handler(req, res) {
             : 0;
 
         // GET USER'S NFTS
-        if (ownerAddress) {
-          let nfts = await NFT.find({ ownerAddress });
+        if (owner_address) {
+          let nfts = await NFT.find({ owner_address }).skip(skipNFTs).limit(15);
           return res.status(200).json({ success: true, data: nfts });
         }
 
@@ -159,19 +157,6 @@ export default async function handler(req, res) {
           activity: [],
         });
 
-        // adding the nft to the user wallet
-        let nftNew = await NFT.findOne({ NFTAddress });
-        let NFTOwner = await User.findOne({ wallet_id: ownerAddress });
-        NFTOwner.NFTs.push(nftNew);
-        await NFTOwner.save();
-
-        if (!NFTOwner) {
-          CreateNFTOwner = await User.create({ wallet_id: ownerAddress });
-          NFTOwner = await User.findOne({ wallet_id: ownerAddress });
-          NFTOwner.NFTs.push(nftNew);
-          await NFTOwner.save();
-        }
-
         res.status(200).json({ success: true, data: nft });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
@@ -187,8 +172,6 @@ export default async function handler(req, res) {
           demandPrice,
           new_manager,
           new_owner,
-          old_owner,
-          transaction_type,
         } = req.body;
 
         let nft = await NFT.findOne({ NFTAddress });
@@ -208,15 +191,6 @@ export default async function handler(req, res) {
         nft.managerAddress = new_manager;
         if (new_owner) {
           nft.ownerAddress = new_owner;
-        }
-        if (transaction_type == "sale" && old_owner != undefined) {
-          user = await User.findOne({ wallet_id: new_owner });
-          let old_user = await User.findOne({ wallet_id: old_owner });
-
-          old_user.NFTs.remove(nft);
-          await old_user.save();
-          user.NFTs.push(nft);
-          await user.save();
         }
 
         await nft.save();

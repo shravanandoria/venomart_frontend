@@ -575,9 +575,7 @@ export const buy_nft = async (
         price: "0",
         demandPrice: "0",
         new_owner: signer_address,
-        new_manager: signer_address,
-        old_owner: prev_nft_Owner,
-        transaction_type: "sale",
+        new_manager: signer_address
       };
       await updateNFTsale(obj);
 

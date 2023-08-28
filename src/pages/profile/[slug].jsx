@@ -14,6 +14,7 @@ import { user_info } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
+import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
 
 const Profile = ({
   theme,
@@ -55,7 +56,6 @@ const Profile = ({
     const data = await user_info(slug, activitySkip);
     const nftFetch = await fetch_user_nfts();
     set_user_data(data?.data);
-    setOnSaleNFTs(data?.data?.NFTs);
     setNFTCollections(data?.data?.nftCollections);
     set_loading(false);
   };
@@ -63,12 +63,24 @@ const Profile = ({
   // fetching user activity 
   const fetch_user_activity = async () => {
     if (user_data._id == undefined) return;
+    setMoreLoading(true);
     const res = await getActivity(user_data._id, "", "", activitySkip);
     setActivityRecords(res);
+    setMoreLoading(false);
   }
 
+  // getting on sale nfts 
+  const getting_user_listed_nfts = async () => {
+    if (!slug) return;
+    setMoreLoading(true);
+    const res = await fetch_user_listed_nfts(slug, 0);
+    console.log(res)
+    setOnSaleNFTs(res);
+    setMoreLoading(false);
+  };
+
+  // getting owned nfts
   const fetch_user_nfts = async () => {
-    // getting profile nfts
     const res = await loadNFTs_user(standalone, slug, lastNFT);
     let new_nfts = [...nfts];
     res?.nfts?.map((e) => {
@@ -98,10 +110,6 @@ const Profile = ({
       setActivitySkip(activityRecords.length);
     }
   };
-
-  useEffect(() => {
-    fetch_user_activity()
-  }, [user_data, slug]);
 
   useEffect(() => {
     getProfileData();
@@ -337,7 +345,7 @@ const Profile = ({
       {/* switch buttons  */}
       <section className="pt-6 dark:bg-jacarta-800 pb-12">
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
-          <li className="nav-item" role="presentation" onClick={switchToOnSale}>
+          <li className="nav-item" role="presentation" onClick={() => (getting_user_listed_nfts(), switchToOnSale())}>
             <button
               className={`nav-link ${onSale && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -424,7 +432,7 @@ const Profile = ({
             <li
               className="nav-item"
               role="presentation"
-              onClick={switchToActivity}
+              onClick={() => (fetch_user_activity(), switchToActivity())}
             >
               <button
                 className={`nav-link ${activity && "active relative"
@@ -485,6 +493,12 @@ const Profile = ({
                       />
                     );
                   })}
+                  {moreLoading &&
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>}
                 </div>
                 <div className="flex justify-center">
                   {onSaleNFTs?.length <= 0 && (
