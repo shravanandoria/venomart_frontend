@@ -24,6 +24,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
+import { MyEver } from "../../utils/user_nft";
 
 const Collection = ({
   blockURL,
@@ -87,19 +88,21 @@ const Collection = ({
     setLoading(false);
   };
 
-  // fetching collection activity 
+  // fetching collection activity
   const fetch_collection_activity = async () => {
     if (collection._id == undefined) return;
     setSearchLoading(true);
     const res = await getActivity("", collection._id, "", skipActivity);
     set_activity(res);
     setSearchLoading(false);
-  }
+  };
 
   // getting total supply
   const gettingTotalSupply = async () => {
     try {
-      const contract = new ever.Contract(collectionAbi, slug);
+      let myEver = new MyEver();
+      const providerRpcClient = myEver.ever();
+      const contract = new providerRpcClient.Contract(collectionAbi, slug);
       const totalSupply = await contract.methods
         .totalSupply({ answerId: 0 })
         .call();
@@ -109,7 +112,7 @@ const Collection = ({
     }
   };
 
-  // fetching on onchain scroll 
+  // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
     let res = await loadNFTs_collection(standalone, slug, lastNFT);
@@ -122,7 +125,7 @@ const Collection = ({
     }
   };
 
-  // fetching on offchain scroll 
+  // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true) return;
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
@@ -130,7 +133,6 @@ const Collection = ({
       set_nfts([...nfts, ...nfts_offchain]);
     }
   };
-
 
   const handleScroll = (e) => {
     if (onChainData == true) return;
@@ -140,7 +142,7 @@ const Collection = ({
     }
   };
 
-  // acitivty scroll function 
+  // acitivty scroll function
   const scrollFetchActivity = async () => {
     if (collection._id == undefined) return;
     setSearchLoading(true);
@@ -158,7 +160,7 @@ const Collection = ({
     }
   };
 
-  // handling search 
+  // handling search
   const handle_search = async (data) => {
     setSearchLoading(true);
     set_query_search(data);
@@ -166,7 +168,7 @@ const Collection = ({
     set_def_query("");
   };
 
-  // use effects 
+  // use effects
   useEffect(() => {
     const timer = setTimeout(async () => {
       set_isTyping(false);
@@ -582,8 +584,9 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (showActivityTab(false), showItemsTab(true))}
-                    className={`nav-link ${itemsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    className={`nav-link ${
+                      itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -603,9 +606,14 @@ const Collection = ({
 
                 <li className="nav-item" role="presentation">
                   <button
-                    onClick={() => ((fetch_collection_activity()), showItemsTab(false), showActivityTab(true))}
-                    className={`nav-link ${activityTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                    onClick={() => (
+                      fetch_collection_activity(),
+                      showItemsTab(false),
+                      showActivityTab(true)
+                    )}
+                    className={`nav-link ${
+                      activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -950,13 +958,13 @@ const Collection = ({
                           </InfiniteScroll>
                         ) : (
                           <>
-                            {searchLoading ?
+                            {searchLoading ? (
                               <div className="flex items-center justify-center space-x-2">
                                 <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                                 <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                                 <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               </div>
-                              :
+                            ) : (
                               <>
                                 {nfts?.map((e, index) => {
                                   return (
@@ -990,7 +998,7 @@ const Collection = ({
                                   );
                                 })}
                               </>
-                            }
+                            )}
                           </>
                         )}
                       </div>
@@ -1000,11 +1008,13 @@ const Collection = ({
                             This collection has no NFTs !!
                           </h2>
                         )}
-                        {nfts?.length <= 0 && def_query == "" && !searchLoading && (
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                            No search results found!!
-                          </h2>
-                        )}
+                        {nfts?.length <= 0 &&
+                          def_query == "" &&
+                          !searchLoading && (
+                            <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                              No search results found!!
+                            </h2>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -1013,10 +1023,13 @@ const Collection = ({
 
               {/* activity  */}
               {activityTab && (
-                <div className="container" >
+                <div className="container">
                   {activity?.length >= 1 && (
                     <div className="flexActivitySection">
-                      <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
+                      <div
+                        className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
+                        onScroll={handleActivityScroll}
+                      >
                         <div className="flex justify-center align-middle flex-wrap">
                           {activity?.map((e, index) => (
                             <ActivityRecord
@@ -1033,13 +1046,13 @@ const Collection = ({
                               To={e?.to}
                             />
                           ))}
-                          {searchLoading &&
+                          {searchLoading && (
                             <div className="flex items-center justify-center space-x-2">
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
-                          }
+                          )}
                         </div>
                       </div>
                       {/* activity filters  */}
