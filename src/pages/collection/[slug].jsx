@@ -64,7 +64,7 @@ const Collection = ({
   const [def_query, set_def_query] = useState(undefined);
 
   const gettingCollectionInfo = async () => {
-    if (!standalone && !slug) return;
+    if (!standalone) return;
     setLoading(true);
 
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
