@@ -15,41 +15,30 @@ export const check_user = async (wallet_id) => {
         isArtist: false,
       },
     });
-
     return res.data;
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message)
   }
 };
 
 export const update_profile = async (data) => {
-  const res = await axios({
-    url: "/api/user/user",
-    method: "PUT",
-    data: {
-      wallet_id: data.wallet_id,
-      user_name: data.user_name,
-      email: data.email,
-      bio: data.bio,
-      profileImage: data.profileImage,
-      coverImage: data.coverImage,
-      isArtist: data.isArtist,
-      socials: [data.twitter, data.discord, data.customLink],
-    },
-  });
-
-  return res.data;
-};
-
-export const user_info = async (wallet_id, activitySkip) => {
   try {
-    const { data } = await axios({
-      url: `/api/user/user_info?activitySkip=${activitySkip}`,
-      method: "POST",
-      data: { wallet_id },
+    const res = await axios({
+      url: "/api/user/user",
+      method: "PUT",
+      data: {
+        wallet_id: data.wallet_id,
+        user_name: data.user_name,
+        email: data.email,
+        bio: data.bio,
+        profileImage: data.profileImage,
+        coverImage: data.coverImage,
+        isArtist: data.isArtist,
+        socials: [data.twitter, data.discord, data.customLink],
+      },
     });
-    return data;
+    return res.data;
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message)
   }
 };

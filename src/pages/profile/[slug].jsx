@@ -10,7 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
-import { user_info } from "../../utils/mongo_api/user/user";
+import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
@@ -53,7 +53,7 @@ const Profile = ({
     set_loading(true);
     if (!standalone && !slug) return;
     // fetching user data
-    const data = await user_info(slug, activitySkip);
+    const data = await check_user(slug);
     const nftFetch = await fetch_user_nfts();
     set_user_data(data?.data);
     setNFTCollections(data?.data?.nftCollections);
@@ -74,7 +74,6 @@ const Profile = ({
     if (!slug) return;
     setMoreLoading(true);
     const res = await fetch_user_listed_nfts(slug, 0);
-    console.log(res)
     setOnSaleNFTs(res);
     setMoreLoading(false);
   };

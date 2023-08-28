@@ -1,7 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
-import Activity from "../../../Models/Activity";
-import NFT from "../../../Models/NFT";
 import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
@@ -14,24 +12,30 @@ export default async function handler(req, res) {
         const users = await User.find({});
         res.status(200).json({ success: true, data: users });
       } catch (error) {
-        res.status(400).json({ success: false });
+        res.status(500).json({ success: false, message: "An error occurred" });
       }
       break;
     case "POST":
       try {
         const { wallet_id } = req.body;
-        if (!wallet_id) return;
+        if (!wallet_id) {
+          return res.status(400).json({ success: false, message: "wallet_id is required" });
+        }
 
-        let user;
-        user = await User.findOne({ wallet_id });
+        let user = await User.findOne({ wallet_id }).populate({
+          path: "nftCollections",
+          options: { limit: 15 },
+          select: { activity: 0, socials: 0, royalty: 0, updatedAt: 0, createdAt: 0, _id: 0 }
+        });
 
-        if (user) return res.status(201).json({ success: true, user: user });
-
-        user = await User.create(req.body);
+        if (!user) {
+          user = await User.create(req.body);
+        }
 
         res.status(201).json({ success: true, data: user });
+
       } catch (error) {
-        res.status(400).json({ success: false, data: error.message });
+        res.status(500).json({ success: false, message: "An error occurred" });
       }
       break;
     case "PUT":
@@ -47,8 +51,7 @@ export default async function handler(req, res) {
           isArtist,
         } = req.body;
 
-        let user;
-        user = await User.findOne({ wallet_id });
+        let user = await User.findOne({ wallet_id });
         if (!user)
           return res
             .status(404)
@@ -70,7 +73,7 @@ export default async function handler(req, res) {
 
         return res.status(201).json({ success: true, data: update_user });
       } catch (error) {
-        return res.status(500).json({ success: false, data: error.message });
+        res.status(500).json({ success: false, message: "An error occurred" });
       }
     default:
       res.status(400).json({ success: false });

@@ -13,7 +13,6 @@ export const fetch_nfts = async (skip) => {
 };
 
 export const fetch_user_listed_nfts = async (owner_address, skip) => {
-  console.log(owner_address, skip)
   try {
     const res = await axios({
       url: `/api/nft/nft?owner_address=${owner_address}&skipNFTs=${skip}`,
@@ -29,6 +28,31 @@ export const fetch_collection_nfts = async (collection_address, skip) => {
   try {
     const res = await axios({
       url: `/api/nft/nft?collection_address=${collection_address}&skipCollectionNFTs=${skip}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+export const nftInfo = async (nftAddress) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?NFTAddress=${nftAddress}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const get_collection_nfts = async (col_address, page) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?collection_address=${col_address}&page=${page}`,
       method: "GET",
     });
     return res.data.data;
@@ -118,26 +142,3 @@ export const updateNFTsale = async (data) => {
   }
 };
 
-export const nftInfo = async (nftAddress) => {
-  try {
-    const res = await axios({
-      url: `/api/nft/nft?NFTAddress=${nftAddress}`,
-      method: "GET",
-    });
-    return res.data.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const get_collection_nfts = async (col_address, page) => {
-  try {
-    const res = await axios({
-      url: `/api/nft/nft?collection_address=${col_address}&page=${page}`,
-      method: "GET",
-    });
-    return res.data.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
