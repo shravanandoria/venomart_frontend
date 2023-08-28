@@ -17,7 +17,7 @@ import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import axios from "axios";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -34,21 +34,6 @@ export class MyEver {
     });
   };
 }
-
-// export const ever = () =>
-//   new ProviderRpcClient({
-//     fallback: () =>
-//       EverscaleStandaloneClient.create({
-//         connection: {
-//           id: 1000,
-//           group: "venom_testnet",
-//           type: "jrpc",
-//           data: {
-//             endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-//           },
-//         },
-//       }),
-//   });
 
 // STRICT -- dont change this values, this values are used in transactions
 export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom

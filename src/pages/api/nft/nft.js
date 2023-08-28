@@ -79,7 +79,6 @@ export default async function handler(req, res) {
         }
 
         //SEND ALL NFTS
-        // isListed: false
         let nfts = await NFT.find({}, undefined, {
           skip,
           limit: 20,
@@ -87,7 +86,8 @@ export default async function handler(req, res) {
           path: "NFTCollection",
           select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
         }).sort({ isListed: -1 });
-        res.status(200).json({ success: true, data: nfts });
+        return res.status(200).json({ success: true, data: nfts });
+
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }
@@ -161,7 +161,7 @@ export default async function handler(req, res) {
           NFTCollection: collection,
         });
 
-        res.status(200).json({ success: true, data: nft });
+        return res.status(200).json({ success: true, data: nft });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }
@@ -184,22 +184,24 @@ export default async function handler(req, res) {
             .status(400)
             .json({ success: false, data: "Cannot Find This NFT" });
 
-        let user = await User.findOne({ wallet_id: new_owner });
-        if (!user) {
-          user = await User.create({ wallet_id: new_owner });
+        if (new_owner !== undefined) {
+          let user = await User.findOne({ wallet_id: new_owner });
+          if (!user) {
+            user = await User.create({ wallet_id: new_owner });
+          }
         }
 
         nft.isListed = isListed;
         nft.listingPrice = price;
         nft.demandPrice = demandPrice;
         nft.managerAddress = new_manager;
-        if (new_owner) {
+        if (new_owner !== undefined) {
           nft.ownerAddress = new_owner;
         }
 
         await nft.save();
 
-        res.status(200).json({ success: true, data: nft });
+        return res.status(200).json({ success: true, data: nft });
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });
       }

@@ -34,7 +34,6 @@ const CollectionRankingCard = ({
           collectionAbi,
           contractAddress
         );
-        console.log(contract);
         const totalSupply = await contract.methods
           .totalSupply({ answerId: 0 })
           .call();

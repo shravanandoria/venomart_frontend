@@ -61,7 +61,6 @@ const NFTPage = ({
     if (!standalone && !slug && !signer_address) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    // setActivityHistory(nft_database?.activity)
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -98,7 +97,7 @@ const NFTPage = ({
     try {
       await list_nft(
         slug,
-        nft?.NFTCollection?.contractAddress,
+        nft?.NFTCollection?.contractAddress ? nft?.NFTCollection?.contractAddress : nft?.collection?._address,
         listingPrice,
         venomProvider,
         signer_address,
@@ -1063,12 +1062,7 @@ const NFTPage = ({
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>}
                           <div className="flex p-4">
-                            {onchainNFTData && (
-                              <p className="text-jacarta-700 dark:text-white">
-                                No Activity
-                              </p>
-                            )}
-                            {activityHistory == "" && (
+                            {(onchainNFTData || !activityHistory) && (
                               <p className="text-jacarta-700 dark:text-white">
                                 No Activity
                               </p>
