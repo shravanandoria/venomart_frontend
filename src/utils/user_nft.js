@@ -16,6 +16,25 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import axios from "axios";
 
+export class MyEver {
+  constructor() {}
+  ever = () => {
+    return new ProviderRpcClient({
+      fallback: () =>
+        EverscaleStandaloneClient.create({
+          connection: {
+            id: 1000,
+            group: "venom_testnet",
+            type: "jrpc",
+            data: {
+              endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+            },
+          },
+        }),
+    });
+  };
+}
+
 export const ever = () =>
   new ProviderRpcClient({
     fallback: () =>
