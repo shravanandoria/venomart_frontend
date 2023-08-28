@@ -65,9 +65,10 @@ const Collection = ({
   const [def_query, set_def_query] = useState(undefined);
 
   const gettingCollectionInfo = async () => {
-    if (!standalone) return;
+    if (!standalone && !slug) return;
     setLoading(true);
 
+    console.log("run1")
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
     set_nfts(nfts_offchain);
 
@@ -128,6 +129,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true) return;
+    console.log("run2")
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
