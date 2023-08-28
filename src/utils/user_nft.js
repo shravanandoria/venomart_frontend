@@ -572,6 +572,9 @@ export const cancel_listing = async (
     console.log(error);
     window.location.reload();
   }
+
+
+  
 };
 
 export const buy_nft = async (

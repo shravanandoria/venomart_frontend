@@ -16,7 +16,7 @@ export default async function handler(req, res) {
           skipCollectionNFTs,
           NFTAddress,
           owner_address,
-          collection_address
+          collection_address,
         } = req.query;
 
         const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
@@ -27,17 +27,22 @@ export default async function handler(req, res) {
 
         // GET USER'S NFTS
         if (owner_address) {
-          let nfts = await NFT.find({ owner_address }).skip(skipNFTs).limit(15);
+          let nfts = await NFT.find({
+            ownerAddress: owner_address,
+            isListed: true,
+          })
+            .skip(skipNFTs)
+            .limit(15);
+          
           return res.status(200).json({ success: true, data: nfts });
         }
 
         // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
         if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress })
-            .populate({
-              path: "NFTCollection",
-              select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-            });
+          let nft = await NFT.findOne({ NFTAddress }).populate({
+            path: "NFTCollection",
+            select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
+          });
 
           if (!nft)
             return res
@@ -74,7 +79,7 @@ export default async function handler(req, res) {
         }
 
         //SEND ALL NFTS
-        // isListed: false 
+        // isListed: false
         let nfts = await NFT.find({}, undefined, {
           skip,
           limit: 20,
