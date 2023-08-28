@@ -16,20 +16,19 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 import axios from "axios";
 
-const ever = () =>
-  new ProviderRpcClient({
-    fallback: () =>
-      EverscaleStandaloneClient.create({
-        connection: {
-          id: 1000,
-          group: "venom_testnet",
-          type: "jrpc",
-          data: {
-            endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-          },
+export const ever = new ProviderRpcClient({
+  fallback: () =>
+    EverscaleStandaloneClient.create({
+      connection: {
+        id: 1000,
+        group: "venom_testnet",
+        type: "jrpc",
+        data: {
+          endpoint: "https://jrpc-testnet.venom.foundation/rpc",
         },
-      }),
-  });
+      },
+    }),
+});
 
 // STRICT -- dont change this values, this values are used in transactions
 export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom
@@ -79,7 +78,7 @@ export const getNftCodeHash = async (provider, collection_address) => {
 
 // Method, that return NFT's addresses by single query with fetched code hash
 export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
-  const addresses = await ever().getAccountsByCodeHash({
+  const addresses = await ever.getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
     limit: 40,
@@ -205,7 +204,7 @@ export const getAddressesFromIndex = async (
   codeHash,
   last_nft_addr
 ) => {
-  const addresses = await ever().getAccountsByCodeHash({
+  const addresses = await ever.getAccountsByCodeHash({
     codeHash,
     continuation: last_nft_addr,
     limit: 25,
