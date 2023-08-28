@@ -12,6 +12,19 @@ export const fetch_nfts = async (skip) => {
   }
 };
 
+export const fetch_user_listed_nfts = async (owner_address, skip) => {
+  console.log(owner_address, skip)
+  try {
+    const res = await axios({
+      url: `/api/nft/nft?owner_address=${owner_address}&skipNFTs=${skip}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const fetch_collection_nfts = async (collection_address, skip) => {
   try {
     const res = await axios({
@@ -96,9 +109,7 @@ export const updateNFTsale = async (data) => {
         price: data.price,
         demandPrice: data.demandPrice,
         new_owner: data.new_owner,
-        new_manager: data.new_manager,
-        old_owner: data.old_owner,
-        transaction_type: data.transaction_type,
+        new_manager: data.new_manager
       },
     });
     return res.data.data;

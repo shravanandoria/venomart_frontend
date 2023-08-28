@@ -90,8 +90,10 @@ const Collection = ({
   // fetching collection activity 
   const fetch_collection_activity = async () => {
     if (collection._id == undefined) return;
+    setSearchLoading(true);
     const res = await getActivity("", collection._id, "", skipActivity);
     set_activity(res);
+    setSearchLoading(false);
   }
 
   // getting total supply
@@ -196,10 +198,6 @@ const Collection = ({
   useEffect(() => {
     scrollFetchActivity();
   }, [skipActivity]);
-
-  useEffect(() => {
-    fetch_collection_activity();
-  }, [slug, collection]);
 
   return (
     <div className={`${theme}`}>
@@ -605,7 +603,7 @@ const Collection = ({
 
                 <li className="nav-item" role="presentation">
                   <button
-                    onClick={() => (showItemsTab(false), showActivityTab(true))}
+                    onClick={() => ((fetch_collection_activity()), showItemsTab(false), showActivityTab(true))}
                     className={`nav-link ${activityTab && "active relative"
                       } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >

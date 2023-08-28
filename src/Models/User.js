@@ -33,13 +33,6 @@ const UserSchema = new mongoose.Schema({
       ref: "Collection",
     },
   ],
-  NFTs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "NFT",
-      unique: true
-    },
-  ],
 });
 
 module.exports = mongoose.models?.User || mongoose.model("User", UserSchema);

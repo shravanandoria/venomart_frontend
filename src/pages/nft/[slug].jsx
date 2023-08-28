@@ -44,6 +44,7 @@ const NFTPage = ({
   const [details, setDetails] = useState(false);
   const [activity, setActivity] = useState(false);
   const [confirmChecked, setConfirmChecked] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
   const [finalListingPrice, setFinalListingPrice] = useState(0);
@@ -53,6 +54,7 @@ const NFTPage = ({
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
   const [activityHistory, setActivityHistory] = useState([]);
+
 
   // getting nft information
   const nft_info = async () => {
@@ -78,8 +80,10 @@ const NFTPage = ({
   // fetching nft activity 
   const fetch_nft_activity = async () => {
     if (nft._id == undefined) return;
+    setMoreLoading(true);
     const res = await getActivity("", "", nft._id, 0);
     setActivityHistory(res);
+    setMoreLoading(false);
   }
 
   // list nft for sale
@@ -186,10 +190,6 @@ const NFTPage = ({
   useEffect(() => {
     nft_info();
   }, [slug]);
-
-  useEffect(() => {
-    fetch_nft_activity();
-  }, [slug, nft]);
 
   return (
     <>
@@ -713,7 +713,7 @@ const NFTPage = ({
                     <li
                       className="nav-item"
                       role="presentation"
-                      onClick={switchActivity}
+                      onClick={() => (fetch_nft_activity(), switchActivity())}
                     >
                       <button
                         className={`nav-link ${activity && "active relative"
@@ -1056,6 +1056,12 @@ const NFTPage = ({
                               MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                             />
                           ))}
+                          {moreLoading &&
+                            <div className="flex items-center justify-center space-x-2">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>}
                           <div className="flex p-4">
                             {onchainNFTData && (
                               <p className="text-jacarta-700 dark:text-white">
