@@ -8,7 +8,7 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { loadNFTs_user } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
@@ -639,6 +639,7 @@ const Profile = ({
                             ActivityHash={e?.hash}
                             From={e?.from}
                             To={e?.to}
+                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                           />
                         ))}
                         {moreLoading &&

@@ -286,12 +286,6 @@
   margin-bottom: 20px;
 }
 
-/* .swiper-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
 .scroll-list {
   height: 100vh;
   overflow-y: scroll;
@@ -303,5 +297,79 @@
 @media only screen and (max-width: 700px) {
   .hideAllFilterPhone {
     display: none;
+  }
+}
+
+.ImageHoverEffect {
+  overflow: hidden;
+}
+
+.ImageInEffect {
+  transition: transform 0.2s;
+}
+
+.ImageHoverEffect:hover .ImageInEffect {
+  transform: scale(1.1);
+}
+
+/* collection filter styling  */
+
+.collectionFilterDiv {
+  position: sticky;
+  top: 80px;
+  z-index: 15;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.collectionFilterDiv .collectionFilters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+.collectionFilterDiv .collectionFilters .modelTypePosition {
+  position: absolute;
+}
+.collectionFilterDiv .collectionSearch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+}
+
+@media only screen and (max-width: 800px) {
+  .collectionFilterDiv {
+    flex-direction: column;
+  }
+  .collectionFilterDiv .collectionFilters {
+    width: 100%;
+    flex-direction: column;
+  }
+  .collectionFilterDiv .collectionFilters .typeModelMainDiv {
+    width: 90%;
+  }
+  .collectionFilterDiv .collectionFilters .typeModelBtn {
+    width: 100%;
+  }
+  .collectionFilterDiv .collectionFilters .modelTypePosition {
+    position: relative;
+    width: 100%;
+  }
+  .collectionFilterDiv .collectionSearch {
+    width: 100%;
+    padding-top: 14px;
+  }
+  .collectionFilterDiv .collectionSearch form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .collectionFilterDiv .collectionSearch form span {
+    left: 20px;
   }
 }

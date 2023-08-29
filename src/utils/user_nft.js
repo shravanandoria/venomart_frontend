@@ -10,11 +10,9 @@ import {
   updateNFTsale,
 } from "./mongo_api/nfts/nfts";
 import { addActivity } from "./mongo_api/activity/activity";
-
 import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
-import axios from "axios";
 
 export class MyEver {
   constructor() { }
@@ -45,7 +43,7 @@ export const COLLECTION_ADDRESS =
 
 export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
-  //old marketplace 0:aaf3186db2e2df7cfb22df7123d938c16a0cbc41d0068869f4b649afc44d0ddb
+//old marketplace 0:aaf3186db2e2df7cfb22df7123d938c16a0cbc41d0068869f4b649afc44d0ddb
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {

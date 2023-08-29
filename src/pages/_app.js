@@ -1,5 +1,5 @@
 // def
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 
 // components
 import Navbar from "../components/Navbar";
@@ -323,8 +323,6 @@ export default function App({ Component, pageProps }) {
   }, [venomConnect]);
 
   // connect wallet end
-
-
 
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");

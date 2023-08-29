@@ -24,8 +24,10 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
   const [loading, setLoading] = useState(false);
 
   const fetchTopCollections = async () => {
+    setLoading(true);
     const topCollections = await get_collections(0);
     setTopCollections(topCollections);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -50,188 +52,184 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      {loading ? (
-        <Loader theme={theme} />
-      ) : (
-        <>
-          {/* hero section  */}
-          <section
-            className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
-            id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
-          >
-            <div className="h-full px-6 xl:px-20">
-              <div className="grid h-full items-center gap-4 lg:grid-cols-12">
-                <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
-                  <div className="mb-10 w-full sm:flex sm:space-x-4">
-                    <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                      <span className="block font-display text-3xl text-[#8DD059]">
-                        15
-                      </span>
-                      <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                        NFT Collections
-                      </span>
-                    </div>
-                    <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                      <span className="block font-display text-3xl text-[#737EF2]">
-                        14000+
-                      </span>
-                      <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                        NFTs Minted
-                      </span>
-                    </div>
-                    <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                      <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
-                        <Image
-                          src={venomLogo}
-                          height={100}
-                          width={100}
-                          style={{
-                            height: "23px",
-                            width: "23px",
-                            marginRight: "8px",
-                            marginTop: "6px",
-                          }}
-                          alt="VenomLogo"
-                        />
-                        21230
-                      </span>
-                      <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                        Mint Volume
-                      </span>
-                    </div>
+      <>
+        {/* hero section  */}
+        <section
+          className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
+          id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+        >
+          <div className="h-full px-6 xl:px-20">
+            <div className="grid h-full items-center gap-4 lg:grid-cols-12">
+              <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
+                <div className="mb-10 w-full sm:flex sm:space-x-4">
+                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                    <span className="block font-display text-3xl text-[#8DD059]">
+                      15
+                    </span>
+                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                      NFT Collections
+                    </span>
                   </div>
-                  <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
-                    Buy, sell and collect NFTs.
-                  </h1>
-                  <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                    Venomart is the first fully-fledged NFT Marketplace on
-                    Venom. Get quick and easy access to digital collectibles and
-                    explore, buy and sell NFTs
-                  </p>
-                  <div className="flex flex-wrap justify-center align-middle space-x-4">
-                    <Link
-                      href="/explore/NFTs"
-                      className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                    >
-                      Explore NFTs
-                    </Link>
-                    <Link
-                      href="/explore/Collections"
-                      className="w-45 mb-4 rounded-full bg-white py-3 px-8 ml-[-225px] text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                    >
-                      Explore Collections
-                    </Link>
+                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                    <span className="block font-display text-3xl text-[#737EF2]">
+                      14000+
+                    </span>
+                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                      NFTs Minted
+                    </span>
+                  </div>
+                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                    <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
+                      <Image
+                        src={venomLogo}
+                        height={100}
+                        width={100}
+                        style={{
+                          height: "23px",
+                          width: "23px",
+                          marginRight: "8px",
+                          marginTop: "6px",
+                        }}
+                        alt="VenomLogo"
+                      />
+                      21230
+                    </span>
+                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
+                      Mint Volume
+                    </span>
                   </div>
                 </div>
+                <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
+                  Buy, sell and collect NFTs.
+                </h1>
+                <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
+                  Venomart is the first fully-fledged NFT Marketplace on
+                  Venom. Get quick and easy access to digital collectibles and
+                  explore, buy and sell NFTs
+                </p>
+                <div className="flex flex-wrap justify-center align-middle space-x-4">
+                  <Link
+                    href="/explore/NFTs"
+                    className="w-45 mb-4 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Explore NFTs
+                  </Link>
+                  <Link
+                    href="/explore/Collections"
+                    className="w-45 mb-4 rounded-full bg-white py-3 px-8 ml-[-225px] text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                  >
+                    Explore Collections
+                  </Link>
+                </div>
+              </div>
 
-                {/* <!-- featured collections --> */}
-                <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
-                  <div className="md:flex md:space-x-6 xl:space-x-12">
-                    {/* featured 1 */}
-                    <div className="mb-6 md:flex md:w-1/2 md:items-center ">
-                      <div>
-                        <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
-                          <div className="relative">
-                            {/* cover imge  */}
-                            <Link href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277">
+              {/* <!-- featured collections --> */}
+              <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
+                <div className="md:flex md:space-x-6 xl:space-x-12">
+                  {/* featured 1 */}
+                  <div className="mb-6 md:flex md:w-1/2 md:items-center ">
+                    <div>
+                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                        <div className="relative">
+                          {/* cover imge  */}
+                          <Link href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277">
+                            <img
+                              src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
+                              alt="item 1"
+                              className="w-full object-cover"
+                              height="437"
+                              width="406"
+                            />
+                          </Link>
+                        </div>
+                        <div className="p-6">
+                          <div className="flex">
+                            {/* logo  */}
+                            <Link
+                              href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
+                              className="shrink-0"
+                            >
                               <img
                                 src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
-                                alt="item 1"
-                                className="w-full object-cover"
-                                height="437"
-                                width="406"
+                                alt="avatar"
+                                className="mr-4 h-10 w-10 rounded-full"
+                                height={100}
+                                width={100}
                               />
                             </Link>
-                          </div>
-                          <div className="p-6">
-                            <div className="flex">
-                              {/* logo  */}
+                            <div>
+                              {/* name  */}
                               <Link
                                 href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
-                                className="shrink-0"
+                                className="block"
                               >
-                                <img
-                                  src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
-                                  alt="avatar"
-                                  className="mr-4 h-10 w-10 rounded-full"
-                                  height={100}
-                                  width={100}
-                                />
+                                <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                  Rave - Passports
+                                  <MdVerified
+                                    style={{
+                                      color: "#4f87ff",
+                                      marginBottom: "3px",
+                                      marginLeft: "3px",
+                                    }}
+                                    size={21}
+                                  />
+                                </span>
                               </Link>
-                              <div>
-                                {/* name  */}
-                                <Link
-                                  href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
-                                  className="block"
-                                >
-                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Rave - Passports
-                                    <MdVerified
-                                      style={{
-                                        color: "#4f87ff",
-                                        marginBottom: "3px",
-                                        marginLeft: "3px",
-                                      }}
-                                      size={21}
-                                    />
-                                  </span>
-                                </Link>
 
-                                <a className="text-2xs text-accent dark:text-white">
-                                  3000 Items | 2800+ Owners
-                                </a>
-                              </div>
+                              <a className="text-2xs text-accent dark:text-white">
+                                3000 Items | 2800+ Owners
+                              </a>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* featured 2  */}
-                    <div className="space-y-6 md:w-1/2 xl:space-y-12">
-                      <div>
-                        <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
-                          <div className="relative">
-                            <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"}>
+                  {/* featured 2  */}
+                  <div className="space-y-6 md:w-1/2 xl:space-y-12">
+                    <div>
+                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                        <div className="relative">
+                          <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"}>
+                            <img
+                              src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
+                              alt="item 1"
+                              className="w-full object-cover"
+                              height="437"
+                              width="406"
+                            />
+                          </Link>
+                        </div>
+                        <div className="p-6">
+                          <div className="flex">
+                            <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="shrink-0">
                               <img
                                 src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
-                                alt="item 1"
-                                className="w-full object-cover"
-                                height="437"
-                                width="406"
+                                alt="avatar"
+                                className="mr-4 h-10 w-10 rounded-full"
+                                height={100}
+                                width={100}
                               />
                             </Link>
-                          </div>
-                          <div className="p-6">
-                            <div className="flex">
-                              <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="shrink-0">
-                                <img
-                                  src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
-                                  alt="avatar"
-                                  className="mr-4 h-10 w-10 rounded-full"
-                                  height={100}
-                                  width={100}
-                                />
+                            <div>
+                              <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="block">
+                                <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                  Revolt
+                                  <MdVerified
+                                    style={{
+                                      color: "#4f87ff",
+                                      marginBottom: "3px",
+                                      marginLeft: "3px",
+                                    }}
+                                    size={21}
+                                  />
+                                </span>
                               </Link>
-                              <div>
-                                <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="block">
-                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                    Revolt
-                                    <MdVerified
-                                      style={{
-                                        color: "#4f87ff",
-                                        marginBottom: "3px",
-                                        marginLeft: "3px",
-                                      }}
-                                      size={21}
-                                    />
-                                  </span>
-                                </Link>
 
-                                <a className="text-2xs text-accent dark:text-white">
-                                  2000 Items | 500+ Owners
-                                </a>
-                              </div>
+                              <a className="text-2xs text-accent dark:text-white">
+                                2000 Items | 500+ Owners
+                              </a>
                             </div>
                           </div>
                         </div>
@@ -241,32 +239,33 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                 </div>
               </div>
             </div>
+          </div>
 
-            {theme === "dark" && (
-              <div className="custom-shape-divider-bottom-1690698441">
-                <svg
-                  data-name="Layer 1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1200 120"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-                    className="shape-fill"
-                  ></path>
-                </svg>
-              </div>
-            )}
-          </section>
+          {theme === "dark" && (
+            <div className="custom-shape-divider-bottom-1690698441">
+              <svg
+                data-name="Layer 1"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1200 120"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                  className="shape-fill"
+                ></path>
+              </svg>
+            </div>
+          )}
+        </section>
 
-          {/* launchpad collections  */}
-          <div className="relative py-24 dark:bg-jacarta-800" style={{ userSelect: "none" }}>
-            <div className="container">
-              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Venomart Launchpad </h2>
-              </div>
-              <div className="flex justify-center align-middle flex-wrap">
-                {/* {all_collections?.map((e, index) => {
+        {/* launchpad collections  */}
+        <div className="relative py-24 dark:bg-jacarta-800" style={{ userSelect: "none" }}>
+          <div className="container">
+            <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+              <h2 className="inline">Venomart Launchpad </h2>
+            </div>
+            <div className="flex justify-center align-middle flex-wrap">
+              {/* {all_collections?.map((e, index) => {
                   return (
                     index < 8 && (
                       <LaunchCollectionCard
@@ -281,123 +280,123 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                   );
                 })} */}
 
-                {/* custom lauchpad fetching  */}
-                <Swiper
-                  modules={[Pagination]}
-                  spaceBetween={30}
-                  slidesPerView={1}
-                  pagination={{ clickable: true }}
-                  breakpoints={{
-                    300: {
-                      slidesPerView: 1,
-                      spaceBetween: 20,
-                    },
-                    800: {
-                      slidesPerView: 2,
-                      spaceBetween: 20,
-                    },
-                    1204: {
-                      slidesPerView: 3,
-                      spaceBetween: 30,
-                    }
-                  }}
-                  className="mySwiper"
-                >
-                  {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
-                    return (
-                      id < 6 && e.verified == true && (
-                        <SwiperSlide style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                          <LaunchCollectionCard
-                            key={id}
-                            Cover={e.Cover}
-                            Logo={e.Logo}
-                            Name={e.Name}
-                            Description={e.Description}
-                            mintPrice={e.mintPrice}
-                            status={e.status}
-                            CollectionAddress={e.CollectionAddress}
-                            customLink={e.customLink}
-                            verified={e.verified}
-                            startDate={e.startDate}
-                            endDate={e.endDate}
-                          />
-                        </SwiperSlide>
-                      )
-                    );
-                  })}
-                </Swiper>
-              </div>
+              {/* custom lauchpad fetching  */}
+              <Swiper
+                modules={[Pagination]}
+                spaceBetween={30}
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  300: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                  },
+                  800: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  1204: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                  }
+                }}
+                className="mySwiper"
+              >
+                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
+                  return (
+                    id < 6 && e.verified == true && (
+                      <SwiperSlide style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <LaunchCollectionCard
+                          key={id}
+                          Cover={e.Cover}
+                          Logo={e.Logo}
+                          Name={e.Name}
+                          Description={e.Description}
+                          mintPrice={e.mintPrice}
+                          status={e.status}
+                          CollectionAddress={e.CollectionAddress}
+                          customLink={e.customLink}
+                          verified={e.verified}
+                          startDate={e.startDate}
+                          endDate={e.endDate}
+                        />
+                      </SwiperSlide>
+                    )
+                  );
+                })}
+              </Swiper>
+            </div>
 
-              <div className="mt-10 text-center">
-                <Link
-                  href="/explore/Launchpad"
-                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                >
-                  View All
-                </Link>
-              </div>
+            <div className="mt-10 text-center">
+              <Link
+                href="/explore/Launchpad"
+                className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+              >
+                View All
+              </Link>
             </div>
           </div>
+        </div>
 
-          {/* top collections  */}
-          {topCollections &&
-            <section className="relative py-24 dark:bg-jacarta-700">
-              <div className="container">
-                <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                  <h2 className="inline mr-2">Top collections over</h2>
-                  <div className="dropdown inline cursor-pointer">
-                    <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
-                      last 7 days
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                        className="h-8 w-8 fill-accent">
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                      </svg>
-                    </button>
-                    <div
-                      className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
-                      aria-labelledby="collectionSort">
-                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                        href="#">Last 24 Hours</a>
-                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                        href="#">Last 7 Days</a>
-                      <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                        href="#">Last 30 Days</a>
-                    </div>
+        {/* top collections  */}
+        {!loading &&
+          <section className="relative py-24 dark:bg-jacarta-700">
+            <div className="container">
+              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                <h2 className="inline mr-2">Top collections over</h2>
+                <div className="dropdown inline cursor-pointer">
+                  <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
+                    last 7 days
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                      className="h-8 w-8 fill-accent">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                    </svg>
+                  </button>
+                  <div
+                    className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                    aria-labelledby="collectionSort">
+                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      href="#">Last 24 Hours</a>
+                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      href="#">Last 7 Days</a>
+                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      href="#">Last 30 Days</a>
                   </div>
                 </div>
-
-                <div className="flex justify-center align-middle flex-wrap">
-                  {topCollections?.map((e, index) => {
-                    return (
-                      index < 8 && (
-                        <SmallCollectionCard
-                          key={index}
-                          id={index + 1}
-                          Logo={e?.logo}
-                          Name={e?.name}
-                          OwnerAddress={e?.creatorAddress}
-                          CollectionAddress={e?.contractAddress}
-                          theme={theme}
-                          isVerified={e?.isVerified}
-                          Volume={e?.TotalVolume}
-                          Floor={e?.FloorPrice}
-                        />
-                      )
-                    );
-                  })}
-                </div>
-                <div className="mt-10 text-center">
-                  <Link href="/explore/Rankings"
-                    className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
-                    to Rankings</Link>
-                </div>
               </div>
-            </section>
-          }
 
-          {/* Latest collections  */}
-          {/* <div className="relative py-24 dark:bg-jacarta-800">
+              <div className="flex justify-center align-middle flex-wrap">
+                {topCollections?.map((e, index) => {
+                  return (
+                    index < 8 && (
+                      <SmallCollectionCard
+                        key={index}
+                        id={index + 1}
+                        Logo={e?.logo}
+                        Name={e?.name}
+                        OwnerAddress={e?.creatorAddress}
+                        CollectionAddress={e?.contractAddress}
+                        theme={theme}
+                        isVerified={e?.isVerified}
+                        Volume={e?.TotalVolume}
+                        Floor={e?.FloorPrice}
+                      />
+                    )
+                  );
+                })}
+              </div>
+              <div className="mt-10 text-center">
+                <Link href="/explore/Rankings"
+                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
+                  to Rankings</Link>
+              </div>
+            </div>
+          </section>
+        }
+
+        {/* Latest collections  */}
+        {/* <div className="relative py-24 dark:bg-jacarta-800">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline">Latest Collections </h2>
@@ -431,8 +430,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
               </div>
             </div>
           </div> */}
-        </>
-      )}
+      </>
     </div>
   );
 }

@@ -21,13 +21,13 @@ const NftCard = ({
 
   return (
     <Link href={`/nft/${Address}`} className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px] ">
-      <div className="relative mb-4">
+      <div className="ImageHoverEffect relative mb-4">
         <Image
           src={ImageSrc}
           height={100}
           width={100}
           alt="item 5"
-          className="h-[220px] w-full rounded-[0.625rem]"
+          className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
         />
       </div>
       {NFTCollectionName &&

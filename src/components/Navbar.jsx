@@ -96,10 +96,10 @@ const Navbar = ({
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
-      {/* <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-800  transition-colors"> */}
-      <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur transition-colors">
+      <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-900 transition-colors">
+        {/* <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur transition-colors"> */}
         <div
-          className={`flex items-center justify-around px-8 py-6 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
+          className={`flex items-center justify-around px-8 py-4 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
             } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
         >
           {/* icon  */}
@@ -134,7 +134,7 @@ const Navbar = ({
               onChange={(e) => {
                 handle_search(e.target.value);
               }}
-              className="w-full rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+              className="w-full h-[40px] rounded-2xl border border-jacarta-100 py-[0.6875rem] px-4 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
               placeholder="Search"
               id="searchInp"
               value={searchValueState}

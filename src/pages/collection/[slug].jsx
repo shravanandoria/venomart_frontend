@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NftCard from "../../components/cards/NftCard";
@@ -11,9 +11,10 @@ import {
   BsTelegram,
   BsTwitter,
 } from "react-icons/bs";
+import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai"
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { ever, loadNFTs_collection } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
@@ -33,7 +34,7 @@ const Collection = ({
   webURL,
   copyURL,
   venomProvider,
-  currency,
+  currency
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -48,6 +49,38 @@ const Collection = ({
   const [priceRangeFilter, showPriceRangeFilter] = useState(false);
   const [saleTypeFilter, showSaleTypeFilter] = useState(false);
   const [listedFilter, showListedFilter] = useState(false);
+  const [mobileFilter, openMobileFilter] = useState(true);
+
+  const useMediaQuery = (width) => {
+    const [targetReached, setTargetReached] = useState(false);
+
+    const updateTarget = useCallback((e) => {
+      if (e.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      } else {
+        setTargetReached(false);
+        openMobileFilter(true);
+      }
+    }, []);
+
+    useEffect(() => {
+      const media = window.matchMedia(`(max-width: ${width}px)`);
+      media.addListener(updateTarget);
+
+      // Check on mount (callback is not called until a change occurs)
+      if (media.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      }
+
+      return () => media.removeListener(updateTarget);
+    }, []);
+
+    return targetReached;
+  };
+
+  const isBreakpoint = useMediaQuery(800)
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
@@ -117,7 +150,6 @@ const Collection = ({
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
-    console.log("run1on")
     let res = await loadNFTs_collection(standalone, slug, lastNFT);
     setLastNFT(res?.continuation);
 
@@ -131,7 +163,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    console.log("run1off")
+    console.log("fetching")
     const nfts_offchain = await fetch_collection_nfts(slug, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
@@ -640,275 +672,297 @@ const Collection = ({
                   <div className="tab-pane fade show active">
                     {/* filters  */}
                     {!onChainData && (
-                      <div className="hideAllFilterPhone">
-                        <div
-                          className="mb-8 p-4 flex flex-wrap items-center justify-around bg-white dark:bg-jacarta-900"
-                          style={{
-                            position: "sticky",
-                            top: "90px",
-                            zIndex: "15",
-                          }}
-                        >
-                          <div className="flex flex-wrap items-center mx-6">
-                            {/* sale type  */}
-                            <div className="relative my-1 mr-2.5">
-                              <button
-                                onClick={() => (
-                                  showListedFilter(false),
-                                  showPriceRangeFilter(false),
-                                  showSaleTypeFilter(!saleTypeFilter)
-                                )}
-                                className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
-                                </svg>
-                                <span>Sale type</span>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                </svg>
-                              </button>
-
-                              {saleTypeFilter && (
-                                <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                  <ul className="flex flex-col flex-wrap">
-                                    <li>
-                                      <a
-                                        href="#"
-                                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                      >
-                                        <span className="text-jacarta-700 dark:text-white">
-                                          Timed auction
-                                        </span>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 24 24"
-                                          width="24"
-                                          height="24"
-                                          className="mb-[3px] h-4 w-4 fill-accent"
-                                        >
-                                          <path
-                                            fill="none"
-                                            d="M0 0h24v24H0z"
-                                          ></path>
-                                          <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                        </svg>
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="#"
-                                        className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                      >
-                                        Fixed price
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="#"
-                                        className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                      >
-                                        Not for sale
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="#"
-                                        className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                      >
-                                        Open for offers
-                                      </a>
-                                    </li>
-                                  </ul>
-
-                                  <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
-                                    <button
-                                      type="button"
-                                      className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                                    >
-                                      Clear
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                    >
-                                      Apply
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* price range  */}
-                            <div className="relative my-1 mr-2.5">
-                              <button
-                                onClick={() => (
-                                  showListedFilter(false),
-                                  showSaleTypeFilter(false),
-                                  showPriceRangeFilter(!priceRangeFilter)
-                                )}
-                                className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                                id="priceRangeFilter"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
-                                </svg>
-                                <span>Price Range</span>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                </svg>
-                              </button>
-
-                              {priceRangeFilter && (
-                                <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                  <div className="flex items-center space-x-3 px-5 pb-2">
-                                    <input
-                                      type="number"
-                                      placeholder="From"
-                                      className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                    />
-                                    <input
-                                      type="number"
-                                      placeholder="To"
-                                      className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                    />
-                                  </div>
-
-                                  <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
-                                    <button
-                                      type="button"
-                                      className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                                    >
-                                      Clear
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                    >
-                                      Apply
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* all nft and listed filter  */}
-                            <div className="relative my-1 mr-2.5 cursor-pointer">
-                              <div
-                                onClick={() => (
-                                  showPriceRangeFilter(false),
-                                  showSaleTypeFilter(false),
-                                  showListedFilter(!listedFilter)
-                                )}
-                                className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                              >
-                                <span className="font-display">
-                                  Recently Listed
-                                </span>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                </svg>
+                      <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
+                        {!mobileFilter && isBreakpoint &&
+                          <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
+                            <button
+                              onClick={() => openMobileFilter(true)}
+                              className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                            >
+                              <div className="flex justify-center align-middle">
+                                <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                                <span>Edit Filters</span>
                               </div>
-                              {listedFilter && (
-                                <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                  <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
-                                    Sort By
-                                  </span>
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                    Recently Listed
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                              </svg>
+                            </button>
+                          </div>
+                        }
+                        {mobileFilter && isBreakpoint &&
+                          <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                            <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                          </button>
+                        }
+                        {mobileFilter &&
+                          <div
+                            className="collectionFilterDiv p-4">
+                            <div className="collectionFilters mx-6">
+                              {/* sale type  */}
+                              <div className="typeModelMainDiv relative my-1 mr-2.5">
+                                <button
+                                  onClick={() => (
+                                    showListedFilter(false),
+                                    showPriceRangeFilter(false),
+                                    showSaleTypeFilter(!saleTypeFilter)
+                                  )}
+                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                                >
+                                  <div className="flex justify-center align-middle">
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
                                       width="24"
                                       height="24"
-                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                      className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
                                     >
                                       <path fill="none" d="M0 0h24v24H0z" />
-                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
                                     </svg>
-                                  </button>
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                    Price: Low to High
-                                  </button>
+                                    <span>Sale type</span>
+                                  </div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                  </svg>
+                                </button>
 
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                    Price: High to Low
-                                  </button>
+                                {saleTypeFilter && (
+                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                    <ul className="flex flex-col flex-wrap">
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                        >
+                                          <span className="text-jacarta-700 dark:text-white">
+                                            Timed auction
+                                          </span>
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                          >
+                                            <path
+                                              fill="none"
+                                              d="M0 0h24v24H0z"
+                                            ></path>
+                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                          </svg>
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                        >
+                                          Fixed price
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                        >
+                                          Not for sale
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a
+                                          href="#"
+                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                        >
+                                          Open for offers
+                                        </a>
+                                      </li>
+                                    </ul>
+
+                                    <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
+                                      <button
+                                        type="button"
+                                        className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                      >
+                                        Clear
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                      >
+                                        Apply
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* price range  */}
+                              <div className="typeModelMainDiv relative my-1 mr-2.5">
+                                <button
+                                  onClick={() => (
+                                    showListedFilter(false),
+                                    showSaleTypeFilter(false),
+                                    showPriceRangeFilter(!priceRangeFilter)
+                                  )}
+                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                                >
+                                  <div className="flex justify-center align-middle">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
+                                    </svg>
+                                    <span>Price Range</span>
+                                  </div>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                  </svg>
+                                </button>
+
+                                {priceRangeFilter && (
+                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                    <div className="flex items-center space-x-3 px-5 pb-2">
+                                      <input
+                                        type="number"
+                                        placeholder="From"
+                                        className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                      />
+                                      <input
+                                        type="number"
+                                        placeholder="To"
+                                        className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                      />
+                                    </div>
+
+                                    <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
+                                      <button
+                                        type="button"
+                                        className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                      >
+                                        Clear
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                      >
+                                        Apply
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* all nft and listed filter  */}
+                              <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
+                                <div
+                                  onClick={() => (
+                                    showPriceRangeFilter(false),
+                                    showSaleTypeFilter(false),
+                                    showListedFilter(!listedFilter)
+                                  )}
+                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                                >
+                                  <span className="font-display">
+                                    Recently Listed
+                                  </span>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                  </svg>
                                 </div>
-                              )}
+                                {listedFilter && (
+                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                    <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                                      Sort By
+                                    </span>
+                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                      Recently Listed
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    </button>
+                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                      Price: Low to High
+                                    </button>
+
+                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                      Price: High to Low
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* search  */}
+                            <div className="collectionSearch">
+                              <form action="search" className="relative w-[60%]" onSubmit={(e) => e.preventDefault()}>
+                                <input
+                                  type="search"
+                                  onChange={(e) => handle_search(e.target.value)}
+                                  className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                  placeholder="search"
+                                />
+                                <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
+                                  </svg>
+                                </span>
+                              </form>
+
+                              {/* add card size filter here later */}
                             </div>
                           </div>
-
-                          {/* search  */}
-                          <div className="flex flex-wrap items-center mt-4">
-                            <form
-                              action="search"
-                              className="relative"
-                              onSubmit={(e) => e.preventDefault()}
-                            >
-                              <input
-                                type="search"
-                                onChange={(e) => handle_search(e.target.value)}
-                                className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                placeholder="search"
-                              />
-                              <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
-                                </svg>
-                              </span>
-                            </form>
-                          </div>
-                        </div>
+                        }
                       </div>
                     )}
 
-                    <div
-                      className={`${!onChainData && "scroll-list"}`}
-                      onScroll={handleScroll}
-                    >
+                    <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
                       <div
                         className={`flex justify-center align-middle flex-wrap`}
                       >
@@ -1046,6 +1100,7 @@ const Collection = ({
                               ActivityHash={e?.hash}
                               From={e?.from}
                               To={e?.to}
+                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                             />
                           ))}
                           {searchLoading && (
