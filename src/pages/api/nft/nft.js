@@ -8,84 +8,21 @@ export default async function handler(req, res) {
   await dbConnect();
 
   switch (method) {
-    // GET NFT BY NFT ADDRESS
     case "GET":
       try {
-        const {
-          skipNFTs,
-          skipCollectionNFTs,
-          NFTAddress,
-          owner_address,
-          collection_address,
-        } = req.query;
+        const { nft_address } = req.query;
 
-        const skip = skipNFTs && /^\d+$/.test(skipNFTs) ? Number(skipNFTs) : 0;
-        const skipCol =
-          skipCollectionNFTs && /^\d+$/.test(skipCollectionNFTs)
-            ? Number(skipCollectionNFTs)
-            : 0;
-
-        // GET USER'S NFTS
-        if (owner_address) {
-          let nfts = await NFT.find({
-            ownerAddress: owner_address,
-            isListed: true,
-          })
-            .skip(skipNFTs)
-            .limit(15);
-
-          return res.status(200).json({ success: true, data: nfts });
-        }
-
-        // IF NFT ADDRESS IS PROVIDED, SEND THAT NFT
-        if (NFTAddress) {
-          let nft = await NFT.findOne({ NFTAddress }).populate({
-            path: "NFTCollection",
-            select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-          });
-
-          if (!nft)
-            return res
-              .status(400)
-              .json({ success: false, data: "Cannot Find This NFT" });
-
-          return res.status(200).json({ success: true, data: nft });
-        }
-
-        // IF COLLECTION ADDR IS PROVIDED, SEND ALL NFTS WITH THAT COL ADDRESS
-        if (collection_address) {
-          const collection = await Collection.findOne({
-            contractAddress: collection_address,
-          });
-
-          if (!collection) {
-            return res
-              .status(400)
-              .json({ success: false, data: "Cannot find this collection" });
-          }
-
-          const nfts = await NFT.find({ NFTCollection: collection })
-            .select([
-              "-activity",
-              "-NFTCollection",
-              "-managerAddress",
-              "-isLike",
-              "-attributes",
-            ]).skip(skipCol)
-            .limit(20).sort({ isListed: -1, listingPrice: 1 });
-
-          return res.status(200).json({ success: true, data: nfts });
-        }
-
-        //SEND ALL NFTS
-        let nfts = await NFT.find({}, undefined, {
-          skip,
-          limit: 20,
-        }).populate({
+        let nft = await NFT.findOne({ NFTAddress: nft_address }).populate({
           path: "NFTCollection",
           select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-        }).sort({ isListed: -1 });
-        return res.status(200).json({ success: true, data: nfts });
+        });
+
+        if (!nft)
+          return res
+            .status(400)
+            .json({ success: false, data: "Cannot Find This NFT" });
+
+        return res.status(200).json({ success: true, data: nft });
 
       } catch (error) {
         res.status(400).json({ success: false, data: error.message });

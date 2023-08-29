@@ -218,7 +218,7 @@ const Rankings = ({
                       Royalty={e?.royalty}
                       Volume={e?.TotalVolume}
                       Floor={e?.FloorPrice}
-                      Listings={e?.TotalListing}
+                      Listings={e?.TotalListed}
                       venomProvider={venomProvider}
                     />
                   )

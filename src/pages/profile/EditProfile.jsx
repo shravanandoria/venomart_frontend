@@ -49,7 +49,6 @@ const EditProfile = ({ signer_address, theme }) => {
 
   const get_user = async () => {
     const fetch_user_data = await check_user(signer_address);
-    console.log(fetch_user_data.data)
     set_data({
       ...fetch_user_data?.data,
       twitter: fetch_user_data?.data?.user?.socials[0] ? fetch_user_data?.data?.user?.socials[0] : "",

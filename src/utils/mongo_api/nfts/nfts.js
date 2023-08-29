@@ -3,7 +3,7 @@ import axios from "axios";
 export const fetch_nfts = async (skip) => {
   try {
     const res = await axios({
-      url: `/api/nft/nft?skipNFTs=${skip}`,
+      url: `/api/nft/get_all_nfts?skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -15,7 +15,7 @@ export const fetch_nfts = async (skip) => {
 export const fetch_user_listed_nfts = async (owner_address, skip) => {
   try {
     const res = await axios({
-      url: `/api/nft/nft?owner_address=${owner_address}&skipNFTs=${skip}`,
+      url: `/api/nft/get_owner_nfts?owner_address=${owner_address}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -24,10 +24,10 @@ export const fetch_user_listed_nfts = async (owner_address, skip) => {
   }
 };
 
-export const fetch_collection_nfts = async (collection_address, skip) => {
+export const fetch_collection_nfts = async (collection_address, sortby, minprice, maxprice, skip) => {
   try {
     const res = await axios({
-      url: `/api/nft/nft?collection_address=${collection_address}&skipCollectionNFTs=${skip}`,
+      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -40,19 +40,7 @@ export const fetch_collection_nfts = async (collection_address, skip) => {
 export const nftInfo = async (nftAddress) => {
   try {
     const res = await axios({
-      url: `/api/nft/nft?NFTAddress=${nftAddress}`,
-      method: "GET",
-    });
-    return res.data.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const get_collection_nfts = async (col_address, page) => {
-  try {
-    const res = await axios({
-      url: `/api/nft/nft?collection_address=${col_address}&page=${page}`,
+      url: `/api/nft/nft?nft_address=${nftAddress}`,
       method: "GET",
     });
     return res.data.data;

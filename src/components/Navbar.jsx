@@ -92,6 +92,7 @@ const Navbar = ({
     setMobieProfileDrop(false);
     setMobileNavDrop(false);
     set_search_result(false);
+    setSearchValueState("");
   }, [router.pathname]);
 
   return (

@@ -10,10 +10,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const skip =
-          req.query.skip && /^\d+$/.test(req.query.skip)
-            ? Number(req.query.skip)
-            : 0;
+        const { skip } = req.query;
 
         const collections = await Collection.find(
           { name: { $ne: "" } },

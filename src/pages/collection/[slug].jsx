@@ -102,7 +102,7 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
 
-    const nfts_offchain = await fetch_collection_nfts(slug, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
     set_nfts(nfts_offchain);
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
@@ -121,6 +121,20 @@ const Collection = ({
     set_collection(res?.data);
     setLoading(false);
   };
+
+  // filter btn for fetch onchain data 
+  const filterFetchOnchainData = async () => {
+    setSearchLoading(true);
+    const nfts_onchain = await loadNFTs_collection(
+      standalone,
+      slug,
+      undefined
+    );
+    setOnChainData(true);
+    setLastNFT(nfts_onchain?.continuation);
+    set_nfts(nfts_onchain?.nfts);
+    setSearchLoading(false);
+  }
 
   // fetching collection activity
   const fetch_collection_activity = async () => {
@@ -163,8 +177,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    console.log("fetching")
-    const nfts_offchain = await fetch_collection_nfts(slug, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
     }
@@ -256,7 +269,7 @@ const Collection = ({
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className="dark:bg-jacarta-900">
+        <div className="dark:bg-jacarta-900 ">
           {/* <!-- Banner IMG--> */}
           <div className="relative pt-24">
             {collection?.coverImage ? (
@@ -744,68 +757,55 @@ const Collection = ({
                                   <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                     <ul className="flex flex-col flex-wrap">
                                       <li>
-                                        <a
-                                          href="#"
+                                        <button
                                           className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                         >
                                           <span className="text-jacarta-700 dark:text-white">
-                                            Timed auction
+                                            Fixed price
                                           </span>
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            width="24"
-                                            height="24"
-                                            className="mb-[3px] h-4 w-4 fill-accent"
-                                          >
-                                            <path
-                                              fill="none"
-                                              d="M0 0h24v24H0z"
-                                            ></path>
-                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                          </svg>
-                                        </a>
+                                          {!onChainData &&
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              viewBox="0 0 24 24"
+                                              width="24"
+                                              height="24"
+                                              className="mb-[3px] h-4 w-4 fill-accent"
+                                            >
+                                              <path
+                                                fill="none"
+                                                d="M0 0h24v24H0z"
+                                              ></path>
+                                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                            </svg>
+                                          }
+                                        </button>
                                       </li>
                                       <li>
-                                        <a
-                                          href="#"
-                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                        <button
+                                          onClick={() => filterFetchOnchainData()}
+                                          className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                         >
-                                          Fixed price
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a
-                                          href="#"
-                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                        >
-                                          Not for sale
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a
-                                          href="#"
-                                          className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                        >
-                                          Open for offers
-                                        </a>
+                                          <span className="text-jacarta-700 dark:text-white">
+                                            Not for sale
+                                          </span>
+                                          {onChainData &&
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              viewBox="0 0 24 24"
+                                              width="24"
+                                              height="24"
+                                              className="mb-[3px] h-4 w-4 fill-accent"
+                                            >
+                                              <path
+                                                fill="none"
+                                                d="M0 0h24v24H0z"
+                                              ></path>
+                                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                            </svg>
+                                          }
+                                        </button>
                                       </li>
                                     </ul>
-
-                                    <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
-                                      <button
-                                        type="button"
-                                        className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                                      >
-                                        Clear
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                      >
-                                        Apply
-                                      </button>
-                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -1113,7 +1113,7 @@ const Collection = ({
                         </div>
                       </div>
                       {/* activity filters  */}
-                      <div className="basis-4/12 lg:pl-5">
+                      <div className="basis-4/12 lg:pl-5 bg-white dark:bg-jacarta-900 py-8" style={{ position: "sticky", top: "60px" }}>
                         <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
                           Filters
                         </h3>

@@ -275,22 +275,22 @@ export const create_nft = async (data, signer_address, venomProvider) => {
     new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
   );
 
-  const subscriber = new Subscriber(venomProvider);
-  const contractEvents = contract.events(subscriber);
+  // const subscriber = new Subscriber(venomProvider);
+  // const contractEvents = contract.events(subscriber);
 
-  contractEvents.on(async (event) => {
-    let obj = {
-      NFTAddress: event.data.nft._address,
-      ownerAddress: signer_address,
-      managerAddress: signer_address,
-      imageURL: data.image,
-      title: data.title,
-      description: data.description,
-      properties: data.properties,
-      NFTCollection: data.collection,
-    };
-    // createNFT(obj);
-  });
+  // contractEvents.on(async (event) => {
+  //   let obj = {
+  //     NFTAddress: event.data.nft._address,
+  //     ownerAddress: signer_address,
+  //     managerAddress: signer_address,
+  //     imageURL: data.image,
+  //     title: data.title,
+  //     description: data.description,
+  //     properties: data.properties,
+  //     NFTCollection: data.collection,
+  //   };
+  //   createNFT(obj);
+  // });
 
   const { count: id } = await contract.methods
     .totalSupply({ answerId: 0 })
@@ -326,6 +326,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         from: new Address(signer_address),
         amount: "2000000000",
       });
+
   } catch (error) {
     console.log(error.message);
   }
@@ -509,7 +510,7 @@ export const cancel_listing = async (
         NFTAddress: nft_address,
         isListed: false,
         price: "0",
-        demandPrice: "0",
+        demandPrice: 0,
         new_manager: signer_address,
       };
       await cancelNFTListing(obj);
@@ -581,7 +582,7 @@ export const buy_nft = async (
         NFTAddress: nft_address,
         isListed: false,
         price: "0",
-        demandPrice: "0",
+        demandPrice: 0,
         new_owner: signer_address,
         new_manager: signer_address,
       };

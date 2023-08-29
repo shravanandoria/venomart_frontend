@@ -129,12 +129,14 @@ const CreateNFT = ({
                   ) : (
                     <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-5 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700 ">
                       <div className="flex flex-wrap w-auto">
-                        {default_images.map((e) => (
+                        {default_images.map((e, index) => (
                           <Image
+                            key={index}
                             src={e}
                             className="w-32 h-32 m-4 cursor-pointer hover:shadow-2xl"
                             width={100}
                             height={100}
+                            alt="selectIMG"
                             onClick={() => (set_data({ ...data, image: e }), set_preview(e))}
                           />
                         ))}

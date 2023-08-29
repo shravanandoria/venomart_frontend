@@ -12,11 +12,6 @@ export default async function handler(req, res) {
       try {
         const { contractAddress, skipActivity } = req.query;
 
-        const skip =
-          skipActivity && /^\d+$/.test(skipActivity)
-            ? Number(skipActivity)
-            : 0;
-
         const collection = await Collection.findOne({
           contractAddress,
         });

@@ -1,0 +1,84 @@
+import dbConnect from "../../../lib/dbConnect";
+import NFT from "../../../Models/NFT";
+import Collection from "../../../Models/Collection";
+
+export default async function handler(req, res) {
+    const { method } = req;
+    await dbConnect();
+
+    switch (method) {
+        case "GET":
+            try {
+                const { collection_address, sortby, minprice, maxprice, skip } = req.query;
+
+                const collection = await Collection.findOne({
+                    contractAddress: collection_address,
+                });
+
+                if (!collection) {
+                    return res
+                        .status(400)
+                        .json({ success: false, data: "Cannot find this collection" });
+                }
+
+                if (sortby != "") {
+                    if (sortby == "recentlyListed") {
+                        const nfts = await NFT.find({ NFTCollection: collection })
+                            .select([
+                                "-activity",
+                                "-NFTCollection",
+                                "-managerAddress",
+                                "-isLike",
+                                "-attributes",
+                            ]).skip(skip)
+                            .limit(20).sort({ createdAt: -1, isListed: -1 });
+                        return res.status(200).json({ success: true, data: nfts });
+                    }
+                    if (sortby == "lowToHigh") {
+                        const nfts = await NFT.find({ NFTCollection: collection })
+                            .select([
+                                "-activity",
+                                "-NFTCollection",
+                                "-managerAddress",
+                                "-isLike",
+                                "-attributes",
+                            ]).skip(skip)
+                            .limit(20).sort({ isListed: -1, listingPrice: 1 });
+                        return res.status(200).json({ success: true, data: nfts });
+                    }
+                    if (sortby == "highToLow") {
+                        const nfts = await NFT.find({ NFTCollection: collection })
+                            .select([
+                                "-activity",
+                                "-NFTCollection",
+                                "-managerAddress",
+                                "-isLike",
+                                "-attributes",
+                            ]).skip(skip)
+                            .limit(20).sort({ isListed: -1, listingPrice: -1 });
+                        return res.status(200).json({ success: true, data: nfts });
+                    }
+                }
+
+                if (minprice != "" && maxprice != "") {
+                    const nfts = await NFT.find({ NFTCollection: collection, demandPrice: { $gte: minprice, $lte: maxprice } })
+                        .select([
+                            "-activity",
+                            "-NFTCollection",
+                            "-managerAddress",
+                            "-isLike",
+                            "-attributes",
+                        ]).skip(skip)
+                        .limit(20);
+                    return res.status(200).json({ success: true, data: nfts });
+                }
+
+            } catch (error) {
+                res.status(400).json({ success: false, data: error.message });
+            }
+            break;
+        default:
+            res.status(400).json({ success: false });
+            break;
+    }
+}

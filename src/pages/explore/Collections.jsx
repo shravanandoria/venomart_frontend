@@ -295,7 +295,7 @@ const Collections = ({ theme, venomProvider }) => {
                       OwnerAddress={e?.OwnerAddress}
                       CollectionAddress={e?.contractAddress}
                       verified={e?.isVerified}
-                      Listing={e?.TotalListing}
+                      Listing={e?.TotalListed}
                       Volume={e?.TotalVolume}
                       FloorPrice={e?.FloorPrice}
                       venomProvider={venomProvider}
