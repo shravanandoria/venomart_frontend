@@ -11,7 +11,9 @@ const Rankings = ({
 }) => {
   const fetchTopCollections = async () => {
     const topCollections = await get_collections(0);
-    setTopCollections(topCollections);
+    if (topCollections) {
+      setTopCollections(topCollections);
+    }
   };
 
   useEffect(() => {

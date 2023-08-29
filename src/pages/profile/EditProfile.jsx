@@ -49,12 +49,14 @@ const EditProfile = ({ signer_address, theme }) => {
 
   const get_user = async () => {
     const fetch_user_data = await check_user(signer_address);
-    set_data({
-      ...fetch_user_data?.data,
-      twitter: fetch_user_data?.data?.user?.socials[0] ? fetch_user_data?.data?.user?.socials[0] : "",
-      discord: fetch_user_data?.data?.user?.socials[1] ? fetch_user_data?.data?.user?.socials[1] : "",
-      customLink: fetch_user_data?.data?.user?.socials[2] ? fetch_user_data?.data?.user?.socials[2] : "",
-    });
+    if (fetch_user_data) {
+      set_data({
+        ...fetch_user_data?.data,
+        twitter: fetch_user_data?.data?.user?.socials[0] ? fetch_user_data?.data?.user?.socials[0] : "",
+        discord: fetch_user_data?.data?.user?.socials[1] ? fetch_user_data?.data?.user?.socials[1] : "",
+        customLink: fetch_user_data?.data?.user?.socials[2] ? fetch_user_data?.data?.user?.socials[2] : "",
+      });
+    }
     set_loading(false);
   };
 

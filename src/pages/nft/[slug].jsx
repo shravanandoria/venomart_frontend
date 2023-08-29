@@ -51,6 +51,7 @@ const NFTPage = ({
   const [finalListingPrice, setFinalListingPrice] = useState(0);
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
   const [platformFees, setPlatformFees] = useState(0);
+  const [skip, setSkip] = useState(0);
 
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
@@ -81,11 +82,32 @@ const NFTPage = ({
   const fetch_nft_activity = async () => {
     if (nft._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity("", "", nft._id, 0);
-    setActivityHistory(res);
+    const res = await getActivity("", "", nft._id, skip);
+    if (res) {
+      setActivityHistory(res);
+    }
     setfetchedNFTActivity(true);
     setMoreLoading(false);
   }
+
+  // on scroll fetch nft activity 
+  const scroll_fetch_nft_activity = async () => {
+    if (skip == 0) return;
+    setMoreLoading(true);
+    const res = await getActivity("", "", nft._id, skip);
+    if (res) {
+      setActivityHistory([...activityHistory, ...res]);
+    }
+    setMoreLoading(false);
+  };
+
+  const handleScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setSkip(activityHistory.length);
+    }
+  };
+
 
   // list nft for sale
   const sell_nft = async (e) => {
@@ -157,7 +179,9 @@ const NFTPage = ({
   // getting collection info if onChainData 
   const getCollectionDataForOnchain = async () => {
     const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
-    setCollectionData(collection_data);
+    if (collection_data) {
+      setCollectionData(collection_data);
+    }
   }
 
   const switchPropeties = async () => {
@@ -191,6 +215,10 @@ const NFTPage = ({
   useEffect(() => {
     nft_info();
   }, [slug]);
+
+  useEffect(() => {
+    scroll_fetch_nft_activity();
+  }, [skip]);
 
   return (
     <>
@@ -924,12 +952,7 @@ const NFTPage = ({
                     )}
 
                     {activity && (
-                      <div
-                        className="tab-pane fade show active"
-                        id="offers"
-                        role="tabpanel"
-                        aria-labelledby="offers-tab"
-                      >
+                      <div className="tab-pane fade show active">
                         {/* filter  */}
                         {/* <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
                           <div className="flex flex-wrap">
@@ -996,7 +1019,7 @@ const NFTPage = ({
                           </div>
                         </div> */}
 
-                        <div className="scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white">
+                        <div className={`scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white  ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
                           <div
                             className="sticky top-0 flex bg-light-base dark:bg-jacarta-600"
                             role="row"

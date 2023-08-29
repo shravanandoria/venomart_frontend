@@ -44,6 +44,7 @@ const Profile = ({
   const [lastNFT, setLastNFT] = useState(undefined);
 
   const [activitySkip, setActivitySkip] = useState(0);
+  const [skip, setSkip] = useState(0);
 
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
   const [nfts, set_nfts] = useState([]);
@@ -56,8 +57,10 @@ const Profile = ({
     // fetching user data
     const data = await check_user(slug);
     const nftFetch = await fetch_user_nfts();
-    set_user_data(data?.data);
-    setNFTCollections(data?.data?.nftCollections);
+    if (data) {
+      set_user_data(data?.data);
+      setNFTCollections(data?.data?.nftCollections);
+    }
     set_loading(false);
   };
 
@@ -66,7 +69,9 @@ const Profile = ({
     if (user_data._id == undefined) return;
     setMoreLoading(true);
     const res = await getActivity(user_data._id, "", "", activitySkip);
-    setActivityRecords(res);
+    if (res) {
+      setActivityRecords(res);
+    }
     setFetchedProfileActivity(true);
     setMoreLoading(false);
   }
@@ -75,8 +80,10 @@ const Profile = ({
   const getting_user_listed_nfts = async () => {
     if (!slug) return;
     setMoreLoading(true);
-    const res = await fetch_user_listed_nfts(slug, 0);
-    setOnSaleNFTs(res);
+    const res = await fetch_user_listed_nfts(slug, skip);
+    if (res) {
+      setOnSaleNFTs(res);
+    }
     setFetchedOnSaleNFTs(true);
     setMoreLoading(false);
   };
@@ -96,6 +103,28 @@ const Profile = ({
     set_nfts(new_nfts);
   };
 
+  // handling for sale nfts more fetch 
+  const scroll_get_all_nfts = async () => {
+    setMoreLoading(true);
+    const res = await fetch_user_listed_nfts(slug, skip);
+    if (res) {
+      setOnSaleNFTs([...onSaleNFTs, ...res]);
+    }
+    setMoreLoading(false);
+  };
+
+  const handleScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target;
+    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
+      setSkip(onSaleNFTs.length);
+    }
+  };
+
+  useEffect(() => {
+    scroll_get_all_nfts();
+  }, [skip]);
+
+  // handling activity scroll fetch more 
   const scrollActivityFetch = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
@@ -469,7 +498,7 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div
@@ -622,7 +651,7 @@ const Profile = ({
                 {activityRecords != "" && (
                   <div className="flexActivitySection">
                     <div
-                      className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list"
+                      className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`}
                       onScroll={handleActivityScroll}
                     >
                       <div className="flex justify-center align-middle flex-wrap">

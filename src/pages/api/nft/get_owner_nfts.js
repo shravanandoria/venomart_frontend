@@ -1,31 +1,33 @@
 import dbConnect from "../../../lib/dbConnect";
 import NFT from "../../../Models/NFT";
-
+import limiter from "../limiter";
 
 export default async function handler(req, res) {
     const { method } = req;
     await dbConnect();
 
-    switch (method) {
-        case "GET":
-            try {
-                const { owner_address, skip } = req.query;
+    limiter(req, res, async () => {
+        switch (method) {
+            case "GET":
+                try {
+                    const { owner_address, skip } = req.query;
 
-                let nfts = await NFT.find({
-                    ownerAddress: owner_address,
-                    isListed: true,
-                })
-                    .skip(skip)
-                    .limit(15);
+                    let nfts = await NFT.find({
+                        ownerAddress: owner_address,
+                        isListed: true,
+                    })
+                        .skip(skip)
+                        .limit(15);
 
-                return res.status(200).json({ success: true, data: nfts });
+                    return res.status(200).json({ success: true, data: nfts });
 
-            } catch (error) {
-                res.status(400).json({ success: false, data: error.message });
-            }
-            break;
-        default:
-            res.status(400).json({ success: false });
-            break;
-    }
+                } catch (error) {
+                    res.status(400).json({ success: false, data: error.message });
+                }
+                break;
+            default:
+                res.status(400).json({ success: false });
+                break;
+        }
+    });
 }

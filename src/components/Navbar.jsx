@@ -61,8 +61,10 @@ const Navbar = ({
       if (isTyping || !query_search) return;
       setSearchLoading(true);
       const res = await search(query_search);
+      if (res) {
+        set_search_result(res);
+      }
       setSearchLoading(false);
-      set_search_result(res);
     }, 1000);
 
     return () => clearTimeout(timer);

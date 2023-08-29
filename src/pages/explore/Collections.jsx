@@ -23,7 +23,9 @@ const Collections = ({ theme, venomProvider }) => {
   const scrollFetchCollections = async () => {
     setMoreLoading(true);
     const collectionsJSON = await get_collections(skip);
-    set_collections([...collections, ...collectionsJSON]);
+    if (collectionsJSON) {
+      set_collections([...collections, ...collectionsJSON]);
+    }
     setMoreLoading(false);
   };
 
@@ -47,7 +49,9 @@ const Collections = ({ theme, venomProvider }) => {
       if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
       const res = await search_collections(query_search);
-      set_collections(res.collections);
+      if (res) {
+        set_collections(res.collections);
+      }
       set_isTyping(false);
       setSearchLoading(false);
     }, 1000);

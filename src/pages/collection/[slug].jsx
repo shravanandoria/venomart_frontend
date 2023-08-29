@@ -103,7 +103,9 @@ const Collection = ({
     setLoading(true);
 
     const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
-    set_nfts(nfts_offchain);
+    if (nfts_offchain) {
+      set_nfts(nfts_offchain);
+    }
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
       const nfts_onchain = await loadNFTs_collection(
@@ -118,7 +120,9 @@ const Collection = ({
 
     // getting contract info
     const res = await get_collection_by_contract(slug, 0);
-    set_collection(res?.data);
+    if (res) {
+      set_collection(res?.data);
+    }
     setLoading(false);
   };
 
@@ -141,7 +145,9 @@ const Collection = ({
     if (collection?._id == undefined) return;
     setSearchLoading(true);
     const res = await getActivity("", collection._id, "", skipActivity);
-    set_activity(res);
+    if (res) {
+      set_activity(res);
+    }
     setFetchedCollectionActivity(true);
     setSearchLoading(false);
   };
@@ -224,7 +230,9 @@ const Collection = ({
       if (isTyping || def_query == undefined) return;
       setSearchLoading(true);
       const res = await search_nfts(query_search, collection._id);
-      set_nfts(res.nfts);
+      if (res) {
+        set_nfts(res.nfts);
+      }
       set_isTyping(false);
       setSearchLoading(false);
     }, 1000);
@@ -962,7 +970,7 @@ const Collection = ({
                       </div>
                     )}
 
-                    <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
+                    <div className={`${!onChainData && skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
                       <div
                         className={`flex justify-center align-middle flex-wrap`}
                       >
