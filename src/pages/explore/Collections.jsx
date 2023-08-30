@@ -314,7 +314,7 @@ const Collections = ({ theme, venomProvider }) => {
                     </div>
                   }
 
-                  {collections?.length <= 0 && (
+                  {((collections?.length <= 0) && !moreLoading) && (
                     <h2 className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                       No Collections Found
                     </h2>

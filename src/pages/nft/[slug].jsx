@@ -9,7 +9,7 @@ import { MdVerified } from "react-icons/md";
 import { buy_nft, get_nft_by_address, listing_fees, platform_fees } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
-import { nftInfo } from "../../utils/mongo_api/nfts/nfts";
+import { nftInfo, update_verified_nft_data } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
@@ -24,6 +24,7 @@ const NFTPage = ({
   theme,
   standalone,
   venomProvider,
+  webURL,
   setAnyModalOpen
 }) => {
   const router = useRouter();
@@ -46,6 +47,9 @@ const NFTPage = ({
   const [confirmChecked, setConfirmChecked] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [fetchedNFTActivity, setfetchedNFTActivity] = useState(false);
+  const [actionDrop, setActionDrop] = useState(false);
+  const [metaDataUpdated, setMetaDataUpdated] = useState(false);
+  const [metadataLoading, setMetadataLoading] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
   const [finalListingPrice, setFinalListingPrice] = useState(0);
@@ -56,6 +60,7 @@ const NFTPage = ({
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
   const [activityHistory, setActivityHistory] = useState([]);
+  const [activityType, setActivityType] = useState("");
 
 
   // getting nft information
@@ -78,11 +83,34 @@ const NFTPage = ({
     setPageLoading(false);
   };
 
+  // refresh nft metadata 
+  const refreshMetadata = async () => {
+    if (metaDataUpdated == true) return;
+    setMetadataLoading(true);
+    const nft_onchain = await get_nft_by_address(standalone, slug);
+    let OnChainOwner = nft_onchain?.owner?._address;
+    let OnChainManager = nft_onchain?.manager?._address;
+
+    let offChainOwner = nft?.ownerAddress;
+    let offChainManager = nft?.managerAddress;
+
+    if ((OnChainOwner != offChainOwner) || (OnChainManager != offChainManager)) {
+      const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
+      setMetadataLoading(false);
+      router.reload();
+      setMetaDataUpdated(true);
+      return;
+    }
+    setMetaDataUpdated(true);
+    setMetadataLoading(false);
+    alert("Metadata is already up to date");
+  }
+
   // fetching nft activity 
   const fetch_nft_activity = async () => {
     if (nft._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity("", "", nft._id, skip);
+    const res = await getActivity("", "", nft._id, activityType, skip);
     if (res) {
       setActivityHistory(res);
     }
@@ -94,7 +122,7 @@ const NFTPage = ({
   const scroll_fetch_nft_activity = async () => {
     if (skip == 0) return;
     setMoreLoading(true);
-    const res = await getActivity("", "", nft._id, skip);
+    const res = await getActivity("", "", nft._id, activityType, skip);
     if (res) {
       setActivityHistory([...activityHistory, ...res]);
     }
@@ -220,6 +248,10 @@ const NFTPage = ({
     scroll_fetch_nft_activity();
   }, [skip]);
 
+  useEffect(() => {
+    fetch_nft_activity();
+  }, [activityType])
+
   return (
     <>
       <Head>
@@ -337,6 +369,67 @@ const NFTPage = ({
                           Not Verified
                         </p>
                       )}
+                    </div>
+
+                    <div className="ml-auto flex space-x-2">
+                      {/* <div className="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+                        <span
+                          className="js-likes relative cursor-pointer before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                            className="h-4 w-4 fill-jacarta-500 hover:fill-red dark:fill-jacarta-200 dark:hover:fill-red">
+                            <path fill="none" d="M0 0H24V24H0z"></path>
+                            <path
+                              d="M12.001 4.529c2.349-2.109 5.979-2.039 8.242.228 2.262 2.268 2.34 5.88.236 8.236l-8.48 8.492-8.478-8.492c-2.104-2.356-2.025-5.974.236-8.236 2.265-2.264 5.888-2.34 8.244-.228zm6.826 1.641c-1.5-1.502-3.92-1.563-5.49-.153l-1.335 1.198-1.336-1.197c-1.575-1.412-3.99-1.35-5.494.154-1.49 1.49-1.565 3.875-.192 5.451L12 18.654l7.02-7.03c1.374-1.577 1.299-3.959-.193-5.454z">
+                            </path>
+                          </svg>
+                        </span>
+                        <span className="text-sm dark:text-jacarta-200">1</span>
+                      </div> */}
+
+                      <div className="relative dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
+
+                        <button onClick={() => setActionDrop(!actionDrop)} className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm" id="collectionActions">
+                          <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            className="fill-jacarta-500 dark:fill-jacarta-200">
+                            <circle cx="2" cy="2" r="2"></circle>
+                            <circle cx="8" cy="2" r="2"></circle>
+                            <circle cx="14" cy="2" r="2"></circle>
+                          </svg>
+                        </button>
+
+                        {actionDrop &&
+                          <div className="absolute left-[-160px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                            {!onchainNFTData &&
+                              (metadataLoading ?
+                                <button
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <div className="flex space-x-2">
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                  </div>
+                                </button>
+                                :
+                                <button
+                                  onClick={() => refreshMetadata()}
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  Refresh Metadata
+                                </button>)
+
+                            }
+                            <a
+                              href={`https://twitter.com/intent/tweet?text=I%20found%20this%20nft%20on%20venomart.io%20check%20it%20here-%20${webURL}nft/${slug}%20`}
+                              target="_blank"
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Share
+                            </a>
+                            <button
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Report
+                            </button>
+                          </div>
+                        }
+                      </div>
                     </div>
                   </div>
 
@@ -954,70 +1047,57 @@ const NFTPage = ({
                     {activity && (
                       <div className="tab-pane fade show active">
                         {/* filter  */}
-                        {/* <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
+                        <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
                           <div className="flex flex-wrap">
-                            <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+                            <button onClick={() => (setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                                className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
                               >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z"></path>
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                               </svg>
-                              <span className="text-2xs font-medium">
+                              <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
                                 Listing
                               </span>
                             </button>
-                            <button className="mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark">
+
+                            <button onClick={() => (setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className="mr-2 h-4 w-4 fill-white"
+                                className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
                               >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z"></path>
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                               </svg>
-                              <span className="text-2xs font-medium text-white">
-                                Bids
+                              <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
+                                Remove Listing
                               </span>
                             </button>
-                            <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
+
+                            <button onClick={() => (setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
+                                className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
                               >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z"></path>
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                               </svg>
-                              <span className="text-2xs font-medium">
-                                Transfers
-                              </span>
-                            </button>
-                            <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="mr-2 h-4 w-4 fill-jacarta-700 group-hover:fill-white dark:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z"></path>
-                              </svg>
-                              <span className="text-2xs font-medium">
-                                Sales
+                              <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                                Sale
                               </span>
                             </button>
                           </div>
-                        </div> */}
+                        </div>
 
                         <div className={`scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white  ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
                           <div
@@ -1087,7 +1167,7 @@ const NFTPage = ({
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>}
                           <div className="flex p-4">
-                            {(onchainNFTData || !activityHistory) && (
+                            {(onchainNFTData || activityHistory == "") && (
                               <p className="text-jacarta-700 dark:text-white">
                                 No Activity
                               </p>

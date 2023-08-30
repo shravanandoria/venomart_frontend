@@ -13,16 +13,19 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { user_id, collection_id, nft_id, skip } = req.query;
+          const { user_id, collection_id, nft_id, activityType, skip } = req.query;
 
           let activityQuery = {};
 
           if (user_id) {
             activityQuery.owner = user_id;
+            activityType && (activityQuery.type = activityType);
           } else if (collection_id) {
             activityQuery.nft_collection = collection_id;
+            activityType && (activityQuery.type = activityType);
           } else if (nft_id) {
             activityQuery.item = nft_id;
+            activityType && (activityQuery.type = activityType);
           }
 
           const activities = await Activity.find(activityQuery)

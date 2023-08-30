@@ -288,7 +288,7 @@ const NFTs = ({ theme, currency }) => {
                         <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       </div>
                     }
-                    {nfts?.length <= 0 && (
+                    {((nfts?.length <= 0) && !moreLoading) && (
                       <h2 className="text-jacarta-700 dark:text-jacarta-200">
                         No NFTs Found
                       </h2>

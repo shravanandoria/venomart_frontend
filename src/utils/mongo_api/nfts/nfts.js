@@ -72,6 +72,23 @@ export const createNFT = async (data) => {
   }
 };
 
+export const update_verified_nft_data = async (OnChainOwner, OnChainManager, NFTAddress) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/verify_nft`,
+      method: "PUT",
+      data: {
+        ownerAddress: OnChainOwner,
+        managerAddress: OnChainManager,
+        NFTAddress: NFTAddress
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const updateNFTListing = async (data) => {
   try {
     const res = await axios({

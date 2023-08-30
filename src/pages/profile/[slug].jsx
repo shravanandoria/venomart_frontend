@@ -46,10 +46,12 @@ const Profile = ({
   const [activitySkip, setActivitySkip] = useState(0);
   const [skip, setSkip] = useState(0);
 
+  const [activityType, setActivityType] = useState("");
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
   const [nfts, set_nfts] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
+
 
   const getProfileData = async () => {
     set_loading(true);
@@ -68,7 +70,7 @@ const Profile = ({
   const fetch_user_activity = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity(user_data._id, "", "", activitySkip);
+    const res = await getActivity(user_data._id, "", "", activityType, activitySkip);
     if (res) {
       setActivityRecords(res);
     }
@@ -120,15 +122,11 @@ const Profile = ({
     }
   };
 
-  useEffect(() => {
-    scroll_get_all_nfts();
-  }, [skip]);
-
   // handling activity scroll fetch more 
   const scrollActivityFetch = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const newArray = await getActivity(user_data._id, "", "", activitySkip);
+    const newArray = await getActivity(user_data._id, "", "", activityType, activitySkip);
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
     }
@@ -141,15 +139,6 @@ const Profile = ({
       setActivitySkip(activityRecords.length);
     }
   };
-
-  useEffect(() => {
-    if (!slug) return;
-    getProfileData();
-  }, [slug]);
-
-  useEffect(() => {
-    scrollActivityFetch();
-  }, [activitySkip]);
 
   const switchToOnSale = async () => {
     setOwned(false);
@@ -175,6 +164,23 @@ const Profile = ({
     setCollections(false);
     setActivity(true);
   };
+
+  useEffect(() => {
+    if (!slug) return;
+    getProfileData();
+  }, [slug]);
+
+  useEffect(() => {
+    scrollActivityFetch();
+  }, [activitySkip]);
+
+  useEffect(() => {
+    scroll_get_all_nfts();
+  }, [skip]);
+
+  useEffect(() => {
+    fetch_user_activity();
+  }, [activityType])
 
   return loading ? (
     <Loader theme={theme} />
@@ -648,131 +654,100 @@ const Profile = ({
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                {activityRecords != "" && (
-                  <div className="flexActivitySection">
-                    <div
-                      className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`}
-                      onScroll={handleActivityScroll}
-                    >
-                      <div className="flex justify-center align-middle flex-wrap">
-                        {activityRecords?.map((e, index) => (
-                          <ActivityRecord
-                            key={index}
-                            NFTImage={e?.item?.nft_image}
-                            NFTName={e?.item?.name}
-                            NFTAddress={e?.item?.NFTAddress}
-                            Price={e?.price}
-                            ActivityTime={e?.createdAt}
-                            ActivityType={e?.type}
-                            blockURL={blockURL}
-                            ActivityHash={e?.hash}
-                            From={e?.from}
-                            To={e?.to}
-                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                          />
-                        ))}
-                        {moreLoading &&
-                          <div className="flex items-center justify-center space-x-2">
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          </div>}
-                      </div>
-                    </div>
-
-                    {/* <!-- Filters --> */}
-                    <div className="basis-4/12 lg:pl-5">
-
-                      <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
-                        Filters
-                      </h3>
-                      <div className="flex flex-wrap">
-                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                          </svg>
-                          <span className="text-2xs font-medium">
-                            Listing
-                          </span>
-                        </button>
-
-                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 group-hover:fill-white fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                          </svg>
-                          <span className="text-2xs font-medium">
-                            Remove Listing
-                          </span>
-                        </button>
-
-                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 group-hover:fill-white fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
-                          </svg>
-                          <span className="text-2xs font-medium">Sale</span>
-                        </button>
-
-                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 group-hover:fill-white fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M14 20v2H2v-2h12zM14.586.686l7.778 7.778L20.95 9.88l-1.06-.354L17.413 12l5.657 5.657-1.414 1.414L16 13.414l-2.404 2.404.283 1.132-1.415 1.414-7.778-7.778 1.415-1.414 1.13.282 6.294-6.293-.353-1.06L14.586.686zm.707 3.536l-7.071 7.07 3.535 3.536 7.071-7.07-3.535-3.536z" />
-                          </svg>
-                          <span className="text-2xs font-medium">Bids</span>
-                        </button>
-
-                        <button className="group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 h-4 w-4 group-hover:fill-white fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M16.05 12.05L21 17l-4.95 4.95-1.414-1.414 2.536-2.537L4 18v-2h13.172l-2.536-2.536 1.414-1.414zm-8.1-10l1.414 1.414L6.828 6 20 6v2H6.828l2.536 2.536L7.95 11.95 3 7l4.95-4.95z" />
-                          </svg>
-                          <span className="text-2xs font-medium">
-                            Transfer
-                          </span>
-                        </button>
+                <div className="flexActivitySection">
+                  <div
+                    className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`}
+                    onScroll={handleActivityScroll}
+                  >
+                    <div className="flex justify-center align-middle flex-wrap">
+                      {activityRecords?.map((e, index) => (
+                        <ActivityRecord
+                          key={index}
+                          NFTImage={e?.item?.nft_image}
+                          NFTName={e?.item?.name}
+                          NFTAddress={e?.item?.NFTAddress}
+                          Price={e?.price}
+                          ActivityTime={e?.createdAt}
+                          ActivityType={e?.type}
+                          blockURL={blockURL}
+                          ActivityHash={e?.hash}
+                          From={e?.from}
+                          To={e?.to}
+                          MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                        />
+                      ))}
+                      {moreLoading &&
+                        <div className="flex items-center justify-center space-x-2">
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>}
+                      <div className="flex justify-center text-center">
+                        {activityRecords?.length <= 0 && (
+                          <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
+                            No Activity Found!
+                          </h2>
+                        )}
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-              <div className="flex justify-center text-center">
-                {activityRecords?.length <= 0 && (
-                  <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
-                    No Activity Yet!
-                  </h2>
-                )}
+
+                  {/* <!-- Filters --> */}
+                  <div className="basis-4/12 lg:pl-5">
+                    <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
+                      Filters
+                    </h3>
+                    <div className="flex flex-wrap">
+                      <button onClick={() => (setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
+                          Listing
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
+                          Remove Listing
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          Sale
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
