@@ -218,6 +218,7 @@ const venommushies = ({
             contractAddress,
             signer_address
         );
+        console.log({ data })
         setCheckMint(data);
         setLoading(false);
     };
