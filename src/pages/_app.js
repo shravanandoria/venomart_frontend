@@ -182,6 +182,32 @@ export default function App({ Component, pageProps }) {
       endDate: "08/31/2023 14:30:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 5,
+      Cover:
+        "https://ipfs.io/ipfs/QmXMAMjLEo396RhK4xAu4CSV4LVQretsP5doX73ZCXbUHF/soda.jpg",
+      Logo: "https://ipfs.io/ipfs/Qma92yEfiQzjSeJJEqDSaPsGwiHMgAyN4m81pLuP8ZC8gS/drunksoda.gif",
+      Name: "Venomart x Drunksoda",
+      Description:
+        "Introducing Drunksoda, 4750 blasted sodas who have no idea where they are",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress:
+        "",
+      customLink: "custom/drunksoda",
+      pageName: "drunksoda",
+      supply: "3000",
+      twitterUserName: "drunksodaVenom",
+      twitter: "https://twitter.com/drunksodaVenom",
+      tweetID: "1696084778284642589",
+      discord: "https://discord.com/invite/xgNfmWkHpu",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "08/30/2023 16:00:00 GMT+0530",
+      endDate: "09/2/2023 14:00:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // custom array of all launches
