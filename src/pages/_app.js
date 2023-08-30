@@ -199,7 +199,7 @@ export default function App({ Component, pageProps }) {
       supply: "3000",
       twitterUserName: "drunksodaVenom",
       twitter: "https://twitter.com/drunksodaVenom",
-      tweetID: "1696084778284642589",
+      tweetID: "1696832463086219716",
       discord: "https://discord.com/invite/xgNfmWkHpu",
       instagram: "",
       telegram: "",
