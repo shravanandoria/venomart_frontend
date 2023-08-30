@@ -193,7 +193,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "",
+        "0:02bc0d2be19fcb6779b1125fb01f4f9e17ab9e81f76c04f6f45aa747767db74d",
       customLink: "custom/drunksoda",
       pageName: "drunksoda",
       supply: "3000",

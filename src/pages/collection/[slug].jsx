@@ -11,6 +11,7 @@ import {
   BsTelegram,
   BsTwitter,
 } from "react-icons/bs";
+import { RxActivityLog } from "react-icons/rx"
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai"
 import Head from "next/head";
 import Loader from "../../components/Loader";
@@ -51,6 +52,26 @@ const Collection = ({
   const [listedFilter, showListedFilter] = useState(false);
   const [mobileFilter, openMobileFilter] = useState(true);
 
+  const [share, setShare] = useState(false);
+  const [collection, set_collection] = useState({});
+  const [nfts, set_nfts] = useState([]);
+  const [activity, set_activity] = useState([]);
+  const [analytics, set_analytics] = useState([]);
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [lastNFT, setLastNFT] = useState(true);
+  const [onChainData, setOnChainData] = useState(false);
+  const [skip, setSkip] = useState(0);
+  const [skipActivity, setSkipActivity] = useState(0);
+  const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
+  const [activityType, setActivityType] = useState("");
+
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [query_search, set_query_search] = useState("");
+  const [isTyping, set_isTyping] = useState(true);
+  const [def_query, set_def_query] = useState(undefined);
+
+  // mediaQuery 
+
   const useMediaQuery = (width) => {
     const [targetReached, setTargetReached] = useState(false);
 
@@ -80,25 +101,9 @@ const Collection = ({
     return targetReached;
   };
 
-  const isBreakpoint = useMediaQuery(800)
+  const isBreakpoint = useMediaQuery(800);
 
-  const [share, setShare] = useState(false);
-  const [collection, set_collection] = useState({});
-  const [nfts, set_nfts] = useState([]);
-  const [activity, set_activity] = useState([]);
-  const [totalSupply, setTotalSupply] = useState(0);
-  const [lastNFT, setLastNFT] = useState(true);
-  const [onChainData, setOnChainData] = useState(false);
-  const [skip, setSkip] = useState(0);
-  const [skipActivity, setSkipActivity] = useState(0);
-  const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
-  const [activityType, setActivityType] = useState("");
-
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [query_search, set_query_search] = useState("");
-  const [isTyping, set_isTyping] = useState(true);
-  const [def_query, set_def_query] = useState(undefined);
-
+  // getting def collection info 
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
     setLoading(true);
@@ -183,6 +188,7 @@ const Collection = ({
 
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
+    console.log("fetc")
     if (onChainData == true || skip == 0) return;
     const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
     if (nfts_offchain) {
@@ -191,6 +197,7 @@ const Collection = ({
   };
 
   const handleScroll = (e) => {
+    console.log("scroll")
     if (onChainData == true) return;
     const { offsetHeight, scrollTop, scrollHeight } = e.target;
     if (offsetHeight + scrollTop + 10 >= scrollHeight) {
@@ -642,10 +649,11 @@ const Collection = ({
           {/* main section  */}
           <section className="relative pb-24 pt-12">
             <div>
+              {/* select tabs  */}
               <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
                 <li className="nav-item" role="presentation">
                   <button
-                    onClick={() => (showActivityTab(false), showItemsTab(true))}
+                    onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
                     className={`nav-link ${itemsTab && "active relative"
                       } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
@@ -668,11 +676,11 @@ const Collection = ({
                 <li className="nav-item" role="presentation">
                   <button
                     onClick={() => (
-                      (!fetchedCollectionActivity && fetch_collection_activity()),
                       showItemsTab(false),
-                      showActivityTab(true)
+                      showActivityTab(false),
+                      showAnalyticsTab(true)
                     )}
-                    className={`nav-link ${activityTab && "active relative"
+                    className={`nav-link ${analyticsTab && "active relative"
                       } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                   >
                     <svg
@@ -685,6 +693,24 @@ const Collection = ({
                       <path fill="none" d="M0 0h24v24H0z" />
                       <path d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z" />
                     </svg>
+                    <span className="font-display text-base font-medium">
+                      Analytics
+                    </span>
+                  </button>
+                </li>
+
+                <li className="nav-item" role="presentation">
+                  <button
+                    onClick={() => (
+                      (!fetchedCollectionActivity && fetch_collection_activity()),
+                      showItemsTab(false),
+                      showAnalyticsTab(false),
+                      showActivityTab(true)
+                    )}
+                    className={`nav-link ${activityTab && "active relative"
+                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  >
+                    <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
                     <span className="font-display text-base font-medium">
                       Activity
                     </span>
@@ -975,7 +1001,7 @@ const Collection = ({
                       </div>
                     )}
 
-                    <div className={`${!onChainData && skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
+                    <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
                       <div
                         className={`flex justify-center align-middle flex-wrap`}
                       >
@@ -1090,6 +1116,23 @@ const Collection = ({
                 </div>
               )}
 
+              {/* analytics  */}
+              {analyticsTab && (
+                <div className={`tab-content`}>
+                  <div className="tab-pane fade show active">
+                    <div>
+                      <div className={`flex justify-center align-middle flex-wrap`}>
+                        {analytics?.length <= 0 &&
+                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                            Coming soon..
+                          </h2>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* activity  */}
               {activityTab && (
                 <div className="container">
@@ -1136,7 +1179,7 @@ const Collection = ({
                         Filters
                       </h3>
                       <div className="flex flex-wrap">
-                        <button onClick={() => (setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -1152,7 +1195,7 @@ const Collection = ({
                           </span>
                         </button>
 
-                        <button onClick={() => (setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -1168,7 +1211,7 @@ const Collection = ({
                           </span>
                         </button>
 
-                        <button onClick={() => (setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
