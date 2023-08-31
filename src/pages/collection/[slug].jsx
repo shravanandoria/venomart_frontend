@@ -273,7 +273,7 @@ const Collection = ({
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{collection?.name ? collection?.name : "Collection"} - Venomart Marketplace</title>
+        <title>{`${collection?.name ? collection?.name : "Collection"} - Venomart Marketplace`}</title>
         <meta
           name="description"
           content={`${collection?.description ? collection?.description : "Explore, Create and Experience exculsive NFTs on Venomart"} | Powered by Venom Blockchain`}

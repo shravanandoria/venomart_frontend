@@ -255,10 +255,10 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>NFT - Rarfinite Marketplace</title>
+        <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"} | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
