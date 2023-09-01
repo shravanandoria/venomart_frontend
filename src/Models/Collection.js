@@ -14,6 +14,7 @@ const CollectionSchema = new mongoose.Schema(
     royalty: String,
     royaltyAddress: String,
     description: String,
+    keywords: [String],
     socials: [String],
     isVerified: Boolean,
     Category: [String],
