@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
-
+  
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
@@ -49,7 +49,6 @@ export default function App({ Component, pageProps }) {
 
   const [topCollections, setTopCollections] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
-
 
   // custom array of all collabs
   // status should be Upcoming, Live, Ended, Sold Out and date format is mm/dd/2023 23:59:59
