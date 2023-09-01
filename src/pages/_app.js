@@ -165,7 +165,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Introducing Venom Mushies, Exclusive pack of Mushies NFT coming soon on venom blockchain",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:8434fd234c59d904f43594112b57cb0a2b5d65a1c800f9848b0c93a2dd052e7e",
       customLink: "custom/venommushies",
@@ -276,6 +276,31 @@ export default function App({ Component, pageProps }) {
       startDate: "09/02/2023 12:00:00 GMT+0530",
       endDate: "09/5/2023 12:00:00 GMT+0530",
       verified: true,
+    },
+    {
+      id: 3,
+      Cover:
+        "https://ipfs.io/ipfs/QmTspXusdN5SAwsutgvdrWF9bPDA6u61dKkcmZ74xPGVmx/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmXwGcoeeBpLuhBFAA2Fxw3WuEWXdqGQVjCWCni6KgGASp/3.gif",
+      Name: "Devenlabs",
+      Description:
+        "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
+      mintPrice: "3",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "launch/devenlabs",
+      pageName: "devenlabs",
+      supply: "4000",
+      twitterUserName: "",
+      twitter: "https://twitter.com/devenlabs",
+      tweetID: "",
+      discord: "https://discord.gg/BgNGfFB3uN",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "09/04/2023 12:00:00 GMT+0530",
+      endDate: "09/9/2023 12:00:00 GMT+0530",
+      verified: false,
     },
   ];
 

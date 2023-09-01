@@ -236,7 +236,7 @@ const venommushies = ({
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>NFT Launchpad - Venomart Marketplace</title>
+                <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"

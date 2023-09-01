@@ -18,11 +18,11 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../../components/Loader";
-import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
+import { create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
-const venommushies = ({
+const venomLions = ({
     blockURL,
     theme,
     webURL,
@@ -30,15 +30,13 @@ const venommushies = ({
     venomProvider,
     signer_address,
     connectWallet,
-    collabQuests,
-    anyModalOpen,
-    setAnyModalOpen
+    customLaunchpad,
 }) => {
-    const router = useRouter();
     // change from here
-    const launchSlug = collabQuests[5];
+    const launchSlug = customLaunchpad[3];
     // change till here
 
+    const router = useRouter();
     const venomartTwitter = "venomart23";
     const venomartDiscord = "https://discord.gg/wQbBr6Xean";
     const intendTweetId = launchSlug.tweetID;
@@ -64,6 +62,7 @@ const venommushies = ({
     const [loading, setLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [comLoading, setCompLoading] = useState(false);
+    const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
     const [checkMint, setCheckMint] = useState();
@@ -96,20 +95,20 @@ const venommushies = ({
 
     const getMintedCount = async () => {
         setLoading(true);
-        try {
-            let myEver = new MyEver();
-            const providerRpcClient = myEver.ever();
-            const contract = new providerRpcClient.Contract(
-                collectionAbi,
-                contractAddress
-            );
-            const totalSupply = await contract.methods
-                .totalSupply({ answerId: 0 })
-                .call();
-            setMintedNFTs(totalSupply.count);
-        } catch (error) {
-            setMintedNFTs(0);
-            console.log(error.message);
+        if (venomProvider != undefined) {
+            try {
+                const contract = new venomProvider.Contract(
+                    collectionAbi,
+                    contractAddress
+                );
+                const totalSupply = await contract.methods
+                    .totalSupply({ answerId: 0 })
+                    .call();
+                setMintedNFTs(totalSupply.count);
+            } catch (error) {
+                setMintedNFTs(0);
+                console.log(error.message);
+            }
         }
         setLoading(false);
     };
@@ -117,7 +116,7 @@ const venommushies = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
-    }, []);
+    }, [venomProvider]);
 
     useEffect(() => {
         if (status == "Upcoming") {
@@ -169,7 +168,7 @@ const venommushies = ({
                         setEndSeconds(s);
 
                         if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                            setStatus("Sold Out");
+                            setStatus("Ended");
                         }
                     }, 1000);
                     return () => clearInterval(interval);
@@ -196,8 +195,11 @@ const venommushies = ({
             venomProvider
         );
         if (launchMint) {
-            setAnyModalOpen(true);
+            setAfterMint(true);
             setMintLock(true);
+            setTimeout(() => {
+                setAfterMint(false);
+            }, 3000);
         }
         setLoading(false);
     };
@@ -210,7 +212,7 @@ const venommushies = ({
         }, 2000);
     };
 
-    const get_minted_data = async () => {
+    const get_user_Data = async () => {
         if (!signer_address) return;
         setLoading(true);
         const data = await has_minted(
@@ -223,7 +225,7 @@ const venommushies = ({
     };
 
     useEffect(() => {
-        get_minted_data();
+        get_user_Data();
     }, [signer_address]);
 
     useEffect(() => {
@@ -233,10 +235,22 @@ const venommushies = ({
         }, 3000);
     }, [venomProvider]);
 
+    useEffect(() => {
+        if (afterMint) {
+            document.body.style.overflow = "hidden";
+            window.scrollTo(0, 0);
+        }
+        if (!afterMint) {
+            document.body.style.overflow = "scroll";
+            document.body.style.overflowX = "hidden";
+            window.scrollTo(0, 0);
+        }
+    }, [afterMint]);
+
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
+                <title>NFT Launchpad - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -249,8 +263,8 @@ const venommushies = ({
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            {anyModalOpen && (
-                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
+            {afterMint && (
+                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-10"></div>
             )}
 
             {loading ? (
@@ -573,7 +587,7 @@ const venommushies = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {projectTwitter} on twitter
+                                                1] Follow {ProjectName} on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -588,7 +602,7 @@ const venommushies = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-2 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                2] Follow venomart on twitter
+                                                1] Follow venomart on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${venomartTwitter}`}
@@ -603,7 +617,7 @@ const venommushies = ({
                                         {/* join discord  */}
                                         <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
+                                                2] Join venomart discord server
                                             </p>
                                             <Link
                                                 href={venomartDiscord}
@@ -618,7 +632,7 @@ const venommushies = ({
                                         {/* join discord  */}
                                         <div className="flex items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                4] Join {projectTwitter} discord server
+                                                4] Join {ProjectName} discord server
                                             </p>
                                             <Link
                                                 href={projectDiscord}
@@ -916,7 +930,7 @@ const venommushies = ({
                         </section>
                     </section>
 
-                    {anyModalOpen && (
+                    {afterMint && (
                         // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
                         <div className="afterMintDiv">
                             <form className="modal-dialog max-w-2xl">
@@ -930,7 +944,7 @@ const venommushies = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => setAnyModalOpen(false)}
+                                            onClick={() => setAfterMint(false)}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -975,4 +989,4 @@ const venommushies = ({
     );
 };
 
-export default venommushies;
+export default venomLions;

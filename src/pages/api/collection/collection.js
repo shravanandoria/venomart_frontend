@@ -70,7 +70,7 @@ export default async function handler(req, res) {
             Category: ["Collectible"],
             TotalSupply: 0,
             TotalListed: 0,
-            FloorPrice: 1000,
+            FloorPrice: 100000,
             TotalVolume: 0,
           });
 
