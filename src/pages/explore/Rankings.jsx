@@ -101,13 +101,9 @@ const Rankings = ({
               {/* days filter  */}
               <div className="dropdown relative my-1 cursor-pointer">
                 <div
-                  className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                  role="button"
-                  id="sortOrdering"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700  text-jacarta-700 dark:text-jacarta-200"
                 >
-                  <span className="font-display">Last 7 Days</span>
+                  <span className="font-display">All Time</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -124,7 +120,7 @@ const Rankings = ({
                   className="dropdown-menu z-10 hidden w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
                   aria-labelledby="sortOrdering"
                 >
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50  text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                     Last 7 Days
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -137,22 +133,13 @@ const Rankings = ({
                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                     </svg>
                   </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                     Last 14 Days
                   </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                     Last 30 Days
                   </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                    Last 60 Days
-                  </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                    Last 90 Days
-                  </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                    Last Year
-                  </button>
-                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50  text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                     All Time
                   </button>
                 </div>
@@ -221,7 +208,7 @@ const Rankings = ({
                       Volume={e?.TotalVolume}
                       Floor={e?.FloorPrice}
                       Listings={e?.TotalListed}
-                      venomProvider={venomProvider}
+                      totalSupply={e?.TotalSupply}
                     />
                   )
               )}

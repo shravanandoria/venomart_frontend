@@ -1,11 +1,9 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venomBG.webp";
-import collectionAbi from "../../../abi/CollectionDrop.abi.json";
-import { MyEver } from "../../utils/user_nft";
 
 const CollectionCard = ({
   Cover,
@@ -18,32 +16,9 @@ const CollectionCard = ({
   Listing,
   Volume,
   FloorPrice,
-  venomProvider,
+  TotalSupply,
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
-  const [totalSupply, setTotalSupply] = useState(0);
-
-  // getting total supply
-  const gettingTotalSupply = async () => {
-    try {
-      let myEver = new MyEver();
-      const providerRpcClient = myEver.ever();
-      const contract = new providerRpcClient.Contract(
-        collectionAbi,
-        CollectionAddress
-      );
-      const totalSupply = await contract.methods
-        .totalSupply({ answerId: 0 })
-        .call();
-      setTotalSupply(totalSupply.count);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    gettingTotalSupply();
-  }, [venomProvider]);
 
   return (
     <Link href={`/collection/${CollectionAddress}`}>
@@ -117,7 +92,7 @@ const CollectionCard = ({
         </div>
         <div className="flex">
           <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
-            {totalSupply ? totalSupply : "0"} Items
+            {TotalSupply ? TotalSupply : "0"} Items
           </span>
         </div>
 

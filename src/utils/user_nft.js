@@ -85,7 +85,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   const addresses = await myEver.ever().getAccountsByCodeHash({
     codeHash,
     continuation: undefined || last_nft_addr,
-    limit: 40,
+    limit: 25,
   });
   return addresses;
 };

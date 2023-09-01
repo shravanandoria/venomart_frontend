@@ -1,14 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
-import collectionAbi from "../../../abi/CollectionDrop.abi.json";
-// import { ever } from "../../utils/user_nft";
-import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
-import { EverscaleStandaloneClient } from "everscale-standalone-client";
-import { MyEver } from "../../utils/user_nft";
 
 const CollectionRankingCard = ({
   id,
@@ -20,33 +15,8 @@ const CollectionRankingCard = ({
   Royalty,
   Floor,
   Listings,
-  venomProvider,
+  totalSupply,
 }) => {
-  const [totalSupply, setTotalSupply] = useState(0);
-
-  // getting total supply
-  const gettingTotalSupply = async () => {
-    if (venomProvider != undefined) {
-      try {
-        let myEver = new MyEver();
-        const providerRpcClient = myEver.ever();
-        const contract = new providerRpcClient.Contract(
-          collectionAbi,
-          contractAddress
-        );
-        const totalSupply = await contract.methods
-          .totalSupply({ answerId: 0 })
-          .call();
-        setTotalSupply(totalSupply.count);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-  };
-
-  useEffect(() => {
-    gettingTotalSupply();
-  }, [venomProvider]);
 
   return (
     <Link

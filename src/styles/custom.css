@@ -169,7 +169,7 @@
 
 @media only screen and (max-width: 575px) {
   .afterMintDiv {
-    width: 90%;
+    width: 100%;
   }
   .feesSectionTarget {
     display: none;

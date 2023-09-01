@@ -285,10 +285,10 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>NFT - Rarfinite Marketplace</title>
+        <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"} | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -459,19 +459,18 @@ const NFTPage = ({
                               ) : (
                                 <button
                                   onClick={() => refreshMetadata()}
-                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                >
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                                   Refresh Metadata
                                 </button>
                               ))}
                             <a
                               href={`https://twitter.com/intent/tweet?text=I%20found%20this%20nft%20on%20venomart.io%20check%20it%20here-%20${webURL}nft/${slug}%20`}
                               target="_blank"
-                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                            >
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               Share
                             </a>
-                            <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               Report
                             </button>
                           </div>

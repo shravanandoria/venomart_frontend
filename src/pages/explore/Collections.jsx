@@ -302,7 +302,7 @@ const Collections = ({ theme, venomProvider }) => {
                       Listing={e?.TotalListed}
                       Volume={e?.TotalVolume}
                       FloorPrice={e?.FloorPrice}
-                      venomProvider={venomProvider}
+                      TotalSupply={e?.TotalSupply}
                     />
                   ))}
 
