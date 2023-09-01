@@ -6,6 +6,7 @@ import { fetch_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { BsChevronDown } from "react-icons/bs";
 
 const NFTs = ({ theme, currency }) => {
+  // console.log(data);
   const [loading, setLoading] = useState(false);
   const [skip, setSkip] = useState(0);
 
@@ -19,6 +20,7 @@ const NFTs = ({ theme, currency }) => {
   const scroll_get_all_nfts = async () => {
     setMoreLoading(true);
     const res = await fetch_nfts(skip);
+    console.log(res);
     if (res) {
       set_nfts([...nfts, ...res]);
     }
@@ -55,8 +57,11 @@ const NFTs = ({ theme, currency }) => {
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className={`${theme}`} >
-          <section className="relative py-24 dark:bg-jacarta-800 scroll-list" onScroll={handleScroll}>
+        <div className={`${theme}`}>
+          <section
+            className="relative py-24 dark:bg-jacarta-800 scroll-list"
+            onScroll={handleScroll}
+          >
             <div>
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore NFTs
@@ -274,21 +279,23 @@ const NFTs = ({ theme, currency }) => {
                           tokenId={e?._id}
                           listedBool={e?.isListed}
                           listingPrice={e?.listingPrice}
-                          NFTCollectionAddress={e?.NFTCollection?.contractAddress}
+                          NFTCollectionAddress={
+                            e?.NFTCollection?.contractAddress
+                          }
                           NFTCollectionName={e?.NFTCollection?.name}
                           NFTCollectionStatus={e?.NFTCollection?.isVerified}
                           currency={currency}
                         />
                       );
                     })}
-                    {moreLoading &&
+                    {moreLoading && (
                       <div className="flex items-center justify-center space-x-2">
                         <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                         <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                         <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       </div>
-                    }
-                    {((nfts?.length <= 0) && !moreLoading) && (
+                    )}
+                    {nfts?.length <= 0 && !moreLoading && (
                       <h2 className="text-jacarta-700 dark:text-jacarta-200">
                         No NFTs Found
                       </h2>
@@ -305,3 +312,4 @@ const NFTs = ({ theme, currency }) => {
 };
 
 export default NFTs;
+
