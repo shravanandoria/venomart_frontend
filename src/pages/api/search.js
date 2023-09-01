@@ -30,6 +30,7 @@ export default async function handler(req, res) {
                 "TotalListed",
                 "FloorPrice",
                 "TotalVolume",
+                "TotalSupply"
               ])
               .limit(10)
               .sort({ isVerified: -1 });

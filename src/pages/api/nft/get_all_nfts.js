@@ -19,7 +19,7 @@ export default async function handler(req, res) {
                     }).populate({
                         path: "NFTCollection",
                         select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-                    }).sort({ isListed: -1 });
+                    }).sort({ isListed: -1, createdAt: -1 });
 
                     return res.status(200).json({ success: true, data: nfts });
 
