@@ -19,7 +19,7 @@ import { MARKETPLACE_ADDRESS, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { get_collection_by_contract } from "../../utils/mongo_api/collection/collection";
+import { get_collection_by_contract, update_collection_supply } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -68,9 +68,36 @@ const Collection = ({
   const [query_search, set_query_search] = useState("");
   const [isTyping, set_isTyping] = useState(true);
   const [def_query, set_def_query] = useState(undefined);
+  const [actionDrop, setActionDrop] = useState(false);
+  const [metaDataUpdated, setMetaDataUpdated] = useState(false);
+  const [metadataLoading, setMetadataLoading] = useState(false);
+
+  // refresh nft metadata 
+  const refreshMetadata = async () => {
+    if (metaDataUpdated == true) return;
+    setMetadataLoading(true);
+
+    let myEver = new MyEver();
+    const providerRpcClient = myEver.ever();
+    const contract = new providerRpcClient.Contract(collectionAbi, slug);
+    const totalSupply = await contract.methods
+      .totalSupply({ answerId: 0 })
+      .call();
+
+    if (collection?.TotalSupply < totalSupply.count) {
+      const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+      setMetadataLoading(false);
+      alert("Metadata has been updated to latest");
+      router.reload();
+      setMetaDataUpdated(true);
+      return;
+    }
+    setMetaDataUpdated(true);
+    setMetadataLoading(false);
+    alert("Metadata is already up to date!");
+  }
 
   // mediaQuery 
-
   const useMediaQuery = (width) => {
     const [targetReached, setTargetReached] = useState(false);
 
@@ -156,21 +183,6 @@ const Collection = ({
     setFetchedCollectionActivity(true);
     setSearchLoading(false);
   };
-
-  // getting total supply
-  // const gettingTotalSupply = async () => {
-  //   try {
-  //     let myEver = new MyEver();
-  //     const providerRpcClient = myEver.ever();
-  //     const contract = new providerRpcClient.Contract(collectionAbi, slug);
-  //     const totalSupply = await contract.methods
-  //       .totalSupply({ answerId: 0 })
-  //       .call();
-  //     setTotalSupply(totalSupply.count);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
 
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
@@ -565,18 +577,8 @@ const Collection = ({
 
                 <div className="mt-6 flex items-center justify-center space-x-2.5">
                   {/* Share  */}
-                  <div
-                    onClick={() => setShare(!share)}
-                    className="dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
-                  >
-                    <a
-                      className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
-                      role="button"
-                      id="collectionShare"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      data-tippy-content="Share"
-                    >
+                  <div className="relative dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
+                    <button onClick={() => (setActionDrop(false), setShare(!share))} className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -587,10 +589,10 @@ const Collection = ({
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
                       </svg>
-                    </a>
+                    </button>
 
                     {share && (
-                      <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                      <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
                           href={`https://twitter.com/intent/tweet?text=I%20found%20this%20collection%20on%20venomart.io%20check%20it%20here-%20${webURL}collection/${slug}%20`}
                           target="_blank"
@@ -634,604 +636,638 @@ const Collection = ({
                       </div>
                     )}
                   </div>
+
+                  <div className="relative dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
+                    <button onClick={() => (setShare(false), setActionDrop(!actionDrop))} className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm" id="collectionActions">
+                      <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        className="fill-jacarta-500 dark:fill-jacarta-200">
+                        <circle cx="2" cy="2" r="2"></circle>
+                        <circle cx="8" cy="2" r="2"></circle>
+                        <circle cx="14" cy="2" r="2"></circle>
+                      </svg>
+                    </button>
+
+                    {actionDrop &&
+                      <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+
+                        {metadataLoading ?
+                          <button
+                            className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </button>
+                          :
+                          <button
+                            onClick={() => refreshMetadata()}
+                            className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            Refresh Metadata
+                          </button>}
+                        <button
+                          className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                          Report
+                        </button>
+                      </div>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
           {/* main section  */}
-          <section className="relative pb-24 pt-12">
-            <div>
-              {/* select tabs  */}
-              <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
-                <li className="nav-item" role="presentation">
-                  <button
-                    onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
-                    className={`nav-link ${itemsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+          <section className="relative pb-24 pt-12" style={{ overflow: "hidden" }}>
+            {/* select tabs  */}
+            <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
+              <li className="nav-item" role="presentation">
+                <button
+                  onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
+                  className={`nav-link ${itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="mr-1 h-5 w-5 fill-current"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="mr-1 h-5 w-5 fill-current"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z" />
-                    </svg>
-                    <span className="font-display text-base font-medium">
-                      Items
-                    </span>
-                  </button>
-                </li>
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M13 21V11h8v10h-8zM3 13V3h8v10H3zm6-2V5H5v6h4zM3 21v-6h8v6H3zm2-2h4v-2H5v2zm10 0h4v-6h-4v6zM13 3h8v6h-8V3zm2 2v2h4V5h-4z" />
+                  </svg>
+                  <span className="font-display text-base font-medium">
+                    Items
+                  </span>
+                </button>
+              </li>
 
-                <li className="nav-item" role="presentation">
-                  <button
-                    onClick={() => (
-                      showItemsTab(false),
-                      showActivityTab(false),
-                      showAnalyticsTab(true)
-                    )}
-                    className={`nav-link ${analyticsTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              <li className="nav-item" role="presentation">
+                <button
+                  onClick={() => (
+                    showItemsTab(false),
+                    showActivityTab(false),
+                    showAnalyticsTab(true)
+                  )}
+                  className={`nav-link ${analyticsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="mr-1 h-5 w-5 fill-current"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="mr-1 h-5 w-5 fill-current"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z" />
-                    </svg>
-                    <span className="font-display text-base font-medium">
-                      Analytics
-                    </span>
-                  </button>
-                </li>
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M4 5v14h16V5H4zM3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm11.793 6.793L13 8h5v5l-1.793-1.793-3.864 3.864-2.121-2.121-2.829 2.828-1.414-1.414 4.243-4.243 2.121 2.122 2.45-2.45z" />
+                  </svg>
+                  <span className="font-display text-base font-medium">
+                    Analytics
+                  </span>
+                </button>
+              </li>
 
-                <li className="nav-item" role="presentation">
-                  <button
-                    onClick={() => (
-                      (!fetchedCollectionActivity && fetch_collection_activity()),
-                      showItemsTab(false),
-                      showAnalyticsTab(false),
-                      showActivityTab(true)
-                    )}
-                    className={`nav-link ${activityTab && "active relative"
-                      } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-                  >
-                    <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
-                    <span className="font-display text-base font-medium">
-                      Activity
-                    </span>
-                  </button>
-                </li>
-              </ul>
+              <li className="nav-item" role="presentation">
+                <button
+                  onClick={() => (
+                    (!fetchedCollectionActivity && fetch_collection_activity()),
+                    showItemsTab(false),
+                    showAnalyticsTab(false),
+                    showActivityTab(true)
+                  )}
+                  className={`nav-link ${activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                >
+                  <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
+                  <span className="font-display text-base font-medium">
+                    Activity
+                  </span>
+                </button>
+              </li>
+            </ul>
 
-              {/* items  */}
-              {itemsTab && (
-                <div className={`tab-content`}>
-                  <div className="tab-pane fade show active">
-                    {/* filters  */}
-                    {!onChainData && (
-                      <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                        {!mobileFilter && isBreakpoint &&
-                          <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
-                            <button
-                              onClick={() => openMobileFilter(true)}
-                              className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                            >
-                              <div className="flex justify-center align-middle">
-                                <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                                <span>Edit Filters</span>
-                              </div>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                              </svg>
-                            </button>
-                          </div>
-                        }
-                        {mobileFilter && isBreakpoint &&
-                          <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
-                            <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                          </button>
-                        }
-                        {mobileFilter &&
-                          <div
-                            className="collectionFilterDiv p-4">
-                            <div className="collectionFilters mx-6">
-                              {/* sale type  */}
-                              <div className="typeModelMainDiv relative my-1 mr-2.5">
-                                <button
-                                  onClick={() => (
-                                    showListedFilter(false),
-                                    showPriceRangeFilter(false),
-                                    showSaleTypeFilter(!saleTypeFilter)
-                                  )}
-                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                                >
-                                  <div className="flex justify-center align-middle">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      height="24"
-                                      className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                    >
-                                      <path fill="none" d="M0 0h24v24H0z" />
-                                      <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
-                                    </svg>
-                                    <span>Sale type</span>
-                                  </div>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                  </svg>
-                                </button>
-
-                                {saleTypeFilter && (
-                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                    <ul className="flex flex-col flex-wrap">
-                                      <li>
-                                        <button
-                                          className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                        >
-                                          <span className="text-jacarta-700 dark:text-white">
-                                            Fixed price
-                                          </span>
-                                          {!onChainData &&
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              viewBox="0 0 24 24"
-                                              width="24"
-                                              height="24"
-                                              className="mb-[3px] h-4 w-4 fill-accent"
-                                            >
-                                              <path
-                                                fill="none"
-                                                d="M0 0h24v24H0z"
-                                              ></path>
-                                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                            </svg>
-                                          }
-                                        </button>
-                                      </li>
-                                      <li>
-                                        <button
-                                          onClick={() => filterFetchOnchainData()}
-                                          className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                        >
-                                          <span className="text-jacarta-700 dark:text-white">
-                                            Not for sale
-                                          </span>
-                                          {onChainData &&
-                                            <svg
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              viewBox="0 0 24 24"
-                                              width="24"
-                                              height="24"
-                                              className="mb-[3px] h-4 w-4 fill-accent"
-                                            >
-                                              <path
-                                                fill="none"
-                                                d="M0 0h24v24H0z"
-                                              ></path>
-                                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                            </svg>
-                                          }
-                                        </button>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* price range  */}
-                              <div className="typeModelMainDiv relative my-1 mr-2.5">
-                                <button
-                                  onClick={() => (
-                                    showListedFilter(false),
-                                    showSaleTypeFilter(false),
-                                    showPriceRangeFilter(!priceRangeFilter)
-                                  )}
-                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                                >
-                                  <div className="flex justify-center align-middle">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      height="24"
-                                      className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                    >
-                                      <path fill="none" d="M0 0h24v24H0z" />
-                                      <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
-                                    </svg>
-                                    <span>Price Range</span>
-                                  </div>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                  </svg>
-                                </button>
-
-                                {priceRangeFilter && (
-                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                    <div className="flex items-center space-x-3 px-5 pb-2">
-                                      <input
-                                        type="number"
-                                        placeholder="From"
-                                        className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                      />
-                                      <input
-                                        type="number"
-                                        placeholder="To"
-                                        className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                      />
-                                    </div>
-
-                                    <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
-                                      <button
-                                        type="button"
-                                        className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                                      >
-                                        Clear
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                      >
-                                        Apply
-                                      </button>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* all nft and listed filter  */}
-                              <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
-                                <div
-                                  onClick={() => (
-                                    showPriceRangeFilter(false),
-                                    showSaleTypeFilter(false),
-                                    showListedFilter(!listedFilter)
-                                  )}
-                                  className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                                >
-                                  <span className="font-display">
-                                    Recently Listed
-                                  </span>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                                  </svg>
-                                </div>
-                                {listedFilter && (
-                                  <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                    <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
-                                      Sort By
-                                    </span>
-                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                      Recently Listed
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        height="24"
-                                        className="mb-[3px] h-4 w-4 fill-accent"
-                                      >
-                                        <path fill="none" d="M0 0h24v24H0z" />
-                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                      </svg>
-                                    </button>
-                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                      Price: Low to High
-                                    </button>
-
-                                    <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                      Price: High to Low
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* search  */}
-                            <div className="collectionSearch">
-                              <form action="search" className="relative w-[60%]" onSubmit={(e) => e.preventDefault()}>
-                                <input
-                                  type="search"
-                                  onChange={(e) => handle_search(e.target.value)}
-                                  className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                  placeholder="search"
-                                />
-                                <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
-                                  </svg>
-                                </span>
-                              </form>
-
-                              {/* add card size filter here later */}
-                            </div>
-                          </div>
-                        }
-                      </div>
-                    )}
-
-                    <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
-                      <div
-                        className={`flex justify-center align-middle flex-wrap`}
-                      >
-                        {onChainData ? (
-                          <InfiniteScroll
-                            dataLength={nfts ? nfts?.length : 0}
-                            next={fetch_more_nftsOnChain}
-                            hasMore={lastNFT}
-                            className="flex flex-wrap justify-center align-middle"
-                            loader={
-                              <div className="flex items-center justify-center space-x-2">
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                              </div>
-                            }
+            {/* items  */}
+            {itemsTab && (
+              <div className={`tab-content`}>
+                <div className="tab-pane fade show active">
+                  {/* filters  */}
+                  {!onChainData && (
+                    <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
+                      {!mobileFilter && isBreakpoint &&
+                        <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
+                          <button
+                            onClick={() => openMobileFilter(true)}
+                            className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                           >
-                            {nfts?.map((e, index) => {
-                              return (
-                                <NftCard
-                                  key={index}
-                                  ImageSrc={(onChainData
-                                    ? e?.preview?.source
-                                    : e?.nft_image
-                                  )?.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )}
-                                  Name={e?.name}
-                                  Description={e?.description}
-                                  Address={
-                                    onChainData
-                                      ? e?.nftAddress?._address
-                                      : e?.NFTAddress
-                                  }
-                                  listedBool={e?.isListed}
-                                  listingPrice={e?.listingPrice}
-                                  NFTCollectionAddress={
-                                    e?.NFTCollection?.contractAddress
-                                  }
-                                  NFTCollectionName={e?.NFTCollection?.name}
-                                  NFTCollectionStatus={
-                                    e?.NFTCollection?.isVerified
-                                  }
-                                  currency={currency}
-                                />
-                              );
-                            })}
-                          </InfiniteScroll>
-                        ) : (
-                          <>
-                            {searchLoading ? (
-                              <div className="flex items-center justify-center space-x-2">
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                              </div>
-                            ) : (
-                              <>
-                                {nfts?.map((e, index) => {
-                                  return (
-                                    <NftCard
-                                      key={index}
-                                      ImageSrc={(onChainData
-                                        ? e?.preview?.source
-                                        : e?.nft_image
-                                      )?.replace(
-                                        "ipfs://",
-                                        "https://ipfs.io/ipfs/"
-                                      )}
-                                      Name={e?.name}
-                                      Description={e?.description}
-                                      Address={
-                                        onChainData
-                                          ? e?.nftAddress?._address
-                                          : e?.NFTAddress
-                                      }
-                                      listedBool={e?.isListed}
-                                      listingPrice={e?.listingPrice}
-                                      NFTCollectionAddress={
-                                        e?.NFTCollection?.contractAddress
-                                      }
-                                      NFTCollectionName={e?.NFTCollection?.name}
-                                      NFTCollectionStatus={
-                                        e?.NFTCollection?.isVerified
-                                      }
-                                      currency={currency}
+                            <div className="flex justify-center align-middle">
+                              <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                              <span>Edit Filters</span>
+                            </div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                            </svg>
+                          </button>
+                        </div>
+                      }
+                      {mobileFilter && isBreakpoint &&
+                        <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                          <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                        </button>
+                      }
+                      {mobileFilter &&
+                        <div
+                          className="collectionFilterDiv p-4">
+                          <div className="collectionFilters mx-6">
+                            {/* sale type  */}
+                            <div className="typeModelMainDiv relative my-1 mr-2.5">
+                              <button
+                                onClick={() => (
+                                  showListedFilter(false),
+                                  showPriceRangeFilter(false),
+                                  showSaleTypeFilter(!saleTypeFilter)
+                                )}
+                                className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                              >
+                                <div className="flex justify-center align-middle">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
+                                  </svg>
+                                  <span className="text-jacarta-700 dark:text-white">Sale type</span>
+                                </div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                </svg>
+                              </button>
+
+                              {saleTypeFilter && (
+                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                  <ul className="flex flex-col flex-wrap">
+                                    <li>
+                                      <button
+                                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                      >
+                                        <span className="text-jacarta-700 dark:text-white">
+                                          Fixed price
+                                        </span>
+                                        {!onChainData &&
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                          >
+                                            <path
+                                              fill="none"
+                                              d="M0 0h24v24H0z"
+                                            ></path>
+                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                          </svg>
+                                        }
+                                      </button>
+                                    </li>
+                                    <li>
+                                      <button
+                                        onClick={() => filterFetchOnchainData()}
+                                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                      >
+                                        <span className="text-jacarta-700 dark:text-white">
+                                          Not for sale
+                                        </span>
+                                        {onChainData &&
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                          >
+                                            <path
+                                              fill="none"
+                                              d="M0 0h24v24H0z"
+                                            ></path>
+                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                          </svg>
+                                        }
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* price range  */}
+                            <div className="typeModelMainDiv relative my-1 mr-2.5">
+                              <button
+                                onClick={() => (
+                                  showListedFilter(false),
+                                  showSaleTypeFilter(false),
+                                  showPriceRangeFilter(!priceRangeFilter)
+                                )}
+                                className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                              >
+                                <div className="flex justify-center align-middle">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
+                                  </svg>
+                                  <span className="text-jacarta-700 dark:text-white">Price Range</span>
+                                </div>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                </svg>
+                              </button>
+
+                              {priceRangeFilter && (
+                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                  <div className="flex items-center space-x-3 px-5 pb-2">
+                                    <input
+                                      type="number"
+                                      placeholder="From"
+                                      className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
-                                  );
-                                })}
-                              </>
-                            )}
-                          </>
-                        )}
-                      </div>
-                      <div className="flex justify-center">
-                        {nfts?.length <= 0 && def_query == undefined && (
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                            This collection has no NFTs !!
-                          </h2>
-                        )}
-                        {nfts?.length <= 0 &&
-                          def_query == "" &&
-                          !searchLoading && (
-                            <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                              No search results found!!
-                            </h2>
-                          )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+                                    <input
+                                      type="number"
+                                      placeholder="To"
+                                      className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                    />
+                                  </div>
 
-              {/* analytics  */}
-              {analyticsTab && (
-                <div className={`tab-content`}>
-                  <div className="tab-pane fade show active">
-                    <div>
-                      <div className={`flex justify-center align-middle flex-wrap`}>
-                        {analytics?.length <= 0 &&
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                            Coming soon..
-                          </h2>
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+                                  <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
+                                    <button
+                                      type="button"
+                                      className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                    >
+                                      Clear
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                      Apply
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
 
-              {/* activity  */}
-              {activityTab && (
-                <div className="container">
-                  <div className="flexActivitySection">
-                    <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
-                      {activity?.length >= 1 && (
-                        <div className="flex justify-center align-middle flex-wrap">
-                          {activity?.map((e, index) => (
-                            <ActivityRecord
-                              key={index}
-                              NFTImage={e?.item?.nft_image}
-                              NFTName={e?.item?.name}
-                              NFTAddress={e?.item?.NFTAddress}
-                              Price={e?.price}
-                              ActivityTime={e?.createdAt}
-                              ActivityType={e?.type}
-                              blockURL={blockURL}
-                              ActivityHash={e?.hash}
-                              From={e?.from}
-                              To={e?.to}
-                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                            />
-                          ))}
-                          {searchLoading && (
+                            {/* all nft and listed filter  */}
+                            <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
+                              <div
+                                onClick={() => (
+                                  showPriceRangeFilter(false),
+                                  showSaleTypeFilter(false),
+                                  showListedFilter(!listedFilter)
+                                )}
+                                className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                              >
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Recently Listed
+                                </span>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                                </svg>
+                              </div>
+                              {listedFilter && (
+                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                  <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
+                                    Sort By
+                                  </span>
+                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                    Recently Listed
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  </button>
+                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                    Price: Low to High
+                                  </button>
+
+                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                    Price: High to Low
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* search  */}
+                          <div className="collectionSearch">
+                            <form action="search" className="relative w-[60%]" onSubmit={(e) => e.preventDefault()}>
+                              <input
+                                type="search"
+                                onChange={(e) => handle_search(e.target.value)}
+                                className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                placeholder="search"
+                              />
+                              <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
+                                </svg>
+                              </span>
+                            </form>
+
+                            {/* add card size filter here later */}
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  )}
+
+                  <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
+                    <div
+                      className={`flex justify-center align-middle flex-wrap`}
+                    >
+                      {onChainData ? (
+                        <InfiniteScroll
+                          dataLength={nfts ? nfts?.length : 0}
+                          next={fetch_more_nftsOnChain}
+                          hasMore={lastNFT}
+                          className="flex flex-wrap justify-center align-middle"
+                          loader={
                             <div className="flex items-center justify-center space-x-2">
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
+                          }
+                        >
+                          {nfts?.map((e, index) => {
+                            return (
+                              <NftCard
+                                key={index}
+                                ImageSrc={(onChainData
+                                  ? e?.preview?.source
+                                  : e?.nft_image
+                                )?.replace(
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/"
+                                )}
+                                Name={e?.name}
+                                Description={e?.description}
+                                Address={
+                                  onChainData
+                                    ? e?.nftAddress?._address
+                                    : e?.NFTAddress
+                                }
+                                listedBool={e?.isListed}
+                                listingPrice={e?.listingPrice}
+                                NFTCollectionAddress={
+                                  e?.NFTCollection?.contractAddress
+                                }
+                                NFTCollectionName={e?.NFTCollection?.name}
+                                NFTCollectionStatus={
+                                  e?.NFTCollection?.isVerified
+                                }
+                                currency={currency}
+                              />
+                            );
+                          })}
+                        </InfiniteScroll>
+                      ) : (
+                        <>
+                          {searchLoading ? (
+                            <div className="flex items-center justify-center space-x-2">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          ) : (
+                            <>
+                              {nfts?.map((e, index) => {
+                                return (
+                                  <NftCard
+                                    key={index}
+                                    ImageSrc={(onChainData
+                                      ? e?.preview?.source
+                                      : e?.nft_image
+                                    )?.replace(
+                                      "ipfs://",
+                                      "https://ipfs.io/ipfs/"
+                                    )}
+                                    Name={e?.name}
+                                    Description={e?.description}
+                                    Address={
+                                      onChainData
+                                        ? e?.nftAddress?._address
+                                        : e?.NFTAddress
+                                    }
+                                    listedBool={e?.isListed}
+                                    listingPrice={e?.listingPrice}
+                                    NFTCollectionAddress={
+                                      e?.NFTCollection?.contractAddress
+                                    }
+                                    NFTCollectionName={e?.NFTCollection?.name}
+                                    NFTCollectionStatus={
+                                      e?.NFTCollection?.isVerified
+                                    }
+                                    currency={currency}
+                                  />
+                                );
+                              })}
+                            </>
                           )}
-                        </div>
-                      )};
-                      <div className="flex items-center justify-center space-x-2">
-                        {(activity?.length <= 0) && (
+                        </>
+                      )}
+                    </div>
+                    <div className="flex justify-center">
+                      {nfts?.length <= 0 && def_query == undefined && (
+                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                          This collection has no NFTs !!
+                        </h2>
+                      )}
+                      {nfts?.length <= 0 &&
+                        def_query == "" &&
+                        !searchLoading && (
                           <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                            No activity found!
+                            No search results found!!
                           </h2>
                         )}
-                      </div>
                     </div>
-                    {/* activity filters  */}
-                    <div className="basis-4/12 lg:pl-5 bg-white dark:bg-jacarta-900 py-8" style={{ position: "sticky", top: "60px" }}>
-                      <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
-                        Filters
-                      </h3>
-                      <div className="flex flex-wrap">
-                        <button onClick={() => (setSkipActivity(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                          </svg>
-                          <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
-                            Listing
-                          </span>
-                        </button>
-
-                        <button onClick={() => (setSkipActivity(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                          </svg>
-                          <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
-                            Remove Listing
-                          </span>
-                        </button>
-
-                        <button onClick={() => (setSkipActivity(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
-                          </svg>
-                          <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
-                            Sale
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    {(activity === undefined) && (
-                      <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                        No activities yet!
-                      </h2>
-                    )}
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {/* analytics  */}
+            {analyticsTab && (
+              <div className={`tab-content`}>
+                <div className="tab-pane fade show active">
+                  <div>
+                    <div className={`flex justify-center align-middle flex-wrap`}>
+                      {analytics?.length <= 0 &&
+                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                          Coming soon..
+                        </h2>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* activity  */}
+            {activityTab && (
+              <div className="container">
+                <div className="flexActivitySection">
+                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
+                    {activity?.length >= 1 && (
+                      <div className="flex justify-center align-middle flex-wrap">
+                        {activity?.map((e, index) => (
+                          <ActivityRecord
+                            key={index}
+                            NFTImage={e?.item?.nft_image}
+                            NFTName={e?.item?.name}
+                            NFTAddress={e?.item?.NFTAddress}
+                            Price={e?.price}
+                            ActivityTime={e?.createdAt}
+                            ActivityType={e?.type}
+                            blockURL={blockURL}
+                            ActivityHash={e?.hash}
+                            From={e?.from}
+                            To={e?.to}
+                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                          />
+                        ))}
+                        {searchLoading && (
+                          <div className="flex items-center justify-center space-x-2">
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>
+                        )}
+                      </div>
+                    )};
+                    <div className="flex items-center justify-center space-x-2">
+                      {(activity?.length <= 0) && (
+                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                          No activity found!
+                        </h2>
+                      )}
+                    </div>
+                  </div>
+                  {/* activity filters  */}
+                  <div className="basis-4/12 lg:pl-5 bg-white dark:bg-jacarta-900 py-8" style={{ position: "sticky", top: "60px" }}>
+                    <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
+                      Filters
+                    </h3>
+                    <div className="flex flex-wrap">
+                      <button onClick={() => (setSkipActivity(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
+                          Listing
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setSkipActivity(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
+                          Remove Listing
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setSkipActivity(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          Sale
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  {(activity === undefined) && (
+                    <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                      No activities yet!
+                    </h2>
+                  )}
+                </div>
+              </div>
+            )}
           </section>
         </div>
       )}

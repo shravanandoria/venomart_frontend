@@ -1,5 +1,8 @@
 import dbConnect from "../../../lib/dbConnect";
+import User from "../../../Models/User";
 import Collection from "../../../Models/Collection";
+import Activity from "../../../Models/Activity";
+import NFT from "../../../Models/NFT";
 
 export default async function handler(req, res) {
     const { method } = req;
@@ -8,12 +11,10 @@ export default async function handler(req, res) {
     switch (method) {
         case "POST":
             try {
-                const { contractAddress, TotalSupply } = req.body;
+                const filter = {};
+                const update = { $set: { keywords: ["venomart collection"] } };
 
-                const filter = { contractAddress: contractAddress };
-                const update = { $set: { TotalSupply: parseInt(TotalSupply) } };
-
-                const result = await Collection.updateOne(filter, update);
+                const result = await Collection.updateMany(filter, update);
 
                 return res.status(200).json({ success: true, data: result });
             } catch (error) {

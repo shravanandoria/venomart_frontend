@@ -55,6 +55,22 @@ export const get_collection_if_nft_onchain = async (contractAddress) => {
   }
 };
 
+export const update_collection_supply = async (contractAddress, TotalSupply) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/update_supply",
+      method: "POST",
+      data: {
+        contractAddress,
+        TotalSupply
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const get_collections = async (skip) => {
   try {
     const res = await axios({
