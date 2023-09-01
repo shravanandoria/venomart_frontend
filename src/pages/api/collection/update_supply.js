@@ -8,10 +8,11 @@ export default async function handler(req, res) {
     switch (method) {
         case "POST":
             try {
-                const filter = { isVerified: true };
-                const update = { $set: { TotalSupply: 100 } };
+                const { contractAddress, TotalSupply } = req.body;
+                const filter = { contractAddress: contractAddress };
+                const update = { $set: { TotalSupply: parseInt(TotalSupply) } };
 
-                const result = await Collection.updateMany(filter, update);
+                const result = await Collection.updateOne(filter, update);
 
                 return res.status(200).json({ success: true, data: result });
             } catch (error) {

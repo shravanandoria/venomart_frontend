@@ -57,7 +57,6 @@ const Collection = ({
   const [nfts, set_nfts] = useState([]);
   const [activity, set_activity] = useState([]);
   const [analytics, set_analytics] = useState([]);
-  const [totalSupply, setTotalSupply] = useState(0);
   const [lastNFT, setLastNFT] = useState(true);
   const [onChainData, setOnChainData] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -159,19 +158,19 @@ const Collection = ({
   };
 
   // getting total supply
-  const gettingTotalSupply = async () => {
-    try {
-      let myEver = new MyEver();
-      const providerRpcClient = myEver.ever();
-      const contract = new providerRpcClient.Contract(collectionAbi, slug);
-      const totalSupply = await contract.methods
-        .totalSupply({ answerId: 0 })
-        .call();
-      setTotalSupply(totalSupply.count);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const gettingTotalSupply = async () => {
+  //   try {
+  //     let myEver = new MyEver();
+  //     const providerRpcClient = myEver.ever();
+  //     const contract = new providerRpcClient.Contract(collectionAbi, slug);
+  //     const totalSupply = await contract.methods
+  //       .totalSupply({ answerId: 0 })
+  //       .call();
+  //     setTotalSupply(totalSupply.count);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
@@ -188,7 +187,6 @@ const Collection = ({
 
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
-    console.log("fetc")
     if (onChainData == true || skip == 0) return;
     const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
     if (nfts_offchain) {
@@ -197,7 +195,6 @@ const Collection = ({
   };
 
   const handleScroll = (e) => {
-    console.log("scroll")
     if (onChainData == true) return;
     const { offsetHeight, scrollTop, scrollHeight } = e.target;
     if (offsetHeight + scrollTop + 10 >= scrollHeight) {
@@ -257,10 +254,6 @@ const Collection = ({
     if (!slug) return;
     fetch_more_nftsOffChain();
   }, [skip]);
-
-  useEffect(() => {
-    gettingTotalSupply();
-  }, [venomProvider]);
 
   useEffect(() => {
     scrollFetchActivity();
@@ -489,7 +482,7 @@ const Collection = ({
                     className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {totalSupply ? totalSupply : 100 + "+"}
+                      {collection?.TotalSupply ? collection?.TotalSupply : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
