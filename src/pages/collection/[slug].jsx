@@ -594,7 +594,7 @@ const Collection = ({
                     {share && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20collection%20on%20venomart.io%20check%20it%20here-%20${webURL}collection/${slug}%20`}
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${collection?.name ? collection?.name : "It"}%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >

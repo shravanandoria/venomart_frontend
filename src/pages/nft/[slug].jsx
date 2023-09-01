@@ -338,8 +338,8 @@ const NFTPage = ({
                     <div className="flex items-center">
                       <Link
                         href={`/collection/${onchainNFTData
-                            ? nft?.collection?._address
-                            : nft?.NFTCollection?.contractAddress
+                          ? nft?.collection?._address
+                          : nft?.NFTCollection?.contractAddress
                           }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
@@ -463,7 +463,7 @@ const NFTPage = ({
                                 </button>
                               ))}
                             <a
-                              href={`https://twitter.com/intent/tweet?text=I%20found%20this%20nft%20on%20venomart.io%20check%20it%20here-%20${webURL}nft/${slug}%20`}
+                              href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${nft?.NFTCollection?.name ? nft?.NFTCollection?.name : "NFT"}%20collection%20minted%20on%20venom%20blockchain%0ACheck%20it%20out%20here%20-%20${webURL}nft/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
                               target="_blank"
                               className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               Share
@@ -523,8 +523,8 @@ const NFTPage = ({
                         ) : (
                           <Link
                             href={`/profile/${onchainNFTData
-                                ? nft?.owner?._address
-                                : nft?.ownerAddress
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
                               }`}
                             className="block text-accent"
                           >
@@ -576,8 +576,8 @@ const NFTPage = ({
                         ) : (
                           <Link
                             href={`/profile/${onchainNFTData
-                                ? nft?.manager?._address
-                                : nft?.managerAddress
+                              ? nft?.manager?._address
+                              : nft?.managerAddress
                               }`}
                             className="block text-accent"
                           >
@@ -1098,8 +1098,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("list")
                               )}
                               className={`${activityType == "list"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1108,8 +1108,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "list"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1128,8 +1128,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("cancel")
                               )}
                               className={`${activityType == "cancel"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1138,8 +1138,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1158,8 +1158,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("sale")
                               )}
                               className={`${activityType == "sale"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1168,8 +1168,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "sale"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1405,8 +1405,8 @@ const NFTPage = ({
                       <div>
                         <Link
                           href={`/collection/${onchainNFTData
-                              ? nft?.collection?._address
-                              : nft?.NFTCollection?.contractAddress
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
                             }`}
                           className="text-accent text-sm"
                         >

@@ -321,7 +321,7 @@ const Profile = ({
                 {share && (
                   <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                     <a
-                      href={`https://twitter.com/intent/tweet?text=This%20is%20my%20profile%20on%20venomart.io%20,%20check%20it%20out%20here-%20${webURL}profile/${slug}`}
+                      href={`https://twitter.com/intent/tweet?text=Check%20out%20my%20profile%20on%20venomart.io%0AVenomart%20is%20the%20first%20fully-fledged%20NFT%20marketplace%20on%20Venom%20blockchain%20%F0%9F%94%A5%0AHere%20you%20go%20-%20${webURL}profile/${slug}%0A%23Venom%20%23venomart%20%23VenomBlockchain%20%23VenomFoundation%20%23NFT`}
                       target="_blank"
                       className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                     >
