@@ -64,7 +64,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
                   <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="block font-display text-3xl text-[#8DD059]">
-                      15
+                      19
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       NFT Collections
@@ -72,7 +72,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                   </div>
                   <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="block font-display text-3xl text-[#737EF2]">
-                      14000+
+                      18000+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       NFTs Minted
@@ -92,7 +92,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                         }}
                         alt="VenomLogo"
                       />
-                      21230
+                      27570
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       Mint Volume
