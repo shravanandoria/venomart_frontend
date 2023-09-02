@@ -137,10 +137,12 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmVhZToKviQLqScMjrvs5Lnuv8n3aX452b6DrbLzi125gk/back.jpg",
       Logo: "https://ipfs.io/ipfs/QmeKs3c2MJ4jrKxYgHSTZjmeBApbPV3ecSqfoTvC2bNVuB/moky.gif",
       Name: "Venomart x Monkeys",
-      Description: "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
+      Description:
+        "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress: "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
+      CollectionAddress:
+        "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
       customLink: "custom/venommonkeys",
       pageName: "venommonkeys",
       supply: "3000",
@@ -218,7 +220,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "0:4940cd22412c15eb2a7f7452c2842832e44876c807869c1485546f6998e0c306",
+        "0:d94d30da2da24afc2dde6ae2444299fb3174e86171b81058fd9dbe83ec411e0b",
       customLink: "custom/venomapac",
       pageName: "venomapac",
       supply: "3000",
@@ -431,7 +433,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     setAnyModalOpen(false);
-  }, [router.pathname])
+  }, [router.pathname]);
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
