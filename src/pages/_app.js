@@ -232,7 +232,7 @@ export default function App({ Component, pageProps }) {
       telegram: "",
       website: "",
       startDate: "09/2/2023 15:00:00 GMT+0530",
-      endDate: "09/5/2023 14:00:00 GMT+0530",
+      endDate: "09/6/2023 14:00:00 GMT+0530",
       verified: true,
     },
   ];
