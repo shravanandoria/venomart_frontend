@@ -218,7 +218,7 @@ export default function App({ Component, pageProps }) {
       mintPrice: "2",
       status: "Upcoming",
       CollectionAddress:
-        "",
+        "0:4940cd22412c15eb2a7f7452c2842832e44876c807869c1485546f6998e0c306",
       customLink: "custom/venomapac",
       pageName: "venomapac",
       supply: "3000",
