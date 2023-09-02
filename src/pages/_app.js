@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
-  
+
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
@@ -207,6 +207,32 @@ export default function App({ Component, pageProps }) {
       endDate: "09/2/2023 14:00:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 6,
+      Cover:
+        "https://ipfs.io/ipfs/QmQQ6WoDoUC8Z3kawG5PDpTYKERAoRp4RxWEWg6MyiFWcD/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmY7DXigXjj5asALu1Eim3HbBnqd1gSKgXPqP5ZnpwXnkU/apacXvenomart.png",
+      Name: "Venomart x VenomAPAC",
+      Description:
+        "Your Gateway to the thrilling World of venom blockchain in Asia-Pacific 🌏 🚀",
+      mintPrice: "2",
+      status: "Upcoming",
+      CollectionAddress:
+        "",
+      customLink: "custom/venomapac",
+      pageName: "venomapac",
+      supply: "3000",
+      twitterUserName: "VenomAPAC",
+      twitter: "https://twitter.com/VenomAPAC",
+      tweetID: "1696832463086219716",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "09/2/2023 15:00:00 GMT+0530",
+      endDate: "09/5/2023 14:00:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // custom array of all launches
@@ -272,8 +298,8 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "09/02/2023 12:00:00 GMT+0530",
-      endDate: "09/5/2023 12:00:00 GMT+0530",
+      startDate: "09/10/2023 12:00:00 GMT+0530",
+      endDate: "09/15/2023 12:00:00 GMT+0530",
       verified: true,
     },
     {
