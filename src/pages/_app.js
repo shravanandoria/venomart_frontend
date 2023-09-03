@@ -223,7 +223,7 @@ export default function App({ Component, pageProps }) {
         "0:d94d30da2da24afc2dde6ae2444299fb3174e86171b81058fd9dbe83ec411e0b",
       customLink: "custom/venomapac",
       pageName: "venomapac",
-      supply: "3000",
+      supply: "4000",
       twitterUserName: "VenomAPAC",
       twitter: "https://twitter.com/VenomAPAC",
       tweetID: "1697905254204080270",

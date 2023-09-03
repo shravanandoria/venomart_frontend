@@ -603,7 +603,7 @@ const venommushies = ({
                     </div>
 
                     {/* join discord  */}
-                    {/* <div className="flex mt-2 items-center pb-5 mb-5">
+                    <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                                                 3] Join venomart discord server
                                             </p>
@@ -615,7 +615,7 @@ const venommushies = ({
                                                 Join{" "}
                                                 <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
-                                        </div> */}
+                                        </div>
 
                     {/* join discord  */}
                     {/* <div className="flex items-center pb-5 mb-5">
@@ -635,7 +635,7 @@ const venommushies = ({
                     {/* retweet tweet  */}
                     <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5 mt-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        3] Retweet and like this tweet
+                        4] Retweet and like this tweet
                       </p>
                       <Link
                         href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
