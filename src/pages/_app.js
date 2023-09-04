@@ -218,12 +218,12 @@ export default function App({ Component, pageProps }) {
       Description:
         "Your Gateway to the thrilling World of venom blockchain in Asia-Pacific 🌏 🚀",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:d94d30da2da24afc2dde6ae2444299fb3174e86171b81058fd9dbe83ec411e0b",
       customLink: "custom/venomapac",
       pageName: "venomapac",
-      supply: "4000",
+      supply: "4200",
       twitterUserName: "VenomAPAC",
       twitter: "https://twitter.com/VenomAPAC",
       tweetID: "1697905254204080270",
