@@ -15,6 +15,10 @@
   background: #6c3ef2;
 }
 
+.collectionFilterDivWebkit::-webkit-scrollbar {
+  width: 4px;
+}
+
 #heroBackDark {
   /* height: 100%;
   width: 100%; */
@@ -392,6 +396,12 @@
     width: 90%;
   }
   .collectionFiltersExplore .typeModelBtn {
+    width: 100%;
+  }
+  .recentlyListedFilterExplore {
+    width: 90%;
+  }
+  .recentlyListedFilterExplore .typeModelBtn {
     width: 100%;
   }
   .collectionFilters .typeModelMainDiv {

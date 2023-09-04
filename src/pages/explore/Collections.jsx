@@ -13,8 +13,9 @@ const Collections = ({ theme }) => {
 
   const [category, setCategory] = useState("All");
   const [sortby, setSortBy] = useState("topVolume");
-  const [option, setOption] = useState("verified");
-  const [verifiedCheck, setVerifiedCheck] = useState(true);
+  // for verified fetch 
+  const [option, setOption] = useState("unverified");
+  const [verifiedCheck, setVerifiedCheck] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [filterCategories, openFilterCategories] = useState(false);
@@ -137,10 +138,10 @@ const Collections = ({ theme }) => {
         <div className={`${theme} dark:bg-jacarta-900 bg-white`} >
           <section className="relative py-24 dark:bg-jacarta-900 scroll-list" onScroll={handleScroll}>
             <div>
-              <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+              <h1 className="pt-16 px-2 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore Collections
               </h1>
-              <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
+              <p className=" pt-2 px-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                 Explore and trade the amazing collections on venomart
                 marketplace
               </p>
@@ -207,7 +208,7 @@ const Collections = ({ theme }) => {
                           </button>
 
                           {filterCategories && (
-                            <div className="modelTypePosition absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                            <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                               <ul className="flex flex-col flex-wrap">
                                 <li>
                                   <button
@@ -347,7 +348,7 @@ const Collections = ({ theme }) => {
                         </div>
 
                         {/* top volume filter  */}
-                        <div className="typeModelMainDiv relative my-1  mx-2 cursor-pointer">
+                        <div className="typeModelMainDiv relative my-1 mx-2 cursor-pointer">
                           <button
                             className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                             onClick={() => (openFilterCategories(false), openFilterSort(!filterSort))}
@@ -371,7 +372,7 @@ const Collections = ({ theme }) => {
                           </button>
 
                           {filterSort && (
-                            <div className="modelTypePosition absolute dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                            <div className="modelTypePosition dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                               <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                 Sort By
                               </span>
@@ -429,7 +430,7 @@ const Collections = ({ theme }) => {
                                   <input
                                     type="checkbox"
                                     value="checkbox"
-                                    checked={verifiedCheck ? true : false}
+                                    defaultChecked={verifiedCheck ? true : false}
                                     onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
                                     className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
                                   />

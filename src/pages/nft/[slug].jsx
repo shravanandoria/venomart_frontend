@@ -75,6 +75,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
+    console.log({ nft_database })
     if (nft_database) {
       let obj = {
         ...nft_database,
