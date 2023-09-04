@@ -314,7 +314,17 @@
 
 /* collection filter styling  */
 
+.stickyFilterDivExplore {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -18px;
+  z-index: 15;
+  padding-top: 25px;
+  padding-bottom: 1px;
+}
+
 .collectionFilterDiv {
+  position: -webkit-sticky;
   position: sticky;
   top: 80px;
   z-index: 15;

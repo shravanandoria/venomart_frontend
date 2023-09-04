@@ -10,6 +10,11 @@ const Collections = ({ theme, venomProvider }) => {
   const [collections, set_collections] = useState([]);
   const [skip, setSkip] = useState(0);
 
+  const [category, setCategory] = useState("All");
+  const [sortby, setSortBy] = useState("topVolume");
+  const [option, setOption] = useState("verified");
+  const [verifiedCheck, setVerifiedCheck] = useState(true);
+
   const [loading, setLoading] = useState(false);
   const [filterCategories, openFilterCategories] = useState(false);
   const [filterSort, openFilterSort] = useState(false);
@@ -20,11 +25,21 @@ const Collections = ({ theme, venomProvider }) => {
   const [searchLoading, setSearchLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
 
+
   const scrollFetchCollections = async () => {
     setMoreLoading(true);
-    const collectionsJSON = await get_collections(skip);
+    const collectionsJSON = await get_collections(category, sortby, option, skip);
     if (collectionsJSON) {
       set_collections([...collections, ...collectionsJSON]);
+    }
+    setMoreLoading(false);
+  };
+
+  const filterFetchCollections = async () => {
+    setMoreLoading(true);
+    const collectionsJSON = await get_collections(category, sortby, option, skip);
+    if (collectionsJSON) {
+      set_collections(collectionsJSON);
     }
     setMoreLoading(false);
   };
@@ -63,6 +78,10 @@ const Collections = ({ theme, venomProvider }) => {
     scrollFetchCollections();
   }, [skip]);
 
+  useEffect(() => {
+    filterFetchCollections();
+  }, [sortby, option]);
+
   return (
     <>
       <Head>
@@ -94,7 +113,7 @@ const Collections = ({ theme, venomProvider }) => {
               </p>
 
               {/* fliter div  */}
-              <div className="hideAllFilterPhone">
+              <div className="stickyFilterDivExplore bg-white dark:bg-jacarta-800">
                 <div className="mb-8 mx-12 flex flex-wrap items-center justify-between">
                   <div className="relative flex flex-wrap items-center">
                     {/* cats filter  */}
@@ -103,7 +122,24 @@ const Collections = ({ theme, venomProvider }) => {
                         className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 font-display text-sm font-semibold text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
                         onClick={() => openFilterCategories(!filterCategories)}
                       >
-                        <span>All Categories</span>
+                        {category == "All" &&
+                          <span>All Categories</span>
+                        }
+                        {category == "Art" &&
+                          <span>Art</span>
+                        }
+                        {category == "Collectibles" &&
+                          <span>Collectibles</span>
+                        }
+                        {category == "Games" &&
+                          <span>Games</span>
+                        }
+                        {category == "Memes" &&
+                          <span>Memes</span>
+                        }
+                        {category == "Utility" &&
+                          <span>Utility</span>
+                        }
                         <BsChevronDown className="h-[15px] w-[15px] ml-4" />
                       </button>
 
@@ -111,74 +147,136 @@ const Collections = ({ theme, venomProvider }) => {
                         <div className="absolute dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                           <ul className="flex flex-col flex-wrap">
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("All"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   All Categories
                                 </span>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="mb-[3px] h-4 w-4 fill-accent"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z"></path>
-                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                </svg>
-                              </a>
+                                {category == "All" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("Art"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   Art
                                 </span>
-                              </a>
+                                {category == "Art" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("Collectibles"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   Collectibles
                                 </span>
-                              </a>
+                                {category == "Collectibles" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("Games"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   Games
                                 </span>
-                              </a>
+                                {category == "Games" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("Memes"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   Memes
                                 </span>
-                              </a>
+                                {category == "Memes" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                             <li>
-                              <a
-                                href="#"
+                              <button
+                                onClick={() => (setSkip(0), setCategory("Utility"))}
                                 className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                               >
                                 <span className="text-jacarta-700 dark:text-white">
                                   Utility
                                 </span>
-                              </a>
+                                {category == "Utility" &&
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mb-[3px] h-4 w-4 fill-accent"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                  </svg>
+                                }
+                              </button>
                             </li>
                           </ul>
                         </div>
@@ -220,9 +318,21 @@ const Collections = ({ theme, venomProvider }) => {
                       className="dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                       onClick={() => openFilterSort(!filterSort)}
                     >
-                      <span className="font-display text-jacarta-700 dark:text-white">
-                        Top Volume
-                      </span>
+                      {sortby == "topVolume" &&
+                        <span className="font-display text-jacarta-700 dark:text-white">
+                          Top Volume
+                        </span>
+                      }
+                      {sortby == "trending" &&
+                        <span className="font-display text-jacarta-700 dark:text-white">
+                          Trending
+                        </span>
+                      }
+                      {sortby == "recentlyCreated" &&
+                        <span className="font-display text-jacarta-700 dark:text-white">
+                          Recently Created
+                        </span>
+                      }
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -240,24 +350,50 @@ const Collections = ({ theme, venomProvider }) => {
                         <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                           Sort By
                         </span>
-                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                        <button onClick={() => (setSkip(0), setSortBy("topVolume"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                           Top Volume
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mb-[3px] h-4 w-4 fill-accent"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                          </svg>
+                          {sortby == "topVolume" &&
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mb-[3px] h-4 w-4 fill-accent"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                            </svg>
+                          }
                         </button>
-                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                        <button onClick={() => (setSkip(0), setSortBy("trending"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                           Trending
+                          {sortby == "trending" &&
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mb-[3px] h-4 w-4 fill-accent"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                            </svg>
+                          }
                         </button>
-                        <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                        <button onClick={() => (setSkip(0), setSortBy("recentlyCreated"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                           Recently Created
+                          {sortby == "recentlyCreated" &&
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mb-[3px] h-4 w-4 fill-accent"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                            </svg>
+                          }
                         </button>
                         <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                           Options
@@ -268,8 +404,8 @@ const Collections = ({ theme, venomProvider }) => {
                             <input
                               type="checkbox"
                               value="checkbox"
-                              name="check"
-                              checked
+                              checked={verifiedCheck ? true : false}
+                              onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
                               className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
                             />
                           </span>

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { contractAddress, skipActivity } = req.query;
+          const { contractAddress } = req.query;
 
           const collection = await Collection.findOne({
             contractAddress,

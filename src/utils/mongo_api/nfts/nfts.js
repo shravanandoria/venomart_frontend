@@ -25,6 +25,7 @@ export const fetch_user_listed_nfts = async (owner_address, skip) => {
 };
 
 export const fetch_collection_nfts = async (collection_address, sortby, minprice, maxprice, skip) => {
+  console.log({ collection_address, sortby, minprice, maxprice, skip })
   try {
     const res = await axios({
       url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,

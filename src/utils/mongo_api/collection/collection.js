@@ -71,10 +71,10 @@ export const update_collection_supply = async (contractAddress, TotalSupply) => 
   }
 };
 
-export const get_collections = async (skip) => {
+export const get_collections = async (category, sortby, option, skip) => {
   try {
     const res = await axios({
-      url: `/api/collection/collection?skip=${skip}`,
+      url: `/api/collection/collection?category=${category}&sortby=${sortby}&option=${option}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;

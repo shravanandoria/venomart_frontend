@@ -12,17 +12,48 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { skip } = req.query;
+          const { category, sortby, option, skip } = req.query;
+
+          let findArray = {};
+          let sortArray = {};
+
+          if (category != "") {
+            // findArray.Category = { $eq: category }
+          }
+          if (sortby != "") {
+            if (sortby == "topVolume") {
+              sortArray.TotalVolume = -1
+            }
+            if (sortby == "trending") {
+              sortArray.TotalListed = -1
+            }
+            if (sortby == "recentlyCreated") {
+              sortArray.createdAt = -1
+            }
+
+          }
+          if (option != "") {
+            if (option == "verified") {
+              findArray.name = { $ne: "" }
+              findArray.isVerified = true
+            }
+            if (option == "unverified") {
+              findArray.name = { $ne: "" }
+            }
+          }
 
           const collections = await Collection.find(
-            { name: { $ne: "" } },
+            findArray,
             { activity: 0, socials: 0 },
             {
               skip,
               limit: 20,
             }
-          ).sort({ TotalVolume: -1, TotalListed: -1, isVerified: -1, });
-          res.status(200).json({ success: true, data: collections });
+          ).sort(sortArray);
+
+          return res.status(200).json({ success: true, data: collections });
+
+
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }

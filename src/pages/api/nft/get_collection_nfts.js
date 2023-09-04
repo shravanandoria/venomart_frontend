@@ -23,9 +23,22 @@ export default async function handler(req, res) {
                             .json({ success: false, data: "Cannot find this collection" });
                     }
 
+                    if (minprice != 0 && maxprice != 0) {
+                        const nfts = await NFT.find({ NFTCollection: collection, demandPrice: { $gte: minprice, $lte: maxprice } })
+                            .select([
+                                "-activity",
+                                "-NFTCollection",
+                                "-managerAddress",
+                                "-isLike",
+                                "-attributes",
+                            ]).skip(skip)
+                            .limit(20).sort({ demandPrice: 1 });
+                        return res.status(200).json({ success: true, data: nfts });
+                    }
+
                     if (sortby != "") {
                         if (sortby == "recentlyListed") {
-                            const nfts = await NFT.find({ NFTCollection: collection })
+                            const nfts = await NFT.find({ NFTCollection: collection, isListed: true })
                                 .select([
                                     "-activity",
                                     "-NFTCollection",
@@ -33,7 +46,7 @@ export default async function handler(req, res) {
                                     "-isLike",
                                     "-attributes",
                                 ]).skip(skip)
-                                .limit(20).sort({ createdAt: -1, isListed: -1 });
+                                .limit(20).sort({ updatedAt: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                         if (sortby == "lowToHigh") {
@@ -45,7 +58,7 @@ export default async function handler(req, res) {
                                     "-isLike",
                                     "-attributes",
                                 ]).skip(skip)
-                                .limit(20).sort({ isListed: -1, listingPrice: 1 });
+                                .limit(20).sort({ isListed: -1, demandPrice: 1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                         if (sortby == "highToLow") {
@@ -57,22 +70,9 @@ export default async function handler(req, res) {
                                     "-isLike",
                                     "-attributes",
                                 ]).skip(skip)
-                                .limit(20).sort({ isListed: -1, listingPrice: -1 });
+                                .limit(20).sort({ isListed: -1, demandPrice: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
-                    }
-
-                    if (minprice != "" && maxprice != "") {
-                        const nfts = await NFT.find({ NFTCollection: collection, demandPrice: { $gte: minprice, $lte: maxprice } })
-                            .select([
-                                "-activity",
-                                "-NFTCollection",
-                                "-managerAddress",
-                                "-isLike",
-                                "-attributes",
-                            ]).skip(skip)
-                            .limit(20);
-                        return res.status(200).json({ success: true, data: nfts });
                     }
 
                 } catch (error) {
