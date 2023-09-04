@@ -155,7 +155,7 @@
 }
 
 .custom-shape-divider-bottom-1690698441 .shape-fill {
-  fill: #101436;
+  fill: #0d102d;
 }
 
 .afterMintDiv {
@@ -319,8 +319,19 @@
   position: sticky;
   top: -18px;
   z-index: 15;
-  padding-top: 25px;
+  padding-top: 15px;
   padding-bottom: 1px;
+}
+
+.collectionFilterDivExplore {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80px;
+  z-index: 15;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .collectionFilterDiv {
@@ -334,16 +345,32 @@
   width: 100%;
 }
 
-.collectionFilterDiv .collectionFilters {
+.collectionFiltersExplore {
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+
+.collectionFilters {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 60%;
 }
-.collectionFilterDiv .collectionFilters .modelTypePosition {
+
+.modelTypePosition {
   position: absolute;
 }
-.collectionFilterDiv .collectionSearch {
+
+.collectionSearchExplore {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  align-items: center;
+  width: 40%;
+}
+
+.collectionSearch {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -352,34 +379,52 @@
 }
 
 @media only screen and (max-width: 800px) {
+  .collectionFilterDivExplore,
   .collectionFilterDiv {
     flex-direction: column;
   }
-  .collectionFilterDiv .collectionFilters {
+  .collectionFiltersExplore,
+  .collectionFilters {
     width: 100%;
     flex-direction: column;
   }
-  .collectionFilterDiv .collectionFilters .typeModelMainDiv {
+  .collectionFiltersExplore .typeModelMainDiv {
     width: 90%;
   }
-  .collectionFilterDiv .collectionFilters .typeModelBtn {
+  .collectionFiltersExplore .typeModelBtn {
     width: 100%;
   }
-  .collectionFilterDiv .collectionFilters .modelTypePosition {
+  .collectionFilters .typeModelMainDiv {
+    width: 90%;
+  }
+  .collectionFilters .typeModelBtn {
+    width: 100%;
+  }
+  .modelTypePosition {
     position: relative;
     width: 100%;
   }
-  .collectionFilterDiv .collectionSearch {
+  .collectionSearchExplore,
+  .collectionSearch {
     width: 100%;
     padding-top: 14px;
   }
-  .collectionFilterDiv .collectionSearch form {
+  .collectionSearchExplore form {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
   }
-  .collectionFilterDiv .collectionSearch form span {
+  .collectionSearchExplore form span {
+    left: 20px;
+  }
+  .collectionSearch form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .collectionSearch form span {
     left: 20px;
   }
 }

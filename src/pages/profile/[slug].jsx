@@ -200,7 +200,7 @@ const Profile = ({
         <link rel="icon" href="/fav.png" />
       </Head>
       {/* <!-- Banner IMG--> */}
-      <div className="relative pt-24 dark:bg-jacarta-800">
+      <div className="relative pt-24 dark:bg-jacarta-900">
         <Image
           src={
             user_data?.coverImage?.replace(
@@ -216,7 +216,7 @@ const Profile = ({
       </div>
 
       {/* <!-- Profile Section --> */}
-      <section className="relative pb-6 pt-28 dark:bg-jacarta-800">
+      <section className="relative pb-6 pt-28 dark:bg-jacarta-900">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="relative">
             <Image
@@ -296,7 +296,7 @@ const Profile = ({
               )}
               <div
                 onClick={() => setShare(!share)}
-                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
+                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
               >
                 <a
                   className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
@@ -319,7 +319,7 @@ const Profile = ({
                 </a>
 
                 {share && (
-                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
                     <a
                       href={`https://twitter.com/intent/tweet?text=Check%20out%20my%20profile%20on%20venomart.io%0AVenomart%20is%20the%20first%20fully-fledged%20NFT%20marketplace%20on%20Venom%20blockchain%20%F0%9F%94%A5%0AHere%20you%20go%20-%20${webURL}profile/${slug}%0A%23Venom%20%23venomart%20%23VenomBlockchain%20%23VenomFoundation%20%23NFT`}
                       target="_blank"
@@ -381,7 +381,7 @@ const Profile = ({
       </section>
 
       {/* switch buttons  */}
-      <section className="pt-6 dark:bg-jacarta-800 pb-12">
+      <section className="pt-6 dark:bg-jacarta-900 pb-12">
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li className="nav-item" role="presentation" onClick={() => ((!fetchedOnSaleNFTs && getting_user_listed_nfts()), switchToOnSale())}>
             <button
@@ -504,7 +504,7 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div
@@ -553,7 +553,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800`}>
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900`}>
           <div>
             <div className="tab-content">
               <div
@@ -608,7 +608,7 @@ const Profile = ({
 
       {/* //fetch collections here */}
       {collections && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div>
             <div className="tab-content">
               <div
@@ -650,7 +650,7 @@ const Profile = ({
 
       {/* fetch activity here  */}
       {signer_address === slug && activity && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">

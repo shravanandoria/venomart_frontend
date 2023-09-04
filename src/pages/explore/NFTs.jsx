@@ -59,7 +59,7 @@ const NFTs = ({ theme, currency }) => {
       ) : (
         <div className={`${theme}`}>
           <section
-            className="relative py-24 dark:bg-jacarta-800 scroll-list"
+            className="relative py-24 dark:bg-jacarta-900 scroll-list"
             onScroll={handleScroll}
           >
             <div>

@@ -801,8 +801,7 @@ const Collection = ({
                         </button>
                       }
                       {mobileFilter &&
-                        <div
-                          className="collectionFilterDiv p-4">
+                        <div className="collectionFilterDiv p-4">
                           <div className="collectionFilters mx-6">
                             {/* sale type  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5">

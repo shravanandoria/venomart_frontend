@@ -55,7 +55,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
       <>
         {/* hero section  */}
         <section
-          className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-800"
+          className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
           id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
           <div className="h-full px-6 xl:px-20">
@@ -129,7 +129,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                   {/* featured 1 */}
                   <div className="mb-6 md:flex md:w-1/2 md:items-center ">
                     <div>
-                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
                         <div className="relative">
                           {/* cover imge  */}
                           <Link href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277">
@@ -189,7 +189,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                   {/* featured 2  */}
                   <div className="space-y-6 md:w-1/2 xl:space-y-12">
                     <div>
-                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
+                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
                         <div className="relative">
                           <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"}>
                             <img
@@ -259,7 +259,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
         </section>
 
         {/* launchpad collections  */}
-        <div className="relative py-24 dark:bg-jacarta-800" style={{ userSelect: "none" }}>
+        <div className="relative py-24 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
           <div className="container">
             <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Venomart Launchpad </h2>
@@ -340,7 +340,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
 
         {/* top collections  */}
         {!loading &&
-          <section className="relative py-24 dark:bg-jacarta-700">
+          <section className="relative py-24 dark:bg-jacarta-900">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline mr-2">Top collections over</h2>
@@ -354,7 +354,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                     </svg>
                   </button>
                   <div
-                    className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                    className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900"
                     aria-labelledby="collectionSort">
                     <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                       href="#">Last 24 Hours</a>
@@ -396,7 +396,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
         }
 
         {/* Latest collections  */}
-        {/* <div className="relative py-24 dark:bg-jacarta-800">
+        {/* <div className="relative py-24 dark:bg-jacarta-900">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline">Latest Collections </h2>
