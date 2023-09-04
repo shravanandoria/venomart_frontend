@@ -101,8 +101,8 @@ const Collections = ({ theme, venomProvider }) => {
       {loading ? (
         <Loader theme={theme} />
       ) : (
-        <div className={`${theme} dark:bg-jacarta-700 bg-white`} >
-          <section className="relative py-24 dark:bg-jacarta-800 scroll-list" onScroll={handleScroll}>
+        <div className={`${theme} dark:bg-jacarta-900 bg-white`} >
+          <section className="relative py-24 dark:bg-jacarta-900 scroll-list" onScroll={handleScroll}>
             <div>
               <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Explore Collections
@@ -113,7 +113,7 @@ const Collections = ({ theme, venomProvider }) => {
               </p>
 
               {/* fliter div  */}
-              <div className="stickyFilterDivExplore bg-white dark:bg-jacarta-800">
+              <div className="stickyFilterDivExplore bg-white dark:bg-jacarta-900">
                 <div className="mb-8 mx-12 flex flex-wrap items-center justify-between">
                   <div className="relative flex flex-wrap items-center">
                     {/* cats filter  */}

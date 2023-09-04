@@ -10,7 +10,7 @@ const Rankings = ({
   venomProvider,
 }) => {
   const fetchTopCollections = async () => {
-    const topCollections = await get_collections(0);
+    const topCollections = await get_collections("", "topVolume", "unverified", 0);
     if (topCollections) {
       setTopCollections(topCollections);
     }

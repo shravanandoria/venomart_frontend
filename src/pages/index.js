@@ -25,7 +25,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
 
   const fetchTopCollections = async () => {
     setLoading(true);
-    const topCollections = await get_collections(0);
+    const topCollections = await get_collections("", "topVolume", "unverified", 0);
     setTopCollections(topCollections);
     setLoading(false);
   };
