@@ -308,7 +308,7 @@ export default function App({ Component, pageProps }) {
       id: 3,
       Cover:
         "https://ipfs.io/ipfs/QmTspXusdN5SAwsutgvdrWF9bPDA6u61dKkcmZ74xPGVmx/back.jpg",
-      Logo: "https://ipfs.io/ipfs/QmXwGcoeeBpLuhBFAA2Fxw3WuEWXdqGQVjCWCni6KgGASp/3.gif",
+      Logo: "https://ipfs.io/ipfs/QmZm1KvzwKWZUtsLLQBsFepkVFs5GC9GNnrnhwzQBnE2Fr/nft.gif",
       Name: "Devenlabs",
       Description:
         "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
@@ -318,16 +318,16 @@ export default function App({ Component, pageProps }) {
       customLink: "launch/devenlabs",
       pageName: "devenlabs",
       supply: "4000",
-      twitterUserName: "",
+      twitterUserName: "devenlabs",
       twitter: "https://twitter.com/devenlabs",
       tweetID: "",
       discord: "https://discord.gg/BgNGfFB3uN",
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "09/04/2023 12:00:00 GMT+0530",
-      endDate: "09/9/2023 12:00:00 GMT+0530",
-      verified: false,
+      startDate: "09/06/2023 16:00:00 GMT+0530",
+      endDate: "09/10/2023 12:00:00 GMT+0530",
+      verified: true,
     },
   ];
 
@@ -410,7 +410,6 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-    // fetchTopCollections();
   }, []);
 
   useEffect(() => {

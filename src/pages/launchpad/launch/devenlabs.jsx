@@ -568,12 +568,6 @@ const venomLions = ({
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
                                             src={NFTIMG}
                                         />
-                                        <div className="hideInPhoneTxt">
-                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                                                Mint this NFT and get benefits of this NFT from venomart
-                                                after mainnet launch 🚀🚀
-                                            </p>
-                                        </div>
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
