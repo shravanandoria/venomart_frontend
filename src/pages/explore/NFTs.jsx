@@ -12,7 +12,7 @@ import { MdVerified } from "react-icons/md";
 import { search_collections } from "../../utils/mongo_api/search";
 import { RxCrossCircled } from "react-icons/rx";
 
-const NFTs = ({ theme, currency }) => {
+const NFTs = ({ theme, signer_address }) => {
   const [loading, setLoading] = useState(false);
   const [skip, setSkip] = useState(0);
 
@@ -669,8 +669,9 @@ const NFTs = ({ theme, currency }) => {
                             "https://ipfs.io/ipfs/"
                           )}
                           Name={e?.name}
-                          Description={e?.description}
                           Address={e.NFTAddress}
+                          Owner={e?.ownerAddress}
+                          signerAddress={signer_address}
                           tokenId={e?._id}
                           listedBool={e?.isListed}
                           listingPrice={e?.listingPrice}
@@ -679,7 +680,6 @@ const NFTs = ({ theme, currency }) => {
                           }
                           NFTCollectionName={e?.NFTCollection?.name}
                           NFTCollectionStatus={e?.NFTCollection?.isVerified}
-                          currency={currency}
                         />
                       );
                     })}

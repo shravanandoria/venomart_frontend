@@ -1,5 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 import NFT from "../../../Models/NFT";
+import Collection from "../../../Models/Collection";
 import limiter from "../limiter";
 
 export default async function handler(req, res) {
@@ -15,9 +16,10 @@ export default async function handler(req, res) {
                     let nfts = await NFT.find({
                         ownerAddress: owner_address,
                         isListed: true,
-                    })
-                        .skip(skip)
-                        .limit(15);
+                    }).populate({
+                        path: "NFTCollection",
+                        select: { socials: 0, createdAt: 0, updatedAt: 0 },
+                    }).skip(skip).limit(15);
 
                     return res.status(200).json({ success: true, data: nfts });
 

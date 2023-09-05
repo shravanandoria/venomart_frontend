@@ -273,6 +273,15 @@
   }
 }
 
+.cardHoverNFTButton {
+  display: none;
+  transition-duration: 1s;
+}
+
+.cardHoverNFT:hover .cardHoverNFTButton {
+  display: block;
+}
+
 .swiper {
   width: 100%;
   height: 100%;

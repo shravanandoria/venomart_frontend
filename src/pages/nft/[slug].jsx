@@ -390,7 +390,7 @@ const NFTPage = ({
                         ))
                       )}
                     </div>
-                    <div className="absolute mb-6 ml-44 inline-flex items-center justify-center">
+                    <div className="absolute mt-[-18px] ml-[90px] inline-flex items-center justify-center">
                       {nft?.NFTCollection?.isVerified && isHovering && (
                         <p
                           className="bg-blue px-[20px] py-[3px] text-white text-[12px]"

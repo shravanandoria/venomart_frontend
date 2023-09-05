@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
           const collections = await Collection.find(
             findArray,
-            { activity: 0, socials: 0 },
+            { socials: 0 },
             {
               skip,
               limit: 20,

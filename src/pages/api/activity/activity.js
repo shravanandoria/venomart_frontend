@@ -31,7 +31,7 @@ export default async function handler(req, res) {
           const activities = await Activity.find(activityQuery)
             .populate({
               path: "item",
-              select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 },
+              select: { attributes: 0, createdAt: 0, updatedAt: 0 },
             })
             .skip(skip)
             .limit(15)

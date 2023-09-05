@@ -34,7 +34,8 @@ const Collection = ({
   standalone,
   webURL,
   copyURL,
-  currency
+  currency,
+  signer_address
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -1126,7 +1127,6 @@ const Collection = ({
                                   "https://ipfs.io/ipfs/"
                                 )}
                                 Name={e?.name}
-                                Description={e?.description}
                                 Address={
                                   onChainData
                                     ? e?.nftAddress?._address
@@ -1141,7 +1141,6 @@ const Collection = ({
                                 NFTCollectionStatus={
                                   e?.NFTCollection?.isVerified
                                 }
-                                currency={currency}
                               />
                             );
                           })}
@@ -1174,6 +1173,8 @@ const Collection = ({
                                         ? e?.nftAddress?._address
                                         : e?.NFTAddress
                                     }
+                                    Owner={e?.ownerAddress}
+                                    signerAddress={signer_address}
                                     listedBool={e?.isListed}
                                     listingPrice={e?.listingPrice}
                                     NFTCollectionAddress={

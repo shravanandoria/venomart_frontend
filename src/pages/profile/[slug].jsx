@@ -22,9 +22,7 @@ const Profile = ({
   blockURL,
   standalone,
   webURL,
-  copyURL,
-  currency,
-  venomProvider
+  copyURL
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -520,14 +518,14 @@ const Profile = ({
                         key={index}
                         ImageSrc={e?.nft_image}
                         Name={e?.name}
-                        Description={e?.description}
                         Address={e?.NFTAddress}
+                        Owner={e?.ownerAddress}
+                        signerAddress={signer_address}
                         listedBool={e?.isListed}
                         listingPrice={e?.listingPrice}
                         NFTCollectionAddress={e?.NFTCollection?.contractAddress}
                         NFTCollectionName={e?.NFTCollection?.name}
                         NFTCollectionStatus={e?.NFTCollection?.isVerified}
-                        currency={currency}
                       />
                     );
                   })}
@@ -585,8 +583,8 @@ const Profile = ({
                             "https://ipfs.io/ipfs/"
                           )}
                           Name={e?.name}
-                          Description={e?.description}
                           Address={e.nft._address}
+                        // NFTCollectionAddress={e?.collection?._address}
                         />
                       );
                     })}

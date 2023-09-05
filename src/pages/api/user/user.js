@@ -27,7 +27,7 @@ export default async function handler(req, res) {
           let user = await User.findOne({ wallet_id }).populate({
             path: "nftCollections",
             options: { limit: 15 },
-            select: { activity: 0, socials: 0, royalty: 0, updatedAt: 0, createdAt: 0, _id: 0 }
+            select: { socials: 0, royalty: 0, updatedAt: 0, createdAt: 0, _id: 0 }
           });
 
           if (!user) {

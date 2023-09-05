@@ -3,24 +3,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
+import venomLogo from "../../../public/venomBG.webp";
+
 
 const NftCard = ({
   ImageSrc,
   Name,
-  Description,
   Address,
+  Owner,
+  signerAddress,
   listedBool = false,
   listingPrice,
   NFTCollectionAddress,
   NFTCollectionName,
-  NFTCollectionStatus,
-  currency
+  NFTCollectionStatus
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
-
   return (
-    <Link href={`/nft/${Address}`} className="relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px] ">
+    <Link href={`/nft/${Address}`} className="cardHoverNFT hover:bg-gray-50 relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px]">
       <div className="ImageHoverEffect relative mb-4">
         <Image
           src={ImageSrc}
@@ -29,18 +30,24 @@ const NftCard = ({
           alt="item 5"
           className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
         />
+        {NFTCollectionStatus && isHovering &&
+          <p className="absolute bottom-[-3px] right-0 bg-blue px-[6px] py-[2px] text-white text-[12px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
+        }
+        {!NFTCollectionStatus && isHovering &&
+          <p className="absolute bottom-[-3px] right-0 bg-[#c3c944] px-[6px] py-[2px] text-black text-[12px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
+        }
       </div>
-      {NFTCollectionName &&
+      {(NFTCollectionName || NFTCollectionAddress) &&
         <div className="relative flex" >
-          <span className="font-display text-[13px] text-jacarta-700 hover:text-accent dark:text-white"
+          <span className="font-display text-[13px] text-jacarta-700 dark:text-white"
             style={{
-              width: "170px",
+              width: "240px",
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               overflow: "hidden",
               display: "flex"
             }}>
-            {NFTCollectionName}
+            {NFTCollectionName ? NFTCollectionName : (NFTCollectionAddress?.slice(0, 5) + "..." + NFTCollectionAddress?.slice(60))}
             {NFTCollectionStatus ?
               <MdVerified
                 style={{ color: "#4f87ff", marginLeft: "4px" }}
@@ -55,19 +62,14 @@ const NftCard = ({
                 onMouseOut={() => SetIsHovering(false)}
               />
             }
-            {NFTCollectionStatus && isHovering &&
-              <p className="absolute right-[30px] bg-blue px-[6px] py-[2px] text-white text-[10px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
-            }
-            {!NFTCollectionStatus && isHovering &&
-              <p className="absolute right-[30px] bg-[#c3c944] px-[6px] py-[2px] text-black text-[10px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
-            }
           </span>
         </div>
       }
+
       <div className="mt-2 flex items-center justify-between">
         <div
           style={{
-            width: "170px",
+            width: "270px",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
             overflow: "hidden",
@@ -77,13 +79,6 @@ const NftCard = ({
             {Name}
           </span>
         </div>
-        {listedBool && (
-          <span className="flex items-center whitespace-nowrap rounded-md border border-jacarta-100 py-1 px-2 dark:border-jacarta-600">
-            <span className=" text-sm font-medium tracking-tight text-green">
-              {listingPrice} {currency}
-            </span>
-          </span>
-        )}
       </div>
       <div
         className="mt-2 text-sm"
@@ -94,9 +89,47 @@ const NftCard = ({
           overflow: "hidden",
         }}
       >
-        <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
-          {Description}
-        </span>
+        {listedBool && (
+          <span className="text-sm font-medium tracking-tight">
+            <span className=" text-sm font-normal tracking-tight text-gray-400">
+              Price
+            </span>
+            <span className="flex text-sm font-medium tracking-tight text-green">
+              <Image
+                src={venomLogo}
+                height={100}
+                width={100}
+                style={{
+                  height: "14px",
+                  width: "15px",
+                  marginRight: "5px",
+                  marginTop: "3px",
+                }}
+                alt="VenomLogo"
+              />
+              {listingPrice}
+            </span>
+          </span>
+        )}
+        {(signerAddress && Owner) &&
+          (listedBool ?
+            (((signerAddress === Owner) ?
+              <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#ea6e39] hover:bg-[#995031] text-white font-bold py-2 px-8 rounded-[10px]">
+                Cancel
+              </button>
+              :
+              <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
+                Buy
+              </button>
+            ))
+            :
+            (!listedBool &&
+              ((signerAddress === Owner) &&
+                <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
+                  List
+                </button>
+              )))
+        }
       </div>
     </Link>
   );
