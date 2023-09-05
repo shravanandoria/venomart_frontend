@@ -15,7 +15,7 @@ import { RxActivityLog } from "react-icons/rx"
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai"
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { MARKETPLACE_ADDRESS, loadNFTs_collection } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
@@ -27,6 +27,8 @@ import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { MyEver } from "../../utils/user_nft";
+import BuyModal from "../../components/modals/BuyModal";
+import CancelModal from "../../components/modals/CancelModal";
 
 const Collection = ({
   blockURL,
@@ -34,8 +36,9 @@ const Collection = ({
   standalone,
   webURL,
   copyURL,
-  currency,
-  signer_address
+  signer_address,
+  venomProvider,
+  setAnyModalOpen
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -76,6 +79,11 @@ const Collection = ({
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
+
+  const [actionLoad, setActionLoad] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState("");
+  const [buyModal, setBuyModal] = useState(false);
+  const [cancelModal, setCancelModal] = useState(false);
 
   // refresh nft metadata 
   const refreshMetadata = async () => {
@@ -172,7 +180,6 @@ const Collection = ({
     }
   }
 
-
   // filter btn for fetch onchain data 
   const filterFetchOnchainData = async () => {
     setSearchLoading(true);
@@ -255,6 +262,58 @@ const Collection = ({
     set_def_query("");
   };
 
+  // buy nft
+  const buy_NFT_ = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    let royaltyFinalAmount =
+      ((parseFloat(selectedNFT?.demandPrice) *
+        parseFloat(
+          selectedNFT?.NFTCollection?.royalty ? selectedNFT?.NFTCollection?.royalty : 0
+        )) /
+        100) *
+      1000000000;
+    try {
+      const buying = await buy_nft(
+        venomProvider,
+        selectedNFT?.NFTAddress,
+        selectedNFT?.ownerAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        selectedNFT.listingPrice,
+        (selectedNFT.listingPrice * 1000000000).toString(),
+        signer_address,
+        royaltyFinalAmount,
+        selectedNFT?.NFTCollection?.royaltyAddress
+          ? selectedNFT?.NFTCollection?.royaltyAddress
+          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+      );
+      if (!buying) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // cancel nft sale
+  const cancelNFT = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    try {
+      const cancelling = await cancel_listing(
+        selectedNFT?.NFTAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        venomProvider,
+        signer_address
+      );
+      if (!cancelling) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // use effects
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -309,6 +368,14 @@ const Collection = ({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
+
+      {buyModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
 
       {loading ? (
         <Loader theme={theme} />
@@ -1134,9 +1201,9 @@ const Collection = ({
                                 }
                                 listedBool={e?.isListed}
                                 listingPrice={e?.listingPrice}
-                                NFTCollectionAddress={
-                                  e?.NFTCollection?.contractAddress
+                                NFTCollectionAddress={e?.NFTCollection?.contractAddress
                                 }
+                                Description={e?.description}
                                 NFTCollectionName={e?.NFTCollection?.name}
                                 NFTCollectionStatus={
                                   e?.NFTCollection?.isVerified
@@ -1167,7 +1234,6 @@ const Collection = ({
                                       "https://ipfs.io/ipfs/"
                                     )}
                                     Name={e?.name}
-                                    Description={e?.description}
                                     Address={
                                       onChainData
                                         ? e?.nftAddress?._address
@@ -1184,7 +1250,11 @@ const Collection = ({
                                     NFTCollectionStatus={
                                       e?.NFTCollection?.isVerified
                                     }
-                                    currency={currency}
+                                    setAnyModalOpen={setAnyModalOpen}
+                                    setBuyModal={setBuyModal}
+                                    setCancelModal={setCancelModal}
+                                    NFTData={e}
+                                    setSelectedNFT={setSelectedNFT}
                                   />
                                 );
                               })}
@@ -1335,6 +1405,36 @@ const Collection = ({
               </div>
             )}
           </section>
+          {/* buy modal  */}
+          {buyModal && (
+            <BuyModal
+              formSubmit={buy_NFT_}
+              setBuyModal={setBuyModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              NFTListingPrice={selectedNFT?.listingPrice}
+              actionLoad={actionLoad}
+            />
+          )}
+
+          {/* cancel modal  */}
+          {cancelModal && (
+            <CancelModal
+              formSubmit={cancelNFT}
+              setCancelModal={setCancelModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
         </div>
       )}
     </div>

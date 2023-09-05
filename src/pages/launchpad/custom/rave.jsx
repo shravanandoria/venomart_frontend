@@ -252,7 +252,7 @@ const rave = ({
       </Head>
 
       {anyModalOpen && (
-        <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
       {loading ? (
@@ -927,7 +927,6 @@ const rave = ({
           </section>
 
           {anyModalOpen && (
-            // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
             <div className="afterMintDiv">
               <form className="modal-dialog max-w-2xl">
                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">

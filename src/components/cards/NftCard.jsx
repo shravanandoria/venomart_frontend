@@ -16,7 +16,13 @@ const NftCard = ({
   listingPrice,
   NFTCollectionAddress,
   NFTCollectionName,
-  NFTCollectionStatus
+  NFTCollectionStatus,
+  setAnyModalOpen,
+  setBuyModal,
+  setCancelModal,
+  NFTData,
+  setSelectedNFT,
+  Description
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
@@ -114,11 +120,11 @@ const NftCard = ({
         {(signerAddress && Owner) &&
           (listedBool ?
             (((signerAddress === Owner) ?
-              <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#ea6e39] hover:bg-[#995031] text-white font-bold py-2 px-8 rounded-[10px]">
+              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setCancelModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#ea6e39] hover:bg-[#995031] text-white font-bold py-2 px-8 rounded-[10px]">
                 Cancel
               </button>
               :
-              <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
+              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setBuyModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
                 Buy
               </button>
             ))
@@ -129,6 +135,21 @@ const NftCard = ({
                   List
                 </button>
               )))
+        }
+        {Description &&
+          <div
+            className="mt-2 text-sm"
+            style={{
+              width: "220px",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+            }}
+          >
+            <span className="mr-1 text-jacarta-700 dark:text-jacarta-200">
+              {Description}
+            </span>
+          </div>
         }
       </div>
     </Link>

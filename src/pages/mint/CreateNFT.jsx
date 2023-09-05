@@ -119,10 +119,10 @@ const CreateNFT = ({
       </Head>
 
       {mintModal && (
-        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-30"></div>
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
       {mintSuccessModal && (
-        <div className="backdrop-blur-lg absolute w-[100%] h-[100%] z-30"></div>
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
       <form

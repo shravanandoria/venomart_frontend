@@ -250,7 +250,7 @@ const venommushies = ({
             </Head>
 
             {anyModalOpen && (
-                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
+                <div className="backgroundModelBlur backdrop-blur-lg"></div>
             )}
 
             {loading ? (

@@ -236,9 +236,8 @@ const venommushies = ({
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{`${
-          ProjectName ? ProjectName : "Project"
-        } NFT Launchpad - Venomart Marketplace`}</title>
+        <title>{`${ProjectName ? ProjectName : "Project"
+          } NFT Launchpad - Venomart Marketplace`}</title>
         <meta
           name="description"
           content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -252,7 +251,7 @@ const venommushies = ({
       </Head>
 
       {anyModalOpen && (
-        <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
       {loading ? (
@@ -604,18 +603,18 @@ const venommushies = ({
 
                     {/* join discord  */}
                     <div className="flex mt-2 items-center pb-5 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
-                                            </p>
-                                            <Link
-                                                href={venomartDiscord}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Join{" "}
-                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
+                      <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                        3] Join venomart discord server
+                      </p>
+                      <Link
+                        href={venomartDiscord}
+                        target="_blank"
+                        className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                      >
+                        Join{" "}
+                        <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                      </Link>
+                    </div>
 
                     {/* join discord  */}
                     {/* <div className="flex items-center pb-5 mb-5">

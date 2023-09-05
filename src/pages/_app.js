@@ -422,12 +422,10 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     if (anyModalOpen) {
       document.body.style.overflow = "hidden";
-      window.scrollTo(0, 0);
     }
     if (!anyModalOpen) {
       document.body.style.overflow = "scroll";
       document.body.style.overflowX = "hidden";
-      window.scrollTo(0, 0);
     }
   }, [anyModalOpen]);
 

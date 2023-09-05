@@ -8,13 +8,14 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { MARKETPLACE_ADDRESS, loadNFTs_user } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, cancel_listing, loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
+import CancelModal from "../../components/modals/CancelModal";
 
 const Profile = ({
   theme,
@@ -22,7 +23,9 @@ const Profile = ({
   blockURL,
   standalone,
   webURL,
-  copyURL
+  copyURL,
+  setAnyModalOpen,
+  venomProvider
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -51,6 +54,9 @@ const Profile = ({
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
 
+  const [actionLoad, setActionLoad] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState("");
+  const [cancelModal, setCancelModal] = useState(false);
 
   const getProfileData = async () => {
     set_loading(true);
@@ -139,6 +145,25 @@ const Profile = ({
     }
   };
 
+  // cancel nft sale
+  const cancelNFT = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    try {
+      const cancelling = await cancel_listing(
+        selectedNFT?.NFTAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        venomProvider,
+        signer_address
+      );
+      if (!cancelling) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const switchToOnSale = async () => {
     setOwned(false);
     setCollections(false);
@@ -184,7 +209,13 @@ const Profile = ({
   return loading ? (
     <Loader theme={theme} />
   ) : (
+
     <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
+
+      {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
       <Head>
         <title>User Profile - Venomart Marketplace</title>
         <meta
@@ -527,6 +558,10 @@ const Profile = ({
                         NFTCollectionAddress={e?.NFTCollection?.contractAddress}
                         NFTCollectionName={e?.NFTCollection?.name}
                         NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                        setAnyModalOpen={setAnyModalOpen}
+                        setCancelModal={setCancelModal}
+                        NFTData={e}
+                        setSelectedNFT={setSelectedNFT}
                       />
                     );
                   })}
@@ -584,7 +619,8 @@ const Profile = ({
                             "https://ipfs.io/ipfs/"
                           )}
                           Name={e?.name}
-                          Address={e.nft._address}
+                          Address={e?.nft._address}
+                          Description={e?.description}
                         // NFTCollectionAddress={e?.collection?._address}
                         />
                       );
@@ -768,6 +804,21 @@ const Profile = ({
             </div>
           </div>
         </section>
+      )}
+
+      {/* cancel modal  */}
+      {cancelModal && (
+        <CancelModal
+          formSubmit={cancelNFT}
+          setCancelModal={setCancelModal}
+          setAnyModalOpen={setAnyModalOpen}
+          NFTImage={selectedNFT?.nft_image}
+          NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+          NFTCollectionName={selectedNFT?.NFTCollection?.name}
+          CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          NFTName={selectedNFT?.name}
+          actionLoad={actionLoad}
+        />
       )}
     </div>
   );

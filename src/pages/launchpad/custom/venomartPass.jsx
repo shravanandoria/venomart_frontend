@@ -136,7 +136,7 @@ const Collection = ({
       </Head>
 
       {afterMint && (
-        <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-10"></div>
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
       {loading ? (
