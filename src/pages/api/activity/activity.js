@@ -128,8 +128,8 @@ export default async function handler(req, res) {
                     NFTCollection: collection,
                     isListed: true,
                   })
-                    .sort({ listingPrice: -1 })
-                    .select({ listingPrice: 1, isListed: 1 })
+                    .sort({ demandPrice: 1 })
+                    .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
                     .limit(25);
 
                   if (nfts.length > 0) {
