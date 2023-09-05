@@ -10,6 +10,7 @@ import Image from "next/image";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
 import { MdVerified } from "react-icons/md";
 import { search_collections } from "../../utils/mongo_api/search";
+import { RxCrossCircled } from "react-icons/rx";
 
 const NFTs = ({ theme, currency }) => {
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const NFTs = ({ theme, currency }) => {
   const [option, setOption] = useState("unverified");
   const [verifiedCheck, setVerifiedCheck] = useState(false);
 
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
   const [nfts, set_nfts] = useState([]);
   const [collections, set_collections] = useState([]);
@@ -87,6 +89,7 @@ const NFTs = ({ theme, currency }) => {
   };
 
   const fetch_filter_nfts = async () => {
+    if (defaultFilterFetch == false) return;
     setMoreLoading(true);
     const res = await fetch_nfts(filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip);
     if (res) {
@@ -230,7 +233,8 @@ const NFTs = ({ theme, currency }) => {
                                   type="search"
                                   defaultValue={collectionSearchINP}
                                   onChange={(e) => handle_search(e.target.value)}
-                                  className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                  className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                  style={{ paddingLeft: "27px", paddingRight: "30px" }}
                                   placeholder="search"
                                 />
                                 <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
@@ -245,6 +249,16 @@ const NFTs = ({ theme, currency }) => {
                                     <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
                                   </svg>
                                 </span>
+                                {/* {collections && (
+                                  <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                    <RxCrossCircled
+                                      onClick={() => (
+                                        set_collections([])
+                                      )}
+                                      className="h-5 w-5 text-jacarta-500 dark:text-white cursor-pointer"
+                                    />
+                                  </span>
+                                )} */}
                               </form>
 
                               <ul className="collectionFilterDivWebkit flex flex-col h-[300px] overflow-y-scroll mt-2">
@@ -252,7 +266,7 @@ const NFTs = ({ theme, currency }) => {
                                 {!collectionLoading &&
                                   (collections?.map((e, index) => {
                                     return (
-                                      <li key={index} onClick={() => (setSkip(0), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
+                                      <li key={index} onClick={() => (setSkip(0), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
                                         <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                           <span className="relative text-jacarta-700 dark:text-white">
                                             <Image
@@ -288,6 +302,11 @@ const NFTs = ({ theme, currency }) => {
                                     <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                                     <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                                     <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                  </div>
+                                }
+                                {collections.length <= 0 && !collectionLoading &&
+                                  <div className="flex items-center justify-center space-x-2 mt-4">
+                                    <p className=" text-jacarta-700 dark:text-white">No collections found!</p>
                                   </div>
                                 }
                               </ul>
@@ -327,7 +346,7 @@ const NFTs = ({ theme, currency }) => {
                               <ul className="flex flex-col flex-wrap">
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("All"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("All"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -349,7 +368,7 @@ const NFTs = ({ theme, currency }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("Art"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Art"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -371,7 +390,7 @@ const NFTs = ({ theme, currency }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("Collectibles"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Collectibles"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -393,7 +412,7 @@ const NFTs = ({ theme, currency }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("Games"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Games"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -415,7 +434,7 @@ const NFTs = ({ theme, currency }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("Memes"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Memes"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -437,7 +456,7 @@ const NFTs = ({ theme, currency }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setCollectionCategory("Utility"))}
+                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Utility"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -570,7 +589,7 @@ const NFTs = ({ theme, currency }) => {
                             <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                               Sort By
                             </span>
-                            <button onClick={() => (setSkip(0), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Recently Listed
                               {sortby == "recentlyListed" &&
                                 <svg
@@ -585,7 +604,7 @@ const NFTs = ({ theme, currency }) => {
                                 </svg>
                               }
                             </button>
-                            <button onClick={() => (setSkip(0), setSortBy("lowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("lowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Price: Low to High
                               {sortby == "lowToHigh" &&
                                 <svg
@@ -600,7 +619,7 @@ const NFTs = ({ theme, currency }) => {
                                 </svg>
                               }
                             </button>
-                            <button onClick={() => (setSkip(0), setSortBy("highToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("highToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Price: High to Low
                               {sortby == "highToLow" &&
                                 <svg
@@ -625,7 +644,7 @@ const NFTs = ({ theme, currency }) => {
                                   type="checkbox"
                                   value="checkbox"
                                   defaultChecked={verifiedCheck ? true : false}
-                                  onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
+                                  onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setDefaultFilterFetch(true), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
                                   className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
                                 />
                               </span>

@@ -72,6 +72,7 @@ const Collection = ({
   const [metadataLoading, setMetadataLoading] = useState(false);
 
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
 
@@ -163,8 +164,8 @@ const Collection = ({
 
   // getting nfts according to filter 
   const fetch_filter_nfts = async () => {
+    if (defaultFilterFetch == false) return;
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
-    console.log({ nfts_offchain })
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
     }
@@ -1014,7 +1015,7 @@ const Collection = ({
                                   <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                     Sort By
                                   </span>
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                     Recently Listed
                                     {currentFilter == "recentlyListed" &&
                                       <svg
@@ -1029,7 +1030,7 @@ const Collection = ({
                                       </svg>
                                     }
                                   </button>
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: Low to High
                                     {currentFilter == "lowToHigh" &&
                                       <svg
@@ -1045,7 +1046,7 @@ const Collection = ({
                                     }
                                   </button>
 
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: High to Low
                                     {currentFilter == "highToLow" &&
                                       <svg

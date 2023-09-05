@@ -17,6 +17,8 @@ const Collections = ({ theme }) => {
   const [option, setOption] = useState("unverified");
   const [verifiedCheck, setVerifiedCheck] = useState(false);
 
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [filterCategories, openFilterCategories] = useState(false);
   const [filterSort, openFilterSort] = useState(false);
@@ -70,6 +72,7 @@ const Collections = ({ theme }) => {
   };
 
   const filterFetchCollections = async () => {
+    if (defaultFilterFetch == false) return;
     setMoreLoading(true);
     const collectionsJSON = await get_collections(category, sortby, option, skip);
     if (collectionsJSON) {
@@ -376,7 +379,7 @@ const Collections = ({ theme }) => {
                               <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                 Sort By
                               </span>
-                              <button onClick={() => (setSkip(0), setSortBy("topVolume"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("topVolume"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Top Volume
                                 {sortby == "topVolume" &&
                                   <svg
@@ -391,7 +394,7 @@ const Collections = ({ theme }) => {
                                   </svg>
                                 }
                               </button>
-                              <button onClick={() => (setSkip(0), setSortBy("trending"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("trending"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Trending
                                 {sortby == "trending" &&
                                   <svg
@@ -406,7 +409,7 @@ const Collections = ({ theme }) => {
                                   </svg>
                                 }
                               </button>
-                              <button onClick={() => (setSkip(0), setSortBy("recentlyCreated"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("recentlyCreated"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                 Recently Created
                                 {sortby == "recentlyCreated" &&
                                   <svg
@@ -431,7 +434,7 @@ const Collections = ({ theme }) => {
                                     type="checkbox"
                                     value="checkbox"
                                     defaultChecked={verifiedCheck ? true : false}
-                                    onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
+                                    onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setDefaultFilterFetch(true), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
                                     className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
                                   />
                                 </span>
