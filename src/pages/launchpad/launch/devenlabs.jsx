@@ -5,6 +5,7 @@ import { MdVerified } from "react-icons/md";
 import {
     BsBrowserChrome,
     BsDiscord,
+    BsFillShareFill,
     BsInstagram,
     BsTelegram,
     BsTwitter,
@@ -31,6 +32,7 @@ const venomLions = ({
     signer_address,
     connectWallet,
     customLaunchpad,
+    setAnyModalOpen
 }) => {
     // change from here
     const launchSlug = customLaunchpad[3];
@@ -196,10 +198,8 @@ const venomLions = ({
         );
         if (launchMint) {
             setAfterMint(true);
+            setAnyModalOpen(true);
             setMintLock(true);
-            setTimeout(() => {
-                setAfterMint(false);
-            }, 3000);
         }
         setLoading(false);
     };
@@ -234,18 +234,6 @@ const venomLions = ({
             setLoading(false);
         }, 3000);
     }, [venomProvider]);
-
-    useEffect(() => {
-        if (afterMint) {
-            document.body.style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        }
-        if (!afterMint) {
-            document.body.style.overflow = "scroll";
-            document.body.style.overflowX = "hidden";
-            window.scrollTo(0, 0);
-        }
-    }, [afterMint]);
 
     return (
         <div className={`${theme}`}>
@@ -938,7 +926,7 @@ const venomLions = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => setAfterMint(false)}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -963,14 +951,25 @@ const venomLions = ({
                                         </div>
                                     </div>
 
-                                    <div className="modal-footer">
-                                        <div className="flex items-center justify-center space-x-4">
+                                    <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
                                             <Link
                                                 href={`/profile/${signer_address}`}
-                                                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
-                                                View Profile
+                                                View
+                                                <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
                                             </Link>
+                                        </div>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
+                                            <a
+                                                href={`https://twitter.com/intent/tweet?text=Just%20minted%20${ProjectName}%20NFT%20via%20venomart%20NFT%20launchpad%20%F0%9F%94%A5%0AVery%20smooth%20minting,%20great%20experience%20%F0%9F%98%84%0AHere%20you%20go%20-%20${webURL}launchpad/launch/${pageName}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
+                                                target="_blank"
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                            >
+                                                Share
+                                                <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
