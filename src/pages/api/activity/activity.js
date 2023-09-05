@@ -13,19 +13,38 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { user_id, collection_id, nft_id, activityType, skip } = req.query;
+          const { user_id, user_wallet, collection_id, nft_id, activityType, skip } = req.query;
 
           let activityQuery = {};
 
           if (user_id) {
-            activityQuery.owner = user_id;
-            activityType && (activityQuery.type = activityType);
+            if (activityType == "user_sale") {
+              activityQuery.type = "sale";
+              activityQuery.from = user_wallet;
+            }
+            else {
+              activityQuery.owner = user_id;
+              activityType && (activityQuery.type = activityType);
+            }
           } else if (collection_id) {
             activityQuery.nft_collection = collection_id;
             activityType && (activityQuery.type = activityType);
           } else if (nft_id) {
             activityQuery.item = nft_id;
             activityType && (activityQuery.type = activityType);
+          }
+
+          if (activityType == "user_sale") {
+            const activities = await Activity.find(activityQuery)
+              .populate({
+                path: "item",
+                select: { attributes: 0, createdAt: 0, updatedAt: 0 },
+              })
+              .skip(skip)
+              .limit(15)
+              .sort({ createdAt: -1 });
+
+            return res.status(200).json({ success: true, data: activities });
           }
 
           const activities = await Activity.find(activityQuery)

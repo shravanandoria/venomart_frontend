@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import moment from 'moment';
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, blockURL, ActivityHash, From = "market", To = "market", MARKETPLACE_ADDRESS }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", To = "market", MARKETPLACE_ADDRESS }) => {
 
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
 
@@ -36,7 +36,10 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     <span className="mb-3 block text-sm text-jacarta-500">removed from listing</span>
                 }
                 {ActivityType == "sale" &&
-                    <span className="mb-3 block text-sm text-jacarta-500">sold for {Price} VENOM</span>
+                    (<span className="mb-3 block text-sm text-jacarta-500">
+                        {userPurchases ? "purchased " : "sold "}
+                        for {Price} VENOM
+                    </span>)
                 }
 
                 {/* from and to  */}

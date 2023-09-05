@@ -642,9 +642,8 @@ const NFTs = ({ theme, signer_address }) => {
                                 <span className="text-jacarta-700 dark:text-white">Verified Only</span>
                                 <input
                                   type="checkbox"
-                                  value="checkbox"
                                   defaultChecked={verifiedCheck ? true : false}
-                                  onClick={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setDefaultFilterFetch(true), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
+                                  onChange={() => (verifiedCheck ? (setSkip(0), setVerifiedCheck(false), setDefaultFilterFetch(true), setOption("unverified")) : (setSkip(0), setVerifiedCheck(true), setOption("verified")))}
                                   className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
                                 />
                               </span>

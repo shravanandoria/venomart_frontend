@@ -191,7 +191,7 @@ const Collection = ({
   const fetch_collection_activity = async () => {
     if (collection?._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", collection._id, "", activityType, skipActivity);
+    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity(res);
     }
@@ -233,7 +233,7 @@ const Collection = ({
   const scrollFetchActivity = async () => {
     if (collection._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", collection._id, "", activityType, skipActivity);
+    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity([...activity, ...res]);
     }
@@ -501,7 +501,7 @@ const Collection = ({
                       >
                         submit
                       </a>{" "}
-                      it now for approval now!
+                      it for approval now!
                     </div>
                   )}
                 </div>

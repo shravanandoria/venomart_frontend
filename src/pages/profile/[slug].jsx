@@ -38,6 +38,7 @@ const Profile = ({
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
+  const [userPurchases, setUserPurchases] = useState(true);
 
   const [lastNFT, setLastNFT] = useState(undefined);
 
@@ -68,7 +69,7 @@ const Profile = ({
   const fetch_user_activity = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity(user_data._id, "", "", activityType, activitySkip);
+    const res = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (res) {
       setActivityRecords(res);
     }
@@ -124,7 +125,7 @@ const Profile = ({
   const scrollActivityFetch = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const newArray = await getActivity(user_data._id, "", "", activityType, activitySkip);
+    const newArray = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
     }
@@ -667,6 +668,7 @@ const Profile = ({
                           Price={e?.price}
                           ActivityTime={e?.createdAt}
                           ActivityType={e?.type}
+                          userPurchases={userPurchases}
                           blockURL={blockURL}
                           ActivityHash={e?.hash}
                           From={e?.from}
@@ -696,7 +698,7 @@ const Profile = ({
                       Filters
                     </h3>
                     <div className="flex flex-wrap">
-                      <button onClick={() => (setActivitySkip(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -712,7 +714,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -728,7 +730,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -740,6 +742,22 @@ const Profile = ({
                           <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                         </svg>
                         <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          Purchase
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "user_sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "user_sale" && "text-white"}`}>
                           Sale
                         </span>
                       </button>

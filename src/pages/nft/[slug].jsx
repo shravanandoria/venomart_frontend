@@ -124,7 +124,7 @@ const NFTPage = ({
   const fetch_nft_activity = async () => {
     if (nft._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity("", "", nft._id, activityType, skip);
+    const res = await getActivity("", "", "", nft._id, activityType, skip);
     if (res) {
       setActivityHistory(res);
     }
@@ -136,7 +136,7 @@ const NFTPage = ({
   const scroll_fetch_nft_activity = async () => {
     if (skip == 0) return;
     setMoreLoading(true);
-    const res = await getActivity("", "", nft._id, activityType, skip);
+    const res = await getActivity("", "", "", nft._id, activityType, skip);
     if (res) {
       setActivityHistory([...activityHistory, ...res]);
     }
