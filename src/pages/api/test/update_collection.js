@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         case "POST":
             try {
                 const filter = {};
-                const update = { $set: { Category: "Collectibles" } };
+                const update = { $set: { activity: [""] } };
 
                 const result = await Collection.updateMany(filter, update);
 

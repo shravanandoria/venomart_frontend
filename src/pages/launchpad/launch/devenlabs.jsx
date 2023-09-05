@@ -19,7 +19,7 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../../components/Loader";
-import { create_launchpad_nft } from "../../../utils/user_nft";
+import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
@@ -97,20 +97,20 @@ const venomLions = ({
 
     const getMintedCount = async () => {
         setLoading(true);
-        if (venomProvider != undefined) {
-            try {
-                const contract = new venomProvider.Contract(
-                    collectionAbi,
-                    contractAddress
-                );
-                const totalSupply = await contract.methods
-                    .totalSupply({ answerId: 0 })
-                    .call();
-                setMintedNFTs(totalSupply.count);
-            } catch (error) {
-                setMintedNFTs(0);
-                console.log(error.message);
-            }
+        try {
+            let myEver = new MyEver();
+            const providerRpcClient = myEver.ever();
+            const contract = new providerRpcClient.Contract(
+                collectionAbi,
+                contractAddress
+            );
+            const totalSupply = await contract.methods
+                .totalSupply({ answerId: 0 })
+                .call();
+            setMintedNFTs(totalSupply.count);
+        } catch (error) {
+            setMintedNFTs(0);
+            console.log(error.message);
         }
         setLoading(false);
     };
@@ -118,7 +118,7 @@ const venomLions = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
-    }, [venomProvider]);
+    }, []);
 
     useEffect(() => {
         if (status == "Upcoming") {
