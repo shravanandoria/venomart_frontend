@@ -7,7 +7,6 @@ const Rankings = ({
   theme,
   topCollections,
   setTopCollections,
-  venomProvider,
 }) => {
   const fetchTopCollections = async () => {
     const topCollections = await get_collections("", "topVolume", "unverified", 0);
@@ -17,6 +16,7 @@ const Rankings = ({
   };
 
   useEffect(() => {
+    if (topCollections != "") return;
     fetchTopCollections();
   }, []);
 
@@ -213,7 +213,7 @@ const Rankings = ({
                   )
               )}
               {topCollections?.length <= 0 && (
-                <h2 className="text-center p-4">Coming soon..</h2>
+                <h2 className="text-center p-4">No collections found!</h2>
               )}
             </div>
           </div>

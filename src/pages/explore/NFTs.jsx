@@ -204,6 +204,17 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
     fetch_filter_nfts();
   }, [sortby, option, collectionCategory, filterCollection]);
 
+  useEffect(() => {
+    if (collectionFilter || filterCategories || priceRangeFilter || filterSort) {
+      document.body.addEventListener('click', () => {
+        openCollectionFilter(false)
+        openFilterCategories(false)
+        openPriceRangeFilter(false)
+        openFilterSort(false)
+      })
+    }
+  }, [collectionFilter, filterCategories, priceRangeFilter, filterSort])
+
   return (
     <>
       <Head>
@@ -282,14 +293,14 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                         <div className="typeModelMainDiv relative my-1 mr-2.5">
                           <button
                             className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                            onClick={() => (fetch_search_collections(), setSearchedCollectionBefore(true), openFilterCategories(false), openPriceRangeFilter(false), openCollectionFilter(!collectionFilter))}
+                            onClick={(e) => (e.stopPropagation(), fetch_search_collections(), setSearchedCollectionBefore(true), openFilterSort(false), openFilterCategories(false), openPriceRangeFilter(false), openCollectionFilter(!collectionFilter))}
                           >
                             <span className=" text-jacarta-700 dark:text-white">All Collections</span>
                             <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
                           </button>
 
                           {collectionFilter && (
-                            <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                            <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                               <form
                                 action="search"
                                 className="flex justify-center align-middle relative w-[100%]"
@@ -384,7 +395,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                         <div className="typeModelMainDiv relative my-1 mr-2.5">
                           <button
                             className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                            onClick={() => (openCollectionFilter(false), openPriceRangeFilter(false), openFilterCategories(!filterCategories))}
+                            onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openPriceRangeFilter(false), openFilterSort(false), openFilterCategories(!filterCategories))}
                           >
                             {collectionCategory == "All" &&
                               <span className="text-jacarta-700 dark:text-white">All Categories</span>
@@ -408,11 +419,11 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                           </button>
 
                           {filterCategories && (
-                            <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                            <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                               <ul className="flex flex-col flex-wrap">
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("All"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("All"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -434,7 +445,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Art"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("Art"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -456,7 +467,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Collectibles"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("Collectibles"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -478,7 +489,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Games"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("Games"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -500,7 +511,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Memes"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("Memes"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -522,7 +533,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), setDefaultFilterFetch(true), setCollectionCategory("Utility"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCollectionCategory("Utility"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -550,9 +561,11 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                         {/* price range  */}
                         <div className="typeModelMainDiv relative my-1 mr-2.5">
                           <button
-                            onClick={() => (
+                            onClick={(e) => (
+                              e.stopPropagation(),
                               openCollectionFilter(false),
                               openFilterCategories(false),
+                              openFilterSort(false),
                               openPriceRangeFilter(!priceRangeFilter)
                             )}
                             className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
@@ -583,7 +596,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                           </button>
 
                           {priceRangeFilter && (
-                            <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                            <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                               <div className="flex items-center space-x-3 px-5 pb-2">
                                 <input
                                   type="number"
@@ -630,7 +643,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                       <div className="recentlyListedFilterExplore typeModelMainDiv relative my-1 mr-2.5">
                         <button
                           className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                          onClick={() => openFilterSort(!filterSort)}
+                          onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openPriceRangeFilter(false), openFilterCategories(false), openFilterSort(!filterSort))}
                         >
                           {sortby == "recentlyListed" &&
                             <span className="font-display text-jacarta-700 dark:text-white">
@@ -651,11 +664,11 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                         </button>
 
                         {filterSort && (
-                          <div className="modelTypePosition dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                          <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 w-full whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
                             <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                               Sort By
                             </span>
-                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Recently Listed
                               {sortby == "recentlyListed" &&
                                 <svg
@@ -670,7 +683,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </svg>
                               }
                             </button>
-                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("lowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("lowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Price: Low to High
                               {sortby == "lowToHigh" &&
                                 <svg
@@ -685,7 +698,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                 </svg>
                               }
                             </button>
-                            <button onClick={() => (setSkip(0), setDefaultFilterFetch(true), setSortBy("highToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                            <button onClick={() => (setSkip(0), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("highToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Price: High to Low
                               {sortby == "highToLow" &&
                                 <svg

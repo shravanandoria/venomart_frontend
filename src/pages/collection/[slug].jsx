@@ -353,6 +353,16 @@ const Collection = ({
     fetch_filter_nfts();
   }, [currentFilter])
 
+  useEffect(() => {
+    if (listedFilter || saleTypeFilter || priceRangeFilter) {
+      document.body.addEventListener('click', () => {
+        showListedFilter(false)
+        showSaleTypeFilter(false)
+        showPriceRangeFilter(false)
+      })
+    }
+  }, [listedFilter, saleTypeFilter, priceRangeFilter])
+
   return (
     <div className={`${theme}`}>
       <Head>
@@ -875,7 +885,8 @@ const Collection = ({
                             {/* sale type  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5">
                               <button
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showListedFilter(false),
                                   showPriceRangeFilter(false),
                                   showSaleTypeFilter(!saleTypeFilter)
@@ -908,7 +919,7 @@ const Collection = ({
                               </button>
 
                               {saleTypeFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <ul className="flex flex-col flex-wrap">
                                     <li>
                                       <button
@@ -967,7 +978,8 @@ const Collection = ({
                             {/* price range  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5">
                               <button
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showListedFilter(false),
                                   showSaleTypeFilter(false),
                                   showPriceRangeFilter(!priceRangeFilter)
@@ -1000,7 +1012,7 @@ const Collection = ({
                               </button>
 
                               {priceRangeFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <div className="flex items-center space-x-3 px-5 pb-2">
                                     <input
                                       type="number"
@@ -1045,7 +1057,8 @@ const Collection = ({
                             {/* all nft and listed filter  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
                               <div
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showPriceRangeFilter(false),
                                   showSaleTypeFilter(false),
                                   showListedFilter(!listedFilter)
@@ -1079,7 +1092,7 @@ const Collection = ({
                                 </svg>
                               </div>
                               {listedFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                     Sort By
                                   </span>

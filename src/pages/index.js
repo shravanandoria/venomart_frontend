@@ -31,6 +31,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
   };
 
   useEffect(() => {
+    if (topCollections != "") return;
     fetchTopCollections();
   }, []);
 

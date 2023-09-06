@@ -72,8 +72,22 @@ const venomLions = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
+    const NFTARRAY = [
+        "https://ipfs.io/ipfs/QmQY7rMy3Dz5eqtGWotFejcZuXQ3rLHZWXzL6wTsz7J3Bo/1.png",
+        "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
+        "https://ipfs.io/ipfs/QmbNRSUkffUmwhZ1ineY1CF4yqKvrf58ttzxJxJoBKorEU/3.png",
+    ]
+
+    const [token_id, set_token_id] = useState(0);
+
+    const getRandomTokenId = () => {
+        let token_id_calcy = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+        set_token_id(token_id_calcy);
+    }
+
     const [data] = useState({
-        image: NFTIMG,
+        // image: NFTIMG,
+        image: NFTARRAY[token_id],
         collectionName: ProjectName,
         name: ProjectName,
         description: shortDesc,
@@ -118,6 +132,7 @@ const venomLions = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
+        getRandomTokenId();
     }, []);
 
     useEffect(() => {
