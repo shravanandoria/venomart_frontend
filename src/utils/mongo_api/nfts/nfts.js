@@ -24,7 +24,13 @@ export const fetch_user_listed_nfts = async (owner_address, skip) => {
   }
 };
 
-export const fetch_collection_nfts = async (collection_address, sortby, minprice, maxprice, skip) => {
+export const fetch_collection_nfts = async (
+  collection_address,
+  sortby,
+  minprice,
+  maxprice,
+  skip
+) => {
   try {
     const res = await axios({
       url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
@@ -35,7 +41,6 @@ export const fetch_collection_nfts = async (collection_address, sortby, minprice
     console.log(error.message);
   }
 };
-
 
 export const nftInfo = async (nftAddress) => {
   try {
@@ -72,7 +77,11 @@ export const createNFT = async (data) => {
   }
 };
 
-export const update_verified_nft_data = async (OnChainOwner, OnChainManager, NFTAddress) => {
+export const update_verified_nft_data = async (
+  OnChainOwner,
+  OnChainManager,
+  NFTAddress
+) => {
   try {
     const res = await axios({
       url: `/api/nft/verify_nft`,
@@ -80,7 +89,7 @@ export const update_verified_nft_data = async (OnChainOwner, OnChainManager, NFT
       data: {
         ownerAddress: OnChainOwner,
         managerAddress: OnChainManager,
-        NFTAddress: NFTAddress
+        NFTAddress: NFTAddress,
       },
     });
     return res.data.data;
@@ -121,6 +130,7 @@ export const cancelNFTListing = async (data) => {
         new_manager: data.new_manager,
       },
     });
+    console.log(res.data.data);
     return res.data.data;
   } catch (error) {
     console.log(error.message);
@@ -138,7 +148,7 @@ export const updateNFTsale = async (data) => {
         price: data.price,
         demandPrice: data.demandPrice,
         new_owner: data.new_owner,
-        new_manager: data.new_manager
+        new_manager: data.new_manager,
       },
     });
     return res.data.data;
@@ -146,4 +156,3 @@ export const updateNFTsale = async (data) => {
     console.log(error.message);
   }
 };
-

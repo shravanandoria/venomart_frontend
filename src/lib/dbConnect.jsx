@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const mongodb_uri = process.env.NEXT_PUBLIC_Mongo_URI;
-
+let db;
 if (!mongodb_uri) {
   throw new error("missing uri");
 }
@@ -26,6 +26,7 @@ async function dbConnect() {
       // useCreateIndex: true,
     };
     cached.promise = mongoose.connect(mongodb_uri, opts).then((mongoose) => {
+      db = mongoose;
       return mongoose;
     });
   }
@@ -34,3 +35,7 @@ async function dbConnect() {
 }
 
 export default dbConnect;
+
+export const disconnect = async () => {
+  await db.disconnect();
+};

@@ -293,10 +293,16 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
+        <title>{`${
+          nft?.name ? nft?.name : "NFT"
+        } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"} | An NFT on Venom Blockchain`}
+          content={`${
+            nft?.name
+              ? nft?.name
+              : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+          } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -466,18 +472,19 @@ const NFTPage = ({
                               ) : (
                                 <button
                                   onClick={() => refreshMetadata()}
-                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                                >
                                   Refresh Metadata
                                 </button>
                               ))}
                             <a
                               href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${nft?.NFTCollection?.name ? nft?.NFTCollection?.name : "NFT"}%20collection%20minted%20on%20venom%20blockchain%0ACheck%20it%20out%20here%20-%20${webURL}nft/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
                               target="_blank"
-                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                            >
                               Share
                             </a>
-                            <button
-                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                            <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               Report
                             </button>
                           </div>
@@ -1758,3 +1765,30 @@ const NFTPage = ({
 };
 
 export default NFTPage;
+
+// export async function getServerSideProps(context) {
+//   const { slug } = context.query;
+//   console.log(slug);
+
+//   const myEver = new MyEver();
+//   const nft_onchain = await get_nft_by_address(myEver.ever(), slug);
+
+//   // Fetch data using the nftInfo function or other relevant logic
+//   let nftData = null;
+//   try {
+//     nftData = await nftInfo(slug);
+//     console.log({ nftData });
+//   } catch (error) {
+//     // Handle errors or set nftData to an empty object if needed
+//     console.error("Error fetching nftData:", error);
+//     nftData = {};
+//   }
+
+//   // Pass the fetched data as props to your component
+//   return {
+//     props: {
+//       nftData: JSON.parse(JSON.stringify(nftData)),
+//       // ... Pass other necessary props ...
+//     },
+//   };
+// }
