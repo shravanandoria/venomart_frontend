@@ -863,19 +863,3 @@ const Profile = ({
 
 export default Profile;
 
-// This gets called on every request
-export async function getServerSideProps(context) {
-  const { slug } = context.query;
-
-  console.log({ slug });
-  // Fetch data from external API
-  const res = await check_user(slug);
-  // const data = JSON.stringify(res.data);
-
-  console.log({ res });
-
-  disconnect();
-
-  // Pass data to the page via props
-  return { props: { data: res } };
-}
