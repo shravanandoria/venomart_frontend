@@ -293,16 +293,14 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${
-          nft?.name ? nft?.name : "NFT"
-        } - Venomart Marketplace`}</title>
+        <title>{`${nft?.name ? nft?.name : "NFT"
+          } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${
-            nft?.name
+          content={`${nft?.name
               ? nft?.name
               : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
-          } | An NFT on Venom Blockchain`}
+            } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -1765,30 +1763,3 @@ const NFTPage = ({
 };
 
 export default NFTPage;
-
-// export async function getServerSideProps(context) {
-//   const { slug } = context.query;
-//   console.log(slug);
-
-//   const myEver = new MyEver();
-//   const nft_onchain = await get_nft_by_address(myEver.ever(), slug);
-
-//   // Fetch data using the nftInfo function or other relevant logic
-//   let nftData = null;
-//   try {
-//     nftData = await nftInfo(slug);
-//     console.log({ nftData });
-//   } catch (error) {
-//     // Handle errors or set nftData to an empty object if needed
-//     console.error("Error fetching nftData:", error);
-//     nftData = {};
-//   }
-
-//   // Pass the fetched data as props to your component
-//   return {
-//     props: {
-//       nftData: JSON.parse(JSON.stringify(nftData)),
-//       // ... Pass other necessary props ...
-//     },
-//   };
-// }
