@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
           let nft = await NFT.findOne({ NFTAddress: nft_address }).populate({
             path: "NFTCollection",
-            select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
+            select: { socials: 0, createdAt: 0, updatedAt: 0 },
           });
 
           if (!nft)
@@ -74,13 +74,12 @@ export default async function handler(req, res) {
               description: "",
               socials: [],
               isVerified: false,
-              Category: [],
+              Category: "",
               TotalSupply: 0,
               TotalListed: 0,
-              FloorPrice: 1000,
+              FloorPrice: 100000,
               TotalVolume: 0,
             });
-            res.status(200).json({ success: true, data: collection });
           }
 
           // creating the nft

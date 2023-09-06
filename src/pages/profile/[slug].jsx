@@ -8,14 +8,14 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { MARKETPLACE_ADDRESS, loadNFTs_user } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, cancel_listing, loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
-import { disconnect } from "../../lib/dbConnect";
+import CancelModal from "../../components/modals/CancelModal";
 
 const Profile = ({
   theme,
@@ -24,8 +24,8 @@ const Profile = ({
   standalone,
   webURL,
   copyURL,
-  currency,
-  venomProvider,
+  setAnyModalOpen,
+  venomProvider
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -41,6 +41,7 @@ const Profile = ({
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
+  const [userPurchases, setUserPurchases] = useState(true);
 
   const [lastNFT, setLastNFT] = useState(undefined);
 
@@ -52,6 +53,10 @@ const Profile = ({
   const [nfts, set_nfts] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
+
+  const [actionLoad, setActionLoad] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState("");
+  const [cancelModal, setCancelModal] = useState(false);
 
   const getProfileData = async () => {
     set_loading(true);
@@ -70,13 +75,7 @@ const Profile = ({
   const fetch_user_activity = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity(
-      user_data._id,
-      "",
-      "",
-      activityType,
-      activitySkip
-    );
+    const res = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (res) {
       setActivityRecords(res);
     }
@@ -132,13 +131,7 @@ const Profile = ({
   const scrollActivityFetch = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const newArray = await getActivity(
-      user_data._id,
-      "",
-      "",
-      activityType,
-      activitySkip
-    );
+    const newArray = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
     }
@@ -149,6 +142,25 @@ const Profile = ({
     const { offsetHeight, scrollTop, scrollHeight } = e.target;
     if (offsetHeight + scrollTop + 10 >= scrollHeight) {
       setActivitySkip(activityRecords.length);
+    }
+  };
+
+  // cancel nft sale
+  const cancelNFT = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    try {
+      const cancelling = await cancel_listing(
+        selectedNFT?.NFTAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        venomProvider,
+        signer_address
+      );
+      if (!cancelling) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -197,7 +209,13 @@ const Profile = ({
   return loading ? (
     <Loader theme={theme} />
   ) : (
+
     <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
+
+      {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
       <Head>
         <title>User Profile - Venomart Marketplace</title>
         <meta
@@ -212,7 +230,7 @@ const Profile = ({
         <link rel="icon" href="/fav.png" />
       </Head>
       {/* <!-- Banner IMG--> */}
-      <div className="relative pt-24 dark:bg-jacarta-800">
+      <div className="relative pt-24 dark:bg-jacarta-900">
         <Image
           src={
             user_data?.coverImage?.replace(
@@ -228,7 +246,7 @@ const Profile = ({
       </div>
 
       {/* <!-- Profile Section --> */}
-      <section className="relative pb-6 pt-28 dark:bg-jacarta-800">
+      <section className="relative pb-6 pt-28 dark:bg-jacarta-900">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="relative">
             <Image
@@ -308,7 +326,7 @@ const Profile = ({
               )}
               <div
                 onClick={() => setShare(!share)}
-                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
+                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
               >
                 <a
                   className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
@@ -331,9 +349,9 @@ const Profile = ({
                 </a>
 
                 {share && (
-                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                  <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
                     <a
-                      href={`https://twitter.com/intent/tweet?text=This%20is%20my%20profile%20on%20venomart.io%20,%20check%20it%20out%20here-%20${webURL}profile/${slug}`}
+                      href={`https://twitter.com/intent/tweet?text=Check%20out%20my%20profile%20on%20venomart.io%0AVenomart%20is%20the%20first%20fully-fledged%20NFT%20marketplace%20on%20Venom%20blockchain%20%F0%9F%94%A5%0AHere%20you%20go%20-%20${webURL}profile/${slug}%0A%23Venom%20%23venomart%20%23VenomBlockchain%20%23VenomFoundation%20%23NFT`}
                       target="_blank"
                       className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                     >
@@ -393,7 +411,7 @@ const Profile = ({
       </section>
 
       {/* switch buttons  */}
-      <section className="pt-6 dark:bg-jacarta-800 pb-12">
+      <section className="pt-6 dark:bg-jacarta-900 pb-12">
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li
             className="nav-item"
@@ -529,12 +547,7 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section
-          className={`relative pt-6 pb-24 dark:bg-jacarta-800 ${
-            skip != 0 && "scroll-list"
-          }`}
-          onScroll={handleScroll}
-        >
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
           <div>
             <div className="tab-content">
               <div
@@ -550,14 +563,18 @@ const Profile = ({
                         key={index}
                         ImageSrc={e?.nft_image}
                         Name={e?.name}
-                        Description={e?.description}
                         Address={e?.NFTAddress}
+                        Owner={e?.ownerAddress}
+                        signerAddress={signer_address}
                         listedBool={e?.isListed}
                         listingPrice={e?.listingPrice}
                         NFTCollectionAddress={e?.NFTCollection?.contractAddress}
                         NFTCollectionName={e?.NFTCollection?.name}
                         NFTCollectionStatus={e?.NFTCollection?.isVerified}
-                        currency={currency}
+                        setAnyModalOpen={setAnyModalOpen}
+                        setCancelModal={setCancelModal}
+                        NFTData={e}
+                        setSelectedNFT={setSelectedNFT}
                       />
                     );
                   })}
@@ -584,7 +601,7 @@ const Profile = ({
 
       {/* fetch owned nfts  */}
       {owned && (
-        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800`}>
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900`}>
           <div>
             <div className="tab-content">
               <div
@@ -616,8 +633,9 @@ const Profile = ({
                             "https://ipfs.io/ipfs/"
                           )}
                           Name={e?.name}
+                          Address={e?.nft._address}
                           Description={e?.description}
-                          Address={e.nft._address}
+                        // NFTCollectionAddress={e?.collection?._address}
                         />
                       );
                     })}
@@ -639,7 +657,7 @@ const Profile = ({
 
       {/* //fetch collections here */}
       {collections && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div>
             <div className="tab-content">
               <div
@@ -681,7 +699,7 @@ const Profile = ({
 
       {/* fetch activity here  */}
       {signer_address === slug && activity && (
-        <section className="relative pt-6 pb-24 dark:bg-jacarta-800">
+        <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
             <div className="tab-content">
               <div className="tab-pane fade show active">
@@ -702,6 +720,7 @@ const Profile = ({
                           Price={e?.price}
                           ActivityTime={e?.createdAt}
                           ActivityType={e?.type}
+                          userPurchases={userPurchases}
                           blockURL={blockURL}
                           ActivityHash={e?.hash}
                           From={e?.from}
@@ -732,16 +751,7 @@ const Profile = ({
                       Filters
                     </h3>
                     <div className="flex flex-wrap">
-                      <button
-                        onClick={() => (
-                          setActivitySkip(0), setActivityType("list")
-                        )}
-                        className={`${
-                          activityType == "list"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                        }`}
-                      >
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -765,16 +775,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button
-                        onClick={() => (
-                          setActivitySkip(0), setActivityType("cancel")
-                        )}
-                        className={`${
-                          activityType == "cancel"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                        }`}
-                      >
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -798,16 +799,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button
-                        onClick={() => (
-                          setActivitySkip(0), setActivityType("sale")
-                        )}
-                        className={`${
-                          activityType == "sale"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                        }`}
-                      >
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -822,11 +814,23 @@ const Profile = ({
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                         </svg>
-                        <span
-                          className={`text-2xs font-medium ${
-                            activityType == "sale" && "text-white"
-                          }`}
+                        <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          Purchase
+                        </span>
+                      </button>
+
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "user_sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
                         >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "user_sale" && "text-white"}`}>
                           Sale
                         </span>
                       </button>
@@ -837,6 +841,21 @@ const Profile = ({
             </div>
           </div>
         </section>
+      )}
+
+      {/* cancel modal  */}
+      {cancelModal && (
+        <CancelModal
+          formSubmit={cancelNFT}
+          setCancelModal={setCancelModal}
+          setAnyModalOpen={setAnyModalOpen}
+          NFTImage={selectedNFT?.nft_image}
+          NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+          NFTCollectionName={selectedNFT?.NFTCollection?.name}
+          CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          NFTName={selectedNFT?.name}
+          actionLoad={actionLoad}
+        />
       )}
     </div>
   );

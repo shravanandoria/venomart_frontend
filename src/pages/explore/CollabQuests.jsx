@@ -31,7 +31,7 @@ const CollabQuests = ({ theme, collabQuests }) => {
             </Head>
 
             <div className={`${theme}`}>
-                <section className="relative py-24 dark:bg-jacarta-800">
+                <section className="relative py-24 dark:bg-jacarta-900">
                     <div className="container">
                         <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                             Collab Quests

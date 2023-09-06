@@ -5,6 +5,7 @@ import { MdVerified } from "react-icons/md";
 import {
     BsBrowserChrome,
     BsDiscord,
+    BsFillShareFill,
     BsInstagram,
     BsTelegram,
     BsTwitter,
@@ -17,12 +18,12 @@ import {
     AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "../../..//components/Loader";
-import { create_launchpad_nft } from "../../../utils/user_nft";
+import Loader from "../../../components/Loader";
+import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
-const venomMonkeys = ({
+const venomLions = ({
     blockURL,
     theme,
     webURL,
@@ -30,18 +31,16 @@ const venomMonkeys = ({
     venomProvider,
     signer_address,
     connectWallet,
-    collabQuests,
+    customLaunchpad,
+    setAnyModalOpen
 }) => {
-    const router = useRouter();
-
     // change from here
-    const launchSlug = collabQuests[3];
-
-    const venomartTwitter = "venomart23";
-    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
-
+    const launchSlug = customLaunchpad[3];
     // change till here
 
+    const router = useRouter();
+    const venomartTwitter = "venomart23";
+    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
     const intendTweetId = launchSlug.tweetID;
     const projectTwitter = launchSlug.twitterUserName;
     const projectDiscord = launchSlug.discord;
@@ -73,8 +72,22 @@ const venomMonkeys = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
+    const NFTARRAY = [
+        "https://ipfs.io/ipfs/QmQY7rMy3Dz5eqtGWotFejcZuXQ3rLHZWXzL6wTsz7J3Bo/1.png",
+        "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
+        "https://ipfs.io/ipfs/QmbNRSUkffUmwhZ1ineY1CF4yqKvrf58ttzxJxJoBKorEU/3.png",
+    ]
+
+    const [token_id, set_token_id] = useState(0);
+
+    const getRandomTokenId = () => {
+        let token_id_calcy = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+        set_token_id(token_id_calcy);
+    }
+
     const [data] = useState({
-        image: NFTIMG,
+        // image: NFTIMG,
+        image: NFTARRAY[token_id],
         collectionName: ProjectName,
         name: ProjectName,
         description: shortDesc,
@@ -98,20 +111,20 @@ const venomMonkeys = ({
 
     const getMintedCount = async () => {
         setLoading(true);
-        if (venomProvider != undefined) {
-            try {
-                const contract = new venomProvider.Contract(
-                    collectionAbi,
-                    contractAddress
-                );
-                const totalSupply = await contract.methods
-                    .totalSupply({ answerId: 0 })
-                    .call();
-                setMintedNFTs(totalSupply.count);
-            } catch (error) {
-                setMintedNFTs(0);
-                console.log(error.message);
-            }
+        try {
+            let myEver = new MyEver();
+            const providerRpcClient = myEver.ever();
+            const contract = new providerRpcClient.Contract(
+                collectionAbi,
+                contractAddress
+            );
+            const totalSupply = await contract.methods
+                .totalSupply({ answerId: 0 })
+                .call();
+            setMintedNFTs(totalSupply.count);
+        } catch (error) {
+            setMintedNFTs(0);
+            console.log(error.message);
         }
         setLoading(false);
     };
@@ -119,7 +132,8 @@ const venomMonkeys = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
-    }, [venomProvider]);
+        getRandomTokenId();
+    }, []);
 
     useEffect(() => {
         if (status == "Upcoming") {
@@ -171,7 +185,7 @@ const venomMonkeys = ({
                         setEndSeconds(s);
 
                         if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                            setStatus("Sold Out");
+                            setStatus("Ended");
                         }
                     }, 1000);
                     return () => clearInterval(interval);
@@ -199,10 +213,8 @@ const venomMonkeys = ({
         );
         if (launchMint) {
             setAfterMint(true);
+            setAnyModalOpen(true);
             setMintLock(true);
-            setTimeout(() => {
-                setAfterMint(false);
-            }, 3000);
         }
         setLoading(false);
     };
@@ -238,22 +250,10 @@ const venomMonkeys = ({
         }, 3000);
     }, [venomProvider]);
 
-    useEffect(() => {
-        if (afterMint) {
-            document.body.style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        }
-        if (!afterMint) {
-            document.body.style.overflow = "scroll";
-            document.body.style.overflowX = "hidden";
-            window.scrollTo(0, 0);
-        }
-    }, [afterMint]);
-
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>NFT Launchpad - Venomart Marketplace</title>
+                <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -350,13 +350,13 @@ const venomMonkeys = ({
                                                     Venomscan
                                                     <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                                 </a>
-                                                <a
+                                                <Link
                                                     href={`/collection/${contractAddress}`}
                                                     className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                                 >
                                                     Collection
                                                     <GoArrowUpRight />
-                                                </a>
+                                                </Link>
                                             </>
                                         ) : (
                                             <>
@@ -571,12 +571,6 @@ const venomMonkeys = ({
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
                                             src={NFTIMG}
                                         />
-                                        <div className="hideInPhoneTxt">
-                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                                                Mint this NFT and get benefits of this NFT from venomart
-                                                after mainnet launch 🚀🚀
-                                            </p>
-                                        </div>
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -590,7 +584,7 @@ const venomMonkeys = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {projectTwitter} on twitter
+                                                1] Follow {ProjectName} on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -605,7 +599,7 @@ const venomMonkeys = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-2 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                2] Follow venomart on twitter
+                                                1] Follow venomart on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${venomartTwitter}`}
@@ -620,7 +614,7 @@ const venomMonkeys = ({
                                         {/* join discord  */}
                                         <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
+                                                2] Join venomart discord server
                                             </p>
                                             <Link
                                                 href={venomartDiscord}
@@ -635,7 +629,7 @@ const venomMonkeys = ({
                                         {/* join discord  */}
                                         <div className="flex items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                4] Join {projectTwitter} discord server
+                                                4] Join {ProjectName} discord server
                                             </p>
                                             <Link
                                                 href={projectDiscord}
@@ -947,7 +941,7 @@ const venomMonkeys = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => setAfterMint(false)}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -972,14 +966,25 @@ const venomMonkeys = ({
                                         </div>
                                     </div>
 
-                                    <div className="modal-footer">
-                                        <div className="flex items-center justify-center space-x-4">
+                                    <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
                                             <Link
                                                 href={`/profile/${signer_address}`}
-                                                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
-                                                View Profile
+                                                View
+                                                <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
                                             </Link>
+                                        </div>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
+                                            <a
+                                                href={`https://twitter.com/intent/tweet?text=Just%20minted%20${ProjectName}%20NFT%20via%20venomart%20NFT%20launchpad%20%F0%9F%94%A5%0AVery%20smooth%20minting,%20great%20experience%20%F0%9F%98%84%0AHere%20you%20go%20-%20${webURL}launchpad/launch/${pageName}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
+                                                target="_blank"
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                            >
+                                                Share
+                                                <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -992,4 +997,4 @@ const venomMonkeys = ({
     );
 };
 
-export default venomMonkeys;
+export default venomLions;

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const fetch_nfts = async (skip) => {
+export const fetch_nfts = async (filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip) => {
   try {
     const res = await axios({
-      url: `/api/nft/get_all_nfts?skip=${skip}`,
+      url: `/api/nft/get_all_nfts?filterCollection=${filterCollection}&collectionCategory=${collectionCategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortby=${sortby}&option=${option}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;

@@ -11,15 +11,58 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { skip } = req.query;
+                    const { filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip } = req.query;
 
-                    let nfts = await NFT.find({}, undefined, {
+                    let filterQuery = {};
+                    let sortQuery = {};
+                    let optionQuery = {};
+                    let limit = 20;
+
+                    if (filterCollection != "All") {
+                        filterQuery.NFTCollection = filterCollection
+                    }
+                    if (collectionCategory != "All") {
+                        limit = 50
+                        optionQuery.Category = collectionCategory
+                    }
+                    if (minPrice != 0 && maxPrice != 0) {
+                        filterQuery.demandPrice = { $gte: minPrice, $lte: maxPrice }
+                    }
+                    if (sortby != "") {
+                        if (sortby == "recentlyListed") {
+                            limit = 50
+                            sortQuery.isListed = -1
+                            sortQuery.updatedAt = -1
+                        }
+                        if (sortby == "lowToHigh") {
+                            limit = 50
+                            sortQuery.isListed = -1
+                            sortQuery.demandPrice = 1
+                        }
+                        if (sortby == "highToLow") {
+                            limit = 50
+                            sortQuery.isListed = -1
+                            sortQuery.demandPrice = -1
+                        }
+                    }
+                    if (option) {
+                        if (option == "verified") {
+                            optionQuery.isVerified = true
+                        }
+                    }
+
+                    let nfts = await NFT.find(filterQuery, undefined, {
                         skip,
-                        limit: 20,
+                        limit: limit,
                     }).populate({
                         path: "NFTCollection",
-                        select: { activity: 0, socials: 0, createdAt: 0, updatedAt: 0 },
-                    }).sort({ isListed: -1, createdAt: -1 });
+                        match: optionQuery,
+                        select: { contractAddress: 1, name: 1, isVerified: 1, royalty: 1, royaltyAddress: 1 },
+                    }).sort(sortQuery);
+
+                    if (option == "verified") {
+                        nfts = nfts.filter(nft => nft.NFTCollection);
+                    }
 
                     return res.status(200).json({ success: true, data: nfts });
 

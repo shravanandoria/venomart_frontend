@@ -7,16 +7,16 @@ const Rankings = ({
   theme,
   topCollections,
   setTopCollections,
-  venomProvider,
 }) => {
   const fetchTopCollections = async () => {
-    const topCollections = await get_collections(0);
+    const topCollections = await get_collections("", "topVolume", "unverified", 0);
     if (topCollections) {
       setTopCollections(topCollections);
     }
   };
 
   useEffect(() => {
+    if (topCollections != "") return;
     fetchTopCollections();
   }, []);
 
@@ -36,7 +36,7 @@ const Rankings = ({
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      <div className={`relative py-24 dark:bg-jacarta-800`}>
+      <div className={`relative py-24 dark:bg-jacarta-900`}>
         <div className="container">
           <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
             Rankings
@@ -213,7 +213,7 @@ const Rankings = ({
                   )
               )}
               {topCollections?.length <= 0 && (
-                <h2 className="text-center p-4">Coming soon..</h2>
+                <h2 className="text-center p-4">No collections found!</h2>
               )}
             </div>
           </div>

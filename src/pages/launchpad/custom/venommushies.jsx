@@ -236,7 +236,7 @@ const venommushies = ({
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>NFT Launchpad - Venomart Marketplace</title>
+                <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
                     content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -250,7 +250,7 @@ const venommushies = ({
             </Head>
 
             {anyModalOpen && (
-                <div className="backdrop-blur-lg fixed w-[100%] h-[100%] z-20"></div>
+                <div className="backgroundModelBlur backdrop-blur-lg"></div>
             )}
 
             {loading ? (

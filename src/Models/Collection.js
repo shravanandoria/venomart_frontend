@@ -17,7 +17,7 @@ const CollectionSchema = new mongoose.Schema(
     keywords: [String],
     socials: [String],
     isVerified: Boolean,
-    Category: [String],
+    Category: String,
     TotalSupply: Number,
     TotalListed: Number,
     FloorPrice: Number,

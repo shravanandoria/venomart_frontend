@@ -18,11 +18,11 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../../components/Loader";
-import { create_launchpad_nft } from "../../../utils/user_nft";
-import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
+import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
+import collectionAbi from "../../../../abi/Launchpad_Collection.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 
-const rave = ({
+const venommushies = ({
   blockURL,
   theme,
   webURL,
@@ -30,15 +30,13 @@ const rave = ({
   venomProvider,
   signer_address,
   connectWallet,
-  customLaunchpad,
+  collabQuests,
   anyModalOpen,
-  setAnyModalOpen
+  setAnyModalOpen,
 }) => {
   const router = useRouter();
   // change from here
-
-  const launchSlug = customLaunchpad[1];
-
+  const launchSlug = collabQuests[6];
   // change till here
 
   const venomartTwitter = "venomart23";
@@ -98,20 +96,20 @@ const rave = ({
 
   const getMintedCount = async () => {
     setLoading(true);
-    if (venomProvider != undefined) {
-      try {
-        const contract = new venomProvider.Contract(
-          collectionAbi,
-          contractAddress
-        );
-        const totalSupply = await contract.methods
-          .totalSupply({ answerId: 0 })
-          .call();
-        setMintedNFTs(totalSupply.count);
-      } catch (error) {
-        setMintedNFTs(0);
-        console.log(error.message);
-      }
+    try {
+      let myEver = new MyEver();
+      const providerRpcClient = myEver.ever();
+      const contract = new providerRpcClient.Contract(
+        collectionAbi,
+        contractAddress
+      );
+      const totalSupply = await contract.methods
+        .totalSupply({ answerId: 0 })
+        .call();
+      setMintedNFTs(totalSupply.count);
+    } catch (error) {
+      setMintedNFTs(0);
+      console.log(error.message);
     }
     setLoading(false);
   };
@@ -119,7 +117,7 @@ const rave = ({
   // getting minted nfts
   useEffect(() => {
     getMintedCount();
-  }, [venomProvider]);
+  }, []);
 
   useEffect(() => {
     if (status == "Upcoming") {
@@ -238,7 +236,8 @@ const rave = ({
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
+        <title>{`${ProjectName ? ProjectName : "Project"
+          } NFT Launchpad - Venomart Marketplace`}</title>
         <meta
           name="description"
           content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
@@ -556,20 +555,12 @@ const rave = ({
                       className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
                       src={NFTIMG}
                     />
-                    <div className="hideInPhoneTxt">
-                      <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                        Mint this NFT and get benefits like zero fee trading on
-                        venomart after mainnet launch 🚀
-                      </p>
-                      <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                        10 winners will get $VMART token airdrop (exclusive for
-                        rave community) 🥳
-                      </p>
-                      <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                        5 other winners will get premium version of venomart
-                        marketplace 💰
-                      </p>
-                    </div>
+                    {/* <div className="hideInPhoneTxt">
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                Mint this NFT and get benefits of this NFT from venomart
+                                                after mainnet launch 🚀🚀
+                                            </p>
+                                        </div> */}
                   </div>
 
                   <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -583,7 +574,7 @@ const rave = ({
                     {/* follow twitter  */}
                     <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                       <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                        1] Follow {ProjectName} on twitter
+                        1] Follow {projectTwitter} on twitter
                       </p>
                       <Link
                         href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -626,24 +617,24 @@ const rave = ({
                     </div>
 
                     {/* join discord  */}
-                    <div className="flex items-center pb-5 mb-5">
-                      <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        4] Join rave discord server
-                      </p>
-                      <Link
-                        href={projectDiscord}
-                        target="_blank"
-                        className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                      >
-                        Join{" "}
-                        <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                      </Link>
-                    </div>
+                    {/* <div className="flex items-center pb-5 mb-5">
+                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                4] Join {projectTwitter} discord server
+                                            </p>
+                                            <Link
+                                                href={projectDiscord}
+                                                target="_blank"
+                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                            >
+                                                Join{" "}
+                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                            </Link>
+                                        </div> */}
 
                     {/* retweet tweet  */}
-                    <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
+                    <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5 mt-5">
                       <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                        5] Retweet and like this tweet
+                        4] Retweet and like this tweet
                       </p>
                       <Link
                         href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
@@ -927,6 +918,7 @@ const rave = ({
           </section>
 
           {anyModalOpen && (
+            // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
             <div className="afterMintDiv">
               <form className="modal-dialog max-w-2xl">
                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">
@@ -984,4 +976,4 @@ const rave = ({
   );
 };
 
-export default rave;
+export default venommushies;

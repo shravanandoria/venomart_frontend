@@ -135,7 +135,7 @@ const EditProfile = ({ signer_address, theme }) => {
         </div>
 
         {/* <!-- Edit Profile --> */}
-        <section className="relative py-16 dark:bg-jacarta-800">
+        <section className="relative py-16 dark:bg-jacarta-900">
           <div className="container">
             <div className="mx-auto max-w-[48.125rem] md:flex">
               {/* left tab  */}

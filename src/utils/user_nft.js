@@ -15,7 +15,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -34,12 +34,14 @@ export class MyEver {
 }
 
 // STRICT -- dont change this values, this values are used in transactions
-export const listing_fees = 100000000; //adding 9 zeros at the end makes it 1 venom
+export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
+export const collection_minting_fees = 3000000000;
+export const listing_fees = 100000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
 export const COLLECTION_ADDRESS =
-  "0:3ce49eddf4099caa4c10b4869357af642616f3d71c04fd6eca772131ed9ab7c2";
+  "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
 export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
@@ -361,10 +363,7 @@ export const create_launchpad_nft = async (
       .totalSupply({ answerId: 0 })
       .call();
 
-    const ipfs_image =
-      typeof data.image == "string"
-        ? data.image
-        : await storage.upload(data.image);
+    const ipfs_image = data.image;
 
     const nft_json = JSON.stringify({
       type: "Venom Testnet",
@@ -440,7 +439,7 @@ export const list_nft = async (
         newFloorPrice: parseFloat(newFloorPrice),
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -488,9 +487,10 @@ export const list_nft = async (
     const fees = await marketplace_contract.methods
       .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
       .call();
+
+    return true;
   } catch (error) {
     console.log(error);
-    window.location.reload();
   }
 };
 
@@ -523,7 +523,7 @@ export const cancel_listing = async (
         collection_address: collection_address,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -550,9 +550,9 @@ export const cancel_listing = async (
         from: new Address(signer_address),
         amount: "100000000",
       });
+    return true;
   } catch (error) {
     console.log(error);
-    window.location.reload();
   }
 };
 
@@ -597,7 +597,7 @@ export const buy_nft = async (
         newFloorPrice: 0,
       };
       await addActivity(activityOBJ);
-      window.location.reload();
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const subscriber = new Subscriber(provider);
@@ -624,9 +624,9 @@ export const buy_nft = async (
         from: new Address(signer_address),
         amount: fees,
       });
+    return true;
   } catch (error) {
     console.log(error);
-    window.location.reload();
   }
 };
 

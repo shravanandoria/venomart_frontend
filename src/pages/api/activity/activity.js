@@ -13,13 +13,19 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { user_id, collection_id, nft_id, activityType, skip } = req.query;
+          const { user_id, user_wallet, collection_id, nft_id, activityType, skip } = req.query;
 
           let activityQuery = {};
 
           if (user_id) {
-            activityQuery.owner = user_id;
-            activityType && (activityQuery.type = activityType);
+            if (activityType == "user_sale") {
+              activityQuery.type = "sale";
+              activityQuery.from = user_wallet;
+            }
+            else {
+              activityQuery.owner = user_id;
+              activityType && (activityQuery.type = activityType);
+            }
           } else if (collection_id) {
             activityQuery.nft_collection = collection_id;
             activityType && (activityQuery.type = activityType);
@@ -28,10 +34,23 @@ export default async function handler(req, res) {
             activityType && (activityQuery.type = activityType);
           }
 
+          if (activityType == "user_sale") {
+            const activities = await Activity.find(activityQuery)
+              .populate({
+                path: "item",
+                select: { attributes: 0, createdAt: 0, updatedAt: 0 },
+              })
+              .skip(skip)
+              .limit(15)
+              .sort({ createdAt: -1 });
+
+            return res.status(200).json({ success: true, data: activities });
+          }
+
           const activities = await Activity.find(activityQuery)
             .populate({
               path: "item",
-              select: { activity: 0, attributes: 0, createdAt: 0, updatedAt: 0 },
+              select: { attributes: 0, createdAt: 0, updatedAt: 0 },
             })
             .skip(skip)
             .limit(15)
@@ -80,13 +99,12 @@ export default async function handler(req, res) {
               description: "",
               socials: [],
               isVerified: false,
-              Category: [],
+              Category: "",
               TotalSupply: 0,
               TotalListed: 0,
-              FloorPrice: 1000,
+              FloorPrice: 100000,
               TotalVolume: 0,
             });
-            res.status(200).json({ success: true, data: collection });
           }
 
           // Find the NFT
@@ -129,8 +147,8 @@ export default async function handler(req, res) {
                     NFTCollection: collection,
                     isListed: true,
                   })
-                    .sort({ listingPrice: -1 })
-                    .select({ listingPrice: 1, isListed: 1 })
+                    .sort({ demandPrice: 1 })
+                    .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
                     .limit(25);
 
                   if (nfts.length > 0) {

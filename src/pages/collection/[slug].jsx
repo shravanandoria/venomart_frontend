@@ -15,7 +15,7 @@ import { RxActivityLog } from "react-icons/rx"
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai"
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { MARKETPLACE_ADDRESS, loadNFTs_collection } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
@@ -27,6 +27,8 @@ import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { MyEver } from "../../utils/user_nft";
+import BuyModal from "../../components/modals/BuyModal";
+import CancelModal from "../../components/modals/CancelModal";
 
 const Collection = ({
   blockURL,
@@ -34,8 +36,9 @@ const Collection = ({
   standalone,
   webURL,
   copyURL,
+  signer_address,
   venomProvider,
-  currency
+  setAnyModalOpen
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -71,6 +74,16 @@ const Collection = ({
   const [actionDrop, setActionDrop] = useState(false);
   const [metaDataUpdated, setMetaDataUpdated] = useState(false);
   const [metadataLoading, setMetadataLoading] = useState(false);
+
+  const [currentFilter, setCurrentFilter] = useState("recentlyListed");
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+
+  const [actionLoad, setActionLoad] = useState(false);
+  const [selectedNFT, setSelectedNFT] = useState("");
+  const [buyModal, setBuyModal] = useState(false);
+  const [cancelModal, setCancelModal] = useState(false);
 
   // refresh nft metadata 
   const refreshMetadata = async () => {
@@ -134,7 +147,7 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
 
-    const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
     }
@@ -158,6 +171,15 @@ const Collection = ({
     setLoading(false);
   };
 
+  // getting nfts according to filter 
+  const fetch_filter_nfts = async () => {
+    if (defaultFilterFetch == false) return;
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
+    if (nfts_offchain) {
+      set_nfts(nfts_offchain);
+    }
+  }
+
   // filter btn for fetch onchain data 
   const filterFetchOnchainData = async () => {
     setSearchLoading(true);
@@ -176,7 +198,7 @@ const Collection = ({
   const fetch_collection_activity = async () => {
     if (collection?._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", collection._id, "", activityType, skipActivity);
+    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity(res);
     }
@@ -200,7 +222,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, "lowToHigh", "", "", skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
     }
@@ -218,7 +240,7 @@ const Collection = ({
   const scrollFetchActivity = async () => {
     if (collection._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", collection._id, "", activityType, skipActivity);
+    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity([...activity, ...res]);
     }
@@ -238,6 +260,58 @@ const Collection = ({
     set_query_search(data);
     set_isTyping(true);
     set_def_query("");
+  };
+
+  // buy nft
+  const buy_NFT_ = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    let royaltyFinalAmount =
+      ((parseFloat(selectedNFT?.demandPrice) *
+        parseFloat(
+          selectedNFT?.NFTCollection?.royalty ? selectedNFT?.NFTCollection?.royalty : 0
+        )) /
+        100) *
+      1000000000;
+    try {
+      const buying = await buy_nft(
+        venomProvider,
+        selectedNFT?.NFTAddress,
+        selectedNFT?.ownerAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        selectedNFT.listingPrice,
+        (selectedNFT.listingPrice * 1000000000).toString(),
+        signer_address,
+        royaltyFinalAmount,
+        selectedNFT?.NFTCollection?.royaltyAddress
+          ? selectedNFT?.NFTCollection?.royaltyAddress
+          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+      );
+      if (!buying) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // cancel nft sale
+  const cancelNFT = async (e) => {
+    e.preventDefault();
+    setActionLoad(true);
+    try {
+      const cancelling = await cancel_listing(
+        selectedNFT?.NFTAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        venomProvider,
+        signer_address
+      );
+      if (!cancelling) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // use effects
@@ -275,6 +349,20 @@ const Collection = ({
     fetch_collection_activity();
   }, [activityType])
 
+  useEffect(() => {
+    fetch_filter_nfts();
+  }, [currentFilter])
+
+  useEffect(() => {
+    if (listedFilter || saleTypeFilter || priceRangeFilter) {
+      document.body.addEventListener('click', () => {
+        showListedFilter(false)
+        showSaleTypeFilter(false)
+        showPriceRangeFilter(false)
+      })
+    }
+  }, [listedFilter, saleTypeFilter, priceRangeFilter])
+
   return (
     <div className={`${theme}`}>
       <Head>
@@ -290,6 +378,14 @@ const Collection = ({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
       </Head>
+
+      {buyModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
 
       {loading ? (
         <Loader theme={theme} />
@@ -482,7 +578,7 @@ const Collection = ({
                       >
                         submit
                       </a>{" "}
-                      it now for approval now!
+                      it for approval now!
                     </div>
                   )}
                 </div>
@@ -594,7 +690,7 @@ const Collection = ({
                     {share && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20collection%20on%20venomart.io%20check%20it%20here-%20${webURL}collection/${slug}%20`}
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${collection?.name ? collection?.name : "It"}%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
@@ -678,9 +774,9 @@ const Collection = ({
           </section>
 
           {/* main section  */}
-          <section className="relative pb-24 pt-12" style={{ overflow: "hidden" }}>
+          <section className="relative pb-24 pt-12">
             {/* select tabs  */}
-            <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600">
+            <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600" style={{ overflow: "hidden" }}>
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
@@ -763,7 +859,7 @@ const Collection = ({
                           >
                             <div className="flex justify-center align-middle">
                               <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                              <span>Edit Filters</span>
+                              <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
                             </div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -784,13 +880,13 @@ const Collection = ({
                         </button>
                       }
                       {mobileFilter &&
-                        <div
-                          className="collectionFilterDiv p-4">
+                        <div className="collectionFilterDiv p-4">
                           <div className="collectionFilters mx-6">
                             {/* sale type  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5">
                               <button
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showListedFilter(false),
                                   showPriceRangeFilter(false),
                                   showSaleTypeFilter(!saleTypeFilter)
@@ -823,7 +919,7 @@ const Collection = ({
                               </button>
 
                               {saleTypeFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <ul className="flex flex-col flex-wrap">
                                     <li>
                                       <button
@@ -882,7 +978,8 @@ const Collection = ({
                             {/* price range  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5">
                               <button
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showListedFilter(false),
                                   showSaleTypeFilter(false),
                                   showPriceRangeFilter(!priceRangeFilter)
@@ -900,7 +997,7 @@ const Collection = ({
                                     <path fill="none" d="M0 0h24v24H0z" />
                                     <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
                                   </svg>
-                                  <span className="text-jacarta-700 dark:text-white">Price Range</span>
+                                  <span className="text-jacarta-700 dark:text-white">All Price Range</span>
                                 </div>
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -915,16 +1012,24 @@ const Collection = ({
                               </button>
 
                               {priceRangeFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <div className="flex items-center space-x-3 px-5 pb-2">
                                     <input
                                       type="number"
                                       placeholder="From"
+                                      min="0"
+                                      onInput={(e) => e.target.value = Math.abs(e.target.value)}
+                                      // value={minPrice}
+                                      onChange={(e) => (setSkip(0), setMinPrice(parseFloat(e.target.value)))}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                     <input
                                       type="number"
                                       placeholder="To"
+                                      min="0"
+                                      onInput={(e) => e.target.value = Math.abs(e.target.value)}
+                                      // value={maxPrice}
+                                      onChange={(e) => (setSkip(0), setMaxPrice(parseFloat(e.target.value)))}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                   </div>
@@ -932,12 +1037,14 @@ const Collection = ({
                                   <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                     <button
                                       type="button"
+                                      onClick={() => (setMaxPrice(0), setMinPrice(0), showPriceRangeFilter(false))}
                                       className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                     >
                                       Clear
                                     </button>
                                     <button
                                       type="button"
+                                      onClick={() => (fetch_filter_nfts(), showPriceRangeFilter(false))}
                                       className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                     >
                                       Apply
@@ -950,16 +1057,29 @@ const Collection = ({
                             {/* all nft and listed filter  */}
                             <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
                               <div
-                                onClick={() => (
+                                onClick={(e) => (
+                                  e.stopPropagation(),
                                   showPriceRangeFilter(false),
                                   showSaleTypeFilter(false),
                                   showListedFilter(!listedFilter)
                                 )}
                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                               >
-                                <span className="text-jacarta-700 dark:text-white">
-                                  Recently Listed
-                                </span>
+                                {currentFilter == "recentlyListed" &&
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    Recently Listed
+                                  </span>
+                                }
+                                {currentFilter == "lowToHigh" &&
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    Low To High
+                                  </span>
+                                }
+                                {currentFilter == "highToLow" &&
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    High To Low
+                                  </span>
+                                }
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -972,29 +1092,55 @@ const Collection = ({
                                 </svg>
                               </div>
                               {listedFilter && (
-                                <div className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                   <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                     Sort By
                                   </span>
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                     Recently Listed
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      height="24"
-                                      className="mb-[3px] h-4 w-4 fill-accent"
-                                    >
-                                      <path fill="none" d="M0 0h24v24H0z" />
-                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                    </svg>
+                                    {currentFilter == "recentlyListed" &&
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    }
                                   </button>
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: Low to High
+                                    {currentFilter == "lowToHigh" &&
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    }
                                   </button>
 
-                                  <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: High to Low
+                                    {currentFilter == "highToLow" &&
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    }
                                   </button>
                                 </div>
                               )}
@@ -1061,7 +1207,6 @@ const Collection = ({
                                   "https://ipfs.io/ipfs/"
                                 )}
                                 Name={e?.name}
-                                Description={e?.description}
                                 Address={
                                   onChainData
                                     ? e?.nftAddress?._address
@@ -1069,14 +1214,13 @@ const Collection = ({
                                 }
                                 listedBool={e?.isListed}
                                 listingPrice={e?.listingPrice}
-                                NFTCollectionAddress={
-                                  e?.NFTCollection?.contractAddress
+                                NFTCollectionAddress={e?.NFTCollection?.contractAddress
                                 }
+                                Description={e?.description}
                                 NFTCollectionName={e?.NFTCollection?.name}
                                 NFTCollectionStatus={
                                   e?.NFTCollection?.isVerified
                                 }
-                                currency={currency}
                               />
                             );
                           })}
@@ -1103,12 +1247,13 @@ const Collection = ({
                                       "https://ipfs.io/ipfs/"
                                     )}
                                     Name={e?.name}
-                                    Description={e?.description}
                                     Address={
                                       onChainData
                                         ? e?.nftAddress?._address
                                         : e?.NFTAddress
                                     }
+                                    Owner={e?.ownerAddress}
+                                    signerAddress={signer_address}
                                     listedBool={e?.isListed}
                                     listingPrice={e?.listingPrice}
                                     NFTCollectionAddress={
@@ -1118,7 +1263,11 @@ const Collection = ({
                                     NFTCollectionStatus={
                                       e?.NFTCollection?.isVerified
                                     }
-                                    currency={currency}
+                                    setAnyModalOpen={setAnyModalOpen}
+                                    setBuyModal={setBuyModal}
+                                    setCancelModal={setCancelModal}
+                                    NFTData={e}
+                                    setSelectedNFT={setSelectedNFT}
                                   />
                                 );
                               })}
@@ -1130,7 +1279,7 @@ const Collection = ({
                     <div className="flex justify-center">
                       {nfts?.length <= 0 && def_query == undefined && (
                         <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                          This collection has no NFTs !!
+                          No NFTs Found!!
                         </h2>
                       )}
                       {nfts?.length <= 0 &&
@@ -1269,6 +1418,36 @@ const Collection = ({
               </div>
             )}
           </section>
+          {/* buy modal  */}
+          {buyModal && (
+            <BuyModal
+              formSubmit={buy_NFT_}
+              setBuyModal={setBuyModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              NFTListingPrice={selectedNFT?.listingPrice}
+              actionLoad={actionLoad}
+            />
+          )}
+
+          {/* cancel modal  */}
+          {cancelModal && (
+            <CancelModal
+              formSubmit={cancelNFT}
+              setCancelModal={setCancelModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
         </div>
       )}
     </div>

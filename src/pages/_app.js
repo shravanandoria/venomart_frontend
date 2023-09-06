@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "dark";
-  
+
   // other values
   const adminAccount =
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
@@ -137,10 +137,12 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmVhZToKviQLqScMjrvs5Lnuv8n3aX452b6DrbLzi125gk/back.jpg",
       Logo: "https://ipfs.io/ipfs/QmeKs3c2MJ4jrKxYgHSTZjmeBApbPV3ecSqfoTvC2bNVuB/moky.gif",
       Name: "Venomart x Monkeys",
-      Description: "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
+      Description:
+        "Venom Monkeys escaping from venomfoundationLabs 🧪  | Venom Monkeys coming to get you venomized ! 🍌⚡️",
       mintPrice: "2",
       status: "Sold Out",
-      CollectionAddress: "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
+      CollectionAddress:
+        "0:4ec675ffeaab505d84412002333558e0afe9066e038a693ebb72889ce6341498",
       customLink: "custom/venommonkeys",
       pageName: "venommonkeys",
       supply: "3000",
@@ -164,7 +166,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Introducing Venom Mushies, Exclusive pack of Mushies NFT coming soon on venom blockchain",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress:
         "0:8434fd234c59d904f43594112b57cb0a2b5d65a1c800f9848b0c93a2dd052e7e",
       customLink: "custom/venommushies",
@@ -190,7 +192,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Introducing Drunksoda, 4750 blasted sodas who have no idea where they are",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Ended",
       CollectionAddress:
         "0:02bc0d2be19fcb6779b1125fb01f4f9e17ab9e81f76c04f6f45aa747767db74d",
       customLink: "custom/drunksoda",
@@ -205,6 +207,32 @@ export default function App({ Component, pageProps }) {
       website: "",
       startDate: "08/30/2023 16:00:00 GMT+0530",
       endDate: "09/2/2023 14:00:00 GMT+0530",
+      verified: true,
+    },
+    {
+      id: 6,
+      Cover:
+        "https://ipfs.io/ipfs/QmQQ6WoDoUC8Z3kawG5PDpTYKERAoRp4RxWEWg6MyiFWcD/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmY7DXigXjj5asALu1Eim3HbBnqd1gSKgXPqP5ZnpwXnkU/apacXvenomart.png",
+      Name: "Venomart x VenomAPAC",
+      Description:
+        "Your Gateway to the thrilling World of venom blockchain in Asia-Pacific 🌏 🚀",
+      mintPrice: "2",
+      status: "Sold Out",
+      CollectionAddress:
+        "0:d94d30da2da24afc2dde6ae2444299fb3174e86171b81058fd9dbe83ec411e0b",
+      customLink: "custom/venomapac",
+      pageName: "venomapac",
+      supply: "4200",
+      twitterUserName: "VenomAPAC",
+      twitter: "https://twitter.com/VenomAPAC",
+      tweetID: "1697905254204080270",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "09/2/2023 15:00:00 GMT+0530",
+      endDate: "09/6/2023 14:00:00 GMT+0530",
       verified: true,
     },
   ];
@@ -272,8 +300,33 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "09/02/2023 12:00:00 GMT+0530",
-      endDate: "09/5/2023 12:00:00 GMT+0530",
+      startDate: "10/10/2023 12:00:00 GMT+0530",
+      endDate: "10/15/2023 12:00:00 GMT+0530",
+      verified: false,
+    },
+    {
+      id: 3,
+      Cover:
+        "https://ipfs.io/ipfs/QmTspXusdN5SAwsutgvdrWF9bPDA6u61dKkcmZ74xPGVmx/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmZm1KvzwKWZUtsLLQBsFepkVFs5GC9GNnrnhwzQBnE2Fr/nft.gif",
+      Name: "Devenlabs",
+      Description:
+        "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
+      mintPrice: "3",
+      status: "Live",
+      CollectionAddress: "0:92c387c78bb22dbefce6a8e16de57bab9b924eebaf0d6627d0aaeb367708793a",
+      customLink: "launch/devenlabs",
+      pageName: "devenlabs",
+      supply: "4000",
+      twitterUserName: "devenlabs",
+      twitter: "https://twitter.com/devenlabs",
+      tweetID: "1699287014246396405",
+      discord: "https://discord.gg/BgNGfFB3uN",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "09/06/2023 16:00:00 GMT+0530",
+      endDate: "09/10/2023 12:00:00 GMT+0530",
       verified: true,
     },
   ];
@@ -357,7 +410,6 @@ export default function App({ Component, pageProps }) {
       setTheme(defThemeLocal);
     }
     init();
-    // fetchTopCollections();
   }, []);
 
   useEffect(() => {
@@ -369,18 +421,16 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     if (anyModalOpen) {
       document.body.style.overflow = "hidden";
-      window.scrollTo(0, 0);
     }
     if (!anyModalOpen) {
       document.body.style.overflow = "scroll";
       document.body.style.overflowX = "hidden";
-      window.scrollTo(0, 0);
     }
   }, [anyModalOpen]);
 
   useEffect(() => {
     setAnyModalOpen(false);
-  }, [router.pathname])
+  }, [router.pathname]);
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
