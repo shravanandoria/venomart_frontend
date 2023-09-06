@@ -211,7 +211,7 @@ const Footer = ({
                     OG Quests
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href="/Help"
                     className="hover:text-accent dark:hover:text-white"
@@ -226,7 +226,7 @@ const Footer = ({
                   >
                     Contact Us
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </div>
 

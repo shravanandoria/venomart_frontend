@@ -1,9 +1,24 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 
 const Contact = ({ theme }) => {
     return (
         <div className={`${theme}`}>
+            <Head>
+                <title>Contact us - Team Venomart</title>
+                <meta
+                    name="description"
+                    content="Contact venomart team for any issues or queries"
+                />
+                <meta
+                    name="keywords"
+                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/fav.png" />
+            </Head>
+
             <section className="relative pt-52 pb-24 dark:bg-jacarta-800">
                 <div className="container">
                     <div className="lg:flex">
@@ -77,12 +92,12 @@ const Contact = ({ theme }) => {
                         </div>
 
                         <div className="lg:w-1/3 lg:pl-5">
-                            <h2 className="mb-4 font-display text-xl text-jacarta-700 dark:text-white">Information</h2>
+                            <h2 className="mb-4 font-display text-xl text-jacarta-700 dark:text-white">Track Us</h2>
                             <p className="mb-6 text-lg leading-normal dark:text-jacarta-300">
-                                Don't hesitaste, to contact us if you have any kind of issues or queries.
+                                Track us by following us, raise a ticket on discord if you have any kind of issues or queries.
                             </p>
 
-                            <div className="rounded-2.5xl border border-jacarta-100 bg-white p-10 dark:border-jacarta-600 dark:bg-jacarta-700">
+                            <div className="rounded-2.5xl border border-jacarta-100 bg-white p-10 dark:border-jacarta-600 dark:bg-jacarta-700 overflow-hidden">
                                 <div className="mb-6 flex items-center space-x-5">
                                     <span
                                         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-jacarta-100 bg-light-base dark:border-jacarta-600 dark:bg-jacarta-700"
@@ -98,7 +113,7 @@ const Contact = ({ theme }) => {
 
                                     <div>
                                         <span className="block font-display text-base text-jacarta-700 dark:text-white">Discord</span>
-                                        <a href="https://discord.gg/wQbBr6Xean" className="text-sm hover:text-accent dark:text-jacarta-300">https://discord.gg/wQbBr6Xean </a>
+                                        <a href="https://discord.gg/wQbBr6Xean" className="text-sm hover:text-accent dark:text-jacarta-300">Join Discord</a>
                                     </div>
                                 </div>
                                 <div className="mb-6 flex items-center space-x-5">
@@ -117,7 +132,7 @@ const Contact = ({ theme }) => {
 
                                     <div>
                                         <span className="block font-display text-base text-jacarta-700 dark:text-white">Twitter</span>
-                                        <a href="https://twitter.com/venomart23" className="text-sm hover:text-accent dark:text-jacarta-300">https://twitter.com/venomart23</a>
+                                        <a href="https://twitter.com/venomart23" className="text-sm hover:text-accent dark:text-jacarta-300">@venomart23</a>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-5">
@@ -141,7 +156,7 @@ const Contact = ({ theme }) => {
                                     <div>
                                         <span className="block font-display text-base text-jacarta-700 dark:text-white">Email</span>
                                         <a
-                                            href="mailto:venomarthack@gmail.com"
+                                            href="mailto:venomart.space@gmail.com"
                                             className="text-sm not-italic hover:text-accent dark:text-jacarta-300">contact@venomart.io</a>
                                     </div>
                                 </div>
