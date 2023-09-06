@@ -314,7 +314,7 @@ export default function App({ Component, pageProps }) {
         "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
       mintPrice: "3",
       status: "Live",
-      CollectionAddress: "0:3951a5e6102a1c8e3672b3a9f292cf787ea4d59d40eb54c1ebfa0f463a020313",
+      CollectionAddress: "0:92c387c78bb22dbefce6a8e16de57bab9b924eebaf0d6627d0aaeb367708793a",
       customLink: "launch/devenlabs",
       pageName: "devenlabs",
       supply: "4000",

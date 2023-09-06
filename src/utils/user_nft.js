@@ -354,7 +354,6 @@ export const create_launchpad_nft = async (
   signer_address,
   venomProvider
 ) => {
-  console.log({ data })
   try {
     const contract = new venomProvider.Contract(
       collectionAbi,
@@ -366,7 +365,6 @@ export const create_launchpad_nft = async (
       .call();
 
     const ipfs_image = data.image;
-    console.log({ ipfs_image })
 
     const nft_json = JSON.stringify({
       type: "Venom Testnet",
