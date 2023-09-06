@@ -293,16 +293,14 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${
-          nft?.name ? nft?.name : "NFT"
-        } - Venomart Marketplace`}</title>
+        <title>{`${nft?.name ? nft?.name : "NFT"
+          } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${
-            nft?.name
+          content={`${nft?.name
               ? nft?.name
               : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
-          } | An NFT on Venom Blockchain`}
+            } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
