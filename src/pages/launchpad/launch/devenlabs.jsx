@@ -78,26 +78,24 @@ const venomLions = ({
         "https://ipfs.io/ipfs/QmbNRSUkffUmwhZ1ineY1CF4yqKvrf58ttzxJxJoBKorEU/3.png",
     ]
 
-    const [token_id, set_token_id] = useState(0);
+    const [data, set_data] = useState();
 
     const getRandomTokenId = () => {
         let token_id_calcy = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
-        set_token_id(token_id_calcy);
+        let obj = {
+            image: NFTARRAY[token_id_calcy],
+            collectionName: ProjectName,
+            name: ProjectName,
+            description: shortDesc,
+            collectionAddress: contractAddress,
+            mintPrice: mintPrice,
+            properties: [
+                { type: "Benifit", value: "Fee Discount" },
+                { type: "Version", value: "Testnet" },
+            ],
+        }
+        set_data(obj);
     }
-
-    const [data] = useState({
-        // image: NFTIMG,
-        image: NFTARRAY[token_id],
-        collectionName: ProjectName,
-        name: ProjectName,
-        description: shortDesc,
-        collectionAddress: contractAddress,
-        mintPrice: mintPrice,
-        properties: [
-            { type: "Benifit", value: "Fee Discount" },
-            { type: "Version", value: "Testnet" },
-        ],
-    });
 
     const [startdays, setStartDays] = useState(0);
     const [starthours, setStartHours] = useState(0);
