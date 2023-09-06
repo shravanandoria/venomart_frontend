@@ -15,6 +15,7 @@ import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
+import { disconnect } from "../../lib/dbConnect";
 
 const Profile = ({
   theme,
@@ -24,7 +25,7 @@ const Profile = ({
   webURL,
   copyURL,
   currency,
-  venomProvider
+  venomProvider,
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -52,7 +53,6 @@ const Profile = ({
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
 
-
   const getProfileData = async () => {
     set_loading(true);
     if (!slug) return;
@@ -66,19 +66,25 @@ const Profile = ({
     set_loading(false);
   };
 
-  // fetching user activity 
+  // fetching user activity
   const fetch_user_activity = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const res = await getActivity(user_data._id, "", "", activityType, activitySkip);
+    const res = await getActivity(
+      user_data._id,
+      "",
+      "",
+      activityType,
+      activitySkip
+    );
     if (res) {
       setActivityRecords(res);
     }
     setFetchedProfileActivity(true);
     setMoreLoading(false);
-  }
+  };
 
-  // getting on sale nfts 
+  // getting on sale nfts
   const getting_user_listed_nfts = async () => {
     if (!slug) return;
     setMoreLoading(true);
@@ -105,7 +111,7 @@ const Profile = ({
     set_nfts(new_nfts);
   };
 
-  // handling for sale nfts more fetch 
+  // handling for sale nfts more fetch
   const scroll_get_all_nfts = async () => {
     setMoreLoading(true);
     const res = await fetch_user_listed_nfts(slug, skip);
@@ -122,11 +128,17 @@ const Profile = ({
     }
   };
 
-  // handling activity scroll fetch more 
+  // handling activity scroll fetch more
   const scrollActivityFetch = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const newArray = await getActivity(user_data._id, "", "", activityType, activitySkip);
+    const newArray = await getActivity(
+      user_data._id,
+      "",
+      "",
+      activityType,
+      activitySkip
+    );
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
     }
@@ -180,7 +192,7 @@ const Profile = ({
 
   useEffect(() => {
     fetch_user_activity();
-  }, [activityType])
+  }, [activityType]);
 
   return loading ? (
     <Loader theme={theme} />
@@ -383,10 +395,17 @@ const Profile = ({
       {/* switch buttons  */}
       <section className="pt-6 dark:bg-jacarta-800 pb-12">
         <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
-          <li className="nav-item" role="presentation" onClick={() => ((!fetchedOnSaleNFTs && getting_user_listed_nfts()), switchToOnSale())}>
+          <li
+            className="nav-item"
+            role="presentation"
+            onClick={() => (
+              !fetchedOnSaleNFTs && getting_user_listed_nfts(), switchToOnSale()
+            )}
+          >
             <button
-              className={`nav-link ${onSale && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                onSale && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -406,8 +425,9 @@ const Profile = ({
           {/* owned button  */}
           <li className="nav-item" role="presentation" onClick={switchToOwned}>
             <button
-              className={`nav-link ${owned && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                owned && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -437,8 +457,9 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${collections && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                collections && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -470,11 +491,15 @@ const Profile = ({
             <li
               className="nav-item"
               role="presentation"
-              onClick={() => ((!fetchedProfileActivity && fetch_user_activity()), switchToActivity())}
+              onClick={() => (
+                !fetchedProfileActivity && fetch_user_activity(),
+                switchToActivity()
+              )}
             >
               <button
-                className={`nav-link ${activity && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                className={`nav-link ${
+                  activity && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 id="activity-tab"
                 data-bs-toggle="tab"
                 data-bs-target="#activity"
@@ -504,7 +529,12 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className={`relative pt-6 pb-24 dark:bg-jacarta-800 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
+        <section
+          className={`relative pt-6 pb-24 dark:bg-jacarta-800 ${
+            skip != 0 && "scroll-list"
+          }`}
+          onScroll={handleScroll}
+        >
           <div>
             <div className="tab-content">
               <div
@@ -531,12 +561,13 @@ const Profile = ({
                       />
                     );
                   })}
-                  {moreLoading &&
+                  {moreLoading && (
                     <div className="flex items-center justify-center space-x-2">
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                    </div>}
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-center">
                   {onSaleNFTs.length <= 0 && !moreLoading && (
@@ -656,7 +687,9 @@ const Profile = ({
               <div className="tab-pane fade show active">
                 <div className="flexActivitySection">
                   <div
-                    className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`}
+                    className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${
+                      activitySkip != 0 && "scroll-list"
+                    }`}
                     onScroll={handleActivityScroll}
                   >
                     <div className="flex justify-center align-middle flex-wrap">
@@ -676,12 +709,13 @@ const Profile = ({
                           MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                         />
                       ))}
-                      {moreLoading &&
+                      {moreLoading && (
                         <div className="flex items-center justify-center space-x-2">
                           <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                           <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                           <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        </div>}
+                        </div>
+                      )}
                       <div className="flex justify-center text-center">
                         {activityRecords?.length <= 0 && (
                           <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
@@ -698,50 +732,101 @@ const Profile = ({
                       Filters
                     </h3>
                     <div className="flex flex-wrap">
-                      <button onClick={() => (setActivitySkip(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button
+                        onClick={() => (
+                          setActivitySkip(0), setActivityType("list")
+                        )}
+                        className={`${
+                          activityType == "list"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                        }`}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "list"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                         </svg>
-                        <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
+                        <span
+                          className={`text-2xs font-medium  ${
+                            activityType == "list" && "text-white"
+                          }`}
+                        >
                           Listing
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button
+                        onClick={() => (
+                          setActivitySkip(0), setActivityType("cancel")
+                        )}
+                        className={`${
+                          activityType == "cancel"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                        }`}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "cancel"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                         </svg>
-                        <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
+                        <span
+                          className={`text-2xs font-medium ${
+                            activityType == "cancel" && "text-white"
+                          }`}
+                        >
                           Remove Listing
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button
+                        onClick={() => (
+                          setActivitySkip(0), setActivityType("sale")
+                        )}
+                        className={`${
+                          activityType == "sale"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                        }`}
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "sale"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                         </svg>
-                        <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                        <span
+                          className={`text-2xs font-medium ${
+                            activityType == "sale" && "text-white"
+                          }`}
+                        >
                           Sale
                         </span>
                       </button>
@@ -758,3 +843,20 @@ const Profile = ({
 };
 
 export default Profile;
+
+// This gets called on every request
+export async function getServerSideProps(context) {
+  const { slug } = context.query;
+
+  console.log({ slug });
+  // Fetch data from external API
+  const res = await check_user(slug);
+  // const data = JSON.stringify(res.data);
+
+  console.log({ res });
+
+  disconnect();
+
+  // Pass data to the page via props
+  return { props: { data: res } };
+}

@@ -190,7 +190,6 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
 
 export const get_nft_by_address = async (provider, nft_address) => {
   if (nft_address == undefined) return;
-
   const nftContract = new provider.Contract(nftAbi, nft_address);
   const nft_json = await nftContract.methods.getJson({ answerId: 0 }).call();
   const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();

@@ -23,6 +23,8 @@ import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
 import NFTActivityCard from "../../components/cards/NFTActivityCard";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
+import { disconnect } from "../../lib/dbConnect";
+import { MyEver } from "../../utils/user_nft";
 
 const NFTPage = ({
   signer_address,
@@ -285,10 +287,16 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
+        <title>{`${
+          nft?.name ? nft?.name : "NFT"
+        } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"} | An NFT on Venom Blockchain`}
+          content={`${
+            nft?.name
+              ? nft?.name
+              : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+          } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -459,18 +467,19 @@ const NFTPage = ({
                               ) : (
                                 <button
                                   onClick={() => refreshMetadata()}
-                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                                >
                                   Refresh Metadata
                                 </button>
                               ))}
                             <a
                               href={`https://twitter.com/intent/tweet?text=I%20found%20this%20nft%20on%20venomart.io%20check%20it%20here-%20${webURL}nft/${slug}%20`}
                               target="_blank"
-                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                            >
                               Share
                             </a>
-                            <button
-                              className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                            <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               Report
                             </button>
                           </div>
@@ -2023,3 +2032,30 @@ const NFTPage = ({
 };
 
 export default NFTPage;
+
+// export async function getServerSideProps(context) {
+//   const { slug } = context.query;
+//   console.log(slug);
+
+//   const myEver = new MyEver();
+//   const nft_onchain = await get_nft_by_address(myEver.ever(), slug);
+
+//   // Fetch data using the nftInfo function or other relevant logic
+//   let nftData = null;
+//   try {
+//     nftData = await nftInfo(slug);
+//     console.log({ nftData });
+//   } catch (error) {
+//     // Handle errors or set nftData to an empty object if needed
+//     console.error("Error fetching nftData:", error);
+//     nftData = {};
+//   }
+
+//   // Pass the fetched data as props to your component
+//   return {
+//     props: {
+//       nftData: JSON.parse(JSON.stringify(nftData)),
+//       // ... Pass other necessary props ...
+//     },
+//   };
+// }
