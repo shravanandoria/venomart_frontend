@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         case "POST":
             try {
                 const filter = {};
-                const update = { $set: { activity: [""] } };
+                const update = { $set: { TotalSales: 0 } };
 
                 const result = await Collection.updateMany(filter, update);
 

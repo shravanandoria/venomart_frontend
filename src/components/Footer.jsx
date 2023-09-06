@@ -114,59 +114,61 @@ const Footer = ({
               </ul>
             </div>
 
-            <div className="col-span-full sm:col-span-3 md:col-span-2">
-              <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
-                My Account
-              </h3>
-              <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                <li>
-                  <Link
-                    href={`/profile/${signer_address}`}
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    My Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/profile/EditProfile"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Edit Profile
-                  </Link>
-                </li>
-                {MintNFTStatus && (
+            {signer_address &&
+              <div className="col-span-full sm:col-span-3 md:col-span-2">
+                <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
+                  My Account
+                </h3>
+                <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
                   <li>
                     <Link
-                      href="/mint/CreateNFT"
+                      href={`/profile/${signer_address}`}
                       className="hover:text-accent dark:hover:text-white"
                     >
-                      Create NFT
+                      My Profile
                     </Link>
                   </li>
-                )}
-                {MintCollectionStatus && (
                   <li>
                     <Link
-                      href="/mint/CreateNFTCollection"
+                      href="/profile/EditProfile"
                       className="hover:text-accent dark:hover:text-white"
                     >
-                      Create Collection
+                      Edit Profile
                     </Link>
                   </li>
-                )}
-                {signer_address && (
-                  <li>
-                    <div
-                      onClick={onDisconnect}
-                      className="hover:text-accent dark:hover:text-white cursor-pointer"
-                    >
-                      Sign Out
-                    </div>
-                  </li>
-                )}
-              </ul>
-            </div>
+                  {MintNFTStatus && (
+                    <li>
+                      <Link
+                        href="/mint/CreateNFT"
+                        className="hover:text-accent dark:hover:text-white"
+                      >
+                        Create NFT
+                      </Link>
+                    </li>
+                  )}
+                  {MintCollectionStatus && (
+                    <li>
+                      <Link
+                        href="/mint/CreateNFTCollection"
+                        className="hover:text-accent dark:hover:text-white"
+                      >
+                        Create Collection
+                      </Link>
+                    </li>
+                  )}
+                  {signer_address && (
+                    <li>
+                      <div
+                        onClick={onDisconnect}
+                        className="hover:text-accent dark:hover:text-white cursor-pointer"
+                      >
+                        Sign Out
+                      </div>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            }
 
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">

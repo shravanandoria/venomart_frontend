@@ -100,6 +100,7 @@ export default async function handler(req, res) {
               socials: [],
               isVerified: false,
               Category: "",
+              TotalSales: 0,
               TotalSupply: 0,
               TotalListed: 0,
               FloorPrice: 100000,
@@ -116,8 +117,9 @@ export default async function handler(req, res) {
           }
 
           // creating activity here 
+          let activity;
           if (hash != undefined) {
-            const activity = await Activity.create({
+            activity = await Activity.create({
               hash,
               from,
               to,
@@ -131,6 +133,7 @@ export default async function handler(req, res) {
             if (collection) {
               if (type === "list") {
                 collection.TotalListed++;
+
                 if (newFloorPrice !== 0 && newFloorPrice !== undefined) {
                   collection.FloorPrice = newFloorPrice;
                 }
@@ -139,8 +142,14 @@ export default async function handler(req, res) {
                   collection.TotalListed--;
                 }
               } else if (type === "sale") {
+                collection.TotalSales++;
+
                 const floatPrice = parseFloat(price);
                 collection.TotalVolume += floatPrice;
+
+                if (collection.TotalListed > 0) {
+                  collection.TotalListed--;
+                }
 
                 if (newFloorPrice === 0) {
                   const nfts = await NFT.find({
@@ -149,23 +158,19 @@ export default async function handler(req, res) {
                   })
                     .sort({ demandPrice: 1 })
                     .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
-                    .limit(25);
+                    .limit(2);
 
                   if (nfts.length > 0) {
                     const lowestFloorPrice = nfts[0].listingPrice;
                     collection.FloorPrice = lowestFloorPrice;
                   }
                 }
-
-                if (collection.TotalListed > 0) {
-                  collection.TotalListed--;
-                }
               }
               await collection.save();
             }
           }
 
-          return res.status(200).json({ success: true, data: "Activity has been created" });
+          return res.status(200).json({ success: true, data: activity });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }

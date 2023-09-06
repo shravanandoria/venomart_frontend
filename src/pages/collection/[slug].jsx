@@ -479,7 +479,16 @@ const Collection = ({
 
             <div className="container">
               <div className="text-center">
-                <div className="flex justify-center align-middle mb-6 mt-2">
+
+                {/* name  */}
+                <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                  {collection?.name
+                    ? collection?.name
+                    : "Unverified Collection"}
+                </h2>
+
+                {/* socials  */}
+                <div className="flex justify-center align-middle mb-2 mt-2">
                   {collection?.socials && (
                     <>
                       {collection?.socials[0] != "" && (
@@ -490,7 +499,7 @@ const Collection = ({
                               : "#"
                           }
                           target="_blank"
-                          className="group ml-4"
+                          className="group ml-3"
                         >
                           <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
@@ -503,7 +512,7 @@ const Collection = ({
                               : "#"
                           }
                           target="_blank"
-                          className="group ml-4"
+                          className="group ml-3"
                         >
                           <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
@@ -516,7 +525,7 @@ const Collection = ({
                               : "#"
                           }
                           target="_blank"
-                          className="group ml-4"
+                          className="group ml-3"
                         >
                           <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
@@ -529,7 +538,7 @@ const Collection = ({
                               : "#"
                           }
                           target="_blank"
-                          className="group ml-4"
+                          className="group ml-3"
                         >
                           <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
@@ -538,55 +547,45 @@ const Collection = ({
                   )}
                 </div>
 
-                <div className="mb-6 inline-flex items-center justify-center rounded-full border border-jacarta-100 bg-white py-1.5 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
+                {/* address  */}
+                <div className="mb-2 flex justify-center align-middle py-1.5 px-4">
                   <a
                     href={`${blockURL}accounts/${slug}`}
                     target="_blank"
-                    className="js-copy-clipboard max-w-[10rem] select-none overflow-hidden text-ellipsis whitespace-nowrap dark:text-jacarta-200"
+                    className="js-copy-clipboard dark:text-jacarta-200"
                   >
-                    <span>{slug}</span>
+                    <span>{slug?.slice(0, 6) + "..." + slug?.slice(61)}</span>
                   </a>
-                  <BsArrowUpRight
-                    className="text-jacarta-700 dark:text-jacarta-200 cursor-pointer"
-                    onClick={() =>
-                      window.open(
-                        `${blockURL}` + `accounts/` + `${slug}`,
-                        "_blank"
-                      )
-                    }
-                  />
+                  <svg
+                    onClick={() => (
+                      navigator.clipboard.writeText(
+                        `${slug}`
+                      ),
+                      alert("copied collection contract address to clipboard")
+                    )}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="ml-2 mb-px h-5 w-5 mt-[2px] fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white cursor-pointer"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M7 7V3a1 1 0 0 1 1-1h13a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4v3.993c0 .556-.449 1.007-1.007 1.007H3.007A1.006 1.006 0 0 1 2 20.993l.003-12.986C2.003 7.451 2.452 7 3.01 7H7zm2 0h6.993C16.549 7 17 7.449 17 8.007V15h3V4H9v3zM4.003 9L4 20h11V9H4.003z" />
+                  </svg>
                 </div>
-                <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                  {collection?.name
-                    ? collection?.name
-                    : "Unverified Collection"}
-                </h2>
-                <div className="mb-4"></div>
 
-                {/* desc  */}
-                <div className="mx-auto mb-14 max-w-xl text-lg dark:text-jacarta-300">
-                  {collection?.description ? (
-                    collection?.description
-                  ) : (
-                    <div>
-                      This collection is tracked but not verified on Venomart.
-                      If you are the owner, you can{" "}
-                      <a
-                        href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
-                        target="_blank"
-                        className="text-blue-500"
-                      >
-                        submit
-                      </a>{" "}
-                      it for approval now!
-                    </div>
-                  )}
-                </div>
+                {/* royalty  */}
+                {collection?.royalty != "" &&
+                  <div className="mb-4">
+                    <button className="bg-blue-500 text-white text-[12px] px-3 py-1 rounded-3xl cursor-default">
+                      Royalties Fee {collection?.royalty}%
+                    </button>
+                  </div>
+                }
 
                 {/* stats  */}
-                <div className="mb-8 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
-                  <a
-                    href="#"
+                <div className="mb-8 mt-4 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
+                  <div
                     className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
@@ -595,9 +594,8 @@ const Collection = ({
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
                     </div>
-                  </a>
-                  {/* <a
-                    href="#"
+                  </div>
+                  {/* <div
                     className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
@@ -606,9 +604,8 @@ const Collection = ({
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Owners
                     </div>
-                  </a> */}
-                  <a
-                    href="#"
+                  </div> */}
+                  <div
                     className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
                   >
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
@@ -617,9 +614,8 @@ const Collection = ({
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       For Sale
                     </div>
-                  </a>
-                  <a
-                    href="#"
+                  </div>
+                  <div
                     className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
@@ -642,9 +638,8 @@ const Collection = ({
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Floor Price
                     </div>
-                  </a>
-                  <a
-                    href="#"
+                  </div>
+                  <div
                     className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
                   >
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
@@ -668,8 +663,29 @@ const Collection = ({
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Volume Traded
                     </div>
-                  </a>
+                  </div>
                 </div>
+
+                {/* desc  */}
+                <div className="mx-auto mb-8 max-w-xl text-lg dark:text-jacarta-300">
+                  {collection?.description ? (
+                    collection?.description
+                  ) : (
+                    <div>
+                      This collection is tracked but not verified on Venomart.
+                      If you are the owner, you can{" "}
+                      <a
+                        href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
+                        target="_blank"
+                        className="text-blue-500"
+                      >
+                        submit
+                      </a>{" "}
+                      it for approval now!
+                    </div>
+                  )}
+                </div>
+
 
                 <div className="mt-6 flex items-center justify-center space-x-2.5">
                   {/* Share  */}

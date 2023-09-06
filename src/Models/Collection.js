@@ -18,6 +18,7 @@ const CollectionSchema = new mongoose.Schema(
     socials: [String],
     isVerified: Boolean,
     Category: String,
+    TotalSales: Number,
     TotalSupply: Number,
     TotalListed: Number,
     FloorPrice: Number,

@@ -36,6 +36,7 @@ const NFTPage = ({
   venomProvider,
   webURL,
   setAnyModalOpen,
+  connectWallet
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -71,6 +72,11 @@ const NFTPage = ({
   const [activeOffers, setActiveOffers] = useState([]);
   const [activityHistory, setActivityHistory] = useState([]);
   const [activityType, setActivityType] = useState("");
+
+  // connecting wallet 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  };
 
   // getting nft information
   const nft_info = async () => {
@@ -155,6 +161,10 @@ const NFTPage = ({
   // list nft for sale
   const sell_nft = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
     set_loading(true);
 
     let newFloorPrice = 0;
@@ -191,6 +201,10 @@ const NFTPage = ({
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
     set_loading(true);
     let royaltyFinalAmount =
       ((parseFloat(nft?.demandPrice) *
@@ -224,6 +238,10 @@ const NFTPage = ({
   // cancel nft sale
   const cancelNFT = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
     set_loading(true);
     try {
       const cancelling = await cancel_listing(
@@ -298,8 +316,8 @@ const NFTPage = ({
         <meta
           name="description"
           content={`${nft?.name
-              ? nft?.name
-              : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+            ? nft?.name
+            : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
             } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -403,7 +421,7 @@ const NFTPage = ({
                       )}
                     </div>
                     <div className="absolute mt-[-18px] ml-[90px] inline-flex items-center justify-center">
-                      {nft?.NFTCollection?.isVerified && isHovering && (
+                      {(nft?.NFTCollection?.isVerified || collectionData?.data?.isVerified) && isHovering && (
                         <p
                           className="bg-blue px-[20px] py-[3px] text-white text-[12px]"
                           style={{ borderRadius: "10px" }}
@@ -411,7 +429,7 @@ const NFTPage = ({
                           Verified
                         </p>
                       )}
-                      {!nft?.NFTCollection?.isVerified && isHovering && (
+                      {(nft?.NFTCollection?.isVerified == false || collectionData?.data?.isVerified == false) && isHovering && (
                         <p
                           className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]"
                           style={{ borderRadius: "10px" }}
