@@ -320,7 +320,7 @@ export default function App({ Component, pageProps }) {
       supply: "4000",
       twitterUserName: "devenlabs",
       twitter: "https://twitter.com/devenlabs",
-      tweetID: "",
+      tweetID: "1699287014246396405",
       discord: "https://discord.gg/BgNGfFB3uN",
       instagram: "",
       telegram: "",
