@@ -1168,7 +1168,7 @@ const Collection = ({
                             <form action="search" className="relative w-[60%]" onSubmit={(e) => e.preventDefault()}>
                               <input
                                 type="search"
-                                onChange={(e) => handle_search(e.target.value)}
+                                onChange={(e) => handle_search((e.target.value).replace(/[^\w\s]/gi, ""))}
                                 className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                 placeholder="search"
                               />

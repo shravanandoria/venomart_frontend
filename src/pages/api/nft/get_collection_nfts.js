@@ -28,7 +28,6 @@ export default async function handler(req, res) {
                             .select([
                                 "-NFTCollection",
                                 "-managerAddress",
-                                "-isLike",
                                 "-attributes",
                             ]).skip(skip)
                             .limit(20).sort({ demandPrice: 1 });
@@ -40,7 +39,6 @@ export default async function handler(req, res) {
                             const nfts = await NFT.find({ NFTCollection: collection, isListed: true })
                                 .select([
                                     "-managerAddress",
-                                    "-isLike",
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
@@ -53,7 +51,6 @@ export default async function handler(req, res) {
                             const nfts = await NFT.find({ NFTCollection: collection })
                                 .select([
                                     "-managerAddress",
-                                    "-isLike",
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
@@ -66,7 +63,6 @@ export default async function handler(req, res) {
                             const nfts = await NFT.find({ NFTCollection: collection })
                                 .select([
                                     "-managerAddress",
-                                    "-isLike",
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",

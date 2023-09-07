@@ -64,6 +64,7 @@ export const createNFT = async (data) => {
         ownerAddress: data.ownerAddress,
         managerAddress: data.managerAddress,
         nft_image: data.imageURL,
+        nft_metadata: data.metadata,
         name: data.name,
         description: data.description,
         attributes: JSON.stringify(data.properties),

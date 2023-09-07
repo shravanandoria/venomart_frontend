@@ -107,6 +107,7 @@ const Profile = ({
       }
     });
     setLastNFT(res?.continuation);
+    console.log({ new_nfts })
     set_nfts(new_nfts);
   };
 
@@ -631,7 +632,8 @@ const Profile = ({
                           Name={e?.name}
                           Address={e?.nft._address}
                           Description={e?.description}
-                        // NFTCollectionAddress={e?.collection?._address}
+                          NFTCollectionName={e?.collection_name}
+                          NFTCollectionAddress={e?.collection?._address}
                         />
                       );
                     })}

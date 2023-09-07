@@ -16,7 +16,7 @@ export const search = async (query) => {
 export const search_nfts = async (query, collection_id) => {
   try {
     const res = await axios({
-      url: `/api/search?query=${query}&collection_id=${collection_id}&type=nft`,
+      url: `/api/search?query=${query}&type=nft&collection_id=${collection_id}`,
       method: "GET",
     });
 

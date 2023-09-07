@@ -20,17 +20,7 @@ export default async function handler(req, res) {
               $or: [{ name: { $regex: query, $options: "i" } }],
             })
               .select([
-                "contractAddress",
-                "name",
-                "logo",
-                "coverImage",
-                "isVerified",
-                "description",
-                "Category",
-                "TotalListed",
-                "FloorPrice",
-                "TotalVolume",
-                "TotalSupply"
+                "-socials"
               ])
               .limit(10)
               .sort({ isVerified: -1 });
@@ -47,11 +37,7 @@ export default async function handler(req, res) {
                 $and: [{ NFTCollection: collection_id }],
               })
                 .select([
-                  "name",
-                  "NFTAddress",
-                  "description",
-                  "nft_image",
-                  "NFTCollection",
+                  "-attributes"
                 ])
                 .populate({
                   path: "NFTCollection",

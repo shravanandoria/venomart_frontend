@@ -260,6 +260,7 @@ export const create_nft_database = async (
     ownerAddress: data.owner._address,
     managerAddress: data.manager._address,
     imageURL: data.preview.source,
+    imageURL: data.files[0].source,
     name: data.name,
     description: data.description,
     properties: data.attributes,

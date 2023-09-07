@@ -36,10 +36,10 @@ const NftCard = ({
           alt="item 5"
           className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
         />
-        {NFTCollectionStatus && isHovering &&
+        {(NFTCollectionStatus == true) && isHovering &&
           <p className="absolute bottom-[-3px] right-0 bg-blue px-[6px] py-[2px] text-white text-[12px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
         }
-        {!NFTCollectionStatus && isHovering &&
+        {(NFTCollectionStatus == false) && isHovering &&
           <p className="absolute bottom-[-3px] right-0 bg-[#c3c944] px-[6px] py-[2px] text-black text-[12px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
         }
       </div>
@@ -54,14 +54,15 @@ const NftCard = ({
               display: "flex"
             }}>
             {NFTCollectionName ? NFTCollectionName : (NFTCollectionAddress?.slice(0, 5) + "..." + NFTCollectionAddress?.slice(60))}
-            {NFTCollectionStatus ?
+            {(NFTCollectionStatus == true) &&
               <MdVerified
                 style={{ color: "#4f87ff", marginLeft: "4px" }}
                 size={17}
                 onMouseOver={() => SetIsHovering(true)}
                 onMouseOut={() => SetIsHovering(false)}
               />
-              :
+            }
+            {(NFTCollectionStatus == false) &&
               <BsFillExclamationCircleFill style={{ color: "#c3c944", marginLeft: "4px" }}
                 size={16}
                 onMouseOver={() => SetIsHovering(true)}
