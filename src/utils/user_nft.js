@@ -428,24 +428,23 @@ export const list_nft = async (
       };
       const updateNFTData = await updateNFTListing(obj);
 
-      if (updateNFTData) {
-        let activityOBJ = {
-          hash: output ? output?.id?.hash : undefined,
-          from: signer_address,
-          to: MARKETPLACE_ADDRESS,
-          price: finalListingPrice,
-          type: "list",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address,
-          newFloorPrice: parseFloat(newFloorPrice),
-        };
-        const insertActivity = await addActivity(activityOBJ);
+      let activityOBJ = {
+        hash: output ? output?.id?.hash : undefined,
+        from: signer_address,
+        to: MARKETPLACE_ADDRESS,
+        price: finalListingPrice,
+        type: "list",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+        newFloorPrice: parseFloat(newFloorPrice),
+      };
+      const insertActivity = await addActivity(activityOBJ);
 
-        if (insertActivity) {
-          window.location.href = `/nft/${nft_address}`;
-        }
+      if (insertActivity) {
+        window.location.href = `/nft/${nft_address}`;
       }
+
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -518,22 +517,20 @@ export const cancel_listing = async (
       };
       let updateNFTData = await cancelNFTListing(obj);
 
-      if (updateNFTData) {
-        let activityOBJ = {
-          hash: output ? output?.id?.hash : undefined,
-          from: MARKETPLACE_ADDRESS,
-          to: signer_address,
-          price: "0",
-          type: "cancel",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address,
-        };
-        let insertActivity = await addActivity(activityOBJ);
+      let activityOBJ = {
+        hash: output ? output?.id?.hash : undefined,
+        from: MARKETPLACE_ADDRESS,
+        to: signer_address,
+        price: "0",
+        type: "cancel",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+      };
+      let insertActivity = await addActivity(activityOBJ);
 
-        if (insertActivity) {
-          window.location.href = `/nft/${nft_address}`;
-        }
+      if (insertActivity) {
+        window.location.href = `/nft/${nft_address}`;
       }
     };
 
@@ -596,23 +593,21 @@ export const buy_nft = async (
       };
       let updateNFTData = await updateNFTsale(obj);
 
-      if (updateNFTData) {
-        let activityOBJ = {
-          hash: output ? output?.id?.hash : undefined,
-          from: prev_nft_Owner,
-          to: signer_address,
-          price: salePrice,
-          type: "sale",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address,
-          newFloorPrice: 0,
-        };
-        let insertActivity = await addActivity(activityOBJ);
+      let activityOBJ = {
+        hash: output ? output?.id?.hash : undefined,
+        from: prev_nft_Owner,
+        to: signer_address,
+        price: salePrice,
+        type: "sale",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+        newFloorPrice: 0,
+      };
+      let insertActivity = await addActivity(activityOBJ);
 
-        if (insertActivity) {
-          window.location.href = `/nft/${nft_address}`;
-        }
+      if (insertActivity) {
+        window.location.href = `/nft/${nft_address}`;
       }
     };
 
