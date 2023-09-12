@@ -256,9 +256,9 @@ export default function App({ Component, pageProps }) {
       instagram: "",
       telegram: "",
       website: "",
-      startDate: "09/9/2023 17:00:00 GMT+0530",
-      endDate: "09/14/2023 16:00:00 GMT+0530",
-      verified: false,
+      startDate: "09/12/2023 23:00:00 GMT+0530",
+      endDate: "09/16/2023 23:00:00 GMT+0530",
+      verified: true,
     },
     {
       id: 8,

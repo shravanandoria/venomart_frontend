@@ -417,6 +417,7 @@ export const list_nft = async (
         signer_address
       );
     }
+
     let output;
     const afterEvent = async () => {
       let obj = {
@@ -452,9 +453,9 @@ export const list_nft = async (
       MARKETPLACE_ADDRESS
     );
 
-    const res = await marketplace_contract.methods
-      .get_fee({ answerId: 0 })
-      .call();
+    // const res = await marketplace_contract.methods
+    //   .get_fee({ answerId: 0 })
+    //   .call();
 
     const subscriber = new Subscriber(venomProvider);
     const contractEvents = marketplace_contract.events(subscriber);
@@ -489,9 +490,9 @@ export const list_nft = async (
         amount: (listing_fees + 1000000000).toString(),
       });
 
-    const fees = await marketplace_contract.methods
-      .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
-      .call();
+    // const fees = await marketplace_contract.methods
+    //   .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
+    //   .call();
 
     return true;
   } catch (error) {
@@ -506,6 +507,7 @@ export const cancel_listing = async (
   signer_address
 ) => {
   try {
+
     let output;
     const afterEvent = async () => {
       let obj = {
