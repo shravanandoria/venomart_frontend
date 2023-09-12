@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { check_user } from "../user/user";
 
 export const create_collection = async (data) => {
