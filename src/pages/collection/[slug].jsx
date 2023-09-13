@@ -19,7 +19,7 @@ import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } fro
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { get_collection_by_contract, update_collection_supply } from "../../utils/mongo_api/collection/collection";
+import { admin_collection_refresh, get_collection_by_contract, update_collection_information, update_collection_supply } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -232,6 +232,7 @@ const Collection = ({
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
+    const aggregatedData = await admin_collection_refresh(collection?._id);
 
     let myEver = new MyEver();
     const providerRpcClient = myEver.ever();
@@ -240,17 +241,24 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if (collection?.TotalSupply < totalSupply.count) {
-      const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+    if ((collection?.TotalListed != aggregatedData.TotalListed) || (collection?.TotalSupply < totalSupply.count)) {
+      if (collection?.TotalListed != aggregatedData.TotalListed) {
+        const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
+      }
+      if (collection?.TotalSupply < totalSupply.count) {
+        const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+      }
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
       setMetaDataUpdated(true);
       return;
     }
-    setMetaDataUpdated(true);
-    setMetadataLoading(false);
-    alert("Metadata is already up to date!");
+    else {
+      setMetaDataUpdated(true);
+      setMetadataLoading(false);
+      alert("Metadata is already up to date!");
+    }
   }
 
   // mediaQuery 
@@ -924,7 +932,8 @@ const Collection = ({
                             onClick={() => refreshMetadata()}
                             className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                             Refresh Metadata
-                          </button>}
+                          </button>
+                        }
                         <button
                           className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                           Report

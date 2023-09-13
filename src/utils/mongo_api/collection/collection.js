@@ -54,6 +54,39 @@ export const get_collection_if_nft_onchain = async (contractAddress) => {
   }
 };
 
+export const admin_collection_refresh = async (collectionId) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/admin_refresh",
+      method: "POST",
+      data: {
+        collectionId,
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const update_collection_information = async (contractAddress, TotalListed, FloorPrice, SalesVolume) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/update_supply",
+      method: "PUT",
+      data: {
+        contractAddress,
+        TotalListed,
+        FloorPrice,
+        SalesVolume
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const update_collection_supply = async (contractAddress, TotalSupply) => {
   try {
     const res = await axios({
