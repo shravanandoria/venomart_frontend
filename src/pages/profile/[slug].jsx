@@ -220,7 +220,7 @@ const Profile = ({
         <title>User Profile - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"

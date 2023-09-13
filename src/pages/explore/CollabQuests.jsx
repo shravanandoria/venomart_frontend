@@ -20,7 +20,7 @@ const CollabQuests = ({ theme, collabQuests }) => {
                 <title>Exclusive Collabs - Venomart Marketplace</title>
                 <meta
                     name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                    content="Complete the tasks of collab quests and mint new NFTs | Powered by Venom Blockchain"
                 />
                 <meta
                     name="keywords"

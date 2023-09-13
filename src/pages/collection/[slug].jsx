@@ -529,7 +529,7 @@ const Collection = ({
         />
         <meta
           name="keywords"
-          content={`venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
+          content={`${collection?.name}, ${collection?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />

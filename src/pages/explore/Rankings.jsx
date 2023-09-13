@@ -26,7 +26,7 @@ const Rankings = ({
         <title>Rankings - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Explore top collections by various filters on venomart | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"

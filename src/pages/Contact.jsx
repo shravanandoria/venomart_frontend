@@ -9,7 +9,7 @@ const Contact = ({ theme }) => {
                 <title>Contact us - Team Venomart</title>
                 <meta
                     name="description"
-                    content="Contact venomart team for any issues or queries"
+                    content="Contact venomart team for any issues or queries | Venomart Marketplace"
                 />
                 <meta
                     name="keywords"

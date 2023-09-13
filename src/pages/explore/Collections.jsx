@@ -135,7 +135,7 @@ const Collections = ({ theme }) => {
         <title>Top Collections - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Explore Exclusive NFT Collections on Venomart | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"

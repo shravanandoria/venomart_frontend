@@ -76,7 +76,7 @@ const EditProfile = ({ signer_address, theme }) => {
         <title>Edit Profile - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Edit your profile on venomart marketplace"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
