@@ -279,7 +279,7 @@ export default function App({ Component, pageProps }) {
       twitterUserName: "segmintapp",
       twitter: "https://twitter.com/segmintapp",
       tweetID: "1701921918159671599",
-      discord: "https://discord.gg/tT3Ssr",
+      discord: "https://discord.com/invite/gsYmc6uf",
       instagram: "",
       telegram: "https://segmintapp.t.me",
       website: "https://segmint.app/",
