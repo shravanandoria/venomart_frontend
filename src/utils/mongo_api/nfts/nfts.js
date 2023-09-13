@@ -78,6 +78,25 @@ export const createNFT = async (data) => {
   }
 };
 
+export const update_verified_nft_image = async (
+  onChainImage,
+  NFTAddress
+) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/update_nft_image`,
+      method: "PUT",
+      data: {
+        nft_image: onChainImage,
+        NFTAddress: NFTAddress,
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const update_verified_nft_data = async (
   OnChainOwner,
   OnChainManager,
