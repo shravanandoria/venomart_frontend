@@ -165,16 +165,6 @@ const Rankings = ({
                 </div>
                 <div className="w-[12%] py-3 px-4" role="columnheader">
                   <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                    7D %
-                  </span>
-                </div>
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                    Royalty %
-                  </span>
-                </div>
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                     Floor Price
                   </span>
                 </div>
@@ -185,7 +175,17 @@ const Rankings = ({
                 </div>
                 <div className="w-[12%] py-3 px-4" role="columnheader">
                   <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                    Sales
+                  </span>
+                </div>
+                <div className="w-[12%] py-3 px-4" role="columnheader">
+                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                     Items
+                  </span>
+                </div>
+                <div className="w-[12%] py-3 px-4" role="columnheader">
+                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                    Royalty %
                   </span>
                 </div>
               </div>
@@ -205,6 +205,7 @@ const Rankings = ({
                       theme={theme}
                       isVerified={e?.isVerified}
                       Royalty={e?.royalty}
+                      Sales={e?.TotalSales}
                       Volume={e?.TotalVolume}
                       Floor={e?.FloorPrice}
                       Listings={e?.TotalListed}

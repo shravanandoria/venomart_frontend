@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://venomart.io/sitemap.xml

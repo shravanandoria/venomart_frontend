@@ -90,7 +90,7 @@ const Help = ({ theme, signer_address }) => {
                             <div className={`accordion-collapse ${faq1 && "collapse"}`}>
                                 <div className="accordion-body border-t border-jacarta-100 bg-white p-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                                     <p className="dark:text-jacarta-200">
-                                        To create your own NFT on venom blockchain, head to <a href='/mint/createNFT' target='_blank' className='text-accent'>Create NFT</a> page, upload your NFT image and fill other details like NFT name, description, props etc and click on create NFT and wait for a while, congratulations you just created your first NFT on venom which you can find in your <a href={`/profile/${signer_address}`} target='_blank' className='text-accent'>profile</a>
+                                        To create your own NFT on venom blockchain, head to <a href='/mint/CreateNFT' target='_blank' className='text-accent'>Create NFT</a> page, upload your NFT image and fill other details like NFT name, description, props etc and click on create NFT and wait for a while, congratulations you just created your first NFT on venom which you can find in your profile
                                     </p>
                                 </div>
                             </div>
