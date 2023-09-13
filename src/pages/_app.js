@@ -285,7 +285,7 @@ export default function App({ Component, pageProps }) {
       website: "https://segmint.app/",
       startDate: "09/13/2023 17:00:00 GMT+0530",
       endDate: "09/17/2023 17:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
   ];
 
