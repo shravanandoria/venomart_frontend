@@ -19,7 +19,27 @@ const ChartComponent = ({ data }) => {
                 responsive: true,
                 interaction: {
                     intersect: false,
-                }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                },
+                animation: {
+                    duration: 0,
+                },
             }
         });
 
@@ -30,7 +50,7 @@ const ChartComponent = ({ data }) => {
         };
     }, [data]);
 
-    return <canvas ref={chartRef} />;
+    return <canvas ref={chartRef} className='mt-8' />;
 };
 
 export default ChartComponent;

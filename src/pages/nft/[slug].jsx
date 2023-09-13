@@ -183,6 +183,7 @@ const NFTPage = ({
           ? nft?.NFTCollection?.contractAddress
           : nft?.collection?._address,
         listingPrice,
+        nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice,
         venomProvider,
         signer_address,
         nft,
@@ -221,6 +222,7 @@ const NFTPage = ({
         nft?.NFTCollection?.contractAddress,
         nft.listingPrice,
         (nft.listingPrice * 1000000000).toString(),
+        (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice),
         signer_address,
         royaltyFinalAmount,
         nft?.NFTCollection?.royaltyAddress

@@ -107,7 +107,6 @@ const Profile = ({
       }
     });
     setLastNFT(res?.continuation);
-    console.log({ new_nfts })
     set_nfts(new_nfts);
   };
 

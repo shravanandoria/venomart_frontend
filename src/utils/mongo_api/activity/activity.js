@@ -22,6 +22,7 @@ export const addActivity = async (data) => {
                 from: data.from,
                 to: data.to,
                 price: data.price,
+                stampedFloor: data.stampedFloor,
                 type: data.type,
                 wallet_id: data.wallet_id,
                 nft_address: data.nft_address,

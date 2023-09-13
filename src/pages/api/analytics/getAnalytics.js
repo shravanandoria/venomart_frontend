@@ -51,12 +51,13 @@ export default async function handler(req, res) {
                     }
                     if (duration == "1year") {
                         _id.year = { $year: "$createdAt" }
-                        _id.month = { $month: "$createdAt" }
-                        limit = 12
+                        _id.week = { $isoWeek: "$createdAt" }
+                        limit = 53
                     }
                     if (duration == "alltime") {
                         _id.year = { $year: "$createdAt" }
-                        limit = 10
+                        _id.month = { $month: "$createdAt" }
+                        limit = 25
                     }
                 }
 
@@ -83,7 +84,10 @@ export default async function handler(req, res) {
                     },
                     {
                         $addFields: {
-                            priceAsDouble: { $toDouble: "$price" }
+                            priceAsDouble: { $toDouble: "$price" },
+                            floorAsDouble: { $toDouble: "$stampedFloor" },
+                            totalSupply: "$collection.TotalSupply",
+                            timestamp: { $toDate: "$createdAt" }
                         }
                     },
                     {
@@ -115,11 +119,20 @@ export default async function handler(req, res) {
                                         0
                                     ]
                                 }
+                            },
+                            floorPrice: { $min: "$floorAsDouble" },
+                            TotalSupply: { $sum: "$totalSupply" },
+                            Time: { $max: "$timestamp" }
+                        }
+                    },
+                    {
+                        $set: {
+                            marketCap: {
+                                $multiply: ["$TotalSupply", "$floorPrice"]
                             }
                         }
                     },
-                    // { $sort: { "_id.year": 1, "_id.month": -1, "_id.week": -1, "_id.day": -1 } }
-                    { $sort: { "_id.year": 1, "_id.month": -1, "_id.day": -1, "_id.interval": -1 } },
+                    { $sort: { "_id.year": 1, "_id.month": -1, "_id.week": -1, "_id.day": -1, "_id.interval": -1 } },
                     {
                         $limit: limit
                     }

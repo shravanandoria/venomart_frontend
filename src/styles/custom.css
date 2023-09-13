@@ -476,7 +476,7 @@
   .chartCont {
     width: 100%;
   }
-  .chartCont .titleChartLabel {
+  /* .chartCont .titleChartLabel {
     display: none;
-  }
+  } */
 }

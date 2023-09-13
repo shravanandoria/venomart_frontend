@@ -32,6 +32,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import LineChart from "../../components/charts/LineChart";
 import BarChart from "../../components/charts/BarChart";
 import { get_charts } from "../../utils/mongo_api/analytics/analytics";
+import moment from "moment";
 
 const Collection = ({
   blockURL,
@@ -78,6 +79,7 @@ const Collection = ({
   const [actionDrop, setActionDrop] = useState(false);
   const [metaDataUpdated, setMetaDataUpdated] = useState(false);
   const [metadataLoading, setMetadataLoading] = useState(false);
+  const [chartLoading, setChartLoading] = useState(false);
 
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
   const [currentDuration, setCurrentDuration] = useState("1day");
@@ -92,70 +94,138 @@ const Collection = ({
 
   // chartdata 
   const salesData = {
-    labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    // labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
     datasets: [
       {
         label: 'Sales',
         data: analytics?.map((e) => (e.TotalSales)),
         fill: "start",
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
         borderWidth: 2,
       },
     ],
   };
 
   const volumeData = {
-    labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
     datasets: [
       {
         label: 'Volume',
         data: analytics?.map((e) => (e.SalesVolume)),
         fill: "start",
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
         borderWidth: 2,
       },
     ],
   };
 
   const listingData = {
-    labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
     datasets: [
       {
         label: 'Listings',
         data: analytics?.map((e) => (e.TotalListings)),
         fill: "start",
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
         borderWidth: 2,
       },
     ],
   };
 
   const floorData = {
-    labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
     datasets: [
       {
         label: 'Floor Price',
-        data: [70, 20, 30, 60, 40, 30, 100],
+        data: analytics?.map((e) => (e.floorPrice)),
         fill: "start",
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
         borderWidth: 2,
       },
     ],
   };
 
+  const marketData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    datasets: [
+      {
+        label: 'Market Cap',
+        data: analytics?.map((e) => (e.marketCap)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+
   // getting charts 
   const get_charts_data = async () => {
     if (!collection._id) return;
+    setChartLoading(true);
     const chartData = await get_charts(collection._id, currentDuration);
     if (chartData) {
       chartData.reverse();
       setFetchedCollectionAnalytics(true);
       set_analytics(chartData);
     }
+    setChartLoading(false);
   }
 
   // refresh nft metadata 
@@ -354,6 +424,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
+        (selectedNFT?.NFTCollection?.FloorPrice ? selectedNFT?.NFTCollection?.FloorPrice : collection?.FloorPrice),
         signer_address,
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress
@@ -426,9 +497,9 @@ const Collection = ({
     fetch_filter_nfts();
   }, [currentFilter])
 
-  // useEffect(() => {
-  //   get_charts_data();
-  // }, [currentDuration])
+  useEffect(() => {
+    get_charts_data();
+  }, [currentDuration])
 
   useEffect(() => {
     if (listedFilter || saleTypeFilter || priceRangeFilter) {
@@ -895,6 +966,7 @@ const Collection = ({
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (
+                    (!fetchedCollectionAnalytics && get_charts_data()),
                     showItemsTab(false),
                     showActivityTab(false),
                     showAnalyticsTab(true)
@@ -1392,7 +1464,7 @@ const Collection = ({
             {analyticsTab && (
               <div className={`tab-content`}>
                 <div className="tab-pane fade show active">
-                  {/* <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
+                  <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
                     {!mobileFilter && isBreakpoint &&
                       <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
                         <button
@@ -1574,12 +1646,12 @@ const Collection = ({
                         </div>
                       </div>
                     }
-                  </div> */}
+                  </div>
 
                   <div>
-                    {/* <div className="flex flex-wrap justify-center align-middle h-[100%] w-[100%]">
+                    <div className="flex flex-wrap justify-center align-middle h-[100%] w-[100%]">
                       <div className="chartCont">
-                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-12 py-4">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             Sales history
                           </p>
@@ -1604,12 +1676,28 @@ const Collection = ({
                             }
                           </p>
                         </div>
-                        <LineChart
-                          data={salesData}
-                        />
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={salesData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
                       </div>
                       <div className="chartCont">
-                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-12 py-4">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             Volume history
                           </p>
@@ -1634,12 +1722,28 @@ const Collection = ({
                             }
                           </p>
                         </div>
-                        <BarChart
-                          data={volumeData}
-                        />
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <BarChart
+                              data={volumeData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
                       </div>
                       <div className="chartCont">
-                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-12 py-4">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             NFTs on sale
                           </p>
@@ -1664,12 +1768,29 @@ const Collection = ({
                             }
                           </p>
                         </div>
-                        <LineChart
-                          data={listingData}
-                        />
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={listingData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
                       </div>
+
                       <div className="chartCont">
-                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-12 py-4">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             Floor Price
                           </p>
@@ -1694,18 +1815,72 @@ const Collection = ({
                             }
                           </p>
                         </div>
-                        <LineChart
-                          data={floorData}
-                        />
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={floorData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
                       </div>
-                    </div> */}
 
-                    <div className={`flex justify-center align-middle flex-wrap`}>
-                      {analytics?.length <= 0 &&
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                          Coming soon..
-                        </h2>
-                      }
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Market Cap
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={marketData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>)
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
