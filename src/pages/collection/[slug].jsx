@@ -241,8 +241,14 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if ((collection?.TotalListed != aggregatedData.TotalListed) || (collection?.TotalSupply < totalSupply.count)) {
-      if (collection?.TotalListed != aggregatedData.TotalListed) {
+    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.TotalSupply < totalSupply?.count)) {
+      if (aggregatedData == undefined) {
+        setMetaDataUpdated(true);
+        setMetadataLoading(false);
+        alert("Metadata is already up to date!");
+        return;
+      }
+      if (collection?.TotalListed != aggregatedData?.TotalListed) {
         const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
       }
       if (collection?.TotalSupply < totalSupply.count) {

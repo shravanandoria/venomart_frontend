@@ -92,15 +92,23 @@ const Footer = ({
                     href="/explore/Collections"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Top Collections
+                    Explore Collections
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/explore/Rankings"
+                    href="/explore/rankings/Collections"
                     className="hover:text-accent dark:hover:text-white"
                   >
                     Rankings
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/explore/Activity"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Activity
                   </Link>
                 </li>
                 <li>
