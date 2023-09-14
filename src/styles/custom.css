@@ -18,6 +18,12 @@
 .collectionFilterDivWebkit::-webkit-scrollbar {
   width: 4px;
 }
+.scroll-list::-webkit-scrollbar {
+  display: none;
+}
+.customProfileHoriScroll::-webkit-scrollbar {
+  display: none;
+}
 
 #heroBackDark {
   /* height: 100%;
@@ -313,13 +319,26 @@
   height: 100vh;
   overflow-y: scroll;
 }
-.scroll-list::-webkit-scrollbar {
-  display: none;
+
+.activityCardDiv {
+  width: 70%;
 }
 
 @media only screen and (max-width: 700px) {
   .hideAllFilterPhone {
     display: none;
+  }
+  .activityCardDiv {
+    width: 100%;
+  }
+  .activityCardDiv .activityCardTitle {
+    font-size: 15px;
+  }
+  .activityCardDiv .activityCardSubTitle span {
+    font-size: 12px;
+  }
+  .activityCardDiv .activityCardLink {
+    width: 100%;
   }
 }
 
