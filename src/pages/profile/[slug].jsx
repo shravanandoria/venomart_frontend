@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import defBack from "../../../public/gradient_dark.jpg";
 import defLogo from "../../../public/deflogo.png";
@@ -16,6 +16,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
+import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 
 const Profile = ({
   theme,
@@ -42,6 +43,8 @@ const Profile = ({
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [userPurchases, setUserPurchases] = useState(true);
+  const [mobileFilter, openMobileFilter] = useState(true);
+
 
   const [lastNFT, setLastNFT] = useState(undefined);
 
@@ -58,10 +61,43 @@ const Profile = ({
   const [selectedNFT, setSelectedNFT] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
 
+  // mediaQuery 
+  const useMediaQuery = (width) => {
+    const [targetReached, setTargetReached] = useState(false);
+
+    const updateTarget = useCallback((e) => {
+      if (e.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      } else {
+        setTargetReached(false);
+        openMobileFilter(true);
+      }
+    }, []);
+
+    useEffect(() => {
+      const media = window.matchMedia(`(max-width: ${width}px)`);
+      media.addListener(updateTarget);
+
+      // Check on mount (callback is not called until a change occurs)
+      if (media.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      }
+
+      return () => media.removeListener(updateTarget);
+    }, []);
+
+    return targetReached;
+  };
+
+  const isBreakpoint = useMediaQuery(800);
+
+
+  // fetching user data
   const getProfileData = async () => {
     set_loading(true);
     if (!slug) return;
-    // fetching user data
     const data = await check_user(slug);
     const nftFetch = await fetch_user_nfts();
     if (data) {
@@ -701,94 +737,124 @@ const Profile = ({
             <div className="tab-pane fade show active">
               <div>
                 <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                  <div className="flex flex-wrap">
-                    <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                      <span
-                        className={`text-2xs font-medium  ${activityType == "" && "text-white"
-                          }`}
+                  {!mobileFilter && isBreakpoint &&
+                    <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
+                      <button
+                        onClick={() => openMobileFilter(true)}
+                        className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                       >
-                        All
-                      </span>
+                        <div className="flex justify-center align-middle">
+                          <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                          <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
+                        </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                        </svg>
+                      </button>
+                    </div>
+                  }
+                  {mobileFilter && isBreakpoint &&
+                    <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                      <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                     </button>
-                    <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className={`mr-2 h-4 w-4 ${activityType == "list"
-                          ? "fill-white"
-                          : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                          }`}
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                      </svg>
-                      <span
-                        className={`text-2xs font-medium  ${activityType == "list" && "text-white"
-                          }`}
-                      >
-                        Listing
-                      </span>
-                    </button>
+                  }
+                  {mobileFilter &&
+                    <div className="flex flex-wrap">
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <span
+                          className={`text-2xs font-medium  ${activityType == "" && "text-white"
+                            }`}
+                        >
+                          All
+                        </span>
+                      </button>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "list"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span
+                          className={`text-2xs font-medium  ${activityType == "list" && "text-white"
+                            }`}
+                        >
+                          Listing
+                        </span>
+                      </button>
 
-                    <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                          ? "fill-white"
-                          : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                          }`}
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
-                      </svg>
-                      <span
-                        className={`text-2xs font-medium ${activityType == "cancel" && "text-white"
-                          }`}
-                      >
-                        Remove Listing
-                      </span>
-                    </button>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "cancel"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
+                        </svg>
+                        <span
+                          className={`text-2xs font-medium ${activityType == "cancel" && "text-white"
+                            }`}
+                        >
+                          Remove Listing
+                        </span>
+                      </button>
 
-                    <button onClick={() => (setActivitySkip(0), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className={`mr-2 h-4 w-4 ${activityType == "sale"
-                          ? "fill-white"
-                          : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                          }`}
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
-                      </svg>
-                      <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
-                        Purchase
-                      </span>
-                    </button>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "sale"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          Purchase
+                        </span>
+                      </button>
 
-                    <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className={`mr-2 h-4 w-4 ${activityType == "user_sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
-                      </svg>
-                      <span className={`text-2xs font-medium ${activityType == "user_sale" && "text-white"}`}>
-                        Sale
-                      </span>
-                    </button>
-                  </div>
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className={`mr-2 h-4 w-4 ${activityType == "user_sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
+                        </svg>
+                        <span className={`text-2xs font-medium ${activityType == "user_sale" && "text-white"}`}>
+                          Sale
+                        </span>
+                      </button>
+                    </div>
+                  }
                 </div>
                 <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`} onScroll={handleActivityScroll}>
                   <div className="flex justify-center align-middle flex-wrap">
