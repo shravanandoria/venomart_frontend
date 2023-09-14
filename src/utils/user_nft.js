@@ -15,7 +15,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -447,7 +447,6 @@ export const list_nft = async (
       if (insertActivity) {
         window.location.href = `/nft/${nft_address}`;
       }
-
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -509,7 +508,6 @@ export const cancel_listing = async (
   signer_address
 ) => {
   try {
-
     let output;
     const afterEvent = async () => {
       let obj = {
