@@ -290,7 +290,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                 </Link>
                             </li>
 
-                            {/* <li>
+                            <li>
                                 <Link
                                     href="/explore/rankings/Users"
                                     className="flex items-center rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
@@ -305,7 +305,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                         Top Users
                                     </span>
                                 </Link>
-                            </li> */}
+                            </li>
                         </ul>
                     }
                 </li>
