@@ -231,7 +231,7 @@ const Footer = ({
             </div>
 
             {/* admin links  */}
-            {adminAccount === signer_address && (
+            {adminAccount.includes(signer_address) && (
               <div className="col-span-full sm:col-span-3 md:col-span-2">
                 <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
                   Admin Links

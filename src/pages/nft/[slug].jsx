@@ -17,6 +17,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import {
   nftInfo,
   update_verified_nft_data,
+  update_verified_nft_image,
 } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
@@ -108,16 +109,30 @@ const NFTPage = ({
     const nft_onchain = await get_nft_by_address(standalone, slug);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
+    let onChainImage = nft_onchain?.preview?.source;
 
     let offChainOwner = nft?.ownerAddress;
     let offChainManager = nft?.managerAddress;
+    let offChainImage = nft?.nft_image;
 
-    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
-      const updateNFTData = await update_verified_nft_data(
-        OnChainOwner,
-        OnChainManager,
-        slug
-      );
+    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "") {
+      if (offChainImage === "") {
+        const updateNFTImage = await update_verified_nft_image(
+          onChainImage,
+          slug
+        );
+        alert("Metadata updated successfully");
+      }
+
+      if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
+        const updateNFTData = await update_verified_nft_data(
+          OnChainOwner,
+          OnChainManager,
+          slug
+        );
+        alert("Owners data updated successfully");
+      }
+
       setMetadataLoading(false);
       router.reload();
       setMetaDataUpdated(true);
@@ -183,6 +198,7 @@ const NFTPage = ({
           ? nft?.NFTCollection?.contractAddress
           : nft?.collection?._address,
         listingPrice,
+        nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice,
         venomProvider,
         signer_address,
         nft,
@@ -221,6 +237,7 @@ const NFTPage = ({
         nft?.NFTCollection?.contractAddress,
         nft.listingPrice,
         (nft.listingPrice * 1000000000).toString(),
+        (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice),
         signer_address,
         royaltyFinalAmount,
         nft?.NFTCollection?.royaltyAddress

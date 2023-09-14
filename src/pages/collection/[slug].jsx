@@ -19,7 +19,7 @@ import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } fro
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { get_collection_by_contract, update_collection_supply } from "../../utils/mongo_api/collection/collection";
+import { admin_collection_refresh, get_collection_by_contract, update_collection_information, update_collection_supply } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -29,6 +29,10 @@ import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { MyEver } from "../../utils/user_nft";
 import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
+import LineChart from "../../components/charts/LineChart";
+import BarChart from "../../components/charts/BarChart";
+import { get_charts } from "../../utils/mongo_api/analytics/analytics";
+import moment from "moment";
 
 const Collection = ({
   blockURL,
@@ -65,6 +69,7 @@ const Collection = ({
   const [skip, setSkip] = useState(0);
   const [skipActivity, setSkipActivity] = useState(0);
   const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
+  const [fetchedCollectionAnalytics, setFetchedCollectionAnalytics] = useState(false);
   const [activityType, setActivityType] = useState("");
 
   const [searchLoading, setSearchLoading] = useState(false);
@@ -74,8 +79,10 @@ const Collection = ({
   const [actionDrop, setActionDrop] = useState(false);
   const [metaDataUpdated, setMetaDataUpdated] = useState(false);
   const [metadataLoading, setMetadataLoading] = useState(false);
+  const [chartLoading, setChartLoading] = useState(false);
 
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
+  const [currentDuration, setCurrentDuration] = useState("1day");
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -85,10 +92,147 @@ const Collection = ({
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
 
+  // chartdata 
+  const salesData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    // labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
+    datasets: [
+      {
+        label: 'Sales',
+        data: analytics?.map((e) => (e.TotalSales)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const volumeData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    datasets: [
+      {
+        label: 'Volume',
+        data: analytics?.map((e) => (e.SalesVolume)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const listingData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    datasets: [
+      {
+        label: 'Listings',
+        data: analytics?.map((e) => (e.TotalListings)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const floorData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    datasets: [
+      {
+        label: 'Floor Price',
+        data: analytics?.map((e) => (e.floorPrice)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const marketData = {
+    labels: analytics?.map((e) =>
+    (
+      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
+        :
+        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
+          :
+          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
+        )
+      )
+    )
+    ),
+    datasets: [
+      {
+        label: 'Market Cap',
+        data: analytics?.map((e) => (e.marketCap)),
+        fill: "start",
+        backgroundColor: 'rgba(160, 131, 247, 0.2)',
+        borderColor: 'rgba(131, 91, 251, 1)',
+        borderWidth: 2,
+      },
+    ],
+  };
+
+
+  // getting charts 
+  const get_charts_data = async () => {
+    if (!collection._id) return;
+    setChartLoading(true);
+    const chartData = await get_charts(collection._id, currentDuration);
+    if (chartData) {
+      chartData.reverse();
+      setFetchedCollectionAnalytics(true);
+      set_analytics(chartData);
+    }
+    setChartLoading(false);
+  }
+
   // refresh nft metadata 
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
+    const aggregatedData = await admin_collection_refresh(collection?._id);
 
     let myEver = new MyEver();
     const providerRpcClient = myEver.ever();
@@ -97,17 +241,24 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if (collection?.TotalSupply < totalSupply.count) {
-      const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+    if ((collection?.TotalListed != aggregatedData.TotalListed) || (collection?.TotalSupply < totalSupply.count)) {
+      if (collection?.TotalListed != aggregatedData.TotalListed) {
+        const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
+      }
+      if (collection?.TotalSupply < totalSupply.count) {
+        const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+      }
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
       setMetaDataUpdated(true);
       return;
     }
-    setMetaDataUpdated(true);
-    setMetadataLoading(false);
-    alert("Metadata is already up to date!");
+    else {
+      setMetaDataUpdated(true);
+      setMetadataLoading(false);
+      alert("Metadata is already up to date!");
+    }
   }
 
   // mediaQuery 
@@ -281,6 +432,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
+        (selectedNFT?.NFTCollection?.FloorPrice ? selectedNFT?.NFTCollection?.FloorPrice : collection?.FloorPrice),
         signer_address,
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress
@@ -352,6 +504,10 @@ const Collection = ({
   useEffect(() => {
     fetch_filter_nfts();
   }, [currentFilter])
+
+  useEffect(() => {
+    get_charts_data();
+  }, [currentDuration])
 
   useEffect(() => {
     if (listedFilter || saleTypeFilter || priceRangeFilter) {
@@ -776,7 +932,8 @@ const Collection = ({
                             onClick={() => refreshMetadata()}
                             className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                             Refresh Metadata
-                          </button>}
+                          </button>
+                        }
                         <button
                           className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                           Report
@@ -818,6 +975,7 @@ const Collection = ({
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (
+                    (!fetchedCollectionAnalytics && get_charts_data()),
                     showItemsTab(false),
                     showActivityTab(false),
                     showAnalyticsTab(true)
@@ -1315,13 +1473,423 @@ const Collection = ({
             {analyticsTab && (
               <div className={`tab-content`}>
                 <div className="tab-pane fade show active">
+                  <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
+                    {!mobileFilter && isBreakpoint &&
+                      <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
+                        <button
+                          onClick={() => openMobileFilter(true)}
+                          className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                        >
+                          <div className="flex justify-center align-middle">
+                            <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                            <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
+                          </div>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                          </svg>
+                        </button>
+                      </div>
+                    }
+                    {mobileFilter && isBreakpoint &&
+                      <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                        <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                      </button>
+                    }
+                    {mobileFilter &&
+                      <div className="collectionFilterDiv p-4">
+                        <div className="collectionFilters mx-6">
+                          <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
+                            <div
+                              onClick={(e) => (
+                                e.stopPropagation(),
+                                showPriceRangeFilter(false),
+                                showSaleTypeFilter(false),
+                                showListedFilter(!listedFilter)
+                              )}
+                              className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                            >
+                              {currentDuration == "1day" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Last 1 Day
+                                </span>
+                              }
+                              {currentDuration == "7days" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Last 7 Days
+                                </span>
+                              }
+                              {currentDuration == "30days" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Last 30 Days
+                                </span>
+                              }
+                              {currentDuration == "6months" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Last 6 Months
+                                </span>
+                              }
+                              {currentDuration == "1year" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  Last 1 Year
+                                </span>
+                              }
+                              {currentDuration == "alltime" &&
+                                <span className="text-jacarta-700 dark:text-white">
+                                  All Time Data
+                                </span>
+                              }
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                              </svg>
+                            </div>
+                            {listedFilter && (
+                              <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <button onClick={() => (setCurrentDuration("1day"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  Last 1 Day
+                                  {currentDuration == "1day" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+                                <button onClick={() => (setCurrentDuration("7days"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  Last 7 Days
+                                  {currentDuration == "7days" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+
+                                <button onClick={() => (setCurrentDuration("30days"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  Last 30 Days
+                                  {currentDuration == "30days" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+                                <button onClick={() => (setCurrentDuration("6months"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  Last 6 Months
+                                  {currentDuration == "6months" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+                                <button onClick={() => (setCurrentDuration("1year"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  Last 1 Year
+                                  {currentDuration == "1year" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+                                <button onClick={() => (setCurrentDuration("alltime"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  All Time Data
+                                  {currentDuration == "alltime" &&
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  }
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
                   <div>
-                    <div className={`flex justify-center align-middle flex-wrap`}>
-                      {analytics?.length <= 0 &&
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
-                          Coming soon..
-                        </h2>
-                      }
+                    <div className="flex flex-wrap justify-center align-middle h-[100%] w-[100%]">
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Sales history
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={salesData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
+                      </div>
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Volume history
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <BarChart
+                              data={volumeData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
+                      </div>
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            NFTs on sale
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={listingData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
+                      </div>
+
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Floor Price
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={floorData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>
+                          )
+                        }
+                      </div>
+
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Market Cap
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            {currentDuration == "1day" &&
+                              "Last 1 Day"
+                            }
+                            {currentDuration == "7days" &&
+                              "Last 7 Days"
+                            }
+                            {currentDuration == "30days" &&
+                              "Last 30 Days"
+                            }
+                            {currentDuration == "6months" &&
+                              "Last 6 Months"
+                            }
+                            {currentDuration == "1year" &&
+                              "Last 1 Year"
+                            }
+                            {currentDuration == "alltime" &&
+                              "All Time Data"
+                            }
+                          </p>
+                        </div>
+                        {chartLoading ?
+                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                          :
+                          ((analytics.length != 0 || analytics == undefined) ?
+                            <LineChart
+                              data={marketData}
+                            />
+                            :
+                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                              No Data Available !
+                            </p>)
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1465,8 +2033,9 @@ const Collection = ({
             />
           )}
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 };
 

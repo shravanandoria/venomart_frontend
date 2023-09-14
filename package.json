@@ -16,6 +16,7 @@
     "@vercel/analytics": "^1.0.1",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "chart.js": "^4.4.0",
     "everscale-inpage-provider": "^0.3.61",
     "everscale-standalone-client": "^2.1.21",
     "express-rate-limit": "^6.9.0",

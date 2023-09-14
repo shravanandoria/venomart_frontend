@@ -457,3 +457,26 @@
     left: 20px;
   }
 }
+
+/* charts  */
+.chartCont {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  padding: 6px;
+  margin: 21px;
+  border: 0.0625rem solid rgba(117, 121, 128, 0.2);
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+  .chartCont {
+    width: 100%;
+  }
+  /* .chartCont .titleChartLabel {
+    display: none;
+  } */
+}

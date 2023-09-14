@@ -70,7 +70,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
           onSubmit={handle_submit}
           className="relative py-24  dark:bg-jacarta-900"
         >
-          {signer_address == adminAccount ? (
+          {adminAccount.includes(signer_address) ? (
             <div className="container">
               <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                 Add NFT Collection

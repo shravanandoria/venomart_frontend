@@ -35,7 +35,10 @@ export default function App({ Component, pageProps }) {
 
   // other values
   const adminAccount =
-    "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580";
+    [
+      "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
+      "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
+    ]
   const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
@@ -245,13 +248,13 @@ export default function App({ Component, pageProps }) {
         "🎮 Web3 gaming platform for everyone. Built on @Venom_network_ Play with Chepe, earn with Chepe ✨",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:359bfa06e4c20af75909a75d428e2036c3b625be7bbf61f0ad637c8a619c63f0",
       customLink: "custom/chepegames",
       pageName: "chepegames",
       supply: "2000",
       twitterUserName: "Chepe_Gaming",
       twitter: "https://twitter.com/Chepe_Gaming",
-      tweetID: "1687875245225701376",
+      tweetID: "1701649230253986139",
       discord: "https://discord.com/invite/9vQrArhbhj",
       instagram: "",
       telegram: "",
@@ -269,20 +272,20 @@ export default function App({ Component, pageProps }) {
       Description: "Pixels game - take your place in blockchain history 🖼️ | Powered by the Venom blockchain 🧪",
       mintPrice: "2",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:5176c497e5067116acc7d1370c963743a0f1125c363f11f941a34c64f069dae6",
       customLink: "custom/segmint",
       pageName: "segmint",
-      supply: "2000",
+      supply: "3000",
       twitterUserName: "segmintapp",
       twitter: "https://twitter.com/segmintapp",
-      tweetID: "1697905254204080270",
-      discord: "https://discord.gg/tT3Ssr",
+      tweetID: "1701921918159671599",
+      discord: "https://discord.com/invite/gsYmc6uf",
       instagram: "",
       telegram: "https://segmintapp.t.me",
       website: "https://segmint.app/",
       startDate: "09/13/2023 17:00:00 GMT+0530",
       endDate: "09/17/2023 17:00:00 GMT+0530",
-      verified: false,
+      verified: true,
     },
   ];
 
@@ -362,7 +365,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Ended",
       CollectionAddress: "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
       customLink: "launch/devenlabs",
       pageName: "devenlabs",

@@ -14,6 +14,7 @@ const CollectionRankingCard = ({
   isVerified,
   Royalty,
   Floor,
+  Sales,
   Listings,
   totalSupply,
 }) => {
@@ -79,26 +80,9 @@ const CollectionRankingCard = ({
           {Volume ? Volume.toFixed(2) : "0"}
         </span>
       </div>
-      <div
-        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-        role="cell"
-      >
-        <span className="text-green">0.00%</span>
-      </div>
-      <div
-        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-        role="cell"
-      >
-        <span className="dark:text-jacarta-200 text-jacarta-700">
-          {Royalty ? Royalty : "0"} %
-        </span>
-      </div>
 
       {/* floor price  */}
-      <div
-        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-        role="cell"
-      >
+      <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
         <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
           <Image
             src={venomLogo}
@@ -116,13 +100,23 @@ const CollectionRankingCard = ({
         </span>
       </div>
 
-      {/* owners  */}
+      {/* listings  */}
       <div
         className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
         role="cell"
       >
         <span className="dark:text-jacarta-200 text-jacarta-700">
           {Listings ? Listings : "0"}
+        </span>
+      </div>
+
+      {/* sales  */}
+      <div
+        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+        role="cell"
+      >
+        <span className="dark:text-jacarta-200 text-jacarta-700">
+          {Sales ? Sales : "0"}
         </span>
       </div>
 
@@ -133,6 +127,16 @@ const CollectionRankingCard = ({
       >
         <span className="dark:text-jacarta-200 text-jacarta-700">
           {totalSupply ? totalSupply : "0"}
+        </span>
+      </div>
+
+      {/* royalty  */}
+      <div
+        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+        role="cell"
+      >
+        <span className="dark:text-jacarta-200 text-jacarta-700">
+          {Royalty ? Royalty : "0"} %
         </span>
       </div>
     </Link>
