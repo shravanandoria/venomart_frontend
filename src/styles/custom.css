@@ -457,13 +457,15 @@
     width: 100%;
     padding-top: 14px;
   }
-  .collectionSearchExplore form {
+  .collectionSearchExplore,
+  .collectionFiltersExplore form {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
   }
-  .collectionSearchExplore form span {
+  .collectionSearchExplore,
+  .collectionFiltersExplore form span {
     left: 20px;
   }
   .collectionSearch form {

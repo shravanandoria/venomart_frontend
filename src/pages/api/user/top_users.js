@@ -9,12 +9,42 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const { duration } = req.query;
+                const { duration, wallet_id } = req.query;
 
+                let timeFilter = {};
+                let walletFilter = {};
+
+                if (wallet_id) {
+                    if (wallet_id != "none" && wallet_id != "") {
+                        walletFilter = {
+                            from: wallet_id
+                        };
+                    }
+                }
+
+                if (duration) {
+                    const currentTime = new Date();
+
+                    if (duration === "7days") {
+                        currentTime.setDate(currentTime.getDate() - 7);
+                    } else if (duration === "30days") {
+                        currentTime.setDate(currentTime.getDate() - 30);
+                    } else if (duration === "1year") {
+                        currentTime.setDate(currentTime.getDate() - 365);
+                    }
+
+                    if (duration != "alltime") {
+                        timeFilter = {
+                            createdAt: { $gte: currentTime }
+                        };
+                    }
+                }
                 const saleResult = await Activity.aggregate([
                     {
                         $match: {
-                            type: "sale"
+                            type: "sale",
+                            ...timeFilter,
+                            ...walletFilter
                         }
                     },
                     {
@@ -60,7 +90,8 @@ export default async function handler(req, res) {
                     {
                         $match: {
                             type: "sale",
-                            to: { $in: ids }
+                            to: { $in: ids },
+                            ...timeFilter
                         }
                     },
                     {
@@ -80,7 +111,8 @@ export default async function handler(req, res) {
                     {
                         $match: {
                             type: "list",
-                            from: { $in: ids }
+                            from: { $in: ids },
+                            ...timeFilter
                         }
                     },
                     {
@@ -95,7 +127,8 @@ export default async function handler(req, res) {
                     {
                         $match: {
                             type: "sale",
-                            from: { $in: ids }
+                            from: { $in: ids },
+                            ...timeFilter
                         }
                     },
                     {
@@ -110,7 +143,8 @@ export default async function handler(req, res) {
                     {
                         $match: {
                             type: "cancel",
-                            to: { $in: ids }
+                            to: { $in: ids },
+                            ...timeFilter
                         }
                     },
                     {
