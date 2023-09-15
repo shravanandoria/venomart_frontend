@@ -473,7 +473,7 @@ export const list_nft = async (
       .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
       .call();
 
-    const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
+    const nft_contract = new venomProvider.Contract(nftAbi, nft_address); 
 
     output = await nft_contract.methods
       .changeManager({
