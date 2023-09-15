@@ -140,6 +140,22 @@ export const updateNFTListing = async (data) => {
         new_manager: data.new_manager,
       },
     });
+    const res2 = await axios({
+      url: `/api/activity/activity`,
+      method: "POST",
+      data: {
+        hash: data.hash,
+        from: data.from,
+        to: data.to,
+        price: data.saleprice,
+        stampedFloor: data.stampedFloor,
+        type: data.type,
+        wallet_id: data.wallet_id,
+        nft_address: data.nft_address,
+        collection_address: data.collection_address,
+        newFloorPrice: data.newFloorPrice
+      },
+    });
     return res.data.data;
   } catch (error) {
     console.log(error.message);
@@ -159,7 +175,23 @@ export const cancelNFTListing = async (data) => {
         new_manager: data.new_manager,
       },
     });
-    console.log(res.data.data);
+
+    const res2 = await axios({
+      url: `/api/activity/activity`,
+      method: "POST",
+      data: {
+        hash: data.hash,
+        from: data.from,
+        to: data.to,
+        price: data.saleprice,
+        stampedFloor: data.stampedFloor,
+        type: data.type,
+        wallet_id: data.wallet_id,
+        nft_address: data.nft_address,
+        collection_address: data.collection_address,
+        newFloorPrice: data.newFloorPrice
+      },
+    });
     return res.data.data;
   } catch (error) {
     console.log(error.message);
@@ -178,6 +210,23 @@ export const updateNFTsale = async (data) => {
         demandPrice: data.demandPrice,
         new_owner: data.new_owner,
         new_manager: data.new_manager,
+      },
+    });
+
+    const res2 = await axios({
+      url: `/api/activity/activity`,
+      method: "POST",
+      data: {
+        hash: data.hash,
+        from: data.from,
+        to: data.to,
+        price: data.saleprice,
+        stampedFloor: data.stampedFloor,
+        type: data.type,
+        wallet_id: data.wallet_id,
+        nft_address: data.nft_address,
+        collection_address: data.collection_address,
+        newFloorPrice: data.newFloorPrice
       },
     });
     return res.data.data;

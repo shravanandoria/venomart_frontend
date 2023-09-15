@@ -233,6 +233,7 @@ const Collection = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
     const aggregatedData = await admin_collection_refresh(collection?._id);
+    console.log({ aggregatedData })
 
     let myEver = new MyEver();
     const providerRpcClient = myEver.ever();

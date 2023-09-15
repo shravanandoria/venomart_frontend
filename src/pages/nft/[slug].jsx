@@ -265,7 +265,8 @@ const NFTPage = ({
         slug,
         nft?.NFTCollection?.contractAddress,
         venomProvider,
-        signer_address
+        signer_address,
+        (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice)
       );
       if (!cancelling) {
         set_loading(false);

@@ -9,13 +9,12 @@ import {
   cancelNFTListing,
   updateNFTsale,
 } from "./mongo_api/nfts/nfts";
-import { addActivity } from "./mongo_api/activity/activity";
 import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -427,14 +426,10 @@ export const list_nft = async (
         price: finalListingPrice,
         demandPrice: price,
         new_manager: MARKETPLACE_ADDRESS,
-      };
-      const updateNFTData = await updateNFTListing(obj);
-
-      let activityOBJ = {
         hash: output ? output?.id?.hash : undefined,
         from: signer_address,
         to: MARKETPLACE_ADDRESS,
-        price: finalListingPrice,
+        saleprice: finalListingPrice,
         stampedFloor: stampedFloor,
         type: "list",
         wallet_id: signer_address,
@@ -442,21 +437,14 @@ export const list_nft = async (
         collection_address: collection_address,
         newFloorPrice: parseFloat(newFloorPrice),
       };
-      const insertActivity = await addActivity(activityOBJ);
-
-      if (insertActivity) {
-        window.location.href = `/nft/${nft_address}`;
-      }
+      const updateNFTData = await updateNFTListing(obj);
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const marketplace_contract = new venomProvider.Contract(
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
-
-    // const res = await marketplace_contract.methods
-    //   .get_fee({ answerId: 0 })
-    //   .call();
 
     const subscriber = new Subscriber(venomProvider);
     const contractEvents = marketplace_contract.events(subscriber);
@@ -473,7 +461,7 @@ export const list_nft = async (
       .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
       .call();
 
-    const nft_contract = new venomProvider.Contract(nftAbi, nft_address); 
+    const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
     output = await nft_contract.methods
       .changeManager({
@@ -491,10 +479,6 @@ export const list_nft = async (
         amount: (listing_fees + 1000000000).toString(),
       });
 
-    // const fees = await marketplace_contract.methods
-    //   .check_fees({ answerId: 0, nft_address: new Address(nft_address) })
-    //   .call();
-
     return true;
   } catch (error) {
     console.log(error);
@@ -505,7 +489,8 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address
+  signer_address,
+  stampedFloor
 ) => {
   try {
     let output;
@@ -516,25 +501,18 @@ export const cancel_listing = async (
         price: "0",
         demandPrice: 0,
         new_manager: signer_address,
-      };
-      let updateNFTData = await cancelNFTListing(obj);
-
-      let activityOBJ = {
         hash: output ? output?.id?.hash : undefined,
         from: MARKETPLACE_ADDRESS,
         to: signer_address,
-        price: "0",
-        stampedFloor: 0,
+        saleprice: "0",
+        stampedFloor: stampedFloor,
         type: "cancel",
         wallet_id: signer_address,
         nft_address: nft_address,
         collection_address: collection_address,
       };
-      let insertActivity = await addActivity(activityOBJ);
-
-      if (insertActivity) {
-        window.location.href = `/nft/${nft_address}`;
-      }
+      let updateNFTData = await cancelNFTListing(obj);
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const marketplace_contract = new venomProvider.Contract(
@@ -594,14 +572,10 @@ export const buy_nft = async (
         demandPrice: 0,
         new_owner: signer_address,
         new_manager: signer_address,
-      };
-      let updateNFTData = await updateNFTsale(obj);
-
-      let activityOBJ = {
         hash: output ? output?.id?.hash : undefined,
         from: prev_nft_Owner,
         to: signer_address,
-        price: salePrice,
+        saleprice: salePrice,
         stampedFloor: stampedFloor,
         type: "sale",
         wallet_id: signer_address,
@@ -609,11 +583,8 @@ export const buy_nft = async (
         collection_address: collection_address,
         newFloorPrice: 0,
       };
-      let insertActivity = await addActivity(activityOBJ);
-
-      if (insertActivity) {
-        window.location.href = `/nft/${nft_address}`;
-      }
+      let updateNFTData = await updateNFTsale(obj);
+      window.location.href = `/nft/${nft_address}`;
     };
 
     const subscriber = new Subscriber(provider);
