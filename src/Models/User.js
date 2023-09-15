@@ -33,6 +33,8 @@ const UserSchema = new mongoose.Schema({
       ref: "Collection",
     },
   ],
-});
+},
+  { timestamps: true }
+);
 
 module.exports = mongoose.models?.User || mongoose.model("User", UserSchema);

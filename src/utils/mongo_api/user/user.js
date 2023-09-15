@@ -42,3 +42,15 @@ export const update_profile = async (data) => {
     console.log(error.message)
   }
 };
+
+export const top_users = async () => {
+  try {
+    const res = await axios({
+      url: "/api/user/top_users",
+      method: "GET"
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message)
+  }
+};

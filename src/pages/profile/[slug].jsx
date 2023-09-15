@@ -10,6 +10,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { MARKETPLACE_ADDRESS, cancel_listing, loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
+import { TfiWorld } from "react-icons/tfi";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -148,6 +149,7 @@ const Profile = ({
 
   // handling for sale nfts more fetch
   const scroll_get_all_nfts = async () => {
+    if (user_data._id == undefined) return;
     setMoreLoading(true);
     const res = await fetch_user_listed_nfts(slug, skip);
     if (res) {
@@ -338,7 +340,7 @@ const Profile = ({
 
             {/* social accounts  */}
             <div className="flex justify-center align-middle mb-10 mt-4">
-              {user_data && (
+              {user_data != "" && (
                 <>
                   <a
                     href={
@@ -354,9 +356,18 @@ const Profile = ({
                       user_data?.socials?.length ? user_data?.socials[1] : "#"
                     }
                     target="_blank"
-                    className="group"
+                    className="group mr-4"
                   >
                     <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                  </a>
+                  <a
+                    href={
+                      user_data?.socials?.length ? user_data?.socials[2] : "#"
+                    }
+                    target="_blank"
+                    className="group"
+                  >
+                    <TfiWorld className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                   </a>
                 </>
               )}
@@ -538,42 +549,40 @@ const Profile = ({
               </span>
             </button>
           </li>
-          {signer_address === slug && (
-            <li
-              className="nav-item"
-              role="presentation"
-              onClick={() => (
-                !fetchedProfileActivity && fetch_user_activity(),
-                switchToActivity()
-              )}
+          <li
+            className="nav-item"
+            role="presentation"
+            onClick={() => (
+              !fetchedProfileActivity && fetch_user_activity(),
+              switchToActivity()
+            )}
+          >
+            <button
+              className={`nav-link ${activity && "active relative"
+                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              id="activity-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#activity"
+              type="button"
+              role="tab"
+              aria-controls="activity"
+              aria-selected="false"
             >
-              <button
-                className={`nav-link ${activity && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-                id="activity-tab"
-                data-bs-toggle="tab"
-                data-bs-target="#activity"
-                type="button"
-                role="tab"
-                aria-controls="activity"
-                aria-selected="false"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                className="mr-1 h-5 w-5 fill-current"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  className="mr-1 h-5 w-5 fill-current"
-                >
-                  <path fill="none" d="M0 0h24v24H0z" />
-                  <path d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z" />
-                </svg>
-                <span className="font-display text-base font-medium">
-                  Activity
-                </span>
-              </button>
-            </li>
-          )}
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z" />
+              </svg>
+              <span className="font-display text-base font-medium">
+                Activity
+              </span>
+            </button>
+          </li>
         </ul>
       </section>
 
@@ -731,7 +740,7 @@ const Profile = ({
       )}
 
       {/* fetch activity here  */}
-      {signer_address === slug && activity && (
+      {activity && (
         <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
             <div className="tab-pane fade show active">
@@ -856,7 +865,7 @@ const Profile = ({
                     </div>
                   }
                 </div>
-                <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`} onScroll={handleActivityScroll}>
+                <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list`} onScroll={handleActivityScroll}>
                   <div className="flex justify-center align-middle flex-wrap">
                     {activityRecords?.map((e, index) => (
                       <ActivityRecord

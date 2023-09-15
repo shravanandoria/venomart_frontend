@@ -51,6 +51,7 @@ export default function App({ Component, pageProps }) {
   const [standalone, set_standalone] = useState();
 
   const [topCollections, setTopCollections] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
 
   // custom array of all collabs
@@ -532,6 +533,8 @@ export default function App({ Component, pageProps }) {
         collabQuests={collabQuests}
         topCollections={topCollections}
         setTopCollections={setTopCollections}
+        topUsers={topUsers}
+        setTopUsers={setTopUsers}
         anyModalOpen={anyModalOpen}
         setAnyModalOpen={setAnyModalOpen}
       />

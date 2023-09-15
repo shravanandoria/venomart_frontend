@@ -1,23 +1,19 @@
-import CollectionRankingCard from "../../../components/cards/CollectionRankingCard";
 import Head from "next/head";
-import React, { useEffect } from "react";
-import { get_collections } from "../../../utils/mongo_api/collection/collection";
+import React, { useEffect, useState } from "react";
+import { top_users } from "../../../utils/mongo_api/user/user";
+import UserRankingCard from "../../../components/cards/UserRankingCard";
 
-const Users = ({
-    theme,
-    topCollections,
-    setTopCollections,
-}) => {
-    const fetchTopCollections = async () => {
-        const topCollections = await get_collections("", "topVolume", "unverified", 0);
-        if (topCollections) {
-            setTopCollections(topCollections);
+const Users = ({ theme, topUsers, setTopUsers }) => {
+    const fetchTopUsers = async () => {
+        const result = await top_users();
+        if (result) {
+            setTopUsers(result);
         }
     };
 
     useEffect(() => {
-        if (topCollections != "") return;
-        fetchTopCollections();
+        if (topUsers != "") return;
+        fetchTopUsers();
     }, []);
 
     return (
@@ -66,7 +62,7 @@ const Users = ({
                                             <path fill="none" d="M0 0h24v24H0z" />
                                             <path d="M20 16h2v6h-6v-2H8v2H2v-6h2V8H2V2h6v2h8V2h6v6h-2v8zm-2 0V8h-2V6H8v2H6v8h2v2h8v-2h2zM4 4v2h2V4H4zm0 14v2h2v-2H4zM18 4v2h2V4h-2zm0 14v2h2v-2h-2z" />
                                         </svg>
-                                        <span>All Categories</span>
+                                        <span>Top Users</span>
                                     </button>
                                     <div
                                         className="dropdown-menu z-10 hidden min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
@@ -153,68 +149,56 @@ const Users = ({
                                 className="flex rounded-t-2lg bg-jacarta-50 dark:bg-jacarta-600"
                                 role="row"
                             >
-                                <div className="w-[28%] py-3 px-4" role="columnheader">
+                                <div className="w-[26%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Collection
+                                        Users
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                <div className="w-[16%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Volume
+                                        Sales Volume
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                <div className="w-[16%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Floor Price
+                                        Purchase Volume
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                <div className="w-[14%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Listings
+                                        Total Sales
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                <div className="w-[14%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Sales
+                                        Active Listing
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                <div className="w-[14%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Items
-                                    </span>
-                                </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Royalty %
+                                        Status
                                     </span>
                                 </div>
                             </div>
 
                             {/* loop all the collections here  */}
 
-                            {topCollections?.map(
+                            {topUsers?.map(
                                 (e, index) =>
-                                    e?.name != undefined && (
-                                        <CollectionRankingCard
-                                            key={index}
-                                            id={index + 1}
-                                            Logo={e?.logo}
-                                            Name={e?.name}
-                                            OwnerAddress={e?.creatorAddress}
-                                            contractAddress={e?.contractAddress}
-                                            theme={theme}
-                                            isVerified={e?.isVerified}
-                                            Royalty={e?.royalty}
-                                            Sales={e?.TotalSales}
-                                            Volume={e?.TotalVolume}
-                                            Floor={e?.FloorPrice}
-                                            Listings={e?.TotalListed}
-                                            totalSupply={e?.TotalSupply}
-                                        />
-                                    )
+                                    <UserRankingCard
+                                        key={index}
+                                        id={index + 1}
+                                        Logo={e?.profileImage}
+                                        Name={e?.user_info}
+                                        walletAddress={e?._id}
+                                        totalPurchaseVolume={e?.totalPurchaseVolume}
+                                        totalSalesVolume={e?.totalSaleVolume}
+                                        totalSales={e?.totalSales}
+                                        activeListings={e?.activeListings}
+                                    />
                             )}
-                            {topCollections?.length <= 0 && (
-                                <h2 className="text-center p-4">No collections found!</h2>
+                            {topUsers?.length <= 0 && (
+                                <h2 className="text-center p-4">No users found!</h2>
                             )}
                         </div>
                     </div>
