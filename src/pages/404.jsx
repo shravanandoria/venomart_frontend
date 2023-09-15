@@ -11,7 +11,7 @@ const ErrorPage = ({ theme }) => {
                 <title>404 Page Not Found - Venomart Marketplace</title>
                 <meta
                     name="description"
-                    content="Page Not Found"
+                    content="404 Page Not Found"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.png" />

@@ -29,7 +29,7 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
                 <title>Create NFT Collection - Venomart Marketplace</title>
                 <meta
                     name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                    content="Create your own NFT collection on venom blockchain via venomart marketplace"
                 />
                 <meta
                     name="keywords"

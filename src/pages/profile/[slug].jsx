@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import defBack from "../../../public/gradient_dark.jpg";
 import defLogo from "../../../public/deflogo.png";
@@ -16,6 +16,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
+import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 
 const Profile = ({
   theme,
@@ -42,6 +43,8 @@ const Profile = ({
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [userPurchases, setUserPurchases] = useState(true);
+  const [mobileFilter, openMobileFilter] = useState(true);
+
 
   const [lastNFT, setLastNFT] = useState(undefined);
 
@@ -58,10 +61,43 @@ const Profile = ({
   const [selectedNFT, setSelectedNFT] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
 
+  // mediaQuery 
+  const useMediaQuery = (width) => {
+    const [targetReached, setTargetReached] = useState(false);
+
+    const updateTarget = useCallback((e) => {
+      if (e.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      } else {
+        setTargetReached(false);
+        openMobileFilter(true);
+      }
+    }, []);
+
+    useEffect(() => {
+      const media = window.matchMedia(`(max-width: ${width}px)`);
+      media.addListener(updateTarget);
+
+      // Check on mount (callback is not called until a change occurs)
+      if (media.matches) {
+        setTargetReached(true);
+        openMobileFilter(false);
+      }
+
+      return () => media.removeListener(updateTarget);
+    }, []);
+
+    return targetReached;
+  };
+
+  const isBreakpoint = useMediaQuery(800);
+
+
+  // fetching user data
   const getProfileData = async () => {
     set_loading(true);
     if (!slug) return;
-    // fetching user data
     const data = await check_user(slug);
     const nftFetch = await fetch_user_nfts();
     if (data) {
@@ -220,7 +256,7 @@ const Profile = ({
         <title>User Profile - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"
@@ -412,7 +448,7 @@ const Profile = ({
 
       {/* switch buttons  */}
       <section className="pt-6 dark:bg-jacarta-900 pb-12">
-        <ul className="nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
+        <ul className="customProfileHoriScroll nav nav-tabs scrollbar-custom flex items-center justify-start overflow-x-auto overflow-y-hidden border-b border-jacarta-100 dark:border-jacarta-600 md:justify-center">
           <li
             className="nav-item"
             role="presentation"
@@ -698,55 +734,47 @@ const Profile = ({
       {signer_address === slug && activity && (
         <section className="relative pt-6 pb-24 dark:bg-jacarta-900">
           <div className="container">
-            <div className="tab-content">
-              <div className="tab-pane fade show active">
-                <div className="flexActivitySection">
-                  <div
-                    className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"
-                      }`}
-                    onScroll={handleActivityScroll}
-                  >
-                    <div className="flex justify-center align-middle flex-wrap">
-                      {activityRecords?.map((e, index) => (
-                        <ActivityRecord
-                          key={index}
-                          NFTImage={e?.item?.nft_image}
-                          NFTName={e?.item?.name}
-                          NFTAddress={e?.item?.NFTAddress}
-                          Price={e?.price}
-                          ActivityTime={e?.createdAt}
-                          ActivityType={e?.type}
-                          userPurchases={userPurchases}
-                          blockURL={blockURL}
-                          ActivityHash={e?.hash}
-                          From={e?.from}
-                          To={e?.to}
-                          MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                        />
-                      ))}
-                      {moreLoading && (
-                        <div className="flex items-center justify-center space-x-2">
-                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+            <div className="tab-pane fade show active">
+              <div>
+                <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
+                  {!mobileFilter && isBreakpoint &&
+                    <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
+                      <button
+                        onClick={() => openMobileFilter(true)}
+                        className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                      >
+                        <div className="flex justify-center align-middle">
+                          <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                          <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
                         </div>
-                      )}
-                      <div className="flex justify-center text-center">
-                        {activityRecords?.length <= 0 && (
-                          <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
-                            No Activity Found!
-                          </h2>
-                        )}
-                      </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                        </svg>
+                      </button>
                     </div>
-                  </div>
-
-                  {/* <!-- Filters --> */}
-                  <div className="basis-4/12 lg:pl-5">
-                    <h3 className="mb-4 font-display font-semibold text-jacarta-500 dark:text-white">
-                      Filters
-                    </h3>
+                  }
+                  {mobileFilter && isBreakpoint &&
+                    <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                      <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
+                    </button>
+                  }
+                  {mobileFilter &&
                     <div className="flex flex-wrap">
+                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <span
+                          className={`text-2xs font-medium  ${activityType == "" && "text-white"
+                            }`}
+                        >
+                          All
+                        </span>
+                      </button>
                       <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -826,8 +854,50 @@ const Profile = ({
                         </span>
                       </button>
                     </div>
+                  }
+                </div>
+                <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 ${activitySkip != 0 && "scroll-list"}`} onScroll={handleActivityScroll}>
+                  <div className="flex justify-center align-middle flex-wrap">
+                    {activityRecords?.map((e, index) => (
+                      <ActivityRecord
+                        key={index}
+                        NFTImage={e?.item?.nft_image}
+                        NFTName={e?.item?.name}
+                        NFTAddress={e?.item?.NFTAddress}
+                        Price={e?.price}
+                        ActivityTime={e?.createdAt}
+                        ActivityType={e?.type}
+                        userPurchases={userPurchases}
+                        blockURL={blockURL}
+                        ActivityHash={e?.hash}
+                        From={e?.from}
+                        To={e?.to}
+                        MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                      />
+                    ))}
+                    {moreLoading && (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      </div>
+                    )}
+                    <div className="flex justify-center text-center">
+                      {activityRecords?.length <= 0 && (
+                        <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
+                          No Activity Found!
+                        </h2>
+                      )}
+                    </div>
                   </div>
                 </div>
+              </div>
+              <div className="flex justify-center">
+                {(activity === undefined) && (
+                  <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                    No activities yet!
+                  </h2>
+                )}
               </div>
             </div>
           </div>

@@ -17,8 +17,8 @@ export default async function handler(req, res) {
           let findArray = {};
           let sortArray = {};
 
-          if (category != "") {
-            // findArray.Category = { $eq: category }
+          if (category != "" && category != "All") {
+            findArray.Category = { $eq: category }
           }
           if (sortby != "") {
             if (sortby == "topVolume") {

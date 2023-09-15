@@ -24,6 +24,7 @@ export default async function handler(req, res) {
                     if (collectionCategory != "All") {
                         limit = 50
                         optionQuery.Category = collectionCategory
+                        // filterQuery['NFTCollection.Category'] = collectionCategory;
                     }
                     if (minPrice != 0 && maxPrice != 0) {
                         filterQuery.demandPrice = { $gte: minPrice, $lte: maxPrice }

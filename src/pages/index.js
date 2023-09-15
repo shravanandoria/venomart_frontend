@@ -388,7 +388,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                 })}
               </div>
               <div className="mt-10 text-center">
-                <Link href="/explore/Rankings"
+                <Link href="/explore/rankings/Collections"
                   className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
                   to Rankings</Link>
               </div>

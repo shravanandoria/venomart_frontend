@@ -108,7 +108,7 @@ const CreateNFT = ({
         <title>Create NFT - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Create your own NFTs on venom blockchain via venomart create NFT feature"
         />
         <meta
           name="keywords"

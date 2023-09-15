@@ -118,7 +118,7 @@ const Collections = ({ theme }) => {
 
   useEffect(() => {
     filterFetchCollections();
-  }, [sortby, option]);
+  }, [sortby, option, category]);
 
   useEffect(() => {
     if (filterCategories || filterSort) {
@@ -135,7 +135,7 @@ const Collections = ({ theme }) => {
         <title>Top Collections - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Explore Exclusive NFT Collections on Venomart | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"
@@ -225,7 +225,7 @@ const Collections = ({ theme }) => {
                               <ul className="flex flex-col flex-wrap">
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("All"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("All"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -247,7 +247,7 @@ const Collections = ({ theme }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("Art"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("Art"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -269,7 +269,7 @@ const Collections = ({ theme }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("Collectibles"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("Collectibles"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -291,7 +291,7 @@ const Collections = ({ theme }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("Games"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("Games"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -313,7 +313,7 @@ const Collections = ({ theme }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("Memes"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("Memes"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
@@ -335,7 +335,7 @@ const Collections = ({ theme }) => {
                                 </li>
                                 <li>
                                   <button
-                                    onClick={() => (setSkip(0), openFilterCategories(false), setCategory("Utility"))}
+                                    onClick={() => (setSkip(0), openFilterCategories(false), setDefaultFilterFetch(true), setCategory("Utility"))}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">

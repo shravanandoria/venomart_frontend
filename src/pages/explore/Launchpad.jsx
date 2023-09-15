@@ -20,7 +20,7 @@ const Launchpad = ({ theme, customLaunchpad }) => {
         <title>Exclusive Launchpad - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+          content="Exclusive launchpad of venomart | Powered by Venom Blockchain"
         />
         <meta
           name="keywords"

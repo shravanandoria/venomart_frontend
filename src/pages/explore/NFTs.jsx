@@ -4,6 +4,7 @@ import Head from "next/head";
 import Loader from "../../components/Loader";
 import { fetch_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { BsChevronDown, BsFillExclamationCircleFill } from "react-icons/bs";
+import { RxCrossCircled } from "react-icons/rx";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import Link from "next/link";
 import Image from "next/image";
@@ -309,7 +310,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                               >
                                 <input
                                   type="search"
-                                  defaultValue={collectionSearchINP}
+                                  value={collectionSearchINP}
                                   onChange={(e) => handle_search(e.target.value)}
                                   className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                   style={{ paddingLeft: "27px", paddingRight: "30px" }}
@@ -327,16 +328,18 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                                     <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
                                   </svg>
                                 </span>
-                                {/* {collections && (
+                                {collectionSearchINP != "" && (
                                   <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                                     <RxCrossCircled
                                       onClick={() => (
-                                        set_collections([])
+                                        handle_search(""),
+                                        setCollectionSearchINP(""),
+                                        setFilterCollection("All")
                                       )}
                                       className="h-5 w-5 text-jacarta-500 dark:text-white cursor-pointer"
                                     />
                                   </span>
-                                )} */}
+                                )}
                               </form>
 
                               <ul className="collectionFilterDivWebkit flex flex-col h-[300px] overflow-y-scroll mt-2">

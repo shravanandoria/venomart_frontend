@@ -33,6 +33,9 @@ export default async function handler(req, res) {
             activityQuery.item = nft_id;
             activityType && (activityQuery.type = activityType);
           }
+          else {
+            activityType && (activityQuery.type = activityType);
+          }
 
           if (activityType == "user_sale") {
             const activities = await Activity.find(activityQuery)
