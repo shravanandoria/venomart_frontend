@@ -66,8 +66,12 @@ const Collection = ({
   const [analytics, set_analytics] = useState([]);
   const [lastNFT, setLastNFT] = useState(true);
   const [onChainData, setOnChainData] = useState(false);
+
   const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [skipActivity, setSkipActivity] = useState(0);
+  const [hasMoreActivity, setHasMoreActivity] = useState(true);
+
   const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
   const [fetchedCollectionAnalytics, setFetchedCollectionAnalytics] = useState(false);
   const [activityType, setActivityType] = useState("");
@@ -307,6 +311,9 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
+      if (nfts_offchain == "") {
+        setHasMore(false);
+      }
     }
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
@@ -334,6 +341,9 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
+      if (nfts_offchain == "") {
+        setHasMore(false);
+      }
     }
   }
 
@@ -358,6 +368,9 @@ const Collection = ({
     const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity(res);
+      if (res == "") {
+        setHasMoreActivity(false);
+      }
     }
     setFetchedCollectionActivity(true);
     setSearchLoading(false);
@@ -382,15 +395,14 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
+      if (nfts_offchain == "") {
+        setHasMore(false);
+      }
     }
   };
 
   const handleScroll = (e) => {
-    if (onChainData == true) return;
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setSkip(nfts.length);
-    }
+    setSkip(nfts.length);
   };
 
   // acitivty scroll function
@@ -400,15 +412,15 @@ const Collection = ({
     const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
     if (res) {
       set_activity([...activity, ...res]);
+      if (res == "") {
+        setHasMoreActivity(false);
+      }
     }
     setSearchLoading(false);
   };
 
-  const handleActivityScroll = (e) => {
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setSkipActivity(activity.length);
-    }
+  const handleActivityScroll = () => {
+    setSkipActivity(activity.length);
   };
 
   // handling search
@@ -481,6 +493,9 @@ const Collection = ({
       const res = await search_nfts(query_search, collection._id);
       if (res) {
         set_nfts(res.nfts);
+        if (res.nfts == "") {
+          setHasMore(false);
+        }
       }
       set_isTyping(false);
       setSearchLoading(false);
@@ -1200,7 +1215,7 @@ const Collection = ({
                                       min="0"
                                       onInput={(e) => e.target.value = Math.abs(e.target.value)}
                                       // value={minPrice}
-                                      onChange={(e) => (setSkip(0), setMinPrice(parseFloat(e.target.value)))}
+                                      onChange={(e) => (setSkip(0), setHasMore(true), setMinPrice(parseFloat(e.target.value)))}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                     <input
@@ -1209,7 +1224,7 @@ const Collection = ({
                                       min="0"
                                       onInput={(e) => e.target.value = Math.abs(e.target.value)}
                                       // value={maxPrice}
-                                      onChange={(e) => (setSkip(0), setMaxPrice(parseFloat(e.target.value)))}
+                                      onChange={(e) => (setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                   </div>
@@ -1276,7 +1291,7 @@ const Collection = ({
                                   <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                     Sort By
                                   </span>
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                     Recently Listed
                                     {currentFilter == "recentlyListed" &&
                                       <svg
@@ -1291,7 +1306,7 @@ const Collection = ({
                                       </svg>
                                     }
                                   </button>
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: Low to High
                                     {currentFilter == "lowToHigh" &&
                                       <svg
@@ -1307,7 +1322,7 @@ const Collection = ({
                                     }
                                   </button>
 
-                                  <button onClick={() => (setSkip(0), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
                                     Price: High to Low
                                     {currentFilter == "highToLow" &&
                                       <svg
@@ -1357,10 +1372,8 @@ const Collection = ({
                     </div>
                   )}
 
-                  <div className={`${!onChainData && "scroll-list"}`} onScroll={handleScroll}>
-                    <div
-                      className={`flex justify-center align-middle flex-wrap`}
-                    >
+                  <div>
+                    <div className={`flex justify-center align-middle flex-wrap`}>
                       {onChainData ? (
                         <InfiniteScroll
                           dataLength={nfts ? nfts?.length : 0}
@@ -1415,42 +1428,56 @@ const Collection = ({
                             </div>
                           ) : (
                             <>
-                              {nfts?.map((e, index) => {
-                                return (
-                                  <NftCard
-                                    key={index}
-                                    ImageSrc={(onChainData
-                                      ? e?.preview?.source
-                                      : e?.nft_image
-                                    )?.replace(
-                                      "ipfs://",
-                                      "https://ipfs.io/ipfs/"
-                                    )}
-                                    Name={e?.name}
-                                    Address={
-                                      onChainData
-                                        ? e?.nftAddress?._address
-                                        : e?.NFTAddress
-                                    }
-                                    Owner={e?.ownerAddress}
-                                    signerAddress={signer_address}
-                                    listedBool={e?.isListed}
-                                    listingPrice={e?.listingPrice}
-                                    NFTCollectionAddress={
-                                      e?.NFTCollection?.contractAddress
-                                    }
-                                    NFTCollectionName={e?.NFTCollection?.name}
-                                    NFTCollectionStatus={
-                                      e?.NFTCollection?.isVerified
-                                    }
-                                    setAnyModalOpen={setAnyModalOpen}
-                                    setBuyModal={setBuyModal}
-                                    setCancelModal={setCancelModal}
-                                    NFTData={e}
-                                    setSelectedNFT={setSelectedNFT}
-                                  />
-                                );
-                              })}
+                              <InfiniteScroll
+                                dataLength={nfts ? nfts?.length : 0}
+                                next={handleScroll}
+                                hasMore={hasMore}
+                                className="flex flex-wrap justify-center align-middle"
+                                loader={
+                                  <div className="flex items-center justify-center space-x-2">
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                  </div>
+                                }
+                              >
+                                {nfts?.map((e, index) => {
+                                  return (
+                                    <NftCard
+                                      key={index}
+                                      ImageSrc={(onChainData
+                                        ? e?.preview?.source
+                                        : e?.nft_image
+                                      )?.replace(
+                                        "ipfs://",
+                                        "https://ipfs.io/ipfs/"
+                                      )}
+                                      Name={e?.name}
+                                      Address={
+                                        onChainData
+                                          ? e?.nftAddress?._address
+                                          : e?.NFTAddress
+                                      }
+                                      Owner={e?.ownerAddress}
+                                      signerAddress={signer_address}
+                                      listedBool={e?.isListed}
+                                      listingPrice={e?.listingPrice}
+                                      NFTCollectionAddress={
+                                        e?.NFTCollection?.contractAddress
+                                      }
+                                      NFTCollectionName={e?.NFTCollection?.name}
+                                      NFTCollectionStatus={
+                                        e?.NFTCollection?.isVerified
+                                      }
+                                      setAnyModalOpen={setAnyModalOpen}
+                                      setBuyModal={setBuyModal}
+                                      setCancelModal={setCancelModal}
+                                      NFTData={e}
+                                      setSelectedNFT={setSelectedNFT}
+                                    />
+                                  );
+                                })}
+                              </InfiniteScroll>
                             </>
                           )}
                         </>
@@ -1465,7 +1492,7 @@ const Collection = ({
                       {nfts?.length <= 0 &&
                         def_query == "" &&
                         !searchLoading && (
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300 py-12">
                             No search results found!!
                           </h2>
                         )}
@@ -1937,13 +1964,13 @@ const Collection = ({
                     }
                     {mobileFilter &&
                       <div className="flex flex-wrap">
-                        <button onClick={() => (setSkipActivity(0), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <span className={`text-2xs font-medium  ${activityType == "" && "text-white"}`}>
                             All
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -1959,7 +1986,7 @@ const Collection = ({
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -1975,7 +2002,7 @@ const Collection = ({
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -1994,32 +2021,39 @@ const Collection = ({
                     }
                   </div>
 
-                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
+                  <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                     {activity?.length >= 1 && (
                       <div className="flex justify-center align-middle flex-wrap">
-                        {activity?.map((e, index) => (
-                          <ActivityRecord
-                            key={index}
-                            NFTImage={e?.item?.nft_image}
-                            NFTName={e?.item?.name}
-                            NFTAddress={e?.item?.NFTAddress}
-                            Price={e?.price}
-                            ActivityTime={e?.createdAt}
-                            ActivityType={e?.type}
-                            blockURL={blockURL}
-                            ActivityHash={e?.hash}
-                            From={e?.from}
-                            To={e?.to}
-                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                          />
-                        ))}
-                        {searchLoading && (
-                          <div className="flex items-center justify-center space-x-2">
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          </div>
-                        )}
+                        <InfiniteScroll
+                          dataLength={activity ? activity?.length : 0}
+                          next={handleActivityScroll}
+                          hasMore={hasMoreActivity}
+                          className="flex flex-wrap justify-center align-middle"
+                          loader={
+                            <div className="flex items-center justify-center space-x-2">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          }
+                        >
+                          {activity?.map((e, index) => (
+                            <ActivityRecord
+                              key={index}
+                              NFTImage={e?.item?.nft_image}
+                              NFTName={e?.item?.name}
+                              NFTAddress={e?.item?.NFTAddress}
+                              Price={e?.price}
+                              ActivityTime={e?.createdAt}
+                              ActivityType={e?.type}
+                              blockURL={blockURL}
+                              ActivityHash={e?.hash}
+                              From={e?.from}
+                              To={e?.to}
+                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                            />
+                          ))}
+                        </InfiniteScroll>
                       </div>
                     )};
                     <div className="flex items-center justify-center space-x-2">

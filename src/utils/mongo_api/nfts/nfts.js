@@ -44,7 +44,6 @@ export const fetch_collection_nfts = async (
       url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
-    console.log(res.data.data);
     return res.data.data;
   } catch (error) {
     console.log(error.message);

@@ -18,6 +18,7 @@ import { getActivity } from "../../utils/mongo_api/activity/activity";
 import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
+import moment from 'moment';
 
 const Profile = ({
   theme,
@@ -30,6 +31,9 @@ const Profile = ({
   venomProvider
 }) => {
   const [user_data, set_user_data] = useState({});
+
+  const userJoinedDate = moment(user_data?.createdAt);
+  const formattedDate = userJoinedDate.format('D MMMM YYYY');
 
   const router = useRouter();
   const { slug } = router.query;
@@ -51,6 +55,8 @@ const Profile = ({
 
   const [activitySkip, setActivitySkip] = useState(0);
   const [skip, setSkip] = useState(0);
+  const [hasMoreActivity, setHasMoreActivity] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
 
   const [activityType, setActivityType] = useState("");
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
@@ -115,6 +121,9 @@ const Profile = ({
     const res = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (res) {
       setActivityRecords(res);
+      if (res == "") {
+        setHasMoreActivity(false);
+      }
     }
     setFetchedProfileActivity(true);
     setMoreLoading(false);
@@ -127,6 +136,9 @@ const Profile = ({
     const res = await fetch_user_listed_nfts(slug, skip);
     if (res) {
       setOnSaleNFTs(res);
+      if (res == "") {
+        setHasMore(false);
+      }
     }
     setFetchedOnSaleNFTs(true);
     setMoreLoading(false);
@@ -154,15 +166,15 @@ const Profile = ({
     const res = await fetch_user_listed_nfts(slug, skip);
     if (res) {
       setOnSaleNFTs([...onSaleNFTs, ...res]);
+      if (res == "") {
+        setHasMore(false);
+      }
     }
     setMoreLoading(false);
   };
 
-  const handleScroll = (e) => {
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setSkip(onSaleNFTs.length);
-    }
+  const handleScroll = () => {
+    setSkip(onSaleNFTs.length);
   };
 
   // handling activity scroll fetch more
@@ -172,15 +184,15 @@ const Profile = ({
     const newArray = await getActivity(user_data._id, user_data.wallet_id, "", "", activityType, activitySkip);
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
+      if (newArray == "") {
+        setHasMoreActivity(false);
+      }
     }
     setMoreLoading(false);
   };
 
-  const handleActivityScroll = (e) => {
-    const { offsetHeight, scrollTop, scrollHeight } = e.target;
-    if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-      setActivitySkip(activityRecords.length);
-    }
+  const handleActivityScroll = () => {
+    setActivitySkip(activityRecords.length);
   };
 
   // cancel nft sale
@@ -332,9 +344,9 @@ const Profile = ({
             </p>
 
             {/* join date */}
-            {user_data?.Date && (
+            {user_data?.createdAt && (
               <p className="mx-auto max-w-xl text-[16px] dark:text-jacarta-400 mb-6">
-                Joined on {user_data?.Date}
+                Joined on {formattedDate}
               </p>
             )}
 
@@ -588,44 +600,46 @@ const Profile = ({
 
       {/* fetch listed nfts here */}
       {onSale && (
-        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900 ${skip != 0 && "scroll-list"}`} onScroll={handleScroll}>
+        <section className={`relative pt-6 pb-24 dark:bg-jacarta-900`}>
           <div>
             <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="on-sale"
-                role="tabpanel"
-                aria-labelledby="on-sale-tab"
-              >
+              <div className="tab-pane fade show active">
                 <div className="flex justify-center align-middle flex-wrap">
-                  {onSaleNFTs?.map((e, index) => {
-                    return (
-                      <NftCard
-                        key={index}
-                        ImageSrc={e?.nft_image}
-                        Name={e?.name}
-                        Address={e?.NFTAddress}
-                        Owner={e?.ownerAddress}
-                        signerAddress={signer_address}
-                        listedBool={e?.isListed}
-                        listingPrice={e?.listingPrice}
-                        NFTCollectionAddress={e?.NFTCollection?.contractAddress}
-                        NFTCollectionName={e?.NFTCollection?.name}
-                        NFTCollectionStatus={e?.NFTCollection?.isVerified}
-                        setAnyModalOpen={setAnyModalOpen}
-                        setCancelModal={setCancelModal}
-                        NFTData={e}
-                        setSelectedNFT={setSelectedNFT}
-                      />
-                    );
-                  })}
-                  {moreLoading && (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                    </div>
-                  )}
+                  <InfiniteScroll
+                    dataLength={onSaleNFTs ? onSaleNFTs?.length : 0}
+                    next={handleScroll}
+                    hasMore={hasMore}
+                    className="flex flex-wrap justify-center align-middle"
+                    loader={
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      </div>
+                    }
+                  >
+                    {onSaleNFTs?.map((e, index) => {
+                      return (
+                        <NftCard
+                          key={index}
+                          ImageSrc={e?.nft_image}
+                          Name={e?.name}
+                          Address={e?.NFTAddress}
+                          Owner={e?.ownerAddress}
+                          signerAddress={signer_address}
+                          listedBool={e?.isListed}
+                          listingPrice={e?.listingPrice}
+                          NFTCollectionAddress={e?.NFTCollection?.contractAddress}
+                          NFTCollectionName={e?.NFTCollection?.name}
+                          NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                          setAnyModalOpen={setAnyModalOpen}
+                          setCancelModal={setCancelModal}
+                          NFTData={e}
+                          setSelectedNFT={setSelectedNFT}
+                        />
+                      );
+                    })}
+                  </InfiniteScroll>
                 </div>
                 <div className="flex justify-center">
                   {onSaleNFTs.length <= 0 && !moreLoading && (
@@ -745,6 +759,7 @@ const Profile = ({
           <div className="container">
             <div className="tab-pane fade show active">
               <div>
+                {/* filters  */}
                 <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
                   {!mobileFilter && isBreakpoint &&
                     <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
@@ -776,7 +791,7 @@ const Profile = ({
                   }
                   {mobileFilter &&
                     <div className="flex flex-wrap">
-                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <span
                           className={`text-2xs font-medium  ${activityType == "" && "text-white"
                             }`}
@@ -784,7 +799,7 @@ const Profile = ({
                           All
                         </span>
                       </button>
-                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -806,7 +821,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -828,7 +843,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -847,7 +862,7 @@ const Profile = ({
                         </span>
                       </button>
 
-                      <button onClick={() => (setActivitySkip(0), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                      <button onClick={() => (setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType("user_sale"))} className={`${activityType == "user_sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -865,35 +880,42 @@ const Profile = ({
                     </div>
                   }
                 </div>
-                <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list`} onScroll={handleActivityScroll}>
+                <div className={`mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10`}>
                   <div className="flex justify-center align-middle flex-wrap">
-                    {activityRecords?.map((e, index) => (
-                      <ActivityRecord
-                        key={index}
-                        NFTImage={e?.item?.nft_image}
-                        NFTName={e?.item?.name}
-                        NFTAddress={e?.item?.NFTAddress}
-                        Price={e?.price}
-                        ActivityTime={e?.createdAt}
-                        ActivityType={e?.type}
-                        userPurchases={userPurchases}
-                        blockURL={blockURL}
-                        ActivityHash={e?.hash}
-                        From={e?.from}
-                        To={e?.to}
-                        MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                      />
-                    ))}
-                    {moreLoading && (
-                      <div className="flex items-center justify-center space-x-2">
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                      </div>
-                    )}
+                    <InfiniteScroll
+                      dataLength={activityRecords ? activityRecords?.length : 0}
+                      next={handleActivityScroll}
+                      hasMore={hasMoreActivity}
+                      className="flex flex-wrap justify-center align-middle"
+                      loader={
+                        <div className="flex items-center justify-center align-middle space-x-2">
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>
+                      }
+                    >
+                      {activityRecords?.map((e, index) => (
+                        <ActivityRecord
+                          key={index}
+                          NFTImage={e?.item?.nft_image}
+                          NFTName={e?.item?.name}
+                          NFTAddress={e?.item?.NFTAddress}
+                          Price={e?.price}
+                          ActivityTime={e?.createdAt}
+                          ActivityType={e?.type}
+                          userPurchases={userPurchases}
+                          blockURL={blockURL}
+                          ActivityHash={e?.hash}
+                          From={e?.from}
+                          To={e?.to}
+                          MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                        />
+                      ))}
+                    </InfiniteScroll>
                     <div className="flex justify-center text-center">
                       {activityRecords?.length <= 0 && (
-                        <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
+                        <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
                           No Activity Found!
                         </h2>
                       )}

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { get_collections } from "../../utils/mongo_api/collection/collection";
 import { search_collections } from "../../utils/mongo_api/search";
 import Image from "next/image";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Activity = ({ theme, blockURL }) => {
 
@@ -24,6 +25,9 @@ const Activity = ({ theme, blockURL }) => {
     const [searchLoading, setSearchLoading] = useState(false);
     const [activity, set_activity] = useState([]);
     const [skipActivity, setSkipActivity] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+
+
     const [mobileFilter, openMobileFilter] = useState(true);
     const [searchedCollectionBefore, setSearchedCollectionBefore] = useState(false);
 
@@ -87,15 +91,15 @@ const Activity = ({ theme, blockURL }) => {
         const res = await getActivity("", "", filterCollection, "", activityType, skipActivity);
         if (res) {
             set_activity([...activity, ...res]);
+            if (res == "") {
+                setHasMore(false);
+            }
         }
         setSearchLoading(false);
     };
 
-    const handleActivityScroll = (e) => {
-        const { offsetHeight, scrollTop, scrollHeight } = e.target;
-        if (offsetHeight + scrollTop + 10 >= scrollHeight) {
-            setSkipActivity(activity.length);
-        }
+    const handleActivityScroll = () => {
+        setSkipActivity(activity.length);
     };
 
     // fetching collection 
@@ -262,7 +266,7 @@ const Activity = ({ theme, blockURL }) => {
                                                     {!collectionLoading &&
                                                         (collections?.map((e, index) => {
                                                             return (
-                                                                <li key={index} onClick={() => (setSkipActivity(0), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
+                                                                <li key={index} onClick={() => (setSkipActivity(0), setHasMore(true), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
                                                                     <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                                         <span className="relative text-jacarta-700 dark:text-white">
                                                                             <Image
@@ -345,7 +349,7 @@ const Activity = ({ theme, blockURL }) => {
                                             <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                                 Filter By
                                             </span>
-                                            <button onClick={() => (setSkipActivity(0), openFilterSort(false), setDefaultFilterFetch(true), setActivityType(""))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType(""))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                 All Activity
                                                 {activityType == "" &&
                                                     <svg
@@ -360,7 +364,7 @@ const Activity = ({ theme, blockURL }) => {
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("list"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("list"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                 Listing
                                                 {activityType == "list" &&
                                                     <svg
@@ -375,7 +379,7 @@ const Activity = ({ theme, blockURL }) => {
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("cancel"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("cancel"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                 Remove Listing
                                                 {activityType == "cancel" &&
                                                     <svg
@@ -390,7 +394,7 @@ const Activity = ({ theme, blockURL }) => {
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("sale"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("sale"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                 Sale
                                                 {activityType == "sale" &&
                                                     <svg
@@ -413,32 +417,39 @@ const Activity = ({ theme, blockURL }) => {
                     </div>
 
                     <div>
-                        <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10 scroll-list" onScroll={handleActivityScroll}>
+                        <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
                             {activity?.length >= 1 && (
                                 <div className="flex justify-center align-middle flex-wrap">
-                                    {activity?.map((e, index) => (
-                                        <ActivityRecord
-                                            key={index}
-                                            NFTImage={e?.item?.nft_image}
-                                            NFTName={e?.item?.name}
-                                            NFTAddress={e?.item?.NFTAddress}
-                                            Price={e?.price}
-                                            ActivityTime={e?.createdAt}
-                                            ActivityType={e?.type}
-                                            blockURL={blockURL}
-                                            ActivityHash={e?.hash}
-                                            From={e?.from}
-                                            To={e?.to}
-                                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
-                                        />
-                                    ))}
-                                    {searchLoading && (
-                                        <div className="flex items-center justify-center space-x-2">
-                                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                                        </div>
-                                    )}
+                                    <InfiniteScroll
+                                        dataLength={activity ? activity?.length : 0}
+                                        next={handleActivityScroll}
+                                        hasMore={hasMore}
+                                        className="flex flex-wrap justify-center align-middle"
+                                        loader={
+                                            <div className="flex items-center justify-center space-x-2">
+                                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                                <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                            </div>
+                                        }
+                                    >
+                                        {activity?.map((e, index) => (
+                                            <ActivityRecord
+                                                key={index}
+                                                NFTImage={e?.item?.nft_image}
+                                                NFTName={e?.item?.name}
+                                                NFTAddress={e?.item?.NFTAddress}
+                                                Price={e?.price}
+                                                ActivityTime={e?.createdAt}
+                                                ActivityType={e?.type}
+                                                blockURL={blockURL}
+                                                ActivityHash={e?.hash}
+                                                From={e?.from}
+                                                To={e?.to}
+                                                MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                                            />
+                                        ))}
+                                    </InfiniteScroll>
                                 </div>
                             )};
                             <div className="flex items-center justify-center space-x-2">
