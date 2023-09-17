@@ -16,7 +16,7 @@ export const get_launchpad_by_id = async (data) => {
   try {
     const { data } = await axios({
       url: "/api/launchpad",
-      method: "POST",
+      method: "GET",
       data,
     });
   } catch (error) {

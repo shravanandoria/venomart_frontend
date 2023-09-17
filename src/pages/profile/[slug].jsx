@@ -8,7 +8,7 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { MARKETPLACE_ADDRESS, cancel_listing, loadNFTs_user } from "../../utils/user_nft";
+import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_user } from "../../utils/user_nft";
 import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
 import { TfiWorld } from "react-icons/tfi";
 import { check_user } from "../../utils/mongo_api/user/user";
@@ -20,6 +20,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import moment from 'moment';
 import SuccessModal from "../../components/modals/SuccessModal";
+import BuyModal from "../../components/modals/BuyModal";
 
 const Profile = ({
   theme,
@@ -68,6 +69,7 @@ const Profile = ({
   const [actionLoad, setActionLoad] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const [buyModal, setBuyModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [transactionType, setTransactionType] = useState("");
 
@@ -198,6 +200,54 @@ const Profile = ({
     setActivitySkip(activityRecords.length);
   };
 
+  // buy nft
+  const buy_NFT_ = async (e) => {
+    e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
+    setActionLoad(true);
+    let royaltyFinalAmount =
+      ((parseFloat(selectedNFT?.demandPrice) *
+        parseFloat(
+          selectedNFT?.NFTCollection?.royalty ? selectedNFT?.NFTCollection?.royalty : 0
+        )) /
+        100) *
+      1000000000;
+    try {
+      const buying = await buy_nft(
+        venomProvider,
+        standalone,
+        selectedNFT?.NFTAddress,
+        selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
+        selectedNFT?.NFTCollection?.contractAddress,
+        selectedNFT.listingPrice,
+        (selectedNFT.listingPrice * 1000000000).toString(),
+        (selectedNFT?.NFTCollection?.FloorPrice ? selectedNFT?.NFTCollection?.FloorPrice : selectedNFT?.data?.FloorPrice),
+        signer_address,
+        royaltyFinalAmount,
+        selectedNFT?.NFTCollection?.royaltyAddress
+          ? selectedNFT?.NFTCollection?.royaltyAddress
+          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+      );
+
+      if (buying == true) {
+        setActionLoad(false);
+        setBuyModal(false);
+        setTransactionType("Sale");
+        setSkip(0);
+        setSuccessModal(true);
+      }
+      if (buying == false) {
+        setActionLoad(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // cancel nft sale
   const cancelNFT = async (e) => {
     e.preventDefault();
@@ -278,6 +328,8 @@ const Profile = ({
       {cancelModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
+
+      {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {successModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
@@ -651,6 +703,7 @@ const Profile = ({
                           NFTCollectionStatus={e?.NFTCollection?.isVerified}
                           setAnyModalOpen={setAnyModalOpen}
                           setCancelModal={setCancelModal}
+                          setBuyModal={setBuyModal}
                           NFTData={e}
                           setSelectedNFT={setSelectedNFT}
                         />
@@ -963,6 +1016,22 @@ const Profile = ({
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
           NFTName={selectedNFT?.name}
+          actionLoad={actionLoad}
+        />
+      )}
+
+      {/* buy modal  */}
+      {buyModal && (
+        <BuyModal
+          formSubmit={buy_NFT_}
+          setBuyModal={setBuyModal}
+          setAnyModalOpen={setAnyModalOpen}
+          NFTImage={selectedNFT?.nft_image}
+          NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+          NFTCollectionName={selectedNFT?.NFTCollection?.name}
+          CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          NFTName={selectedNFT?.name}
+          NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}
         />
       )}
