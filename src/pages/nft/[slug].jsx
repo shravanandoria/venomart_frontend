@@ -26,6 +26,7 @@ import NFTActivityCard from "../../components/cards/NFTActivityCard";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
+import SuccessModal from "../../components/modals/SuccessModal";
 
 const NFTPage = ({
   signer_address,
@@ -49,6 +50,7 @@ const NFTPage = ({
   const [listSale, setListSale] = useState(false);
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
   const [onchainNFTData, setOnchainNFTData] = useState(false);
   const [collectionData, setCollectionData] = useState(false);
 
@@ -73,6 +75,7 @@ const NFTPage = ({
   const [activeOffers, setActiveOffers] = useState([]);
   const [activityHistory, setActivityHistory] = useState([]);
   const [activityType, setActivityType] = useState("");
+  const [transactionType, setTransactionType] = useState("");
 
   // connecting wallet 
   const connect_wallet = async () => {
@@ -84,6 +87,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
+    console.log({ nft_database })
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -193,6 +197,9 @@ const NFTPage = ({
     }
     try {
       const listing = await list_nft(
+        standalone,
+        nft?.ownerAddress,
+        nft?.managerAddress,
         slug,
         nft?.NFTCollection?.contractAddress
           ? nft?.NFTCollection?.contractAddress
@@ -206,7 +213,14 @@ const NFTPage = ({
         finalListingPrice,
         newFloorPrice
       );
-      if (!listing) {
+      if (listing == true) {
+        set_loading(false);
+        setListSale(false);
+        setTransactionType("List");
+        nft_info();
+        setSuccessModal(true);
+      }
+      if (listing == false) {
         set_loading(false);
       }
     } catch (error) {
@@ -232,8 +246,10 @@ const NFTPage = ({
     try {
       const buying = await buy_nft(
         venomProvider,
+        standalone,
         slug,
         nft?.ownerAddress,
+        nft?.managerAddress,
         nft?.NFTCollection?.contractAddress,
         nft.listingPrice,
         (nft.listingPrice * 1000000000).toString(),
@@ -244,7 +260,14 @@ const NFTPage = ({
           ? nft?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
-      if (!buying) {
+
+      if (buying == true) {
+        set_loading(false);
+        setBuyModal(false);
+        setTransactionType("Sale");
+        setSuccessModal(true);
+      }
+      if (buying == false) {
         set_loading(false);
       }
     } catch (error) {
@@ -262,13 +285,22 @@ const NFTPage = ({
     set_loading(true);
     try {
       const cancelling = await cancel_listing(
+        standalone,
+        nft?.ownerAddress,
+        nft?.managerAddress,
         slug,
         nft?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
         (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice)
       );
-      if (!cancelling) {
+      if (cancelling == true) {
+        set_loading(false);
+        setCancelModal(false);
+        setTransactionType("Cancel");
+        setSuccessModal(true);
+      }
+      if (cancelling == false) {
         set_loading(false);
       }
     } catch (error) {
@@ -346,6 +378,10 @@ const NFTPage = ({
       {listSale && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
+
+      {successModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
 
       {cancelModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
@@ -1787,6 +1823,24 @@ const NFTPage = ({
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
+              NFTName={nft?.name}
+              actionLoad={loading}
+            />
+          )}
+
+          {/* success modal  */}
+          {successModal && (
+            <SuccessModal
+              setSuccessModal={setSuccessModal}
+              setAnyModalOpen={setAnyModalOpen}
+              onCloseFunctionCall={nft_info}
+              TransactionType={transactionType}
+              NFTImage={nft?.nft_image}
+              NFTAddress={nft?.NFTAddress}
+              NFTCollectionContract={nft?.NFTCollection?.contractAddress}
+              NFTCollectionName={nft?.NFTCollection?.name}
+              CollectionVerification={nft?.NFTCollection?.isVerified}
+              NFTListingPrice={nft?.listingPrice}
               NFTName={nft?.name}
               actionLoad={loading}
             />

@@ -35,6 +35,12 @@ export default async function handler(req, res) {
                             sortQuery.isListed = -1
                             sortQuery.updatedAt = -1
                         }
+                        if (sortby == "recentlySold") {
+                            limit = 50
+                            filterQuery.isListed = false
+                            sortQuery.isListed = 1
+                            sortQuery.updatedAt = -1
+                        }
                         if (sortby == "lowToHigh") {
                             limit = 50
                             sortQuery.isListed = -1

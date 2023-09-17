@@ -33,6 +33,7 @@ import LineChart from "../../components/charts/LineChart";
 import BarChart from "../../components/charts/BarChart";
 import { get_charts } from "../../utils/mongo_api/analytics/analytics";
 import moment from "moment";
+import SuccessModal from "../../components/modals/SuccessModal";
 
 const Collection = ({
   blockURL,
@@ -86,7 +87,7 @@ const Collection = ({
   const [chartLoading, setChartLoading] = useState(false);
 
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
-  const [currentDuration, setCurrentDuration] = useState("1day");
+  const [currentDuration, setCurrentDuration] = useState("30days");
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
@@ -95,6 +96,8 @@ const Collection = ({
   const [selectedNFT, setSelectedNFT] = useState("");
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [transactionType, setTransactionType] = useState("");
 
   // chartdata 
   const salesData = {
@@ -246,13 +249,7 @@ const Collection = ({
       .call();
 
     if ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.TotalSupply < totalSupply?.count)) {
-      if (aggregatedData == undefined) {
-        setMetaDataUpdated(true);
-        setMetadataLoading(false);
-        alert("Metadata is already up to date!");
-        return;
-      }
-      if (collection?.TotalListed != aggregatedData?.TotalListed) {
+      if ((aggregatedData == undefined) && (collection?.TotalListed != aggregatedData?.TotalListed)) {
         const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
       }
       if (collection?.TotalSupply < totalSupply.count) {
@@ -309,6 +306,7 @@ const Collection = ({
     setLoading(true);
 
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
+    console.log({ nfts_offchain })
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -445,8 +443,10 @@ const Collection = ({
     try {
       const buying = await buy_nft(
         venomProvider,
+        standalone,
         selectedNFT?.NFTAddress,
         selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
@@ -457,7 +457,13 @@ const Collection = ({
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
-      if (!buying) {
+      if (buying == true) {
+        setActionLoad(false);
+        setBuyModal(false);
+        setTransactionType("Sale");
+        setSuccessModal(true);
+      }
+      if (buying == false) {
         setActionLoad(false);
       }
     } catch (error) {
@@ -471,12 +477,21 @@ const Collection = ({
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
+        standalone,
+        selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address
       );
-      if (!cancelling) {
+      if (cancelling == true) {
+        setActionLoad(false);
+        setCancelModal(false);
+        setTransactionType("Cancel");
+        setSuccessModal(true);
+      }
+      if (cancelling == false) {
         setActionLoad(false);
       }
     } catch (error) {
@@ -561,6 +576,10 @@ const Collection = ({
       )}
 
       {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {successModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
@@ -1265,6 +1284,11 @@ const Collection = ({
                                     Recently Listed
                                   </span>
                                 }
+                                {currentFilter == "recentlySold" &&
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    Recently Sold
+                                  </span>
+                                }
                                 {currentFilter == "lowToHigh" &&
                                   <span className="text-jacarta-700 dark:text-white">
                                     Low To High
@@ -1294,6 +1318,21 @@ const Collection = ({
                                   <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                     Recently Listed
                                     {currentFilter == "recentlyListed" &&
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    }
+                                  </button>
+                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlySold"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                    Recently Sold
+                                    {currentFilter == "recentlySold" &&
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -2101,6 +2140,24 @@ const Collection = ({
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
+
+          {/* success modal  */}
+          {successModal && (
+            <SuccessModal
+              setSuccessModal={setSuccessModal}
+              setAnyModalOpen={setAnyModalOpen}
+              onCloseFunctionCall={fetch_filter_nfts}
+              TransactionType={transactionType}
+              NFTImage={selectedNFT?.nft_image}
+              NFTAddress={selectedNFT?.NFTAddress}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTListingPrice={selectedNFT?.listingPrice}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
             />

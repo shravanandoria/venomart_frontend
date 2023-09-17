@@ -131,60 +131,59 @@ export default async function handler(req, res) {
           }
 
           // creating activity here 
-          if (hash != undefined) {
-            activity = await Activity.create({
-              hash,
-              from,
-              to,
-              price,
-              stampedFloor: activityStampedFloor,
-              item: nft,
-              type,
-              owner: user,
-              nft_collection: collection,
-            });
+          activity = await Activity.create({
+            hash,
+            from,
+            to,
+            price,
+            stampedFloor: activityStampedFloor,
+            item: nft,
+            type,
+            owner: user,
+            nft_collection: collection,
+          });
 
-            if (collection) {
-              if (type === "list") {
-                collection.TotalListed++;
+          if (collection) {
+            if (type === "list") {
+              collection.TotalListed++;
 
-                if (newFloorPrice !== 0 && newFloorPrice !== undefined) {
-                  collection.FloorPrice = newFloorPrice;
-                }
-              } else if (type === "cancel") {
-                if (collection.TotalListed > 0) {
-                  collection.TotalListed--;
-                }
-              } else if (type === "sale") {
-                collection.TotalSales++;
+              if (newFloorPrice !== 0 && newFloorPrice !== undefined) {
+                collection.FloorPrice = newFloorPrice;
+              }
+            } else if (type === "cancel") {
+              if (collection.TotalListed > 0) {
+                collection.TotalListed--;
+              }
+            } else if (type === "sale") {
+              collection.TotalSales++;
 
-                const floatPrice = parseFloat(price);
-                collection.TotalVolume += floatPrice;
+              const floatPrice = parseFloat(price);
+              collection.TotalVolume += floatPrice;
 
-                if (collection.TotalListed > 0) {
-                  collection.TotalListed--;
-                }
+              if (collection.TotalListed > 0) {
+                collection.TotalListed--;
+              }
 
-                if (newFloorPrice === 0) {
-                  const nfts = await NFT.find({
-                    NFTCollection: collection,
-                    isListed: true,
-                  })
-                    .sort({ demandPrice: 1 })
-                    .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
-                    .limit(2);
+              if (newFloorPrice === 0) {
+                const nfts = await NFT.find({
+                  NFTCollection: collection,
+                  isListed: true,
+                })
+                  .sort({ demandPrice: 1 })
+                  .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
+                  .limit(2);
 
-                  if (nfts.length > 0) {
-                    const lowestFloorPrice = nfts[0].listingPrice;
-                    collection.FloorPrice = lowestFloorPrice;
-                  }
+                if (nfts.length > 0) {
+                  const lowestFloorPrice = nfts[0].listingPrice;
+                  collection.FloorPrice = lowestFloorPrice;
                 }
               }
-              await collection.save();
             }
+            await collection.save();
           }
 
-          return res.status(200).json({ success: true, data: activity });
+
+          return res.status(200).json({ success: true, data: "Successfully created activity" });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }

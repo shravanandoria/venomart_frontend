@@ -228,6 +228,7 @@ export const updateNFTsale = async (data) => {
         newFloorPrice: data.newFloorPrice
       },
     });
+
     return res.data.data;
   } catch (error) {
     console.log(error.message);

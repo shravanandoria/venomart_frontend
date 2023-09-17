@@ -15,8 +15,9 @@ import { buy_nft, cancel_listing } from "../../utils/user_nft";
 import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
+const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpen }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -36,6 +37,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
   const [selectedNFT, setSelectedNFT] = useState("");
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
 
   const [collectionSearchINP, setCollectionSearchINP] = useState("");
 
@@ -56,6 +58,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
   const [isTyping, set_isTyping] = useState(true);
   const [query_search, set_query_search] = useState("");
   const [def_query, set_def_query] = useState(undefined);
+  const [transactionType, setTransactionType] = useState("");
 
   // mediaQuery 
   const useMediaQuery = (width) => {
@@ -138,8 +141,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
     try {
       const buying = await buy_nft(
         venomProvider,
+        standalone,
         selectedNFT?.NFTAddress,
         selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
@@ -150,7 +155,14 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
-      if (!buying) {
+
+      if (buying == true) {
+        setActionLoad(false);
+        setBuyModal(false);
+        setTransactionType("Sale");
+        setSuccessModal(true);
+      }
+      if (buying == false) {
         setActionLoad(false);
       }
     } catch (error) {
@@ -164,12 +176,21 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
+        standalone,
+        selectedNFT?.NFTAddress,
+        selectedNFT?.ownerAddress,
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address
       );
-      if (!cancelling) {
+      if (cancelling == true) {
+        setActionLoad(false);
+        setCancelModal(false);
+        setTransactionType("Cancel");
+        setSuccessModal(true);
+      }
+      if (cancelling == false) {
         setActionLoad(false);
       }
     } catch (error) {
@@ -244,6 +265,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
       )}
 
       {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {successModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
@@ -657,6 +682,11 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                               Recently Listed
                             </span>
                           }
+                          {sortby == "recentlySold" &&
+                            <span className="font-display text-jacarta-700 dark:text-white">
+                              Recently Sold
+                            </span>
+                          }
                           {sortby == "lowToHigh" &&
                             <span className="font-display text-jacarta-700 dark:text-white">
                               Price: Low To High
@@ -678,6 +708,21 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Recently Listed
                               {sortby == "recentlyListed" &&
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                </svg>
+                              }
+                            </button>
+                            <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlySold"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Recently Sold
+                              {sortby == "recentlySold" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -825,6 +870,24 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen }) => {
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
+
+          {/* success modal  */}
+          {successModal && (
+            <SuccessModal
+              setSuccessModal={setSuccessModal}
+              setAnyModalOpen={setAnyModalOpen}
+              onCloseFunctionCall={fetch_filter_nfts}
+              TransactionType={transactionType}
+              NFTImage={selectedNFT?.nft_image}
+              NFTAddress={selectedNFT?.NFTAddress}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTListingPrice={selectedNFT?.listingPrice}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
             />

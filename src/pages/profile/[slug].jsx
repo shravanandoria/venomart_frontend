@@ -19,6 +19,7 @@ import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import moment from 'moment';
+import SuccessModal from "../../components/modals/SuccessModal";
 
 const Profile = ({
   theme,
@@ -67,6 +68,8 @@ const Profile = ({
   const [actionLoad, setActionLoad] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState("");
   const [cancelModal, setCancelModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [transactionType, setTransactionType] = useState("");
 
   // mediaQuery 
   const useMediaQuery = (width) => {
@@ -201,12 +204,22 @@ const Profile = ({
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
+        standalone,
+        selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address
       );
-      if (!cancelling) {
+      if (cancelling == true) {
+        setActionLoad(false);
+        setCancelModal(false);
+        setTransactionType("Cancel");
+        setSkip(0);
+        setSuccessModal(true);
+      }
+      if (cancelling == false) {
         setActionLoad(false);
       }
     } catch (error) {
@@ -263,6 +276,10 @@ const Profile = ({
     <div className={`${theme} w-[100%] dark:bg-jacarta-900`}>
 
       {cancelModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {successModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
@@ -945,6 +962,24 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          NFTName={selectedNFT?.name}
+          actionLoad={actionLoad}
+        />
+      )}
+
+      {/* success modal  */}
+      {successModal && (
+        <SuccessModal
+          setSuccessModal={setSuccessModal}
+          setAnyModalOpen={setAnyModalOpen}
+          onCloseFunctionCall={getting_user_listed_nfts}
+          TransactionType={transactionType}
+          NFTImage={selectedNFT?.nft_image}
+          NFTAddress={selectedNFT?.NFTAddress}
+          NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+          NFTCollectionName={selectedNFT?.NFTCollection?.name}
+          CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          NFTListingPrice={selectedNFT?.listingPrice}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
         />
