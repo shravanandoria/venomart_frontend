@@ -574,20 +574,6 @@ export const buy_nft = async (
   royalty,
   royalty_address
 ) => {
-  console.log({
-    provider,
-    standalone,
-    nft_address,
-    prev_nft_Owner,
-    prev_nft_Manager,
-    collection_address,
-    salePrice,
-    price,
-    stampedFloor,
-    signer_address,
-    royalty,
-    royalty_address
-  })
   try {
     // checking nft owners across database and onchain 
     const nft_onchain = await get_nft_by_address(standalone, nft_address);

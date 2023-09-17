@@ -306,7 +306,6 @@ const Collection = ({
     setLoading(true);
 
     const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
-    console.log({ nfts_offchain })
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
