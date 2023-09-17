@@ -153,7 +153,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                         {(TransactionType == "Sale") ?
                             <div className="flex items-center justify-center space-x-4 m-2">
                                 <a
-                                    href={`https://twitter.com/intent/tweet?text=Hey%20everyone%2C%20just%20minted%20the%20${NFTName}%20NFT%20for%20${NFTListingPrice}VENOM%2C%20very%20happy%20to%20be%20a%20part%20of%20the%20${NFTCollectionName}%20fam%20%F0%9F%A5%B3%20Great%20experience%20buying%20NFTs%20on%20venomart%20%F0%9F%99%8C%20%23venomart%20%23NFTs%20%23VenomBlockchain`}
+                                    href={`https://twitter.com/intent/tweet?text=Hey%20everyone%2C%20just%20minted%20the%20${NFTName}%20NFT%20for%20${NFTListingPrice} VENOM%2C%20very%20happy%20to%20be%20a%20part%20of%20the%20${NFTCollectionName}%20fam%20%F0%9F%A5%B3%20Great%20experience%20buying%20NFTs%20on%20venomart%20%F0%9F%99%8C%20%23venomart%20%23NFTs%20%23VenomBlockchain`}
                                     target="_blank"
                                     className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
