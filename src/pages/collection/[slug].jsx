@@ -248,8 +248,8 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.TotalSupply < totalSupply?.count)) {
-      if ((aggregatedData == undefined) && (collection?.TotalListed != aggregatedData?.TotalListed)) {
+    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (aggregatedData?.FloorPrice != 0 && (collection?.FloorPrice != aggregatedData?.FloorPrice)) || (collection?.TotalVolume != aggregatedData?.SalesVolume) || (collection?.TotalSupply < totalSupply?.count)) {
+      if ((aggregatedData != undefined) && ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.FloorPrice != aggregatedData?.FloorPrice) || (collection?.TotalVolume != aggregatedData?.SalesVolume))) {
         const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
       }
       if (collection?.TotalSupply < totalSupply.count) {
@@ -1825,7 +1825,7 @@ const Collection = ({
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            NFTs on sale
+                            Listings History
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             {currentDuration == "1day" &&

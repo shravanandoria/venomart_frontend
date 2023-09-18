@@ -57,7 +57,7 @@ const CollectionRankingCard = ({
           )}
         </div>
         <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-          {Name}
+          {Name ? Name : "Unverified Collection"}
         </span>
       </div>
       <div

@@ -1,7 +1,7 @@
 import CollectionRankingCard from "../../../components/cards/CollectionRankingCard";
 import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
-import { get_collections } from "../../../utils/mongo_api/collection/collection";
+import { top_collections } from "../../../utils/mongo_api/collection/collection";
 import { BsChevronDown } from "react-icons/bs";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 
@@ -19,7 +19,7 @@ const Collections = ({
     const [collection_status, set_collection_status] = useState("unverified");
     const [category, setCategory] = useState("All");
     const [sortby, setSortBy] = useState("topVolume");
-    const [duration, setDuration] = useState("Alltime");
+    const [duration, setDuration] = useState("30days");
 
     // mediaQuery 
     const useMediaQuery = (width) => {
@@ -54,7 +54,7 @@ const Collections = ({
     const isBreakpoint = useMediaQuery(800);
 
     const fetchTopCollections = async () => {
-        const topCollections = await get_collections(category, sortby, collection_status, 0);
+        const topCollections = await top_collections(category, collection_status, duration);
         if (topCollections) {
             setTopCollections(topCollections);
         }
@@ -66,9 +66,9 @@ const Collections = ({
     }, []);
 
     useEffect(() => {
-        if (defaultFilterFetch != true) return;
+        if (!duration || defaultFilterFetch != true) return;
         fetchTopCollections();
-    }, [sortby, category, collection_status]);
+    }, [sortby, category, collection_status, duration]);
 
     useEffect(() => {
         if (filterCategories || filterSort) {
@@ -311,9 +311,29 @@ const Collections = ({
                                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                                                 onClick={(e) => (e.stopPropagation(), openFilterSort(!filterSort))}
                                             >
-                                                {duration == "Alltime" &&
+                                                {duration == "1day" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        All Time
+                                                        Volume: 24 Hours
+                                                    </span>
+                                                }
+                                                {duration == "7days" &&
+                                                    <span className="text-jacarta-700 dark:text-white">
+                                                        Volume: 7 Day
+                                                    </span>
+                                                }
+                                                {duration == "30days" &&
+                                                    <span className="text-jacarta-700 dark:text-white">
+                                                        Volume: 30 Days
+                                                    </span>
+                                                }
+                                                {duration == "1year" &&
+                                                    <span className="text-jacarta-700 dark:text-white">
+                                                        Volume: 1 Year
+                                                    </span>
+                                                }
+                                                {duration == "alltime" &&
+                                                    <span className="text-jacarta-700 dark:text-white">
+                                                        Volume: All Time
                                                     </span>
                                                 }
                                                 <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
@@ -324,9 +344,69 @@ const Collections = ({
                                                     <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                                         Sorty By
                                                     </span>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("Alltime"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        All Time
-                                                        {duration == "Alltime" &&
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Volume: 24 Hours
+                                                        {duration == "1day" &&
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                width="24"
+                                                                height="24"
+                                                                className="mb-[3px] h-4 w-4 fill-accent"
+                                                            >
+                                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                            </svg>
+                                                        }
+                                                    </button>
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Volume: 7 Days
+                                                        {duration == "7days" &&
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                width="24"
+                                                                height="24"
+                                                                className="mb-[3px] h-4 w-4 fill-accent"
+                                                            >
+                                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                            </svg>
+                                                        }
+                                                    </button>
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Volume: 30 Days
+                                                        {duration == "30days" &&
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                width="24"
+                                                                height="24"
+                                                                className="mb-[3px] h-4 w-4 fill-accent"
+                                                            >
+                                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                            </svg>
+                                                        }
+                                                    </button>
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Volume: 1 Year
+                                                        {duration == "1year" &&
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                width="24"
+                                                                height="24"
+                                                                className="mb-[3px] h-4 w-4 fill-accent"
+                                                            >
+                                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                            </svg>
+                                                        }
+                                                    </button>
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("alltime"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Volume: All Time
+                                                        {duration == "alltime" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
                                                                 viewBox="0 0 24 24"
@@ -409,24 +489,22 @@ const Collections = ({
 
                             {topCollections?.map(
                                 (e, index) =>
-                                    e?.name != undefined && (
-                                        <CollectionRankingCard
-                                            key={index}
-                                            id={index + 1}
-                                            Logo={e?.logo}
-                                            Name={e?.name}
-                                            OwnerAddress={e?.creatorAddress}
-                                            contractAddress={e?.contractAddress}
-                                            theme={theme}
-                                            isVerified={e?.isVerified}
-                                            Royalty={e?.royalty}
-                                            Sales={e?.TotalSales}
-                                            Volume={e?.TotalVolume}
-                                            Floor={e?.FloorPrice}
-                                            Listings={e?.TotalListed}
-                                            totalSupply={e?.TotalSupply}
-                                        />
-                                    )
+                                    <CollectionRankingCard
+                                        key={index}
+                                        id={index + 1}
+                                        Logo={e?.logo}
+                                        Name={e?.name}
+                                        OwnerAddress={e?.creatorAddress}
+                                        contractAddress={e?.contractAddress}
+                                        theme={theme}
+                                        isVerified={e?.isVerified}
+                                        Royalty={e?.royalty}
+                                        Sales={e?.TotalSales}
+                                        Volume={e?.TotalVolume}
+                                        Floor={e?.FloorPrice}
+                                        Listings={e?.TotalListed}
+                                        totalSupply={e?.TotalSupply}
+                                    />
                             )}
                             {topCollections?.length <= 0 && (
                                 <h2 className="text-center p-4">No collections found!</h2>

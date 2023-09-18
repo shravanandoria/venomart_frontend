@@ -47,7 +47,7 @@ export default async function handler(req, res) {
             { socials: 0 },
             {
               skip,
-              limit: 10,
+              limit: 20,
             }
           ).sort(sortArray);
 

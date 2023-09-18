@@ -85,7 +85,6 @@ export default async function handler(req, res) {
                     {
                         $addFields: {
                             priceAsDouble: { $toDouble: "$price" },
-                            floorAsDouble: { $toDouble: "$stampedFloor" },
                             totalSupply: "$collection.TotalSupply",
                             timestamp: { $toDate: "$createdAt" }
                         }
@@ -120,7 +119,7 @@ export default async function handler(req, res) {
                                     ]
                                 }
                             },
-                            floorPrice: { $min: "$floorAsDouble" },
+                            floorPrice: { $min: "$priceAsDouble" },
                             TotalSupply: { $sum: "$totalSupply" },
                             Time: { $max: "$timestamp" }
                         }

@@ -114,3 +114,15 @@ export const get_collections = async (category, sortby, option, skip) => {
     console.log(error.message);
   }
 };
+
+export const top_collections = async (category, collection_status, duration) => {
+  try {
+    const res = await axios({
+      url: `/api/collection/top_collections?category=${category}&collection_status=${collection_status}&duration=${duration}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

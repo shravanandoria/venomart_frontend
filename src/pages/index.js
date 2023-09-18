@@ -12,28 +12,35 @@ import venomLogo from "../../public/venomBG.webp";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { top_collections } from "../utils/mongo_api/collection/collection";
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import { get_collections } from "../utils/mongo_api/collection/collection";
 
 export default function Home({ theme, customLaunchpad, topCollections, setTopCollections }) {
+  const [durationDrop, setDurationDrop] = useState(false);
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
+  const [category, setCategory] = useState("All");
+  const [duration, setDuration] = useState("30days");
   const [loading, setLoading] = useState(false);
 
   const fetchTopCollections = async () => {
-    setLoading(true);
-    const topCollections = await get_collections("", "topVolume", "unverified", 0);
+    const topCollections = await top_collections(category, "unverified", duration);
     setTopCollections(topCollections);
-    setLoading(false);
   };
 
   useEffect(() => {
     if (topCollections != "") return;
     fetchTopCollections();
   }, []);
+
+  useEffect(() => {
+    if (!duration || defaultFilterFetch != true) return;
+    fetchTopCollections();
+  }, [category, duration]);
 
   return (
     <div
@@ -345,25 +352,34 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline mr-2">Top collections over</h2>
-                <div className="dropdown inline cursor-pointer">
-                  <button className="dropdown-toggle inline-flex items-center text-accent" type="button">
-                    last 7 days
+                <div className="relative inline cursor-pointer">
+                  <button onClick={() => (setDurationDrop(!durationDrop))} className="dropdown-toggle inline-flex items-center text-accent" type="button">
+                    {duration == "1day" &&
+                      "last 24 hours"
+                    }
+                    {duration == "7days" &&
+                      "last 7 days"
+                    }
+                    {duration == "30days" &&
+                      "last 30 days"
+                    }
+                    {duration == "1year" &&
+                      "last 1 year"
+                    }
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
                       className="h-8 w-8 fill-accent">
                       <path fill="none" d="M0 0h24v24H0z" />
                       <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
                     </svg>
                   </button>
-                  <div
-                    className="dropdown-menu z-10 hidden min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900"
-                    aria-labelledby="collectionSort">
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 24 Hours</a>
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 7 Days</a>
-                    <a className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      href="#">Last 30 Days</a>
-                  </div>
+                  {durationDrop &&
+                    <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
+                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600" >Last 24 Hours</div>
+                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 7 Days</div>
+                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 30 Days</div>
+                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 1 Year</div>
+                    </div>
+                  }
                 </div>
               </div>
 

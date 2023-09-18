@@ -27,7 +27,9 @@ export default async function handler(req, res) {
                 let updateInfo = {}
                 if (TotalListed || SalesVolume) {
                     updateInfo.TotalListed = TotalListed
-                    updateInfo.TotalVolume = SalesVolume
+                    if (SalesVolume != 0) {
+                        updateInfo.TotalVolume = SalesVolume
+                    }
 
                     if (FloorPrice != 0 && FloorPrice != null) {
                         updateInfo.FloorPrice = FloorPrice

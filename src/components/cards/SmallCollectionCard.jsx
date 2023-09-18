@@ -24,7 +24,11 @@ const SmallCollectionCard = ({
         <div className="mr-4 shrink-0">
           <div className="relative block">
             <Image
-              src={Logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={
+                Logo
+                  ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                  : venomLogo
+              }
               alt="avatar 1"
               className="rounded-2lg h-[60px] w-[auto]"
               height={100}
@@ -58,7 +62,7 @@ const SmallCollectionCard = ({
                 overflow: "hidden",
               }}
             >
-              {Name}
+              {Name ? Name : "Unverified Collection"}
             </span>
           </div>
           <span className="text-sm dark:text-jacarta-300 flex">

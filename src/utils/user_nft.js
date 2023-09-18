@@ -405,7 +405,6 @@ export const list_nft = async (
   nft_address,
   collection_address,
   price,
-  stampedFloor,
   venomProvider,
   signer_address,
   nft,
@@ -476,7 +475,6 @@ export const list_nft = async (
         from: signer_address,
         to: MARKETPLACE_ADDRESS,
         saleprice: finalListingPrice,
-        stampedFloor: stampedFloor,
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
@@ -500,8 +498,7 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address,
-  stampedFloor
+  signer_address
 ) => {
   try {
     // checking nft owners across database and onchain 
@@ -544,7 +541,6 @@ export const cancel_listing = async (
         from: MARKETPLACE_ADDRESS,
         to: signer_address,
         saleprice: "0",
-        stampedFloor: stampedFloor,
         type: "cancel",
         wallet_id: signer_address,
         nft_address: nft_address,
@@ -569,7 +565,6 @@ export const buy_nft = async (
   collection_address,
   salePrice,
   price,
-  stampedFloor,
   signer_address,
   royalty,
   royalty_address
@@ -623,7 +618,6 @@ export const buy_nft = async (
         from: prev_nft_Owner,
         to: signer_address,
         saleprice: salePrice,
-        stampedFloor: stampedFloor,
         type: "sale",
         wallet_id: signer_address,
         nft_address: nft_address,

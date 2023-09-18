@@ -1,6 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import mongoose from "mongoose";
 import Activity from "../../../Models/Activity";
+import NFT from "../../../Models/NFT"
 import Collection from "../../../Models/Collection";
 
 export default async function handler(req, res) {
@@ -12,7 +13,7 @@ export default async function handler(req, res) {
             try {
                 const { collectionId } = req.body;
 
-                const result = await Activity.aggregate([
+                const ActivityResult = await Activity.aggregate([
                     {
                         $match: {
                             nft_collection: new mongoose.Types.ObjectId(collectionId),
@@ -66,9 +67,6 @@ export default async function handler(req, res) {
                                         0
                                     ]
                                 }
-                            },
-                            FloorPrice: {
-                                $min: "$stampedFloor"
                             }
                         }
                     },
@@ -80,9 +78,36 @@ export default async function handler(req, res) {
                         }
                     }
                 ]);
-                const totals = result[0];
 
-                return res.status(200).json({ success: true, data: totals });
+                const nftResult = await NFT.aggregate([
+                    {
+                        $match: {
+                            NFTCollection: new mongoose.Types.ObjectId(collectionId),
+                            isListed: true
+                        }
+                    },
+                    {
+                        $addFields: {
+                            priceAsDouble: { $toDouble: "$listingPrice" }
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            minimumListingPrice: {
+                                $min: "$priceAsDouble"
+                            }
+                        }
+                    }
+                ]);
+
+                const mergedResult = {
+                    SalesVolume: ActivityResult[0]?.SalesVolume || 0,
+                    TotalListed: ActivityResult[0]?.TotalListed || 0,
+                    FloorPrice: nftResult[0]?.minimumListingPrice || 0
+                };
+
+                return res.status(200).json({ success: true, data: mergedResult });
             } catch (error) {
                 res.status(400).json({ success: false, data: error.message });
             }

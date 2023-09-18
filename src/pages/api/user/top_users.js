@@ -25,7 +25,9 @@ export default async function handler(req, res) {
                 if (duration) {
                     const currentTime = new Date();
 
-                    if (duration === "7days") {
+                    if (duration === "1days") {
+                        currentTime.setDate(currentTime.getDate() - 1);
+                    } else if (duration === "7days") {
                         currentTime.setDate(currentTime.getDate() - 7);
                     } else if (duration === "30days") {
                         currentTime.setDate(currentTime.getDate() - 30);
@@ -39,6 +41,7 @@ export default async function handler(req, res) {
                         };
                     }
                 }
+
                 const saleResult = await Activity.aggregate([
                     {
                         $match: {
