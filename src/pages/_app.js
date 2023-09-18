@@ -248,7 +248,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "🎮 Web3 gaming platform for everyone. Built on @Venom_network_ Play with Chepe, earn with Chepe ✨",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Ended",
       CollectionAddress: "0:359bfa06e4c20af75909a75d428e2036c3b625be7bbf61f0ad637c8a619c63f0",
       customLink: "custom/chepegames",
       pageName: "chepegames",
@@ -272,7 +272,7 @@ export default function App({ Component, pageProps }) {
       Name: "Venomart x Segmint",
       Description: "Pixels game - take your place in blockchain history 🖼️ | Powered by the Venom blockchain 🧪",
       mintPrice: "2",
-      status: "Upcoming",
+      status: "Ended",
       CollectionAddress: "0:5176c497e5067116acc7d1370c963743a0f1125c363f11f941a34c64f069dae6",
       customLink: "custom/segmint",
       pageName: "segmint",

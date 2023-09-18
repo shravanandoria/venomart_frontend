@@ -563,9 +563,9 @@ export const cancel_listing = async (
 export const buy_nft = async (
   provider,
   standalone,
-  nft_address,
   prev_nft_Owner,
   prev_nft_Manager,
+  nft_address,
   collection_address,
   salePrice,
   price,

@@ -443,9 +443,9 @@ const Collection = ({
       const buying = await buy_nft(
         venomProvider,
         standalone,
-        selectedNFT?.NFTAddress,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
+        selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),

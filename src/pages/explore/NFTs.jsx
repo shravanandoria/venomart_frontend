@@ -142,9 +142,9 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
       const buying = await buy_nft(
         venomProvider,
         standalone,
-        selectedNFT?.NFTAddress,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
+        selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
@@ -177,8 +177,8 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     try {
       const cancelling = await cancel_listing(
         standalone,
-        selectedNFT?.NFTAddress,
         selectedNFT?.ownerAddress,
+        selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,

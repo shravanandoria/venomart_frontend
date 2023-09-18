@@ -247,9 +247,9 @@ const NFTPage = ({
       const buying = await buy_nft(
         venomProvider,
         standalone,
-        slug,
         nft?.ownerAddress,
         nft?.managerAddress,
+        slug,
         nft?.NFTCollection?.contractAddress,
         nft.listingPrice,
         (nft.listingPrice * 1000000000).toString(),

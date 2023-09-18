@@ -11,17 +11,66 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { owner_address, skip } = req.query;
+                    let { owner_address, saleType, sortby, minprice, maxprice, skip } = req.query;
 
-                    let nfts = await NFT.find({
-                        ownerAddress: owner_address,
-                        isListed: true,
-                    }).populate({
-                        path: "NFTCollection",
-                        select: { socials: 0, createdAt: 0, updatedAt: 0 },
-                    }).skip(skip).limit(15);
+                    let filterQuery = {};
 
-                    return res.status(200).json({ success: true, data: nfts });
+                    if (owner_address != "") {
+                        filterQuery.ownerAddress = owner_address
+                        if (saleType == "listed") {
+                            filterQuery.isListed = true
+                        }
+                        if (saleType == "all" || saleType == "notlisted") {
+                            filterQuery.isListed = false
+                        }
+                    }
+
+                    if (minprice != 0 && maxprice != 0) {
+                        const nfts = await NFT.find({ ownerAddress: owner_address, isListed: true, demandPrice: { $gte: minprice, $lte: maxprice } })
+                            .select([
+                                "-socials",
+                                "-createdAt",
+                                "-updatedAt",
+                            ]).skip(skip)
+                            .limit(20).sort({ demandPrice: 1 });
+                        return res.status(200).json({ success: true, data: nfts });
+                    }
+
+                    if (sortby != "") {
+                        if (sortby == "recentlyListed") {
+                            const nfts = await NFT.find(filterQuery)
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ updatedAt: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "lowToHigh") {
+                            const nfts = await NFT.find(filterQuery)
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, demandPrice: 1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "highToLow") {
+                            const nfts = await NFT.find(filterQuery)
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, demandPrice: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                    }
 
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
