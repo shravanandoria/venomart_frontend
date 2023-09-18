@@ -232,7 +232,6 @@ const Profile = ({
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
-        (selectedNFT?.NFTCollection?.FloorPrice ? selectedNFT?.NFTCollection?.FloorPrice : selectedNFT?.data?.FloorPrice),
         signer_address,
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress

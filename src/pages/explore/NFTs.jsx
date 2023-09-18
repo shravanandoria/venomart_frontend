@@ -148,7 +148,6 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
         selectedNFT?.NFTCollection?.contractAddress,
         selectedNFT.listingPrice,
         (selectedNFT.listingPrice * 1000000000).toString(),
-        (selectedNFT?.NFTCollection?.FloorPrice ? selectedNFT?.NFTCollection?.FloorPrice : 0),
         signer_address,
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress

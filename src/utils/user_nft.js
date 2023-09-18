@@ -412,6 +412,20 @@ export const list_nft = async (
   finalListingPrice,
   newFloorPrice
 ) => {
+  console.log({
+    standalone,
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    price,
+    venomProvider,
+    signer_address,
+    nft,
+    onchainNFTData,
+    finalListingPrice,
+    newFloorPrice
+  })
   try {
     if (!onchainNFTData) {
       // checking nft owners across database and onchain 
@@ -569,6 +583,19 @@ export const buy_nft = async (
   royalty,
   royalty_address
 ) => {
+  console.log({
+    provider,
+    standalone,
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    salePrice,
+    price,
+    signer_address,
+    royalty,
+    royalty_address
+  })
   try {
     // checking nft owners across database and onchain 
     const nft_onchain = await get_nft_by_address(standalone, nft_address);
