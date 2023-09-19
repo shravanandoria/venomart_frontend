@@ -93,7 +93,6 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
-    console.log({ nft_database })
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -235,7 +234,6 @@ const NFTPage = ({
 
   // buy nft
   const buy_NFT_ = async (e) => {
-    console.log({ selectedNFTInBuy: selectedNFT })
     e.preventDefault();
     if (!signer_address) {
       connect_wallet();
@@ -357,10 +355,6 @@ const NFTPage = ({
   useEffect(() => {
     scroll_fetch_nft_activity();
   }, [skip]);
-
-  useEffect(() => {
-    console.log({ selectedNFT })
-  }, [selectedNFT]);
 
   useEffect(() => {
     fetch_nft_activity();
@@ -1394,9 +1388,8 @@ const NFTPage = ({
                   >
                     {nft?.moreNFTs?.map((e, index) => {
                       return (
-                        <SwiperSlide style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <SwiperSlide key={index} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                           <NftCard
-                            key={index}
                             ImageSrc={e?.nft_image?.replace(
                               "ipfs://",
                               "https://ipfs.io/ipfs/"

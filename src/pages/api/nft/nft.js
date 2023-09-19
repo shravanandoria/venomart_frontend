@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             { NFTCollection: nft.NFTCollection, isListed: true, NFTAddress: { $ne: nft_address } },
             undefined,
             { limit: 5 }
-          );
+          ).sort({ demandPrice: 1 });
 
           const mergedData = {
             ...nft.toObject(),
