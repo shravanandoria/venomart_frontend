@@ -11,7 +11,8 @@ const UserRankingCard = ({
     totalPurchaseVolume,
     totalSalesVolume,
     totalSales,
-    activeListings
+    activeListings,
+    AveragePrice
 }) => {
 
     return (
@@ -20,10 +21,7 @@ const UserRankingCard = ({
             className="flex transition-shadow hover:shadow-lg"
             role="row"
         >
-            <div
-                className="flex w-[26%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                role="cell"
-            >
+            <div className="flex w-[25%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="mr-2 lg:mr-4">{id}</span>
                 <div className="relative mr-2 w-8 shrink-0 self-start lg:mr-5 lg:w-12">
                     <Image
@@ -45,10 +43,7 @@ const UserRankingCard = ({
             </div>
 
             {/* totalSalesVolume */}
-            <div
-                className="flex w-[16%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                role="cell"
-            >
+            <div className="flex w-[16%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
                     <Image
                         src={venomLogo}
@@ -67,7 +62,7 @@ const UserRankingCard = ({
             </div>
 
             {/* totalPurchaseVolume  */}
-            <div className="flex w-[16%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+            <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
                     <Image
                         src={venomLogo}
@@ -85,35 +80,36 @@ const UserRankingCard = ({
                 </span>
             </div>
 
+            {/* Avg Sale  */}
+            <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex">
+                    <Image
+                        src={venomLogo}
+                        height={100}
+                        width={100}
+                        style={{
+                            height: "13px",
+                            width: "13px",
+                            marginRight: "6px",
+                            marginTop: "4px",
+                        }}
+                        alt="VenomLogo"
+                    />
+                    {AveragePrice ? AveragePrice.toFixed(2) : "0"}
+                </span>
+            </div>
+
             {/*total sales  */}
-            <div
-                className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                role="cell"
-            >
+            <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="dark:text-jacarta-200 text-jacarta-700">
                     {totalSales ? Math.abs(totalSales) : "0"}
                 </span>
             </div>
 
             {/* active listings  */}
-            <div
-                className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                role="cell"
-            >
+            <div className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="dark:text-jacarta-200 text-jacarta-700">
                     {activeListings ? Math.abs(activeListings) : "0"}
-                </span>
-            </div>
-
-            {/* status  */}
-            <div
-                className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                role="cell"
-            >
-                <span className="dark:text-jacarta-200 text-jacarta-700">
-                    <div className="flex justify-center align-middle">
-                        Active
-                    </div>
                 </span>
             </div>
         </Link>

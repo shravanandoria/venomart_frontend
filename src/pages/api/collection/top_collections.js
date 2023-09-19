@@ -59,6 +59,15 @@ export default async function handler(req, res) {
                     {
                         $group: {
                             _id: "$nft_collection",
+                            AveragePrice: {
+                                $avg: {
+                                    $cond: [
+                                        { $eq: ["$type", "sale"] },
+                                        "$priceNumeric",
+                                        null
+                                    ]
+                                }
+                            },
                             TotalVolume: {
                                 $sum: {
                                     $cond: [
@@ -99,6 +108,7 @@ export default async function handler(req, res) {
                     {
                         $project: {
                             _id: 1,
+                            AveragePrice: 1,
                             TotalVolume: 1,
                             TotalListed: 1,
                             TotalSales: 1,

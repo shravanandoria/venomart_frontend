@@ -12,7 +12,7 @@ const CollectionRankingCard = ({
   Name,
   Volume,
   isVerified,
-  Royalty,
+  AveragePrice,
   Floor,
   Sales,
   Listings,
@@ -100,6 +100,25 @@ const CollectionRankingCard = ({
         </span>
       </div>
 
+      {/* avg price  */}
+      <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+        <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex">
+          <Image
+            src={venomLogo}
+            height={100}
+            width={100}
+            style={{
+              height: "13px",
+              width: "13px",
+              marginRight: "6px",
+              marginTop: "4px",
+            }}
+            alt="VenomLogo"
+          />
+          {AveragePrice ? AveragePrice.toFixed(2) : "0"}
+        </span>
+      </div>
+
       {/* listings  */}
       <div
         className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
@@ -127,16 +146,6 @@ const CollectionRankingCard = ({
       >
         <span className="dark:text-jacarta-200 text-jacarta-700">
           {totalSupply ? totalSupply : "0"}
-        </span>
-      </div>
-
-      {/* royalty  */}
-      <div
-        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-        role="cell"
-      >
-        <span className="dark:text-jacarta-200 text-jacarta-700">
-          {Royalty ? Royalty : "0"} %
         </span>
       </div>
     </Link>

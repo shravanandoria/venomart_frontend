@@ -194,17 +194,17 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                             >
                                                 {duration == "7days" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        7 Days
+                                                        Last 7 Days
                                                     </span>
                                                 }
                                                 {duration == "30days" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        30 Days
+                                                        Last 30 Days
                                                     </span>
                                                 }
                                                 {duration == "1year" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        1 Year
+                                                        Last 1 Year
                                                     </span>
                                                 }
                                                 {duration == "alltime" &&
@@ -221,7 +221,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                         Sort By
                                                     </span>
                                                     <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("7days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        7 Days
+                                                        Last 7 Days
                                                         {duration == "7days" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +236,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                         }
                                                     </button>
                                                     <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("30days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        30 Days
+                                                        Last 30 Days
                                                         {duration == "30days" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +251,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                         }
                                                     </button>
                                                     <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("1year"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        1 Year
+                                                        Last 1 Year
                                                         {duration == "1year" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -295,7 +295,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                 className="flex rounded-t-2lg bg-jacarta-50 dark:bg-jacarta-600"
                                 role="row"
                             >
-                                <div className="w-[26%] py-3 px-4" role="columnheader">
+                                <div className="w-[25%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Users
                                     </span>
@@ -305,12 +305,17 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                         Sales Volume
                                     </span>
                                 </div>
-                                <div className="w-[16%] py-3 px-4" role="columnheader">
+                                <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Purchase Volume
                                     </span>
                                 </div>
-                                <div className="w-[14%] py-3 px-4" role="columnheader">
+                                <div className="w-[17%] py-3 px-4" role="columnheader">
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                        Avg Sale Price
+                                    </span>
+                                </div>
+                                <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Total Sales
                                     </span>
@@ -318,11 +323,6 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                 <div className="w-[14%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Active Listing
-                                    </span>
-                                </div>
-                                <div className="w-[14%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Status
                                     </span>
                                 </div>
                             </div>
@@ -341,6 +341,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                         totalSalesVolume={e?.totalSaleVolume}
                                         totalSales={e?.totalSales}
                                         activeListings={e?.activeListings}
+                                        AveragePrice={e?.AveragePrice}
                                     />
                             )}
                             {topUsers?.length <= 0 && !searchLoading && (

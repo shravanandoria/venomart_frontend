@@ -15,6 +15,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     name: "",
     contractAddress: "",
     creatorAddress: "",
+    royaltyAddress: "",
     logo: "",
     coverImage: "",
     royalty: "",
@@ -239,6 +240,31 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                   <input
                     onChange={handleChange}
                     name="creatorAddress"
+                    type="text"
+                    id="item-name"
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                    required
+                  />
+                </div>
+
+                {/* royalty address  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Royalty Address<span className="text-red">*</span>
+                  </label>
+                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                    Creator will get his royalty commissions on royalty address
+                  </p>
+                  <input
+                    onChange={handleChange}
+                    name="royaltyAddress"
                     type="text"
                     id="item-name"
                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"

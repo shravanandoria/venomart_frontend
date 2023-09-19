@@ -94,7 +94,7 @@ export default async function handler(req, res) {
             logo,
             name,
             royalty,
-            royaltyAddress: "",
+            royaltyAddress,
             description,
             socials,
             isVerified,

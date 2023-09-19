@@ -11,6 +11,10 @@ import "../styles/custom.css";
 import "../styles/tailwind.css";
 import "../styles/Home.module.css";
 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 //Wallet Connect
 import { initVenomConnect } from "../utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "../utils/user_nft";
@@ -392,7 +396,7 @@ export default function App({ Component, pageProps }) {
         "Venompumpy is a memecoin built with classic NFT on Venom Network to reward users with up to 5% daily staking rewards",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
       customLink: "launch/venompumpy",
       pageName: "venompumpy",
       supply: "2000",

@@ -313,27 +313,27 @@ const Collections = ({
                                             >
                                                 {duration == "1day" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        Volume: 24 Hours
+                                                        Last 24 Hours
                                                     </span>
                                                 }
                                                 {duration == "7days" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        Volume: 7 Day
+                                                        Last 7 Day
                                                     </span>
                                                 }
                                                 {duration == "30days" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        Volume: 30 Days
+                                                        Last 30 Days
                                                     </span>
                                                 }
                                                 {duration == "1year" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        Volume: 1 Year
+                                                        Last 1 Year
                                                     </span>
                                                 }
                                                 {duration == "alltime" &&
                                                     <span className="text-jacarta-700 dark:text-white">
-                                                        Volume: All Time
+                                                        All Time
                                                     </span>
                                                 }
                                                 <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
@@ -345,7 +345,7 @@ const Collections = ({
                                                         Sorty By
                                                     </span>
                                                     <button onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        Volume: 24 Hours
+                                                        Last 24 Hours
                                                         {duration == "1day" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -360,7 +360,7 @@ const Collections = ({
                                                         }
                                                     </button>
                                                     <button onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        Volume: 7 Days
+                                                        Last 7 Days
                                                         {duration == "7days" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +375,7 @@ const Collections = ({
                                                         }
                                                     </button>
                                                     <button onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        Volume: 30 Days
+                                                        Last 30 Days
                                                         {duration == "30days" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -390,7 +390,7 @@ const Collections = ({
                                                         }
                                                     </button>
                                                     <button onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        Volume: 1 Year
+                                                        Last 1 Year
                                                         {duration == "1year" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -405,7 +405,7 @@ const Collections = ({
                                                         }
                                                     </button>
                                                     <button onClick={() => (setDefaultFilterFetch(true), setDuration("alltime"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                        Volume: All Time
+                                                        All Time
                                                         {duration == "alltime" &&
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -465,6 +465,11 @@ const Collections = ({
                                 </div>
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                        Avg Price
+                                    </span>
+                                </div>
+                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Listings
                                     </span>
                                 </div>
@@ -476,11 +481,6 @@ const Collections = ({
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Items
-                                    </span>
-                                </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Royalty %
                                     </span>
                                 </div>
                             </div>
@@ -498,7 +498,7 @@ const Collections = ({
                                         contractAddress={e?.contractAddress}
                                         theme={theme}
                                         isVerified={e?.isVerified}
-                                        Royalty={e?.royalty}
+                                        AveragePrice={e?.AveragePrice}
                                         Sales={e?.TotalSales}
                                         Volume={e?.TotalVolume}
                                         Floor={e?.FloorPrice}

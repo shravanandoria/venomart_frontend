@@ -24,7 +24,18 @@ export default async function handler(req, res) {
               .status(400)
               .json({ success: false, data: "Cannot Find This NFT" });
 
-          return res.status(200).json({ success: true, data: nft });
+          let moreNFTs = await NFT.find(
+            { NFTCollection: nft.NFTCollection, isListed: true, NFTAddress: { $ne: nft_address } },
+            undefined,
+            { limit: 5 }
+          );
+
+          const mergedData = {
+            ...nft.toObject(),
+            moreNFTs: moreNFTs,
+          };
+
+          return res.status(200).json({ success: true, data: mergedData });
 
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });

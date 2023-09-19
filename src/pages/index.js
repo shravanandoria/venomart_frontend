@@ -14,9 +14,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { top_collections } from "../utils/mongo_api/collection/collection";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 
 
 export default function Home({ theme, customLaunchpad, topCollections, setTopCollections }) {

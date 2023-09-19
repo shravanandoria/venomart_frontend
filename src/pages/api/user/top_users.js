@@ -59,6 +59,7 @@ export default async function handler(req, res) {
                         $group: {
                             _id: "$from",
                             totalSaleVolume: { $sum: "$priceNumeric" },
+                            AveragePrice: { $avg: "$priceNumeric" }
                         }
                     },
                     {
@@ -73,6 +74,7 @@ export default async function handler(req, res) {
                         $project: {
                             _id: 1,
                             totalSaleVolume: 1,
+                            AveragePrice: 1,
                             user_name: { $arrayElemAt: ["$user_info.user_name", 0] },
                             profileImage: { $arrayElemAt: ["$user_info.profileImage", 0] }
                         }
@@ -184,6 +186,7 @@ export default async function handler(req, res) {
                     return {
                         _id: purchaseItem._id,
                         totalSaleVolume: purchaseItem.totalSaleVolume,
+                        AveragePrice: purchaseItem.AveragePrice,
                         totalPurchaseVolume: matchingSaleItem ? matchingSaleItem.totalPurchaseVolume : 0,
                         totalListings,
                         totalSales,

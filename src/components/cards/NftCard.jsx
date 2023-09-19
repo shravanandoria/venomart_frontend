@@ -73,7 +73,7 @@ const NftCard = ({
         </div>
       }
 
-      <div className="mt-2 flex items-center justify-between">
+      <div className="mt-2 flex items-center justify-between text-start">
         <div
           style={{
             width: "270px",
@@ -98,7 +98,7 @@ const NftCard = ({
       >
         {listedBool && (
           <span className="text-sm font-medium tracking-tight">
-            <span className=" text-sm font-normal tracking-tight text-gray-400">
+            <span className="flex text-sm font-normal tracking-tight text-gray-400">
               Price
             </span>
             <span className="flex text-sm font-medium tracking-tight text-green">
@@ -125,14 +125,14 @@ const NftCard = ({
                 Cancel
               </button>
               :
-              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setBuyModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
+              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setBuyModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4  bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
                 Buy
               </button>
             ))
             :
             (!listedBool &&
               ((signerAddress === Owner) &&
-                <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-[#3d3ae9] hover:bg-[#2825c4] text-white font-bold py-2 px-8 rounded-[10px]">
+                <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
                   List
                 </button>
               )))

@@ -20,7 +20,7 @@ import {
   update_verified_nft_image,
 } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
-import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { BsArrowRight, BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
 import NFTActivityCard from "../../components/cards/NFTActivityCard";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
@@ -28,6 +28,10 @@ import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ListModal from "../../components/modals/ListModal";
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import NftCard from "../../components/cards/NftCard";
 
 const NFTPage = ({
   signer_address,
@@ -44,6 +48,7 @@ const NFTPage = ({
   const router = useRouter();
   const { slug } = router.query;
 
+  const [selectedNFT, setSelectedNFT] = useState("");
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
   const [isHovering, SetIsHovering] = useState(false);
@@ -88,6 +93,7 @@ const NFTPage = ({
     if (!standalone && !slug) return;
     setPageLoading(true);
     const nft_database = await nftInfo(slug);
+    console.log({ nft_database })
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -198,16 +204,16 @@ const NFTPage = ({
     try {
       const listing = await list_nft(
         standalone,
-        nft?.ownerAddress,
-        nft?.managerAddress,
-        slug,
+        selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
+        selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
+        selectedNFT ? selectedNFT?.NFTAddress : slug,
         nft?.NFTCollection?.contractAddress
           ? nft?.NFTCollection?.contractAddress
           : nft?.collection?._address,
         listingPrice,
         venomProvider,
         signer_address,
-        nft,
+        selectedNFT ? selectedNFT : nft,
         onchainNFTData,
         finalListingPrice,
         newFloorPrice
@@ -229,6 +235,7 @@ const NFTPage = ({
 
   // buy nft
   const buy_NFT_ = async (e) => {
+    console.log({ selectedNFTInBuy: selectedNFT })
     e.preventDefault();
     if (!signer_address) {
       connect_wallet();
@@ -236,7 +243,7 @@ const NFTPage = ({
     }
     set_loading(true);
     let royaltyFinalAmount =
-      ((parseFloat(nft?.demandPrice) *
+      ((parseFloat(selectedNFT ? selectedNFT?.demandPrice : nft?.demandPrice) *
         parseFloat(
           nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : 0
         )) /
@@ -246,12 +253,12 @@ const NFTPage = ({
       const buying = await buy_nft(
         venomProvider,
         standalone,
-        nft?.ownerAddress,
-        nft?.managerAddress,
-        slug,
+        selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
+        selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
+        selectedNFT ? selectedNFT?.NFTAddress : slug,
         nft?.NFTCollection?.contractAddress,
-        nft.listingPrice,
-        (nft.listingPrice * 1000000000).toString(),
+        selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice,
+        ((selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice) * 1000000000).toString(),
         signer_address,
         royaltyFinalAmount,
         nft?.NFTCollection?.royaltyAddress
@@ -284,9 +291,9 @@ const NFTPage = ({
     try {
       const cancelling = await cancel_listing(
         standalone,
-        nft?.ownerAddress,
-        nft?.managerAddress,
-        slug,
+        selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
+        selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
+        selectedNFT ? selectedNFT?.NFTAddress : slug,
         nft?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address
@@ -350,6 +357,10 @@ const NFTPage = ({
   useEffect(() => {
     scroll_fetch_nft_activity();
   }, [skip]);
+
+  useEffect(() => {
+    console.log({ selectedNFT })
+  }, [selectedNFT]);
 
   useEffect(() => {
     fetch_nft_activity();
@@ -687,6 +698,7 @@ const NFTPage = ({
                         <button
                           onClick={() => (
                             onchainNFTData && getCollectionDataForOnchain(),
+                            setSelectedNFT(""),
                             setListSale(true),
                             setAnyModalOpen(true)
                           )}
@@ -765,7 +777,7 @@ const NFTPage = ({
                             <button
                               type="button"
                               onClick={() => (
-                                setBuyModal(true), setAnyModalOpen(true)
+                                setSelectedNFT(""), setBuyModal(true), setAnyModalOpen(true)
                               )}
                               className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             >
@@ -842,7 +854,7 @@ const NFTPage = ({
                             type="button"
                             className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             onClick={() => (
-                              setCancelModal(true), setAnyModalOpen(true)
+                              setSelectedNFT(""), setCancelModal(true), setAnyModalOpen(true)
                             )}
                           >
                             Cancel Sale
@@ -1352,6 +1364,76 @@ const NFTPage = ({
                 </div>
               </div>
             </div>
+
+            {nft?.moreNFTs?.length > 0 &&
+              <div className="container">
+                <div className="mt-16 mb-2 lg:pl-6 text-start font-display text-xl text-jacarta-700 dark:text-white">
+                  <h2 className="flex">More from this collection <BsArrowRight className="ml-4" /></h2>
+                </div>
+                <div className="flex justify-center align-middle flex-wrap">
+                  <Swiper
+                    modules={[Pagination]}
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      300: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                      },
+                      800: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                      },
+                      1204: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                      }
+                    }}
+                    className="mySwiper"
+                  >
+                    {nft?.moreNFTs?.map((e, index) => {
+                      return (
+                        <SwiperSlide style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                          <NftCard
+                            key={index}
+                            ImageSrc={e?.nft_image?.replace(
+                              "ipfs://",
+                              "https://ipfs.io/ipfs/"
+                            )}
+                            Name={e?.name}
+                            Address={e.NFTAddress}
+                            Owner={e?.ownerAddress}
+                            signerAddress={signer_address}
+                            tokenId={e?._id}
+                            listedBool={e?.isListed}
+                            listingPrice={e?.listingPrice}
+                            NFTCollectionAddress={
+                              nft?.NFTCollection?.contractAddress
+                            }
+                            NFTCollectionName={nft?.NFTCollection?.name}
+                            NFTCollectionStatus={nft?.NFTCollection?.isVerified}
+                            setAnyModalOpen={setAnyModalOpen}
+                            setBuyModal={setBuyModal}
+                            setCancelModal={setCancelModal}
+                            NFTData={e}
+                            setSelectedNFT={setSelectedNFT}
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                </div>
+                <div className="mt-10 text-center">
+                  <Link
+                    href={`/collection/${nft?.NFTCollection?.contractAddress ? nft?.NFTCollection?.contractAddress : nft?.collection?._address}`}
+                    className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    View collection
+                  </Link>
+                </div>
+              </div>
+            }
           </div>
 
           {/* listing modal  */}
@@ -1385,12 +1467,12 @@ const NFTPage = ({
               formSubmit={buy_NFT_}
               setBuyModal={setBuyModal}
               setAnyModalOpen={setAnyModalOpen}
-              NFTImage={nft?.nft_image}
+              NFTImage={selectedNFT ? selectedNFT?.nft_image : nft?.nft_image}
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
-              NFTName={nft?.name}
-              NFTListingPrice={nft?.listingPrice}
+              NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
+              NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
               actionLoad={loading}
             />
           )}
@@ -1401,11 +1483,11 @@ const NFTPage = ({
               formSubmit={cancelNFT}
               setCancelModal={setCancelModal}
               setAnyModalOpen={setAnyModalOpen}
-              NFTImage={nft?.nft_image}
+              NFTImage={selectedNFT ? selectedNFT?.nft_image : nft?.nft_image}
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
-              NFTName={nft?.name}
+              NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
             />
           )}
@@ -1417,13 +1499,13 @@ const NFTPage = ({
               setAnyModalOpen={setAnyModalOpen}
               onCloseFunctionCall={nft_info}
               TransactionType={transactionType}
-              NFTImage={nft?.nft_image}
-              NFTAddress={nft?.NFTAddress}
+              NFTImage={selectedNFT ? selectedNFT?.nft_image : nft?.nft_image}
+              NFTAddress={selectedNFT ? selectedNFT?.NFTAddress : nft?.NFTAddress}
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
-              NFTListingPrice={nft?.listingPrice}
-              NFTName={nft?.name}
+              NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
+              NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
             />
           )}

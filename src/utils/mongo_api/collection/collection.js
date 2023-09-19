@@ -8,6 +8,7 @@ export const create_collection = async (data) => {
     name: data.name,
     contractAddress: data.contractAddress,
     creatorAddress: data.creatorAddress,
+    royaltyAddress: data.royaltyAddress,
     logo: data.logo,
     coverImage: data.coverImage,
     royalty: data.royalty,
