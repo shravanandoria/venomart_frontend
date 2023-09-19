@@ -248,7 +248,7 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (aggregatedData?.FloorPrice != 0 && (collection?.FloorPrice != aggregatedData?.FloorPrice)) || (collection?.TotalVolume != aggregatedData?.SalesVolume) || (collection?.TotalSupply < totalSupply?.count)) {
+    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.FloorPrice != aggregatedData?.FloorPrice) || (collection?.TotalVolume != aggregatedData?.SalesVolume) || (collection?.TotalSupply < totalSupply?.count)) {
       if ((aggregatedData != undefined) && ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.FloorPrice != aggregatedData?.FloorPrice) || (collection?.TotalVolume != aggregatedData?.SalesVolume))) {
         const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
       }
