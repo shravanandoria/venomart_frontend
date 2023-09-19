@@ -288,6 +288,30 @@ export default function App({ Component, pageProps }) {
       endDate: "09/17/2023 17:00:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 9,
+      Cover:
+        "https://ipfs.io/ipfs/QmfGw8fVugGR7WDyhT41ThhvPtvwqy28ZjM8jNs4p9Zi34/back.jpg",
+      Logo: "https://ipfs.io/ipfs/QmSbLEXv1UqzMobJgMcRBawMLuneuHCCNJkijPMuG7exfZ/pumpy.gif",
+      Name: "Venomart x VenomPumpy",
+      Description: "VenomPumpy is a memecoin built with classic NFT on Venom Network to reward users with up to 5% daily staking rewards",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/venompumpy",
+      pageName: "venompumpy",
+      supply: "2000",
+      twitterUserName: "venommemepumpy",
+      twitter: "https://twitter.com/venommemepumpy",
+      tweetID: "1687875245225701376",
+      discord: "https://discord.gg/p8g94pXSzp",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "09/20/2023 15:30:00 GMT+0530",
+      endDate: "09/24/2023 15:30:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // custom array of all launches
