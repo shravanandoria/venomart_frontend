@@ -402,7 +402,7 @@ export default function App({ Component, pageProps }) {
       supply: "2000",
       twitterUserName: "venommemepumpy",
       twitter: "https://twitter.com/venommemepumpy",
-      tweetID: "1687875245225701376",
+      tweetID: "1704439639472488525",
       discord: "https://discord.gg/p8g94pXSzp",
       instagram: "",
       telegram: "",

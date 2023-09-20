@@ -177,6 +177,15 @@
   width: 500px;
 }
 
+.propertyDisplayDiv {
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 35;
+  width: 500px;
+}
+
 .backgroundModelBlur {
   position: fixed;
   top: 50%;
@@ -188,7 +197,8 @@
 }
 
 @media only screen and (max-width: 575px) {
-  .afterMintDiv {
+  .afterMintDiv,
+  .propertyDisplayDiv {
     width: 100%;
   }
   .feesSectionTarget {
