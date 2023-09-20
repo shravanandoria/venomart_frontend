@@ -142,6 +142,18 @@ export default async function handler(req, res) {
               if (collection.TotalListed > 0) {
                 collection.TotalListed--;
               }
+              const nfts = await NFT.find({
+                NFTCollection: collection,
+                isListed: true,
+              })
+                .sort({ demandPrice: 1 })
+                .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
+                .limit(2);
+
+              if (nfts.length > 0) {
+                const lowestFloorPrice = nfts[0].listingPrice;
+                collection.FloorPrice = lowestFloorPrice;
+              }
             } else if (type === "sale") {
               collection.TotalSales++;
 

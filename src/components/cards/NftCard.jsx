@@ -33,7 +33,7 @@ const NftCard = ({
           src={ImageSrc}
           height={100}
           width={100}
-          alt="item 5"
+          alt="nftItem"
           className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
         />
         {(NFTCollectionStatus == true) && isHovering &&

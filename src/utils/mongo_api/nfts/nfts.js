@@ -126,6 +126,25 @@ export const update_verified_nft_data = async (
   }
 };
 
+export const update_verified_nft_props = async (
+  extractedProps,
+  NFTAddress
+) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/update_nft_props`,
+      method: "PUT",
+      data: {
+        attributes: JSON.stringify(extractedProps),
+        NFTAddress: NFTAddress,
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const updateNFTListing = async (data) => {
   try {
     const res = await axios({

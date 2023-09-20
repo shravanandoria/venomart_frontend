@@ -18,6 +18,7 @@ import {
   nftInfo,
   update_verified_nft_data,
   update_verified_nft_image,
+  update_verified_nft_props,
 } from "../../utils/mongo_api/nfts/nfts";
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { BsArrowRight, BsFillExclamationCircleFill } from "react-icons/bs";
@@ -90,8 +91,8 @@ const NFTPage = ({
 
   // getting nft information
   const nft_info = async () => {
-    if (!standalone && !slug) return;
     setPageLoading(true);
+    if (!standalone && !slug) return;
     const nft_database = await nftInfo(slug);
     if (nft_database) {
       let obj = {
@@ -105,8 +106,37 @@ const NFTPage = ({
     }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(standalone, slug);
+      if (nft_onchain.attributes == "") {
+        const sourceURL = nft_onchain?.files[0]?.source;
+        if (sourceURL && sourceURL.startsWith("https://")) {
+          try {
+            const response = await fetch(sourceURL);
+            if (response.ok) {
+              const parsedData = await response.json();
+              const extractedProps = parsedData.attributes;
+              let obj = {
+                ...nft_onchain,
+                attributes: extractedProps,
+              };
+              set_nft_info(obj);
+            } else {
+              console.error("Failed to fetch JSON data:", response.statusText);
+            }
+          } catch (error) {
+            console.error("Error fetching or parsing JSON data:", error);
+          }
+        } else {
+          let obj = {
+            ...nft_onchain,
+            attributes: [],
+          };
+          set_nft_info(obj);
+        }
+      }
+      else {
+        set_nft_info(nft_onchain);
+      }
       setOnchainNFTData(true);
-      set_nft_info(nft_onchain);
     }
     setPageLoading(false);
   };
@@ -116,6 +146,7 @@ const NFTPage = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
     const nft_onchain = await get_nft_by_address(standalone, slug);
+
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
     let onChainImage = nft_onchain?.preview?.source;
@@ -124,7 +155,7 @@ const NFTPage = ({
     let offChainManager = nft?.managerAddress;
     let offChainImage = nft?.nft_image;
 
-    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "") {
+    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain.attributes == "" && nft_onchain.files[0].source != "")) {
       if (offChainImage === "") {
         const updateNFTImage = await update_verified_nft_image(
           onChainImage,
@@ -140,6 +171,28 @@ const NFTPage = ({
           slug
         );
         alert("Owners data updated successfully");
+      }
+
+      if (nft_onchain.attributes == "" && nft_onchain.files[0].source != "") {
+        const sourceURL = nft_onchain?.files[0]?.source;
+        if (sourceURL && sourceURL.startsWith("https://")) {
+          try {
+            const response = await fetch(sourceURL);
+            if (response.ok) {
+              const parsedData = await response.json();
+              const extractedProps = parsedData.attributes;
+              const updateNFTProps = await update_verified_nft_props(
+                extractedProps,
+                slug
+              );
+              alert("Properties updated successfully");
+            } else {
+              console.error("Failed to fetch JSON data:", response.statusText);
+            }
+          } catch (error) {
+            console.error("Error fetching or parsing JSON data:", error);
+          }
+        }
       }
 
       setMetadataLoading(false);
@@ -1002,7 +1055,7 @@ const NFTPage = ({
                                   className="flex flex-col space-y-2 rounded-2lg border border-jacarta-100 bg-light-base p-5 text-center transition-shadow hover:shadow-lg dark:border-jacarta-600 dark:bg-jacarta-800"
                                 >
                                   <span className="text-sm uppercase text-accent">
-                                    {e.type}
+                                    {e.type ? e.type : e.trait_type}
                                   </span>
                                   <span className="text-base text-jacarta-700 dark:text-white">
                                     {e.value}
