@@ -313,7 +313,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
           mimetype: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         },
       ],
-      attributes: data.properties.filter((e) => e.type.length > 0),
+      attributes: data.properties,
       external_url: "https://venomart.io",
       nft_image: data.image,
       collection_name: data.collection,
