@@ -19,7 +19,7 @@ import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } fro
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { admin_collection_refresh, get_collection_by_contract, update_collection_information, update_collection_supply } from "../../utils/mongo_api/collection/collection";
+import { admin_collection_refresh, get_collection_by_contract, get_collection_props, update_collection_information, update_collection_supply } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -34,6 +34,7 @@ import BarChart from "../../components/charts/BarChart";
 import { get_charts } from "../../utils/mongo_api/analytics/analytics";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
+import PropertyModal from "../../components/modals/PropertyModal";
 
 const Collection = ({
   blockURL,
@@ -49,6 +50,7 @@ const Collection = ({
   const { slug } = router.query;
 
   const [loading, setLoading] = useState(false);
+  const [propLoading, setPropLoading] = useState(false);
   const [isHovering, SetIsHovering] = useState(false);
 
   const [itemsTab, showItemsTab] = useState(true);
@@ -62,6 +64,7 @@ const Collection = ({
 
   const [share, setShare] = useState(false);
   const [collection, set_collection] = useState({});
+  const [property_traits, set_property_traits] = useState("");
   const [nfts, set_nfts] = useState([]);
   const [activity, set_activity] = useState([]);
   const [analytics, set_analytics] = useState([]);
@@ -75,6 +78,7 @@ const Collection = ({
 
   const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
   const [fetchedCollectionAnalytics, setFetchedCollectionAnalytics] = useState(false);
+  const [fetchedProps, setFetchedProps] = useState(false);
   const [activityType, setActivityType] = useState("");
 
   const [searchLoading, setSearchLoading] = useState(false);
@@ -86,6 +90,7 @@ const Collection = ({
   const [metadataLoading, setMetadataLoading] = useState(false);
   const [chartLoading, setChartLoading] = useState(false);
 
+  const [propsFilter, setPropsFilter] = useState([]);
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
   const [currentDuration, setCurrentDuration] = useState("30days");
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
@@ -113,7 +118,6 @@ const Collection = ({
       )
     )
     ),
-    // labels: analytics?.map((e) => ([e._id.month + "/" + e._id.day])),
     datasets: [
       {
         label: 'Sales',
@@ -306,7 +310,7 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
 
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -326,17 +330,28 @@ const Collection = ({
     }
 
     // getting contract info
-    const res = await get_collection_by_contract(slug, 0);
+    const res = await get_collection_by_contract(slug);
     if (res) {
       set_collection(res?.data);
     }
     setLoading(false);
   };
 
+  const getCollectionProperties = async () => {
+    if (fetchedProps == true) return;
+    setPropLoading(true);
+    const res = await get_collection_props(collection?._id);
+    if (res) {
+      set_property_traits(res?.data);
+      setFetchedProps(true);
+    }
+    setPropLoading(false);
+  }
+
   // getting nfts according to filter 
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -390,7 +405,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
       if (nfts_offchain == "") {
@@ -538,7 +553,7 @@ const Collection = ({
 
   useEffect(() => {
     fetch_filter_nfts();
-  }, [currentFilter])
+  }, [currentFilter, propsFilter])
 
   useEffect(() => {
     get_charts_data();
@@ -1384,18 +1399,20 @@ const Collection = ({
                             </div>
 
                             {/* property modal  */}
-                            {/* <button
-                              onClick={() => (setAnyModalOpen(true), setPropertyModal(true))}
-                              className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 text-sm text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                              type="button" id="propertiesFilter" >
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                                className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100">
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path
-                                  d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
-                              </svg>
-                              <span>Filter Properties</span>
-                            </button> */}
+                            {collection?.isPropsEnabled &&
+                              <button
+                                onClick={() => (getCollectionProperties(), setAnyModalOpen(true), setPropertyModal(true))}
+                                className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 text-sm text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
+                                type="button" id="propertiesFilter" >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100">
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path
+                                    d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
+                                </svg>
+                                <span style={{ whiteSpace: "nowrap" }}>Filter Properties</span>
+                              </button>
+                            }
                           </div>
 
                           {/* search  */}
@@ -2150,147 +2167,55 @@ const Collection = ({
                   </div>
 
                   <div className="modal-body">
-                    <div className="accordion" id="accordionProps">
-                      <div className="accordion-item border-b border-jacarta-100 dark:border-jacarta-600">
-                        <h2 className="accordion-header" id="prop-heading-1">
-                          <button
-                            className="accordion-button collapsed relative flex w-full items-center justify-between bg-white px-6 py-5 font-display text-jacarta-700 dark:bg-jacarta-700 dark:text-white"
-                            type="button" data-bs-toggle="collapse" data-bs-target="#prop-background"
-                            aria-expanded="false" aria-controls="prop-background">
-                            <span>Background</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                              className="accordion-arrow h-4 w-4 fill-jacarta-700 transition-transform dark:fill-white">
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                            </svg>
-                          </button>
-                        </h2>
-                        <div id="prop-background" className="accordion-collapse collapse"
-                          aria-labelledby="prop-heading-1" data-bs-parent="#accordionProps">
-                          <div className="accordion-body px-2 pb-4">
-                            <div className="flex flex-col">
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Red</span>
-                                <span>14</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Green</span>
-                                <span>56</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Blue</span>
-                                <span>11</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>White</span>
-                                <span>25</span>
-                              </button>
-                            </div>
-                          </div>
+                    {propLoading ?
+                      <div className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        <div className="flex space-x-2">
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                         </div>
                       </div>
-                      <div className="accordion-item border-b border-jacarta-100 dark:border-jacarta-600">
-                        <h2 className="accordion-header" id="prop-heading-2">
-                          <button
-                            className="accordion-button collapsed relative flex w-full items-center justify-between bg-white px-6 py-5 font-display text-jacarta-700 dark:bg-jacarta-700 dark:text-white"
-                            type="button" data-bs-toggle="collapse" data-bs-target="#prop-eyes"
-                            aria-expanded="false" aria-controls="prop-eyes">
-                            <span>Eyes</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                              className="accordion-arrow h-4 w-4 fill-jacarta-700 transition-transform dark:fill-white">
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                            </svg>
-                          </button>
-                        </h2>
-                        <div id="prop-eyes" className="accordion-collapse collapse" aria-labelledby="prop-heading-2"
-                          data-bs-parent="#accordionProps">
-                          <div className="accordion-body px-2 pb-4">
-                            <div className="flex flex-col">
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Red</span>
-                                <span>14</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Green</span>
-                                <span>56</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Blue</span>
-                                <span>11</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>White</span>
-                                <span>25</span>
-                              </button>
-                            </div>
+                      :
+                      <div className="accordion" id="accordionProps">
+                        {property_traits == "" ?
+                          <div className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                            <h5 className="modal-title" id="propertiesModalLabel">No Traits Found!</h5>
                           </div>
-                        </div>
+                          :
+                          <PropertyModal
+                            property_traits={property_traits}
+                            propsFilter={propsFilter}
+                            setPropsFilter={setPropsFilter}
+                            setDefaultFilterFetch={setDefaultFilterFetch}
+                          />
+                        }
                       </div>
-                      <div className="accordion-item">
-                        <h2 className="accordion-header" id="prop-heading-3">
-                          <button
-                            className="accordion-button collapsed relative flex w-full items-center justify-between bg-white px-6 py-5 font-display text-jacarta-700 dark:bg-jacarta-700 dark:text-white"
-                            type="button" data-bs-toggle="collapse" data-bs-target="#prop-face"
-                            aria-expanded="false" aria-controls="prop-face">
-                            <span>Face</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                              className="accordion-arrow h-4 w-4 fill-jacarta-700 transition-transform dark:fill-white">
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                            </svg>
-                          </button>
-                        </h2>
-                        <div id="prop-face" className="accordion-collapse collapse" aria-labelledby="prop-heading-3"
-                          data-bs-parent="#accordionProps">
-                          <div className="accordion-body px-2 pb-4">
-                            <div className="flex flex-col">
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Red</span>
-                                <span>14</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Green</span>
-                                <span>56</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>Blue</span>
-                                <span>11</span>
-                              </button>
-                              <button
-                                className="flex items-center justify-between rounded-xl px-4 py-2 hover:bg-jacarta-50 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
-                                <span>White</span>
-                                <span>25</span>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    }
                   </div>
 
                   <div className="modal-footer">
-                    <div className="flex items-center justify-center space-x-4">
-                      <button type="button"
-                        className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
-                        Clear All
-                      </button>
-                      <button type="button"
-                        className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
-                        Apply
-                      </button>
-                    </div>
+                    {property_traits == "" ?
+                      <div className="flex items-center justify-center space-x-4">
+                        <button
+                          onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          Close
+                        </button>
+                      </div>
+                      :
+                      <div className="flex items-center justify-center space-x-4">
+                        <button
+                          onClick={() => (setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false))}
+                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
+                          Clear All
+                        </button>
+                        <button
+                          onClick={() => (setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false))}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          Apply
+                        </button>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>

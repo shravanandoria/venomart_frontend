@@ -11,7 +11,8 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { collection_address, sortby, minprice, maxprice, skip } = req.query;
+                    const { collection_address, sortby, propsFilter, minprice, maxprice, skip } = req.query;
+                    const decodedPropsFilter = JSON.parse(decodeURIComponent(propsFilter));
 
                     const collection = await Collection.findOne({
                         contractAddress: collection_address,
@@ -21,6 +22,64 @@ export default async function handler(req, res) {
                         return res
                             .status(400)
                             .json({ success: false, data: "Cannot find this collection" });
+                    }
+
+                    if (decodedPropsFilter != "" && decodedPropsFilter != []) {
+                        const filteredNFTs = await NFT.aggregate([
+                            {
+                                $match: {
+                                    NFTCollection: collection._id
+                                },
+                            },
+                            {
+                                $unwind: "$attributes",
+                            },
+                            {
+                                $match: {
+                                    "attributes.value": { $in: decodedPropsFilter },
+                                },
+                            },
+                            {
+                                $project: {
+                                    NFTCollection: 1,
+                                    attributes: 1,
+                                    nft_image: 1,
+                                    NFTAddress: 1,
+                                    ownerAddress: 1,
+                                    managerAddress: 1,
+                                    nft_metadata: 1,
+                                    name: 1,
+                                    description: 1,
+                                    isListed: 1,
+                                    listingPrice: 1,
+                                    demandPrice: 1
+                                },
+                            },
+                            {
+                                $group: {
+                                    _id: "$_id",
+                                    NFTCollection: { $first: "$NFTCollection" },
+                                    attributes: { $first: "$attributes" },
+                                    nft_image: { $first: "$nft_image" },
+                                    NFTAddress: { $first: "$NFTAddress" },
+                                    ownerAddress: { $first: "$ownerAddress" },
+                                    managerAddress: { $first: "$managerAddress" },
+                                    nft_metadata: { $first: "$nft_metadata" },
+                                    name: { $first: "$name" },
+                                    description: { $first: "$description" },
+                                    isListed: { $first: "$isListed" },
+                                    listingPrice: { $first: "$listingPrice" },
+                                    demandPrice: { $first: "$demandPrice" },
+                                },
+                            },
+                            {
+                                $limit: 20,
+                            },
+                            {
+                                $sort: { isListed: -1 },
+                            }
+                        ]);
+                        return res.status(200).json({ success: true, data: filteredNFTs });
                     }
 
                     if (minprice != 0 && maxprice != 0) {

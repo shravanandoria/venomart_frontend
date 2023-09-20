@@ -31,13 +31,12 @@ const CreateNFT = ({
   const [preview, set_preview] = useState("");
   const [user_collections, set_user_collections] = useState([]);
 
-  const [properties, set_properties] = useState([{ type: "", value: "" }]);
   const [data, set_data] = useState({
     image: "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
     name: "",
     description: "",
     collection: defaultCollectionAddress,
-    properties: [{ type: "", value: "" }],
+    properties: [{ trait_type: "", value: "" }],
   });
 
   const default_images = [
@@ -60,7 +59,7 @@ const CreateNFT = ({
   const handle_add_field = () => {
     set_data({
       ...data,
-      properties: [...data.properties, { type: "", value: "" }],
+      properties: [...data.properties, { trait_type: "", value: "" }],
     });
   };
 
@@ -413,8 +412,8 @@ const CreateNFT = ({
                                 onChange={(e) =>
                                   handle_change_input(index, e)
                                 }
-                                value={data.properties[index].type}
-                                name="type"
+                                value={data.properties[index].trait_type}
+                                name="trait_type"
                                 type="text"
                                 className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                   ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"

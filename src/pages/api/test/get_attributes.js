@@ -23,17 +23,12 @@ export default async function handler(req, res) {
                             .json({ success: false, data: "Cannot find this collection" });
                     }
 
-                    const nfts = await NFT.find({ NFTCollection: collection, isListed: true })
-                        .select(["attributes"])
-                        .populate({
-                            path: "NFTCollection",
-                            select: { contractAddress: 1, isVerified: 1, name: 1 },
-                        })
-                        .limit(10).sort({ updatedAt: -1 });
+                    const nfts = await NFT.find({ NFTCollection: collection })
+                        .select(["attributes"]);
 
                     const nftsWithParsedAttributes = nfts.map((nft) => ({
                         ...nft.toObject(),
-                        attributes: JSON.parse(nft.attributes),
+                        attributes: nft.attributes,
                     }));
 
                     const uniqueTraits = {};
@@ -48,7 +43,7 @@ export default async function handler(req, res) {
                                     type,
                                     values: [],
                                     counts: [],
-                                    probabilities: [], // Add an array for probabilities
+                                    probabilities: [],
                                 };
                             }
                             const trait = uniqueTraits[type];
@@ -62,7 +57,6 @@ export default async function handler(req, res) {
                         });
                     });
 
-                    // Calculate probabilities in percentage
                     for (const traitType in uniqueTraits) {
                         const trait = uniqueTraits[traitType];
                         const total = trait.counts.reduce((acc, count) => acc + count, 0);

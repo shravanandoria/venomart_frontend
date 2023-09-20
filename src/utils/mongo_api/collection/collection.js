@@ -14,6 +14,7 @@ export const create_collection = async (data) => {
     royalty: data.royalty,
     socials: [data.website, data.twitter, data.discord, data.telegram],
     isVerified: data.isVerified,
+    isPropsEnabled: data.isPropsEnabled,
     description: data.description,
   };
 
@@ -28,10 +29,22 @@ export const create_collection = async (data) => {
   }
 };
 
-export const get_collection_by_contract = async (contractAddress, skipActivity) => {
+export const get_collection_by_contract = async (contractAddress) => {
   try {
     const res = await axios({
-      url: `/api/collection/slug_collection?contractAddress=${contractAddress}&skipActivity=${skipActivity}`,
+      url: `/api/collection/slug_collection?contractAddress=${contractAddress}`,
+      method: "GET"
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const get_collection_props = async (collection_id) => {
+  try {
+    const res = await axios({
+      url: `/api/collection/get_collection_props?collection_id=${collection_id}`,
       method: "GET"
     });
     return res.data;

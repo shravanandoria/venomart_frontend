@@ -99,7 +99,7 @@ const NFTPage = ({
         ...nft_database,
         attributes:
           nft_database?.attributes != ""
-            ? JSON.parse(nft_database?.attributes)
+            ? nft_database?.attributes
             : [],
       };
       set_nft_info({ ...obj });
@@ -155,7 +155,7 @@ const NFTPage = ({
     let offChainManager = nft?.managerAddress;
     let offChainImage = nft?.nft_image;
 
-    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain.attributes == "" && nft_onchain.files[0].source != "")) {
+    if (OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain.attributes == [] && nft_onchain.files[0].source != "")) {
       if (offChainImage === "") {
         const updateNFTImage = await update_verified_nft_image(
           onChainImage,
@@ -173,7 +173,7 @@ const NFTPage = ({
         alert("Owners data updated successfully");
       }
 
-      if (nft_onchain.attributes == "" && nft_onchain.files[0].source != "") {
+      if (nft_onchain.attributes == [] && nft_onchain.files[0].source != "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (sourceURL && sourceURL.startsWith("https://") && sourceURL.endsWith(".json")) {
           try {

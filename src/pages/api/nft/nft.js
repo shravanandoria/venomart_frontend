@@ -58,6 +58,8 @@ export default async function handler(req, res) {
             signer_address,
           } = req.body;
 
+          console.log({ attributes })
+
           let user = await User.findOne({ wallet_id: signer_address });
           if (!user) {
             user = await User.create({ wallet_id: signer_address });
@@ -86,6 +88,7 @@ export default async function handler(req, res) {
               description: "",
               socials: [],
               isVerified: false,
+              isPropsEnabled: false,
               Category: "",
               TotalSales: 0,
               TotalSupply: 0,

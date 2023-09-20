@@ -102,6 +102,7 @@ export default async function handler(req, res) {
               description: "",
               socials: [],
               isVerified: false,
+              isPropsEnabled: false,
               Category: "",
               TotalSales: 0,
               TotalSupply: 0,

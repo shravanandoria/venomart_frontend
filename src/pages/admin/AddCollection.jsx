@@ -24,6 +24,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     discord: "",
     telegram: "",
     isVerified: false,
+    isPropsEnabled: false,
     description: "",
   });
 
@@ -321,6 +322,30 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
                     name="isVerified"
+                    onChange={handleChange}
+                  >
+                    <option value={false}>False</option>
+                    <option value={true}>True</option>
+                  </select>
+                </div>
+
+                {/* props  */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-name"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Enable Properties Filter
+                  </label>
+                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                    If enabled properties filter will be displayed
+                  </p>
+                  <select
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    name="isPropsEnabled"
                     onChange={handleChange}
                   >
                     <option value={false}>False</option>

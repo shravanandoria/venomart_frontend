@@ -71,6 +71,7 @@ export default async function handler(req, res) {
             description,
             socials,
             isVerified,
+            isPropsEnabled
           } = req.body;
 
           const owner = await User.findOne({ wallet_id: creatorAddress });
@@ -90,6 +91,7 @@ export default async function handler(req, res) {
             existingCollection.description = description;
             existingCollection.socials = socials;
             existingCollection.isVerified = isVerified;
+            existingCollection.isPropsEnabled = isPropsEnabled;
 
             await existingCollection.save();
           }
@@ -105,6 +107,7 @@ export default async function handler(req, res) {
               description,
               socials,
               isVerified,
+              isPropsEnabled,
               Category: "",
               TotalSales: 0,
               TotalSupply: 0,

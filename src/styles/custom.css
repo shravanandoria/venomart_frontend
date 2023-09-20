@@ -186,6 +186,11 @@
   width: 500px;
 }
 
+.propertyDisplayDiv .modal-body {
+  height: 300px;
+  overflow-y: scroll;
+}
+
 .backgroundModelBlur {
   position: fixed;
   top: 50%;

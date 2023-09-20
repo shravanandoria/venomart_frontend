@@ -35,13 +35,15 @@ export const fetch_user_listed_nfts = async (owner_address, saleType, sortby, mi
 export const fetch_collection_nfts = async (
   collection_address,
   sortby,
+  propsFilter,
   minprice,
   maxprice,
   skip
 ) => {
+  const encodedPropsFilter = encodeURIComponent(JSON.stringify(propsFilter));
   try {
     const res = await axios({
-      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
+      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&propsFilter=${encodedPropsFilter}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -75,7 +77,7 @@ export const createNFT = async (data) => {
         nft_metadata: data.metadata,
         name: data.name,
         description: data.description,
-        attributes: JSON.stringify(data.properties),
+        attributes: data.properties,
         NFTCollection: data.NFTCollection,
         signer_address: data.signer_address,
       },
@@ -135,7 +137,7 @@ export const update_verified_nft_props = async (
       url: `/api/nft/update_nft_props`,
       method: "PUT",
       data: {
-        attributes: JSON.stringify(extractedProps),
+        attributes: extractedProps,
         NFTAddress: NFTAddress,
       },
     });

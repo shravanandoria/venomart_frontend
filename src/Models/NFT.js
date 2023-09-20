@@ -15,7 +15,10 @@ const NFTSchema = new mongoose.Schema(
     isListed: Boolean,
     listingPrice: String,
     demandPrice: Number,
-    attributes: [String],
+    attributes: [{
+      trait_type: String,
+      value: String
+    }],
     NFTCollection: {
       type: Schema.Types.ObjectId,
       ref: "Collection",
