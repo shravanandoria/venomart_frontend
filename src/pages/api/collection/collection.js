@@ -60,7 +60,6 @@ export default async function handler(req, res) {
         break;
       case "POST":
         try {
-          let collection;
           const {
             contractAddress,
             creatorAddress,
@@ -74,41 +73,51 @@ export default async function handler(req, res) {
             isVerified,
           } = req.body;
 
-          const check_col = await Collection.findOne({ contractAddress });
-          if (check_col)
-            return res.status(400).json({
-              success: false,
-              data: "A collection with this contractAddress already exists",
-            });
-
           const owner = await User.findOne({ wallet_id: creatorAddress });
           if (!owner)
             return res
               .status(400)
               .json({ success: false, data: "cannot find the user" });
 
-          collection = await Collection.create({
-            contractAddress,
-            creatorAddress,
-            coverImage,
-            logo,
-            name,
-            royalty,
-            royaltyAddress,
-            description,
-            socials,
-            isVerified,
-            Category: "",
-            TotalSales: 0,
-            TotalSupply: 0,
-            TotalListed: 0,
-            FloorPrice: 100000,
-            TotalVolume: 0,
-          });
+          const existingCollection = await Collection.findOne({ contractAddress });
+          if (existingCollection) {
+            existingCollection.creatorAddress = creatorAddress;
+            existingCollection.coverImage = coverImage;
+            existingCollection.logo = logo;
+            existingCollection.name = name;
+            existingCollection.royalty = royalty;
+            existingCollection.royaltyAddress = royaltyAddress;
+            existingCollection.description = description;
+            existingCollection.socials = socials;
+            existingCollection.isVerified = isVerified;
 
-          await owner.nftCollections.push(collection);
-          await owner.save();
-          res.status(200).json({ success: true, data: collection });
+            await existingCollection.save();
+          }
+          else {
+            let collection = await Collection.create({
+              contractAddress,
+              creatorAddress,
+              coverImage,
+              logo,
+              name,
+              royalty,
+              royaltyAddress,
+              description,
+              socials,
+              isVerified,
+              Category: "",
+              TotalSales: 0,
+              TotalSupply: 0,
+              TotalListed: 0,
+              FloorPrice: 100000,
+              TotalVolume: 0,
+            });
+
+            await owner.nftCollections.push(collection);
+            await owner.save();
+          }
+
+          res.status(200).json({ success: true, data: "collection created" });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }

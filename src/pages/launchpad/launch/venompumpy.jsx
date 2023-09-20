@@ -85,7 +85,7 @@ const venomLions = ({
     const [data, set_data] = useState();
 
     const getRandomTokenId = () => {
-        let token_id_calcy = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+        let token_id_calcy = Math.floor(Math.random() * (7 - 0 + 1)) + 0;
         let obj = {
             image: NFTARRAY[token_id_calcy],
             collectionName: ProjectName,
