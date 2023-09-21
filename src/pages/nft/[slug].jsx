@@ -1060,6 +1060,11 @@ const NFTPage = ({
                                   <span className="text-base text-jacarta-700 dark:text-white">
                                     {e.value}
                                   </span>
+                                  {nft?.NFTCollection?.isPropsEnabled &&
+                                    <span className="text-[14px] text-jacarta-500 dark:text-jacarta-200">
+                                      ({e.probability}% probability)
+                                    </span>
+                                  }
                                 </a>
                               );
                             })}

@@ -24,6 +24,63 @@ export default async function handler(req, res) {
               .status(400)
               .json({ success: false, data: "Cannot Find This NFT" });
 
+          // nft props proba 
+          const nfts = await NFT.find({ NFTCollection: nft.NFTCollection._id })
+            .select(["attributes"]);
+
+          const uniqueTraits = {};
+
+          nfts.forEach((nft) => {
+            nft.attributes.forEach((attribute) => {
+              const type = attribute.trait_type || attribute.type;
+              const value = attribute.value;
+
+              if (!uniqueTraits[type]) {
+                uniqueTraits[type] = {
+                  type,
+                  values: [],
+                };
+              }
+              const trait = uniqueTraits[type];
+              const valueIndex = trait.values.findIndex((item) => item.value === value);
+
+              if (valueIndex === -1) {
+                trait.values.push({ value, count: 1, probability: 0 });
+              } else {
+                trait.values[valueIndex].count++;
+              }
+            });
+          });
+
+          for (const traitType in uniqueTraits) {
+            const trait = uniqueTraits[traitType];
+            const total = trait.values.reduce((acc, item) => acc + item.count, 0);
+
+            trait.values.forEach((item) => {
+              item.probability = ((item.count / total) * 100).toFixed(2);
+            });
+          }
+
+          const propertyTraits = Object.values(uniqueTraits);
+          const updatedAttributes = [];
+
+          if (nft.NFTCollection.isPropsEnabled) {
+            nft.attributes.forEach((attribute) => {
+              for (const trait of propertyTraits) {
+                const found = trait.values.find((item) => item.value === attribute.value);
+                if (found) {
+                  updatedAttributes.push({
+                    trait_type: trait.type,
+                    value: attribute.value,
+                    probability: found.probability,
+                  });
+                  break;
+                }
+              }
+            });
+          }
+
+          // more nfts 
           let moreNFTs = await NFT.find(
             { NFTCollection: nft.NFTCollection, isListed: true, NFTAddress: { $ne: nft_address } },
             undefined,
@@ -32,7 +89,8 @@ export default async function handler(req, res) {
 
           const mergedData = {
             ...nft.toObject(),
-            moreNFTs: moreNFTs,
+            attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
+            moreNFTs: moreNFTs
           };
 
           return res.status(200).json({ success: true, data: mergedData });
@@ -57,8 +115,6 @@ export default async function handler(req, res) {
             NFTCollection,
             signer_address,
           } = req.body;
-
-          console.log({ attributes })
 
           let user = await User.findOne({ wallet_id: signer_address });
           if (!user) {

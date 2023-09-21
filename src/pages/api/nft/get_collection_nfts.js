@@ -40,9 +40,23 @@ export default async function handler(req, res) {
                                 },
                             },
                             {
+                                $lookup: {
+                                    from: "collections",
+                                    localField: "NFTCollection",
+                                    foreignField: "_id",
+                                    as: "collectionData",
+                                },
+                            },
+                            {
+                                $unwind: "$collectionData",
+                            },
+                            {
                                 $project: {
-                                    NFTCollection: 1,
-                                    attributes: 1,
+                                    "collectionData.isVerified": 1,
+                                    "collectionData.name": 1,
+                                    "collectionData.contractAddress": 1,
+                                    "collectionData.royalty": 1,
+                                    "collectionData.royaltyAddress": 1,
                                     nft_image: 1,
                                     NFTAddress: 1,
                                     ownerAddress: 1,
@@ -58,8 +72,7 @@ export default async function handler(req, res) {
                             {
                                 $group: {
                                     _id: "$_id",
-                                    NFTCollection: { $first: "$NFTCollection" },
-                                    attributes: { $first: "$attributes" },
+                                    NFTCollection: { $first: "$collectionData" },
                                     nft_image: { $first: "$nft_image" },
                                     NFTAddress: { $first: "$NFTAddress" },
                                     ownerAddress: { $first: "$ownerAddress" },
