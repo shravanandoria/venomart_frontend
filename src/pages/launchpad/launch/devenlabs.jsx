@@ -229,7 +229,6 @@ const venomLions = ({
         if (!signer_address) return;
         setLoading(true);
         const data = await has_minted(
-            venomProvider,
             contractAddress,
             signer_address
         );

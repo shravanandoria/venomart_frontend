@@ -333,15 +333,15 @@ export const create_nft = async (data, signer_address, venomProvider) => {
 };
 
 export const has_minted = async (
-  venomProvider,
   collection_address,
   signer_address
 ) => {
-  const contract = new venomProvider.Contract(
+  let myEver = new MyEver();
+  const providerRpcClient = myEver.ever();
+  const contract = new providerRpcClient.Contract(
     collectionAbi,
     collection_address
   );
-
   const _has_minted = await contract.methods
     .hasMinted({ answerId: 0, account: signer_address })
     .call();
@@ -381,7 +381,7 @@ export const create_launchpad_nft = async (
           mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         },
       ],
-      attributes: data.properties.filter((e) => e.type.length > 0),
+      attributes: data.properties,
       external_url: "https://venomart.io",
       nft_image: ipfs_image,
       collection_name: data.collectionName,

@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
+import { RiEarthFill } from "react-icons/ri";
+import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
     BsBrowserChrome,
     BsDiscord,
+    BsFillShareFill,
     BsInstagram,
     BsTelegram,
     BsTwitter,
 } from "react-icons/bs";
-import { RiEarthFill } from "react-icons/ri";
-import { GoArrowUpRight, GoDotFill } from "react-icons/go";
 import {
     AiFillCheckCircle,
     AiFillCloseCircle,
     AiFillLock,
 } from "react-icons/ai";
 import Head from "next/head";
-import Loader from "../../../components/Loader";
-import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
-import collectionAbi from "../../../../abi/Launchpad_Collection.abi.json";
-import { has_minted } from "../../../utils/user_nft";
+import Loader from "../../components/Loader";
+import { MyEver, create_launchpad_nft } from "../../utils/user_nft";
+import collectionAbi from "../../../abi/CollectionDrop.abi.json";
+import { has_minted } from "../../utils/user_nft";
+import { get_launchpad_by_name } from "../../utils/mongo_api/launchpad/launchpad";
+import { useRouter } from "next/router";
+import moment from "moment";
 
-const venommushies = ({
+const launchpad = ({
     blockURL,
     theme,
     webURL,
@@ -30,59 +33,25 @@ const venommushies = ({
     venomProvider,
     signer_address,
     connectWallet,
-    collabQuests,
-    anyModalOpen,
-    setAnyModalOpen,
+    setAnyModalOpen
 }) => {
     const router = useRouter();
-    // change from here
-    const launchSlug = collabQuests[8];
-    // change till here
+    const { slug } = router.query;
 
-    const venomartTwitter = "venomart23";
-    const venomartDiscord = "https://discord.gg/wQbBr6Xean";
-    const intendTweetId = launchSlug.tweetID;
-    const projectTwitter = launchSlug.twitterUserName;
-    const projectDiscord = launchSlug.discord;
-    const CoverIMG = launchSlug.Cover;
-    const NFTIMG = launchSlug.Logo;
-    const ProjectName = launchSlug.Name;
-    const pageName = launchSlug.pageName;
-    const shortDesc = launchSlug.Description;
-    const contractAddress = launchSlug.CollectionAddress;
-    const mintPrice = launchSlug.mintPrice;
-    const supply = launchSlug.supply;
-    const [status, setStatus] = useState(launchSlug.status);
-    const verified = launchSlug.verified;
+    const [launchSlug, setLaunchSlug] = useState("");
 
-    const twitterURL = launchSlug.twitter;
-    const discordURL = launchSlug.discord;
-    const instagramURL = launchSlug.instagram;
-    const telegramURL = launchSlug.telegram;
-    const websiteURL = launchSlug.website;
-
+    const [data, set_data] = useState();
     const [loading, setLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
-    const [comLoading, setCompLoading] = useState(false);
+    const [mintedPercent, setMintedPercent] = useState(0);
+    const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
     const [checkMint, setCheckMint] = useState();
-
-    const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
-    const [data] = useState({
-        image: NFTIMG,
-        collectionName: ProjectName,
-        name: ProjectName,
-        description: shortDesc,
-        collectionAddress: contractAddress,
-        mintPrice: mintPrice,
-        properties: [
-            { type: "Benifit", value: "Fee Discount" },
-            { type: "Version", value: "Testnet" },
-        ],
-    });
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     const [startdays, setStartDays] = useState(0);
     const [starthours, setStartHours] = useState(0);
@@ -94,36 +63,102 @@ const venommushies = ({
     const [endminutes, setEndMinutes] = useState(0);
     const [endseconds, setEndSeconds] = useState(0);
 
-    const getMintedCount = async () => {
+    // getting launchpad data 
+    const getLaunchpadData = async () => {
         setLoading(true);
+
+        // getting launchpad data 
+        const launchpaddata = await get_launchpad_by_name(slug);
+        setLaunchSlug(launchpaddata);
+
+        // setting up count 
+        const parsedStartDate = moment(launchpaddata?.startDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
+        setStartDate(parsedStartDate);
+        const parsedEndDate = moment(launchpaddata?.endDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
+        setEndDate(parsedEndDate);
+
         try {
+            // getting minted supply 
             let myEver = new MyEver();
             const providerRpcClient = myEver.ever();
             const contract = new providerRpcClient.Contract(
                 collectionAbi,
-                contractAddress
+                launchpaddata?.contractAddress
             );
             const totalSupply = await contract.methods
                 .totalSupply({ answerId: 0 })
                 .call();
+            const mintedPercent = ((totalSupply.count * 100) / launchpaddata?.maxSupply).toFixed(0);
+            setMintedPercent(mintedPercent);
             setMintedNFTs(totalSupply.count);
         } catch (error) {
             setMintedNFTs(0);
             console.log(error.message);
         }
+
+        setLoading(false);
+    }
+
+    // setting up minting data 
+    const setMintingObjData = () => {
+        let obj = {
+            image: launchSlug?.logo,
+            collectionName: launchSlug?.name,
+            name: launchSlug?.name,
+            description: launchSlug?.description,
+            collectionAddress: launchSlug?.contractAddress,
+            mintPrice: launchSlug?.mintPrice,
+            properties: [
+                { trait_type: "Benifit", value: "Fee Discount" },
+                { trait_type: "Version", value: "Testnet" },
+            ],
+        }
+        set_data(obj);
+    }
+
+    // connect wallet 
+    const connect_wallet = async () => {
+        const connect = await connectWallet();
+    };
+
+    // final function to mint nft 
+    const mintLaunchNFT = async () => {
+        if (!signer_address) {
+            connect_wallet();
+            return;
+        }
+        setLoading(true);
+        const launchMint = await create_launchpad_nft(
+            data,
+            signer_address,
+            venomProvider
+        );
+        if (launchMint) {
+            setAfterMint(true);
+            setAnyModalOpen(true);
+            setMintLock(true);
+        }
         setLoading(false);
     };
 
-    // getting minted nfts
-    useEffect(() => {
-        getMintedCount();
-    }, []);
+    // getting user minted or not data 
+    const get_user_Data = async () => {
+        setLoading(true);
+        if (signer_address == "") return;
+        const data = await has_minted(
+            launchSlug?.contractAddress,
+            signer_address
+        );
+        setCheckMint(data);
+        setLoading(false);
+    };
 
+    // calculating live time here
     useEffect(() => {
-        if (status == "Upcoming") {
+        if (launchSlug?.status == "Upcoming") {
             setLoading(true);
             const target = new Date(
-                `${launchSlug.startDate ? launchSlug.startDate : ""}`
+                `${startDate ? startDate : ""}`
             );
 
             const interval = setInterval(() => {
@@ -147,7 +182,7 @@ const venommushies = ({
                 if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
                     setStatus("Live");
                     const target = new Date(
-                        `${launchSlug.endDate ? launchSlug.endDate : ""}`
+                        `${endDate ? endDate : ""}`
                     );
 
                     const interval = setInterval(() => {
@@ -169,7 +204,7 @@ const venommushies = ({
                         setEndSeconds(s);
 
                         if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                            setStatus("Sold Out");
+                            setStatus("Ended");
                         }
                     }, 1000);
                     return () => clearInterval(interval);
@@ -178,78 +213,40 @@ const venommushies = ({
             setLoading(false);
             return () => clearInterval(interval);
         }
-    }, []);
-
-    const connect_wallet = async () => {
-        const connect = await connectWallet();
-    };
-
-    const mintLaunchNFT = async () => {
-        if (!signer_address) {
-            connect_wallet();
-            return;
-        }
-        setLoading(true);
-        const launchMint = await create_launchpad_nft(
-            data,
-            signer_address,
-            venomProvider
-        );
-        if (launchMint) {
-            setAnyModalOpen(true);
-            setMintLock(true);
-        }
-        setLoading(false);
-    };
-
-    const verifyAction = () => {
-        setCompLoading(true);
-        setTimeout(() => {
-            setActionVerify(true);
-            setCompLoading(false);
-        }, 2000);
-    };
-
-    const get_minted_data = async () => {
-        if (!signer_address) return;
-        setLoading(true);
-        const data = await has_minted(
-            contractAddress,
-            signer_address
-        );
-        setCheckMint(data);
-        setLoading(false);
-    };
+    }, [startDate, endDate]);
 
     useEffect(() => {
-        get_minted_data();
-    }, [signer_address]);
+        if (!signer_address && !launchSlug) return;
+        get_user_Data();
+    }, [signer_address, launchSlug]);
 
     useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
-    }, [venomProvider]);
+        if (!slug) return;
+        getLaunchpadData();
+    }, [slug]);
+
+    useEffect(() => {
+        if (!launchSlug) return;
+        setMintingObjData();
+    }, [launchSlug]);
 
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>{`${ProjectName ? ProjectName : "Project"
-                    } NFT Quest - Venomart Marketplace`}</title>
+                <title>{`${launchSlug?.name ? launchSlug?.name : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
-                    content={`${shortDesc ? shortDesc : "Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"}`}
+                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
                 />
                 <meta
                     name="keywords"
-                    content={`${ProjectName && ProjectName} testnet launch, ${ProjectName && ProjectName} venom, venomart launchpad, venom NFT launches`}
+                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            {anyModalOpen && (
+            {afterMint && (
                 <div className="backgroundModelBlur backdrop-blur-lg"></div>
             )}
 
@@ -271,8 +268,8 @@ const venommushies = ({
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
                                         style={{ fontSize: "35px" }}
                                     >
-                                        <span> {ProjectName} </span>{" "}
-                                        {verified && (
+                                        <span> {launchSlug?.name} </span>{" "}
+                                        {launchSlug?.isVerified && (
                                             <MdVerified
                                                 style={{
                                                     color: "#4f87ff",
@@ -285,48 +282,38 @@ const venommushies = ({
                                         )}
                                     </h1>
                                     {/* social icons  */}
-                                    <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
-                                        {/* website  */}
+                                    {/* <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
                                         {websiteURL && (
                                             <a href={websiteURL} target="_blank" className="group">
                                                 <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                             </a>
                                         )}
-                                        {/* twitter  */}
                                         {twitterURL && (
                                             <a href={twitterURL} target="_blank" className="group">
                                                 <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                             </a>
                                         )}
-                                        {/* discord  */}
                                         {discordURL && (
                                             <a href={discordURL} target="_blank" className="group">
                                                 <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                             </a>
                                         )}
-                                        {/* instagram */}
-                                        {instagramURL && (
-                                            <a href={instagramURL} target="_blank" className="group">
-                                                <BsInstagram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                            </a>
-                                        )}
-                                        {/* telegram */}
                                         {telegramURL && (
                                             <a href={telegramURL} target="_blank" className="group">
                                                 <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                             </a>
                                         )}
-                                    </div>
+                                    </div> */}
                                     {/* short desc  */}
                                     <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                                        {shortDesc}
+                                        {launchSlug?.description}
                                     </p>
                                     {/* action  */}
                                     <div className="flex space-x-6">
-                                        {contractAddress != "" ? (
+                                        {launchSlug?.contractAddress != "" ? (
                                             <>
                                                 <a
-                                                    href={`${blockURL}accounts/${contractAddress}`}
+                                                    href={`${blockURL}accounts/${launchSlug?.contractAddress}`}
                                                     target="_blank"
                                                     className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                                 >
@@ -334,7 +321,7 @@ const venommushies = ({
                                                     <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                                 </a>
                                                 <Link
-                                                    href={`/collection/${contractAddress}`}
+                                                    href={`/collection/${launchSlug?.contractAddress}`}
                                                     className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                                 >
                                                     Collection
@@ -371,7 +358,7 @@ const venommushies = ({
                                         style={{ overflow: "hidden" }}
                                     >
                                         <img
-                                            src={CoverIMG}
+                                            src={launchSlug?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px" }}
                                         />
@@ -391,17 +378,12 @@ const venommushies = ({
                                         EXCLUSIVE MINT
                                     </h2>
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                        {supply} NFTs
+                                        {launchSlug?.maxSupply} NFTs
                                     </h1>
-                                    {mintedNFTs > 0 && (
-                                        <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                            {mintedNFTs} / {supply} Minted
-                                        </p>
-                                    )}
                                 </div>
 
                                 {/* if live  */}
-                                {status == "Live" && (
+                                {launchSlug?.status == "Live" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             MINT ENDS IN
@@ -435,7 +417,7 @@ const venommushies = ({
                                 )}
 
                                 {/* sold out */}
-                                {status == "Sold Out" && (
+                                {launchSlug?.status == "Sold Out" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             SOLD OUT IN
@@ -447,7 +429,7 @@ const venommushies = ({
                                 )}
 
                                 {/* ended */}
-                                {status == "Ended" && (
+                                {launchSlug?.status == "Ended" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             SOLD OUT IN
@@ -459,7 +441,7 @@ const venommushies = ({
                                 )}
 
                                 {/* upcoming  */}
-                                {status == "Upcoming" && (
+                                {launchSlug?.status == "Upcoming" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-wides text-center">
                                             MINT STARTS IN
@@ -492,52 +474,52 @@ const venommushies = ({
                                     </div>
                                 )}
 
-                                {/* mint status  */}
+                                {/* mint launchSlug?.status  */}
                                 <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                         MINTING STATUS
                                     </h2>
-                                    {status == "Live" && (
+                                    {launchSlug?.status == "Live" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-green" />
                                             <span
                                                 className="text-green text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {status}
+                                                {launchSlug?.status}
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Ended" && (
+                                    {launchSlug?.status == "Ended" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-red" />
                                             <span
                                                 className="text-red text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {status}
+                                                {launchSlug?.status}
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Upcoming" && (
+                                    {launchSlug?.status == "Upcoming" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-[#2fa8b5]" />
                                             <span
                                                 className="text-[#2fa8b5] text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {status}
+                                                {launchSlug?.status}
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Sold Out" && (
+                                    {launchSlug?.status == "Sold Out" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-jacarta-300" />
                                             <span
                                                 className="text-jacarta-300 text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {status}
+                                                {launchSlug?.status}
                                             </span>
                                         </h1>
                                     )}
@@ -552,14 +534,8 @@ const venommushies = ({
                                         <img
                                             alt="nftImg"
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
-                                            src={NFTIMG}
+                                            src={launchSlug?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                         />
-                                        {/* <div className="hideInPhoneTxt">
-                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
-                                                Mint this NFT and get benefits of this NFT from venomart
-                                                after mainnet launch 🚀🚀
-                                            </p>
-                                        </div> */}
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -573,10 +549,10 @@ const venommushies = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {projectTwitter} on twitter
+                                                1] Follow {launchSlug?.name} on twitter
                                             </p>
                                             <Link
-                                                href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
+                                                href={`https://twitter.com/intent/follow?screen_name=`}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
@@ -585,119 +561,24 @@ const venommushies = ({
                                             </Link>
                                         </div>
 
-                                        {/* follow twitter  */}
-                                        <div className="flex mt-2 items-center pb-5 border-gray-100 ">
-                                            <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                2] Follow venomart on twitter
-                                            </p>
-                                            <Link
-                                                href={`https://twitter.com/intent/follow?screen_name=${venomartTwitter}`}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Follow{" "}
-                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {/* join discord  */}
-                                        <div className="flex mt-2 items-center pb-5 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
-                                            </p>
-                                            <Link
-                                                href={venomartDiscord}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Join{" "}
-                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {/* join discord  */}
-                                        <div className="flex items-center pb-5 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                4] Join {projectTwitter} discord server
-                                            </p>
-                                            <Link
-                                                href={projectDiscord}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Join{" "}
-                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {/* retweet tweet  */}
-                                        <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5 mt-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                5] Retweet and like this tweet
-                                            </p>
-                                            <Link
-                                                href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Retweet{" "}
-                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {status == "Live" && !checkMint && (
-                                            <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
-                                                {actionVerify ? (
-                                                    <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
-                                                        If you verify without completing tasks then you
-                                                        might miss the rewards❌
+                                        <div className="mt-4 mb-12">
+                                            <div className="flex justify-between">
+                                                <h2 className="text-sm title-font text-jacarta-700 dark:text-white tracking-widest">
+                                                    Total Minted
+                                                </h2>
+                                                {mintedNFTs > 0 && (
+                                                    <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                                                        ({mintedNFTs}/{launchSlug?.maxSupply})
                                                     </p>
-                                                ) : (
-                                                    <p className="text-center text-[17px] dark:text-jacarta-200 md:text-left">
-                                                        After completing tasks please verify to start
-                                                        minting..
-                                                    </p>
-                                                )}
-
-                                                {actionVerify ? (
-                                                    <button className="w-[60%] flex justify-center ml-auto text-white bg-green-800 border-0 py-2 px-6 focus:outline-none rounded">
-                                                        Verified
-                                                        <AiFillCheckCircle className="ml-[4px] mt-[5px]" />
-                                                    </button>
-                                                ) : (
-                                                    <div className="w-[100%]">
-                                                        {comLoading ? (
-                                                            <button className="cursor-wait flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded">
-                                                                Verifying{" "}
-                                                                <svg
-                                                                    aria-hidden="true"
-                                                                    className="inline w-6 h-6 ml-3 text-gray-400 animate-spin fill-blue-200"
-                                                                    viewBox="0 0 100 101"
-                                                                    fill="none"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                >
-                                                                    <path
-                                                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                                        fill="currentColor"
-                                                                    />
-                                                                    <path
-                                                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                                        fill="currentFill"
-                                                                    />
-                                                                </svg>
-                                                            </button>
-                                                        ) : (
-                                                            <button
-                                                                onClick={verifyAction}
-                                                                className="flex w-[60%] justify-center ml-auto text-white bg-red border-0 py-2 px-6 focus:outline-none rounded"
-                                                            >
-                                                                Verify Tasks
-                                                            </button>
-                                                        )}
-                                                    </div>
                                                 )}
                                             </div>
-                                        )}
+                                            <div class="w-[100%] bg-neutral-200 dark:bg-neutral-600 rounded-lg">
+                                                <div
+                                                    class={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
+                                                    {mintedPercent}%
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div className="flex">
                                             {/* price  */}
@@ -707,61 +588,57 @@ const venommushies = ({
                                                 </span>
                                                 <span className="title-font font-medium text-[19px] text-gray-400 text-center mt-[6px] ml-[3px]">
                                                     {" "}
-                                                    {mintPrice} VENOM
+                                                    {launchSlug?.mintPrice} VENOM
                                                 </span>
                                             </div>
 
                                             {/* mint  */}
-                                            {checkMint ? (
-                                                <button
-                                                    onClick={() =>
-                                                        alert("Only 1 NFT minting is allowed for 1 user!")
-                                                    }
-                                                    className="flex justify-center w-auto ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                >
-                                                    Already Minted{" "}
-                                                    <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                </button>
-                                            ) : !actionVerify ? (
-                                                status == "Ended" || status == "Sold Out" ? (
+                                            {checkMint ?
+                                                (
                                                     <button
                                                         onClick={() =>
-                                                            alert("The mint has ended! All passes sold out")
+                                                            alert("Only 1 NFT minting is allowed for 1 user!")
                                                         }
-                                                        className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                        className="flex justify-center w-auto ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                                     >
-                                                        Mint Ended
+                                                        Already Minted{" "}
                                                         <AiFillLock className="mt-[4px] ml-[5px]" />
                                                     </button>
-                                                ) : (
-                                                    <button
-                                                        onClick={() =>
-                                                            alert(
-                                                                "Minting is locked or tasks are not completed!!"
-                                                            )
-                                                        }
-                                                        className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                    >
-                                                        Mint <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                    </button>
                                                 )
-                                            ) : mintLock ? (
-                                                <button
-                                                    onClick={() =>
-                                                        alert("You have already minted the NFT!")
-                                                    }
-                                                    className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                >
-                                                    Mint NFT <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    onClick={() => mintLaunchNFT()}
-                                                    className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                >
-                                                    Mint NFT
-                                                </button>
-                                            )}
+                                                : mintLock ?
+                                                    (
+                                                        <button
+                                                            onClick={() =>
+                                                                alert("You have already minted the NFT!")
+                                                            }
+                                                            className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                        >
+                                                            Mint NFT <AiFillLock className="mt-[4px] ml-[5px]" />
+                                                        </button>
+                                                    )
+                                                    :
+                                                    (
+                                                        launchSlug?.status == "Ended" || launchSlug?.status == "Sold Out" ? (
+                                                            <button
+                                                                onClick={() =>
+                                                                    alert("The mint has ended! All passes sold out")
+                                                                }
+                                                                className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                            >
+                                                                Mint Ended
+                                                                <AiFillLock className="mt-[4px] ml-[5px]" />
+                                                            </button>
+                                                        )
+                                                            :
+                                                            (
+                                                                <button
+                                                                    onClick={() => mintLaunchNFT()}
+                                                                    className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                                >
+                                                                    Mint NFT
+                                                                </button>
+                                                            )
+                                                    )}
 
                                             {/* share btn  */}
                                             <button
@@ -799,7 +676,7 @@ const venommushies = ({
                                                     {share && (
                                                         <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                                                             <a
-                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.io%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${pageName}%20`}
+                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.io%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${slug}%20`}
                                                                 target="_blank"
                                                                 className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                                             >
@@ -844,10 +721,9 @@ const venommushies = ({
                                             </button>
                                         </div>
                                         {/* message checks  */}
-                                        {!actionVerify &&
-                                            !checkMint &&
-                                            status != "Ended" &&
-                                            status != "Sold Out" && (
+                                        {!checkMint &&
+                                            launchSlug?.status != "Ended" &&
+                                            launchSlug?.status != "Sold Out" && (
                                                 <div
                                                     className="flex justify-end mt-[10px] text-center"
                                                     style={{ zIndex: "10" }}
@@ -867,7 +743,7 @@ const venommushies = ({
                                                 </span>
                                             </div>
                                         )}
-                                        {status == "Upcoming" && (
+                                        {launchSlug?.status == "Upcoming" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
@@ -877,47 +753,33 @@ const venommushies = ({
                                                 </span>
                                             </div>
                                         )}
-                                        {status == "Ended" && (
+                                        {launchSlug?.status == "Ended" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
-                                                    {/* The NFT minting has ended! */}
-                                                    All {ProjectName} got sold out in few hours
+                                                    All {launchSlug?.name} got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
-                                        {status == "Sold Out" && (
+                                        {launchSlug?.status == "Sold Out" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
                                             >
                                                 <span className="text-[15px] text-gray-400 text-center">
-                                                    All {ProjectName} got sold out in few hours
+                                                    All {launchSlug?.name} got sold out in few hours
                                                 </span>
                                             </div>
                                         )}
                                     </div>
-                                    {actionVerify && (
-                                        <div
-                                            className="flex justify-center mt-[16px] text-center"
-                                            style={{ zIndex: "10" }}
-                                        >
-                                            <span className="text-[15px] text-gray-400 text-center">
-                                                IMP: Before minting the NFT make sure you have completed
-                                                the tasks, we are assigning the action values to your
-                                                nft address and based on this winners will get selected!
-                                            </span>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         </section>
                     </section>
 
-                    {anyModalOpen && (
-                        // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
+                    {afterMint && (
                         <div className="afterMintDiv">
                             <form className="modal-dialog max-w-2xl">
                                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">
@@ -930,7 +792,7 @@ const venommushies = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => setAnyModalOpen(false)}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -948,21 +810,33 @@ const venommushies = ({
                                     <div className="modal-body p-6">
                                         <div className="mb-2 flex items-center justify-between">
                                             <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
-                                                You have successfully minted the {ProjectName} NFT for{" "}
-                                                {mintPrice} VENOM. <br /> View your profile to see the
+                                                You have successfully minted the {launchSlug?.name} NFT for{" "}
+                                                {launchSlug?.mintPrice} VENOM. <br /> View your profile to see the
                                                 minted NFT 🤗
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="modal-footer">
-                                        <div className="flex items-center justify-center space-x-4">
+                                    <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
                                             <Link
-                                                href={`/profile/${signer_address}`}
-                                                className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                                // href={`/profile/${signer_address}`}
+                                                href={""}
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
-                                                View Profile
+                                                View
+                                                <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
                                             </Link>
+                                        </div>
+                                        <div className="flex items-center justify-center space-x-4 m-2">
+                                            <a
+                                                href={`https://twitter.com/intent/tweet?text=Just%20minted%20${launchSlug?.name}%20NFT%20via%20venomart%20NFT%20launchpad%20%F0%9F%94%A5%0AVery%20smooth%20minting,%20great%20experience%20%F0%9F%98%84%0AHere%20you%20go%20-%20${webURL}launchpad/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
+                                                target="_blank"
+                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                            >
+                                                Share
+                                                <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -975,4 +849,4 @@ const venommushies = ({
     );
 };
 
-export default venommushies;
+export default launchpad;

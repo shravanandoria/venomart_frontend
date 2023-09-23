@@ -25,15 +25,20 @@ export default async function handler(req, res) {
             name,
             description,
             contractAddress,
+            creatorAddress,
+            royaltyAddress,
+            royalty,
+            socials,
             maxSupply,
-            nftImage,
             jsonURL,
             mintPrice,
-            creatorRoyalty,
+            status,
             isActive,
+            isVerified,
+            isPropsEnabled,
             startDate,
             endDate,
-            comments
+            comments,
           } = req.body;
 
           const launchpad = await Launchpad.create({
@@ -42,15 +47,20 @@ export default async function handler(req, res) {
             name,
             description,
             contractAddress,
+            creatorAddress,
+            royaltyAddress,
+            royalty,
+            socials,
             maxSupply,
-            nftImage,
             jsonURL,
             mintPrice,
-            creatorRoyalty,
+            status,
             isActive,
+            isVerified,
+            isPropsEnabled,
             startDate,
             endDate,
-            comments
+            comments,
           });
 
           res.status(200).json({ success: true, data: launchpad });
