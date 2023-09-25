@@ -164,6 +164,7 @@ export default async function handler(req, res) {
             name,
             description,
             isListed: false,
+            isAuction: false,
             listingPrice: 0,
             demandPrice: 0,
             attributes,
