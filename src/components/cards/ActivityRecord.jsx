@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import moment from 'moment';
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", To = "market", MARKETPLACE_ADDRESS }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", To = "market", MARKETPLACE_ADDRESS, signerAddress }) => {
 
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
 
@@ -44,7 +44,16 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     </div>
 
                     {/* from and to  */}
-                    <span className="block text-xs text-jacarta-300">Transfer from  <a href={`${blockURL}accounts/${From}`} target='_blank' className='text-blue'>{(From == MARKETPLACE_ADDRESS ? "Market" : From.slice(0, 5) + "..." + From.slice(63))}</a> to <a href={`${blockURL}accounts/${To}`} target='_blank' className='text-blue'>{To == MARKETPLACE_ADDRESS ? "Market" : To.slice(0, 5) + "..." + To.slice(63)}</a></span>
+                    <span className="block text-xs text-jacarta-300">
+                        Transfer from {" "}
+                        <a href={`${blockURL}accounts/${From}`} target='_blank' className='text-blue'>
+                            {From == MARKETPLACE_ADDRESS ? "Market" : (From == signerAddress ? "You" : From.slice(0, 5) + "..." + From.slice(63))}
+                        </a>
+                        {" "}to{" "}
+                        <a href={`${blockURL}accounts/${To}`} target='_blank' className='text-blue'>
+                            {To == MARKETPLACE_ADDRESS ? "Market" : (To == signerAddress ? "You" : To.slice(0, 5) + "..." + To.slice(63))}
+                        </a>
+                    </span>
                 </div>
             </div>
 

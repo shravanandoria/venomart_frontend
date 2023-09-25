@@ -2,7 +2,7 @@ import moment from 'moment';
 import Link from 'next/link';
 import React from 'react'
 
-const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt }) => {
+const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt, signerAddress }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
 
     return (
@@ -87,18 +87,26 @@ const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blo
 
             {/* from  */}
             <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                {MARKETPLACE_ADDRESS === from ?
+                {MARKETPLACE_ADDRESS === from &&
                     <Link href="#" className="text-accent">Market</Link>
-                    :
+                }
+                {signerAddress === from &&
+                    <Link href="#" className="text-accent">You</Link>
+                }
+                {signerAddress != from && MARKETPLACE_ADDRESS != from &&
                     <Link href={`/profile/${from}`} className="text-accent">{from.slice(0, 5) + "..." + from.slice(62)}</Link>
                 }
             </div>
 
             {/* to  */}
             <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                {MARKETPLACE_ADDRESS === to ?
+                {MARKETPLACE_ADDRESS === to &&
                     <Link href="#" className="text-accent">Market</Link>
-                    :
+                }
+                {signerAddress === to &&
+                    <Link href="#" className="text-accent">You</Link>
+                }
+                {signerAddress != to && MARKETPLACE_ADDRESS != to &&
                     <Link href={`/profile/${to}`} className="text-accent">{to.slice(0, 5) + "..." + to.slice(62)}</Link>
                 }
             </div>

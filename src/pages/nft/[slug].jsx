@@ -1502,6 +1502,7 @@ const NFTPage = ({
                               createdAt={e?.createdAt}
                               blockURL={blockURL}
                               MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                              signerAddress={signer_address}
                             />
                           ))}
                           {moreLoading && (

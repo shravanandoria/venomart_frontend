@@ -1340,6 +1340,7 @@ const Profile = ({
                           From={e?.from}
                           To={e?.to}
                           MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
+                          signerAddress={signer_address}
                         />
                       ))}
                     </InfiniteScroll>
