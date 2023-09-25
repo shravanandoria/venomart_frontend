@@ -94,7 +94,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
 
   const scroll_get_all_nfts = async () => {
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
     if (res) {
       set_nfts([...nfts, ...res]);
       if (res == "") {
@@ -107,7 +107,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
     if (res) {
       set_nfts(res);
       if (res == "") {
@@ -152,7 +152,8 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
-          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        selectedNFT?.NFTCollection?.FloorPrice
       );
 
       if (buying == true) {
@@ -181,7 +182,8 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
-        signer_address
+        signer_address,
+        selectedNFT?.NFTCollection?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);
@@ -635,7 +637,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                                   min="0"
                                   onInput={(e) => e.target.value = Math.abs(e.target.value)}
                                   // value={minPrice}
-                                  onChange={(e) => (setSkip(0), setHasMore(true), setMinPrice(parseFloat(e.target.value)))}
+                                  onChange={(e) => (setDefaultFilterFetch(true), setSkip(0), setHasMore(true), setMinPrice(parseFloat(e.target.value)))}
                                   className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                 />
                                 <input
@@ -644,7 +646,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                                   min="0"
                                   onInput={(e) => e.target.value = Math.abs(e.target.value)}
                                   // value={maxPrice}
-                                  onChange={(e) => (setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
+                                  onChange={(e) => (setDefaultFilterFetch(true), setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
                                   className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                 />
                               </div>
@@ -686,6 +688,11 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                               Recently Sold
                             </span>
                           }
+                          {sortby == "ownedBy" &&
+                            <span className="font-display text-jacarta-700 dark:text-white">
+                              Owned By You
+                            </span>
+                          }
                           {sortby == "lowToHigh" &&
                             <span className="font-display text-jacarta-700 dark:text-white">
                               Price: Low To High
@@ -722,6 +729,21 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlySold"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                               Recently Sold
                               {sortby == "recentlySold" &&
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                </svg>
+                              }
+                            </button>
+                            <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("ownedBy"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Owned By You
+                              {sortby == "ownedBy" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -833,7 +855,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                     </InfiniteScroll>
 
                     {nfts?.length <= 0 && !moreLoading && (
-                      <h2 className="text-jacarta-700 dark:text-jacarta-200">
+                      <h2 className="text-jacarta-700 dark:text-jacarta-200 py-12">
                         No NFTs Found
                       </h2>
                     )}

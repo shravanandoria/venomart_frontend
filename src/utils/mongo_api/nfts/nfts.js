@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const fetch_nfts = async (
   filterCollection,
+  signer_address,
   collectionCategory,
   minPrice,
   maxPrice,
@@ -11,7 +12,7 @@ export const fetch_nfts = async (
 ) => {
   try {
     const res = await axios({
-      url: `/api/nft/get_all_nfts?filterCollection=${filterCollection}&collectionCategory=${collectionCategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortby=${sortby}&option=${option}&skip=${skip}`,
+      url: `/api/nft/get_all_nfts?filterCollection=${filterCollection}&ownerAddress=${signer_address}&collectionCategory=${collectionCategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortby=${sortby}&option=${option}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -34,6 +35,7 @@ export const fetch_user_listed_nfts = async (owner_address, saleType, sortby, mi
 
 export const fetch_collection_nfts = async (
   collection_address,
+  signer_address,
   sortby,
   propsFilter,
   minprice,
@@ -43,7 +45,7 @@ export const fetch_collection_nfts = async (
   const encodedPropsFilter = encodeURIComponent(JSON.stringify(propsFilter));
   try {
     const res = await axios({
-      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&sortby=${sortby}&propsFilter=${encodedPropsFilter}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
+      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&owner_address=${signer_address}&sortby=${sortby}&propsFilter=${encodedPropsFilter}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
@@ -172,7 +174,8 @@ export const updateNFTListing = async (data) => {
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
         collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice
+        newFloorPrice: data.newFloorPrice,
+        stampedFloor: data.stampedFloor,
       },
     });
     return res.data.data;
@@ -207,7 +210,8 @@ export const cancelNFTListing = async (data) => {
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
         collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice
+        newFloorPrice: data.newFloorPrice,
+        stampedFloor: data.stampedFloor,
       },
     });
     return res.data.data;
@@ -243,7 +247,8 @@ export const updateNFTsale = async (data) => {
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
         collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice
+        newFloorPrice: data.newFloorPrice,
+        stampedFloor: data.stampedFloor,
       },
     });
 

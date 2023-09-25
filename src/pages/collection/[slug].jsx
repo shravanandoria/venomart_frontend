@@ -310,7 +310,7 @@ const Collection = ({
     if (!standalone && !slug) return;
     setLoading(true);
 
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -351,7 +351,7 @@ const Collection = ({
   // getting nfts according to filter 
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -405,7 +405,7 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
       if (nfts_offchain == "") {
@@ -469,7 +469,8 @@ const Collection = ({
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
-          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        selectedNFT?.NFTCollection?.FloorPrice
       );
       if (buying == true) {
         setActionLoad(false);
@@ -497,7 +498,8 @@ const Collection = ({
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
-        signer_address
+        signer_address,
+        selectedNFT?.NFTCollection?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);
@@ -1261,7 +1263,7 @@ const Collection = ({
                                       min="0"
                                       onInput={(e) => e.target.value = Math.abs(e.target.value)}
                                       // value={maxPrice}
-                                      onChange={(e) => (setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
+                                      onChange={(e) => (setDefaultFilterFetch(true), setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                   </div>
@@ -1269,7 +1271,7 @@ const Collection = ({
                                   <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                     <button
                                       type="button"
-                                      onClick={() => (setMaxPrice(0), setMinPrice(0), showPriceRangeFilter(false))}
+                                      onClick={() => (setDefaultFilterFetch(true), setMaxPrice(0), setMinPrice(0), showPriceRangeFilter(false))}
                                       className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                     >
                                       Clear
@@ -1305,6 +1307,11 @@ const Collection = ({
                                 {currentFilter == "recentlySold" &&
                                   <span className="text-jacarta-700 dark:text-white">
                                     Recently Sold
+                                  </span>
+                                }
+                                {currentFilter == "ownedBy" &&
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    Owned By You
                                   </span>
                                 }
                                 {currentFilter == "lowToHigh" &&
@@ -1351,6 +1358,21 @@ const Collection = ({
                                   <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlySold"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                     Recently Sold
                                     {currentFilter == "recentlySold" &&
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    }
+                                  </button>
+                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("ownedBy"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                    Owned By You
+                                    {currentFilter == "ownedBy" &&
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"

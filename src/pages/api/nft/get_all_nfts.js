@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { filterCollection, collectionCategory, minPrice, maxPrice, sortby, option, skip } = req.query;
+                    const { filterCollection, ownerAddress, collectionCategory, minPrice, maxPrice, sortby, option, skip } = req.query;
 
                     let filterQuery = {};
                     let sortQuery = {};
@@ -41,6 +41,11 @@ export default async function handler(req, res) {
                             sortQuery.isListed = 1
                             sortQuery.updatedAt = -1
                         }
+                        if (sortby == "ownedBy") {
+                            limit = 20
+                            filterQuery.ownerAddress = ownerAddress
+                            sortQuery.isListed = 1
+                        }
                         if (sortby == "lowToHigh") {
                             limit = 50
                             sortQuery.isListed = -1
@@ -64,7 +69,7 @@ export default async function handler(req, res) {
                     }).populate({
                         path: "NFTCollection",
                         match: optionQuery,
-                        select: { contractAddress: 1, name: 1, isVerified: 1, royalty: 1, royaltyAddress: 1 },
+                        select: { contractAddress: 1, name: 1, isVerified: 1, royalty: 1, royaltyAddress: 1, FloorPrice: 1 },
                     }).sort(sortQuery);
 
                     if (option == "verified") {

@@ -30,6 +30,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ListModal from "../../components/modals/ListModal";
 
+import axios from "axios";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import NftCard from "../../components/cards/NftCard";
@@ -44,7 +45,8 @@ const NFTPage = ({
   venomProvider,
   webURL,
   setAnyModalOpen,
-  connectWallet
+  connectWallet,
+  apiFetchURL
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -54,6 +56,7 @@ const NFTPage = ({
   const [loading, set_loading] = useState(false);
   const [isHovering, SetIsHovering] = useState(false);
 
+  const [bidModal, setBidModal] = useState(false);
   const [listSale, setListSale] = useState(false);
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
@@ -77,6 +80,7 @@ const NFTPage = ({
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
   const [platformFees, setPlatformFees] = useState(0);
   const [skip, setSkip] = useState(0);
+  const [vnmBalance, setVnmBalance] = useState("");
 
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
@@ -268,7 +272,8 @@ const NFTPage = ({
         selectedNFT ? selectedNFT : nft,
         onchainNFTData,
         finalListingPrice,
-        newFloorPrice
+        newFloorPrice,
+        nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice
       );
       if (listing == true) {
         set_loading(false);
@@ -314,7 +319,8 @@ const NFTPage = ({
         royaltyFinalAmount,
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
-          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice
       );
 
       if (buying == true) {
@@ -347,7 +353,8 @@ const NFTPage = ({
         selectedNFT ? selectedNFT?.NFTAddress : slug,
         nft?.NFTCollection?.contractAddress,
         venomProvider,
-        signer_address
+        signer_address,
+        nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice
       );
       if (cancelling == true) {
         set_loading(false);
@@ -402,6 +409,24 @@ const NFTPage = ({
   };
 
   useEffect(() => {
+    if (!signer_address) return;
+    axios
+      .post(apiFetchURL, {
+        id: signer_address,
+      })
+      .then((response) => {
+        const balance = parseFloat(
+          response?.data?.balance / 1000000000
+        ).toFixed(2);
+        if (response.data) {
+          setVnmBalance(balance);
+        } else {
+          setVnmBalance("0.00");
+        }
+      });
+  }, [signer_address]);
+
+  useEffect(() => {
     nft_info();
   }, [slug]);
 
@@ -435,6 +460,10 @@ const NFTPage = ({
       {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {successModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+
+      {bidModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
@@ -835,6 +864,69 @@ const NFTPage = ({
                       </div>
                     )}
 
+                  {/* auction section  */}
+                  {nft?.isAuction == true &&
+                    (onchainNFTData
+                      ? nft?.owner?._address
+                      : nft?.ownerAddress) !== signer_address && (
+                      <div className="rounded-2lg border border-jacarta-100 bg-white p-8 dark:border-jacarta-600 dark:bg-jacarta-700">
+                        <div className="mb-8 sm:flex sm:flex-wrap">
+                          <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
+                            <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
+                              <span className="text-sm text-jacarta-400 dark:text-jacarta-300">Highest bid by </span>
+                              <a href="user.html"
+                                className="text-sm font-bold text-accent">0x695d2ef170ce69e794707eeef9497af2de25df82</a>
+                            </div>
+                            <div className="mt-3 flex">
+                              <div>
+                                <div className="flex items-center whitespace-nowrap">
+                                  <span className="dark:text-jacarta-200 mr-2">
+                                    <Image
+                                      src={venomLogo}
+                                      height={100}
+                                      width={100}
+                                      alt="venomLogo"
+                                      className="h-5 w-5"
+                                    />
+                                  </span>
+                                  <span className="text-lg font-medium leading-tight tracking-tight text-green">4.7</span>
+                                </div>
+                                {/* <span className="text-sm text-jacarta-400 dark:text-jacarta-300">~10,864.10</span> */}
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            className="mt-4 dark:border-jacarta-600 sm:mt-0 sm:w-1/2 sm:border-l sm:border-jacarta-100 sm:pl-4 lg:pl-8">
+                            <span className="js-countdown-ends-label text-sm text-jacarta-400 dark:text-jacarta-300">Auction ends
+                              in</span>
+                            <div className="js-countdown-single-timer mt-3 flex space-x-4" data-countdown="2023-09-07T19:40:30"
+                              data-expired="This auction has ended">
+                              <span className="countdown-days text-jacarta-700 dark:text-white">
+                                <span className="js-countdown-days-number text-lg font-medium lg:text-[1.5rem]"></span>
+                                <span className="block text-xs font-medium tracking-tight">Days</span>
+                              </span>
+                              <span className="countdown-hours text-jacarta-700 dark:text-white">
+                                <span className="js-countdown-hours-number text-lg font-medium lg:text-[1.5rem]"></span>
+                                <span className="block text-xs font-medium tracking-tight">Hrs</span>
+                              </span>
+                              <span className="countdown-minutes text-jacarta-700 dark:text-white">
+                                <span className="js-countdown-minutes-number text-lg font-medium lg:text-[1.5rem]"></span>
+                                <span className="block text-xs font-medium tracking-tight">Min</span>
+                              </span>
+                              <span className="countdown-seconds text-jacarta-700 dark:text-white">
+                                <span className="js-countdown-seconds-number text-lg font-medium lg:text-[1.5rem]"></span>
+                                <span className="block text-xs font-medium tracking-tight">Sec</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button onClick={() => (setAnyModalOpen(true), setBidModal(true))}
+                          className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Place
+                          Bid</button>
+                      </div>
+                    )}
+
                   {/* <!-- cancel nft sale --> */}
                   {(onchainNFTData
                     ? nft?.owner?._address
@@ -1062,7 +1154,7 @@ const NFTPage = ({
                                   </span>
                                   {nft?.NFTCollection?.isPropsEnabled &&
                                     <span className="text-[14px] text-jacarta-500 dark:text-jacarta-200">
-                                      ({e.probability}% probability)
+                                      {(parseFloat(e?.probability))?.toFixed(0)}% have this trait
                                     </span>
                                   }
                                 </a>
@@ -1238,6 +1330,23 @@ const NFTPage = ({
                         {/* filter  */}
                         <div className="border border-b-0 border-jacarta-100 bg-light-base px-4 pt-5 pb-2.5 dark:border-jacarta-600 dark:bg-jacarta-700">
                           <div className="flex flex-wrap">
+                            <button
+                              onClick={() => (
+                                setSkip(0), setActivityType("")
+                              )}
+                              className={`${activityType == ""
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                }`}
+                            >
+                              <span
+                                className={`text-2xs font-medium  ${activityType == "" && "text-white"
+                                  }`}
+                              >
+                                All
+                              </span>
+                            </button>
+
                             <button
                               onClick={() => (
                                 setSkip(0), setActivityType("list")
@@ -1486,6 +1595,90 @@ const NFTPage = ({
               </div>
             }
           </div>
+
+          {/* <!-- Place Bid Modal --> */}
+          {bidModal &&
+            <div className="afterMintDiv">
+              <form className="modal-dialog max-w-2xl">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="placeBidLabel">Place a bid</h5>
+                    <button type="button" onClick={() => (setAnyModalOpen(false), setBidModal(false))} className="btn-close">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                        className="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                          d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="modal-body p-6">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
+                    </div>
+
+                    <div
+                      className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                      <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                        <span className="dark:text-jacarta-200 mr-1 mb-[2px]">
+                          <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            alt="venomLogo"
+                            className="h-4 w-4"
+                          />
+                        </span>
+                        <span className="font-display text-sm text-jacarta-700">{currency}</span>
+                      </div>
+
+                      <input type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                        placeholder="Amount" required />
+
+                      {/* <div className="flex flex-1 justify-end self-stretch border-l border-jacarta-100 bg-jacarta-50">
+                        <span className="self-center px-2 text-sm">$130.82</span>
+                      </div> */}
+                    </div>
+
+                    <div className="text-right">
+                      <span className="text-sm dark:text-jacarta-400">Balance: {vnmBalance} {currency}</span>
+                    </div>
+
+                    <div className="mt-4 flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="buyNowTerms"
+                        className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                        required
+                      />
+                      <label
+                        htmlFor="buyNowTerms"
+                        className="dark:text-jacarta-200 text-sm"
+                      >
+                        By checking this box, I agree to{" "}
+                        <Link
+                          className="text-accent"
+                          target="_blank"
+                          href="/legal/Terms&Conditions"
+                        >
+                          Terms of Service
+                        </Link>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="modal-footer">
+                    <div className="flex items-center justify-center space-x-4">
+                      <button type="submit"
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        Place Bid
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          }
 
           {/* listing modal  */}
           {listSale && (

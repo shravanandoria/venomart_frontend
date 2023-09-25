@@ -6,6 +6,7 @@ const ActivitySchema = new mongoose.Schema(
     from: String,
     to: String,
     price: String,
+    stampedFloor: Number,
     item: {
       type: Schema.Types.ObjectId,
       ref: "NFT",

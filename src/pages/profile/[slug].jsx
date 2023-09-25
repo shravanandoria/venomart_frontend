@@ -236,7 +236,8 @@ const Profile = ({
         royaltyFinalAmount,
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
-          : "0:0000000000000000000000000000000000000000000000000000000000000000"
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        selectedNFT?.NFTCollection?.FloorPrice
       );
 
       if (buying == true) {
@@ -266,7 +267,8 @@ const Profile = ({
         selectedNFT?.NFTAddress,
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
-        signer_address
+        signer_address,
+        selectedNFT?.NFTCollection?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);

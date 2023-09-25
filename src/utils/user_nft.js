@@ -410,7 +410,8 @@ export const list_nft = async (
   nft,
   onchainNFTData,
   finalListingPrice,
-  newFloorPrice
+  newFloorPrice,
+  stampedFloor
 ) => {
   try {
     if (!onchainNFTData) {
@@ -480,6 +481,7 @@ export const list_nft = async (
         nft_address: nft_address,
         collection_address: collection_address,
         newFloorPrice: parseFloat(newFloorPrice),
+        stampedFloor: parseFloat(stampedFloor),
       };
       const updateNFTData = await updateNFTListing(obj);
     }
@@ -498,7 +500,8 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address
+  signer_address,
+  stampedFloor
 ) => {
   try {
     // checking nft owners across database and onchain 
@@ -545,6 +548,7 @@ export const cancel_listing = async (
         wallet_id: signer_address,
         nft_address: nft_address,
         collection_address: collection_address,
+        stampedFloor: parseFloat(stampedFloor),
       };
       let updateNFTData = await cancelNFTListing(obj);
     }
@@ -567,8 +571,23 @@ export const buy_nft = async (
   price,
   signer_address,
   royalty,
-  royalty_address
+  royalty_address,
+  stampedFloor
 ) => {
+  console.log({
+    provider,
+    standalone,
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    salePrice,
+    price,
+    signer_address,
+    royalty,
+    royalty_address,
+    stampedFloor
+  })
   try {
     // checking nft owners across database and onchain 
     const nft_onchain = await get_nft_by_address(standalone, nft_address);
@@ -623,6 +642,7 @@ export const buy_nft = async (
         nft_address: nft_address,
         collection_address: collection_address,
         newFloorPrice: 0,
+        stampedFloor: parseFloat(stampedFloor),
       };
       const updateNFTData = await updateNFTsale(obj);
     }

@@ -572,9 +572,9 @@ const launchpad = ({
                                                     </p>
                                                 )}
                                             </div>
-                                            <div class="w-[100%] bg-neutral-200 dark:bg-neutral-600 rounded-lg">
+                                            <div className="w-[100%] bg-neutral-200 dark:bg-neutral-600 rounded-lg">
                                                 <div
-                                                    class={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
+                                                    className={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
                                                     {mintedPercent}%
                                                 </div>
                                             </div>

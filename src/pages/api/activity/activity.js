@@ -78,6 +78,7 @@ export default async function handler(req, res) {
             nft_address,
             collection_address,
             newFloorPrice,
+            stampedFloor
           } = req.body;
 
           // Find or create the user
@@ -120,12 +121,18 @@ export default async function handler(req, res) {
               .json({ success: false, data: "Cannot Find This NFT" });
           }
 
+          let stampedFloorUpdated = 0;
+          if (newFloorPrice !== "" && newFloorPrice !== undefined) {
+            stampedFloorUpdated = stampedFloor;
+          }
+
           // creating activity here 
           let activity = await Activity.create({
             hash,
             from,
             to,
             price,
+            stampedFloor: stampedFloorUpdated,
             item: nft,
             type,
             owner: user,

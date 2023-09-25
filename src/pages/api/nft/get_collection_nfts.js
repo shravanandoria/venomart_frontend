@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { collection_address, sortby, propsFilter, minprice, maxprice, skip } = req.query;
+                    const { collection_address, owner_address, sortby, propsFilter, minprice, maxprice, skip } = req.query;
                     const decodedPropsFilter = JSON.parse(decodeURIComponent(propsFilter));
 
                     const collection = await Collection.findOne({
@@ -57,6 +57,7 @@ export default async function handler(req, res) {
                                     "collectionData.contractAddress": 1,
                                     "collectionData.royalty": 1,
                                     "collectionData.royaltyAddress": 1,
+                                    "collectionData.FloorPrice": 1,
                                     nft_image: 1,
                                     NFTAddress: 1,
                                     ownerAddress: 1,
@@ -98,9 +99,11 @@ export default async function handler(req, res) {
                     if (minprice != 0 && maxprice != 0) {
                         const nfts = await NFT.find({ NFTCollection: collection, demandPrice: { $gte: minprice, $lte: maxprice } })
                             .select([
-                                "-NFTCollection",
                                 "-attributes",
-                            ]).skip(skip)
+                            ]).populate({
+                                path: "NFTCollection",
+                                select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                            }).skip(skip)
                             .limit(20).sort({ demandPrice: 1 });
                         return res.status(200).json({ success: true, data: nfts });
                     }
@@ -112,7 +115,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ updatedAt: -1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -123,9 +126,20 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ updatedAt: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "ownedBy") {
+                            const nfts = await NFT.find({ NFTCollection: collection, ownerAddress: owner_address })
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                         if (sortby == "lowToHigh") {
@@ -134,7 +148,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: 1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -145,7 +159,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: -1 });
                             return res.status(200).json({ success: true, data: nfts });

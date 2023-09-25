@@ -546,6 +546,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         theme={theme}
         standalone={standalone}
+        apiFetchURL={apiFetchURL}
         venomProvider={venomProvider}
         signer_address={signer_address}
         defaultCollectionAddress={defaultCollectionAddress}
