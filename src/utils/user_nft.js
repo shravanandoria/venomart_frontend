@@ -37,6 +37,7 @@ export class MyEver {
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
 export const collection_minting_fees = 3000000000;
 export const listing_fees = 100000000;
+export const refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 

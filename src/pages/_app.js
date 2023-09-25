@@ -395,7 +395,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Venompumpy is a memecoin built with classic NFT on Venom Network to reward users with up to 5% daily staking rewards",
       mintPrice: "1",
-      status: "Upcoming",
+      status: "Ended",
       CollectionAddress: "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
       customLink: "launch/venompumpy",
       pageName: "venompumpy",

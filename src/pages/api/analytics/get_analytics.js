@@ -120,6 +120,7 @@ export default async function handler(req, res) {
                                 }
                             },
                             floorPrice: { $min: "$priceAsDouble" },
+                            // floorPrice: { $min: "$stampedFloor" },
                             TotalSupply: { $sum: "$totalSupply" },
                             Time: { $max: "$timestamp" }
                         }

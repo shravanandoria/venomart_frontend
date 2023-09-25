@@ -114,11 +114,11 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                             <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
                                 You are listing Item
                             </span>
-                            <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                            <span className="feesSectionTarget font-display text-jacarta-700 text-sm font-semibold dark:text-white">
                                 Subtotal
                             </span>
                         </div>
-                        <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
+                        <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-b py-4">
                             <div className="mr-5 self-start">
                                 <Image
                                     src={
@@ -219,7 +219,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                 </h3>
 
                                 {/* fees title  */}
-                                <div className="feesSectionTarget">
+                                <div className="">
                                     <div className="flex flex-wrap items-center mt-2">
                                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
                                             Creator Royalty:{" "}
@@ -246,33 +246,6 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                     <div className="flex flex-wrap items-center mt-1">
                                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
                                             Platform Fees: {platform_fees}%
-                                        </span>
-                                        <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                                height="24"
-                                                className="dark:fill-jacarta-300 fill-jacarta-700 h-4 w-4"
-                                            >
-                                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-wrap items-center mt-1">
-                                        <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 text-sm flex">
-                                            Listing Fees:
-                                            <span className="flex align-middle justify-center">
-                                                <Image
-                                                    src={venomLogo}
-                                                    height={100}
-                                                    width={100}
-                                                    alt="venomLogo"
-                                                    className="h-3 w-3 mr-1 ml-1 mt-1"
-                                                />
-                                                {listing_fees / 1000000000}
-                                            </span>
                                         </span>
                                         <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
                                             <svg
@@ -333,7 +306,8 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                 <span className="mb-1 flex items-center whitespace-nowrap"></span>
                             </div>
                         </div>
-                        <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
+
+                        <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between py-2.5">
                             <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
                                 Total listing price
                             </span>
@@ -353,6 +327,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                 </span>
                             </div>
                         </div>
+
                         <div className="mt-4 flex items-center space-x-2">
                             <input
                                 type="checkbox"

@@ -358,7 +358,7 @@ const Profile = ({
       )}
 
       <Head>
-        <title>User Profile - Venomart Marketplace</title>
+        <title>{`${user_data?.user_name ? user_data?.user_name : "User Profile"}`} - Venomart Marketplace</title>
         <meta
           name="description"
           content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
