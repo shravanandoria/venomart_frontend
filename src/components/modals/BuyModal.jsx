@@ -122,6 +122,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>
@@ -135,6 +136,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>
@@ -157,6 +159,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>

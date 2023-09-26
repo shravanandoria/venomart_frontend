@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { BsFillCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 
 const NftCard = ({
@@ -22,9 +23,22 @@ const NftCard = ({
   setCancelModal,
   NFTData,
   setSelectedNFT,
+  cartNFTs,
+  setCartNFTs,
   Description
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
+
+  const addToCart = () => {
+    if (!cartNFTs.some((item) => item._id === NFTData._id)) {
+      setCartNFTs([...cartNFTs, NFTData]);
+    }
+  };
+
+  const removeFromCart = (itemToRemove) => {
+    const updatedCartNFTs = cartNFTs.filter((item) => item._id !== itemToRemove._id);
+    setCartNFTs(updatedCartNFTs);
+  };
 
   return (
     <Link href={`/nft/${Address}`} className="cardHoverNFT hover:bg-gray-50 relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px]">
@@ -36,6 +50,14 @@ const NftCard = ({
           alt="nftItem"
           className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
         />
+
+        {(listedBool && signerAddress != Owner) &&
+          (cartNFTs.some((item) => item._id === NFTData._id) ?
+            <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
+            :
+            <AiFillPlusCircle className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[30px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
+        }
+
         {(NFTCollectionStatus == true) && isHovering &&
           <p className="absolute bottom-[-3px] right-0 bg-blue px-[6px] py-[2px] text-white text-[12px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
         }
@@ -125,7 +147,7 @@ const NftCard = ({
                 Cancel
               </button>
               :
-              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setBuyModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4  bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
+              <button onClick={(e) => (e.preventDefault(), setSelectedNFT(NFTData), setAnyModalOpen(true), setBuyModal(true))} className="cardHoverNFTButton absolute right-3 bottom-4 bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
                 Buy
               </button>
             ))

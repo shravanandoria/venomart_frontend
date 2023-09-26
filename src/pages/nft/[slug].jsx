@@ -46,7 +46,9 @@ const NFTPage = ({
   webURL,
   setAnyModalOpen,
   connectWallet,
-  apiFetchURL
+  apiFetchURL,
+  cartNFTs,
+  setCartNFTs
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -1579,6 +1581,8 @@ const NFTPage = ({
                             setCancelModal={setCancelModal}
                             NFTData={e}
                             setSelectedNFT={setSelectedNFT}
+                            cartNFTs={cartNFTs}
+                            setCartNFTs={setCartNFTs}
                           />
                         </SwiperSlide>
                       );

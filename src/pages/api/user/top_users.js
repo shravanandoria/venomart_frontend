@@ -25,7 +25,7 @@ export default async function handler(req, res) {
                 if (duration) {
                     const currentTime = new Date();
 
-                    if (duration === "1days") {
+                    if (duration === "1day") {
                         currentTime.setDate(currentTime.getDate() - 1);
                     } else if (duration === "7days") {
                         currentTime.setDate(currentTime.getDate() - 7);

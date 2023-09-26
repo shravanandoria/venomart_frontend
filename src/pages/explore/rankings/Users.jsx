@@ -192,6 +192,11 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                                                 onClick={(e) => (e.stopPropagation(), openFilterSort(!filterSort))}
                                             >
+                                                {duration == "1day" &&
+                                                    <span className="text-jacarta-700 dark:text-white">
+                                                        Last 24 Hours
+                                                    </span>
+                                                }
                                                 {duration == "7days" &&
                                                     <span className="text-jacarta-700 dark:text-white">
                                                         Last 7 Days
@@ -220,6 +225,21 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                     <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                                         Sort By
                                                     </span>
+                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("1day"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                        Last 24 Hours
+                                                        {duration == "1day" &&
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 24 24"
+                                                                width="24"
+                                                                height="24"
+                                                                className="mb-[3px] h-4 w-4 fill-accent"
+                                                            >
+                                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                                <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                            </svg>
+                                                        }
+                                                    </button>
                                                     <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("7days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 7 Days
                                                         {duration == "7days" &&

@@ -123,6 +123,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>
@@ -136,6 +137,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>
@@ -158,6 +160,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                             src={venomLogo}
                                             height={100}
                                             width={100}
+                                            alt="logo"
                                             className="h-4 w-4 mr-2"
                                         />
                                     </span>

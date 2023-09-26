@@ -54,6 +54,7 @@ export default function App({ Component, pageProps }) {
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
+  const [cartNFTs, setCartNFTs] = useState([]);
   const [topCollections, setTopCollections] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
@@ -567,8 +568,13 @@ export default function App({ Component, pageProps }) {
         setTopUsers={setTopUsers}
         anyModalOpen={anyModalOpen}
         setAnyModalOpen={setAnyModalOpen}
+        cartNFTs={cartNFTs}
+        setCartNFTs={setCartNFTs}
       />
       <Footer
+        cartNFTs={cartNFTs}
+        setCartNFTs={setCartNFTs}
+        setAnyModalOpen={setAnyModalOpen}
         theme={theme}
         signer_address={signer_address}
         onDisconnect={onDisconnect}

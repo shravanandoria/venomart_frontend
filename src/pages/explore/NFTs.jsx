@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpen }) => {
+const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -849,6 +849,8 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                             setCancelModal={setCancelModal}
                             NFTData={e}
                             setSelectedNFT={setSelectedNFT}
+                            cartNFTs={cartNFTs}
+                            setCartNFTs={setCartNFTs}
                           />
                         );
                       })}

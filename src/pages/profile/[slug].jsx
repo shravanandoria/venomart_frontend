@@ -30,7 +30,9 @@ const Profile = ({
   webURL,
   copyURL,
   setAnyModalOpen,
-  venomProvider
+  venomProvider,
+  cartNFTs,
+  setCartNFTs
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -1065,6 +1067,8 @@ const Profile = ({
                             setBuyModal={setBuyModal}
                             NFTData={e}
                             setSelectedNFT={setSelectedNFT}
+                            cartNFTs={cartNFTs}
+                            setCartNFTs={setCartNFTs}
                           />
                         );
                       })}
@@ -1122,6 +1126,8 @@ const Profile = ({
                           Description={e?.description}
                           NFTCollectionName={e?.collection_name}
                           NFTCollectionAddress={e?.collection?._address}
+                          cartNFTs={cartNFTs}
+                          setCartNFTs={setCartNFTs}
                         />
                       );
                     })}

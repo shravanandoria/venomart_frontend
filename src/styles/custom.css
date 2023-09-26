@@ -18,6 +18,9 @@
 .collectionFilterDivWebkit::-webkit-scrollbar {
   width: 4px;
 }
+.customCheckoutBar::-webkit-scrollbar {
+  width: 4px;
+}
 .scroll-list::-webkit-scrollbar {
   display: none;
 }
@@ -354,6 +357,10 @@
   }
   .activityCardDiv .activityCardLink {
     width: 100%;
+  }
+
+  .cardHoverNFTButton {
+    display: block;
   }
 }
 

@@ -44,7 +44,9 @@ const Collection = ({
   copyURL,
   signer_address,
   venomProvider,
-  setAnyModalOpen
+  setAnyModalOpen,
+  cartNFTs,
+  setCartNFTs
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -1509,6 +1511,8 @@ const Collection = ({
                                 NFTCollectionStatus={
                                   e?.NFTCollection?.isVerified
                                 }
+                                cartNFTs={cartNFTs}
+                                setCartNFTs={setCartNFTs}
                               />
                             );
                           })}
@@ -1569,6 +1573,8 @@ const Collection = ({
                                       setCancelModal={setCancelModal}
                                       NFTData={e}
                                       setSelectedNFT={setSelectedNFT}
+                                      cartNFTs={cartNFTs}
+                                      setCartNFTs={setCartNFTs}
                                     />
                                   );
                                 })}
