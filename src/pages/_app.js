@@ -302,7 +302,7 @@ export default function App({ Component, pageProps }) {
       Description: "Your Device is Your Hardware-Wallet: Simple, Secure, and Streamlined.",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:2d040891868ccfa796a97d98a30fab79a78319c95df483378770221e49ea4c0e",
       customLink: "custom/biovenomsdk",
       pageName: "biovenomsdk",
       supply: "2000",
