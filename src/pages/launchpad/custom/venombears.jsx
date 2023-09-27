@@ -390,7 +390,7 @@ const venombears = ({
                     <img
                       src={CoverIMG}
                       alt="coverIMG"
-                      style={{ borderRadius: "25px" }}
+                      style={{ borderRadius: "25px", width: "100%" }}
                     />
                   </div>
                 </div>

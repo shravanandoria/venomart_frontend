@@ -337,6 +337,7 @@ export const has_minted = async (
   collection_address,
   signer_address
 ) => {
+  if (!collection_address) return;
   let myEver = new MyEver();
   const providerRpcClient = myEver.ever();
   const contract = new providerRpcClient.Contract(

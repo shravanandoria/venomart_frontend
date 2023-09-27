@@ -292,6 +292,30 @@ export default function App({ Component, pageProps }) {
       startDate: "09/13/2023 17:00:00 GMT+0530",
       endDate: "09/17/2023 17:00:00 GMT+0530",
       verified: true,
+    },
+    {
+      id: 9,
+      Cover:
+        "https://ipfs.io/ipfs/QmWdvKBGjY1Jm9ZtQE3gUuo8u5szszeN7v37tGqrFHx4hC/biovenomsdklatest.jpg",
+      Logo: "https://ipfs.io/ipfs/QmcfxTCCkmG9WZeK7nZRoVdZ9zkwdUtU9dABsQPpgPggkm/nft.gif",
+      Name: "Venomart x Biovenomsdk",
+      Description: "Your Device is Your Hardware-Wallet: Simple, Secure, and Streamlined.",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "custom/biovenomsdk",
+      pageName: "biovenomsdk",
+      supply: "2000",
+      twitterUserName: "bioVenomSDK",
+      twitter: "https://twitter.com/bioVenomSDK",
+      tweetID: "1687875245225701376",
+      discord: "https://discord.gg/c8skmcTJYP",
+      instagram: "",
+      telegram: "",
+      website: "https://biovenomsdk.com/",
+      startDate: "09/27/2023 16:00:00 GMT+0530",
+      endDate: "10/1/2023 16:00:00 GMT+0530",
+      verified: true,
     }
   ];
 

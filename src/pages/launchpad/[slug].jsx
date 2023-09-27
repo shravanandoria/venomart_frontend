@@ -360,7 +360,7 @@ const launchpad = ({
                                         <img
                                             src={launchSlug?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                             alt="coverIMG"
-                                            style={{ borderRadius: "25px" }}
+                                            style={{ borderRadius: "25px", width: "100%" }}
                                         />
                                     </div>
                                 </div>
