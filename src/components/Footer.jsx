@@ -103,7 +103,7 @@ const Footer = ({
                   </span>
                 </div>
 
-                <div className="customCheckoutBar max-h-[350px] overflow-y-auto px-2">
+                <div className="customCheckoutBar max-h-[275px] overflow-y-auto px-2">
                   {cartNFTs.map((nft, index) => {
                     return (
                       <div key={index} className="dark:border-jacarta-600 relative flex items-center py-2">
