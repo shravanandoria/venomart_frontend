@@ -12,7 +12,8 @@
 				{"name":"owner","type":"address"},
 				{"name":"remainOnNft","type":"uint128"},
 				{"name":"mintingFee","type":"uint128"},
-				{"name":"json","type":"string"}
+				{"name":"json","type":"string"},
+				{"name":"max_supply_","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -299,6 +300,7 @@
 		{"name":"_remainOnNft","type":"uint128"},
 		{"name":"_totalMinted","type":"uint256"},
 		{"name":"_mintingFee","type":"uint128"},
+		{"name":"max_supply","type":"uint128"},
 		{"name":"minting_paused","type":"bool"},
 		{"name":"_minted","type":"map(address,bool)"}
 	]

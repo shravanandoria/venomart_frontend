@@ -15,7 +15,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -333,10 +333,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (
-  collection_address,
-  signer_address
-) => {
+export const has_minted = async (collection_address, signer_address) => {
   if (!collection_address) return;
   let myEver = new MyEver();
   const providerRpcClient = myEver.ever();
@@ -417,12 +414,15 @@ export const list_nft = async (
 ) => {
   try {
     if (!onchainNFTData) {
-      // checking nft owners across database and onchain 
+      // checking nft owners across database and onchain
       const nft_onchain = await get_nft_by_address(standalone, nft_address);
       let OnChainOwner = nft_onchain?.owner?._address;
       let OnChainManager = nft_onchain?.manager?._address;
 
-      if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+      if (
+        OnChainOwner != prev_nft_Owner ||
+        OnChainManager != prev_nft_Manager
+      ) {
         const updateNFTData = await update_verified_nft_data(
           OnChainOwner,
           OnChainManager,
@@ -488,7 +488,6 @@ export const list_nft = async (
       const updateNFTData = await updateNFTListing(obj);
     }
     return true;
-
   } catch (error) {
     console.log(error);
     return false;
@@ -506,7 +505,7 @@ export const cancel_listing = async (
   stampedFloor
 ) => {
   try {
-    // checking nft owners across database and onchain 
+    // checking nft owners across database and onchain
     const nft_onchain = await get_nft_by_address(standalone, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
@@ -555,7 +554,6 @@ export const cancel_listing = async (
       let updateNFTData = await cancelNFTListing(obj);
     }
     return true;
-
   } catch (error) {
     console.log(error);
     return false;
@@ -577,7 +575,7 @@ export const buy_nft = async (
   stampedFloor
 ) => {
   try {
-    // checking nft owners across database and onchain 
+    // checking nft owners across database and onchain
     const nft_onchain = await get_nft_by_address(standalone, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
@@ -599,7 +597,7 @@ export const buy_nft = async (
 
     const fees = (parseInt(price) + 1000000000).toString();
 
-    // sending transaction 
+    // sending transaction
     const output = await marketplace_contract.methods
       .buyNft({
         sendRemainingGasTo: new Address(signer_address),
@@ -613,7 +611,7 @@ export const buy_nft = async (
       });
 
     if (output) {
-      // inserting activity and updating nft data 
+      // inserting activity and updating nft data
       let obj = {
         NFTAddress: nft_address,
         isListed: false,
@@ -635,7 +633,6 @@ export const buy_nft = async (
       const updateNFTData = await updateNFTsale(obj);
     }
     return true;
-
   } catch (error) {
     console.log(error);
     return false;
