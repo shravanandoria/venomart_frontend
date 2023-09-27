@@ -313,7 +313,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                     </div>
                   }
                   {mobileFilter && isBreakpoint &&
-                    <button onClick={() => openMobileFilter(false)} className="absolute top-[-10px] right-4 z-20">
+                    <button onClick={() => openMobileFilter(false)} className="absolute top-3 right-2 z-20">
                       <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                     </button>
                   }
@@ -345,7 +345,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                                   style={{ paddingLeft: "27px", paddingRight: "30px" }}
                                   placeholder="search"
                                 />
-                                <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                <span className="searchCollectionSvg absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"

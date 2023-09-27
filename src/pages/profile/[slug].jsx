@@ -939,7 +939,6 @@ const Profile = ({
 
                         {/* search  */}
                         <div className="collectionSearch">
-                          {/* all nft and listed filter  */}
                           <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
                             <div
                               onClick={(e) => (
@@ -1076,7 +1075,7 @@ const Profile = ({
                   </div>
                   <div className="flex justify-center">
                     {onSaleNFTs.length <= 0 && !moreLoading && (
-                      <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
+                      <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
                         No NFTs listed!
                       </h2>
                     )}

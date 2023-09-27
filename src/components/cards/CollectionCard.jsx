@@ -38,7 +38,7 @@ const CollectionCard = ({
             <Image
               src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Logo"
-              className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
+              className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg bg-gray-800"
 
               height={100}
               width={100}

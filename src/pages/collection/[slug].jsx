@@ -646,7 +646,7 @@ const Collection = ({
                     width={100}
                     height={100}
                     alt="collection avatar"
-                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto] bg-gray-800"
                   />
                 ) : (
                   <Image
