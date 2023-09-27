@@ -308,7 +308,7 @@ export default function App({ Component, pageProps }) {
       supply: "2000",
       twitterUserName: "bioVenomSDK",
       twitter: "https://twitter.com/bioVenomSDK",
-      tweetID: "1687875245225701376",
+      tweetID: "1706984941144121475",
       discord: "https://discord.gg/c8skmcTJYP",
       instagram: "",
       telegram: "",
