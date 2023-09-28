@@ -679,27 +679,27 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                           onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openPriceRangeFilter(false), openFilterCategories(false), openFilterSort(!filterSort))}
                         >
                           {sortby == "recentlyListed" &&
-                            <span className="font-display text-jacarta-700 dark:text-white">
+                            <span className=" text-jacarta-700 dark:text-white">
                               Recently Listed
                             </span>
                           }
                           {sortby == "recentlySold" &&
-                            <span className="font-display text-jacarta-700 dark:text-white">
+                            <span className=" text-jacarta-700 dark:text-white">
                               Recently Sold
                             </span>
                           }
                           {sortby == "ownedBy" &&
-                            <span className="font-display text-jacarta-700 dark:text-white">
+                            <span className="text-jacarta-700 dark:text-white">
                               Owned By You
                             </span>
                           }
                           {sortby == "lowToHigh" &&
-                            <span className="font-display text-jacarta-700 dark:text-white">
+                            <span className="text-jacarta-700 dark:text-white">
                               Price: Low To High
                             </span>
                           }
                           {sortby == "highToLow" &&
-                            <span className="font-display text-jacarta-700 dark:text-white">
+                            <span className="text-jacarta-700 dark:text-white">
                               Price: High To Low
                             </span>
                           }

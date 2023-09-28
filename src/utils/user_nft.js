@@ -15,7 +15,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -384,6 +384,57 @@ export const create_launchpad_nft = async (
       external_url: "https://venomart.io",
       nft_image: ipfs_image,
       collection_name: data.collectionName,
+    });
+
+    const outputs = await contract.methods.mint({ _json: nft_json }).send({
+      from: new Address(signer_address),
+      amount: (data.mintPrice * 1000000000).toString(),
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const create_launchpad_nft_latest = async (
+  jsonURL,
+  collection_address,
+  signer_address,
+  venomProvider
+) => {
+  try {
+    let nftData;
+    const response = await fetch(jsonURL);
+    if (response.ok) {
+      nftData = await response.json();
+    }
+
+    const contract = new venomProvider.Contract(
+      collectionAbi,
+      collection_address
+    );
+
+    const { count: id } = await contract.methods
+      .totalSupply({ answerId: 0 })
+      .call();
+
+    const nft_json = JSON.stringify({
+      type: "NFT",
+      name: `${nftData.name}`,
+      description: nftData.description,
+      preview: {
+        source: nftData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        mimetype: "image/gif",
+      },
+      files: [
+        {
+          source: jsonURL,
+          mimetype: "metadata/json",
+        },
+      ],
+      attributes: data.attributes,
+      external_url: "https://venomart.io/"
     });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({

@@ -322,22 +322,22 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                         onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openFilterSort(!filterSort))}
                                     >
                                         {activityType == "" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 All Activity
                                             </span>
                                         }
                                         {activityType == "list" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 Listing
                                             </span>
                                         }
                                         {activityType == "cancel" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 Remove Listing
                                             </span>
                                         }
                                         {activityType == "sale" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className="text-jacarta-700 dark:text-white">
                                                 Sale
                                             </span>
                                         }

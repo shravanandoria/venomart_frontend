@@ -702,7 +702,7 @@ const Collection = ({
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection?.name
                     ? collection?.name
-                    : "Unverified Collection"}
+                    : "Unknown Collection"}
                 </h2>
 
                 {/* socials  */}
@@ -1586,14 +1586,14 @@ const Collection = ({
                     </div>
                     <div className="flex justify-center">
                       {nfts?.length <= 0 && def_query == undefined && (
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                        <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200 py-20">
                           No NFTs Found!!
                         </h2>
                       )}
                       {nfts?.length <= 0 &&
                         def_query == "" &&
                         !searchLoading && (
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300 py-12">
+                          <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200 py-12">
                             No search results found!!
                           </h2>
                         )}
@@ -2160,7 +2160,7 @@ const Collection = ({
                     )};
                     <div className="flex items-center justify-center space-x-2">
                       {(activity?.length <= 0) && (
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                        <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                           No activity found!
                         </h2>
                       )}
@@ -2169,7 +2169,7 @@ const Collection = ({
                 </div>
                 <div className="flex justify-center">
                   {(activity === undefined) && (
-                    <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                    <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                       No activities yet!
                     </h2>
                   )}

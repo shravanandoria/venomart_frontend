@@ -331,7 +331,7 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
               <div className="flex justify-center align-middle flex-wrap">
                 {topCollections?.map((e, index) => {
                   return (
-                    index < 8 && (
+                    index < 9 && (
                       <SmallCollectionCard
                         key={index}
                         id={index + 1}

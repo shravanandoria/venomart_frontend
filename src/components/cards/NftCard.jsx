@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BsFillCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
+import { BsFillCartPlusFill, BsFillCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -56,6 +56,7 @@ const NftCard = ({
             <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
             :
             <AiFillPlusCircle className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[30px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
+          // <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
         }
 
         {(NFTCollectionStatus == true) && isHovering &&

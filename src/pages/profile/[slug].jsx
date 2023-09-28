@@ -44,12 +44,13 @@ const Profile = ({
 
   const [share, setShare] = useState(false);
   const [loading, set_loading] = useState(false);
-  const [onSale, setOnSale] = useState(false);
-  const [owned, setOwned] = useState(true);
+  const [onSale, setOnSale] = useState(true);
+  const [owned, setOwned] = useState(false);
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
+  const [fetchedOwnedNFTs, setFetchedOwnedNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [userPurchases, setUserPurchases] = useState(true);
   const [mobileFilter, openMobileFilter] = useState(true);
@@ -120,7 +121,7 @@ const Profile = ({
     set_loading(true);
     if (!slug) return;
     const data = await check_user(slug);
-    const nftFetch = await fetch_user_nfts();
+    const nftFetch = await getting_user_listed_nfts();
     if (data) {
       set_user_data(data?.data);
       setNFTCollections(data?.data?.nftCollections);
@@ -160,6 +161,7 @@ const Profile = ({
 
   // getting owned nfts
   const fetch_user_nfts = async () => {
+    setMoreLoading(true);
     const res = await loadNFTs_user(standalone, slug, lastNFT);
     let new_nfts = [...nfts];
     res?.nfts?.map((e) => {
@@ -171,6 +173,8 @@ const Profile = ({
     });
     setLastNFT(res?.continuation);
     set_nfts(new_nfts);
+    setFetchedOwnedNFTs(true);
+    setMoreLoading(false);
   };
 
   // handling for sale nfts more fetch
@@ -402,7 +406,7 @@ const Profile = ({
               alt="collection avatar"
               height={100}
               width={100}
-              className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+              className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
             />
           </div>
         </div>
@@ -592,7 +596,7 @@ const Profile = ({
             </button>
           </li>
           {/* owned button  */}
-          <li className="nav-item" role="presentation" onClick={switchToOwned}>
+          <li className="nav-item" role="presentation" onClick={() => (!fetchedOwnedNFTs && fetch_user_nfts(), switchToOwned())}>
             <button
               className={`nav-link ${owned && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -1076,7 +1080,7 @@ const Profile = ({
                   <div className="flex justify-center">
                     {onSaleNFTs.length <= 0 && !moreLoading && (
                       <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
-                        No NFTs listed!
+                        No NFTs found!
                       </h2>
                     )}
                   </div>
@@ -1134,11 +1138,18 @@ const Profile = ({
                 </div>
 
                 <div className="flex justify-center">
-                  {nfts?.length <= 0 && (
+                  {nfts?.length <= 0 && !moreLoading && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs to show!
                     </h2>
                   )}
+                  {nfts?.length <= 0 && moreLoading &&
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  }
                 </div>
               </div>
             </div>

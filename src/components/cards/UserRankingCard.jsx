@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import venomLogo from "../../../public/venomBG.webp";
+import defLogo from "../../../public/deflogo.png";
 
 const UserRankingCard = ({
     id,
@@ -28,12 +29,12 @@ const UserRankingCard = ({
                         src={
                             Logo
                                 ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
-                                : venomLogo
+                                : defLogo
                         }
                         height={100}
                         width={100}
                         alt="collectionlogo"
-                        className="rounded-2lg"
+                        className="rounded-2lg h-[50px] w-[50px] object-cover"
 
                     />
                 </div>

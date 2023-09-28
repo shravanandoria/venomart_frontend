@@ -365,7 +365,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                     />
                             )}
                             {topUsers?.length <= 0 && !searchLoading && (
-                                <h2 className="text-center p-4">No users found!</h2>
+                                <h2 className="text-center p-4 text-jacarta-700 dark:text-jacarta-200">No users found!</h2>
                             )}
                             {searchLoading && (
                                 <div className="flex items-center justify-center space-x-2 mt-12 mb-12">
