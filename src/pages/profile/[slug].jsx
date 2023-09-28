@@ -449,40 +449,46 @@ const Profile = ({
 
             {/* social accounts  */}
             <div className="flex justify-center align-middle mb-10 mt-4">
-              {user_data != "" && (
+              {user_data?.socials && (
                 <>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[0] : "#"
-                    }
-                    target="_blank"
-                    className="group mr-4"
-                  >
-                    <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[1] : "#"
-                    }
-                    target="_blank"
-                    className="group mr-4"
-                  >
-                    <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[2] : "#"
-                    }
-                    target="_blank"
-                    className="group"
-                  >
-                    <TfiWorld className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
+                  {user_data?.socials[0] &&
+                    <a
+                      href={
+                        user_data?.socials[0].startsWith("https://") ? user_data?.socials[0] : `https://twitter.com/${user_data?.socials[0]}`
+                      }
+                      target="_blank"
+                      className="group mr-4"
+                    >
+                      <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
+                  {user_data?.socials[1] &&
+                    <a
+                      href={
+                        user_data?.socials[1]
+                      }
+                      target="_blank"
+                      className="group mr-4"
+                    >
+                      <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
+                  {user_data?.socials[2] &&
+                    <a
+                      href={
+                        user_data?.socials[2]
+                      }
+                      target="_blank"
+                      className="group"
+                    >
+                      <TfiWorld className="mr-4 h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
                 </>
               )}
               <div
                 onClick={() => setShare(!share)}
-                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
+                className="mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
               >
                 <a
                   className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"

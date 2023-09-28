@@ -709,52 +709,36 @@ const Collection = ({
                 <div className="flex justify-center align-middle mb-2 mt-2">
                   {collection?.socials && (
                     <>
-                      {collection?.socials[0] != "" && (
+                      {collection?.socials[0] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[0]
-                              : "#"
-                          }
+                          href={collection?.socials[0]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[1] != "" && (
+                      {collection?.socials[1] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[1]
-                              : "#"
-                          }
+                          href={collection?.socials[1]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[2] != "" && (
+                      {collection?.socials[2] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[2]
-                              : "#"
-                          }
+                          href={collection?.socials[2]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[3] != "" && (
+                      {collection?.socials[3] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[3]
-                              : "#"
-                          }
+                          href={collection?.socials[3]}
                           target="_blank"
                           className="group ml-3"
                         >
