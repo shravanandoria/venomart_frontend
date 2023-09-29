@@ -251,12 +251,7 @@ const NFTPage = ({
     set_loading(true);
 
     let newFloorPrice = 0;
-    if (
-      finalListingPrice <
-      (nft?.NFTCollection?.FloorPrice
-        ? nft?.NFTCollection?.FloorPrice
-        : collectionData?.data?.FloorPrice)
-    ) {
+    if ((finalListingPrice < (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice)) || ((nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice) == 0)) {
       newFloorPrice = finalListingPrice;
     }
     try {

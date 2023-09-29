@@ -115,9 +115,9 @@ const Footer = ({
                               "https://ipfs.io/ipfs/"
                             )}
                             alt="nftPreview"
-                            width="70"
-                            height="70"
-                            className="rounded-2lg"
+                            width={100}
+                            height={100}
+                            className="rounded-2lg h-[65px] w-[65px] object-cover"
                           />
                           <button
                             type="button"
