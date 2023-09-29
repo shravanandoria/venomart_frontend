@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import darkPng from "../../public/darkpng.png";
@@ -6,6 +6,7 @@ import whitePng from "../../public/whitepng.png";
 import venomLogo from "../../public/venomBG.webp";
 import { BsDiscord, BsExclamationCircleFill, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
+import { useRouter } from "next/router";
 
 const Footer = ({
   theme,
@@ -18,6 +19,7 @@ const Footer = ({
   setCartNFTs,
   setAnyModalOpen
 }) => {
+  const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
   const [itemsModal, setItemsModal] = useState(false);
 
@@ -36,6 +38,10 @@ const Footer = ({
     const updatedCartNFTs = cartNFTs.filter((item) => item._id !== itemToRemoveId);
     setCartNFTs(updatedCartNFTs);
   };
+
+  useEffect(() => {
+    setItemsModal(false);
+  }, [router.pathname]);
 
   return (
     <div className={`${theme}`}>
@@ -421,6 +427,14 @@ const Footer = ({
                       className="hover:text-accent dark:hover:text-white"
                     >
                       Edit Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/profile/Notifications"
+                      className="hover:text-accent dark:hover:text-white"
+                    >
+                      Notifications
                     </Link>
                   </li>
                   {MintNFTStatus && (

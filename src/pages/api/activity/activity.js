@@ -2,6 +2,7 @@ import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import Collection from "../../../Models/Collection";
 import Activity from "../../../Models/Activity";
+import Notification from "../../../Models/Notification";
 import NFT from "../../../Models/NFT";
 import limiter from "../limiter";
 
@@ -167,6 +168,16 @@ export default async function handler(req, res) {
 
               const floatPrice = parseFloat(price);
               collection.TotalVolume += floatPrice;
+
+              let notification = await Notification.create({
+                user: from,
+                soldTo: to,
+                price,
+                hash,
+                hasReaded: false,
+                nft,
+                type
+              });
 
               if (collection.TotalListed > 0) {
                 collection.TotalListed--;

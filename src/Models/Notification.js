@@ -3,9 +3,10 @@ const { Schema } = mongoose;
 
 const NotificationSchema = new mongoose.Schema(
     {
-        from: String,
-        to: String,
+        user: String,
+        soldTo: String,
         price: String,
+        hash: String,
         nft: {
             type: Schema.Types.ObjectId,
             ref: "NFT",
@@ -13,11 +14,11 @@ const NotificationSchema = new mongoose.Schema(
         type: {
             type: String,
             enum: ["sale", "bid"],
-            default: "no activity",
+            default: "sale",
         }
     },
     { timestamps: true }
 );
 
 module.exports =
-    mongoose.models?.Activity || mongoose.model("Notification", NotificationSchema);
+    mongoose.models?.Notification || mongoose.model("Notification", NotificationSchema);
