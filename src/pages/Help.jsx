@@ -24,7 +24,7 @@ const Help = ({ theme, signer_address }) => {
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            <section className="relative pt-40 pb-24 dark:bg-jacarta-800">
+            <section className="relative pt-40 pb-24 dark:bg-jacarta-900">
                 <div className="container">
                     <h1 className="mb-10 text-center font-display text-xl font-medium text-jacarta-700 dark:text-white">
                         Help Center

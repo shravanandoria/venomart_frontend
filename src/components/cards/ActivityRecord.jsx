@@ -12,14 +12,21 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
             <div className='flex justify-center align-middle'>
                 <Link href={`/nft/${NFTAddress}`}>
                     <div className="mr-5 mb-4 self-start">
-                        <Image src={NFTImage.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="rounded-2lg h-[100px] w-[100px]" />
+                        <Image src={NFTImage.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
                     </div>
                 </Link>
 
                 <div className='flex flex-col justify-center align-middle mb-4'>
                     {/* nft name  */}
                     <Link href={`/nft/${NFTAddress}`}>
-                        <h3 className="activityCardTitle mb-1 font-display text-[18px] font-semibold text-jacarta-700 dark:text-jacarta-100">
+                        <h3 className="activityCardTitle mb-1 font-display text-[18px] font-semibold text-jacarta-700 dark:text-jacarta-100"
+                            style={{
+                                width: "200px",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                                overflow: "hidden",
+                            }}
+                        >
                             {NFTName}
                         </h3>
                     </Link>

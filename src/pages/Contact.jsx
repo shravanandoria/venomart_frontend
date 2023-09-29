@@ -19,7 +19,7 @@ const Contact = ({ theme }) => {
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            <section className="relative pt-52 pb-24 dark:bg-jacarta-800">
+            <section className="relative pt-52 pb-24 dark:bg-jacarta-900">
                 <div className="container">
                     <div className="lg:flex">
                         <div className="mb-12 lg:mb-0 lg:w-2/3 lg:pr-12">
