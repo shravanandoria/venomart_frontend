@@ -925,7 +925,6 @@ const venomLions = ({
                     </section>
 
                     {afterMint && (
-                        // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
                         <div className="afterMintDiv">
                             <form className="modal-dialog max-w-2xl">
                                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">

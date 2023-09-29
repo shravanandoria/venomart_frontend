@@ -38,7 +38,7 @@ const CollectionCard = ({
             <Image
               src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Logo"
-              className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg"
+              className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg bg-gray-800"
 
               height={100}
               width={100}
@@ -48,7 +48,7 @@ const CollectionCard = ({
 
         <div className="relative flex justify-center align-middle text-center">
           <div
-            className="mt-8 font-display text-[22px] text-center text-jacarta-700 hover:text-accent dark:text-white"
+            className="mt-8 font-display text-[22px] text-center text-jacarta-700 dark:text-white"
             style={{
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
@@ -91,7 +91,7 @@ const CollectionCard = ({
           )}
         </div>
         <div className="flex">
-          <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 hover:text-accent dark:text-jacarta-200">
+          <span className="w-[100%] font-display text-[13px] text-center text-jacarta-700 dark:text-jacarta-200">
             {TotalSupply ? TotalSupply : "0"} Items
           </span>
         </div>

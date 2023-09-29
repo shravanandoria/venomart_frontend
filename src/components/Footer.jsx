@@ -46,7 +46,7 @@ const Footer = ({
 
       {/* cart */}
       {cartNFTs != "" &&
-        <div onClick={() => (setAnyModalOpen(true), setItemsModal(true))} className="fixed bottom-[3%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900">
+        <div onClick={() => (setAnyModalOpen(true), setItemsModal(true))} className="fixed bottom-[3%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900 z-20">
           <div className="relative flex flex-row justify-center align-middle">
             {cartNFTs?.map((nft, index) => {
               return (
@@ -103,7 +103,7 @@ const Footer = ({
                   </span>
                 </div>
 
-                <div className="customCheckoutBar max-h-[350px] overflow-y-auto px-2">
+                <div className="customCheckoutBar max-h-[275px] overflow-y-auto px-2">
                   {cartNFTs.map((nft, index) => {
                     return (
                       <div key={index} className="dark:border-jacarta-600 relative flex items-center py-2">

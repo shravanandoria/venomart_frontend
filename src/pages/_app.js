@@ -5,7 +5,7 @@ import { useEffect, useCallback, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-// sty;es
+// styles
 import "../styles/globals.css";
 import "../styles/custom.css";
 import "../styles/tailwind.css";
@@ -302,13 +302,13 @@ export default function App({ Component, pageProps }) {
       Description: "Your Device is Your Hardware-Wallet: Simple, Secure, and Streamlined.",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:2d040891868ccfa796a97d98a30fab79a78319c95df483378770221e49ea4c0e",
       customLink: "custom/biovenomsdk",
       pageName: "biovenomsdk",
       supply: "2000",
       twitterUserName: "bioVenomSDK",
       twitter: "https://twitter.com/bioVenomSDK",
-      tweetID: "1687875245225701376",
+      tweetID: "1706984941144121475",
       discord: "https://discord.gg/c8skmcTJYP",
       instagram: "",
       telegram: "",
@@ -437,6 +437,37 @@ export default function App({ Component, pageProps }) {
       verified: true,
     },
   ];
+
+  // featured collections 
+  const featuredCollections = [
+    {
+      id: 1,
+      collectionName: "Devenlabs",
+      collectionAddress: "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
+      items: 2000,
+      coverImage: "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
+      collectionLogo: "https://ipfs.io/ipfs/QmYV5DPbTRMUK9TZ95HaFq9zRMoYnMYHRyzDC76SUVMvnx/logo.jpg",
+      className: "mb-6 md:flex md:w-1/2 md:items-center"
+    },
+    {
+      id: 2,
+      collectionName: "Venompumpy",
+      collectionAddress: "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
+      items: 2000,
+      coverImage: "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+      collectionLogo: "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+      className: "mb-6 md:flex md:w-1/2 md:items-center"
+    }
+  ]
+
+  // web stats 
+  const websiteStats = [
+    {
+      nftCollection: 31,
+      mintedNFTs: 34500,
+      mintVolume: 51780
+    }
+  ]
 
   // copyURL function
   function copyURL() {
@@ -585,6 +616,8 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
         adminAccount={adminAccount}
         customLaunchpad={customLaunchpad}
+        featuredCollections={featuredCollections}
+        websiteStats={websiteStats}
         collabQuests={collabQuests}
         topCollections={topCollections}
         setTopCollections={setTopCollections}

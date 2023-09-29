@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
+import defLogo from "../../../public/deflogo.png";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const SmallCollectionCard = ({
@@ -27,10 +28,10 @@ const SmallCollectionCard = ({
               src={
                 Logo
                   ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
-                  : venomLogo
+                  : defLogo
               }
               alt="avatar 1"
-              className="rounded-2lg h-[60px] w-[auto]"
+              className="rounded-2lg h-[65px] w-[65px]"
               height={100}
               width={100}
 
@@ -39,11 +40,11 @@ const SmallCollectionCard = ({
               {id}
             </div>
             {isVerified ? (
-              <div className="absolute right-[-5px] top-[80%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+              <div className="absolute right-[-5px] top-[75%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
                 <MdVerified style={{ color: "#4f87ff" }} size={25} />
               </div>
             ) : (
-              <div className="absolute right-[-5px] top-[80%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+              <div className="absolute right-[-5px] top-[75%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
                 <BsFillExclamationCircleFill
                   style={{ color: "#c3c944" }}
                   size={20}
@@ -55,14 +56,14 @@ const SmallCollectionCard = ({
         <div>
           <div className="block relative">
             <span
-              className="font-display font-semibold text-jacarta-700 hover:text-accent dark:text-white"
+              className="font-display font-semibold text-jacarta-700 dark:text-white"
               style={{
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
               }}
             >
-              {Name ? Name : "Unverified Collection"}
+              {Name ? Name : "Unknown Collection"}
             </span>
           </div>
           <span className="text-sm dark:text-jacarta-300 flex">

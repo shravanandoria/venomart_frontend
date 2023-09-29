@@ -358,7 +358,9 @@
   .activityCardDiv .activityCardLink {
     width: 100%;
   }
-
+  .modelTypePosition .searchCollectionSvg {
+    display: none;
+  }
   .cardHoverNFTButton {
     display: block;
   }

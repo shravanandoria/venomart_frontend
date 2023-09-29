@@ -203,7 +203,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                             </div>
                         }
                         {mobileFilter && isBreakpoint &&
-                            <button onClick={() => openMobileFilter(false)} className="absolute top-[-10px] right-4 z-20">
+                            <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-1 z-20">
                                 <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                             </button>
                         }
@@ -235,7 +235,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                         style={{ paddingLeft: "27px", paddingRight: "30px" }}
                                                         placeholder="search"
                                                     />
-                                                    <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                                    <span className="searchCollectionSvg absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             viewBox="0 0 24 24"
@@ -322,22 +322,22 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                         onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openFilterSort(!filterSort))}
                                     >
                                         {activityType == "" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 All Activity
                                             </span>
                                         }
                                         {activityType == "list" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 Listing
                                             </span>
                                         }
                                         {activityType == "cancel" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className=" text-jacarta-700 dark:text-white">
                                                 Remove Listing
                                             </span>
                                         }
                                         {activityType == "sale" &&
-                                            <span className="font-display text-jacarta-700 dark:text-white">
+                                            <span className="text-jacarta-700 dark:text-white">
                                                 Sale
                                             </span>
                                         }

@@ -12,7 +12,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
             <div className='flex justify-center align-middle'>
                 <Link href={`/nft/${NFTAddress}`}>
                     <div className="mr-5 mb-4 self-start">
-                        <Image src={NFTImage.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="rounded-2lg h-[auto] w-[90px]" />
+                        <Image src={NFTImage.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="rounded-2lg h-[100px] w-[100px]" />
                     </div>
                 </Link>
 
@@ -27,16 +27,16 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     {/* value  */}
                     <div className='activityCardSubTitle flex'>
                         {ActivityType == "mint" &&
-                            <span className="block text-xs text-jacarta-300 mb-3 font-medium">Minted a brand new NFT about {dateTimeAgo}</span>
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">Minted a brand new NFT about {dateTimeAgo}</span>
                         }
                         {ActivityType == "list" &&
-                            <span className="block text-sm text-jacarta-300 mb-3 font-medium">listed for {Price} VENOM about {dateTimeAgo}</span>
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">listed for {Price} VENOM about {dateTimeAgo}</span>
                         }
                         {ActivityType == "cancel" &&
-                            <span className="block text-sm text-jacarta-300 mb-3 font-medium">removed from listing about {dateTimeAgo}</span>
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">removed from listing about {dateTimeAgo}</span>
                         }
                         {ActivityType == "sale" &&
-                            (<span className="block text-sm text-jacarta-300 mb-3 font-medium">
+                            (<span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">
                                 {userPurchases ? "purchased " : "sold "}
                                 for {Price} VENOM about {dateTimeAgo}
                             </span>)
@@ -47,11 +47,11 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     <span className="block text-xs text-jacarta-300">
                         Transfer from {" "}
                         <a href={`${blockURL}accounts/${From}`} target='_blank' className='text-blue'>
-                            {From == MARKETPLACE_ADDRESS ? "Market" : (From == signerAddress ? "You" : From.slice(0, 5) + "..." + From.slice(63))}
+                            {ActivityType == "cancel" ? "Market" : (From == signerAddress ? "You" : From.slice(0, 5) + "..." + From.slice(63))}
                         </a>
                         {" "}to{" "}
                         <a href={`${blockURL}accounts/${To}`} target='_blank' className='text-blue'>
-                            {To == MARKETPLACE_ADDRESS ? "Market" : (To == signerAddress ? "You" : To.slice(0, 5) + "..." + To.slice(63))}
+                            {ActivityType == "list" ? "Market" : (To == signerAddress ? "You" : To.slice(0, 5) + "..." + To.slice(63))}
                         </a>
                     </span>
                 </div>

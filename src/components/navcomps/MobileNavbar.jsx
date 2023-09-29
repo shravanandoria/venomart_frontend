@@ -116,7 +116,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                                     src={e?.nft_image.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                                     height={100}
                                                     width={100}
-                                                    className="h-[46px] w-[46px] rounded-[50%] mr-2"
+                                                    className="h-[46px] w-[46px] rounded-[10%] mr-2"
                                                 />
                                                 <div className="flex flex-col align-middle">
                                                     <div className="flex align-middle justify-center">

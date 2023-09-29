@@ -151,7 +151,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                 </div>
                             }
                             {mobileFilter && isBreakpoint &&
-                                <button onClick={() => openMobileFilter(false)} className="absolute top-[-10px] right-4 z-20">
+                                <button onClick={() => openMobileFilter(false)} className="absolute top-3 right-[1px] z-20">
                                     <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                                 </button>
                             }
@@ -365,7 +365,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                     />
                             )}
                             {topUsers?.length <= 0 && !searchLoading && (
-                                <h2 className="text-center p-4">No users found!</h2>
+                                <h2 className="text-center p-4 text-jacarta-700 dark:text-jacarta-200">No users found!</h2>
                             )}
                             {searchLoading && (
                                 <div className="flex items-center justify-center space-x-2 mt-12 mb-12">

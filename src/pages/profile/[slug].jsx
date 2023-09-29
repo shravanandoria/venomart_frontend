@@ -44,12 +44,13 @@ const Profile = ({
 
   const [share, setShare] = useState(false);
   const [loading, set_loading] = useState(false);
-  const [onSale, setOnSale] = useState(false);
-  const [owned, setOwned] = useState(true);
+  const [onSale, setOnSale] = useState(true);
+  const [owned, setOwned] = useState(false);
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
+  const [fetchedOwnedNFTs, setFetchedOwnedNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [userPurchases, setUserPurchases] = useState(true);
   const [mobileFilter, openMobileFilter] = useState(true);
@@ -120,7 +121,7 @@ const Profile = ({
     set_loading(true);
     if (!slug) return;
     const data = await check_user(slug);
-    const nftFetch = await fetch_user_nfts();
+    const nftFetch = await getting_user_listed_nfts();
     if (data) {
       set_user_data(data?.data);
       setNFTCollections(data?.data?.nftCollections);
@@ -160,6 +161,7 @@ const Profile = ({
 
   // getting owned nfts
   const fetch_user_nfts = async () => {
+    setMoreLoading(true);
     const res = await loadNFTs_user(standalone, slug, lastNFT);
     let new_nfts = [...nfts];
     res?.nfts?.map((e) => {
@@ -171,6 +173,8 @@ const Profile = ({
     });
     setLastNFT(res?.continuation);
     set_nfts(new_nfts);
+    setFetchedOwnedNFTs(true);
+    setMoreLoading(false);
   };
 
   // handling for sale nfts more fetch
@@ -402,7 +406,7 @@ const Profile = ({
               alt="collection avatar"
               height={100}
               width={100}
-              className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+              className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
             />
           </div>
         </div>
@@ -445,40 +449,46 @@ const Profile = ({
 
             {/* social accounts  */}
             <div className="flex justify-center align-middle mb-10 mt-4">
-              {user_data != "" && (
+              {user_data?.socials && (
                 <>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[0] : "#"
-                    }
-                    target="_blank"
-                    className="group mr-4"
-                  >
-                    <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[1] : "#"
-                    }
-                    target="_blank"
-                    className="group mr-4"
-                  >
-                    <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
-                  <a
-                    href={
-                      user_data?.socials?.length ? user_data?.socials[2] : "#"
-                    }
-                    target="_blank"
-                    className="group"
-                  >
-                    <TfiWorld className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                  </a>
+                  {user_data?.socials[0] &&
+                    <a
+                      href={
+                        user_data?.socials[0].startsWith("https://") ? user_data?.socials[0] : `https://twitter.com/${user_data?.socials[0]}`
+                      }
+                      target="_blank"
+                      className="group mr-4"
+                    >
+                      <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
+                  {user_data?.socials[1] &&
+                    <a
+                      href={
+                        user_data?.socials[1]
+                      }
+                      target="_blank"
+                      className="group mr-4"
+                    >
+                      <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
+                  {user_data?.socials[2] &&
+                    <a
+                      href={
+                        user_data?.socials[2]
+                      }
+                      target="_blank"
+                      className="group"
+                    >
+                      <TfiWorld className="mr-4 h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                    </a>
+                  }
                 </>
               )}
               <div
                 onClick={() => setShare(!share)}
-                className="ml-4 mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
+                className="mt-[-10px] dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-900"
               >
                 <a
                   className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
@@ -592,7 +602,7 @@ const Profile = ({
             </button>
           </li>
           {/* owned button  */}
-          <li className="nav-item" role="presentation" onClick={switchToOwned}>
+          <li className="nav-item" role="presentation" onClick={() => (!fetchedOwnedNFTs && fetch_user_nfts(), switchToOwned())}>
             <button
               className={`nav-link ${owned && "active relative"
                 } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
@@ -939,7 +949,6 @@ const Profile = ({
 
                         {/* search  */}
                         <div className="collectionSearch">
-                          {/* all nft and listed filter  */}
                           <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
                             <div
                               onClick={(e) => (
@@ -1076,8 +1085,8 @@ const Profile = ({
                   </div>
                   <div className="flex justify-center">
                     {onSaleNFTs.length <= 0 && !moreLoading && (
-                      <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
-                        No NFTs listed!
+                      <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
+                        No NFTs found!
                       </h2>
                     )}
                   </div>
@@ -1135,11 +1144,18 @@ const Profile = ({
                 </div>
 
                 <div className="flex justify-center">
-                  {nfts?.length <= 0 && (
+                  {nfts?.length <= 0 && !moreLoading && (
                     <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                       No NFTs to show!
                     </h2>
                   )}
+                  {nfts?.length <= 0 && moreLoading &&
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  }
                 </div>
               </div>
             </div>

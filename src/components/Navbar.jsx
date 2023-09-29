@@ -274,7 +274,7 @@ const Navbar = ({
                               )}
                               height={100}
                               width={100}
-                              className="h-[46px] w-[46px] rounded-[50%] mr-2"
+                              className="h-[46px] w-[46px] rounded-[10%] mr-2"
                             />
                             <div className="flex flex-col align-middle">
                               <div className="flex align-middle justify-center">
@@ -426,7 +426,7 @@ const Navbar = ({
                           <a
                             href={`${blockURL}accounts/${signer_address}`}
                             target="_blank"
-                            className="max-w-[10rem] overflow-hidden text-ellipsis hover:text-blue"
+                            className="max-w-[10rem] overflow-hidden text-ellipsis hover:text-accent"
                           >
                             {signer_address}
                           </a>

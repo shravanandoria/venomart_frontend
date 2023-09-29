@@ -16,7 +16,7 @@ import { top_collections } from "../utils/mongo_api/collection/collection";
 
 
 
-export default function Home({ theme, customLaunchpad, topCollections, setTopCollections }) {
+export default function Home({ theme, customLaunchpad, featuredCollections, topCollections, setTopCollections, websiteStats }) {
   const [durationDrop, setDurationDrop] = useState(false);
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
@@ -69,7 +69,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
                   <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="block font-display text-3xl text-[#8DD059]">
-                      25
+                      {websiteStats[0]?.nftCollection}
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       NFT Collections
@@ -77,7 +77,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                   </div>
                   <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="block font-display text-3xl text-[#737EF2]">
-                      24000+
+                      {websiteStats[0]?.mintedNFTs}+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       NFTs Minted
@@ -97,7 +97,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
                         }}
                         alt="VenomLogo"
                       />
-                      41270
+                      {websiteStats[0]?.mintVolume}
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       Mint Volume
@@ -131,116 +131,65 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
               {/* <!-- featured collections --> */}
               <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
                 <div className="md:flex md:space-x-6 xl:space-x-12">
-                  {/* featured 1 */}
-                  <div className="mb-6 md:flex md:w-1/2 md:items-center ">
-                    <div>
-                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
-                        <div className="relative">
-                          {/* cover imge  */}
-                          <Link href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277">
-                            <img
-                              src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
-                              alt="item 1"
-                              className="w-full object-cover"
-                              height="437"
-                              width="406"
-                            />
-                          </Link>
-                        </div>
-                        <div className="p-6">
-                          <div className="flex">
-                            {/* logo  */}
-                            <Link
-                              href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
-                              className="shrink-0"
-                            >
-                              <img
-                                src="https://ipfs.io/ipfs/QmSA7ZFxyE9ZqvNj55ffwf5GLWnRDNLFheL5XP3Cb59xHe/ravegrp.gif"
-                                alt="avatar"
-                                className="mr-4 h-10 w-10 rounded-full"
-                                height={100}
-                                width={100}
-                              />
-                            </Link>
-                            <div>
-                              {/* name  */}
-                              <Link
-                                href="/collection/0:aae4225bcd3f7cec286b3496abbaf91b213b8c1f024dc3a3189ecd148363d277"
-                                className="block"
-                              >
-                                <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                  Rave - Passports
-                                  <MdVerified
-                                    style={{
-                                      color: "#4f87ff",
-                                      marginBottom: "3px",
-                                      marginLeft: "3px",
-                                    }}
-                                    size={21}
-                                  />
-                                </span>
+                  {featuredCollections.map((collection, index) => {
+                    return (
+                      <div key={index} className={collection?.className}>
+                        <div>
+                          <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
+                            <div className="relative">
+                              <Link href={`/collection/${collection?.collectionAddress}`}>
+                                <Image
+                                  src={collection?.coverImage}
+                                  alt="item"
+                                  className="w-[500px] h-[450px] object-cover"
+                                  height={100}
+                                  width={100}
+                                />
                               </Link>
+                            </div>
+                            <div className="p-6">
+                              <div className="flex">
+                                <Link
+                                  href={`/collection/${collection?.collectionAddress}`}
+                                  className="shrink-0"
+                                >
+                                  <Image
+                                    src={collection?.collectionLogo}
+                                    alt="avatar"
+                                    className="mr-4 h-10 w-10 rounded-full"
+                                    height={100}
+                                    width={100}
+                                  />
+                                </Link>
+                                <div>
+                                  <Link
+                                    href={`/collection/${collection?.collectionAddress}`}
+                                    className="block"
+                                  >
+                                    <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                      {collection?.collectionName}
+                                      <MdVerified
+                                        style={{
+                                          color: "#4f87ff",
+                                          marginBottom: "3px",
+                                          marginLeft: "3px",
+                                        }}
+                                        size={21}
+                                      />
+                                    </span>
+                                  </Link>
 
-                              <a className="text-2xs text-accent dark:text-white">
-                                3000 Items | 2800+ Owners
-                              </a>
+                                  <a className="text-2xs text-accent dark:text-white">
+                                    {collection?.items} Items
+                                  </a>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* featured 2  */}
-                  <div className="space-y-6 md:w-1/2 xl:space-y-12">
-                    <div>
-                      <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
-                        <div className="relative">
-                          <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"}>
-                            <img
-                              src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
-                              alt="item 1"
-                              className="w-full object-cover"
-                              height="437"
-                              width="406"
-                            />
-                          </Link>
-                        </div>
-                        <div className="p-6">
-                          <div className="flex">
-                            <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="shrink-0">
-                              <img
-                                src="https://ipfs.io/ipfs/QmYkyFbaocN6c4Pd3mFBBGU1Nv5zA5pU2efgHQKtCduCjK/revolt.gif"
-                                alt="avatar"
-                                className="mr-4 h-10 w-10 rounded-full"
-                                height={100}
-                                width={100}
-                              />
-                            </Link>
-                            <div>
-                              <Link href={"/collection/0:206858b2877d088d003550e4942d46821cb1c78b567e490dd6674d69fb72b63c"} className="block">
-                                <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                  Revolt
-                                  <MdVerified
-                                    style={{
-                                      color: "#4f87ff",
-                                      marginBottom: "3px",
-                                      marginLeft: "3px",
-                                    }}
-                                    size={21}
-                                  />
-                                </span>
-                              </Link>
-
-                              <a className="text-2xs text-accent dark:text-white">
-                                2000 Items | 500+ Owners
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -382,7 +331,7 @@ export default function Home({ theme, customLaunchpad, topCollections, setTopCol
               <div className="flex justify-center align-middle flex-wrap">
                 {topCollections?.map((e, index) => {
                   return (
-                    index < 8 && (
+                    index < 9 && (
                       <SmallCollectionCard
                         key={index}
                         id={index + 1}

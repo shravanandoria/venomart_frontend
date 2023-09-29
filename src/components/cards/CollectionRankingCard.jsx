@@ -4,6 +4,8 @@ import React from "react";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
+import defLogo from "../../../public/deflogo.png";
+
 
 const CollectionRankingCard = ({
   id,
@@ -35,7 +37,7 @@ const CollectionRankingCard = ({
             src={
               Logo
                 ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
-                : venomLogo
+                : defLogo
             }
             height={100}
             width={100}
@@ -57,7 +59,7 @@ const CollectionRankingCard = ({
           )}
         </div>
         <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-          {Name ? Name : "Unverified Collection"}
+          {Name ? Name : "Unknown Collection"}
         </span>
       </div>
       <div

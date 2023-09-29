@@ -646,7 +646,7 @@ const Collection = ({
                     width={100}
                     height={100}
                     alt="collection avatar"
-                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto] bg-gray-800"
                   />
                 ) : (
                   <Image
@@ -702,59 +702,43 @@ const Collection = ({
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                   {collection?.name
                     ? collection?.name
-                    : "Unverified Collection"}
+                    : "Unknown Collection"}
                 </h2>
 
                 {/* socials  */}
                 <div className="flex justify-center align-middle mb-2 mt-2">
                   {collection?.socials && (
                     <>
-                      {collection?.socials[0] != "" && (
+                      {collection?.socials[0] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[0]
-                              : "#"
-                          }
+                          href={collection?.socials[0]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsBrowserChrome className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[1] != "" && (
+                      {collection?.socials[1] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[1]
-                              : "#"
-                          }
+                          href={collection?.socials[1]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsTwitter className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[2] != "" && (
+                      {collection?.socials[2] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[2]
-                              : "#"
-                          }
+                          href={collection?.socials[2]}
                           target="_blank"
                           className="group ml-3"
                         >
                           <BsDiscord className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                         </a>
                       )}
-                      {collection?.socials[3] != "" && (
+                      {collection?.socials[3] && (
                         <a
-                          href={
-                            collection?.socials?.length
-                              ? collection?.socials[3]
-                              : "#"
-                          }
+                          href={collection?.socials[3]}
                           target="_blank"
                           className="group ml-3"
                         >
@@ -1586,14 +1570,14 @@ const Collection = ({
                     </div>
                     <div className="flex justify-center">
                       {nfts?.length <= 0 && def_query == undefined && (
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                        <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200 py-20">
                           No NFTs Found!!
                         </h2>
                       )}
                       {nfts?.length <= 0 &&
                         def_query == "" &&
                         !searchLoading && (
-                          <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300 py-12">
+                          <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200 py-12">
                             No search results found!!
                           </h2>
                         )}
@@ -2160,7 +2144,7 @@ const Collection = ({
                     )};
                     <div className="flex items-center justify-center space-x-2">
                       {(activity?.length <= 0) && (
-                        <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                        <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                           No activity found!
                         </h2>
                       )}
@@ -2169,7 +2153,7 @@ const Collection = ({
                 </div>
                 <div className="flex justify-center">
                   {(activity === undefined) && (
-                    <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                    <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                       No activities yet!
                     </h2>
                   )}
