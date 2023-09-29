@@ -15,7 +15,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -144,8 +144,6 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
         .getJson({ answerId: 0 })
         .call();
 
-      console.log(getJsonAnswer);
-
       nfts.push({ ...getJsonAnswer, ...getNftInfo, ...indexInfo });
     })
   );
@@ -237,7 +235,6 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
       codeHash,
       last_nft_addr
     );
-
     const { continuation } = indexesAddresses;
     if (!indexesAddresses || !indexesAddresses.accounts.length) {
       if (indexesAddresses && !indexesAddresses.accounts.length)
@@ -435,7 +432,7 @@ export const create_launchpad_nft_latest = async (
         },
       ],
       attributes: data.attributes,
-      external_url: "https://venomart.io/"
+      external_url: "https://venomart.io/",
     });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({
