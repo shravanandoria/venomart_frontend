@@ -127,7 +127,7 @@ const Footer = ({
                           />
                           <button
                             type="button"
-                            className="absolute top-[-4px] right-[-4px] bg-red rounded-full"
+                            className="absolute top-[-4px] right-[-4px] bg-red rounded-xl"
                             onClick={() => (removeFromCart(nft?._id))}
                           >
                             <svg
@@ -145,22 +145,19 @@ const Footer = ({
 
                         {/* main nft info  */}
                         <div>
-                          <Link
-                            href={`/collection/${nft?.NFTCollection?.contractAddress}`}
-                            className="flex text-accent text-[13px] mb-2"
-                          >
+                          <div className="flex text-accent text-[13px] mb-2" >
                             {(nft?.NFTCollection?.name ? nft?.NFTCollection?.name : nft?.NFTCollection?.contractAddress?.slice(0, 8) +
                               "..." +
                               nft?.NFTCollection?.contractAddress?.slice(60))}
 
                             {nft?.NFTCollection?.isVerified ?
-                              <MdVerified style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "3px" }}
+                              <MdVerified style={{ color: "#4f87ff", marginLeft: "3px", marginTop: "3px" }}
                                 size={13} />
                               :
-                              <BsExclamationCircleFill style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "3px" }}
+                              <BsExclamationCircleFill style={{ color: "#c3c944", marginLeft: "3px", marginTop: "3px" }}
                                 size={13} />
                             }
-                          </Link>
+                          </div>
                           <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                             {nft?.name}
                           </h3>
@@ -248,7 +245,7 @@ const Footer = ({
                   <button
                     onClick={() => (setCartNFTs([]), setAnyModalOpen(false), setItemsModal(false))}
                     type="button"
-                    className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                    className="flex w-38 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                   >
                     Clear
                   </button>
@@ -257,7 +254,7 @@ const Footer = ({
                     <button
                       disabled
                       type="button"
-                      className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                     >
                       Buying{" "}
                       <svg
@@ -280,7 +277,7 @@ const Footer = ({
                   ) : (
                     <button
                       type="submit"
-                      className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark whitespace-nowrap"
+                      className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark whitespace-nowrap"
                     >
                       Confirm Buy
                     </button>

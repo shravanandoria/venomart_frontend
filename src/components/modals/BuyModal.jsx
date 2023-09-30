@@ -62,8 +62,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                 />
                             </div>
                             <div>
-                                <Link
-                                    href={`/collection/${NFTCollectionContract}`}
+                                <div
                                     className="flex text-accent text-sm mb-2"
                                 >
                                     {(NFTCollectionName ? NFTCollectionName : NFTCollectionContract?.slice(0, 8) +
@@ -71,13 +70,13 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         NFTCollectionContract?.slice(60))}
 
                                     {CollectionVerification ?
-                                        <MdVerified style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "2px" }}
+                                        <MdVerified style={{ color: "#4f87ff", marginLeft: "3px", marginTop: "2px" }}
                                             size={16} />
                                         :
-                                        <BsExclamationCircleFill style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "2px" }}
+                                        <BsExclamationCircleFill style={{ color: "#c3c944", marginLeft: "3px", marginTop: "2px" }}
                                             size={16} />
                                     }
-                                </Link>
+                                </div>
                                 <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                                     {NFTName}
                                 </h3>
@@ -199,7 +198,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                 <button
                                     disabled
                                     type="button"
-                                    className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     Buying{" "}
                                     <svg
@@ -222,7 +221,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                             ) : (
                                 <button
                                     type="submit"
-                                    className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     Buy
                                 </button>

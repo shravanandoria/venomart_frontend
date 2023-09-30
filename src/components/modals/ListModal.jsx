@@ -136,13 +136,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                 />
                             </div>
                             <div>
-                                <Link
-                                    href={`/collection/${onchainNFTData
-                                        ? nft?.collection?._address
-                                        : nft?.NFTCollection?.contractAddress
-                                        }`}
-                                    className="text-accent text-sm"
-                                >
+                                <div className="text-accent text-sm">
                                     {!onchainNFTData ? (
                                         <div className="flex align-middle mb-2">
                                             {nft?.NFTCollection?.name
@@ -213,7 +207,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                         "..." +
                                         nft?.collection?._address?.slice(60)
                                     )}
-                                </Link>
+                                </div>
                                 <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                                     {nft?.name}
                                 </h3>
@@ -376,7 +370,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                                 <button
                                     disabled
                                     type="button"
-                                    className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     Listing{" "}
                                     <svg
@@ -399,7 +393,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
                             ) : (
                                 <button
                                     type="submit"
-                                    className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     List Now
                                 </button>

@@ -55,8 +55,8 @@ const NftCard = ({
           (cartNFTs.some((item) => item._id === NFTData._id) ?
             <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
             :
-            <AiFillPlusCircle className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[30px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
-          // <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
+            // <AiFillPlusCircle className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[30px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
+            <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
         }
 
         {(NFTCollectionStatus == true) && isHovering &&

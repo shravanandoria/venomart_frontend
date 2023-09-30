@@ -24,6 +24,9 @@ export default async function handler(req, res) {
               .status(400)
               .json({ success: false, data: "Cannot Find This NFT" });
 
+          // getting owner info 
+          let user = await User.findOne({ wallet_id: nft.ownerAddress });
+
           // nft props proba 
           const nfts = await NFT.find({ NFTCollection: nft.NFTCollection._id })
             .select(["attributes"]);
@@ -90,7 +93,9 @@ export default async function handler(req, res) {
           const mergedData = {
             ...nft.toObject(),
             attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
-            moreNFTs: moreNFTs
+            moreNFTs: moreNFTs,
+            username: user.user_name,
+            userProfileImage: user.profileImage,
           };
 
           return res.status(200).json({ success: true, data: mergedData });

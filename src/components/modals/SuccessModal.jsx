@@ -30,8 +30,6 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                         <button
                             type="button"
                             className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
                             onClick={() => (
                                 ((onCloseFunctionCall && TransactionType != "List") && onCloseFunctionCall()), setSuccessModal(false), setAnyModalOpen(false)
                             )}
@@ -93,10 +91,10 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                         NFTCollectionContract?.slice(60))}
 
                                     {CollectionVerification ?
-                                        <MdVerified style={{ color: "#4f87ff", cursor: "pointer", marginLeft: "3px", marginTop: "2px" }}
+                                        <MdVerified style={{ color: "#4f87ff", marginLeft: "3px", marginTop: "2px" }}
                                             size={16} />
                                         :
-                                        <BsExclamationCircleFill style={{ color: "#c3c944", cursor: "pointer", marginLeft: "3px", marginTop: "2px" }}
+                                        <BsExclamationCircleFill style={{ color: "#c3c944", marginLeft: "3px", marginTop: "2px" }}
                                             size={16} />
                                     }
                                 </Link>
@@ -135,7 +133,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                 onClick={() => (
                                     ((onCloseFunctionCall && TransactionType != "List") && onCloseFunctionCall()), setSuccessModal(false), setAnyModalOpen(false)
                                 )}
-                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             >
                                 Close
                                 <svg
@@ -155,7 +153,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                 <a
                                     href={`https://twitter.com/intent/tweet?text=Hey%20everyone%2C%20just%20purchased%20the%20${NFTName}%20NFT%20for%20${NFTListingPrice} VENOM%2C%20very%20happy%20to%20be%20a%20part%20of%20the%20${NFTCollectionName}%20fam%20%F0%9F%A5%B3%20Great%20experience%20buying%20NFTs%20on%20venomart%20%F0%9F%99%8C%20%23venomart%20%23NFTs%20%23VenomBlockchain`}
                                     target="_blank"
-                                    className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     Share
                                     <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
@@ -165,7 +163,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                             <div className="flex items-center justify-center space-x-4 m-2">
                                 <Link
                                     href={`/nft/${NFTAddress}`}
-                                    className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                 >
                                     View
                                     <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
