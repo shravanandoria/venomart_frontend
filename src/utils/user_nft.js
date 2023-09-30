@@ -14,6 +14,19 @@ import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
+import { TonClient } from "@eversdk/core";
+import { libWeb, libWebSetup } from "@eversdk/lib-web";
+
+libWebSetup({
+  disableSeparateWorker: true,
+});
+
+TonClient.useBinaryLibrary(libWeb);
+
+const client = new TonClient({
+  network: { endpoints: ["https://gql-testnet.venom.foundation/graphql"] },
+});
+
 export class MyEver {
   constructor() {}
   ever = () => {
@@ -128,7 +141,7 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
-      const indexContract = new provider.Contract(indexAbi, indexAddress);
+      const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
       const indexInfo = await indexContract.methods
         .getInfo({ answerId: 0 })
@@ -228,6 +241,30 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
     if (!codeHash) {
       return;
     }
+    console.log();
+    const query = `
+    query {
+      accounts(
+        filter: {
+          workchain_id: { eq: 0 }
+          code_hash: {
+            eq: "${codeHash}"
+          }
+        }
+        orderBy: [{ path: "last_paid", direction: DESC }]
+      ) {
+        id
+        balance(format: DEC)
+        last_paid
+      }
+    }
+    `;
+    const { result } = await client.net.query({ query });
+    // console.log(result.data.accounts);
+    // console.log();
+    client.close();
+
+    console.log(codeHash);
 
     // Fetch all Indexes by hash
     const indexesAddresses = await getAddressesFromIndex(
@@ -235,6 +272,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
       codeHash,
       last_nft_addr
     );
+
     const { continuation } = indexesAddresses;
     if (!indexesAddresses || !indexesAddresses.accounts.length) {
       if (indexesAddresses && !indexesAddresses.accounts.length)
@@ -242,9 +280,26 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
         return;
     }
 
+    // console.log(result.data.accounts);
+
+    const indexContract = new provider.Contract(
+      indexAbi,
+      new Address(
+        "0:d79c1b7d4b83ed21afb3e53d6deed36d577320e7a0f377b591b4b536f48a9247"
+      )
+    );
+
+    const indexInfo = await indexContract.methods
+      .getInfo({ answerId: 0 })
+      .call();
+
+    // console.log(indexInfo);
     // Fetch all image URLs
-    const nfts = await getNftsByIndexes(provider, indexesAddresses.accounts);
-    return { nfts, continuation };
+    const nfts = await getNftsByIndexes(provider, result.data.accounts);
+    return {
+      nfts,
+      continuation: result.data.accounts[result.data.accounts.length - 1],
+    };
   } catch (e) {
     console.error(e);
   }
