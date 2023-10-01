@@ -138,6 +138,7 @@ export const saltCode = async (provider, ownerAddress) => {
 };
 
 export const getNftsByIndexes = async (provider, indexAddresses) => {
+  console.log(indexAddresses);
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
@@ -157,7 +158,12 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
         .getJson({ answerId: 0 })
         .call();
 
-      nfts.push({ ...getJsonAnswer, ...getNftInfo, ...indexInfo });
+      nfts.push({
+        ...getJsonAnswer,
+        ...getNftInfo,
+        ...indexInfo,
+        last_paid: indexAddress.last_paid,
+      });
     })
   );
 
@@ -232,7 +238,7 @@ export const loadNFTs_collection = async (
   }
 };
 
-export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
+export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
@@ -241,7 +247,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
     if (!codeHash) {
       return;
     }
-    console.log();
+
     const query = `
     query {
       accounts(
@@ -250,8 +256,10 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
           code_hash: {
             eq: "${codeHash}"
           }
+          ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
         }
         orderBy: [{ path: "last_paid", direction: DESC }]
+        limit: 10
       ) {
         id
         balance(format: DEC)
@@ -260,45 +268,30 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
     }
     `;
     const { result } = await client.net.query({ query });
-    // console.log(result.data.accounts);
-    // console.log();
+    console.log(result);
+
     client.close();
 
-    console.log(codeHash);
+    // // Fetch all Indexes by hash
+    // const indexesAddresses = await getAddressesFromIndex(
+    //   provider,
+    //   codeHash,
+    //   last_nft_addr
+    // );
 
-    // Fetch all Indexes by hash
-    const indexesAddresses = await getAddressesFromIndex(
-      provider,
-      codeHash,
-      last_nft_addr
-    );
+    // const { continuation } = indexesAddresses;
+    // if (!indexesAddresses || !indexesAddresses.accounts.length) {
+    //   if (indexesAddresses && !indexesAddresses.accounts.length)
+    //     // setListIsEmpty_user(true);
+    //     return;
+    // }
 
-    const { continuation } = indexesAddresses;
-    if (!indexesAddresses || !indexesAddresses.accounts.length) {
-      if (indexesAddresses && !indexesAddresses.accounts.length)
-        // setListIsEmpty_user(true);
-        return;
-    }
-
-    // console.log(result.data.accounts);
-
-    const indexContract = new provider.Contract(
-      indexAbi,
-      new Address(
-        "0:d79c1b7d4b83ed21afb3e53d6deed36d577320e7a0f377b591b4b536f48a9247"
-      )
-    );
-
-    const indexInfo = await indexContract.methods
-      .getInfo({ answerId: 0 })
-      .call();
-
-    // console.log(indexInfo);
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, result.data.accounts);
     return {
       nfts,
-      continuation: result.data.accounts[result.data.accounts.length - 1],
+      continuation:
+        result.data.accounts[result.data.accounts.length - 1].last_paid,
     };
   } catch (e) {
     console.error(e);
