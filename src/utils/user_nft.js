@@ -14,6 +14,19 @@ import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
+import { TonClient } from "@eversdk/core";
+import { libWeb, libWebSetup } from "@eversdk/lib-web";
+
+libWebSetup({
+  disableSeparateWorker: true,
+});
+
+TonClient.useBinaryLibrary(libWeb);
+
+const client = new TonClient({
+  network: { endpoints: ["https://gql-testnet.venom.foundation/graphql"] },
+});
+
 export class MyEver {
   constructor() {}
   ever = () => {
@@ -125,10 +138,11 @@ export const saltCode = async (provider, ownerAddress) => {
 };
 
 export const getNftsByIndexes = async (provider, indexAddresses) => {
+  console.log(indexAddresses);
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
-      const indexContract = new provider.Contract(indexAbi, indexAddress);
+      const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
       const indexInfo = await indexContract.methods
         .getInfo({ answerId: 0 })
@@ -144,7 +158,12 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
         .getJson({ answerId: 0 })
         .call();
 
-      nfts.push({ ...getJsonAnswer, ...getNftInfo, ...indexInfo });
+      nfts.push({
+        ...getJsonAnswer,
+        ...getNftInfo,
+        ...indexInfo,
+        last_paid: indexAddress.last_paid,
+      });
     })
   );
 
@@ -164,21 +183,6 @@ export const get_nft_by_address = async (provider, nft_address) => {
     price: "0",
   };
   return nft;
-};
-
-// Method, that return Index'es addresses by single query with fetched code hash
-export const getAddressesFromIndex = async (
-  standaloneProvider,
-  codeHash,
-  last_nft_addr
-) => {
-  const myEver = new MyEver();
-  const addresses = await myEver.ever().getAccountsByCodeHash({
-    codeHash,
-    continuation: last_nft_addr,
-    limit: 25,
-  });
-  return addresses;
 };
 
 // loading all the nft collection nfts
@@ -219,7 +223,7 @@ export const loadNFTs_collection = async (
   }
 };
 
-export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
+export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
@@ -229,22 +233,37 @@ export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
       return;
     }
 
-    // Fetch all Indexes by hash
-    const indexesAddresses = await getAddressesFromIndex(
-      provider,
-      codeHash,
-      last_nft_addr
-    );
-    const { continuation } = indexesAddresses;
-    if (!indexesAddresses || !indexesAddresses.accounts.length) {
-      if (indexesAddresses && !indexesAddresses.accounts.length)
-        // setListIsEmpty_user(true);
-        return;
+    const query = `
+    query {
+      accounts(
+        filter: {
+          workchain_id: { eq: 0 }
+          code_hash: {
+            eq: "${codeHash}"
+          }
+          ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
+        }
+        orderBy: [{ path: "last_paid", direction: DESC }]
+        limit: 10
+      ) {
+        id
+        balance(format: DEC)
+        last_paid
+      }
     }
+    `;
+    const { result } = await client.net.query({ query });
+    console.log(result);
+
+    client.close();
 
     // Fetch all image URLs
-    const nfts = await getNftsByIndexes(provider, indexesAddresses.accounts);
-    return { nfts, continuation };
+    const nfts = await getNftsByIndexes(provider, result.data.accounts);
+    return {
+      nfts,
+      continuation:
+        result.data.accounts[result.data.accounts.length - 1].last_paid,
+    };
   } catch (e) {
     console.error(e);
   }
