@@ -185,21 +185,6 @@ export const get_nft_by_address = async (provider, nft_address) => {
   return nft;
 };
 
-// Method, that return Index'es addresses by single query with fetched code hash
-export const getAddressesFromIndex = async (
-  standaloneProvider,
-  codeHash,
-  last_nft_addr
-) => {
-  const myEver = new MyEver();
-  const addresses = await myEver.ever().getAccountsByCodeHash({
-    codeHash,
-    continuation: last_nft_addr,
-    limit: 25,
-  });
-  return addresses;
-};
-
 // loading all the nft collection nfts
 export const loadNFTs_collection = async (
   provider,
@@ -271,20 +256,6 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
     console.log(result);
 
     client.close();
-
-    // // Fetch all Indexes by hash
-    // const indexesAddresses = await getAddressesFromIndex(
-    //   provider,
-    //   codeHash,
-    //   last_nft_addr
-    // );
-
-    // const { continuation } = indexesAddresses;
-    // if (!indexesAddresses || !indexesAddresses.accounts.length) {
-    //   if (indexesAddresses && !indexesAddresses.accounts.length)
-    //     // setListIsEmpty_user(true);
-    //     return;
-    // }
 
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, result.data.accounts);
