@@ -6,8 +6,9 @@ import venomLogo from "../../../public/venomBG.webp";
 import { AiOutlineDelete } from "react-icons/ai";
 import moment from 'moment';
 import InfiniteScroll from "react-infinite-scroll-component";
+import Link from "next/link";
 
-const Notifications = ({ signer_address, theme }) => {
+const Notifications = ({ signer_address, theme, blockURL }) => {
 
     const [loading, set_loading] = useState(false);
     const [moreLoading, setMoreLoading] = useState(false);
@@ -147,16 +148,18 @@ const Notifications = ({ signer_address, theme }) => {
                                                 {notificationData?.map((notification, index) => {
                                                     return (
                                                         <div key={index} className="relative flex flex-wrap items-center rounded-2.5xl border border-jacarta-100 bg-white p-8 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
-                                                            <a href={`/nft/${notification?.nft?.NFTAddress}`} className="mr-5 self-start">
+                                                            <Link href={`/nft/${notification?.nft?.NFTAddress}`} className="mr-5 self-start">
                                                                 <Image src={notification?.nft?.nft_image} alt="avatar 2" className="rounded-2lg h-[75px] w-[75px] object-cover mb-2" loading="lazy" height={100} width={100} />
-                                                            </a>
+                                                            </Link>
 
                                                             <div>
                                                                 <h3 className="mb-1 font-display text-base font-semibold text-jacarta-700 dark:text-white">
                                                                     Sold Successfully🎉
                                                                 </h3>
                                                                 <span className="flex flex-wrap mb-3 text-sm text-jacarta-500 dark:text-jacarta-200">
-                                                                    <a href={notification?.soldTo} className="text-blue mr-1">{(notification?.soldTo).slice(0, 5) + "..." + (notification?.soldTo).slice(63)}</a>
+                                                                    <Link href={notification?.soldTo} className="text-blue mr-1">
+                                                                        {notification?.fromUser ? notification?.fromUser : ((notification?.soldTo).slice(0, 5) + "..." + (notification?.soldTo).slice(63))}
+                                                                    </Link>
                                                                     has purchased your listed NFT {notification?.nft?.name} for
                                                                     <Image
                                                                         src={venomLogo}
@@ -177,7 +180,7 @@ const Notifications = ({ signer_address, theme }) => {
                                                             </div>
 
                                                             <div className="flex justify-center lg:ml-auto mt-1">
-                                                                <a href={`/nft/${notification?.hash}`} target="_blank" className="flex justify-center ml-3 align-middle rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600 dark:hover:bg-jacarta-600 hover:bg-jacarta-100">
+                                                                <a href={`${blockURL}${notification?.hash}`} target="_blank" className="flex justify-center ml-3 align-middle rounded-full font-bold border border-jacarta-100 p-3 dark:border-jacarta-600 dark:hover:bg-jacarta-600 hover:bg-jacarta-100">
                                                                     <svg width="24" height="24" className="fill-jacarta-700 dark:fill-jacarta-100 -rotate-45" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
                                                                 </a>
                                                                 <button onClick={() => {

@@ -28,7 +28,7 @@ const client = new TonClient({
 });
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -138,7 +138,6 @@ export const saltCode = async (provider, ownerAddress) => {
 };
 
 export const getNftsByIndexes = async (provider, indexAddresses) => {
-  console.log(indexAddresses);
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
@@ -233,8 +232,8 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
       return;
     }
 
-    const query = `
-    query {
+    const query =
+      `query {
       accounts(
         filter: {
           workchain_id: { eq: 0 }
@@ -250,11 +249,8 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
         balance(format: DEC)
         last_paid
       }
-    }
-    `;
+    }`;
     const { result } = await client.net.query({ query });
-    console.log(result);
-
     client.close();
 
     // Fetch all image URLs

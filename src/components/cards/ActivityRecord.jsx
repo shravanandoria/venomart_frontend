@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import moment from 'moment';
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", To = "market", MARKETPLACE_ADDRESS, signerAddress }) => {
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress }) => {
 
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
 
@@ -53,13 +53,13 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                     {/* from and to  */}
                     <span className="block text-xs text-jacarta-300">
                         Transfer from {" "}
-                        <a href={`${blockURL}accounts/${From}`} target='_blank' className='text-blue'>
-                            {ActivityType == "cancel" ? "Market" : (From == signerAddress ? "You" : From.slice(0, 5) + "..." + From.slice(63))}
-                        </a>
+                        <Link href={`/profile/${From}`} className='text-blue'>
+                            {ActivityType == "cancel" ? "Market" : (From == signerAddress ? "You" : (FromUser ? FromUser : From.slice(0, 5) + "..." + From.slice(63)))}
+                        </Link>
                         {" "}to{" "}
-                        <a href={`${blockURL}accounts/${To}`} target='_blank' className='text-blue'>
-                            {ActivityType == "list" ? "Market" : (To == signerAddress ? "You" : To.slice(0, 5) + "..." + To.slice(63))}
-                        </a>
+                        <Link href={`/profile/${To}`} className='text-blue'>
+                            {ActivityType == "list" ? "Market" : (To == signerAddress ? "You" : (ToUser ? ToUser : To.slice(0, 5) + "..." + To.slice(63)))}
+                        </Link>
                     </span>
                 </div>
             </div>

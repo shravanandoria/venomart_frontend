@@ -446,6 +446,8 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 ActivityHash={e?.hash}
                                                 From={e?.from}
                                                 To={e?.to}
+                                                FromUser={e?.fromUser}
+                                                ToUser={e?.toUser}
                                                 MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                                                 signerAddress={signer_address}
                                             />

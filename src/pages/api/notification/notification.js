@@ -28,7 +28,19 @@ export default async function handler(req, res) {
                         .limit(15)
                         .sort({ createdAt: -1 });
 
-                    return res.status(200).json({ success: true, data: notifications });
+                    // Fetch fromUser information for each notification
+                    const notificationsWithFromUser = [];
+                    for (const notification of notifications) {
+                        const fromUser = await User.findOne({ wallet_id: notification.soldTo });
+                        if (fromUser) {
+                            notificationsWithFromUser.push({
+                                ...notification.toObject(),
+                                fromUser: fromUser.user_name,
+                            });
+                        }
+                    }
+
+                    return res.status(200).json({ success: true, data: notificationsWithFromUser });
 
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });

@@ -5,7 +5,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import Image from 'next/image';
 
 
-const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blockURL, createdAt, signerAddress }) => {
+const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, MARKETPLACE_ADDRESS, hash, blockURL, createdAt, signerAddress }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
 
     return (
@@ -134,14 +134,14 @@ const NFTActivityCard = ({ type, price, from, to, MARKETPLACE_ADDRESS, hash, blo
             {/* from  */}
             <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <Link href={`/profile/${from}`} className="text-accent">
-                    {type == "cancel" ? "Market" : (from == signerAddress ? "You" : from.slice(0, 5) + "..." + from.slice(62))}
+                    {type == "cancel" ? "Market" : (from == signerAddress ? "You" : (FromUser ? FromUser : from.slice(0, 5) + "..." + from.slice(62)))}
                 </Link>
             </div>
 
             {/* to  */}
             <div className="flex w-[22%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <Link href={`/profile/${to}`} className="text-accent">
-                    {type == "list" ? "Market" : (to == signerAddress ? "You" : to.slice(0, 5) + "..." + to.slice(62))}
+                    {type == "list" ? "Market" : (to == signerAddress ? "You" : (ToUser ? ToUser : to.slice(0, 5) + "..." + to.slice(62)))}
                 </Link>
             </div>
 

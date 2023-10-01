@@ -60,7 +60,21 @@ export default async function handler(req, res) {
             .limit(15)
             .sort({ createdAt: -1 });
 
-          return res.status(200).json({ success: true, data: activities });
+          // Fetch fromUser and ToUser information for each activity
+          const activityWithUserInfo = [];
+          for (const activity of activities) {
+            const fromUser = await User.findOne({ wallet_id: activity.from });
+            const toUser = await User.findOne({ wallet_id: activity.to });
+            if (fromUser && toUser) {
+              activityWithUserInfo.push({
+                ...activity.toObject(),
+                fromUser: fromUser.user_name,
+                toUser: toUser.user_name,
+              });
+            }
+          }
+
+          return res.status(200).json({ success: true, data: activityWithUserInfo });
 
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });

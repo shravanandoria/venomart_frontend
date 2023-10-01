@@ -269,7 +269,10 @@ const NFTPage = ({
     set_loading(true);
 
     let newFloorPrice = 0;
-    if ((finalListingPrice < (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice)) || ((nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice) == 0)) {
+    if (finalListingPrice < (nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice)) {
+      newFloorPrice = finalListingPrice;
+    }
+    if ((nft?.NFTCollection?.FloorPrice == 0) || (collectionData?.data?.FloorPrice == 0)) {
       newFloorPrice = finalListingPrice;
     }
     try {
@@ -1729,6 +1732,8 @@ const NFTPage = ({
                               from={e?.from}
                               to={e?.to}
                               hash={e?.hash}
+                              FromUser={e?.fromUser}
+                              ToUser={e?.toUser}
                               createdAt={e?.createdAt}
                               blockURL={blockURL}
                               MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}

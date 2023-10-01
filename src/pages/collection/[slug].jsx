@@ -381,6 +381,7 @@ const Collection = ({
     if (collection?._id == undefined) return;
     setSearchLoading(true);
     const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
+    console.log({ res })
     if (res) {
       set_activity(res);
       if (res == "") {
@@ -2135,6 +2136,8 @@ const Collection = ({
                               ActivityHash={e?.hash}
                               From={e?.from}
                               To={e?.to}
+                              FromUser={e?.fromUser}
+                              ToUser={e?.toUser}
                               MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                               signerAddress={signer_address}
                             />
