@@ -124,6 +124,7 @@ const NFTPage = ({
             ? nft_database?.attributes
             : [],
       };
+      setLastSold(nft_database?.lastSold)
       set_nft_info({ ...obj });
     }
     if (nft_database == undefined) {
@@ -233,8 +234,6 @@ const NFTPage = ({
     setMoreLoading(true);
     const res = await getActivity("", "", "", nft._id, activityType, skip);
     if (res) {
-      const saleElements = res.filter(item => item.type === "sale");
-      setLastSold(saleElements[0]?.price);
       setActivityHistory(res);
     }
     setfetchedNFTActivity(true);
@@ -932,7 +931,7 @@ const NFTPage = ({
                         {loading ? (
                           <button
                             type="button"
-                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             Proccessing{" "}
                             <svg
@@ -1147,7 +1146,7 @@ const NFTPage = ({
                         {loading ? (
                           <button
                             type="button"
-                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                           >
                             Proccessing{" "}
                             <svg
@@ -1170,7 +1169,7 @@ const NFTPage = ({
                         ) : (
                           <button
                             type="button"
-                            className="inline-block w-full rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                            className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                             onClick={() => (
                               setSelectedNFT(""), setCancelModal(true), setAnyModalOpen(true)
                             )}
@@ -1910,7 +1909,7 @@ const NFTPage = ({
                       <button
                         type="button"
                         onClick={() => alert("This feature will be available soon..")}
-                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Place your offer
                       </button>
                     </div>

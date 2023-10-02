@@ -1,6 +1,7 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
+import Activity from "../../../Models/Activity";
 import Collection from "../../../Models/Collection";
 import limiter from "../limiter";
 
@@ -26,6 +27,9 @@ export default async function handler(req, res) {
 
           // getting owner info 
           let user = await User.findOne({ wallet_id: nft.ownerAddress });
+
+          // getting last sold 
+          const lastSold = await Activity.find({ type: "sale", item: nft._id }).limit(1).sort({ createdAt: -1 });
 
           // nft props proba 
           const nfts = await NFT.find({ NFTCollection: nft.NFTCollection._id })
@@ -92,10 +96,11 @@ export default async function handler(req, res) {
 
           const mergedData = {
             ...nft.toObject(),
-            attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
-            moreNFTs: moreNFTs,
+            lastSold: lastSold[0]?.price,
             username: user.user_name,
             userProfileImage: user.profileImage,
+            attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
+            moreNFTs: moreNFTs
           };
 
           return res.status(200).json({ success: true, data: mergedData });

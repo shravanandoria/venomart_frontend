@@ -63,6 +63,23 @@ export default async function handler(req, res) {
                     res.status(400).json({ success: false, data: error.message });
                 }
                 break;
+            case "PUT":
+                try {
+                    const { notificationId } = req.body;
+
+                    let notification = await Notification.findOne({ _id: notificationId });
+                    if (!notification)
+                        return res
+                            .status(400)
+                            .json({ success: false, data: "Cannot Find This Notification" });
+
+                    await Notification.deleteOne({ _id: notificationId });
+
+                    return res.status(200).json({ success: true, data: "Successfully deleted Notification" });
+                } catch (error) {
+                    res.status(400).json({ success: false, data: error.message });
+                }
+                break;
             default:
                 res.status(400).json({ success: false });
                 break;
