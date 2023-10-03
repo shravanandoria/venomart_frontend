@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getOffers = async (nft, skip) => {
+export const getOffers = async (nftId, skip) => {
     try {
         const res = await axios({
-            url: `/api/offer/offer?nft=${nft}&skip=${skip}`,
+            url: `/api/offer/offer?nftId=${nftId}&skip=${skip}`,
             method: "GET"
         });
         return res.data.data;
@@ -12,13 +12,16 @@ export const getOffers = async (nft, skip) => {
     }
 };
 
-export const addOffer = async (offerId) => {
+export const addOffer = async (signer_address, offerPrice, OfferExpiration, nftAddress) => {
     try {
         const res = await axios({
             url: `/api/offer/offer`,
             method: "POST",
             data: {
-                offerId
+                from: signer_address,
+                offerPrice,
+                expiration: OfferExpiration,
+                nftAddress
             }
         });
         return res.data.data;

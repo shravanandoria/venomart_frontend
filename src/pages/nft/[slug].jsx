@@ -37,6 +37,7 @@ import NftCard from "../../components/cards/NftCard";
 import { IoHandLeftSharp } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
+import { addOffer, getOffers } from "../../utils/mongo_api/offer/offer";
 
 const NFTPage = ({
   signer_address,
@@ -57,6 +58,8 @@ const NFTPage = ({
   const { slug } = router.query;
 
   const [lastSold, setLastSold] = useState("");
+  const [offerPrice, setOfferPrice] = useState(0);
+  const [offerExpiration, setOfferExpiration] = useState("1day");
   const [selectedNFT, setSelectedNFT] = useState("");
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
@@ -77,6 +80,7 @@ const NFTPage = ({
   const [confirmChecked, setConfirmChecked] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [fetchedNFTActivity, setfetchedNFTActivity] = useState(false);
+  const [fetchedNFTOffers, setfetchedNFTOffers] = useState(false);
   const [actionDrop, setActionDrop] = useState(false);
   const [metaDataUpdated, setMetaDataUpdated] = useState(false);
   const [metadataLoading, setMetadataLoading] = useState(false);
@@ -386,6 +390,22 @@ const NFTPage = ({
       console.log(error);
     }
   };
+
+  // get offers
+  const getNFTOffers = async () => {
+    if (!nft) return;
+    setMoreLoading(true);
+    const getOffer = await getOffers(nft?._id, 0);
+    setActiveOffers(getOffer);
+    setfetchedNFTOffers(true);
+    setMoreLoading(false);
+  }
+
+  // add offer 
+  const makeOffer = async () => {
+    if (!slug) return;
+    const addoffer = addOffer(signer_address, offerPrice, offerExpiration, slug);
+  }
 
   // getting collection info if onChainData
   const getCollectionDataForOnchain = async () => {
@@ -1294,7 +1314,10 @@ const NFTPage = ({
                     <li
                       className="nav-item"
                       role="presentation"
-                      onClick={switchOffers}
+                      onClick={() => (
+                        !fetchedNFTOffers && getNFTOffers(),
+                        switchOffers()
+                      )}
                     >
                       <button
                         className={`nav-link ${offers && "active relative"
@@ -1427,7 +1450,7 @@ const NFTPage = ({
                               role="columnheader"
                             >
                               <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                USD Price
+                                Status
                               </span>
                             </div>
                             <div
@@ -1457,29 +1480,47 @@ const NFTPage = ({
                           </div>
 
                           {/* offers loop here  */}
-                          {/* <div className="contents" role="row">
-                            <div
-                              className="flex items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <span className="text-sm font-medium tracking-tight text-green">30 ETH</span>
-                            </div>
-                            <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              $90,136.10
-                            </div>
-                            <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              in 5 months
-                            </div>
-                            <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              <a href="user.html" className="text-accent">ViviGiallo</a>
-                            </div>
-                            <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
-                              role="cell">
-                              Cancel
-                            </div>
-                          </div> */}
+                          {activeOffers?.map((offer, index) => {
+                            return (
+                              <div className="contents" key={index}>
+                                <div
+                                  className="flex items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                  role="cell">
+                                  <span className="flex text-sm font-medium tracking-tight text-green">
+                                    <Image
+                                      src={venomLogo}
+                                      height={100}
+                                      width={100}
+                                      style={{
+                                        height: "13px",
+                                        width: "14px",
+                                        marginRight: "5px",
+                                        marginTop: "5px",
+                                      }}
+                                      alt="VenomLogo"
+                                    />
+                                    {offer?.offerPrice}
+                                  </span>
+                                </div>
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                  role="cell">
+                                  {offer?.status}
+                                </div>
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                  role="cell">
+                                  {offer?.expiration}
+                                </div>
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                  role="cell">
+                                  <a href="user.html" className="text-accent">{offer?.fromUser ? offer?.fromUser : (offer?.from?.slice(0, 5) + "..." + offer?.from?.slice(64))}</a>
+                                </div>
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                  role="cell">
+                                  Cancel
+                                </div>
+                              </div>
+                            )
+                          })}
 
                           <div className="flex p-4">
                             {activeOffers == "" && (
@@ -1850,31 +1891,44 @@ const NFTPage = ({
                     </button>
                   </div>
                   <div className="modal-body p-6">
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
-                    </div>
-
-                    <div
-                      className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
-                      <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
-                        <span className="dark:text-jacarta-200 mr-1 mb-[2px]">
-                          <Image
-                            src={venomLogo}
-                            height={100}
-                            width={100}
-                            alt="venomLogo"
-                            className="h-4 w-4"
-                          />
-                        </span>
-                        <span className="font-display text-sm text-jacarta-700">{currency}</span>
+                    <div>
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Price</span>
                       </div>
 
-                      <input type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
-                        placeholder="Amount" required />
+                      <div
+                        className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                        <div className="flex flex-1 items-center self-stretch border-r border-jacarta-100 bg-jacarta-50 px-2">
+                          <span className="dark:text-jacarta-200 mr-1 mb-[2px]">
+                            <Image
+                              src={venomLogo}
+                              height={100}
+                              width={100}
+                              alt="venomLogo"
+                              className="h-4 w-4"
+                            />
+                          </span>
+                          <span className="font-display text-sm text-jacarta-700">{currency}</span>
+                        </div>
 
-                      {/* <div className="flex flex-1 justify-end self-stretch border-l border-jacarta-100 bg-jacarta-50">
-                        <span className="self-center px-2 text-sm">$130.82</span>
-                      </div> */}
+                        <input onChange={(e) => setOfferPrice(e.target.value)} type="text" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
+                          placeholder="Amount" required />
+                      </div>
+                    </div>
+
+                    <div className="mt-4">
+                      <div className="mb-2 flex items-center justify-between">
+                        <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">Expiration</span>
+                      </div>
+
+                      <div className="relative mb-2 flex items-center overflow-hidden rounded-lg border border-jacarta-100 dark:border-jacarta-600">
+                        <select onChange={(e) => setOfferExpiration(e.target.value)} name="" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent">
+                          <option value="1day" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent">1 Day</option>
+                          <option value="7days" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent">7 Days</option>
+                          <option value="15days" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent">15 Days</option>
+                          <option value="30days" className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent">30 Days</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div className="text-right">
@@ -1908,7 +1962,8 @@ const NFTPage = ({
                     <div className="flex items-center justify-center space-x-4">
                       <button
                         type="button"
-                        onClick={() => alert("This feature will be available soon..")}
+                        onClick={() => makeOffer()}
+                        // onClick={() => alert("This feature will be available soon..")}
                         className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Place your offer
                       </button>
