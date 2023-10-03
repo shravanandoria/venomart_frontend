@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import defBack from "../../../public/gradient_dark.jpg";
 import defLogo from "../../../public/deflogo.png";
@@ -26,6 +26,8 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import BuyModal from "../../components/modals/BuyModal";
+
+import { TonClientContext } from "../../context/tonclient";
 
 const Profile = ({
   theme,
@@ -177,10 +179,12 @@ const Profile = ({
     setMoreLoading(false);
   };
 
+  const { client } = useContext(TonClientContext);
+
   // getting owned nfts
   const fetch_user_nfts = async () => {
     setMoreLoading(true);
-    const res = await loadNFTs_user(standalone, slug, lastNFT);
+    const res = await loadNFTs_user(standalone, slug, lastNFT, client);
     let new_nfts = [...nfts];
     res?.nfts
       ?.sort((a, b) => b.last_paid - a.last_paid)
@@ -618,8 +622,9 @@ const Profile = ({
             )}
           >
             <button
-              className={`nav-link ${onSale && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                onSale && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -645,8 +650,9 @@ const Profile = ({
             )}
           >
             <button
-              className={`nav-link ${owned && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                owned && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="created-tab"
               data-bs-toggle="tab"
               data-bs-target="#created"
@@ -676,8 +682,9 @@ const Profile = ({
             onClick={switchToCollections}
           >
             <button
-              className={`nav-link ${collections && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                collections && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="collections-tab"
               data-bs-toggle="tab"
               data-bs-target="#collections"
@@ -714,8 +721,9 @@ const Profile = ({
             )}
           >
             <button
-              className={`nav-link ${activity && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+              className={`nav-link ${
+                activity && "active relative"
+              } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
               id="activity-tab"
               data-bs-toggle="tab"
               data-bs-target="#activity"
@@ -992,9 +1000,9 @@ const Profile = ({
                                     placeholder="From"
                                     min="0"
                                     onInput={(e) =>
-                                    (e.target.value = Math.abs(
-                                      e.target.value
-                                    ))
+                                      (e.target.value = Math.abs(
+                                        e.target.value
+                                      ))
                                     }
                                     // value={minPrice}
                                     onChange={(e) => (
@@ -1009,9 +1017,9 @@ const Profile = ({
                                     placeholder="To"
                                     min="0"
                                     onInput={(e) =>
-                                    (e.target.value = Math.abs(
-                                      e.target.value
-                                    ))
+                                      (e.target.value = Math.abs(
+                                        e.target.value
+                                      ))
                                     }
                                     // value={maxPrice}
                                     onChange={(e) => (
@@ -1394,14 +1402,16 @@ const Profile = ({
                           setUserPurchases(false),
                           setActivityType("")
                         )}
-                        className={`${activityType == ""
+                        className={`${
+                          activityType == ""
                             ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
                             : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                        }`}
                       >
                         <span
-                          className={`text-2xs font-medium  ${activityType == "" && "text-white"
-                            }`}
+                          className={`text-2xs font-medium  ${
+                            activityType == "" && "text-white"
+                          }`}
                         >
                           All
                         </span>
@@ -1413,27 +1423,30 @@ const Profile = ({
                           setUserPurchases(false),
                           setActivityType("list")
                         )}
-                        className={`${activityType == "list"
+                        className={`${
+                          activityType == "list"
                             ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
                             : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "list"
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "list"
                               ? "fill-white"
                               : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                         </svg>
                         <span
-                          className={`text-2xs font-medium  ${activityType == "list" && "text-white"
-                            }`}
+                          className={`text-2xs font-medium  ${
+                            activityType == "list" && "text-white"
+                          }`}
                         >
                           Listing
                         </span>
@@ -1446,27 +1459,30 @@ const Profile = ({
                           setUserPurchases(false),
                           setActivityType("cancel")
                         )}
-                        className={`${activityType == "cancel"
+                        className={`${
+                          activityType == "cancel"
                             ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
                             : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "cancel"
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "cancel"
                               ? "fill-white"
                               : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                         </svg>
                         <span
-                          className={`text-2xs font-medium ${activityType == "cancel" && "text-white"
-                            }`}
+                          className={`text-2xs font-medium ${
+                            activityType == "cancel" && "text-white"
+                          }`}
                         >
                           Remove Listing
                         </span>
@@ -1479,27 +1495,30 @@ const Profile = ({
                           setUserPurchases(true),
                           setActivityType("sale")
                         )}
-                        className={`${activityType == "sale"
+                        className={`${
+                          activityType == "sale"
                             ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
                             : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "sale"
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "sale"
                               ? "fill-white"
                               : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                         </svg>
                         <span
-                          className={`text-2xs font-medium ${activityType == "sale" && "text-white"
-                            }`}
+                          className={`text-2xs font-medium ${
+                            activityType == "sale" && "text-white"
+                          }`}
                         >
                           Purchase
                         </span>
@@ -1512,27 +1531,30 @@ const Profile = ({
                           setUserPurchases(false),
                           setActivityType("user_sale")
                         )}
-                        className={`${activityType == "user_sale"
+                        className={`${
+                          activityType == "user_sale"
                             ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
                             : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                           width="24"
                           height="24"
-                          className={`mr-2 h-4 w-4 ${activityType == "user_sale"
+                          className={`mr-2 h-4 w-4 ${
+                            activityType == "user_sale"
                               ? "fill-white"
                               : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                          }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
                           <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                         </svg>
                         <span
-                          className={`text-2xs font-medium ${activityType == "user_sale" && "text-white"
-                            }`}
+                          className={`text-2xs font-medium ${
+                            activityType == "user_sale" && "text-white"
+                          }`}
                         >
                           Sale
                         </span>

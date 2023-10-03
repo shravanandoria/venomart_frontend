@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
@@ -10,13 +10,21 @@ import { MdVerified } from "react-icons/md";
 
 import venomLogo from "../../public/venomBG.webp";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
 import { top_collections } from "../utils/mongo_api/collection/collection";
+import { TonClientContext } from "../context/tonclient";
 
+export default function Home({
+  theme,
+  customLaunchpad,
+  featuredCollections,
+  topCollections,
+  setTopCollections,
+  websiteStats,
+}) {
+  const { client } = useContext(TonClientContext);
 
-
-export default function Home({ theme, customLaunchpad, featuredCollections, topCollections, setTopCollections, websiteStats }) {
   const [durationDrop, setDurationDrop] = useState(false);
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
@@ -25,7 +33,11 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
   const [loading, setLoading] = useState(false);
 
   const fetchTopCollections = async () => {
-    const topCollections = await top_collections(category, "unverified", duration);
+    const topCollections = await top_collections(
+      category,
+      "unverified",
+      duration
+    );
     setTopCollections(topCollections);
   };
 
@@ -38,6 +50,10 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
     if (!duration || defaultFilterFetch != true) return;
     fetchTopCollections();
   }, [category, duration]);
+
+  if (!client) {
+    return <>-</>;
+  }
 
   return (
     <div
@@ -108,9 +124,9 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
                   Buy, sell and collect NFTs.
                 </h1>
                 <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                  Venomart is the first fully-fledged NFT Marketplace on
-                  Venom. Get quick and easy access to digital collectibles and
-                  explore, buy and sell NFTs
+                  Venomart is the first fully-fledged NFT Marketplace on Venom.
+                  Get quick and easy access to digital collectibles and explore,
+                  buy and sell NFTs
                 </p>
                 <div className="flex flex-wrap justify-center align-middle space-x-4">
                   <Link
@@ -137,7 +153,9 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
                         <div>
                           <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
                             <div className="relative">
-                              <Link href={`/collection/${collection?.collectionAddress}`}>
+                              <Link
+                                href={`/collection/${collection?.collectionAddress}`}
+                              >
                                 <Image
                                   src={collection?.coverImage}
                                   alt="item"
@@ -188,7 +206,7 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -213,7 +231,10 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
         </section>
 
         {/* launchpad collections  */}
-        <div className="relative py-24 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+        <div
+          className="relative py-24 dark:bg-jacarta-900"
+          style={{ userSelect: "none" }}
+        >
           <div className="container">
             <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Venomart Launchpad </h2>
@@ -252,31 +273,44 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
                   1204: {
                     slidesPerView: 3,
                     spaceBetween: 30,
-                  }
+                  },
                 }}
                 className="mySwiper"
               >
-                {customLaunchpad?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
-                  return (
-                    id < 6 && e.verified == true && (
-                      <SwiperSlide key={id} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <LaunchCollectionCard
-                          Cover={e.Cover}
-                          Logo={e.Logo}
-                          Name={e.Name}
-                          Description={e.Description}
-                          mintPrice={e.mintPrice}
-                          status={e.status}
-                          CollectionAddress={e.CollectionAddress}
-                          customLink={e.customLink}
-                          verified={e.verified}
-                          startDate={e.startDate}
-                          endDate={e.endDate}
-                        />
-                      </SwiperSlide>
-                    )
-                  );
-                })}
+                {customLaunchpad
+                  ?.sort(
+                    ({ id: previousID }, { id: currentID }) =>
+                      currentID - previousID
+                  )
+                  ?.map((e, id) => {
+                    return (
+                      id < 6 &&
+                      e.verified == true && (
+                        <SwiperSlide
+                          key={id}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <LaunchCollectionCard
+                            Cover={e.Cover}
+                            Logo={e.Logo}
+                            Name={e.Name}
+                            Description={e.Description}
+                            mintPrice={e.mintPrice}
+                            status={e.status}
+                            CollectionAddress={e.CollectionAddress}
+                            customLink={e.customLink}
+                            verified={e.verified}
+                            startDate={e.startDate}
+                            endDate={e.endDate}
+                          />
+                        </SwiperSlide>
+                      )
+                    );
+                  })}
               </Swiper>
             </div>
 
@@ -292,39 +326,76 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
         </div>
 
         {/* top collections  */}
-        {!loading &&
+        {!loading && (
           <section className="relative py-24 dark:bg-jacarta-900">
             <div className="container">
               <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
                 <h2 className="inline mr-2">Top collections over</h2>
                 <div className="relative inline cursor-pointer">
-                  <button onClick={() => (setDurationDrop(!durationDrop))} className="dropdown-toggle inline-flex items-center text-accent" type="button">
-                    {duration == "1day" &&
-                      "last 24 hours"
-                    }
-                    {duration == "7days" &&
-                      "last 7 days"
-                    }
-                    {duration == "30days" &&
-                      "last 30 days"
-                    }
-                    {duration == "1year" &&
-                      "last 1 year"
-                    }
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                      className="h-8 w-8 fill-accent">
+                  <button
+                    onClick={() => setDurationDrop(!durationDrop)}
+                    className="dropdown-toggle inline-flex items-center text-accent"
+                    type="button"
+                  >
+                    {duration == "1day" && "last 24 hours"}
+                    {duration == "7days" && "last 7 days"}
+                    {duration == "30days" && "last 30 days"}
+                    {duration == "1year" && "last 1 year"}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="h-8 w-8 fill-accent"
+                    >
                       <path fill="none" d="M0 0h24v24H0z" />
                       <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
                     </svg>
                   </button>
-                  {durationDrop &&
+                  {durationDrop && (
                     <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
-                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600" >Last 24 Hours</div>
-                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 7 Days</div>
-                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 30 Days</div>
-                      <div onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), setDurationDrop(false))} className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600">Last 1 Year</div>
+                      <div
+                        onClick={() => (
+                          setDefaultFilterFetch(true),
+                          setDuration("1day"),
+                          setDurationDrop(false)
+                        )}
+                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      >
+                        Last 24 Hours
+                      </div>
+                      <div
+                        onClick={() => (
+                          setDefaultFilterFetch(true),
+                          setDuration("7days"),
+                          setDurationDrop(false)
+                        )}
+                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      >
+                        Last 7 Days
+                      </div>
+                      <div
+                        onClick={() => (
+                          setDefaultFilterFetch(true),
+                          setDuration("30days"),
+                          setDurationDrop(false)
+                        )}
+                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      >
+                        Last 30 Days
+                      </div>
+                      <div
+                        onClick={() => (
+                          setDefaultFilterFetch(true),
+                          setDuration("1year"),
+                          setDurationDrop(false)
+                        )}
+                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      >
+                        Last 1 Year
+                      </div>
                     </div>
-                  }
+                  )}
                 </div>
               </div>
 
@@ -349,13 +420,16 @@ export default function Home({ theme, customLaunchpad, featuredCollections, topC
                 })}
               </div>
               <div className="mt-10 text-center">
-                <Link href="/explore/rankings/Collections"
-                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">Go
-                  to Rankings</Link>
+                <Link
+                  href="/explore/rankings/Collections"
+                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                >
+                  Go to Rankings
+                </Link>
               </div>
             </div>
           </section>
-        }
+        )}
 
         {/* Latest collections  */}
         {/* <div className="relative py-24 dark:bg-jacarta-900">

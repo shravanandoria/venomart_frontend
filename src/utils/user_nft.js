@@ -3,6 +3,8 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
+import { useContext } from "react";
+
 import {
   createNFT,
   updateNFTListing,
@@ -14,21 +16,8 @@ import { Subscriber } from "everscale-inpage-provider";
 import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
-import { TonClient } from "@eversdk/core";
-import { libWeb, libWebSetup } from "@eversdk/lib-web";
-
-libWebSetup({
-  disableSeparateWorker: true,
-});
-
-TonClient.useBinaryLibrary(libWeb);
-
-const client = new TonClient({
-  network: { endpoints: ["https://gql-testnet.venom.foundation/graphql"] },
-});
-
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -222,7 +211,12 @@ export const loadNFTs_collection = async (
   }
 };
 
-export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
+export const loadNFTs_user = async (
+  provider,
+  ownerAddress,
+  last_paid,
+  client
+) => {
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
@@ -232,8 +226,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
       return;
     }
 
-    const query =
-      `query {
+    const query = `query {
       accounts(
         filter: {
           workchain_id: { eq: 0 }

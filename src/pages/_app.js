@@ -1,5 +1,7 @@
 // def
 import { useEffect, useCallback, useState } from "react";
+import { TonClientContextProvider } from "../context/tonclient";
+import { ClientConfig } from "@eversdk/core";
 
 // components
 import Navbar from "../components/Navbar";
@@ -11,9 +13,9 @@ import "../styles/custom.css";
 import "../styles/tailwind.css";
 import "../styles/Home.module.css";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 //Wallet Connect
 import { initVenomConnect } from "../utils/wallet_connect";
@@ -38,11 +40,10 @@ export default function App({ Component, pageProps }) {
   const defTheme = "dark";
 
   // other values
-  const adminAccount =
-    [
-      "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
-      "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
-    ]
+  const adminAccount = [
+    "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
+    "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
+  ];
   const MintNFTStatus = true;
   const MintCollectionStatus = false;
 
@@ -254,7 +255,8 @@ export default function App({ Component, pageProps }) {
         "🎮 Web3 gaming platform for everyone. Built on @Venom_network_ Play with Chepe, earn with Chepe ✨",
       mintPrice: "2",
       status: "Ended",
-      CollectionAddress: "0:359bfa06e4c20af75909a75d428e2036c3b625be7bbf61f0ad637c8a619c63f0",
+      CollectionAddress:
+        "0:359bfa06e4c20af75909a75d428e2036c3b625be7bbf61f0ad637c8a619c63f0",
       customLink: "custom/chepegames",
       pageName: "chepegames",
       supply: "2000",
@@ -275,10 +277,12 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmWfFQMVUyhgxgMANX8MYtLn9mVWvcug3vimLoPYBZPZsW/segmintback.png",
       Logo: "https://ipfs.io/ipfs/QmPcZacrP2MLcDziRwxiGZadpegSF7t3dPqqXjfZS7sV5e/segmint.gif",
       Name: "Venomart x Segmint",
-      Description: "Pixels game - take your place in blockchain history 🖼️ | Powered by the Venom blockchain 🧪",
+      Description:
+        "Pixels game - take your place in blockchain history 🖼️ | Powered by the Venom blockchain 🧪",
       mintPrice: "2",
       status: "Ended",
-      CollectionAddress: "0:5176c497e5067116acc7d1370c963743a0f1125c363f11f941a34c64f069dae6",
+      CollectionAddress:
+        "0:5176c497e5067116acc7d1370c963743a0f1125c363f11f941a34c64f069dae6",
       customLink: "custom/segmint",
       pageName: "segmint",
       supply: "3000",
@@ -299,10 +303,12 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmWdvKBGjY1Jm9ZtQE3gUuo8u5szszeN7v37tGqrFHx4hC/biovenomsdklatest.jpg",
       Logo: "https://ipfs.io/ipfs/QmcfxTCCkmG9WZeK7nZRoVdZ9zkwdUtU9dABsQPpgPggkm/nft.gif",
       Name: "Venomart x Biovenomsdk",
-      Description: "Your Device is Your Hardware-Wallet: Simple, Secure, and Streamlined.",
+      Description:
+        "Your Device is Your Hardware-Wallet: Simple, Secure, and Streamlined.",
       mintPrice: "1",
       status: "Ended",
-      CollectionAddress: "0:2d040891868ccfa796a97d98a30fab79a78319c95df483378770221e49ea4c0e",
+      CollectionAddress:
+        "0:2d040891868ccfa796a97d98a30fab79a78319c95df483378770221e49ea4c0e",
       customLink: "custom/biovenomsdk",
       pageName: "biovenomsdk",
       supply: "2000",
@@ -316,7 +322,7 @@ export default function App({ Component, pageProps }) {
       startDate: "09/27/2023 16:00:00 GMT+0530",
       endDate: "10/1/2023 16:00:00 GMT+0530",
       verified: true,
-    }
+    },
   ];
 
   // custom array of all launches
@@ -396,7 +402,8 @@ export default function App({ Component, pageProps }) {
         "DeVenLabs is the home of degens and will build mini-games and usecases for the native token on the Venom Network.",
       mintPrice: "2",
       status: "Ended",
-      CollectionAddress: "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
+      CollectionAddress:
+        "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
       customLink: "launch/devenlabs",
       pageName: "devenlabs",
       supply: "4000",
@@ -421,7 +428,8 @@ export default function App({ Component, pageProps }) {
         "Venompumpy is a memecoin built with classic NFT on Venom Network to reward users with up to 5% daily staking rewards",
       mintPrice: "1",
       status: "Ended",
-      CollectionAddress: "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
+      CollectionAddress:
+        "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
       customLink: "launch/venompumpy",
       pageName: "venompumpy",
       supply: "2000",
@@ -438,36 +446,42 @@ export default function App({ Component, pageProps }) {
     },
   ];
 
-  // featured collections 
+  // featured collections
   const featuredCollections = [
     {
       id: 1,
       collectionName: "Devenlabs",
-      collectionAddress: "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
+      collectionAddress:
+        "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
       items: 2000,
-      coverImage: "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
-      collectionLogo: "https://ipfs.io/ipfs/QmYV5DPbTRMUK9TZ95HaFq9zRMoYnMYHRyzDC76SUVMvnx/logo.jpg",
-      className: "mb-6 md:flex md:w-1/2 md:items-center"
+      coverImage:
+        "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
+      collectionLogo:
+        "https://ipfs.io/ipfs/QmYV5DPbTRMUK9TZ95HaFq9zRMoYnMYHRyzDC76SUVMvnx/logo.jpg",
+      className: "mb-6 md:flex md:w-1/2 md:items-center",
     },
     {
       id: 2,
       collectionName: "Venompumpy",
-      collectionAddress: "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
+      collectionAddress:
+        "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
       items: 2000,
-      coverImage: "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
-      collectionLogo: "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
-      className: "mb-6 md:flex md:w-1/2 md:items-center"
-    }
-  ]
+      coverImage:
+        "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+      collectionLogo:
+        "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+      className: "mb-6 md:flex md:w-1/2 md:items-center",
+    },
+  ];
 
-  // web stats 
+  // web stats
   const websiteStats = [
     {
       nftCollection: 31,
       mintedNFTs: 34500,
-      mintVolume: 51780
-    }
-  ]
+      mintVolume: 51780,
+    },
+  ];
 
   // copyURL function
   function copyURL() {
@@ -570,6 +584,12 @@ export default function App({ Component, pageProps }) {
     setAnyModalOpen(false);
   }, [router.pathname]);
 
+  const config = {
+    network: {
+      endpoints: ["https://gql-testnet.venom.foundation/graphql"],
+    },
+  };
+
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
       <Script
@@ -598,36 +618,38 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
         blockURL={blockURL}
       />
-      <Component
-        {...pageProps}
-        theme={theme}
-        standalone={standalone}
-        apiFetchURL={apiFetchURL}
-        venomProvider={venomProvider}
-        signer_address={signer_address}
-        defaultCollectionAddress={defaultCollectionAddress}
-        blockURL={blockURL}
-        blockChain={blockChain}
-        currency={currency}
-        webURL={webURL}
-        copyURL={copyURL}
-        connectWallet={connect_wallet}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
-        adminAccount={adminAccount}
-        customLaunchpad={customLaunchpad}
-        featuredCollections={featuredCollections}
-        websiteStats={websiteStats}
-        collabQuests={collabQuests}
-        topCollections={topCollections}
-        setTopCollections={setTopCollections}
-        topUsers={topUsers}
-        setTopUsers={setTopUsers}
-        anyModalOpen={anyModalOpen}
-        setAnyModalOpen={setAnyModalOpen}
-        cartNFTs={cartNFTs}
-        setCartNFTs={setCartNFTs}
-      />
+      <TonClientContextProvider config={config}>
+        <Component
+          {...pageProps}
+          theme={theme}
+          standalone={standalone}
+          apiFetchURL={apiFetchURL}
+          venomProvider={venomProvider}
+          signer_address={signer_address}
+          defaultCollectionAddress={defaultCollectionAddress}
+          blockURL={blockURL}
+          blockChain={blockChain}
+          currency={currency}
+          webURL={webURL}
+          copyURL={copyURL}
+          connectWallet={connect_wallet}
+          MintNFTStatus={MintNFTStatus}
+          MintCollectionStatus={MintCollectionStatus}
+          adminAccount={adminAccount}
+          customLaunchpad={customLaunchpad}
+          featuredCollections={featuredCollections}
+          websiteStats={websiteStats}
+          collabQuests={collabQuests}
+          topCollections={topCollections}
+          setTopCollections={setTopCollections}
+          topUsers={topUsers}
+          setTopUsers={setTopUsers}
+          anyModalOpen={anyModalOpen}
+          setAnyModalOpen={setAnyModalOpen}
+          cartNFTs={cartNFTs}
+          setCartNFTs={setCartNFTs}
+        />
+      </TonClientContextProvider>
       <Footer
         cartNFTs={cartNFTs}
         setCartNFTs={setCartNFTs}
