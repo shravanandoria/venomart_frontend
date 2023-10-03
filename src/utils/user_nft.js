@@ -28,7 +28,7 @@ const client = new TonClient({
 });
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -232,8 +232,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid) => {
       return;
     }
 
-    const query =
-      `query {
+    const query = `query {
       accounts(
         filter: {
           workchain_id: { eq: 0 }
