@@ -1512,11 +1512,23 @@ const NFTPage = ({
                                 </div>
                                 <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                   role="cell">
-                                  <a href="user.html" className="text-accent">{offer?.fromUser ? offer?.fromUser : (offer?.from?.slice(0, 5) + "..." + offer?.from?.slice(64))}</a>
+                                  <Link href={`/profile/${offer?.from}`} className="text-accent">{offer?.fromUser ? offer?.fromUser : (offer?.from?.slice(0, 5) + "..." + offer?.from?.slice(64))}</Link>
                                 </div>
                                 <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                   role="cell">
-                                  Cancel
+                                  {signer_address == offer?.from &&
+                                    <button>
+                                      Cancel
+                                    </button>
+                                  }
+                                  {signer_address == nft?.ownerAddress &&
+                                    <button>
+                                      Accept
+                                    </button>
+                                  }
+                                  {signer_address != nft?.ownerAddress && signer_address != offer?.from &&
+                                    "-----"
+                                  }
                                 </div>
                               </div>
                             )
@@ -1962,8 +1974,8 @@ const NFTPage = ({
                     <div className="flex items-center justify-center space-x-4">
                       <button
                         type="button"
-                        onClick={() => makeOffer()}
-                        // onClick={() => alert("This feature will be available soon..")}
+                        // onClick={() => makeOffer()}
+                        onClick={() => alert("This feature will be available soon..")}
                         className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Place your offer
                       </button>

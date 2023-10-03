@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -341,6 +341,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
 };
 
 export const has_minted = async (collection_address, signer_address) => {
+  if (collection_address == "" || signer_address == "") return;
   let myEver = new MyEver();
   const providerRpcClient = myEver.ever();
   const contract = new providerRpcClient.Contract(
