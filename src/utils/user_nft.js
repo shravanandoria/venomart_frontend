@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -63,8 +63,6 @@ export const getNftImage = async (provider, nftAddress) => {
 // Returns array with NFT's images urls
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
-
-  console.log(nftAddresses);
 
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
@@ -197,7 +195,6 @@ export const loadNFTs_collection = async (
       providerRpcClient,
       collection_address
     );
-    console.log({ nftCodeHash });
     if (!nftCodeHash) {
       return;
     }
