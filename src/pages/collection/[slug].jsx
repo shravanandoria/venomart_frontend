@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NftCard from "../../components/cards/NftCard";
@@ -11,15 +11,26 @@ import {
   BsTelegram,
   BsTwitter,
 } from "react-icons/bs";
-import { RxActivityLog } from "react-icons/rx"
-import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai"
+import { RxActivityLog } from "react-icons/rx";
+import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { MARKETPLACE_ADDRESS, buy_nft, cancel_listing, loadNFTs_collection } from "../../utils/user_nft";
+import {
+  MARKETPLACE_ADDRESS,
+  buy_nft,
+  cancel_listing,
+  loadNFTs_collection,
+} from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
-import { admin_collection_refresh, get_collection_by_contract, get_collection_props, update_collection_information, update_collection_supply } from "../../utils/mongo_api/collection/collection";
+import {
+  admin_collection_refresh,
+  get_collection_by_contract,
+  get_collection_props,
+  update_collection_information,
+  update_collection_supply,
+} from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -36,6 +47,8 @@ import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
 
+import { TonClientContext } from "../../context/tonclient";
+
 const Collection = ({
   blockURL,
   theme,
@@ -46,7 +59,7 @@ const Collection = ({
   venomProvider,
   setAnyModalOpen,
   cartNFTs,
-  setCartNFTs
+  setCartNFTs,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -78,8 +91,10 @@ const Collection = ({
   const [skipActivity, setSkipActivity] = useState(0);
   const [hasMoreActivity, setHasMoreActivity] = useState(true);
 
-  const [fetchedCollectionActivity, setFetchedCollectionActivity] = useState(false);
-  const [fetchedCollectionAnalytics, setFetchedCollectionAnalytics] = useState(false);
+  const [fetchedCollectionActivity, setFetchedCollectionActivity] =
+    useState(false);
+  const [fetchedCollectionAnalytics, setFetchedCollectionAnalytics] =
+    useState(false);
   const [fetchedProps, setFetchedProps] = useState(false);
   const [activityType, setActivityType] = useState("");
 
@@ -107,26 +122,26 @@ const Collection = ({
   const [successModal, setSuccessModal] = useState(false);
   const [transactionType, setTransactionType] = useState("");
 
-  // chartdata 
+  // chartdata
   const salesData = {
     labels: analytics?.map((e) =>
-    (
-      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
-        :
-        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
-          :
-          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
-        )
-      )
-    )
+      currentDuration === "1day"
+        ? moment(new Date(e.Time)).format("hh:mm a")
+        : currentDuration === "7days" ||
+          currentDuration === "30days" ||
+          currentDuration === "6months" ||
+          currentDuration === "1year"
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" &&
+          moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
       {
-        label: 'Sales',
-        data: analytics?.map((e) => (e.TotalSales)),
+        label: "Sales",
+        data: analytics?.map((e) => e.TotalSales),
         fill: "start",
-        backgroundColor: 'rgba(160, 131, 247, 0.2)',
-        borderColor: 'rgba(131, 91, 251, 1)',
+        backgroundColor: "rgba(160, 131, 247, 0.2)",
+        borderColor: "rgba(131, 91, 251, 1)",
         borderWidth: 2,
       },
     ],
@@ -134,23 +149,23 @@ const Collection = ({
 
   const volumeData = {
     labels: analytics?.map((e) =>
-    (
-      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
-        :
-        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
-          :
-          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
-        )
-      )
-    )
+      currentDuration === "1day"
+        ? moment(new Date(e.Time)).format("hh:mm a")
+        : currentDuration === "7days" ||
+          currentDuration === "30days" ||
+          currentDuration === "6months" ||
+          currentDuration === "1year"
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" &&
+          moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
       {
-        label: 'Volume',
-        data: analytics?.map((e) => (e.SalesVolume)),
+        label: "Volume",
+        data: analytics?.map((e) => e.SalesVolume),
         fill: "start",
-        backgroundColor: 'rgba(160, 131, 247, 0.2)',
-        borderColor: 'rgba(131, 91, 251, 1)',
+        backgroundColor: "rgba(160, 131, 247, 0.2)",
+        borderColor: "rgba(131, 91, 251, 1)",
         borderWidth: 2,
       },
     ],
@@ -158,23 +173,23 @@ const Collection = ({
 
   const listingData = {
     labels: analytics?.map((e) =>
-    (
-      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
-        :
-        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
-          :
-          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
-        )
-      )
-    )
+      currentDuration === "1day"
+        ? moment(new Date(e.Time)).format("hh:mm a")
+        : currentDuration === "7days" ||
+          currentDuration === "30days" ||
+          currentDuration === "6months" ||
+          currentDuration === "1year"
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" &&
+          moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
       {
-        label: 'Listings',
-        data: analytics?.map((e) => (e.TotalListings)),
+        label: "Listings",
+        data: analytics?.map((e) => e.TotalListings),
         fill: "start",
-        backgroundColor: 'rgba(160, 131, 247, 0.2)',
-        borderColor: 'rgba(131, 91, 251, 1)',
+        backgroundColor: "rgba(160, 131, 247, 0.2)",
+        borderColor: "rgba(131, 91, 251, 1)",
         borderWidth: 2,
       },
     ],
@@ -182,23 +197,23 @@ const Collection = ({
 
   const floorData = {
     labels: analytics?.map((e) =>
-    (
-      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
-        :
-        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
-          :
-          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
-        )
-      )
-    )
+      currentDuration === "1day"
+        ? moment(new Date(e.Time)).format("hh:mm a")
+        : currentDuration === "7days" ||
+          currentDuration === "30days" ||
+          currentDuration === "6months" ||
+          currentDuration === "1year"
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" &&
+          moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
       {
-        label: 'Floor Price',
-        data: analytics?.map((e) => (e.floorPrice)),
+        label: "Floor Price",
+        data: analytics?.map((e) => e.floorPrice),
         fill: "start",
-        backgroundColor: 'rgba(160, 131, 247, 0.2)',
-        borderColor: 'rgba(131, 91, 251, 1)',
+        backgroundColor: "rgba(160, 131, 247, 0.2)",
+        borderColor: "rgba(131, 91, 251, 1)",
         borderWidth: 2,
       },
     ],
@@ -206,30 +221,29 @@ const Collection = ({
 
   const marketData = {
     labels: analytics?.map((e) =>
-    (
-      (currentDuration === "1day" ? moment(new Date(e.Time)).format("hh:mm a")
-        :
-        ((currentDuration === "7days" || currentDuration === "30days" || currentDuration === "6months" || currentDuration === "1year") ? moment(new Date(e.Time)).format("DD MMM")
-          :
-          (currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"))
-        )
-      )
-    )
+      currentDuration === "1day"
+        ? moment(new Date(e.Time)).format("hh:mm a")
+        : currentDuration === "7days" ||
+          currentDuration === "30days" ||
+          currentDuration === "6months" ||
+          currentDuration === "1year"
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" &&
+          moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
       {
-        label: 'Market Cap',
-        data: analytics?.map((e) => (e.marketCap)),
+        label: "Market Cap",
+        data: analytics?.map((e) => e.marketCap),
         fill: "start",
-        backgroundColor: 'rgba(160, 131, 247, 0.2)',
-        borderColor: 'rgba(131, 91, 251, 1)',
+        backgroundColor: "rgba(160, 131, 247, 0.2)",
+        borderColor: "rgba(131, 91, 251, 1)",
         borderWidth: 2,
       },
     ],
   };
 
-
-  // getting charts 
+  // getting charts
   const get_charts_data = async () => {
     if (!collection._id) return;
     setChartLoading(true);
@@ -240,9 +254,9 @@ const Collection = ({
       set_analytics(chartData);
     }
     setChartLoading(false);
-  }
+  };
 
-  // refresh nft metadata 
+  // refresh nft metadata
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
@@ -255,27 +269,44 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.FloorPrice != aggregatedData?.FloorPrice) || (collection?.TotalVolume != aggregatedData?.SalesVolume) || (collection?.TotalSupply < totalSupply?.count)) {
-      if ((aggregatedData != undefined) && ((collection?.TotalListed != aggregatedData?.TotalListed) || (collection?.FloorPrice != aggregatedData?.FloorPrice) || (collection?.TotalVolume != aggregatedData?.SalesVolume))) {
-        const updateCollectionData = await update_collection_information(slug, aggregatedData?.TotalListed, aggregatedData?.FloorPrice, aggregatedData?.SalesVolume);
+    if (
+      collection?.TotalListed != aggregatedData?.TotalListed ||
+      collection?.FloorPrice != aggregatedData?.FloorPrice ||
+      collection?.TotalVolume != aggregatedData?.SalesVolume ||
+      collection?.TotalSupply < totalSupply?.count
+    ) {
+      if (
+        aggregatedData != undefined &&
+        (collection?.TotalListed != aggregatedData?.TotalListed ||
+          collection?.FloorPrice != aggregatedData?.FloorPrice ||
+          collection?.TotalVolume != aggregatedData?.SalesVolume)
+      ) {
+        const updateCollectionData = await update_collection_information(
+          slug,
+          aggregatedData?.TotalListed,
+          aggregatedData?.FloorPrice,
+          aggregatedData?.SalesVolume
+        );
       }
       if (collection?.TotalSupply < totalSupply.count) {
-        const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+        const updateNFTData = await update_collection_supply(
+          slug,
+          totalSupply.count
+        );
       }
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
       setMetaDataUpdated(true);
       return;
-    }
-    else {
+    } else {
       setMetaDataUpdated(true);
       setMetadataLoading(false);
       alert("Metadata is already up to date!");
     }
-  }
+  };
 
-  // mediaQuery 
+  // mediaQuery
   const useMediaQuery = (width) => {
     const [targetReached, setTargetReached] = useState(false);
 
@@ -306,13 +337,23 @@ const Collection = ({
   };
 
   const isBreakpoint = useMediaQuery(800);
+  const { client } = useContext(TonClientContext);
 
-  // getting def collection info 
+  // getting def collection info
   const gettingCollectionInfo = async () => {
     if (!standalone && !slug) return;
     setLoading(true);
 
-    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = undefined;
+    // const nfts_offchain = await fetch_collection_nfts(
+    //   slug,
+    //   signer_address,
+    //   currentFilter,
+    //   propsFilter,
+    //   minPrice,
+    //   maxPrice,
+    //   skip
+    // );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
@@ -324,8 +365,10 @@ const Collection = ({
       const nfts_onchain = await loadNFTs_collection(
         standalone,
         slug,
-        undefined
+        undefined,
+        client
       );
+
       setOnChainData(true);
       setLastNFT(nfts_onchain?.continuation);
       set_nfts(nfts_onchain?.nfts);
@@ -348,40 +391,56 @@ const Collection = ({
       setFetchedProps(true);
     }
     setPropLoading(false);
-  }
+  };
 
-  // getting nfts according to filter 
+  // getting nfts according to filter
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(
+      slug,
+      signer_address,
+      currentFilter,
+      propsFilter,
+      minPrice,
+      maxPrice,
+      skip
+    );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "") {
         setHasMore(false);
       }
     }
-  }
+  };
 
-  // filter btn for fetch onchain data 
+  // filter btn for fetch onchain data
   const filterFetchOnchainData = async () => {
     setSearchLoading(true);
     const nfts_onchain = await loadNFTs_collection(
       standalone,
       slug,
-      undefined
+      undefined,
+      client
     );
     setOnChainData(true);
     setLastNFT(nfts_onchain?.continuation);
     set_nfts(nfts_onchain?.nfts);
     setSearchLoading(false);
-  }
+  };
 
   // fetching collection activity
   const fetch_collection_activity = async () => {
     if (collection?._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
-    console.log({ res })
+    const res = await getActivity(
+      "",
+      "",
+      collection._id,
+      "",
+      activityType,
+      skipActivity
+    );
+    console.log({ res });
     if (res) {
       set_activity(res);
       if (res == "") {
@@ -395,7 +454,7 @@ const Collection = ({
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
-    let res = await loadNFTs_collection(standalone, slug, lastNFT);
+    let res = await loadNFTs_collection(standalone, slug, lastNFT, client);
     setLastNFT(res?.continuation);
 
     if (res?.nfts?.length && res?.continuation) {
@@ -408,7 +467,15 @@ const Collection = ({
   // fetching on offchain scroll
   const fetch_more_nftsOffChain = async () => {
     if (onChainData == true || skip == 0) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, minPrice, maxPrice, skip);
+    const nfts_offchain = await fetch_collection_nfts(
+      slug,
+      signer_address,
+      currentFilter,
+      propsFilter,
+      minPrice,
+      maxPrice,
+      skip
+    );
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
       if (nfts_offchain == "") {
@@ -425,7 +492,14 @@ const Collection = ({
   const scrollFetchActivity = async () => {
     if (collection._id == undefined) return;
     setSearchLoading(true);
-    const res = await getActivity("", "", collection._id, "", activityType, skipActivity);
+    const res = await getActivity(
+      "",
+      "",
+      collection._id,
+      "",
+      activityType,
+      skipActivity
+    );
     if (res) {
       set_activity([...activity, ...res]);
       if (res == "") {
@@ -454,7 +528,9 @@ const Collection = ({
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT?.demandPrice) *
         parseFloat(
-          selectedNFT?.NFTCollection?.royalty ? selectedNFT?.NFTCollection?.royalty : 0
+          selectedNFT?.NFTCollection?.royalty
+            ? selectedNFT?.NFTCollection?.royalty
+            : 0
         )) /
         100) *
       1000000000;
@@ -539,7 +615,7 @@ const Collection = ({
   }, [isTyping]);
 
   useEffect(() => {
-    if (!slug) return
+    if (!slug) return;
     gettingCollectionInfo();
   }, [standalone, slug]);
 
@@ -554,33 +630,39 @@ const Collection = ({
 
   useEffect(() => {
     fetch_collection_activity();
-  }, [activityType])
+  }, [activityType]);
 
   useEffect(() => {
     fetch_filter_nfts();
-  }, [currentFilter, propsFilter])
+  }, [currentFilter, propsFilter]);
 
   useEffect(() => {
     get_charts_data();
-  }, [currentDuration])
+  }, [currentDuration]);
 
   useEffect(() => {
     if (listedFilter || saleTypeFilter || priceRangeFilter) {
-      document.body.addEventListener('click', () => {
-        showListedFilter(false)
-        showSaleTypeFilter(false)
-        showPriceRangeFilter(false)
-      })
+      document.body.addEventListener("click", () => {
+        showListedFilter(false);
+        showSaleTypeFilter(false);
+        showPriceRangeFilter(false);
+      });
     }
-  }, [listedFilter, saleTypeFilter, priceRangeFilter])
+  }, [listedFilter, saleTypeFilter, priceRangeFilter]);
 
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{`${collection?.name ? collection?.name : "Collection"} - Venomart Marketplace`}</title>
+        <title>{`${
+          collection?.name ? collection?.name : "Collection"
+        } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${collection?.description ? collection?.description : "Explore, Create and Experience exculsive NFTs on Venomart"} | Powered by Venom Blockchain`}
+          content={`${
+            collection?.description
+              ? collection?.description
+              : "Explore, Create and Experience exculsive NFTs on Venomart"
+          } | Powered by Venom Blockchain`}
         />
         <meta
           name="keywords"
@@ -590,9 +672,7 @@ const Collection = ({
         <link rel="icon" href="/fav.png" />
       </Head>
 
-      {buyModal && (
-        <div className="backgroundModelBlur backdrop-blur-lg"></div>
-      )}
+      {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {cancelModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
@@ -698,12 +778,9 @@ const Collection = ({
 
             <div className="container">
               <div className="text-center">
-
                 {/* name  */}
                 <h2 className="mb-2 mt-2 font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                  {collection?.name
-                    ? collection?.name
-                    : "Unknown Collection"}
+                  {collection?.name ? collection?.name : "Unknown Collection"}
                 </h2>
 
                 {/* socials  */}
@@ -761,9 +838,7 @@ const Collection = ({
                   </a>
                   <svg
                     onClick={() => (
-                      navigator.clipboard.writeText(
-                        `${slug}`
-                      ),
+                      navigator.clipboard.writeText(`${slug}`),
                       alert("copied collection contract address to clipboard")
                     )}
                     xmlns="http://www.w3.org/2000/svg"
@@ -778,19 +853,17 @@ const Collection = ({
                 </div>
 
                 {/* royalty  */}
-                {collection?.royalty != "" &&
+                {collection?.royalty != "" && (
                   <div className="mb-4">
                     <button className="bg-blue-500 text-white text-[12px] px-3 py-1 rounded-3xl cursor-default">
                       Royalties Fee {collection?.royalty}%
                     </button>
                   </div>
-                }
+                )}
 
                 {/* stats  */}
                 <div className="mb-8 mt-4 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
-                  <div
-                    className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
-                  >
+                  <div className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32">
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
                       {collection?.TotalSupply ? collection?.TotalSupply : "0"}
                     </div>
@@ -808,9 +881,7 @@ const Collection = ({
                       Owners
                     </div>
                   </div> */}
-                  <div
-                    className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
-                  >
+                  <div className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r">
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
                       {collection?.TotalListed ? collection?.TotalListed : "0"}
                     </div>
@@ -818,9 +889,7 @@ const Collection = ({
                       For Sale
                     </div>
                   </div>
-                  <div
-                    className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32"
-                  >
+                  <div className="w-1/2 border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32">
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <Image
                         src={venomLogo}
@@ -842,9 +911,7 @@ const Collection = ({
                       Floor Price
                     </div>
                   </div>
-                  <div
-                    className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32"
-                  >
+                  <div className="w-1/2 rounded-r-xl border-jacarta-100 py-4 hover:shadow-md sm:w-32">
                     <div className="mb-1 flex items-center justify-center text-base font-medium text-jacarta-700 dark:text-white">
                       <Image
                         src={venomLogo}
@@ -889,11 +956,13 @@ const Collection = ({
                   )}
                 </div>
 
-
                 <div className="mt-6 flex items-center justify-center space-x-2.5">
                   {/* Share  */}
                   <div className="relative dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
-                    <button onClick={() => (setActionDrop(false), setShare(!share))} className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm">
+                    <button
+                      onClick={() => (setActionDrop(false), setShare(!share))}
+                      className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -909,7 +978,9 @@ const Collection = ({
                     {share && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${collection?.name ? collection?.name : "It"}%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${
+                            collection?.name ? collection?.name : "It"
+                          }%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
@@ -953,40 +1024,50 @@ const Collection = ({
                   </div>
 
                   <div className="relative dropdown rounded-xl border border-jacarta-100 bg-white hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700 dark:hover:bg-jacarta-600">
-                    <button onClick={() => (setShare(false), setActionDrop(!actionDrop))} className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm" id="collectionActions">
-                      <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        className="fill-jacarta-500 dark:fill-jacarta-200">
+                    <button
+                      onClick={() => (
+                        setShare(false), setActionDrop(!actionDrop)
+                      )}
+                      className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
+                      id="collectionActions"
+                    >
+                      <svg
+                        width="16"
+                        height="4"
+                        viewBox="0 0 16 4"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="fill-jacarta-500 dark:fill-jacarta-200"
+                      >
                         <circle cx="2" cy="2" r="2"></circle>
                         <circle cx="8" cy="2" r="2"></circle>
                         <circle cx="14" cy="2" r="2"></circle>
                       </svg>
                     </button>
 
-                    {actionDrop &&
+                    {actionDrop && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-
-                        {metadataLoading ?
-                          <button
-                            className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                        {metadataLoading ? (
+                          <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </button>
-                          :
+                        ) : (
                           <button
                             onClick={() => refreshMetadata()}
-                            className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                            className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                          >
                             Refresh Metadata
                           </button>
-                        }
-                        <button
-                          className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                        )}
+                        <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                           Report
                         </button>
                       </div>
-                    }
+                    )}
                   </div>
                 </div>
               </div>
@@ -996,12 +1077,20 @@ const Collection = ({
           {/* main section  */}
           <section className="relative pb-24 pt-12">
             {/* select tabs  */}
-            <ul className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600" style={{ overflow: "hidden" }}>
+            <ul
+              className="nav nav-tabs mb-12 flex items-center justify-center border-b border-jacarta-100 dark:border-jacarta-600"
+              style={{ overflow: "hidden" }}
+            >
               <li className="nav-item" role="presentation">
                 <button
-                  onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
-                  className={`nav-link ${itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  onClick={() => (
+                    showActivityTab(false),
+                    showAnalyticsTab(false),
+                    showItemsTab(true)
+                  )}
+                  className={`nav-link ${
+                    itemsTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1022,13 +1111,14 @@ const Collection = ({
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (
-                    (!fetchedCollectionAnalytics && get_charts_data()),
+                    !fetchedCollectionAnalytics && get_charts_data(),
                     showItemsTab(false),
                     showActivityTab(false),
                     showAnalyticsTab(true)
                   )}
-                  className={`nav-link ${analyticsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${
+                    analyticsTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1049,13 +1139,14 @@ const Collection = ({
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (
-                    (!fetchedCollectionActivity && fetch_collection_activity()),
+                    !fetchedCollectionActivity && fetch_collection_activity(),
                     showItemsTab(false),
                     showAnalyticsTab(false),
                     showActivityTab(true)
                   )}
-                  className={`nav-link ${activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${
+                    activityTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
                   <span className="font-display text-base font-medium">
@@ -1072,7 +1163,7 @@ const Collection = ({
                   {/* filters  */}
                   {!onChainData && (
                     <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                      {!mobileFilter && isBreakpoint &&
+                      {!mobileFilter && isBreakpoint && (
                         <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
                           <button
                             onClick={() => openMobileFilter(true)}
@@ -1080,7 +1171,9 @@ const Collection = ({
                           >
                             <div className="flex justify-center align-middle">
                               <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                              <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
+                              <span className="text-jacarta-700 dark:text-white">
+                                Edit Filters
+                              </span>
                             </div>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -1094,13 +1187,16 @@ const Collection = ({
                             </svg>
                           </button>
                         </div>
-                      }
-                      {mobileFilter && isBreakpoint &&
-                        <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                      )}
+                      {mobileFilter && isBreakpoint && (
+                        <button
+                          onClick={() => openMobileFilter(false)}
+                          className="absolute top-2 right-6 z-20"
+                        >
                           <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                         </button>
-                      }
-                      {mobileFilter &&
+                      )}
+                      {mobileFilter && (
                         <div className="collectionFilterDiv p-4">
                           <div className="collectionFilters mx-6">
                             {/* sale type  */}
@@ -1125,7 +1221,9 @@ const Collection = ({
                                     <path fill="none" d="M0 0h24v24H0z" />
                                     <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
                                   </svg>
-                                  <span className="text-jacarta-700 dark:text-white">Sale type</span>
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    Sale type
+                                  </span>
                                 </div>
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1140,16 +1238,17 @@ const Collection = ({
                               </button>
 
                               {saleTypeFilter && (
-                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                                >
                                   <ul className="flex flex-col flex-wrap">
                                     <li>
-                                      <button
-                                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                      >
+                                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                         <span className="text-jacarta-700 dark:text-white">
                                           Fixed price
                                         </span>
-                                        {!onChainData &&
+                                        {!onChainData && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -1163,7 +1262,7 @@ const Collection = ({
                                             ></path>
                                             <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                                           </svg>
-                                        }
+                                        )}
                                       </button>
                                     </li>
                                     <li>
@@ -1174,7 +1273,7 @@ const Collection = ({
                                         <span className="text-jacarta-700 dark:text-white">
                                           Not for sale
                                         </span>
-                                        {onChainData &&
+                                        {onChainData && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -1188,7 +1287,7 @@ const Collection = ({
                                             ></path>
                                             <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                                           </svg>
-                                        }
+                                        )}
                                       </button>
                                     </li>
                                   </ul>
@@ -1218,7 +1317,9 @@ const Collection = ({
                                     <path fill="none" d="M0 0h24v24H0z" />
                                     <path d="M17 16h2V4H9v2h8v10zm0 2v3c0 .552-.45 1-1.007 1H4.007A1.001 1.001 0 0 1 3 21l.003-14c0-.552.45-1 1.007-1H7V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3zM5.003 8L5 20h10V8H5.003zM7 16h4.5a.5.5 0 1 0 0-1h-3a2.5 2.5 0 1 1 0-5H9V9h2v1h2v2H8.5a.5.5 0 1 0 0 1h3a2.5 2.5 0 1 1 0 5H11v1H9v-1H7v-2z" />
                                   </svg>
-                                  <span className="text-jacarta-700 dark:text-white">All Price Range</span>
+                                  <span className="text-jacarta-700 dark:text-white">
+                                    All Price Range
+                                  </span>
                                 </div>
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1233,24 +1334,44 @@ const Collection = ({
                               </button>
 
                               {priceRangeFilter && (
-                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                                >
                                   <div className="flex items-center space-x-3 px-5 pb-2">
                                     <input
                                       type="number"
                                       placeholder="From"
                                       min="0"
-                                      onInput={(e) => e.target.value = Math.abs(e.target.value)}
+                                      onInput={(e) =>
+                                        (e.target.value = Math.abs(
+                                          e.target.value
+                                        ))
+                                      }
                                       // value={minPrice}
-                                      onChange={(e) => (setSkip(0), setHasMore(true), setMinPrice(parseFloat(e.target.value)))}
+                                      onChange={(e) => (
+                                        setSkip(0),
+                                        setHasMore(true),
+                                        setMinPrice(parseFloat(e.target.value))
+                                      )}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                     <input
                                       type="number"
                                       placeholder="To"
                                       min="0"
-                                      onInput={(e) => e.target.value = Math.abs(e.target.value)}
+                                      onInput={(e) =>
+                                        (e.target.value = Math.abs(
+                                          e.target.value
+                                        ))
+                                      }
                                       // value={maxPrice}
-                                      onChange={(e) => (setDefaultFilterFetch(true), setSkip(0), setHasMore(true), setMaxPrice(parseFloat(e.target.value)))}
+                                      onChange={(e) => (
+                                        setDefaultFilterFetch(true),
+                                        setSkip(0),
+                                        setHasMore(true),
+                                        setMaxPrice(parseFloat(e.target.value))
+                                      )}
                                       className="w-full max-w-[7.5rem] rounded-lg border border-jacarta-100 py-[0.6875rem] px-4 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                     />
                                   </div>
@@ -1258,14 +1379,22 @@ const Collection = ({
                                   <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                     <button
                                       type="button"
-                                      onClick={() => (setDefaultFilterFetch(true), setMaxPrice(0), setMinPrice(0), showPriceRangeFilter(false))}
+                                      onClick={() => (
+                                        setDefaultFilterFetch(true),
+                                        setMaxPrice(0),
+                                        setMinPrice(0),
+                                        showPriceRangeFilter(false)
+                                      )}
                                       className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                     >
                                       Clear
                                     </button>
                                     <button
                                       type="button"
-                                      onClick={() => (fetch_filter_nfts(), showPriceRangeFilter(false))}
+                                      onClick={() => (
+                                        fetch_filter_nfts(),
+                                        showPriceRangeFilter(false)
+                                      )}
                                       className="flex-1 rounded-full bg-accent py-2 px-6 text-center text-sm font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                     >
                                       Apply
@@ -1286,31 +1415,31 @@ const Collection = ({
                                 )}
                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                               >
-                                {currentFilter == "recentlyListed" &&
+                                {currentFilter == "recentlyListed" && (
                                   <span className="text-jacarta-700 dark:text-white">
                                     Recently Listed
                                   </span>
-                                }
-                                {currentFilter == "recentlySold" &&
+                                )}
+                                {currentFilter == "recentlySold" && (
                                   <span className="text-jacarta-700 dark:text-white">
                                     Recently Sold
                                   </span>
-                                }
-                                {currentFilter == "ownedBy" &&
+                                )}
+                                {currentFilter == "ownedBy" && (
                                   <span className="text-jacarta-700 dark:text-white">
                                     Owned By You
                                   </span>
-                                }
-                                {currentFilter == "lowToHigh" &&
+                                )}
+                                {currentFilter == "lowToHigh" && (
                                   <span className="text-jacarta-700 dark:text-white">
                                     Low To High
                                   </span>
-                                }
-                                {currentFilter == "highToLow" &&
+                                )}
+                                {currentFilter == "highToLow" && (
                                   <span className="text-jacarta-700 dark:text-white">
                                     High To Low
                                   </span>
-                                }
+                                )}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1323,13 +1452,27 @@ const Collection = ({
                                 </svg>
                               </div>
                               {listedFilter && (
-                                <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                                >
                                   <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                     Sort By
                                   </span>
-                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlyListed"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("recentlyListed"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
                                     Recently Listed
-                                    {currentFilter == "recentlyListed" &&
+                                    {currentFilter == "recentlyListed" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1340,11 +1483,22 @@ const Collection = ({
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                       </svg>
-                                    }
+                                    )}
                                   </button>
-                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("recentlySold"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("recentlySold"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
                                     Recently Sold
-                                    {currentFilter == "recentlySold" &&
+                                    {currentFilter == "recentlySold" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1355,11 +1509,22 @@ const Collection = ({
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                       </svg>
-                                    }
+                                    )}
                                   </button>
-                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("ownedBy"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("ownedBy"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
                                     Owned By You
-                                    {currentFilter == "ownedBy" &&
+                                    {currentFilter == "ownedBy" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1370,11 +1535,22 @@ const Collection = ({
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                       </svg>
-                                    }
+                                    )}
                                   </button>
-                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("lowToHigh"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("lowToHigh"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                  >
                                     Price: Low to High
-                                    {currentFilter == "lowToHigh" &&
+                                    {currentFilter == "lowToHigh" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1385,12 +1561,23 @@ const Collection = ({
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                       </svg>
-                                    }
+                                    )}
                                   </button>
 
-                                  <button onClick={() => (setSkip(0), setHasMore(true), setMinPrice(0), setMaxPrice(0), setDefaultFilterFetch(true), setCurrentFilter("highToLow"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("highToLow"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                  >
                                     Price: High to Low
-                                    {currentFilter == "highToLow" &&
+                                    {currentFilter == "highToLow" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1401,35 +1588,55 @@ const Collection = ({
                                         <path fill="none" d="M0 0h24v24H0z" />
                                         <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                       </svg>
-                                    }
+                                    )}
                                   </button>
                                 </div>
                               )}
                             </div>
 
                             {/* property modal  */}
-                            {collection?.isPropsEnabled &&
+                            {collection?.isPropsEnabled && (
                               <button
-                                onClick={() => (getCollectionProperties(), setAnyModalOpen(true), setPropertyModal(true))}
+                                onClick={() => (
+                                  getCollectionProperties(),
+                                  setAnyModalOpen(true),
+                                  setPropertyModal(true)
+                                )}
                                 className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 text-sm text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                                type="button" id="propertiesFilter" >
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100">
+                                type="button"
+                                id="propertiesFilter"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                >
                                   <path fill="none" d="M0 0h24v24H0z" />
-                                  <path
-                                    d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
+                                  <path d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
                                 </svg>
-                                <span style={{ whiteSpace: "nowrap" }}>Filter Properties</span>
+                                <span style={{ whiteSpace: "nowrap" }}>
+                                  Filter Properties
+                                </span>
                               </button>
-                            }
+                            )}
                           </div>
 
                           {/* search  */}
                           <div className="collectionSearch">
-                            <form action="search" className="relative w-[60%]" onSubmit={(e) => e.preventDefault()}>
+                            <form
+                              action="search"
+                              className="relative w-[60%]"
+                              onSubmit={(e) => e.preventDefault()}
+                            >
                               <input
                                 type="search"
-                                onChange={(e) => handle_search((e.target.value).replace(/[^\w\s]/gi, ""))}
+                                onChange={(e) =>
+                                  handle_search(
+                                    e.target.value.replace(/[^\w\s]/gi, "")
+                                  )
+                                }
                                 className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                 placeholder="search"
                               />
@@ -1450,12 +1657,14 @@ const Collection = ({
                             {/* add card size filter here later */}
                           </div>
                         </div>
-                      }
+                      )}
                     </div>
                   )}
 
                   <div>
-                    <div className={`flex justify-center align-middle flex-wrap`}>
+                    <div
+                      className={`flex justify-center align-middle flex-wrap`}
+                    >
                       {onChainData ? (
                         <InfiniteScroll
                           dataLength={nfts ? nfts?.length : 0}
@@ -1477,10 +1686,7 @@ const Collection = ({
                                 ImageSrc={(onChainData
                                   ? e?.preview?.source
                                   : e?.nft_image
-                                )?.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )}
+                                )?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                 Name={e?.name}
                                 Address={
                                   onChainData
@@ -1489,7 +1695,8 @@ const Collection = ({
                                 }
                                 listedBool={e?.isListed}
                                 listingPrice={e?.listingPrice}
-                                NFTCollectionAddress={e?.NFTCollection?.contractAddress
+                                NFTCollectionAddress={
+                                  e?.NFTCollection?.contractAddress
                                 }
                                 Description={e?.description}
                                 NFTCollectionName={e?.NFTCollection?.name}
@@ -1593,7 +1800,7 @@ const Collection = ({
               <div className={`tab-content`}>
                 <div className="tab-pane fade show active">
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                    {!mobileFilter && isBreakpoint &&
+                    {!mobileFilter && isBreakpoint && (
                       <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
                         <button
                           onClick={() => openMobileFilter(true)}
@@ -1601,7 +1808,9 @@ const Collection = ({
                         >
                           <div className="flex justify-center align-middle">
                             <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                            <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
+                            <span className="text-jacarta-700 dark:text-white">
+                              Edit Filters
+                            </span>
                           </div>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1615,13 +1824,16 @@ const Collection = ({
                           </svg>
                         </button>
                       </div>
-                    }
-                    {mobileFilter && isBreakpoint &&
-                      <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                    )}
+                    {mobileFilter && isBreakpoint && (
+                      <button
+                        onClick={() => openMobileFilter(false)}
+                        className="absolute top-2 right-6 z-20"
+                      >
                         <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                       </button>
-                    }
-                    {mobileFilter &&
+                    )}
+                    {mobileFilter && (
                       <div className="collectionFilterDiv p-4">
                         <div className="collectionFilters mx-6">
                           <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
@@ -1634,36 +1846,36 @@ const Collection = ({
                               )}
                               className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                             >
-                              {currentDuration == "1day" &&
+                              {currentDuration == "1day" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   Last 1 Day
                                 </span>
-                              }
-                              {currentDuration == "7days" &&
+                              )}
+                              {currentDuration == "7days" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   Last 7 Days
                                 </span>
-                              }
-                              {currentDuration == "30days" &&
+                              )}
+                              {currentDuration == "30days" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   Last 30 Days
                                 </span>
-                              }
-                              {currentDuration == "6months" &&
+                              )}
+                              {currentDuration == "6months" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   Last 6 Months
                                 </span>
-                              }
-                              {currentDuration == "1year" &&
+                              )}
+                              {currentDuration == "1year" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   Last 1 Year
                                 </span>
-                              }
-                              {currentDuration == "alltime" &&
+                              )}
+                              {currentDuration == "alltime" && (
                                 <span className="text-jacarta-700 dark:text-white">
                                   All Time Data
                                 </span>
-                              }
+                              )}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -1676,10 +1888,19 @@ const Collection = ({
                               </svg>
                             </div>
                             {listedFilter && (
-                              <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                <button onClick={() => (setCurrentDuration("1day"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              <div
+                                onClick={(e) => e.stopPropagation()}
+                                className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
+                              >
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("1day"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                >
                                   Last 1 Day
-                                  {currentDuration == "1day" &&
+                                  {currentDuration == "1day" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1690,11 +1911,17 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
-                                <button onClick={() => (setCurrentDuration("7days"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("7days"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
                                   Last 7 Days
-                                  {currentDuration == "7days" &&
+                                  {currentDuration == "7days" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1705,12 +1932,18 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
 
-                                <button onClick={() => (setCurrentDuration("30days"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("30days"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
                                   Last 30 Days
-                                  {currentDuration == "30days" &&
+                                  {currentDuration == "30days" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1721,11 +1954,17 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
-                                <button onClick={() => (setCurrentDuration("6months"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("6months"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
                                   Last 6 Months
-                                  {currentDuration == "6months" &&
+                                  {currentDuration == "6months" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1736,11 +1975,17 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
-                                <button onClick={() => (setCurrentDuration("1year"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("1year"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
                                   Last 1 Year
-                                  {currentDuration == "1year" &&
+                                  {currentDuration == "1year" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1751,11 +1996,17 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
-                                <button onClick={() => (setCurrentDuration("alltime"), showListedFilter(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700">
+                                <button
+                                  onClick={() => (
+                                    setCurrentDuration("alltime"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
                                   All Time Data
-                                  {currentDuration == "alltime" &&
+                                  {currentDuration == "alltime" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"
@@ -1766,14 +2017,14 @@ const Collection = ({
                                       <path fill="none" d="M0 0h24v24H0z" />
                                       <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
                                     </svg>
-                                  }
+                                  )}
                                 </button>
                               </div>
                             )}
                           </div>
                         </div>
                       </div>
-                    }
+                    )}
                   </div>
 
                   <div>
@@ -1784,45 +2035,32 @@ const Collection = ({
                             Sales history
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            {currentDuration == "1day" &&
-                              "Last 1 Day"
-                            }
-                            {currentDuration == "7days" &&
-                              "Last 7 Days"
-                            }
-                            {currentDuration == "30days" &&
-                              "Last 30 Days"
-                            }
-                            {currentDuration == "6months" &&
-                              "Last 6 Months"
-                            }
-                            {currentDuration == "1year" &&
-                              "Last 1 Year"
-                            }
-                            {currentDuration == "alltime" &&
-                              "All Time Data"
-                            }
+                            {currentDuration == "1day" && "Last 1 Day"}
+                            {currentDuration == "7days" && "Last 7 Days"}
+                            {currentDuration == "30days" && "Last 30 Days"}
+                            {currentDuration == "6months" && "Last 6 Months"}
+                            {currentDuration == "1year" && "Last 1 Year"}
+                            {currentDuration == "alltime" && "All Time Data"}
                           </p>
                         </div>
-                        {chartLoading ?
-                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </div>
-                          :
-                          ((analytics.length != 0 || analytics == undefined) ?
-                            <LineChart
-                              data={salesData}
-                            />
-                            :
-                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
-                              No Data Available !
-                            </p>
-                          )
-                        }
+                        ) : analytics.length != 0 || analytics == undefined ? (
+                          <LineChart data={salesData} />
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Data Available !
+                          </p>
+                        )}
                       </div>
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
@@ -1830,45 +2068,32 @@ const Collection = ({
                             Volume history
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            {currentDuration == "1day" &&
-                              "Last 1 Day"
-                            }
-                            {currentDuration == "7days" &&
-                              "Last 7 Days"
-                            }
-                            {currentDuration == "30days" &&
-                              "Last 30 Days"
-                            }
-                            {currentDuration == "6months" &&
-                              "Last 6 Months"
-                            }
-                            {currentDuration == "1year" &&
-                              "Last 1 Year"
-                            }
-                            {currentDuration == "alltime" &&
-                              "All Time Data"
-                            }
+                            {currentDuration == "1day" && "Last 1 Day"}
+                            {currentDuration == "7days" && "Last 7 Days"}
+                            {currentDuration == "30days" && "Last 30 Days"}
+                            {currentDuration == "6months" && "Last 6 Months"}
+                            {currentDuration == "1year" && "Last 1 Year"}
+                            {currentDuration == "alltime" && "All Time Data"}
                           </p>
                         </div>
-                        {chartLoading ?
-                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </div>
-                          :
-                          ((analytics.length != 0 || analytics == undefined) ?
-                            <BarChart
-                              data={volumeData}
-                            />
-                            :
-                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
-                              No Data Available !
-                            </p>
-                          )
-                        }
+                        ) : analytics.length != 0 || analytics == undefined ? (
+                          <BarChart data={volumeData} />
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Data Available !
+                          </p>
+                        )}
                       </div>
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
@@ -1876,45 +2101,32 @@ const Collection = ({
                             Listings History
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            {currentDuration == "1day" &&
-                              "Last 1 Day"
-                            }
-                            {currentDuration == "7days" &&
-                              "Last 7 Days"
-                            }
-                            {currentDuration == "30days" &&
-                              "Last 30 Days"
-                            }
-                            {currentDuration == "6months" &&
-                              "Last 6 Months"
-                            }
-                            {currentDuration == "1year" &&
-                              "Last 1 Year"
-                            }
-                            {currentDuration == "alltime" &&
-                              "All Time Data"
-                            }
+                            {currentDuration == "1day" && "Last 1 Day"}
+                            {currentDuration == "7days" && "Last 7 Days"}
+                            {currentDuration == "30days" && "Last 30 Days"}
+                            {currentDuration == "6months" && "Last 6 Months"}
+                            {currentDuration == "1year" && "Last 1 Year"}
+                            {currentDuration == "alltime" && "All Time Data"}
                           </p>
                         </div>
-                        {chartLoading ?
-                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </div>
-                          :
-                          ((analytics.length != 0 || analytics == undefined) ?
-                            <LineChart
-                              data={listingData}
-                            />
-                            :
-                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
-                              No Data Available !
-                            </p>
-                          )
-                        }
+                        ) : analytics.length != 0 || analytics == undefined ? (
+                          <LineChart data={listingData} />
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Data Available !
+                          </p>
+                        )}
                       </div>
 
                       <div className="chartCont">
@@ -1923,45 +2135,32 @@ const Collection = ({
                             Floor Price
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            {currentDuration == "1day" &&
-                              "Last 1 Day"
-                            }
-                            {currentDuration == "7days" &&
-                              "Last 7 Days"
-                            }
-                            {currentDuration == "30days" &&
-                              "Last 30 Days"
-                            }
-                            {currentDuration == "6months" &&
-                              "Last 6 Months"
-                            }
-                            {currentDuration == "1year" &&
-                              "Last 1 Year"
-                            }
-                            {currentDuration == "alltime" &&
-                              "All Time Data"
-                            }
+                            {currentDuration == "1day" && "Last 1 Day"}
+                            {currentDuration == "7days" && "Last 7 Days"}
+                            {currentDuration == "30days" && "Last 30 Days"}
+                            {currentDuration == "6months" && "Last 6 Months"}
+                            {currentDuration == "1year" && "Last 1 Year"}
+                            {currentDuration == "alltime" && "All Time Data"}
                           </p>
                         </div>
-                        {chartLoading ?
-                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </div>
-                          :
-                          ((analytics.length != 0 || analytics == undefined) ?
-                            <LineChart
-                              data={floorData}
-                            />
-                            :
-                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
-                              No Data Available !
-                            </p>
-                          )
-                        }
+                        ) : analytics.length != 0 || analytics == undefined ? (
+                          <LineChart data={floorData} />
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Data Available !
+                          </p>
+                        )}
                       </div>
 
                       <div className="chartCont">
@@ -1970,44 +2169,32 @@ const Collection = ({
                             Market Cap
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            {currentDuration == "1day" &&
-                              "Last 1 Day"
-                            }
-                            {currentDuration == "7days" &&
-                              "Last 7 Days"
-                            }
-                            {currentDuration == "30days" &&
-                              "Last 30 Days"
-                            }
-                            {currentDuration == "6months" &&
-                              "Last 6 Months"
-                            }
-                            {currentDuration == "1year" &&
-                              "Last 1 Year"
-                            }
-                            {currentDuration == "alltime" &&
-                              "All Time Data"
-                            }
+                            {currentDuration == "1day" && "Last 1 Day"}
+                            {currentDuration == "7days" && "Last 7 Days"}
+                            {currentDuration == "30days" && "Last 30 Days"}
+                            {currentDuration == "6months" && "Last 6 Months"}
+                            {currentDuration == "1year" && "Last 1 Year"}
+                            {currentDuration == "alltime" && "All Time Data"}
                           </p>
                         </div>
-                        {chartLoading ?
-                          <div className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
                             <div className="flex space-x-2">
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                             </div>
                           </div>
-                          :
-                          ((analytics.length != 0 || analytics == undefined) ?
-                            <LineChart
-                              data={marketData}
-                            />
-                            :
-                            <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
-                              No Data Available !
-                            </p>)
-                        }
+                        ) : analytics.length != 0 || analytics == undefined ? (
+                          <LineChart data={marketData} />
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Data Available !
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -2020,7 +2207,7 @@ const Collection = ({
               <div className="container">
                 <div>
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                    {!mobileFilter && isBreakpoint &&
+                    {!mobileFilter && isBreakpoint && (
                       <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
                         <button
                           onClick={() => openMobileFilter(true)}
@@ -2028,7 +2215,9 @@ const Collection = ({
                         >
                           <div className="flex justify-center align-middle">
                             <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                            <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
+                            <span className="text-jacarta-700 dark:text-white">
+                              Edit Filters
+                            </span>
                           </div>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -2042,69 +2231,144 @@ const Collection = ({
                           </svg>
                         </button>
                       </div>
-                    }
-                    {mobileFilter && isBreakpoint &&
-                      <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
+                    )}
+                    {mobileFilter && isBreakpoint && (
+                      <button
+                        onClick={() => openMobileFilter(false)}
+                        className="absolute top-2 right-6 z-20"
+                      >
                         <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
                       </button>
-                    }
-                    {mobileFilter &&
+                    )}
+                    {mobileFilter && (
                       <div className="flex flex-wrap">
-                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType(""))} className={`${activityType == "" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
-                          <span className={`text-2xs font-medium  ${activityType == "" && "text-white"}`}>
+                        <button
+                          onClick={() => (
+                            setSkipActivity(0),
+                            setHasMoreActivity(true),
+                            setActivityType("")
+                          )}
+                          className={`${
+                            activityType == ""
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
+                        >
+                          <span
+                            className={`text-2xs font-medium  ${
+                              activityType == "" && "text-white"
+                            }`}
+                          >
                             All
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("list"))} className={`${activityType == "list" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button
+                          onClick={() => (
+                            setSkipActivity(0),
+                            setHasMoreActivity(true),
+                            setActivityType("list")
+                          )}
+                          className={`${
+                            activityType == "list"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "list" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "list"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                           </svg>
-                          <span className={`text-2xs font-medium  ${activityType == "list" && "text-white"}`}>
+                          <span
+                            className={`text-2xs font-medium  ${
+                              activityType == "list" && "text-white"
+                            }`}
+                          >
                             Listing
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("cancel"))} className={`${activityType == "cancel" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button
+                          onClick={() => (
+                            setSkipActivity(0),
+                            setHasMoreActivity(true),
+                            setActivityType("cancel")
+                          )}
+                          className={`${
+                            activityType == "cancel"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "cancel" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "cancel"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                           </svg>
-                          <span className={`text-2xs font-medium ${activityType == "cancel" && "text-white"}`}>
+                          <span
+                            className={`text-2xs font-medium ${
+                              activityType == "cancel" && "text-white"
+                            }`}
+                          >
                             Remove Listing
                           </span>
                         </button>
 
-                        <button onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("sale"))} className={`${activityType == "sale" ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark" : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"}`}>
+                        <button
+                          onClick={() => (
+                            setSkipActivity(0),
+                            setHasMoreActivity(true),
+                            setActivityType("sale")
+                          )}
+                          className={`${
+                            activityType == "sale"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "sale" ? "fill-white" : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"}`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "sale"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                           </svg>
-                          <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>
+                          <span
+                            className={`text-2xs font-medium ${
+                              activityType == "sale" && "text-white"
+                            }`}
+                          >
                             Sale
                           </span>
                         </button>
                       </div>
-                    }
+                    )}
                   </div>
 
                   <div className="mb-10 shrink-0 basis-8/12 space-y-5 lg:mb-0 lg:pr-10">
@@ -2144,9 +2408,10 @@ const Collection = ({
                           ))}
                         </InfiniteScroll>
                       </div>
-                    )};
+                    )}
+                    ;
                     <div className="flex items-center justify-center space-x-2">
-                      {(activity?.length <= 0) && (
+                      {activity?.length <= 0 && (
                         <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                           No activity found!
                         </h2>
@@ -2155,7 +2420,7 @@ const Collection = ({
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  {(activity === undefined) && (
+                  {activity === undefined && (
                     <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200">
                       No activities yet!
                     </h2>
@@ -2166,77 +2431,117 @@ const Collection = ({
           </section>
 
           {/* propertyModal  */}
-          {propertyModal &&
+          {propertyModal && (
             <div className="propertyDisplayDiv">
               <div className="modal-dialog max-w-md">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h5 className="modal-title" id="propertiesModalLabel">Properties</h5>
-                    <button onClick={() => (setAnyModalOpen(false), setPropertyModal(false))} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                        className="h-6 w-6 fill-jacarta-700 dark:fill-white">
+                    <h5 className="modal-title" id="propertiesModalLabel">
+                      Properties
+                    </h5>
+                    <button
+                      onClick={() => (
+                        setAnyModalOpen(false), setPropertyModal(false)
+                      )}
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                      >
                         <path fill="none" d="M0 0h24v24H0z" />
-                        <path
-                          d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
                       </svg>
                     </button>
                   </div>
 
                   <div className="modal-body">
-                    {propLoading ?
-                      <div className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
+                    {propLoading ? (
+                      <div
+                        className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                        style={{ alignItems: "center" }}
+                      >
                         <div className="flex space-x-2">
                           <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                           <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                           <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
                         </div>
                       </div>
-                      :
+                    ) : (
                       <div className="accordion" id="accordionProps">
-                        {property_traits == "" ?
-                          <div className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white" style={{ alignItems: "center" }}>
-                            <h5 className="modal-title" id="propertiesModalLabel">No Traits Found!</h5>
+                        {property_traits == "" ? (
+                          <div
+                            className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
+                            <h5
+                              className="modal-title"
+                              id="propertiesModalLabel"
+                            >
+                              No Traits Found!
+                            </h5>
                           </div>
-                          :
+                        ) : (
                           <PropertyModal
                             property_traits={property_traits}
                             propsFilter={propsFilter}
                             setPropsFilter={setPropsFilter}
                             setDefaultFilterFetch={setDefaultFilterFetch}
                           />
-                        }
+                        )}
                       </div>
-                    }
+                    )}
                   </div>
 
                   <div className="modal-footer">
-                    {property_traits == "" ?
+                    {property_traits == "" ? (
                       <div className="flex items-center justify-center space-x-4">
                         <button
-                          onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          onClick={() => (
+                            setAnyModalOpen(false), setPropertyModal(false)
+                          )}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
                           Close
                         </button>
                       </div>
-                      :
+                    ) : (
                       <div className="flex items-center justify-center space-x-4">
                         <button
-                          onClick={() => (setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false))}
-                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume">
+                          onClick={() => (
+                            setPropsFilter([]),
+                            setSkip(0),
+                            setAnyModalOpen(false),
+                            setPropertyModal(false)
+                          )}
+                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                        >
                           Clear All
                         </button>
                         <button
-                          onClick={() => (setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false))}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
+                          onClick={() => (
+                            setDefaultFilterFetch(true),
+                            setSkip(0),
+                            setAnyModalOpen(false),
+                            setPropertyModal(false)
+                          )}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
                           Apply
                         </button>
                       </div>
-                    }
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          }
+          )}
 
           {/* buy modal  */}
           {buyModal && (
@@ -2245,7 +2550,9 @@ const Collection = ({
               setBuyModal={setBuyModal}
               setAnyModalOpen={setAnyModalOpen}
               NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionContract={
+                selectedNFT?.NFTCollection?.contractAddress
+              }
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
               NFTName={selectedNFT?.name}
@@ -2261,7 +2568,9 @@ const Collection = ({
               setCancelModal={setCancelModal}
               setAnyModalOpen={setAnyModalOpen}
               NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionContract={
+                selectedNFT?.NFTCollection?.contractAddress
+              }
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
               NFTName={selectedNFT?.name}
@@ -2278,7 +2587,9 @@ const Collection = ({
               TransactionType={transactionType}
               NFTImage={selectedNFT?.nft_image}
               NFTAddress={selectedNFT?.NFTAddress}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionContract={
+                selectedNFT?.NFTCollection?.contractAddress
+              }
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
               NFTListingPrice={selectedNFT?.listingPrice}
@@ -2287,9 +2598,8 @@ const Collection = ({
             />
           )}
         </div>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 };
 
