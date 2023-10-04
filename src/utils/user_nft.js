@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -55,6 +55,7 @@ export const getNftImage = async (provider, nftAddress) => {
   const getJsonAnswer = await nftContract.methods
     .getJson({ answerId: 0 })
     .call();
+  // const json = JSON.parse(getJsonAnswer.json);
   const json = JSON.parse(getJsonAnswer.json ?? "{}");
   return json;
 };
@@ -63,15 +64,16 @@ export const getNftImage = async (provider, nftAddress) => {
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
 
+  console.log(nftAddresses);
+
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
-      const imgInfo = await getNftImage(provider, nftAddress);
-      let obj = { ...imgInfo, nftAddress };
+      const imgInfo = await getNftImage(provider, nftAddress.id);
+      let obj = { ...imgInfo, nftAddress, last_paid: nftAddress.last_paid };
       nfts.push(obj);
     })
   );
-  const sorted_nfts = nfts.sort((a, b) => Number(a.id) - Number(b.id));
-  return sorted_nfts;
+  return nfts;
 };
 
 // getting nft code hash
@@ -177,35 +179,62 @@ export const get_nft_by_address = async (provider, nft_address) => {
 export const loadNFTs_collection = async (
   provider,
   collection_address,
-  last_nft_addr
+  last_nft_addr,
+  client,
+  last_paid
 ) => {
   try {
-    // const myEver = new MyEver();
+    const myEver = new MyEver();
     // const myProvider = myEver.ever();
+    const providerRpcClient = myEver.ever();
+
     const contract = new provider.Contract(
       collectionAbi,
       new Address(COLLECTION_ADDRESS)
     );
 
-    const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
-
-    const nftCodeHash = await getNftCodeHash(provider, collection_address);
+    const nftCodeHash = await getNftCodeHash(
+      providerRpcClient,
+      collection_address
+    );
+    console.log({ nftCodeHash });
     if (!nftCodeHash) {
       return;
     }
-    const nftAddresses = await getNftAddresses(
-      nftCodeHash,
-      provider,
-      last_nft_addr
-    );
-    const { continuation } = nftAddresses;
 
-    if (!nftAddresses || !nftAddresses.accounts.length) {
-      if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
-      return;
-    }
-    const nftURLs = await getCollectionItems(provider, nftAddresses.accounts);
-    return { nfts: nftURLs, continuation };
+    const query = `query {
+      accounts(
+        filter: {
+          workchain_id: { eq: 0 }
+          code_hash: {
+            eq: "${nftCodeHash}"
+          }
+          ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
+        }
+        orderBy: [{ path: "last_paid", direction: DESC }]
+        limit: 25
+      ) {
+        id
+        balance(format: DEC)
+        last_paid
+      }
+    }`;
+
+    const { result } = await client.net.query({ query });
+
+    client.close();
+
+    // if (!nftAddresses || !nftAddresses.accounts.length) {
+    //   if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
+    //   return;
+    // }
+
+    const nftURLs = await getCollectionItems(provider, result.data.accounts);
+    return {
+      nfts: nftURLs,
+      continuation:
+        result.data.accounts[result.data.accounts.length - 1].last_paid,
+    };
   } catch (e) {
     console.error(e);
   }
