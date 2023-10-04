@@ -481,7 +481,7 @@ export default function App({ Component, pageProps }) {
       CollectionAddress: "",
       customLink: "launch/venomons",
       pageName: "venomons",
-      supply: "2000",
+      supply: "1000",
       twitterUserName: "VenomonsNFT",
       twitter: "https://twitter.com/VenomonsNFT",
       tweetID: "1709094106117345676",
