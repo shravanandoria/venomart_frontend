@@ -409,7 +409,7 @@ const Footer = ({
                     href="/explore/Activity"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Activity
+                    Live Activity
                   </Link>
                 </li>
                 <li>

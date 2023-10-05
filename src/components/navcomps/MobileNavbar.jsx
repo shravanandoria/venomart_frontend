@@ -262,7 +262,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                         </svg>
                                     </span>
                                     <span className="font-display text-sm text-jacarta-700 dark:text-white">
-                                        Activity
+                                        Live Activity
                                     </span>
                                 </Link>
                             </li>

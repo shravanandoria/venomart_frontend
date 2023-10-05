@@ -95,7 +95,7 @@ const DesktopNavbar = () => {
                                     </svg>
                                 </span>
                                 <span className="font-display text-sm text-jacarta-700 dark:text-white">
-                                    Activity
+                                    Live Activity
                                 </span>
                             </Link>
                         </li>

@@ -84,6 +84,16 @@ const Activity = ({ theme, blockURL, signer_address }) => {
         setSearchLoading(false);
     };
 
+    const live_activity = async () => {
+        if ((filterCollection == undefined) || (defaultFilterFetch == true)) return;
+        setSearchLoading(true);
+        const res = await getActivity("", "", filterCollection, "", activityType, skipActivity);
+        if (res) {
+            set_activity(res);
+        }
+        setSearchLoading(false);
+    };
+
     // acitivty scroll function
     const scrollFetchActivity = async () => {
         if (filterCollection == undefined) return;
@@ -141,6 +151,13 @@ const Activity = ({ theme, blockURL, signer_address }) => {
     }, [skipActivity]);
 
     useEffect(() => {
+        if (defaultFilterFetch == false) {
+            const intervalId = setInterval(live_activity, 4000);
+            return () => clearInterval(intervalId);
+        }
+    }, [defaultFilterFetch]);
+
+    useEffect(() => {
         fetch_activity();
     }, [activityType, filterCollection])
 
@@ -156,7 +173,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
     return (
         <section className={`${theme}`}>
             <Head>
-                <title>Activity - Venomart Marketplace</title>
+                <title>Live Activity - Venomart Marketplace</title>
                 <meta
                     name="description"
                     content="Explore all the recent activites on venomart marketplace | Powered by Venom Blockchain"
@@ -171,8 +188,18 @@ const Activity = ({ theme, blockURL, signer_address }) => {
 
             <div className={`relative py-24 dark:bg-jacarta-900`}>
                 <div className="container">
-                    <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                        Activity
+                    <h1 className="flex justify-center align-middle pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                        {!defaultFilterFetch ?
+                            <span class="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                            </span>
+                            :
+                            <span class="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
+                                <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                            </span>
+                        }
+                        Live Activity
                     </h1>
                     <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                         Explore all the recent activites on marketplace
