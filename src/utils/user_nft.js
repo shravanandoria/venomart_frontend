@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -408,8 +408,6 @@ export const create_launchpad_nft = async (
       attributes: data.properties,
       external_url: "https://venomart.io/",
     });
-
-    console.log({ nft_json });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({
       from: new Address(signer_address),

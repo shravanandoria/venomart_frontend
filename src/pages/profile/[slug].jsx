@@ -195,7 +195,6 @@ const Profile = ({
           new_nfts.push({ ...e });
         }
       });
-    console.log(res?.continuation)
     setLastNFT(res?.continuation);
     set_nfts(new_nfts);
     setFetchedOwnedNFTs(true);
@@ -1400,8 +1399,8 @@ const Profile = ({
                           setActivityType("")
                         )}
                         className={`${activityType == ""
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                          : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                           }`}
                       >
                         <span
@@ -1419,8 +1418,8 @@ const Profile = ({
                           setActivityType("list")
                         )}
                         className={`${activityType == "list"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                          : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                           }`}
                       >
                         <svg
@@ -1429,8 +1428,8 @@ const Profile = ({
                           width="24"
                           height="24"
                           className={`mr-2 h-4 w-4 ${activityType == "list"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                             }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
@@ -1452,8 +1451,8 @@ const Profile = ({
                           setActivityType("cancel")
                         )}
                         className={`${activityType == "cancel"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                          : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                           }`}
                       >
                         <svg
@@ -1462,8 +1461,8 @@ const Profile = ({
                           width="24"
                           height="24"
                           className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                             }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
@@ -1485,8 +1484,8 @@ const Profile = ({
                           setActivityType("sale")
                         )}
                         className={`${activityType == "sale"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                          : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                           }`}
                       >
                         <svg
@@ -1495,8 +1494,8 @@ const Profile = ({
                           width="24"
                           height="24"
                           className={`mr-2 h-4 w-4 ${activityType == "sale"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                             }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
@@ -1518,8 +1517,8 @@ const Profile = ({
                           setActivityType("user_sale")
                         )}
                         className={`${activityType == "user_sale"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                          : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                           }`}
                       >
                         <svg
@@ -1528,8 +1527,8 @@ const Profile = ({
                           width="24"
                           height="24"
                           className={`mr-2 h-4 w-4 ${activityType == "user_sale"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            ? "fill-white"
+                            : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                             }`}
                         >
                           <path fill="none" d="M0 0h24v24H0z" />
