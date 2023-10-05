@@ -1,8 +1,28 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import numeral from 'numeral';
 import React from 'react'
 
 const MobileProfileDrop = ({ signer_address, venomLogo, vnmBalance, MintNFTStatus, MintCollectionStatus, onDisconnect, setMobieProfileDrop }) => {
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            const formatted = numeral(number / 1e6).format('0.00a');
+            if (formatted.endsWith('k')) {
+                return (formatted.slice(0, -1) + "M");
+            }
+            else {
+                return (formatted + "M");
+            }
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
+
     return (
         <div className="!-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full group-dropdown-hover:opacity-100 dark:bg-jacarta-800 lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl py-6">
             <button className="js-copy-clipboard my-4 flex select-none items-center whitespace-nowrap px-5 font-display leading-none text-jacarta-700 dark:text-white">
@@ -45,7 +65,7 @@ const MobileProfileDrop = ({ signer_address, venomLogo, vnmBalance, MintNFTStatu
                             }}
                             alt="VenomLogo"
                         />
-                        {vnmBalance}
+                        {formatNumberShort(vnmBalance)}
                     </span>
                 </div>
             </div>

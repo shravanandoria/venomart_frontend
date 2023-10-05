@@ -2,10 +2,29 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import moment from 'moment';
+import numeral from 'numeral';
 
 const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress }) => {
 
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            const formatted = numeral(number / 1e6).format('0.00a');
+            if (formatted.endsWith('k')) {
+                return (formatted.slice(0, -1) + "M");
+            }
+            else {
+                return (formatted + "M");
+            }
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
 
     return (
         <div style={{ margin: "12px" }} className="activityCardDiv relative flex flex-wrap justify-between align-middle items-center rounded-2.5xl border border-jacarta-100 bg-white px-6 py-6 transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700">
@@ -37,7 +56,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                             <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">Minted a brand new NFT about {dateTimeAgo}</span>
                         }
                         {ActivityType == "list" &&
-                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">listed for {Price} VENOM about {dateTimeAgo}</span>
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">listed for {formatNumberShort(Price)} VENOM about {dateTimeAgo}</span>
                         }
                         {ActivityType == "cancel" &&
                             <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">removed from listing about {dateTimeAgo}</span>
@@ -45,7 +64,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         {ActivityType == "sale" &&
                             (<span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">
                                 {userPurchases ? "purchased " : "sold "}
-                                for {Price} VENOM about {dateTimeAgo}
+                                for {formatNumberShort(Price)} VENOM about {dateTimeAgo}
                             </span>)
                         }
                     </div>

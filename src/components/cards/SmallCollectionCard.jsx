@@ -20,7 +20,13 @@ const SmallCollectionCard = ({
 
   function formatNumberShort(number) {
     if (number >= 1e6) {
-      return numeral(number / 1e6).format('0.00a') + 'M';
+      const formatted = numeral(number / 1e6).format('0.00a');
+      if (formatted.endsWith('k')) {
+        return (formatted.slice(0, -1) + "M");
+      }
+      else {
+        return (formatted + "M");
+      }
     } else if (number >= 1e3) {
       return numeral(number / 1e3).format('0.00a') + 'K';
     } else if (number % 1 !== 0) {

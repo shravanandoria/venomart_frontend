@@ -15,6 +15,7 @@ import { MdVerified } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { BiLoaderAlt } from "react-icons/bi";
+import numeral from "numeral";
 
 const Navbar = ({
   signer_address,
@@ -54,6 +55,24 @@ const Navbar = ({
     set_query_search(data);
     set_isTyping(true);
   };
+
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      const formatted = numeral(number / 1e6).format('0.00a');
+      if (formatted.endsWith('k')) {
+        return (formatted.slice(0, -1) + "M");
+      }
+      else {
+        return (formatted + "M");
+      }
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -466,7 +485,7 @@ const Navbar = ({
                                 }}
                                 alt="VenomLogo"
                               />
-                              {vnmBalance}
+                              {formatNumberShort(vnmBalance)}
                             </span>
                           </div>
                         </div>

@@ -234,7 +234,8 @@ export const loadNFTs_user = async (
   provider,
   ownerAddress,
   last_paid,
-  client
+  client,
+  onChainFilterNFT
 ) => {
   try {
     // Take a salted code
@@ -245,23 +246,46 @@ export const loadNFTs_user = async (
       return;
     }
 
-    const query = `query {
-      accounts(
-        filter: {
-          workchain_id: { eq: 0 }
-          code_hash: {
-            eq: "${codeHash}"
+    let query;
+    if (onChainFilterNFT === "newestFirst") {
+      query = `query {
+        accounts(
+          filter: {
+            workchain_id: { eq: 0 }
+            code_hash: {
+              eq: "${codeHash}"
+            }
+            ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
           }
-          ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
+          orderBy: [{ path: "last_paid", direction: DESC }]
+          limit: 25
+        ) {
+          id
+          balance(format: DEC)
+          last_paid
         }
-        orderBy: [{ path: "last_paid", direction: DESC }]
-        limit: 25
-      ) {
-        id
-        balance(format: DEC)
-        last_paid
-      }
-    }`;
+      }`;
+    }
+    else {
+      query = `query {
+        accounts(
+          filter: {
+            workchain_id: { eq: 0 }
+            code_hash: {
+              eq: "${codeHash}"
+            }
+            ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
+          }
+          orderBy: [{ path: "last_paid", direction: ASC }]
+          limit: 25
+        ) {
+          id
+          balance(format: DEC)
+          last_paid
+        }
+      }`;
+    }
+
     const { result } = await client.net.query({ query });
     client.close();
 

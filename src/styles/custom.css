@@ -406,7 +406,7 @@
 .collectionFilterDiv {
   position: -webkit-sticky;
   position: sticky;
-  top: 80px;
+  top: 75px;
   z-index: 15;
   display: flex;
   justify-content: space-around;

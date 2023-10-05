@@ -38,6 +38,7 @@ import { IoHandLeftSharp } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
 import { addOffer, getOffers } from "../../utils/mongo_api/offer/offer";
+import numeral from "numeral";
 
 const NFTPage = ({
   signer_address,
@@ -97,6 +98,25 @@ const NFTPage = ({
   const [activityHistory, setActivityHistory] = useState([]);
   const [activityType, setActivityType] = useState("");
   const [transactionType, setTransactionType] = useState("");
+
+  // formart num 
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      const formatted = numeral(number / 1e6).format('0.00a');
+      if (formatted.endsWith('k')) {
+        return (formatted.slice(0, -1) + "M");
+      }
+      else {
+        return (formatted + "M");
+      }
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
 
   // carting nfts 
   const addToCart = () => {
@@ -831,7 +851,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {lastSold ? lastSold : "0.00"}
+                                  {lastSold ? formatNumberShort(lastSold) : "0.00"}
                                 </span>
                               </div>
                             }
@@ -850,7 +870,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice}
+                                  {nft?.NFTCollection?.FloorPrice ? formatNumberShort(nft?.NFTCollection?.FloorPrice) : formatNumberShort(collectionData?.data?.FloorPrice)}
                                 </span>
                               </div>
                             }
@@ -898,7 +918,7 @@ const NFTPage = ({
                                   </span>
                                   <span className="text-[24px] font-medium leading-tight tracking-tight text-green">
                                     {nft?.listingPrice
-                                      ? nft?.listingPrice
+                                      ? formatNumberShort(nft?.listingPrice)
                                       : "0.00"}
                                   </span>
                                 </div>
@@ -922,7 +942,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {lastSold ? lastSold : "0.00"}
+                                  {lastSold ? formatNumberShort(lastSold) : "0.00"}
                                 </span>
                               </div>
                             }
@@ -941,7 +961,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice}
+                                  {nft?.NFTCollection?.FloorPrice ? formatNumberShort(nft?.NFTCollection?.FloorPrice) : formatNumberShort(collectionData?.data?.FloorPrice)}
                                 </span>
                               </div>
                             }
@@ -1111,7 +1131,7 @@ const NFTPage = ({
                                   </span>
                                   <span className="text-[24px] font-medium leading-tight tracking-tight text-green">
                                     {nft?.listingPrice
-                                      ? nft?.listingPrice
+                                      ? formatNumberShort(nft?.listingPrice)
                                       : "0.00"}
                                   </span>
                                   {/* <span className="text-[19px] text-jacarta-700 dark:text-jacarta-200 ml-2">
@@ -1138,7 +1158,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {lastSold ? lastSold : "0.00"}
+                                  {lastSold ? formatNumberShort(lastSold) : "0.00"}
                                 </span>
                               </div>
                             }
@@ -1157,7 +1177,7 @@ const NFTPage = ({
                                   />
                                 </span>
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice}
+                                  {nft?.NFTCollection?.FloorPrice ? formatNumberShort(nft?.NFTCollection?.FloorPrice) : formatNumberShort(collectionData?.data?.FloorPrice)}
                                 </span>
                               </div>
                             }
@@ -1227,7 +1247,7 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {lastSold ? lastSold : "0.00"}
+                                    {lastSold ? formatNumberShort(lastSold) : "0.00"}
                                   </span>
                                 </div>
                               }
@@ -1246,7 +1266,7 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice ? nft?.NFTCollection?.FloorPrice : collectionData?.data?.FloorPrice}
+                                    {nft?.NFTCollection?.FloorPrice ? formatNumberShort(nft?.NFTCollection?.FloorPrice) : formatNumberShort(collectionData?.data?.FloorPrice)}
                                   </span>
                                 </div>
                               }
@@ -1944,7 +1964,7 @@ const NFTPage = ({
                     </div>
 
                     <div className="text-right">
-                      <span className="text-sm dark:text-jacarta-400">Balance: {vnmBalance} {currency}</span>
+                      <span className="text-sm dark:text-jacarta-400">Balance: {formatNumberShort(vnmBalance)} {currency}</span>
                     </div>
 
                     <div className="mt-4 flex items-center space-x-2">

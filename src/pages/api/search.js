@@ -13,9 +13,27 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const { query, type, collection_id } = req.query;
+          const { query, type, collection_id, user_address } = req.query;
           let results = {};
-          if (type !== "nft") {
+
+          if (type == "user") {
+            if (user_address) {
+              const nfts_search = await NFT.find({
+                $or: [
+                  { name: { $regex: query, $options: "i" } },
+                  { NFTAddress: { $regex: query, $options: "i" } },
+                ],
+                $and: [{ ownerAddress: user_address }],
+              })
+                .select([
+                  "-attributes"
+                ]).limit(10);
+
+              results.nfts = nfts_search;
+            }
+          }
+
+          if (type == "collection") {
             const col_search = await Collection.find({
               $or: [{ name: { $regex: query, $options: "i" } }],
             })
@@ -27,7 +45,7 @@ export default async function handler(req, res) {
             results.collections = col_search;
           }
 
-          if (type !== "collection") {
+          if (type == "nft") {
             if (collection_id) {
               const nfts_search = await NFT.find({
                 $or: [
@@ -76,13 +94,6 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false, data: error.message });
         }
         break;
-      case "POST":
-        try {
-        } catch (error) {
-          res.status(400).json({ success: false, data: error.message });
-        }
-        break;
-
       default:
         res.status(400).json({ success: false });
         break;

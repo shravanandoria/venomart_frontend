@@ -5,9 +5,29 @@ import Image from 'next/image';
 import { MdVerified } from 'react-icons/md';
 import { BsExclamationCircleFill } from 'react-icons/bs';
 import { listing_fees, refundable_fees } from '../../utils/user_nft';
+import numeral from 'numeral';
 
 
 const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, NFTListingPrice, actionLoad }) => {
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            const formatted = numeral(number / 1e6).format('0.00a');
+            if (formatted.endsWith('k')) {
+                return (formatted.slice(0, -1) + "M");
+            }
+            else {
+                return (formatted + "M");
+            }
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
+
     return (
         <div className="afterMintDiv">
             <form onSubmit={formSubmit} className="modal-dialog max-w-2xl">
@@ -126,7 +146,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         />
                                     </span>
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                                        {NFTListingPrice ? NFTListingPrice : "0.00"}
+                                        {NFTListingPrice ? formatNumberShort(NFTListingPrice) : "0.00"}
                                     </span>
                                 </span>
                                 <span className="mb-1 flex items-center whitespace-nowrap">
@@ -163,7 +183,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         />
                                     </span>
                                     <span className="text-green font-medium tracking-tight">
-                                        {parseFloat(refundable_fees / 1000000000) + parseFloat(NFTListingPrice)}
+                                        {formatNumberShort(parseFloat(refundable_fees / 1000000000) + parseFloat(NFTListingPrice))}
                                     </span>
                                 </span>
                             </div>

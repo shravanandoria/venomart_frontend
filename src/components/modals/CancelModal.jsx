@@ -5,8 +5,28 @@ import Image from 'next/image';
 import { MdVerified } from 'react-icons/md';
 import { BsExclamationCircleFill } from 'react-icons/bs';
 import { listing_fees, refundable_fees } from '../../utils/user_nft';
+import numeral from 'numeral';
 
 const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, actionLoad }) => {
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            const formatted = numeral(number / 1e6).format('0.00a');
+            if (formatted.endsWith('k')) {
+                return (formatted.slice(0, -1) + "M");
+            }
+            else {
+                return (formatted + "M");
+            }
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
+
     return (
         <div className="afterMintDiv">
             <form onSubmit={formSubmit} className="modal-dialog max-w-2xl">

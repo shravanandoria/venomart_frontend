@@ -7,6 +7,7 @@ import venomLogo from "../../public/venomBG.webp";
 import { BsDiscord, BsExclamationCircleFill, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
+import numeral from "numeral";
 
 const Footer = ({
   theme,
@@ -22,6 +23,24 @@ const Footer = ({
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
   const [itemsModal, setItemsModal] = useState(false);
+
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      const formatted = numeral(number / 1e6).format('0.00a');
+      if (formatted.endsWith('k')) {
+        return (formatted.slice(0, -1) + "M");
+      }
+      else {
+        return (formatted + "M");
+      }
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
 
   const buyCartNFTs = (e) => {
     e.preventDefault()
@@ -176,7 +195,7 @@ const Footer = ({
                               />
                             </span>
                             <span className="dark:text-jacarta-100 text-[18px] font-medium tracking-tight">
-                              {nft?.listingPrice ? nft?.listingPrice : "0.00"}
+                              {nft?.listingPrice ? formatNumberShort(nft?.listingPrice) : "0.00"}
                             </span>
                           </span>
                           <span className="mb-1 flex items-center whitespace-nowrap"></span>
@@ -209,7 +228,7 @@ const Footer = ({
                         />
                       </span>
                       <span className="text-green font-medium text-lg tracking-tight">
-                        {totalListingPrice ? (totalListingPrice).toFixed(2) : "0"}
+                        {totalListingPrice ? formatNumberShort(totalListingPrice) : "0"}
                       </span>
                     </span>
                   </div>

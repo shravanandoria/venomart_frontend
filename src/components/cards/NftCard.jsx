@@ -5,6 +5,7 @@ import { BsFillCartPlusFill, BsFillCheckCircleFill, BsFillExclamationCircleFill 
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import { AiFillPlusCircle } from "react-icons/ai";
+import numeral from 'numeral';
 
 
 const NftCard = ({
@@ -28,6 +29,24 @@ const NftCard = ({
   Description
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
+
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      const formatted = numeral(number / 1e6).format('0.00a');
+      if (formatted.endsWith('k')) {
+        return (formatted.slice(0, -1) + "M");
+      }
+      else {
+        return (formatted + "M");
+      }
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
 
   const addToCart = () => {
     if (!cartNFTs.some((item) => item._id === NFTData._id)) {
@@ -137,7 +156,7 @@ const NftCard = ({
                 }}
                 alt="VenomLogo"
               />
-              {listingPrice}
+              {formatNumberShort(listingPrice)}
             </span>
           </span>
         )}

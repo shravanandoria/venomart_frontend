@@ -5,8 +5,22 @@ import Image from 'next/image';
 import { MdVerified } from 'react-icons/md';
 import { BsExclamationCircleFill, BsFillShareFill } from 'react-icons/bs';
 import { GoArrowUpRight } from 'react-icons/go';
+import numeral from 'numeral';
 
 const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, NFTImage, NFTName, NFTCollectionName, NFTAddress, NFTCollectionContract, CollectionVerification, NFTListingPrice, TransactionType = "List" }) => {
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            return numeral(number / 1e6).format('0.00a') + 'M';
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
+
     return (
         <div className="afterMintDiv">
             <form className="modal-dialog max-w-2xl">

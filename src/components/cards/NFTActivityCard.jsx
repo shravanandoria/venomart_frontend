@@ -3,10 +3,29 @@ import Link from 'next/link';
 import React from 'react'
 import venomLogo from "../../../public/venomBG.webp";
 import Image from 'next/image';
+import numeral from 'numeral';
 
 
 const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, MARKETPLACE_ADDRESS, hash, blockURL, createdAt, signerAddress }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            const formatted = numeral(number / 1e6).format('0.00a');
+            if (formatted.endsWith('k')) {
+                return (formatted.slice(0, -1) + "M");
+            }
+            else {
+                return (formatted + "M");
+            }
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
 
     return (
         <div className="flex">
@@ -106,7 +125,7 @@ const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, MARKETPLACE_
                             }}
                             alt="VenomLogo"
                         />
-                        {price}
+                        {formatNumberShort(price)}
                     </span>
                 }
                 {type == "cancel" &&
@@ -126,7 +145,7 @@ const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, MARKETPLACE_
                             }}
                             alt="VenomLogo"
                         />
-                        {price}
+                        {formatNumberShort(price)}
                     </span>
                 }
             </div>

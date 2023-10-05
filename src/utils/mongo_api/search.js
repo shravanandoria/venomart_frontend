@@ -13,6 +13,19 @@ export const search = async (query) => {
   }
 };
 
+export const search_user_nfts = async (query, user_address) => {
+  try {
+    const res = await axios({
+      url: `/api/search?query=${query}&type=user&user_address=${user_address}`,
+      method: "GET",
+    });
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const search_nfts = async (query, collection_id) => {
   try {
     const res = await axios({
