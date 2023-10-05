@@ -117,16 +117,16 @@ ROT
 CALLREF {
 	CALL $_transferOwnership_internal_macro$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 46
+.loc ../contracts/Launchpad_Collection.tsol, 45
 ACCEPT
-.loc ../contracts/Launchpad_Collection.tsol, 47
+.loc ../contracts/Launchpad_Collection.tsol, 46
 PUSHINT 1000000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/Launchpad_Collection.tsol, 48
+.loc ../contracts/Launchpad_Collection.tsol, 47
 SWAP
 SETGLOB 21
-.loc ../contracts/Launchpad_Collection.tsol, 49
+.loc ../contracts/Launchpad_Collection.tsol, 48
 SETGLOB 23
 .loc ../contracts/Launchpad_Collection.tsol, 0
 CALLREF {
@@ -143,7 +143,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 52
+.loc ../contracts/Launchpad_Collection.tsol, 51
 ENDS
 .loc ../contracts/Launchpad_Collection.tsol, 0
 CALLREF {
@@ -181,7 +181,7 @@ THROW 0
 CALL $codeDepth_internal_macro$
 
 .macro codeDepth_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 53
+.loc ../contracts/Launchpad_Collection.tsol, 52
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_internal_macro$
@@ -198,7 +198,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 56
+.loc ../contracts/Launchpad_Collection.tsol, 55
 LDREF
 ENDS
 .loc ../contracts/Launchpad_Collection.tsol, 0
@@ -216,10 +216,10 @@ THROW 0
 CALL $mint_internal_macro$
 
 .macro mint_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 57
+.loc ../contracts/Launchpad_Collection.tsol, 56
 GETGLOB 24
 THROWIF 101
-.loc ../contracts/Launchpad_Collection.tsol, 58
+.loc ../contracts/Launchpad_Collection.tsol, 57
 GETGLOB 9
 GETGLOB 25
 PUSHINT 267
@@ -230,7 +230,7 @@ PUSHCONT {
 }
 IF
 THROWIF 105
-.loc ../contracts/Launchpad_Collection.tsol, 59
+.loc ../contracts/Launchpad_Collection.tsol, 58
 DEPTH
 ADDCONST -2
 PICK
@@ -248,11 +248,11 @@ ADD
 UFITS 128
 GREATER
 THROWIFNOT 104
-.loc ../contracts/Launchpad_Collection.tsol, 61
+.loc ../contracts/Launchpad_Collection.tsol, 60
 GETGLOB 23
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/Launchpad_Collection.tsol, 64
+.loc ../contracts/Launchpad_Collection.tsol, 63
 GETGLOB 9
 SWAP
 PUSHINT 0
@@ -271,7 +271,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 67
+.loc ../contracts/Launchpad_Collection.tsol, 66
 LDU 32
 GETGLOB 4
 ROT
@@ -337,7 +337,7 @@ IFREF {
 THROW 0
 
 .macro totalMinted_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 68
+.loc ../contracts/Launchpad_Collection.tsol, 67
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -358,7 +358,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 71
+.loc ../contracts/Launchpad_Collection.tsol, 70
 LDU 32
 GETGLOB 4
 ROT
@@ -421,7 +421,7 @@ IFREF {
 THROW 0
 
 .macro mintingFee_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 72
+.loc ../contracts/Launchpad_Collection.tsol, 71
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -442,7 +442,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 75
+.loc ../contracts/Launchpad_Collection.tsol, 74
 LDU 32
 GETGLOB 4
 ROT
@@ -513,7 +513,7 @@ IFREF {
 THROW 0
 
 .macro hasMinted_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 76
+.loc ../contracts/Launchpad_Collection.tsol, 75
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -537,31 +537,31 @@ IF
 CALL $_mintNft_internal_macro$
 
 .macro _mintNft_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 80
+.loc ../contracts/Launchpad_Collection.tsol, 79
 GETGLOB 24
 THROWIF 101
-.loc ../contracts/Launchpad_Collection.tsol, 81
+.loc ../contracts/Launchpad_Collection.tsol, 80
 GETGLOB 22
 DUP
-.loc ../contracts/Launchpad_Collection.tsol, 82
+.loc ../contracts/Launchpad_Collection.tsol, 81
 INC
 SETGLOB 22
-.loc ../contracts/Launchpad_Collection.tsol, 83
+.loc ../contracts/Launchpad_Collection.tsol, 82
 GETGLOB 12
 INC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/Launchpad_Collection.tsol, 85
+.loc ../contracts/Launchpad_Collection.tsol, 84
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_internal_macro$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 86
+.loc ../contracts/Launchpad_Collection.tsol, 85
 OVER
 CALLREF {
 	CALL $_buildNftState_internal_macro$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 87
+.loc ../contracts/Launchpad_Collection.tsol, 86
 GETGLOB 17
 GETGLOB 16
 GETGLOB 14
@@ -629,7 +629,7 @@ STBREFR
 ENDC
 ROLL 3
 SENDRAWMSG
-.loc ../contracts/Launchpad_Collection.tsol, 97
+.loc ../contracts/Launchpad_Collection.tsol, 96
 GETGLOB 9
 PUSH S3
 BLKSWAP 3, 2
@@ -669,7 +669,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 100
+.loc ../contracts/Launchpad_Collection.tsol, 99
 LDU 32
 GETGLOB 4
 ROT
@@ -732,7 +732,7 @@ IFREF {
 THROW 0
 
 .macro minting_status_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 101
+.loc ../contracts/Launchpad_Collection.tsol, 100
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -753,7 +753,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 104
+.loc ../contracts/Launchpad_Collection.tsol, 103
 LDI 1
 ENDS
 .loc ../contracts/Launchpad_Collection.tsol, 0
@@ -793,7 +793,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/Launchpad_Collection.tsol, 105
+.loc ../contracts/Launchpad_Collection.tsol, 104
 SETGLOB 24
 .loc ../contracts/Launchpad_Collection.tsol, 0
 
@@ -806,7 +806,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 108
+.loc ../contracts/Launchpad_Collection.tsol, 107
 OVER
 PUSHCONT {
 	LDREF
@@ -849,7 +849,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/Launchpad_Collection.tsol, 109
+.loc ../contracts/Launchpad_Collection.tsol, 108
 SETGLOB 21
 .loc ../contracts/Launchpad_Collection.tsol, 0
 
@@ -862,7 +862,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 112
+.loc ../contracts/Launchpad_Collection.tsol, 111
 OVER
 PUSHCONT {
 	LDREF
@@ -905,7 +905,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/Launchpad_Collection.tsol, 113
+.loc ../contracts/Launchpad_Collection.tsol, 112
 SETGLOB 23
 .loc ../contracts/Launchpad_Collection.tsol, 0
 
@@ -918,7 +918,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 116
+.loc ../contracts/Launchpad_Collection.tsol, 115
 OVER
 PUSHCONT {
 	LDREF
@@ -962,9 +962,9 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/Launchpad_Collection.tsol, 117
+.loc ../contracts/Launchpad_Collection.tsol, 116
 ACCEPT
-.loc ../contracts/Launchpad_Collection.tsol, 118
+.loc ../contracts/Launchpad_Collection.tsol, 117
 SWAP
 NEWC
 STSLICECONST x62_
@@ -983,7 +983,7 @@ SENDRAWMSG
 CALL $_buildNftState_internal_macro$
 
 .macro _buildNftState_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 125
+.loc ../contracts/Launchpad_Collection.tsol, 124
 PUSHINT 0
 NEWC
 STU 256
@@ -1019,7 +1019,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 128
+.loc ../contracts/Launchpad_Collection.tsol, 127
 OVER
 PUSHCONT {
 	LDREF
@@ -1069,11 +1069,11 @@ THROW 0
 CALL $resolveIndexCodeHash_internal_macro$
 
 .macro resolveIndexCodeHash_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 129
+.loc ../contracts/Launchpad_Collection.tsol, 128
 CALLREF {
 	CALL $_buildIndexCode_internal_macro$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 130
+.loc ../contracts/Launchpad_Collection.tsol, 129
 HASHCU
 .loc ../contracts/Launchpad_Collection.tsol, 0
 
@@ -1086,7 +1086,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Launchpad_Collection.tsol, 133
+.loc ../contracts/Launchpad_Collection.tsol, 132
 OVER
 PUSHCONT {
 	LDREF
@@ -1121,7 +1121,7 @@ CALLREF {
 THROW 0
 
 .macro acceptNftBurn_internal_macro
-.loc ../contracts/Launchpad_Collection.tsol, 141
+.loc ../contracts/Launchpad_Collection.tsol, 140
 GETGLOB 9
 PARSEMSGADDR
 INDEX 3
@@ -1139,12 +1139,12 @@ PUSHCONT {
 }
 IF
 THROWIFNOT 100
-.loc ../contracts/Launchpad_Collection.tsol, 143
+.loc ../contracts/Launchpad_Collection.tsol, 142
 GETGLOB 12
 DEC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/Launchpad_Collection.tsol, 144
+.loc ../contracts/Launchpad_Collection.tsol, 143
 PUSH2 S3, S4
 GETGLOB 9
 PUSH S8
@@ -1168,13 +1168,13 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/Launchpad_Collection.tsol, 146
+.loc ../contracts/Launchpad_Collection.tsol, 145
 OVER
 PARSEMSGADDR
 INDEX 3
 PLDU 256
 PUSHCONT {
-	.loc ../contracts/Launchpad_Collection.tsol, 147
+	.loc ../contracts/Launchpad_Collection.tsol, 146
 	PUSH3 S0, S2, S3
 	PUSH S7
 	GETGLOB 9
@@ -1214,7 +1214,7 @@ PUSHCONT {
 	STBREFR
 }
 PUSHCONT {
-	.loc ../contracts/Launchpad_Collection.tsol, 157
+	.loc ../contracts/Launchpad_Collection.tsol, 156
 	PUSH S2
 	NEWC
 	STSLICECONST x42_

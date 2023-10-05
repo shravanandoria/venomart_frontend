@@ -1,0 +1,96 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"sendRemainingGasTo","type":"address"},
+				{"name":"_offer_amount","type":"uint128"},
+				{"name":"_offer_validity","type":"uint128"},
+				{"name":"_platform_fee","type":"uint128"},
+				{"name":"_nft_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onTokenWallet",
+			"inputs": [
+				{"name":"value","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onNftChangeManager",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"oldManager","type":"address"},
+				{"name":"newManager","type":"address"},
+				{"name":"collection","type":"address"},
+				{"name":"sendGasTo","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cancel_offer",
+			"inputs": [
+				{"name":"sendRemainingGasTo","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cancel_listing",
+			"inputs": [
+				{"name":"nftAddress","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onAcceptTokensTransfer",
+			"inputs": [
+				{"name":"value0","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"sender","type":"address"},
+				{"name":"value3","type":"address"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"nounce","type":"uint256"},
+		{"key":2,"name":"contract_creator","type":"address"},
+		{"key":3,"name":"platform_owner","type":"address"},
+		{"key":4,"name":"_tokenRoot","type":"address"},
+		{"key":5,"name":"offer_owner","type":"address"}
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"nounce","type":"uint256"},
+		{"name":"contract_creator","type":"address"},
+		{"name":"platform_owner","type":"address"},
+		{"name":"_tokenRoot","type":"address"},
+		{"name":"offer_owner","type":"address"},
+		{"name":"offer_amount","type":"uint128"},
+		{"name":"offer_validity","type":"uint128"},
+		{"name":"platform_fee","type":"uint128"},
+		{"name":"nft_address","type":"address"},
+		{"name":"_tokenWallet","type":"address"},
+		{"name":"remain_on_contract","type":"uint128"},
+		{"name":"received_amount","type":"uint128"}
+	]
+}
