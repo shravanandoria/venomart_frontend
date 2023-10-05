@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -44,7 +44,7 @@ export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
 export const COLLECTION_ADDRESS =
-  "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
+  "0:580d2943807963b228b73bc437e3248b22607635b1190ad7c7a3ba220053a6e0";
 
 export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
@@ -413,7 +413,7 @@ export const create_launchpad_nft = async (
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io/"
+      external_url: "https://venomart.io/",
     });
 
     console.log({ nft_json })

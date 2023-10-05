@@ -1,0 +1,3271 @@
+{
+  "map": {
+    "0b1762f51c824fc506921313f52aa88bcec09268402d8f71bcb54585d46ac15a": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 110
+      },
+      "8": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "24": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "40": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "56": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "64": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "72": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "112": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "136": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "144": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "152": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "176": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "200": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "248": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "256": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "264": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "272": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "280": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "296": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "304": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "312": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "320": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "336": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 112
+      },
+      "352": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "360": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "520": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "528": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "536": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "552": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "560": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      },
+      "568": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 122
+      }
+    },
+    "0ee8da610b7b68079d9c0a767e92ed64c2ab87770df8d12bc8e3d2d52be44f2f": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 938
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 939
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 940
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 941
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 967
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 968
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 969
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 970
+      }
+    },
+    "167cbcddb50e29cce7c28a14df73bae947a561cc10d9c38c298a1e02278eb4e6": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "8": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "24": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "32": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "40": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "56": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "64": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "72": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "136": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "152": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "168": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "184": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      }
+    },
+    "17c22fa34ebf04b810e416f51dc536ca7cb294c2e48d32c3834317a96d4a74fc": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 604
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 605
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 606
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 607
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 608
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 609
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "96": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "104": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "112": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "120": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "128": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "136": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "152": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 623
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 626
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 627
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 630
+      }
+    },
+    "30827d368d4952daa8daba42a0bf53fa5804116cbb5922db11500bea8ad5666d": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 437
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 438
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 439
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 440
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 441
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 442
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "144": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "160": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "168": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "176": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "208": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "216": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "224": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "232": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "240": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "256": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "272": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "280": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "296": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "312": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "328": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 125
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 469
+      },
+      "352": {
+        "filename": "FactoryAuction.code",
+        "line": 472
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 473
+      },
+      "376": {
+        "filename": "FactoryAuction.code",
+        "line": 474
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 475
+      },
+      "392": {
+        "filename": "FactoryAuction.code",
+        "line": 476
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 477
+      },
+      "424": {
+        "filename": "FactoryAuction.code",
+        "line": 478
+      },
+      "432": {
+        "filename": "FactoryAuction.code",
+        "line": 479
+      },
+      "440": {
+        "filename": "FactoryAuction.code",
+        "line": 480
+      },
+      "448": {
+        "filename": "FactoryAuction.code",
+        "line": 481
+      },
+      "472": {
+        "filename": "FactoryAuction.code",
+        "line": 482
+      },
+      "480": {
+        "filename": "FactoryAuction.code",
+        "line": 483
+      },
+      "528": {
+        "filename": "FactoryAuction.code",
+        "line": 484
+      },
+      "552": {
+        "filename": "FactoryAuction.code",
+        "line": 485
+      },
+      "560": {
+        "filename": "FactoryAuction.code",
+        "line": 486
+      },
+      "568": {
+        "filename": "FactoryAuction.code",
+        "line": 487
+      },
+      "576": {
+        "filename": "FactoryAuction.code",
+        "line": 489
+      },
+      "592": {
+        "filename": "FactoryAuction.code",
+        "line": 490
+      },
+      "608": {
+        "filename": "FactoryAuction.code",
+        "line": 491
+      },
+      "616": {
+        "filename": "FactoryAuction.code",
+        "line": 492
+      },
+      "632": {
+        "filename": "FactoryAuction.code",
+        "line": 493
+      },
+      "640": {
+        "filename": "FactoryAuction.code",
+        "line": 494
+      },
+      "656": {
+        "filename": "FactoryAuction.code",
+        "line": 495
+      },
+      "672": {
+        "filename": "FactoryAuction.code",
+        "line": 496
+      },
+      "688": {
+        "filename": "FactoryAuction.code",
+        "line": 497
+      },
+      "704": {
+        "filename": "FactoryAuction.code",
+        "line": 498
+      },
+      "712": {
+        "filename": "FactoryAuction.code",
+        "line": 499
+      },
+      "736": {
+        "filename": "FactoryAuction.code",
+        "line": 500
+      },
+      "752": {
+        "filename": "FactoryAuction.code",
+        "line": 501
+      },
+      "776": {
+        "filename": "FactoryAuction.code",
+        "line": 502
+      },
+      "784": {
+        "filename": "FactoryAuction.code",
+        "line": 503
+      },
+      "792": {
+        "filename": "FactoryAuction.code",
+        "line": 504
+      },
+      "808": {
+        "filename": "FactoryAuction.code",
+        "line": 505
+      },
+      "824": {
+        "filename": "FactoryAuction.code",
+        "line": 506
+      },
+      "840": {
+        "filename": "FactoryAuction.code",
+        "line": 507
+      },
+      "856": {
+        "filename": "FactoryAuction.code",
+        "line": 508
+      },
+      "872": {
+        "filename": "FactoryAuction.code",
+        "line": 509
+      },
+      "888": {
+        "filename": "FactoryAuction.code",
+        "line": 510
+      },
+      "912": {
+        "filename": "FactoryAuction.code",
+        "line": 511
+      },
+      "920": {
+        "filename": "FactoryAuction.code",
+        "line": 512
+      },
+      "928": {
+        "filename": "FactoryAuction.code",
+        "line": 513
+      },
+      "944": {
+        "filename": "FactoryAuction.code",
+        "line": 514
+      },
+      "960": {
+        "filename": "FactoryAuction.code",
+        "line": 516
+      },
+      "968": {
+        "filename": "FactoryAuction.code",
+        "line": 517
+      },
+      "984": {
+        "filename": "FactoryAuction.code",
+        "line": 518
+      },
+      "1000": {
+        "filename": "FactoryAuction.code",
+        "line": 521
+      }
+    },
+    "30d9cffe027f8ca562e3e4454154f417a9f414621829de06590fd50f4b4d1a3b": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 4
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 5
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 6
+      },
+      "32": {
+        "filename": "FactoryAuction.code",
+        "line": 7
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 10
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 11
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 12
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 13
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 14
+      },
+      "104": {
+        "filename": "FactoryAuction.code",
+        "line": 15
+      },
+      "112": {
+        "filename": "FactoryAuction.code",
+        "line": 16
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 18
+      },
+      "128": {
+        "filename": "FactoryAuction.code",
+        "line": 19
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 20
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 21
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 22
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 23
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 24
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 25
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 26
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 27
+      },
+      "232": {
+        "filename": "FactoryAuction.code",
+        "line": 28
+      },
+      "248": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 12
+      },
+      "264": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 40
+      },
+      "280": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 41
+      },
+      "328": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 41
+      },
+      "336": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 41
+      },
+      "352": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 43
+      },
+      "360": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 43
+      },
+      "376": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 44
+      },
+      "392": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 45
+      },
+      "408": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 46
+      },
+      "424": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "432": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "456": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "464": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "480": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "496": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "504": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "520": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 48
+      },
+      "536": {
+        "filename": "FactoryAuction.code",
+        "line": 58
+      },
+      "552": {
+        "filename": "FactoryAuction.code",
+        "line": 61
+      }
+    },
+    "3a53cf296e978929046fde4036084b93d8f1d248276cc4a1707095616d5d2ac3": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "16": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "32": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "48": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "72": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "96": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "112": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "120": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "144": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "152": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "168": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "176": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "200": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "208": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "224": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "240": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "264": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "288": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 21
+      }
+    },
+    "43eec3857cc5dd0c7c03dc4636aa055a87f5d626da614fc2b594cb8ceecd3c4b": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 25
+      },
+      "16": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 26
+      },
+      "24": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 26
+      },
+      "40": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "160": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "168": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "176": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "184": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "192": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "240": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "248": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "256": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "264": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "272": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "280": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "288": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "296": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "304": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      }
+    },
+    "44a3e737d9e9ca53ef9e2bd8f8db8262d671042f5e7613f77d8f0af697a11b6f": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 64
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 65
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 66
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 67
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 68
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 69
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "144": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "160": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 51
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 80
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 83
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 84
+      },
+      "208": {
+        "filename": "FactoryAuction.code",
+        "line": 85
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 86
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 87
+      },
+      "240": {
+        "filename": "FactoryAuction.code",
+        "line": 88
+      },
+      "256": {
+        "filename": "FactoryAuction.code",
+        "line": 89
+      },
+      "264": {
+        "filename": "FactoryAuction.code",
+        "line": 90
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 91
+      },
+      "280": {
+        "filename": "FactoryAuction.code",
+        "line": 92
+      },
+      "304": {
+        "filename": "FactoryAuction.code",
+        "line": 93
+      },
+      "312": {
+        "filename": "FactoryAuction.code",
+        "line": 94
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 95
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 96
+      },
+      "392": {
+        "filename": "FactoryAuction.code",
+        "line": 97
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 98
+      },
+      "416": {
+        "filename": "FactoryAuction.code",
+        "line": 99
+      },
+      "432": {
+        "filename": "FactoryAuction.code",
+        "line": 100
+      },
+      "448": {
+        "filename": "FactoryAuction.code",
+        "line": 101
+      },
+      "456": {
+        "filename": "FactoryAuction.code",
+        "line": 102
+      },
+      "464": {
+        "filename": "FactoryAuction.code",
+        "line": 104
+      },
+      "480": {
+        "filename": "FactoryAuction.code",
+        "line": 105
+      },
+      "496": {
+        "filename": "FactoryAuction.code",
+        "line": 106
+      },
+      "504": {
+        "filename": "FactoryAuction.code",
+        "line": 107
+      },
+      "520": {
+        "filename": "FactoryAuction.code",
+        "line": 108
+      },
+      "528": {
+        "filename": "FactoryAuction.code",
+        "line": 109
+      },
+      "544": {
+        "filename": "FactoryAuction.code",
+        "line": 110
+      },
+      "560": {
+        "filename": "FactoryAuction.code",
+        "line": 111
+      },
+      "576": {
+        "filename": "FactoryAuction.code",
+        "line": 112
+      },
+      "592": {
+        "filename": "FactoryAuction.code",
+        "line": 113
+      },
+      "600": {
+        "filename": "FactoryAuction.code",
+        "line": 114
+      },
+      "624": {
+        "filename": "FactoryAuction.code",
+        "line": 115
+      },
+      "640": {
+        "filename": "FactoryAuction.code",
+        "line": 116
+      },
+      "664": {
+        "filename": "FactoryAuction.code",
+        "line": 117
+      },
+      "672": {
+        "filename": "FactoryAuction.code",
+        "line": 118
+      },
+      "680": {
+        "filename": "FactoryAuction.code",
+        "line": 119
+      },
+      "696": {
+        "filename": "FactoryAuction.code",
+        "line": 120
+      },
+      "712": {
+        "filename": "FactoryAuction.code",
+        "line": 121
+      },
+      "728": {
+        "filename": "FactoryAuction.code",
+        "line": 122
+      },
+      "744": {
+        "filename": "FactoryAuction.code",
+        "line": 123
+      },
+      "760": {
+        "filename": "FactoryAuction.code",
+        "line": 124
+      },
+      "776": {
+        "filename": "FactoryAuction.code",
+        "line": 125
+      },
+      "800": {
+        "filename": "FactoryAuction.code",
+        "line": 126
+      },
+      "808": {
+        "filename": "FactoryAuction.code",
+        "line": 127
+      },
+      "824": {
+        "filename": "FactoryAuction.code",
+        "line": 128
+      },
+      "832": {
+        "filename": "FactoryAuction.code",
+        "line": 129
+      },
+      "848": {
+        "filename": "FactoryAuction.code",
+        "line": 130
+      },
+      "864": {
+        "filename": "FactoryAuction.code",
+        "line": 131
+      },
+      "872": {
+        "filename": "FactoryAuction.code",
+        "line": 132
+      },
+      "888": {
+        "filename": "FactoryAuction.code",
+        "line": 133
+      },
+      "904": {
+        "filename": "FactoryAuction.code",
+        "line": 135
+      },
+      "912": {
+        "filename": "FactoryAuction.code",
+        "line": 136
+      },
+      "928": {
+        "filename": "FactoryAuction.code",
+        "line": 137
+      },
+      "944": {
+        "filename": "FactoryAuction.code",
+        "line": 140
+      }
+    },
+    "556e3ad7b12c6ff2444a50d8b9175f03a5c8dafa1408663bde6a31997593c070": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 735
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 736
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 737
+      },
+      "40": {
+        "filename": "FactoryAuction.code",
+        "line": 738
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 739
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 780
+      }
+    },
+    "59895904c08b434637c27503d9c1f312e10197dc3bc1d5d7ff8a0241f44e9034": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 740
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 741
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 742
+      },
+      "32": {
+        "filename": "FactoryAuction.code",
+        "line": 743
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 744
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 747
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 748
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 749
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 750
+      },
+      "104": {
+        "filename": "FactoryAuction.code",
+        "line": 751
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 752
+      },
+      "128": {
+        "filename": "FactoryAuction.code",
+        "line": 753
+      },
+      "152": {
+        "filename": "FactoryAuction.code",
+        "line": 755
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 756
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 758
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 761
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 762
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 763
+      },
+      "208": {
+        "filename": "FactoryAuction.code",
+        "line": 764
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 765
+      },
+      "240": {
+        "filename": "FactoryAuction.code",
+        "line": 766
+      },
+      "256": {
+        "filename": "FactoryAuction.code",
+        "line": 767
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 768
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 769
+      },
+      "304": {
+        "filename": "FactoryAuction.code",
+        "line": 770
+      },
+      "320": {
+        "filename": "FactoryAuction.code",
+        "line": 771
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 772
+      },
+      "352": {
+        "filename": "FactoryAuction.code",
+        "line": 773
+      },
+      "368": {
+        "filename": "FactoryAuction.code",
+        "line": 774
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 775
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 776
+      },
+      "424": {
+        "filename": "FactoryAuction.code",
+        "line": 777
+      },
+      "432": {
+        "filename": "FactoryAuction.code",
+        "line": 778
+      }
+    },
+    "5ce4b8633f6487799de56d7314daff01fc561851e0870a1190317d548241ed2e": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 835
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 836
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 837
+      },
+      "40": {
+        "filename": "FactoryAuction.code",
+        "line": 838
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 839
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 840
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 841
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 842
+      },
+      "104": {
+        "filename": "FactoryAuction.code",
+        "line": 843
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 844
+      },
+      "128": {
+        "filename": "FactoryAuction.code",
+        "line": 845
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 846
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 847
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 848
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 849
+      },
+      "208": {
+        "filename": "FactoryAuction.code",
+        "line": 850
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 851
+      },
+      "264": {
+        "filename": "FactoryAuction.code",
+        "line": 852
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 853
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 854
+      },
+      "296": {
+        "filename": "FactoryAuction.code",
+        "line": 855
+      },
+      "312": {
+        "filename": "FactoryAuction.code",
+        "line": 856
+      },
+      "328": {
+        "filename": "FactoryAuction.code",
+        "line": 857
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 858
+      },
+      "344": {
+        "filename": "FactoryAuction.code",
+        "line": 859
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 860
+      },
+      "376": {
+        "filename": "FactoryAuction.code",
+        "line": 864
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 865
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 866
+      },
+      "424": {
+        "filename": "FactoryAuction.code",
+        "line": 867
+      },
+      "432": {
+        "filename": "FactoryAuction.code",
+        "line": 868
+      },
+      "448": {
+        "filename": "FactoryAuction.code",
+        "line": 872
+      },
+      "456": {
+        "filename": "FactoryAuction.code",
+        "line": 873
+      },
+      "472": {
+        "filename": "FactoryAuction.code",
+        "line": 876
+      }
+    },
+    "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 745
+      }
+    },
+    "63729c7ca64f9f39d62b5d654c4ccb403bac6e383afa3cfaa8a735e2bc226da1": {
+      "0": {
+        "filename": "<entry-selector>",
+        "line": 1
+      },
+      "8": {
+        "filename": "<entry-selector>",
+        "line": 2
+      },
+      "24": {
+        "filename": "<entry-selector>",
+        "line": 3
+      },
+      "32": {
+        "filename": "<entry-selector>",
+        "line": 4
+      },
+      "48": {
+        "filename": "<entry-selector>",
+        "line": 5
+      },
+      "56": {
+        "filename": "<entry-selector>",
+        "line": 6
+      },
+      "72": {
+        "filename": "<entry-selector>",
+        "line": 7
+      },
+      "88": {
+        "filename": "<entry-selector>",
+        "line": 8
+      },
+      "96": {
+        "filename": "<entry-selector>",
+        "line": 9
+      },
+      "112": {
+        "filename": "<entry-selector>",
+        "line": 10
+      },
+      "128": {
+        "filename": "<entry-selector>",
+        "line": 11
+      }
+    },
+    "6f9c46d4ad3e2184dd270ede4c9c9c9228b838669bd583b2362a8805a9d0a90c": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 369
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 370
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 371
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 372
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 373
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 374
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "112": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "136": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "152": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 108
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 388
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 391
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 392
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 395
+      }
+    },
+    "722d2b0c52ba31b4c225bec41fb90b3bb2cf8c00a72945df47670b7b14d5e35f": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 880
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 881
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 882
+      },
+      "40": {
+        "filename": "FactoryAuction.code",
+        "line": 883
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 884
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 885
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 888
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 889
+      },
+      "104": {
+        "filename": "FactoryAuction.code",
+        "line": 890
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 893
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 894
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 895
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 896
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 897
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 898
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 899
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 900
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 901
+      },
+      "240": {
+        "filename": "FactoryAuction.code",
+        "line": 902
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 903
+      },
+      "256": {
+        "filename": "FactoryAuction.code",
+        "line": 904
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 905
+      },
+      "280": {
+        "filename": "FactoryAuction.code",
+        "line": 906
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 908
+      },
+      "296": {
+        "filename": "FactoryAuction.code",
+        "line": 909
+      },
+      "304": {
+        "filename": "FactoryAuction.code",
+        "line": 910
+      },
+      "320": {
+        "filename": "FactoryAuction.code",
+        "line": 912
+      },
+      "328": {
+        "filename": "FactoryAuction.code",
+        "line": 913
+      },
+      "344": {
+        "filename": "FactoryAuction.code",
+        "line": 914
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 916
+      },
+      "368": {
+        "filename": "FactoryAuction.code",
+        "line": 917
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 918
+      },
+      "392": {
+        "filename": "FactoryAuction.code",
+        "line": 919
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 921
+      },
+      "416": {
+        "filename": "FactoryAuction.code",
+        "line": 922
+      },
+      "432": {
+        "filename": "FactoryAuction.code",
+        "line": 923
+      },
+      "440": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "456": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "464": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "472": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "488": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "496": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "512": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "536": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "544": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "584": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "592": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "600": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "616": {
+        "filename": "stdlib.sol",
+        "line": 63
+      },
+      "632": {
+        "filename": "FactoryAuction.code",
+        "line": 925
+      },
+      "648": {
+        "filename": "FactoryAuction.code",
+        "line": 926
+      },
+      "656": {
+        "filename": "FactoryAuction.code",
+        "line": 927
+      },
+      "672": {
+        "filename": "FactoryAuction.code",
+        "line": 928
+      },
+      "680": {
+        "filename": "FactoryAuction.code",
+        "line": 929
+      },
+      "696": {
+        "filename": "FactoryAuction.code",
+        "line": 930
+      },
+      "712": {
+        "filename": "FactoryAuction.code",
+        "line": 931
+      },
+      "720": {
+        "filename": "FactoryAuction.code",
+        "line": 932
+      },
+      "736": {
+        "filename": "FactoryAuction.code",
+        "line": 935
+      }
+    },
+    "8daa1b70d7987f3f3d9a4c555b9edf4cc06182e9d5ef2fdc04529872c25b1894": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "16": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "24": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "40": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "48": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "64": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "80": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      },
+      "112": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 52
+      }
+    },
+    "9339226d53b062eb4c921def17e4afce76a6b213d87b5375c5ce4b4e02b3dc09": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "8": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "24": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "40": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      }
+    },
+    "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7": {},
+    "a55bfefd3aa3f558ca5ce7611fd44c93b7967661e161a6e3bbf833ebe1971f86": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 942
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 943
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 944
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 945
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 948
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 949
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 950
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 951
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 954
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 955
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 956
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 957
+      },
+      "240": {
+        "filename": "FactoryAuction.code",
+        "line": 960
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 961
+      },
+      "296": {
+        "filename": "FactoryAuction.code",
+        "line": 962
+      },
+      "304": {
+        "filename": "FactoryAuction.code",
+        "line": 963
+      }
+    },
+    "a85bc500bbb0b76552f24c5443197506759269a235f8cebd0886f9a2ec78bd07": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 785
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 786
+      },
+      "32": {
+        "filename": "FactoryAuction.code",
+        "line": 787
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 788
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 789
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 790
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 791
+      },
+      "112": {
+        "filename": "FactoryAuction.code",
+        "line": 792
+      },
+      "128": {
+        "filename": "FactoryAuction.code",
+        "line": 793
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 794
+      },
+      "152": {
+        "filename": "FactoryAuction.code",
+        "line": 795
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 796
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 797
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 798
+      },
+      "208": {
+        "filename": "FactoryAuction.code",
+        "line": 799
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 800
+      },
+      "232": {
+        "filename": "FactoryAuction.code",
+        "line": 801
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 802
+      },
+      "256": {
+        "filename": "FactoryAuction.code",
+        "line": 803
+      },
+      "264": {
+        "filename": "FactoryAuction.code",
+        "line": 804
+      },
+      "280": {
+        "filename": "FactoryAuction.code",
+        "line": 805
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 806
+      },
+      "296": {
+        "filename": "FactoryAuction.code",
+        "line": 807
+      },
+      "312": {
+        "filename": "FactoryAuction.code",
+        "line": 808
+      },
+      "320": {
+        "filename": "FactoryAuction.code",
+        "line": 809
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 810
+      },
+      "344": {
+        "filename": "FactoryAuction.code",
+        "line": 811
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 812
+      },
+      "376": {
+        "filename": "FactoryAuction.code",
+        "line": 813
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 814
+      },
+      "392": {
+        "filename": "FactoryAuction.code",
+        "line": 815
+      },
+      "400": {
+        "filename": "FactoryAuction.code",
+        "line": 816
+      }
+    },
+    "b3641774d4600593c64f27b9590dfdac831fb4a35f32e402ff60991c7ac7585f": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 971
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 972
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 973
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 974
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 977
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 978
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 979
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 980
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 983
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 984
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 985
+      },
+      "224": {
+        "filename": "FactoryAuction.code",
+        "line": 986
+      }
+    },
+    "bfe235d210a1a3b3896a3605e5f518bc6a24b28a03da3d32fc5274f42ede7bad": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 64
+      },
+      "48": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 64
+      },
+      "56": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 64
+      },
+      "72": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "80": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "112": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "144": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "160": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 65
+      },
+      "168": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "176": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "184": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "200": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "208": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "216": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "232": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "248": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "264": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "272": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "288": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "296": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "304": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "320": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "336": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "352": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "360": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "368": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "384": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "400": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "416": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "424": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "432": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "448": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "464": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "472": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "488": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "496": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "512": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "520": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "544": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "560": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "576": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "592": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 67
+      },
+      "600": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "608": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "624": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "640": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "656": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "672": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "688": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "704": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "720": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "736": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "744": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "760": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "768": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "800": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "816": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "824": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "832": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "848": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "856": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "864": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "888": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      }
+    },
+    "c07d28833d71dc70d40b6a9e4391b537d52c64115e371b9dd0c357c784d9ec76": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "160": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "184": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "208": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "216": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "232": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "248": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "256": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "304": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "320": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "336": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "352": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "360": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "376": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "392": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "400": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "408": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "424": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "432": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "440": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "448": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "456": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "464": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "472": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "480": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "488": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "496": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "504": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "512": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "520": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 77
+      },
+      "536": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "544": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "560": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "576": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "584": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "592": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "608": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "624": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "640": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "656": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 93
+      },
+      "672": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 95
+      },
+      "680": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "688": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "704": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "712": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "720": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "744": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "760": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "784": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "792": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "800": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "824": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "840": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "848": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "896": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "904": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "912": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "920": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "928": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "944": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "952": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "960": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "968": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "984": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 97
+      },
+      "1000": {
+        "filename": "FactoryAuction.code",
+        "line": 366
+      }
+    },
+    "c9bedcc0fcbcbc8f561178020492909ac57cf8f70d135354889491015ed42377": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 549
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 550
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 551
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 552
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 553
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 554
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 15
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 560
+      },
+      "112": {
+        "filename": "FactoryAuction.code",
+        "line": 563
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 564
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 565
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 566
+      },
+      "152": {
+        "filename": "FactoryAuction.code",
+        "line": 567
+      },
+      "168": {
+        "filename": "FactoryAuction.code",
+        "line": 568
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 569
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 570
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 571
+      },
+      "208": {
+        "filename": "FactoryAuction.code",
+        "line": 572
+      },
+      "232": {
+        "filename": "FactoryAuction.code",
+        "line": 573
+      },
+      "240": {
+        "filename": "FactoryAuction.code",
+        "line": 574
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 575
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 576
+      },
+      "280": {
+        "filename": "FactoryAuction.code",
+        "line": 577
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 578
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 579
+      },
+      "344": {
+        "filename": "FactoryAuction.code",
+        "line": 580
+      },
+      "352": {
+        "filename": "FactoryAuction.code",
+        "line": 581
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 582
+      },
+      "368": {
+        "filename": "FactoryAuction.code",
+        "line": 583
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 585
+      },
+      "392": {
+        "filename": "FactoryAuction.code",
+        "line": 586
+      },
+      "400": {
+        "filename": "FactoryAuction.code",
+        "line": 588
+      },
+      "408": {
+        "filename": "FactoryAuction.code",
+        "line": 589
+      },
+      "424": {
+        "filename": "FactoryAuction.code",
+        "line": 592
+      }
+    },
+    "ca55d6d838d5cad1e897f75f0215467e2864acfec839e93127e80d8565f0e0fe": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 16
+      }
+    },
+    "d3e23328e601eb59e9c4245da5a849e50f8ea04018d7168d9abd7b938e145d5a": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 700
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 701
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 702
+      },
+      "40": {
+        "filename": "FactoryAuction.code",
+        "line": 703
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 704
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 705
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 706
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 707
+      },
+      "104": {
+        "filename": "FactoryAuction.code",
+        "line": 708
+      },
+      "112": {
+        "filename": "FactoryAuction.code",
+        "line": 709
+      },
+      "120": {
+        "filename": "FactoryAuction.code",
+        "line": 710
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 711
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 712
+      },
+      "160": {
+        "filename": "FactoryAuction.code",
+        "line": 713
+      },
+      "176": {
+        "filename": "FactoryAuction.code",
+        "line": 714
+      },
+      "184": {
+        "filename": "FactoryAuction.code",
+        "line": 715
+      },
+      "192": {
+        "filename": "FactoryAuction.code",
+        "line": 716
+      },
+      "200": {
+        "filename": "FactoryAuction.code",
+        "line": 717
+      },
+      "216": {
+        "filename": "FactoryAuction.code",
+        "line": 718
+      },
+      "232": {
+        "filename": "FactoryAuction.code",
+        "line": 719
+      },
+      "248": {
+        "filename": "FactoryAuction.code",
+        "line": 720
+      },
+      "256": {
+        "filename": "FactoryAuction.code",
+        "line": 721
+      },
+      "272": {
+        "filename": "FactoryAuction.code",
+        "line": 722
+      },
+      "280": {
+        "filename": "FactoryAuction.code",
+        "line": 723
+      },
+      "288": {
+        "filename": "FactoryAuction.code",
+        "line": 724
+      },
+      "304": {
+        "filename": "FactoryAuction.code",
+        "line": 725
+      },
+      "320": {
+        "filename": "FactoryAuction.code",
+        "line": 726
+      },
+      "336": {
+        "filename": "FactoryAuction.code",
+        "line": 727
+      },
+      "352": {
+        "filename": "FactoryAuction.code",
+        "line": 728
+      },
+      "368": {
+        "filename": "FactoryAuction.code",
+        "line": 729
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 730
+      },
+      "400": {
+        "filename": "FactoryAuction.code",
+        "line": 731
+      },
+      "416": {
+        "filename": "FactoryAuction.code",
+        "line": 732
+      }
+    },
+    "e6936e8f0e7b8fe98c2ca66eee9d4e9dafcfc747defef9cb795288fabb1b7ef3": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 819
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 820
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 821
+      },
+      "40": {
+        "filename": "FactoryAuction.code",
+        "line": 822
+      },
+      "56": {
+        "filename": "FactoryAuction.code",
+        "line": 823
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 824
+      },
+      "80": {
+        "filename": "FactoryAuction.code",
+        "line": 825
+      },
+      "88": {
+        "filename": "FactoryAuction.code",
+        "line": 826
+      },
+      "96": {
+        "filename": "FactoryAuction.code",
+        "line": 827
+      },
+      "112": {
+        "filename": "FactoryAuction.code",
+        "line": 828
+      },
+      "128": {
+        "filename": "FactoryAuction.code",
+        "line": 829
+      },
+      "136": {
+        "filename": "FactoryAuction.code",
+        "line": 830
+      },
+      "144": {
+        "filename": "FactoryAuction.code",
+        "line": 831
+      }
+    },
+    "f24e1e7aa04d89aad2945816b6e9b921f2b3892da9ba53e2383c148351b96d0c": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 861
+      },
+      "16": {
+        "filename": "FactoryAuction.code",
+        "line": 862
+      }
+    },
+    "f2a6d2f46fae95d78128ae50b221ff8a98caf297cfdc885bd75bedab5db07c72": {
+      "0": {
+        "filename": "FactoryAuction.code",
+        "line": 160
+      },
+      "8": {
+        "filename": "FactoryAuction.code",
+        "line": 161
+      },
+      "24": {
+        "filename": "FactoryAuction.code",
+        "line": 162
+      },
+      "48": {
+        "filename": "FactoryAuction.code",
+        "line": 163
+      },
+      "64": {
+        "filename": "FactoryAuction.code",
+        "line": 164
+      },
+      "72": {
+        "filename": "FactoryAuction.code",
+        "line": 165
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "96": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "112": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "136": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "152": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "168": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "176": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "184": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "208": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "216": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "224": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "232": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "248": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "256": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "264": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "272": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "288": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "296": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "304": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "312": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "328": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "336": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 55
+      },
+      "344": {
+        "filename": "FactoryAuction.code",
+        "line": 197
+      },
+      "360": {
+        "filename": "FactoryAuction.code",
+        "line": 200
+      },
+      "368": {
+        "filename": "FactoryAuction.code",
+        "line": 201
+      },
+      "384": {
+        "filename": "FactoryAuction.code",
+        "line": 204
+      }
+    },
+    "f3e68fd11f531b6df635a6ca2dc1b4008572fe04b9908d217f9125de0b7c4d39": {
+      "0": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 131
+      },
+      "8": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 131
+      },
+      "24": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 131
+      },
+      "48": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "64": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "72": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "88": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "104": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "120": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "128": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 133
+      },
+      "144": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "160": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "168": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "184": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "192": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "208": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "224": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "240": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      },
+      "256": {
+        "filename": "../contracts/FactoryAuction.tsol",
+        "line": 135
+      }
+    },
+    "f5290cd41b194ebc2148ebf8237b8cfe8a6c7ea2e8ce5015b21b7b08dbb2ac84": {
+      "0": {
+        "filename": "<internal-selector>",
+        "line": 1
+      },
+      "24": {
+        "filename": "<internal-selector>",
+        "line": 2
+      }
+    }
+  }
+}
