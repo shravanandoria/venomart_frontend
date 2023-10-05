@@ -177,9 +177,8 @@ export const get_nft_by_address = async (provider, nft_address) => {
 export const loadNFTs_collection = async (
   provider,
   collection_address,
-  last_nft_addr,
-  client,
-  last_paid
+  last_paid,
+  client
 ) => {
   try {
     const myEver = new MyEver();
@@ -198,7 +197,6 @@ export const loadNFTs_collection = async (
     if (!nftCodeHash) {
       return;
     }
-
     const query = `query {
       accounts(
         filter: {
@@ -220,11 +218,6 @@ export const loadNFTs_collection = async (
     const { result } = await client.net.query({ query });
 
     client.close();
-
-    // if (!nftAddresses || !nftAddresses.accounts.length) {
-    //   if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
-    //   return;
-    // }
 
     const nftURLs = await getCollectionItems(provider, result.data.accounts);
     return {
@@ -416,7 +409,7 @@ export const create_launchpad_nft = async (
       external_url: "https://venomart.io/",
     });
 
-    console.log({ nft_json })
+    console.log({ nft_json });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({
       from: new Address(signer_address),
