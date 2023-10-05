@@ -399,8 +399,7 @@ export const create_launchpad_nft = async (
     const ipfs_image = data.image;
 
     const nft_json = JSON.stringify({
-      type: "Venom Testnet",
-      id: id,
+      type: "Basic NFT",
       name: `${data.name} #${id}`,
       description: data.description,
       preview: {
@@ -416,6 +415,8 @@ export const create_launchpad_nft = async (
       attributes: data.properties,
       external_url: "https://venomart.io/"
     });
+
+    console.log({ nft_json })
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({
       from: new Address(signer_address),
