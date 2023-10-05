@@ -31,7 +31,7 @@ import {
   update_collection_information,
   update_collection_supply,
 } from "../../utils/mongo_api/collection/collection";
-import collectionAbi from "../../../abi_/CollectionDrop.abi.json";
+import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
