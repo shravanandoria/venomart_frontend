@@ -32,21 +32,10 @@
 			"name": "generatePayload",
 			"inputs": [
 				{"name":"answerId","type":"uint32"},
-				{"name":"price","type":"uint128"},
-				{"name":"royalty","type":"uint256"}
+				{"name":"price","type":"uint128"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
-			]
-		},
-		{
-			"name": "payload_decode",
-			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"data","type":"string"}
-			],
-			"outputs": [
-				{"name":"value0","type":"string"}
 			]
 		},
 		{
