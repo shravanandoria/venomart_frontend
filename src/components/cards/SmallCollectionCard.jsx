@@ -5,6 +5,7 @@ import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import numeral from 'numeral';
 
 const SmallCollectionCard = ({
   Logo,
@@ -16,6 +17,20 @@ const SmallCollectionCard = ({
   Floor,
   isVerified,
 }) => {
+
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      return numeral(number / 1e6).format('0.00a') + 'M';
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
+
+
   return (
     <Link href={`/collection/${CollectionAddress}`}>
       <div
@@ -81,7 +96,7 @@ const SmallCollectionCard = ({
               }}
               alt="VenomLogo"
             />
-            {Floor ? Floor : "0"}
+            {Floor ? formatNumberShort(Floor) : "0"}
           </span>
           <span className="text-sm mt-[5px] dark:text-jacarta-300 flex">
             Volume :{" "}
@@ -98,7 +113,7 @@ const SmallCollectionCard = ({
               }}
               alt="VenomLogo"
             />
-            {Volume ? (Volume.toFixed(2)) : "0"}
+            {Volume ? formatNumberShort(Volume) : "0"}
           </span>
         </div>
       </div>

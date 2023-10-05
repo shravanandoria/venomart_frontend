@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
+import numeral from 'numeral';
 
 const UserRankingCard = ({
     id,
@@ -15,6 +16,18 @@ const UserRankingCard = ({
     activeListings,
     AveragePrice
 }) => {
+
+    function formatNumberShort(number) {
+        if (number >= 1e6) {
+            return numeral(number / 1e6).format('0.00a') + 'M';
+        } else if (number >= 1e3) {
+            return numeral(number / 1e3).format('0.00a') + 'K';
+        } else if (number % 1 !== 0) {
+            return numeral(number).format('0.00');
+        } else {
+            return numeral(number).format('0');
+        }
+    }
 
     return (
         <Link
@@ -45,7 +58,7 @@ const UserRankingCard = ({
 
             {/* totalSalesVolume */}
             <div className="flex w-[16%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
+                <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
                     <Image
                         src={venomLogo}
                         height={100}
@@ -58,13 +71,13 @@ const UserRankingCard = ({
                         }}
                         alt="VenomLogo"
                     />
-                    {totalSalesVolume ? totalSalesVolume.toFixed(2) : "0"}
+                    {totalSalesVolume ? formatNumberShort(totalSalesVolume) : "0"}
                 </span>
             </div>
 
             {/* totalPurchaseVolume  */}
             <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
+                <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
                     <Image
                         src={venomLogo}
                         height={100}
@@ -77,13 +90,13 @@ const UserRankingCard = ({
                         }}
                         alt="VenomLogo"
                     />
-                    {totalPurchaseVolume ? totalPurchaseVolume.toFixed(2) : "0"}
+                    {totalPurchaseVolume ? formatNumberShort(totalPurchaseVolume) : "0"}
                 </span>
             </div>
 
             {/* Avg Sale  */}
             <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex">
+                <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex uppercase">
                     <Image
                         src={venomLogo}
                         height={100}
@@ -96,21 +109,21 @@ const UserRankingCard = ({
                         }}
                         alt="VenomLogo"
                     />
-                    {AveragePrice ? AveragePrice.toFixed(2) : "0"}
+                    {AveragePrice ? formatNumberShort(AveragePrice) : "0"}
                 </span>
             </div>
 
             {/*total sales  */}
             <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="dark:text-jacarta-200 text-jacarta-700">
-                    {totalSales ? Math.abs(totalSales) : "0"}
+                <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+                    {totalSales ? Math.abs(formatNumberShort(totalSales)) : "0"}
                 </span>
             </div>
 
             {/* active listings  */}
             <div className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="dark:text-jacarta-200 text-jacarta-700">
-                    {activeListings ? Math.abs(activeListings) : "0"}
+                <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+                    {activeListings ? Math.abs(formatNumberShort(activeListings)) : "0"}
                 </span>
             </div>
         </Link>

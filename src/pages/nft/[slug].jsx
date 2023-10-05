@@ -1535,7 +1535,7 @@ const NFTPage = ({
                           })}
 
                           <div className="flex p-4">
-                            {activeOffers == "" && (
+                            {(activeOffers == "" || activeOffers == undefined) && (
                               <p className="text-jacarta-700 dark:text-white">
                                 No Offers
                               </p>

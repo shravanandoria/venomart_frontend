@@ -46,7 +46,7 @@ import { get_charts } from "../../utils/mongo_api/analytics/analytics";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
-
+import numeral from 'numeral';
 import { TonClientContext } from "../../context/tonclient";
 
 const Collection = ({
@@ -131,8 +131,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-        ? moment(new Date(e.Time)).format("DD MMM")
-        : currentDuration === "alltime" &&
+          ? moment(new Date(e.Time)).format("DD MMM")
+          : currentDuration === "alltime" &&
           moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
@@ -155,8 +155,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-        ? moment(new Date(e.Time)).format("DD MMM")
-        : currentDuration === "alltime" &&
+          ? moment(new Date(e.Time)).format("DD MMM")
+          : currentDuration === "alltime" &&
           moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
@@ -179,8 +179,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-        ? moment(new Date(e.Time)).format("DD MMM")
-        : currentDuration === "alltime" &&
+          ? moment(new Date(e.Time)).format("DD MMM")
+          : currentDuration === "alltime" &&
           moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
@@ -203,8 +203,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-        ? moment(new Date(e.Time)).format("DD MMM")
-        : currentDuration === "alltime" &&
+          ? moment(new Date(e.Time)).format("DD MMM")
+          : currentDuration === "alltime" &&
           moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
@@ -227,8 +227,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-        ? moment(new Date(e.Time)).format("DD MMM")
-        : currentDuration === "alltime" &&
+          ? moment(new Date(e.Time)).format("DD MMM")
+          : currentDuration === "alltime" &&
           moment(new Date(e.Time)).format("MMMM")
     ),
     datasets: [
@@ -590,6 +590,19 @@ const Collection = ({
     }
   };
 
+  // format num 
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      return numeral(number / 1e6).format('0.00a') + 'M';
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
+
   // use effects
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -649,16 +662,14 @@ const Collection = ({
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{`${
-          collection?.name ? collection?.name : "Collection"
-        } - Venomart Marketplace`}</title>
+        <title>{`${collection?.name ? collection?.name : "Collection"
+          } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${
-            collection?.description
-              ? collection?.description
-              : "Explore, Create and Experience exculsive NFTs on Venomart"
-          } | Powered by Venom Blockchain`}
+          content={`${collection?.description
+            ? collection?.description
+            : "Explore, Create and Experience exculsive NFTs on Venomart"
+            } | Powered by Venom Blockchain`}
         />
         <meta
           name="keywords"
@@ -860,26 +871,16 @@ const Collection = ({
                 {/* stats  */}
                 <div className="mb-8 mt-4 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
                   <div className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32">
-                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {collection?.TotalSupply ? collection?.TotalSupply : "0"}
+                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white uppercase">
+                      {collection?.TotalSupply ? formatNumberShort(collection?.TotalSupply) : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
                     </div>
                   </div>
-                  {/* <div
-                    className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r"
-                  >
-                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {nfts ? nfts?.length : "0"}+
-                    </div>
-                    <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
-                      Owners
-                    </div>
-                  </div> */}
                   <div className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r">
-                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white">
-                      {collection?.TotalListed ? collection?.TotalListed : "0"}
+                    <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white uppercase">
+                      {collection?.TotalListed ? formatNumberShort(collection?.TotalListed) : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       For Sale
@@ -898,9 +899,9 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1">
+                      <span className="font-bold ml-1 uppercase">
                         {" "}
-                        {collection?.FloorPrice ? collection?.FloorPrice : "0"}
+                        {collection?.FloorPrice ? formatNumberShort(collection?.FloorPrice) : "0"}
                       </span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
@@ -920,9 +921,9 @@ const Collection = ({
                         }}
                         alt="Venomart"
                       />
-                      <span className="font-bold ml-1">
+                      <span className="font-bold ml-1 uppercase">
                         {collection?.TotalVolume
-                          ? (collection?.TotalVolume).toFixed(2)
+                          ? formatNumberShort(collection?.TotalVolume)
                           : "0"}
                       </span>
                     </div>
@@ -974,9 +975,8 @@ const Collection = ({
                     {share && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${
-                            collection?.name ? collection?.name : "It"
-                          }%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${collection?.name ? collection?.name : "It"
+                            }%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
@@ -1084,9 +1084,8 @@ const Collection = ({
                     showAnalyticsTab(false),
                     showItemsTab(true)
                   )}
-                  className={`nav-link ${
-                    itemsTab && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${itemsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1112,9 +1111,8 @@ const Collection = ({
                     showActivityTab(false),
                     showAnalyticsTab(true)
                   )}
-                  className={`nav-link ${
-                    analyticsTab && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${analyticsTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1140,9 +1138,8 @@ const Collection = ({
                     showAnalyticsTab(false),
                     showActivityTab(true)
                   )}
-                  className={`nav-link ${
-                    activityTab && "active relative"
-                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${activityTab && "active relative"
+                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
                   <span className="font-display text-base font-medium">
@@ -1340,9 +1337,9 @@ const Collection = ({
                                       placeholder="From"
                                       min="0"
                                       onInput={(e) =>
-                                        (e.target.value = Math.abs(
-                                          e.target.value
-                                        ))
+                                      (e.target.value = Math.abs(
+                                        e.target.value
+                                      ))
                                       }
                                       // value={minPrice}
                                       onChange={(e) => (
@@ -1357,9 +1354,9 @@ const Collection = ({
                                       placeholder="To"
                                       min="0"
                                       onInput={(e) =>
-                                        (e.target.value = Math.abs(
-                                          e.target.value
-                                        ))
+                                      (e.target.value = Math.abs(
+                                        e.target.value
+                                      ))
                                       }
                                       // value={maxPrice}
                                       onChange={(e) => (
@@ -2244,16 +2241,14 @@ const Collection = ({
                             setHasMoreActivity(true),
                             setActivityType("")
                           )}
-                          className={`${
-                            activityType == ""
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                          className={`${activityType == ""
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
                         >
                           <span
-                            className={`text-2xs font-medium  ${
-                              activityType == "" && "text-white"
-                            }`}
+                            className={`text-2xs font-medium  ${activityType == "" && "text-white"
+                              }`}
                           >
                             All
                           </span>
@@ -2265,30 +2260,27 @@ const Collection = ({
                             setHasMoreActivity(true),
                             setActivityType("list")
                           )}
-                          className={`${
-                            activityType == "list"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                          className={`${activityType == "list"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${
-                              activityType == "list"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                            className={`mr-2 h-4 w-4 ${activityType == "list"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                           </svg>
                           <span
-                            className={`text-2xs font-medium  ${
-                              activityType == "list" && "text-white"
-                            }`}
+                            className={`text-2xs font-medium  ${activityType == "list" && "text-white"
+                              }`}
                           >
                             Listing
                           </span>
@@ -2300,30 +2292,27 @@ const Collection = ({
                             setHasMoreActivity(true),
                             setActivityType("cancel")
                           )}
-                          className={`${
-                            activityType == "cancel"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                          className={`${activityType == "cancel"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${
-                              activityType == "cancel"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                            className={`mr-2 h-4 w-4 ${activityType == "cancel"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                           </svg>
                           <span
-                            className={`text-2xs font-medium ${
-                              activityType == "cancel" && "text-white"
-                            }`}
+                            className={`text-2xs font-medium ${activityType == "cancel" && "text-white"
+                              }`}
                           >
                             Remove Listing
                           </span>
@@ -2335,30 +2324,27 @@ const Collection = ({
                             setHasMoreActivity(true),
                             setActivityType("sale")
                           )}
-                          className={`${
-                            activityType == "sale"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                          }`}
+                          className={`${activityType == "sale"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${
-                              activityType == "sale"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                            }`}
+                            className={`mr-2 h-4 w-4 ${activityType == "sale"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                           </svg>
                           <span
-                            className={`text-2xs font-medium ${
-                              activityType == "sale" && "text-white"
-                            }`}
+                            className={`text-2xs font-medium ${activityType == "sale" && "text-white"
+                              }`}
                           >
                             Sale
                           </span>

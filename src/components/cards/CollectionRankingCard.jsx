@@ -5,6 +5,7 @@ import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
+import numeral from 'numeral';
 
 
 const CollectionRankingCard = ({
@@ -20,6 +21,18 @@ const CollectionRankingCard = ({
   Listings,
   totalSupply,
 }) => {
+
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      return numeral(number / 1e6).format('0.00a') + 'M';
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
 
   return (
     <Link
@@ -66,7 +79,7 @@ const CollectionRankingCard = ({
         className="flex w-[12%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
         role="cell"
       >
-        <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
+        <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
           <Image
             src={venomLogo}
             height={100}
@@ -79,13 +92,13 @@ const CollectionRankingCard = ({
             }}
             alt="VenomLogo"
           />
-          {Volume ? Volume.toFixed(2) : "0"}
+          {Volume ? formatNumberShort(Volume) : "0"}
         </span>
       </div>
 
       {/* floor price  */}
       <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-        <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex">
+        <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
           <Image
             src={venomLogo}
             height={100}
@@ -98,13 +111,13 @@ const CollectionRankingCard = ({
             }}
             alt="VenomLogo"
           />
-          {Floor ? Floor : "0"}
+          {Floor ? formatNumberShort(Floor) : "0"}
         </span>
       </div>
 
       {/* avg price  */}
       <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-        <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex">
+        <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex uppercase">
           <Image
             src={venomLogo}
             height={100}
@@ -117,7 +130,7 @@ const CollectionRankingCard = ({
             }}
             alt="VenomLogo"
           />
-          {AveragePrice ? AveragePrice.toFixed(2) : "0"}
+          {AveragePrice ? formatNumberShort(AveragePrice) : "0"}
         </span>
       </div>
 
@@ -126,8 +139,8 @@ const CollectionRankingCard = ({
         className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
         role="cell"
       >
-        <span className="dark:text-jacarta-200 text-jacarta-700">
-          {Listings ? Listings : "0"}
+        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+          {Listings ? formatNumberShort(Listings) : "0"}
         </span>
       </div>
 
@@ -136,8 +149,8 @@ const CollectionRankingCard = ({
         className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
         role="cell"
       >
-        <span className="dark:text-jacarta-200 text-jacarta-700">
-          {Sales ? Sales : "0"}
+        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+          {Sales ? formatNumberShort(Sales) : "0"}
         </span>
       </div>
 
@@ -146,8 +159,8 @@ const CollectionRankingCard = ({
         className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
         role="cell"
       >
-        <span className="dark:text-jacarta-200 text-jacarta-700">
-          {totalSupply ? totalSupply : "0"}
+        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+          {totalSupply ? formatNumberShort(totalSupply) : "0"}
         </span>
       </div>
     </Link>

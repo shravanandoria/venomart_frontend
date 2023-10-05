@@ -528,3 +528,9 @@
     display: none;
   } */
 }
+
+/* cards  */
+.collectionCardUI {
+  height: 400px;
+  width: 310px;
+}

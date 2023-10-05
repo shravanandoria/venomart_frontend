@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venomBG.webp";
+import numeral from 'numeral';
 
 const CollectionCard = ({
   Cover,
@@ -20,9 +21,21 @@ const CollectionCard = ({
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
+  function formatNumberShort(number) {
+    if (number >= 1e6) {
+      return numeral(number / 1e6).format('0.00a') + 'M';
+    } else if (number >= 1e3) {
+      return numeral(number / 1e3).format('0.00a') + 'K';
+    } else if (number % 1 !== 0) {
+      return numeral(number).format('0.00');
+    } else {
+      return numeral(number).format('0');
+    }
+  }
+
   return (
     <Link href={`/collection/${CollectionAddress}`}>
-      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[300px] overflow-hidden m-4 sm:m-8">
+      <div className="collectionCardUI relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-4 sm:m-8">
         <div className="relative flex space-x-[0.625rem]">
           <span className="w-[100%] h-[150px]">
             <Image
@@ -106,11 +119,13 @@ const CollectionCard = ({
         <div className="flex justify-between align-middle my-6">
           <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
             <span className="text-jacarta-400">Listings</span>{" "}
-            {Listing ? Listing : "0"}
+            <span className="flex justify-center uppercase">
+              {Listing ? formatNumberShort(Listing) : "0"}
+            </span>
           </button>
           <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
             <span className="text-jacarta-400">Floor</span>
-            <span className="flex justify-center">
+            <span className="flex justify-center uppercase">
               <Image
                 src={venomLogo}
                 height={100}
@@ -123,12 +138,12 @@ const CollectionCard = ({
                 }}
                 alt="VenomLogo"
               />
-              {FloorPrice ? FloorPrice : "0"}
+              {FloorPrice ? formatNumberShort(FloorPrice) : "0"}
             </span>
           </button>
           <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
             <span className="text-jacarta-400">Volume</span>
-            <span className="flex justify-center">
+            <span className="flex justify-center uppercase">
               <Image
                 src={venomLogo}
                 height={100}
@@ -141,7 +156,7 @@ const CollectionCard = ({
                 }}
                 alt="VenomLogo"
               />
-              {Volume ? Volume.toFixed(2) : "0"}
+              {Volume ? formatNumberShort(Volume) : "0"}
             </span>
           </button>
         </div>
