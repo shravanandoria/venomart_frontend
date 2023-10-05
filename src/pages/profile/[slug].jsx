@@ -1768,7 +1768,7 @@ const Profile = ({
                         hasMore={hasMoreActivity}
                         className="flex flex-wrap justify-center align-middle"
                         loader={
-                          <div className="flex items-center justify-center align-middle space-x-2">
+                          <div className="flex items-center justify-center align-middle space-x-2 py-12">
                             <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                             <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -1797,7 +1797,7 @@ const Profile = ({
                         ))}
                       </InfiniteScroll>
                       <div className="flex justify-center text-center">
-                        {activityRecords?.length <= 0 && (
+                        {(activityRecords?.length <= 0 && moreLoading == false) && (
                           <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
                             No Activity Found!
                           </h2>
