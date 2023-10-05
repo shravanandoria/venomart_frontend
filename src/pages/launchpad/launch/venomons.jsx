@@ -72,30 +72,19 @@ const venomons = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
-    const NFTARRAY = [
-        "https://ipfs.io/ipfs/QmPQydSQ81GwHmEPsV13Cr154WnEuQbS3Pf3TrbYG75svF/1.jpg",
-        "https://ipfs.io/ipfs/QmUkhnFAnavmktggcjJcML7RCkXvxjtBdqcVcuDuPuSeir/2.jpg",
-        "https://ipfs.io/ipfs/QmRM4Z38G8qofJ3dfmy2Cn9C7sfHVevpUWwbFvVcNK7rYC/3.jpg",
-        "https://ipfs.io/ipfs/QmT5ckqnGrfttsQpogkm3YhJGSK4SgcjTxjMJXKp5GxHGS/4.jpg",
-        "https://ipfs.io/ipfs/QmaYdYBLcZSJQFUJoea3hHhHnDTBGqxQqAg715DiA59pL5/5.jpg",
-        "https://ipfs.io/ipfs/QmVjFLJn8TyTAtfSqQ7eLydDmHppGRRMPA1GKJJYQmCzPu/6.jpg",
-        "https://ipfs.io/ipfs/QmaJzK2p4wwd586zcfNbJtfqKVVpGZpgexuJJGHV1ANbX8/7.jpg",
-    ]
-
     const [data, set_data] = useState();
 
     const getRandomTokenId = () => {
-        let token_id_calcy = Math.floor(Math.random() * (7 - 0 + 1)) + 0;
         let obj = {
-            image: NFTARRAY[token_id_calcy],
+            image: NFTIMG,
             collectionName: ProjectName,
             name: ProjectName,
             description: shortDesc,
             collectionAddress: contractAddress,
             mintPrice: mintPrice,
             properties: [
-                { type: "Benifit", value: "Fee Discount" },
-                { type: "Version", value: "Testnet" },
+                { trait_type: "Benifit", value: "Fee Discount" },
+                { trait_type: "Version", value: "Testnet" },
             ],
         }
         set_data(obj);

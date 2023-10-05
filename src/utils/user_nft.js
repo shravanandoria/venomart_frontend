@@ -405,18 +405,16 @@ export const create_launchpad_nft = async (
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/gif",
+        mimetype: "image/jpg",
       },
       files: [
         {
           source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: "image/jpg",
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io",
-      nft_image: ipfs_image,
-      collection_name: data.collectionName,
+      external_url: "https://venomart.io/"
     });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({

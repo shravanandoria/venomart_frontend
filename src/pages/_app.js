@@ -477,8 +477,8 @@ export default function App({ Component, pageProps }) {
       Description:
         "Web3 Bros sssliding into decentralized realms. The Venomons' Sanctuary awaits you 🐍",
       mintPrice: "1",
-      status: "Upcoming",
-      CollectionAddress: "",
+      status: "Live",
+      CollectionAddress: "0:8916f685f5dc3bfc8755f320685c17f8fe5b3ca267cdc648a08cab95ae317163",
       customLink: "launch/venomons",
       pageName: "venomons",
       supply: "1000",
