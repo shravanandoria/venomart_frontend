@@ -534,3 +534,39 @@
   height: 400px;
   width: 310px;
 }
+
+/* launchpad style  */
+.launchHeroSectionStyle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.launchHeroSectionStyle .launchHeroLeftSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  flex-wrap: wrap;
+  width: 40%;
+}
+
+.launchHeroSectionStyle .launchHeroRightSection {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 60%;
+}
+
+@media only screen and (max-width: 800px) {
+  .launchHeroSectionStyle .launchHeroLeftSection {
+    width: 100%;
+    align-items: center;
+  }
+
+  .launchHeroSectionStyle .launchHeroRightSection {
+    width: 100%;
+  }
+}

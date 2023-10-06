@@ -24,6 +24,7 @@ import { has_minted } from "../../utils/user_nft";
 import { get_launchpad_by_name } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
+import Image from "next/image";
 
 const launchpad = ({
     blockURL,
@@ -260,9 +261,9 @@ const launchpad = ({
                             className="container h-full w-full"
                             style={{ overflow: "hidden" }}
                         >
-                            <div className="grid h-full items-center gap-4 md:grid-cols-12">
+                            <div className="launchHeroSectionStyle h-full">
                                 {/* left section  */}
-                                <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
+                                <div className="launchHeroLeftSection h-full py-10">
                                     {/* title  */}
                                     <h1
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
@@ -352,12 +353,14 @@ const launchpad = ({
                                 </div>
 
                                 {/* right section   */}
-                                <div className="col-span-6 xl:col-span-8">
+                                <div className="launchHeroRightSection">
                                     <div
-                                        className="relative text-center md:pl-8 md:text-right"
+                                        className="relative"
                                         style={{ overflow: "hidden" }}
                                     >
-                                        <img
+                                        <Image
+                                            height={100}
+                                            width={100}
                                             src={launchSlug?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%" }}
@@ -531,7 +534,9 @@ const launchpad = ({
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
                                     {/* nftIMG  */}
                                     <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
-                                        <img
+                                        <Image
+                                            height={100}
+                                            width={100}
                                             alt="nftImg"
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
                                             src={launchSlug?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}

@@ -22,6 +22,7 @@ import Loader from "../../../components/Loader";
 import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
+import Image from "next/image";
 
 const venomons = ({
     blockURL,
@@ -270,9 +271,9 @@ const venomons = ({
                             className="container h-full w-full"
                             style={{ overflow: "hidden" }}
                         >
-                            <div className="grid h-full items-center gap-4 md:grid-cols-12">
+                            <div className="launchHeroSectionStyle h-full">
                                 {/* left section  */}
-                                <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
+                                <div className="launchHeroLeftSection h-full py-10">
                                     {/* title  */}
                                     <h1
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
@@ -325,11 +326,11 @@ const venomons = ({
                                         )}
                                     </div>
                                     {/* short desc  */}
-                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
+                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left sm:w-[90%]">
                                         {shortDesc}
                                     </p>
                                     {/* action  */}
-                                    <div className="flex space-x-6">
+                                    <div className="flex justify-center align-middle space-x-2 lg:space-x-4">
                                         {contractAddress != "" ? (
                                             <>
                                                 <a
@@ -372,13 +373,15 @@ const venomons = ({
                                 </div>
 
                                 {/* right section   */}
-                                <div className="col-span-6 xl:col-span-8">
+                                <div className="launchHeroRightSection">
                                     <div
-                                        className="relative text-center md:pl-8 md:text-right"
+                                        className="relative"
                                         style={{ overflow: "hidden" }}
                                     >
-                                        <img
+                                        <Image
                                             src={CoverIMG}
+                                            height={100}
+                                            width={100}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%" }}
                                         />
@@ -556,9 +559,11 @@ const venomons = ({
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
                                     {/* nftIMG  */}
                                     <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
-                                        <img
+                                        <Image
                                             alt="nftImg"
-                                            className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
+                                            height={100}
+                                            width={100}
+                                            className="launchImage h-[100%] w-[100%] object-cover rounded"
                                             src={NFTIMG}
                                         />
                                     </div>
