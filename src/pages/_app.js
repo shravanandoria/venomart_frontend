@@ -31,6 +31,8 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   // default values
+  const venomPrice = 0.19;
+  const venomTPS = 99400;
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
   const webURL = "https://venomart.io/";
@@ -526,8 +528,8 @@ export default function App({ Component, pageProps }) {
   // web stats
   const websiteStats = [
     {
-      nftCollection: 31,
-      mintedNFTs: 34500,
+      nftCollection: 40,
+      mintedNFTs: 38200,
       mintVolume: 51780,
     },
   ];
@@ -697,6 +699,7 @@ export default function App({ Component, pageProps }) {
           setAnyModalOpen={setAnyModalOpen}
           cartNFTs={cartNFTs}
           setCartNFTs={setCartNFTs}
+          venomPrice={venomPrice}
         />
       </TonClientContextProvider>
       <Footer
@@ -709,6 +712,8 @@ export default function App({ Component, pageProps }) {
         adminAccount={adminAccount}
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
+        venomPrice={venomPrice}
+        venomTPS={venomTPS}
       />
     </ThirdwebProvider>
   );

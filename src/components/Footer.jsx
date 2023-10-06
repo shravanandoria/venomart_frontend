@@ -8,6 +8,7 @@ import { BsDiscord, BsExclamationCircleFill, BsTelegram, BsTwitter, BsYoutube } 
 import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import numeral from "numeral";
+import { getLiveStats } from "../utils/mongo_api/activity/activity";
 
 const Footer = ({
   theme,
@@ -18,11 +19,15 @@ const Footer = ({
   onDisconnect,
   cartNFTs,
   setCartNFTs,
-  setAnyModalOpen
+  setAnyModalOpen,
+  venomPrice,
+  venomTPS
 }) => {
+
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
   const [itemsModal, setItemsModal] = useState(false);
+  const [statsData, setStatsData] = useState("");
 
   function formatNumberShort(number) {
     if (number >= 1e6) {
@@ -40,6 +45,11 @@ const Footer = ({
     } else {
       return numeral(number).format('0');
     }
+  }
+
+  const getStats = async () => {
+    const statsData = await getLiveStats();
+    setStatsData(statsData);
   }
 
   const buyCartNFTs = (e) => {
@@ -62,6 +72,10 @@ const Footer = ({
     setItemsModal(false);
   }, [router.pathname]);
 
+  useEffect(() => {
+    getStats();
+  }, [])
+
   return (
     <div className={`${theme}`}>
 
@@ -71,7 +85,7 @@ const Footer = ({
 
       {/* cart */}
       {cartNFTs != "" &&
-        <div onClick={() => (setAnyModalOpen(true), setItemsModal(true))} className="fixed bottom-[3%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900 z-20">
+        <div onClick={() => (setAnyModalOpen(true), setItemsModal(true))} className="fixed bottom-[5%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900 z-20">
           <div className="relative flex flex-row justify-center align-middle">
             {cartNFTs?.map((nft, index) => {
               return (
@@ -314,6 +328,141 @@ const Footer = ({
           </form>
         </div>
       }
+
+      {/* stats area  */}
+      <div id="global-toolbar-footer" className="hidden md:block w-full z-60 bg-gray-50 dark:bg-jacarta-900 border-t dark:border-jacarta-600 border-jacarta-100 sticky bottom-0 dark:text-jacarta-200 text-jacarta-700" style={{ height: '40px' }}>
+        <div className="h-full flex justify-between">
+          <div className="flex text-left">
+            {/* live data emoji  */}
+            <div className="py-1 px-4 flex items-center border-r  dark:border-jacarta-600 border-jacarta-100">
+              <div>
+                <div id="live-data-container" className="flex items-center">
+                  <span class="relative flex justify-center align-middle h-3 w-3 mr-1 mt-[4px]">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </span>
+                  <span className="ml-1 mr-3 dark:text-jacarta-100 text-black text-sm">Live Data</span>
+                </div>
+              </div>
+            </div>
+            {/* stats area  */}
+            <div className="py-1 px-4 flex items-center">
+              <div id="statsNotch" className="w-full flex z-50 relative">
+                <div className="flex flex-auto relative h-8 overflow-hidden">
+                  <ul className="flex justify-center items-center">
+                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-light-gray-500">Sales 24h:</span>
+                        <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
+                          {statsData?.SalesCountLast24Hours ? formatNumberShort(statsData?.SalesCountLast24Hours) : "---"}
+                          <span className="text-light-gray-500"></span>
+                        </span>
+                      </div>
+                    </li>
+                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-light-gray-500">Vol 24h:</span>
+                        <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
+                          <span className="text-light-gray-500">
+                            <Image
+                              src={venomLogo}
+                              height={100}
+                              width={100}
+                              style={{
+                                height: "13px",
+                                width: "13px",
+                                marginTop: "2px",
+                                marginRight: "4px"
+                              }}
+                              alt="VenomLogo"
+                            />
+                          </span>
+                          {statsData?.SalesVolumeLast24Hours ? formatNumberShort(statsData?.SalesVolumeLast24Hours) : "---"}
+                          <span className="text-light-gray-500"></span>
+                        </span>
+                      </div>
+                    </li>
+                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-light-gray-500">Total Vol:</span>
+                        <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
+                          <span className="text-light-gray-500">
+                            <Image
+                              src={venomLogo}
+                              height={100}
+                              width={100}
+                              style={{
+                                height: "13px",
+                                width: "13px",
+                                marginTop: "2px",
+                                marginRight: "4px"
+                              }}
+                              alt="VenomLogo"
+                            />
+                          </span>
+                          {statsData?.AllTimeSalesVolume ? formatNumberShort(statsData?.AllTimeSalesVolume) : "---"}
+                          <span className="text-light-gray-500"></span>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex text-right">
+            {/* price  */}
+            <div className="py-1 px-4 flex items-center border-r border-l  dark:border-jacarta-600 border-jacarta-100">
+              <div id="statsNotch" className="w-full flex z-50 relative">
+                <div className="flex flex-auto relative h-8 overflow-hidden">
+                  <ul className="flex justify-center items-center">
+                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-light-gray-500">
+                          <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            style={{
+                              height: "13px",
+                              width: "13px",
+                              marginTop: "3px"
+                            }}
+                            alt="VenomLogo"
+                          />
+                        </span>
+                        <span className="font-mono dark:text-jacarta-100 text-black text-tracking-tight">
+                          <span className="text-light-gray-500"></span>{venomPrice}<span className="text-light-gray-500"></span>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* tps  */}
+            <div className="py-1 px-4 flex items-center border-r  dark:border-jacarta-600 border-jacarta-100">
+              <div id="statsNotch" className="w-full flex z-50 relative">
+                <div className="flex flex-auto relative h-8 overflow-hidden">
+                  <ul className="flex justify-center items-center">
+                    {/* tps  */}
+                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                      <div className="flex items-center gap-x-2">
+                        <span className="text-light-gray-500">TPS:</span>
+                        <span className="font-mono dark:text-jacarta-100 text-black text-tracking-tight">
+                          <span className="text-light-gray-500"></span>{formatNumberShort(venomTPS)}<span className="text-light-gray-500"></span>
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* main footer  */}
       <div className="w-full page-footer dark:bg-jacarta-900 bottom-0 left-0 block">
@@ -574,7 +723,7 @@ const Footer = ({
               </div>
             )}
           </div>
-          <div className="flex flex-col items-center justify-between space-y-2 py-8 sm:flex-row sm:space-y-0">
+          <div className="flex flex-col items-center justify-between space-y-2 py-8 pb-16 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">
               &copy; 2023 Venomart All rights reserved
             </span>

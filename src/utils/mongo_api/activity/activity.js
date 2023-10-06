@@ -12,6 +12,18 @@ export const getActivity = async (user_id, user_wallet, collection_id, nft_id, a
     }
 };
 
+export const getLiveStats = async () => {
+    try {
+        const res = await axios({
+            url: `/api/live_stats`,
+            method: "GET"
+        });
+        return res.data.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const addActivity = async (data) => {
     try {
         const res = await axios({

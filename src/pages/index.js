@@ -85,7 +85,7 @@ export default function Home({
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
                   <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="block font-display text-3xl text-[#8DD059]">
-                      {websiteStats[0]?.nftCollection}
+                      {websiteStats[0]?.nftCollection}+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       NFT Collections
@@ -96,10 +96,10 @@ export default function Home({
                       {websiteStats[0]?.mintedNFTs}+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      NFTs Minted
+                      Total NFTs
                     </span>
                   </div>
-                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  {/* <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
                     <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
                       <Image
                         src={venomLogo}
@@ -118,7 +118,7 @@ export default function Home({
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
                       Mint Volume
                     </span>
-                  </div>
+                  </div> */}
                 </div>
                 <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                   Buy, sell and collect NFTs.

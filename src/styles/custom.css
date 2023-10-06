@@ -570,3 +570,9 @@
     width: 100%;
   }
 }
+
+/* stats bar  */
+#global-toolbar-footer {
+  position: fixed;
+  z-index: 20;
+}
