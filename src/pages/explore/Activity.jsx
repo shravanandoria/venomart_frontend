@@ -152,7 +152,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
 
     useEffect(() => {
         if (defaultFilterFetch == false) {
-            const intervalId = setInterval(live_activity, 4000);
+            const intervalId = setInterval(live_activity, 30000);
             return () => clearInterval(intervalId);
         }
     }, [defaultFilterFetch]);
