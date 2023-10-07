@@ -144,6 +144,7 @@ export default async function handler(req, res) {
 
           if (!collection) {
             collection = await Collection.create({
+              chain: "Venom",
               contractAddress: NFTCollection,
               creatorAddress: "",
               coverImage: "",
@@ -166,6 +167,7 @@ export default async function handler(req, res) {
 
           // creating the nft
           nft = await NFT.create({
+            chain: "Venom",
             NFTAddress,
             ownerAddress,
             managerAddress,

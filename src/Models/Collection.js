@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const CollectionSchema = new mongoose.Schema(
   {
+    chain: String,
     contractAddress: {
       type: String,
       unique: true,

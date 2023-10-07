@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }) {
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
-  const defTheme = "dark";
+  const defTheme = "light";
 
   // other values
   const adminAccount = [
@@ -633,7 +633,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
-      setTheme("dark");
+      setTheme("light");
     } else {
       setTheme(defThemeLocal);
     }

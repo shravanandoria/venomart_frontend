@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 const ActivitySchema = new mongoose.Schema(
   {
+    chain: String,
     hash: String,
     from: String,
     to: String,

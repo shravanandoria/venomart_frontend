@@ -37,7 +37,7 @@ import NftCard from "../../components/cards/NftCard";
 import { IoHandLeftSharp } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
-import { addOffer, getOffers, updateOffer } from "../../utils/mongo_api/offer/offer";
+import { addOffer, existingOffer, getOffers, updateOffer } from "../../utils/mongo_api/offer/offer";
 import numeral from "numeral";
 import moment from "moment";
 
@@ -61,6 +61,7 @@ const NFTPage = ({
 
   const [lastSold, setLastSold] = useState("");
   const [offerPrice, setOfferPrice] = useState(0);
+  const [noExistingOffer, setNoExistingOffer] = useState(false);
   const [offerExpiration, setOfferExpiration] = useState("1day");
   const [selectedNFT, setSelectedNFT] = useState("");
   const [pageLoading, setPageLoading] = useState(false);
@@ -422,10 +423,28 @@ const NFTPage = ({
     setMoreLoading(false);
   }
 
+  // check for exisiting offer
+  const checkExistingOffer = async () => {
+    if (!nft && !signer_address) return;
+    const getOffer = await existingOffer(nft?._id, signer_address);
+    if (getOffer != "") {
+      setNoExistingOffer(true);
+    }
+    else {
+      setNoExistingOffer(false);
+    }
+  }
+
   // add offer 
   const makeOffer = async (e) => {
     e.preventDefault();
     if (!slug) return;
+
+    if (noExistingOffer) {
+      alert("You already have an active offer on this NFT!!");
+      return;
+    }
+
     set_loading(true);
     const addoffer = await addOffer(signer_address, offerPrice, offerExpiration, slug);
     await getNFTOffers();
@@ -1052,7 +1071,7 @@ const NFTPage = ({
                               <button
                                 type="button"
                                 onClick={() => (
-                                  setSelectedNFT(""), setOfferModal(true), setAnyModalOpen(true)
+                                  setSelectedNFT(""), checkExistingOffer(), setOfferModal(true), setAnyModalOpen(true)
                                 )}
                                 className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                               >

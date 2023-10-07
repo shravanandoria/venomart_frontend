@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const OfferSchema = new mongoose.Schema(
     {
+        chain: String,
         from: String,
         offerPrice: String,
         nft: {

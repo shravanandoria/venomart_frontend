@@ -46,6 +46,7 @@ export default async function handler(req, res) {
                             .json({ success: false, data: "Cannot Find the NFT" });
 
                     let makeOffer = await Offer.create({
+                        chain: "Venom",
                         from,
                         offerPrice,
                         nft,

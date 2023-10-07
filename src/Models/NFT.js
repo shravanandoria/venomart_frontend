@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 const NFTSchema = new mongoose.Schema(
   {
+    chain: String,
     NFTAddress: {
       type: String,
       unique: true,

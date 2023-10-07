@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const Launchpad = new mongoose.Schema({
+  chain: String,
   logo: String,
   coverImage: String,
   name: String,

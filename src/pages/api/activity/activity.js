@@ -108,6 +108,7 @@ export default async function handler(req, res) {
           });
           if (!collection) {
             collection = await Collection.create({
+              chain: "Venom",
               contractAddress: collection_address,
               creatorAddress: "",
               coverImage: "",
@@ -143,6 +144,7 @@ export default async function handler(req, res) {
 
           // creating activity here 
           let activity = await Activity.create({
+            chain: "Venom",
             hash,
             from,
             to,
@@ -184,6 +186,7 @@ export default async function handler(req, res) {
               collection.TotalVolume += floatPrice;
 
               let notification = await Notification.create({
+                chain: "Venom",
                 user: from,
                 soldTo: to,
                 price,

@@ -12,6 +12,18 @@ export const getOffers = async (nftId, skip) => {
     }
 };
 
+export const existingOffer = async (nftId, signer_address) => {
+    try {
+        const res = await axios({
+            url: `/api/offer/check_offer?nftId=${nftId}&signer_address=${signer_address}`,
+            method: "GET"
+        });
+        return res.data.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const addOffer = async (signer_address, offerPrice, OfferExpiration, nftAddress) => {
     try {
         const res = await axios({

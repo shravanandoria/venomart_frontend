@@ -97,6 +97,7 @@ export default async function handler(req, res) {
           }
           else {
             let collection = await Collection.create({
+              chain: "Venom",
               contractAddress,
               creatorAddress,
               coverImage,

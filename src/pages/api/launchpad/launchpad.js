@@ -42,6 +42,7 @@ export default async function handler(req, res) {
           } = req.body;
 
           const launchpad = await Launchpad.create({
+            chain: "Venom",
             logo,
             coverImage,
             name,

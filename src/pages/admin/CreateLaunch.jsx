@@ -177,7 +177,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                     ...preview,
                                                     coverImage: URL.createObjectURL(e.target.files[0]),
                                                 });
-                                                set_data({ ...data, image: e.target.files[0] });
+                                                set_data({ ...data, coverImage: e.target.files[0] });
                                             }}
                                             type="file"
                                             name="coverImage"

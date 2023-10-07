@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const NotificationSchema = new mongoose.Schema(
     {
+        chain: String,
         user: String,
         soldTo: String,
         price: String,

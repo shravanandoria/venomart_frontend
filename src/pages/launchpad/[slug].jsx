@@ -40,6 +40,7 @@ const launchpad = ({
     const { slug } = router.query;
 
     const [launchSlug, setLaunchSlug] = useState("");
+    const [twitterUsername, setTwitterUsername] = useState("");
 
     const [data, set_data] = useState();
     const [loading, setLoading] = useState(false);
@@ -71,6 +72,10 @@ const launchpad = ({
         // getting launchpad data 
         const launchpaddata = await get_launchpad_by_name(slug);
         setLaunchSlug(launchpaddata);
+
+        const twitterUrl = launchpaddata?.socials[1];
+        const username = twitterUrl.split("https://twitter.com/")[1];
+        setTwitterUsername(username);
 
         // setting up count 
         const parsedStartDate = moment(launchpaddata?.startDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
@@ -217,7 +222,7 @@ const launchpad = ({
     }, [startDate, endDate]);
 
     useEffect(() => {
-        if (!signer_address && !launchSlug) return;
+        if (!signer_address || !launchSlug) return;
         get_user_Data();
     }, [signer_address, launchSlug]);
 
@@ -283,34 +288,38 @@ const launchpad = ({
                                         )}
                                     </h1>
                                     {/* social icons  */}
-                                    {/* <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
-                                        {websiteURL && (
-                                            <a href={websiteURL} target="_blank" className="group">
-                                                <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                            </a>
-                                        )}
-                                        {twitterURL && (
-                                            <a href={twitterURL} target="_blank" className="group">
-                                                <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                            </a>
-                                        )}
-                                        {discordURL && (
-                                            <a href={discordURL} target="_blank" className="group">
-                                                <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                            </a>
-                                        )}
-                                        {telegramURL && (
-                                            <a href={telegramURL} target="_blank" className="group">
-                                                <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
-                                            </a>
-                                        )}
-                                    </div> */}
+                                    <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
+                                        {launchSlug?.socials &&
+                                            (<>
+                                                {launchSlug?.socials[0] && (
+                                                    <a href={launchSlug?.socials[0]} target="_blank" className="group">
+                                                        <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                                    </a>
+                                                )}
+                                                {launchSlug?.socials[1] && (
+                                                    <a href={launchSlug?.socials[1]} target="_blank" className="group">
+                                                        <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                                    </a>
+                                                )}
+                                                {launchSlug?.socials[2] && (
+                                                    <a href={launchSlug?.socials[2]} target="_blank" className="group">
+                                                        <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                                    </a>
+                                                )}
+                                                {launchSlug?.socials[3] && (
+                                                    <a href={launchSlug?.socials[3]} target="_blank" className="group">
+                                                        <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
+                                                    </a>
+                                                )}
+                                            </>)
+                                        }
+                                    </div>
                                     {/* short desc  */}
-                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
+                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left sm:w-[90%]">
                                         {launchSlug?.description}
                                     </p>
                                     {/* action  */}
-                                    <div className="flex space-x-6">
+                                    <div className="flex justify-center align-middle space-x-2 lg:space-x-4">
                                         {launchSlug?.contractAddress != "" ? (
                                             <>
                                                 <a
@@ -363,7 +372,7 @@ const launchpad = ({
                                             width={100}
                                             src={launchSlug?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                             alt="coverIMG"
-                                            style={{ borderRadius: "25px", width: "100%" }}
+                                            style={{ borderRadius: "25px", width: "100%", marginBottom: "20px" }}
                                         />
                                     </div>
                                 </div>
@@ -554,10 +563,10 @@ const launchpad = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {launchSlug?.name} on twitter
+                                                1] Follow {twitterUsername} on twitter
                                             </p>
                                             <Link
-                                                href={`https://twitter.com/intent/follow?screen_name=`}
+                                                href={`https://twitter.com/intent/follow?screen_name=${twitterUsername}`}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
@@ -626,7 +635,7 @@ const launchpad = ({
                                                         launchSlug?.status == "Ended" || launchSlug?.status == "Sold Out" ? (
                                                             <button
                                                                 onClick={() =>
-                                                                    alert("The mint has ended! All passes sold out")
+                                                                    alert("The mint has ended! All nfts sold out")
                                                                 }
                                                                 className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                                             >
