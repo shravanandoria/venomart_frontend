@@ -13,7 +13,7 @@ const ActivitySchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["mint", "list", "cancel", "sale", "no activity"],
+      enum: ["mint", "list", "cancel", "sale", "offer", "canceloffer", "no activity"],
       default: "no activity",
     },
     owner: {

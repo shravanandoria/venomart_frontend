@@ -30,12 +30,13 @@ export const addOffer = async (signer_address, offerPrice, OfferExpiration, nftA
     }
 };
 
-export const updateOffer = async (offerId) => {
+export const updateOffer = async (actionType, offerId) => {
     try {
         const res = await axios({
             url: `/api/offer/offer`,
             method: "PUT",
             data: {
+                actionType,
                 offerId
             }
         });

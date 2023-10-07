@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                     const { nftId, skip } = req.query;
 
                     const offers = await Offer.find({ nft: nftId }).skip(skip)
-                        .limit(10)
+                        .limit(15)
                         .sort({ createdAt: -1 });
 
                     const offersWithUserInfo = [];
@@ -60,17 +60,32 @@ export default async function handler(req, res) {
                 break;
             case "PUT":
                 try {
-                    const { notificationId } = req.body;
+                    const { actionType, offerId } = req.body;
 
-                    let notification = await Notification.findOne({ _id: notificationId });
-                    if (!notification)
-                        return res
-                            .status(400)
-                            .json({ success: false, data: "Cannot Find This Notification" });
+                    let offer;
+                    if (actionType == "cancelled") {
+                        offer = await Offer.findOne({ _id: offerId });
+                        if (!offer)
+                            return res
+                                .status(400)
+                                .json({ success: false, data: "Cannot Find This Offer" });
 
-                    await Notification.deleteOne({ _id: notificationId });
+                        offer.status = "cancelled";
+                        await offer.save();
+                    }
 
-                    return res.status(200).json({ success: true, data: "Successfully deleted Notification" });
+                    if (actionType == "accepted") {
+                        offer = await Offer.findOne({ _id: offerId });
+                        if (!offer)
+                            return res
+                                .status(400)
+                                .json({ success: false, data: "Cannot Find This Offer" });
+
+                        offer.status = "accepted";
+                        await offer.save();
+                    }
+
+                    return res.status(200).json({ success: true, data: "Successfully updated Notification" });
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
                 }

@@ -495,6 +495,31 @@ export default function App({ Component, pageProps }) {
       endDate: "10/9/2023 12:00:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 6,
+      Cover:
+        "https://ipfs.io/ipfs/QmcGVH8wAJxVoeKavcaniUsvCcwnhcCgDQ25BoTRZXB1Yg/chads.jpg",
+      Logo: "https://ipfs.io/ipfs/QmRdJmCipSd8Xsf8KSjqpzufrmD5zBBZF6vkzA3uVdbhU1/chadpass.jpg",
+      Name: "Venomchad WL pass",
+      Description:
+        "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "launch/venomchads",
+      pageName: "venomchads",
+      supply: "2000",
+      twitterUserName: "VenomChads",
+      twitter: "https://twitter.com/VenomChads",
+      tweetID: "1709094106117345676",
+      discord: "https://discord.gg/HCPEsu6VAh",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "10/15/2023 12:00:00 GMT+0530",
+      endDate: "10/19/2023 12:00:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // featured collections

@@ -37,8 +37,9 @@ import NftCard from "../../components/cards/NftCard";
 import { IoHandLeftSharp } from "react-icons/io5";
 import { FaWallet } from "react-icons/fa";
 import { GoHistory } from "react-icons/go";
-import { addOffer, getOffers } from "../../utils/mongo_api/offer/offer";
+import { addOffer, getOffers, updateOffer } from "../../utils/mongo_api/offer/offer";
 import numeral from "numeral";
+import moment from "moment";
 
 const NFTPage = ({
   signer_address,
@@ -422,9 +423,32 @@ const NFTPage = ({
   }
 
   // add offer 
-  const makeOffer = async () => {
+  const makeOffer = async (e) => {
+    e.preventDefault();
     if (!slug) return;
-    const addoffer = addOffer(signer_address, offerPrice, offerExpiration, slug);
+    set_loading(true);
+    const addoffer = await addOffer(signer_address, offerPrice, offerExpiration, slug);
+    await getNFTOffers();
+    set_loading(false);
+    setOfferModal(false);
+  }
+
+  // remove offer 
+  const removeOffer = async (selectedOfferId) => {
+    set_loading(true);
+    const removeOffer = await updateOffer("cancelled", selectedOfferId);
+    await getNFTOffers();
+    set_loading(false);
+    setOfferModal(false);
+  }
+
+  // accept offer 
+  const acceptOffer = async (selectedOfferId) => {
+    set_loading(true);
+    const acceptOffer = await updateOffer("accepted", selectedOfferId);
+    await getNFTOffers();
+    set_loading(false);
+    setOfferModal(false);
   }
 
   // getting collection info if onChainData
@@ -1501,6 +1525,22 @@ const NFTPage = ({
 
                           {/* offers loop here  */}
                           {activeOffers?.map((offer, index) => {
+                            const date = new Date(offer?.createdAt);
+                            let expDate;
+                            if (offer?.expiration == "1day") {
+                              expDate = new Date(date.setHours(date.getHours() + 24));
+                            }
+                            if (offer?.expiration == "7days") {
+                              expDate = new Date(date.setHours(date.getHours() + 168));
+                            }
+                            if (offer?.expiration == "15days") {
+                              expDate = new Date(date.setHours(date.getHours() + 360));
+                            }
+                            if (offer?.expiration == "30days") {
+                              expDate = new Date(date.setHours(date.getHours() + 720));
+                            }
+
+                            const timeLeftToExp = moment(new Date(expDate)).fromNow();
                             return (
                               <div className="contents" key={index}>
                                 <div
@@ -1522,13 +1562,13 @@ const NFTPage = ({
                                     {offer?.offerPrice}
                                   </span>
                                 </div>
-                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600 text-jacarta-700 dark:text-jacarta-200 font-semibold"
                                   role="cell">
                                   {offer?.status}
                                 </div>
-                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+                                <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600 text-jacarta-700 dark:text-jacarta-200"
                                   role="cell">
-                                  {offer?.expiration}
+                                  {timeLeftToExp}
                                 </div>
                                 <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                   role="cell">
@@ -1536,17 +1576,27 @@ const NFTPage = ({
                                 </div>
                                 <div className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                   role="cell">
-                                  {signer_address == offer?.from &&
-                                    <button>
+                                  {(signer_address == offer?.from && offer?.status == "active") &&
+                                    <button className="text-jacarta-700 dark:text-jacarta-200" onClick={() => { if (window.confirm("Are you sure you want to cancel your offer?")) { removeOffer(offer?._id) } }}>
                                       Cancel
                                     </button>
                                   }
-                                  {signer_address == nft?.ownerAddress &&
-                                    <button>
+                                  {(signer_address == offer?.from && offer?.status == "cancelled") &&
+                                    <button className="text-red cursor-default">
+                                      Cancelled
+                                    </button>
+                                  }
+                                  {(signer_address == nft?.ownerAddress && offer?.status == "active") &&
+                                    <button className="text-jacarta-700 dark:text-jacarta-200" onClick={() => { if (window.confirm("Are you sure you want to accept this offer?")) { acceptOffer(offer?._id) } }}>
                                       Accept
                                     </button>
                                   }
-                                  {signer_address != nft?.ownerAddress && signer_address != offer?.from &&
+                                  {(signer_address == nft?.ownerAddress && offer?.status == "accepted") &&
+                                    <button className="text-green cursor-default">
+                                      Accepted
+                                    </button>
+                                  }
+                                  {(signer_address != nft?.ownerAddress && signer_address != offer?.from) &&
                                     "-----"
                                   }
                                 </div>
@@ -1554,13 +1604,22 @@ const NFTPage = ({
                             )
                           })}
 
-                          <div className="flex p-4">
-                            {(activeOffers == "" || activeOffers == undefined) && (
+
+                          {moreLoading && (
+                            <div className="flex items-center justify-center space-x-2 py-12">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          )}
+
+                          {(activeOffers == "" || activeOffers == undefined) && (
+                            <div className="flex p-4">
                               <p className="text-jacarta-700 dark:text-white">
                                 No Offers
                               </p>
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1813,7 +1872,7 @@ const NFTPage = ({
                             />
                           ))}
                           {moreLoading && (
-                            <div className="flex items-center justify-center space-x-2">
+                            <div className="flex items-center justify-center space-x-2 py-6">
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                               <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -1909,7 +1968,8 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal &&
             <div className="afterMintDiv">
-              <form className="modal-dialog max-w-2xl">
+              <form onSubmit={(e) => (e.preventDefault(), alert("This feature will be available soon.."))} className="modal-dialog max-w-2xl">
+                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">Place an offer</h5>
@@ -1993,9 +2053,7 @@ const NFTPage = ({
                   <div className="modal-footer">
                     <div className="flex items-center justify-center space-x-4">
                       <button
-                        type="button"
-                        // onClick={() => makeOffer()}
-                        onClick={() => alert("This feature will be available soon..")}
+                        type="submit"
                         className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark">
                         Place your offer
                       </button>
