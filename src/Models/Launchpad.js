@@ -4,6 +4,10 @@ const Launchpad = new mongoose.Schema({
   chain: String,
   logo: String,
   coverImage: String,
+  pageName: {
+    type: String,
+    unique: true,
+  },
   name: String,
   description: String,
   contractAddress: String,

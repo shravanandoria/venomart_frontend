@@ -143,19 +143,28 @@ export default async function handler(req, res) {
           }
 
           // creating activity here 
-          let activity = await Activity.create({
-            chain: "Venom",
-            hash,
-            from,
-            to,
-            price,
-            stampedFloor: stampedFloorUpdated,
-            item: nft,
-            type,
-            owner: user,
-            nft_collection: collection,
-          });
+          let findActivity = await Activity.findOne({ hash });
+          if (findActivity) {
+            return res
+              .status(400)
+              .json({ success: false, data: "Activity already exists" });
+          }
+          else {
+            let activity = await Activity.create({
+              chain: "Venom",
+              hash,
+              from,
+              to,
+              price,
+              stampedFloor: stampedFloorUpdated,
+              item: nft,
+              type,
+              owner: user,
+              nft_collection: collection,
+            });
+          }
 
+          // updating stats 
           if (collection) {
             if (type === "list") {
               collection.TotalListed++;
@@ -217,7 +226,6 @@ export default async function handler(req, res) {
             }
             await collection.save();
           }
-
 
           return res.status(200).json({ success: true, data: "Successfully created activity" });
         } catch (error) {

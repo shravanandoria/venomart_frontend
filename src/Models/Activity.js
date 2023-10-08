@@ -3,7 +3,10 @@ const { Schema } = mongoose;
 const ActivitySchema = new mongoose.Schema(
   {
     chain: String,
-    hash: String,
+    hash: {
+      type: String,
+      unique: true,
+    },
     from: String,
     to: String,
     price: String,
