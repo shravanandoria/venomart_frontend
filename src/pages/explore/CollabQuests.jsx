@@ -42,22 +42,9 @@ const CollabQuests = ({ theme, collabQuests }) => {
 
 
                         <div className="flex justify-center align-middle flex-wrap">
-                            {/* loop public launches here  */}
-                            {/* {currentCollections?.map((e, index) => (
-                <LaunchCollectionCard
-                  key={index}
-                  Cover={e.Cover}
-                  Logo={e.Logo}
-                  Name={e.Name}
-                  OwnerAddress={e.OwnerAddress}
-                  CollectionAddress={e.CollectionAddress}
-                />
-              ))} */}
-
-                            {/* fetching custom laucnh here  */}
                             {currentCollections?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                                 return (
-                                    id < 8 && e.verified == true && (
+                                    id < 10 && e.verified == true && (
                                         <LaunchCollectionCard
                                             key={id}
                                             Cover={e.Cover}
