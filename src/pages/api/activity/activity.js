@@ -164,67 +164,18 @@ export default async function handler(req, res) {
             });
           }
 
-          // updating stats 
-          if (collection) {
-            if (type === "list") {
-              collection.TotalListed++;
-
-              if (newFloorPrice !== 0 && newFloorPrice !== undefined) {
-                collection.FloorPrice = newFloorPrice;
-              }
-            } else if (type === "cancel") {
-              if (collection.TotalListed > 0) {
-                collection.TotalListed--;
-              }
-              const nfts = await NFT.find({
-                NFTCollection: collection,
-                isListed: true,
-              })
-                .sort({ demandPrice: 1 })
-                .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
-                .limit(2);
-
-              if (nfts.length > 0) {
-                const lowestFloorPrice = nfts[0].listingPrice;
-                collection.FloorPrice = lowestFloorPrice;
-              }
-            } else if (type === "sale") {
-              collection.TotalSales++;
-
-              const floatPrice = parseFloat(price);
-              collection.TotalVolume += floatPrice;
-
-              let notification = await Notification.create({
-                chain: "Venom",
-                user: from,
-                soldTo: to,
-                price,
-                hash,
-                hasReaded: false,
-                nft,
-                type
-              });
-
-              if (collection.TotalListed > 0) {
-                collection.TotalListed--;
-              }
-
-              if (newFloorPrice === 0) {
-                const nfts = await NFT.find({
-                  NFTCollection: collection,
-                  isListed: true,
-                })
-                  .sort({ demandPrice: 1 })
-                  .select({ demandPrice: 1, listingPrice: 1, isListed: 1 })
-                  .limit(2);
-
-                if (nfts.length > 0) {
-                  const lowestFloorPrice = nfts[0].listingPrice;
-                  collection.FloorPrice = lowestFloorPrice;
-                }
-              }
-            }
-            await collection.save();
+          // sending notification
+          if (type === "sale") {
+            let notification = await Notification.create({
+              chain: "Venom",
+              user: from,
+              soldTo: to,
+              price,
+              hash,
+              hasReaded: false,
+              nft,
+              type
+            });
           }
 
           return res.status(200).json({ success: true, data: "Successfully created activity" });

@@ -291,7 +291,7 @@ export default function Home({
         </div>
 
         {/* trending collections  */}
-        {/* <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Trending Collections 🔥</h2>
@@ -318,44 +318,38 @@ export default function Home({
                 }}
                 className="mySwiper"
               >
-                {customLaunchpad
-                  ?.sort(
-                    ({ id: previousID }, { id: currentID }) =>
-                      currentID - previousID
-                  )
-                  ?.map((e, id) => {
-                    return (
-                      id < 6 &&
-                      e.verified == true && (
-                        <SwiperSlide
-                          key={id}
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <LaunchCollectionCard
-                            Cover={e.Cover}
-                            Logo={e.Logo}
-                            Name={e.Name}
-                            Description={e.Description}
-                            mintPrice={e.mintPrice}
-                            status={e.status}
-                            CollectionAddress={e.CollectionAddress}
-                            customLink={e.customLink}
-                            verified={e.verified}
-                            startDate={e.startDate}
-                            endDate={e.endDate}
-                          />
-                        </SwiperSlide>
-                      )
-                    );
-                  })}
+                {customLaunchpad?.map((e, id) => {
+                  return (
+                    id < 6 && (
+                      <SwiperSlide
+                        key={id}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <LaunchCollectionCard
+                          Cover={e.Cover}
+                          Logo={e.Logo}
+                          Name={e.Name}
+                          Description={e.Description}
+                          mintPrice={e.mintPrice}
+                          status={e.status}
+                          CollectionAddress={e.CollectionAddress}
+                          customLink={e.customLink}
+                          verified={e.verified}
+                          startDate={e.startDate}
+                          endDate={e.endDate}
+                        />
+                      </SwiperSlide>
+                    )
+                  );
+                })}
               </Swiper>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* top collections  */}
         {!loading && (

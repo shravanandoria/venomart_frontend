@@ -260,7 +260,6 @@ const Collection = ({
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
-    const aggregatedData = await admin_collection_refresh(collection?._id);
 
     let myEver = new MyEver();
     const providerRpcClient = myEver.ever();
@@ -269,37 +268,18 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if (
-      collection?.TotalListed != aggregatedData?.TotalListed ||
-      collection?.FloorPrice != aggregatedData?.FloorPrice ||
-      collection?.TotalVolume != aggregatedData?.SalesVolume ||
-      collection?.TotalSupply < totalSupply?.count
-    ) {
-      if (
-        aggregatedData != undefined &&
-        (collection?.TotalListed != aggregatedData?.TotalListed ||
-          collection?.FloorPrice != aggregatedData?.FloorPrice ||
-          collection?.TotalVolume != aggregatedData?.SalesVolume)
-      ) {
-        const updateCollectionData = await update_collection_information(
-          slug,
-          aggregatedData?.TotalListed,
-          aggregatedData?.FloorPrice,
-          aggregatedData?.SalesVolume
-        );
-      }
-      if (collection?.TotalSupply < totalSupply.count) {
-        const updateNFTData = await update_collection_supply(
-          slug,
-          totalSupply.count
-        );
-      }
+    if (collection?.TotalSupply < totalSupply?.count) {
+      const updateNFTData = await update_collection_supply(
+        slug,
+        totalSupply.count
+      );
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
       setMetaDataUpdated(true);
       return;
-    } else {
+    }
+    else {
       setMetaDataUpdated(true);
       setMetadataLoading(false);
       alert("Metadata is already up to date!");
