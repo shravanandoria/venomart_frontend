@@ -190,13 +190,13 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                 <div className="container">
                     <h1 className="flex justify-center align-middle pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
                         {!defaultFilterFetch ?
-                            <span class="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                            <span className="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
                             </span>
                             :
-                            <span class="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
-                                <span class="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+                            <span className="relative flex justify-center align-middle h-4 w-4 mr-3 mt-3">
+                                <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
                             </span>
                         }
                         Live Activity

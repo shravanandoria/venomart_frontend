@@ -117,6 +117,19 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     setMoreLoading(false);
   };
 
+  const clear_filter_nfts = async () => {
+    if (defaultFilterFetch == false) return;
+    setMoreLoading(true);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, 0, 0, sortby, option, skip);
+    if (res) {
+      set_nfts(res);
+      if (res == "") {
+        setHasMore(false);
+      }
+    }
+    setMoreLoading(false);
+  };
+
   const fetch_search_collections = async () => {
     if (searchedCollectionBefore == true) return;
     setCollectionLoading(true);
@@ -654,7 +667,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                               <div className="-ml-2 -mr-2 mt-4 flex items-center justify-center space-x-3 border-t border-jacarta-100 px-7 pt-4 dark:border-jacarta-600">
                                 <button
                                   type="button"
-                                  onClick={() => (setMaxPrice(0), setMinPrice(0), openPriceRangeFilter(false))}
+                                  onClick={() => (setMaxPrice(0), setMinPrice(0), clear_filter_nfts(), openPriceRangeFilter(false))}
                                   className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                 >
                                   Clear

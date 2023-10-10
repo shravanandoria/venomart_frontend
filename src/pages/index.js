@@ -150,57 +150,55 @@ export default function Home({
                   {featuredCollections.map((collection, index) => {
                     return (
                       <div key={index} className={collection?.className}>
-                        <div>
-                          <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
-                            <div className="relative">
+                        <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
+                          <div className="relative">
+                            <Link
+                              href={`/collection/${collection?.collectionAddress}`}
+                            >
+                              <Image
+                                src={collection?.coverImage}
+                                alt="item"
+                                className="w-[500px] h-[450px] object-cover"
+                                height={100}
+                                width={100}
+                              />
+                            </Link>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex">
                               <Link
                                 href={`/collection/${collection?.collectionAddress}`}
+                                className="shrink-0"
                               >
                                 <Image
-                                  src={collection?.coverImage}
-                                  alt="item"
-                                  className="w-[500px] h-[450px] object-cover"
+                                  src={collection?.collectionLogo}
+                                  alt="avatar"
+                                  className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
                                   width={100}
                                 />
                               </Link>
-                            </div>
-                            <div className="p-6">
-                              <div className="flex">
+                              <div>
                                 <Link
                                   href={`/collection/${collection?.collectionAddress}`}
-                                  className="shrink-0"
+                                  className="block"
                                 >
-                                  <Image
-                                    src={collection?.collectionLogo}
-                                    alt="avatar"
-                                    className="mr-4 h-10 w-10 rounded-full"
-                                    height={100}
-                                    width={100}
-                                  />
+                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                    {collection?.collectionName}
+                                    <MdVerified
+                                      style={{
+                                        color: "#4f87ff",
+                                        marginBottom: "3px",
+                                        marginLeft: "3px",
+                                      }}
+                                      size={21}
+                                    />
+                                  </span>
                                 </Link>
-                                <div>
-                                  <Link
-                                    href={`/collection/${collection?.collectionAddress}`}
-                                    className="block"
-                                  >
-                                    <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                      {collection?.collectionName}
-                                      <MdVerified
-                                        style={{
-                                          color: "#4f87ff",
-                                          marginBottom: "3px",
-                                          marginLeft: "3px",
-                                        }}
-                                        size={21}
-                                      />
-                                    </span>
-                                  </Link>
 
-                                  <a className="text-2xs text-accent dark:text-white">
-                                    {collection?.items} Items
-                                  </a>
-                                </div>
+                                <a className="text-2xs text-accent dark:text-white">
+                                  {collection?.items} Items
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -240,24 +238,9 @@ export default function Home({
               <h2 className="inline">Venomart Launchpad </h2>
             </div>
             <div className="flex justify-center align-middle flex-wrap">
-              {/* {all_collections?.map((e, index) => {
-                  return (
-                    index < 8 && (
-                      <LaunchCollectionCard
-                        key={index}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        OwnerAddress={e.OwnerAddress}
-                        CollectionAddress={e.CollectionAddress}
-                      />
-                    )
-                  );
-                })} */}
-
               {/* custom lauchpad fetching  */}
               <Swiper
-                modules={[Pagination]}
+                modules={[Pagination, Navigation]}
                 spaceBetween={30}
                 slidesPerView={1}
                 pagination={{ clickable: true }}

@@ -337,9 +337,9 @@ const Footer = ({
             <div className="py-1 px-4 flex items-center border-r  dark:border-jacarta-600 border-jacarta-100">
               <div>
                 <div id="live-data-container" className="flex items-center">
-                  <span class="relative flex justify-center align-middle h-3 w-3 mr-1 mt-[4px]">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  <span className="relative flex justify-center align-middle h-3 w-3 mr-1 mt-[4px]">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                   </span>
                   <span className="ml-1 mr-3 dark:text-jacarta-100 text-black text-sm">Live Data</span>
                 </div>
