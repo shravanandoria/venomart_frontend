@@ -1,0 +1,151 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"sendRemainingGasTo","type":"address"},
+				{"name":"_platform_fees","type":"uint128"},
+				{"name":"owner","type":"address"},
+				{"name":"_makeOfferCode","type":"cell"},
+				{"name":"tokenRoot","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onTokenWallet",
+			"inputs": [
+				{"name":"value","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "onAcceptTokensTransfer",
+			"inputs": [
+				{"name":"value0","type":"address"},
+				{"name":"amount","type":"uint128"},
+				{"name":"sender","type":"address"},
+				{"name":"value3","type":"address"},
+				{"name":"remainingGasTo","type":"address"},
+				{"name":"payload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "read_code",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address[]"},
+				{"components":[{"name":"nft_address","type":"address"},{"name":"offer_amount","type":"uint128"},{"name":"validity","type":"uint128"},{"name":"old_offer","type":"address"}],"name":"value1","type":"tuple"}
+			]
+		},
+		{
+			"name": "generatePayload",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"nft_address","type":"address"},
+				{"name":"old_offer","type":"address"},
+				{"name":"validity","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"payload","type":"cell"}
+			]
+		},
+		{
+			"name": "update_platform_fees",
+			"inputs": [
+				{"name":"_platform_fees","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cancel_listing",
+			"inputs": [
+				{"name":"nftAddress","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "_tokenWallet",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_tokenWallet","type":"address"}
+			]
+		},
+		{
+			"name": "_tokenRoot",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_tokenRoot","type":"address"}
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"_nonce","type":"uint256"}
+	],
+	"events": [
+		{
+			"name": "new_offer",
+			"inputs": [
+				{"name":"offerrer","type":"address"},
+				{"name":"nft_address","type":"address"},
+				{"name":"new_offer_contract","type":"address"},
+				{"name":"offer_amount","type":"uint128"},
+				{"name":"validity","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "OwnershipTransferred",
+			"inputs": [
+				{"name":"oldOwner","type":"address"},
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"owner_","type":"address"},
+		{"name":"_nonce","type":"uint256"},
+		{"name":"_tokenWallet","type":"address"},
+		{"name":"_tokenRoot","type":"address"},
+		{"name":"_owner","type":"address"},
+		{"name":"listing_commission","type":"uint128"},
+		{"name":"platform_fees","type":"uint128"},
+		{"name":"makeOfferCode","type":"cell"},
+		{"name":"openOffers","type":"address[]"},
+		{"components":[{"name":"nft_address","type":"address"},{"name":"offer_amount","type":"uint128"},{"name":"validity","type":"uint128"},{"name":"old_offer","type":"address"}],"name":"info","type":"tuple"}
+	]
+}

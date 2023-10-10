@@ -1,0 +1,5163 @@
+{
+  "map": {
+    "013b44091893f1e25d75b32680a762f8fd56afa94a8059cc3536c0e3ec93d89e": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1003
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1004
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 1005
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 1006
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1007
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1008
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1009
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 1010
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 1011
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 1012
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 1013
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1014
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1015
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 1016
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 1017
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 1018
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1019
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1020
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1021
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1022
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1023
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1024
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1025
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1026
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 1027
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 1028
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 1029
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 1030
+      },
+      "352": {
+        "filename": "Auction.code",
+        "line": 1031
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 1032
+      },
+      "376": {
+        "filename": "Auction.code",
+        "line": 1033
+      },
+      "392": {
+        "filename": "Auction.code",
+        "line": 1034
+      },
+      "408": {
+        "filename": "Auction.code",
+        "line": 1035
+      },
+      "424": {
+        "filename": "Auction.code",
+        "line": 1036
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 1037
+      },
+      "440": {
+        "filename": "Auction.code",
+        "line": 1038
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 1039
+      },
+      "472": {
+        "filename": "Auction.code",
+        "line": 1040
+      },
+      "488": {
+        "filename": "Auction.code",
+        "line": 1041
+      },
+      "496": {
+        "filename": "Auction.code",
+        "line": 1042
+      },
+      "504": {
+        "filename": "Auction.code",
+        "line": 1043
+      },
+      "520": {
+        "filename": "Auction.code",
+        "line": 1044
+      },
+      "528": {
+        "filename": "Auction.code",
+        "line": 1045
+      },
+      "536": {
+        "filename": "Auction.code",
+        "line": 1046
+      },
+      "552": {
+        "filename": "Auction.code",
+        "line": 1047
+      },
+      "560": {
+        "filename": "Auction.code",
+        "line": 1048
+      },
+      "568": {
+        "filename": "Auction.code",
+        "line": 1049
+      },
+      "584": {
+        "filename": "Auction.code",
+        "line": 1050
+      },
+      "600": {
+        "filename": "Auction.code",
+        "line": 1051
+      },
+      "616": {
+        "filename": "Auction.code",
+        "line": 1052
+      },
+      "632": {
+        "filename": "Auction.code",
+        "line": 1053
+      },
+      "640": {
+        "filename": "Auction.code",
+        "line": 1054
+      },
+      "656": {
+        "filename": "Auction.code",
+        "line": 1055
+      },
+      "672": {
+        "filename": "Auction.code",
+        "line": 1056
+      },
+      "688": {
+        "filename": "Auction.code",
+        "line": 1057
+      },
+      "704": {
+        "filename": "Auction.code",
+        "line": 1058
+      },
+      "720": {
+        "filename": "Auction.code",
+        "line": 1059
+      },
+      "736": {
+        "filename": "Auction.code",
+        "line": 1060
+      },
+      "752": {
+        "filename": "Auction.code",
+        "line": 1061
+      },
+      "768": {
+        "filename": "Auction.code",
+        "line": 1062
+      },
+      "776": {
+        "filename": "Auction.code",
+        "line": 1063
+      },
+      "784": {
+        "filename": "Auction.code",
+        "line": 1064
+      },
+      "800": {
+        "filename": "Auction.code",
+        "line": 1065
+      },
+      "808": {
+        "filename": "Auction.code",
+        "line": 1066
+      },
+      "824": {
+        "filename": "Auction.code",
+        "line": 1067
+      },
+      "840": {
+        "filename": "Auction.code",
+        "line": 1068
+      },
+      "856": {
+        "filename": "Auction.code",
+        "line": 1069
+      },
+      "864": {
+        "filename": "Auction.code",
+        "line": 1070
+      },
+      "872": {
+        "filename": "Auction.code",
+        "line": 1071
+      },
+      "888": {
+        "filename": "Auction.code",
+        "line": 1072
+      },
+      "896": {
+        "filename": "Auction.code",
+        "line": 1073
+      },
+      "904": {
+        "filename": "Auction.code",
+        "line": 1074
+      },
+      "920": {
+        "filename": "Auction.code",
+        "line": 1075
+      },
+      "928": {
+        "filename": "Auction.code",
+        "line": 1076
+      },
+      "936": {
+        "filename": "Auction.code",
+        "line": 1077
+      },
+      "952": {
+        "filename": "Auction.code",
+        "line": 1078
+      },
+      "968": {
+        "filename": "Auction.code",
+        "line": 1079
+      },
+      "984": {
+        "filename": "Auction.code",
+        "line": 1080
+      },
+      "1000": {
+        "filename": "Auction.code",
+        "line": 1081
+      }
+    },
+    "028880f199932e616a9898977bce6086381143b13aee785d2151fb1fc3ef17cb": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1169
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1170
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 1171
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 1172
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1173
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1174
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1177
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 1178
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 1179
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 1182
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1183
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1184
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1185
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 1186
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 1187
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 1188
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1189
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1190
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1191
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1192
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 1193
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1194
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1195
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1197
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1198
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1199
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 1201
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 1202
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 1203
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 1205
+      },
+      "368": {
+        "filename": "Auction.code",
+        "line": 1206
+      },
+      "384": {
+        "filename": "Auction.code",
+        "line": 1207
+      },
+      "392": {
+        "filename": "Auction.code",
+        "line": 1208
+      },
+      "408": {
+        "filename": "Auction.code",
+        "line": 1210
+      },
+      "416": {
+        "filename": "Auction.code",
+        "line": 1211
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 1212
+      },
+      "440": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "456": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "464": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "472": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "488": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "496": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "512": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "536": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "544": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "584": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "592": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "600": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "616": {
+        "filename": "stdlib.sol",
+        "line": 63
+      },
+      "632": {
+        "filename": "Auction.code",
+        "line": 1214
+      },
+      "648": {
+        "filename": "Auction.code",
+        "line": 1215
+      },
+      "656": {
+        "filename": "Auction.code",
+        "line": 1216
+      },
+      "672": {
+        "filename": "Auction.code",
+        "line": 1217
+      },
+      "680": {
+        "filename": "Auction.code",
+        "line": 1218
+      },
+      "696": {
+        "filename": "Auction.code",
+        "line": 1219
+      },
+      "712": {
+        "filename": "Auction.code",
+        "line": 1220
+      },
+      "720": {
+        "filename": "Auction.code",
+        "line": 1221
+      },
+      "736": {
+        "filename": "Auction.code",
+        "line": 1224
+      }
+    },
+    "10f15d9b36ee4c07508985374741c3a7d7a6bcbc4b10a460d18c60a11a2e24e9": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 790
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 791
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 792
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 793
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 794
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 795
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 796
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 797
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 798
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 799
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 800
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 801
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 802
+      },
+      "152": {
+        "filename": "Auction.code",
+        "line": 803
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 804
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 805
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 806
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 807
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 808
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 809
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 810
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 811
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 812
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 813
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 814
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 815
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 816
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 817
+      },
+      "336": {
+        "filename": "Auction.code",
+        "line": 818
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 819
+      },
+      "352": {
+        "filename": "Auction.code",
+        "line": 820
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 821
+      },
+      "376": {
+        "filename": "Auction.code",
+        "line": 822
+      },
+      "384": {
+        "filename": "Auction.code",
+        "line": 823
+      },
+      "392": {
+        "filename": "Auction.code",
+        "line": 824
+      },
+      "400": {
+        "filename": "Auction.code",
+        "line": 825
+      },
+      "416": {
+        "filename": "Auction.code",
+        "line": 826
+      },
+      "424": {
+        "filename": "Auction.code",
+        "line": 827
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 828
+      },
+      "440": {
+        "filename": "Auction.code",
+        "line": 829
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 830
+      },
+      "472": {
+        "filename": "Auction.code",
+        "line": 831
+      },
+      "488": {
+        "filename": "Auction.code",
+        "line": 832
+      },
+      "504": {
+        "filename": "Auction.code",
+        "line": 833
+      },
+      "520": {
+        "filename": "Auction.code",
+        "line": 834
+      },
+      "536": {
+        "filename": "Auction.code",
+        "line": 835
+      },
+      "552": {
+        "filename": "Auction.code",
+        "line": 836
+      },
+      "568": {
+        "filename": "Auction.code",
+        "line": 837
+      },
+      "584": {
+        "filename": "Auction.code",
+        "line": 838
+      },
+      "600": {
+        "filename": "Auction.code",
+        "line": 839
+      },
+      "608": {
+        "filename": "Auction.code",
+        "line": 840
+      },
+      "616": {
+        "filename": "Auction.code",
+        "line": 841
+      },
+      "624": {
+        "filename": "Auction.code",
+        "line": 842
+      },
+      "640": {
+        "filename": "Auction.code",
+        "line": 843
+      },
+      "656": {
+        "filename": "Auction.code",
+        "line": 844
+      },
+      "672": {
+        "filename": "Auction.code",
+        "line": 845
+      },
+      "688": {
+        "filename": "Auction.code",
+        "line": 846
+      },
+      "696": {
+        "filename": "Auction.code",
+        "line": 847
+      },
+      "704": {
+        "filename": "Auction.code",
+        "line": 848
+      },
+      "712": {
+        "filename": "Auction.code",
+        "line": 849
+      },
+      "720": {
+        "filename": "Auction.code",
+        "line": 850
+      },
+      "736": {
+        "filename": "Auction.code",
+        "line": 851
+      },
+      "744": {
+        "filename": "Auction.code",
+        "line": 852
+      },
+      "752": {
+        "filename": "Auction.code",
+        "line": 853
+      },
+      "760": {
+        "filename": "Auction.code",
+        "line": 854
+      },
+      "776": {
+        "filename": "Auction.code",
+        "line": 855
+      },
+      "784": {
+        "filename": "Auction.code",
+        "line": 856
+      },
+      "792": {
+        "filename": "Auction.code",
+        "line": 857
+      },
+      "800": {
+        "filename": "Auction.code",
+        "line": 858
+      },
+      "816": {
+        "filename": "Auction.code",
+        "line": 859
+      },
+      "832": {
+        "filename": "Auction.code",
+        "line": 860
+      },
+      "848": {
+        "filename": "Auction.code",
+        "line": 861
+      },
+      "864": {
+        "filename": "Auction.code",
+        "line": 862
+      },
+      "880": {
+        "filename": "Auction.code",
+        "line": 863
+      },
+      "888": {
+        "filename": "Auction.code",
+        "line": 864
+      },
+      "896": {
+        "filename": "Auction.code",
+        "line": 865
+      },
+      "904": {
+        "filename": "Auction.code",
+        "line": 866
+      },
+      "920": {
+        "filename": "Auction.code",
+        "line": 867
+      },
+      "936": {
+        "filename": "Auction.code",
+        "line": 868
+      },
+      "952": {
+        "filename": "Auction.code",
+        "line": 869
+      },
+      "968": {
+        "filename": "Auction.code",
+        "line": 870
+      },
+      "976": {
+        "filename": "Auction.code",
+        "line": 871
+      },
+      "984": {
+        "filename": "Auction.code",
+        "line": 872
+      },
+      "992": {
+        "filename": "Auction.code",
+        "line": 873
+      }
+    },
+    "13ec6edcec492711e4db2e2c553cc9eaa685987230c82a4f5a7cefdae2167a92": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      },
+      "56": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "176": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      },
+      "200": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 267
+      },
+      "208": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 268
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 270
+      }
+    },
+    "1f910868540dcdf91eda4630bc65f3272a14599fd6a8f8576aafc12771a0d0c5": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1431
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1432
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1433
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1434
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1437
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1438
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1439
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1440
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1443
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1444
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1445
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1446
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1449
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1450
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1451
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1452
+      }
+    },
+    "221aecd47ac5458a95143183769730a3dcaf828d9d67c8e2da59155f97ffb548": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1267
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1268
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1269
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1272
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1273
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1274
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1275
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1276
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1277
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1278
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 1279
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1280
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1281
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1283
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1284
+      }
+    },
+    "258462bcc44402abc07f8467bb03c53268f44944b4ce4326385048858a65ffe0": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1387
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1388
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1389
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1392
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1393
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1394
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1395
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1396
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1397
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1398
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1399
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1400
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1401
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1403
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1404
+      }
+    },
+    "2f2b644c02956bc2164d4738d6aa6975add83582f0112f7b283ffa160db9e767": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1247
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1248
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1249
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1252
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1253
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1254
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1255
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1256
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1257
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1258
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1259
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1260
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1261
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1263
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1264
+      }
+    },
+    "30871d8a75f81ffbc5e078334f856b9bbb4922c43bdc42e4c40130928b840876": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 196
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 197
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 198
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 199
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 200
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 201
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 202
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 203
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 204
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 205
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 206
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 207
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 208
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 209
+      },
+      "208": {
+        "filename": "Auction.code",
+        "line": 210
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 211
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 212
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 213
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 214
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 215
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 216
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 217
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 218
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 219
+      },
+      "352": {
+        "filename": "Auction.code",
+        "line": 220
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 221
+      },
+      "376": {
+        "filename": "Auction.code",
+        "line": 222
+      },
+      "392": {
+        "filename": "Auction.code",
+        "line": 223
+      },
+      "400": {
+        "filename": "Auction.code",
+        "line": 224
+      },
+      "416": {
+        "filename": "Auction.code",
+        "line": 225
+      },
+      "424": {
+        "filename": "Auction.code",
+        "line": 226
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 227
+      },
+      "448": {
+        "filename": "Auction.code",
+        "line": 228
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 229
+      },
+      "464": {
+        "filename": "Auction.code",
+        "line": 230
+      },
+      "480": {
+        "filename": "Auction.code",
+        "line": 231
+      },
+      "496": {
+        "filename": "Auction.code",
+        "line": 232
+      },
+      "512": {
+        "filename": "Auction.code",
+        "line": 233
+      },
+      "528": {
+        "filename": "Auction.code",
+        "line": 234
+      },
+      "544": {
+        "filename": "Auction.code",
+        "line": 235
+      },
+      "552": {
+        "filename": "Auction.code",
+        "line": 236
+      },
+      "560": {
+        "filename": "Auction.code",
+        "line": 237
+      },
+      "576": {
+        "filename": "Auction.code",
+        "line": 238
+      },
+      "592": {
+        "filename": "Auction.code",
+        "line": 239
+      },
+      "608": {
+        "filename": "Auction.code",
+        "line": 240
+      },
+      "616": {
+        "filename": "Auction.code",
+        "line": 241
+      },
+      "624": {
+        "filename": "Auction.code",
+        "line": 242
+      },
+      "640": {
+        "filename": "Auction.code",
+        "line": 243
+      },
+      "648": {
+        "filename": "Auction.code",
+        "line": 244
+      },
+      "656": {
+        "filename": "Auction.code",
+        "line": 245
+      },
+      "664": {
+        "filename": "Auction.code",
+        "line": 246
+      },
+      "672": {
+        "filename": "Auction.code",
+        "line": 247
+      },
+      "680": {
+        "filename": "Auction.code",
+        "line": 248
+      },
+      "688": {
+        "filename": "Auction.code",
+        "line": 249
+      },
+      "696": {
+        "filename": "Auction.code",
+        "line": 250
+      },
+      "712": {
+        "filename": "Auction.code",
+        "line": 251
+      },
+      "728": {
+        "filename": "Auction.code",
+        "line": 253
+      },
+      "736": {
+        "filename": "Auction.code",
+        "line": 254
+      },
+      "752": {
+        "filename": "Auction.code",
+        "line": 255
+      },
+      "768": {
+        "filename": "Auction.code",
+        "line": 258
+      }
+    },
+    "3aadf06fb12a044a5e2319576f3606838a666370e71280798f5bee72a083daf1": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 187
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "16": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "32": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "64": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "72": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "208": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "224": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "232": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "248": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "264": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "272": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "280": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "296": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "304": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "312": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "320": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "328": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      },
+      "344": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 189
+      }
+    },
+    "3c29ac6d7d59030a6392ebae53c59449d40094c905d6ab8e914fce370a8daac2": {
+      "0": {
+        "filename": "<entry-selector>",
+        "line": 1
+      },
+      "8": {
+        "filename": "<entry-selector>",
+        "line": 2
+      },
+      "24": {
+        "filename": "<entry-selector>",
+        "line": 3
+      },
+      "32": {
+        "filename": "<entry-selector>",
+        "line": 4
+      },
+      "48": {
+        "filename": "<entry-selector>",
+        "line": 5
+      },
+      "56": {
+        "filename": "<entry-selector>",
+        "line": 6
+      },
+      "72": {
+        "filename": "<entry-selector>",
+        "line": 7
+      },
+      "88": {
+        "filename": "<entry-selector>",
+        "line": 8
+      },
+      "96": {
+        "filename": "<entry-selector>",
+        "line": 9
+      },
+      "112": {
+        "filename": "<entry-selector>",
+        "line": 10
+      },
+      "128": {
+        "filename": "<entry-selector>",
+        "line": 11
+      }
+    },
+    "42c91968cde8c69a858853b349b065f2846c8af2c4bfccb8b55b08e93af0e6cd": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1082
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1083
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1084
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1085
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1086
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1087
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1088
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1089
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 1090
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 1091
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 1092
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 1093
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 1094
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1095
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1096
+      },
+      "152": {
+        "filename": "Auction.code",
+        "line": 1097
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1098
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1099
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 1100
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 1101
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 1102
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 1103
+      },
+      "208": {
+        "filename": "Auction.code",
+        "line": 1104
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1105
+      }
+    },
+    "44c69b2c719cb73f4e482c3234ec05590ce41e063415e61720f4c48615cd400a": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1307
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1308
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1309
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1312
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1313
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1314
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1315
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1316
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1317
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1318
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1319
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1320
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1321
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1323
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1324
+      }
+    },
+    "47f138ee822f9e04bdfbf046b7f030764201342f6b05c05c6e75e9eed93cb161": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 222
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 222
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 223
+      },
+      "32": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 225
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "64": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "192": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "200": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "360": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "384": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "400": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "408": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "456": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "472": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "480": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "496": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "512": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "520": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "528": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "544": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "552": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "560": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "568": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "576": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "584": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 228
+      },
+      "600": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "608": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "624": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "640": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "648": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "656": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "680": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "696": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "720": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "728": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "736": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "760": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "776": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "784": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      }
+    },
+    "4e37f70e1875950d72086a1b79acd782bbd74d43414601ca13070c9f5b6f8ac0": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 264
+      }
+    },
+    "59fe71900e48813a0d40de4efee6845392c9ccf75f6800a2b515cdc50c61eab9": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1518
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1519
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1520
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1521
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1524
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1525
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1526
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1527
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1530
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1531
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1532
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1533
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1536
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1537
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1538
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1539
+      }
+    },
+    "5c8f21cd9e079bb7a04260e01713588e93f4d303c09bc57f63c9cae334e64705": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 4
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 5
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 6
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 7
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 10
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 11
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 12
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 13
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 14
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 15
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 16
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 18
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 19
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 20
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 21
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 22
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 23
+      },
+      "208": {
+        "filename": "Auction.code",
+        "line": 24
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 25
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 26
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 27
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 28
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 29
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 30
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 31
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 32
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 33
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 34
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 35
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 36
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 37
+      },
+      "352": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 92
+      },
+      "368": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 92
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 92
+      },
+      "392": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 93
+      },
+      "408": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 93
+      },
+      "424": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 95
+      },
+      "432": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 95
+      },
+      "448": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 97
+      },
+      "456": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 97
+      },
+      "472": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 99
+      },
+      "488": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 99
+      },
+      "504": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 100
+      },
+      "520": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 100
+      },
+      "536": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 102
+      },
+      "552": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 102
+      },
+      "568": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 104
+      },
+      "584": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 104
+      },
+      "600": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 106
+      },
+      "608": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 106
+      },
+      "624": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 108
+      },
+      "632": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 108
+      },
+      "648": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 110
+      },
+      "656": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 110
+      },
+      "672": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "720": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "736": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "752": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "760": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "784": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "792": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "952": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "976": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      }
+    },
+    "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 935
+      }
+    },
+    "61e81c84d101e40bf9f9cb21cbdf1597554027a8fffd40b299d6fe1afa914bee": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "32": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "64": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 165
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 166
+      },
+      "176": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 166
+      },
+      "184": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 166
+      },
+      "200": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "232": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "240": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "256": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "280": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "296": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "312": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 168
+      },
+      "328": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "344": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "360": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "384": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "400": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "416": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "424": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "432": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "448": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "456": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "464": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "472": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "480": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "488": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "496": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "504": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "512": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "528": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "536": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "544": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "560": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "568": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "576": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 170
+      },
+      "592": {
+        "filename": "Auction.code",
+        "line": 490
+      },
+      "608": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "616": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "624": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "632": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "640": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "656": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "672": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "680": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "704": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "712": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "720": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "744": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "760": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "768": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "816": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "832": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "840": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "856": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "872": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "880": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "888": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "904": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "912": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "920": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "928": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "936": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "952": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 201
+      },
+      "968": {
+        "filename": "Auction.code",
+        "line": 521
+      },
+      "976": {
+        "filename": "Auction.code",
+        "line": 522
+      }
+    },
+    "65e4960fef01b8263b3bfac70c3436b278ab87f1e235e7659d8510ef47f685d4": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "16": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "32": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "72": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 145
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 150
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 150
+      },
+      "224": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 150
+      },
+      "240": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 152
+      },
+      "248": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 152
+      },
+      "264": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 153
+      },
+      "280": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 153
+      },
+      "288": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 153
+      },
+      "304": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 153
+      },
+      "320": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "336": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "344": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "368": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "392": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "408": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "416": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      },
+      "432": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 154
+      }
+    },
+    "6681efa22290c70150682c95b8f818eabe69bd2bdc89873b400722b10de8dc32": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1367
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1368
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1369
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1372
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1373
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1374
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1375
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1376
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1377
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1378
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 1379
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1380
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1381
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1383
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1384
+      }
+    },
+    "6e73e87a7e77ebffad8344f201a3526fc3d18b3019117ed7f7cdff8e75b9d540": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 112
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "176": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "184": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "200": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "208": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "224": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "240": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "248": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "264": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "280": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "288": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "296": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "304": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "320": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 121
+      },
+      "336": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "344": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "368": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "392": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "408": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "416": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "432": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 137
+      },
+      "448": {
+        "filename": "Auction.code",
+        "line": 123
+      },
+      "464": {
+        "filename": "Auction.code",
+        "line": 126
+      }
+    },
+    "71617cb6fd26ede1b0c040a7574e910a88bed45f4c95e1c316bd8663981a7dc1": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 129
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 130
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 131
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 132
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 133
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 134
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 140
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 145
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 148
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 149
+      },
+      "208": {
+        "filename": "Auction.code",
+        "line": 150
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 151
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 152
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 153
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 154
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 155
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 156
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 157
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 158
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 159
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 160
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 161
+      },
+      "352": {
+        "filename": "Auction.code",
+        "line": 162
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 163
+      },
+      "408": {
+        "filename": "Auction.code",
+        "line": 164
+      },
+      "416": {
+        "filename": "Auction.code",
+        "line": 165
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 166
+      },
+      "448": {
+        "filename": "Auction.code",
+        "line": 167
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 168
+      },
+      "472": {
+        "filename": "Auction.code",
+        "line": 169
+      },
+      "480": {
+        "filename": "Auction.code",
+        "line": 170
+      },
+      "488": {
+        "filename": "Auction.code",
+        "line": 171
+      },
+      "504": {
+        "filename": "Auction.code",
+        "line": 172
+      },
+      "512": {
+        "filename": "Auction.code",
+        "line": 173
+      },
+      "520": {
+        "filename": "Auction.code",
+        "line": 174
+      },
+      "536": {
+        "filename": "Auction.code",
+        "line": 175
+      },
+      "552": {
+        "filename": "Auction.code",
+        "line": 176
+      },
+      "568": {
+        "filename": "Auction.code",
+        "line": 177
+      },
+      "584": {
+        "filename": "Auction.code",
+        "line": 178
+      },
+      "600": {
+        "filename": "Auction.code",
+        "line": 179
+      },
+      "608": {
+        "filename": "Auction.code",
+        "line": 180
+      },
+      "616": {
+        "filename": "Auction.code",
+        "line": 181
+      },
+      "632": {
+        "filename": "Auction.code",
+        "line": 182
+      },
+      "648": {
+        "filename": "Auction.code",
+        "line": 183
+      },
+      "664": {
+        "filename": "Auction.code",
+        "line": 184
+      },
+      "672": {
+        "filename": "Auction.code",
+        "line": 185
+      },
+      "680": {
+        "filename": "Auction.code",
+        "line": 186
+      },
+      "696": {
+        "filename": "Auction.code",
+        "line": 187
+      },
+      "704": {
+        "filename": "Auction.code",
+        "line": 188
+      },
+      "712": {
+        "filename": "Auction.code",
+        "line": 189
+      },
+      "720": {
+        "filename": "Auction.code",
+        "line": 190
+      },
+      "728": {
+        "filename": "Auction.code",
+        "line": 191
+      },
+      "736": {
+        "filename": "Auction.code",
+        "line": 192
+      },
+      "744": {
+        "filename": "Auction.code",
+        "line": 193
+      },
+      "752": {
+        "filename": "Auction.code",
+        "line": 194
+      }
+    },
+    "7bb7d8b11a34c04ad0d3212878f9e0ca5196ac202f7742cd199780e447dd59dd": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1124
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1125
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 1126
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 1127
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1128
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1129
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1130
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1131
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 1132
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 1133
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 1134
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1135
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1136
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 1137
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 1138
+      },
+      "208": {
+        "filename": "Auction.code",
+        "line": 1139
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1140
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1141
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1142
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1143
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1144
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 1145
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 1146
+      },
+      "336": {
+        "filename": "Auction.code",
+        "line": 1147
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 1148
+      },
+      "360": {
+        "filename": "Auction.code",
+        "line": 1149
+      },
+      "376": {
+        "filename": "Auction.code",
+        "line": 1153
+      },
+      "384": {
+        "filename": "Auction.code",
+        "line": 1154
+      },
+      "408": {
+        "filename": "Auction.code",
+        "line": 1155
+      },
+      "424": {
+        "filename": "Auction.code",
+        "line": 1156
+      },
+      "432": {
+        "filename": "Auction.code",
+        "line": 1157
+      },
+      "448": {
+        "filename": "Auction.code",
+        "line": 1161
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 1162
+      },
+      "472": {
+        "filename": "Auction.code",
+        "line": 1165
+      }
+    },
+    "7bdd5582e984ae91aad03805f5952bcfae697e6e7fc10d2b39be316618477474": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1460
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1461
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1462
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1463
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1466
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1467
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1468
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1469
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1472
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1473
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1474
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1475
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1478
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1479
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1480
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1481
+      }
+    },
+    "7fbbd23fcb22f3da2c6c016d18fa75c1edef5c59de27a04a2a1440c42b43f5d5": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1407
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1408
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1409
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1412
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1413
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1414
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1415
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1416
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1417
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1418
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1419
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1420
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1421
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1423
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1424
+      }
+    },
+    "815706d38506485b1e63bba0e57b702da3cf7ca0847e2f26edf69e57702faab0": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 970
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 973
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 974
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 975
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 976
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 979
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 980
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 981
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 984
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 985
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 986
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 987
+      },
+      "152": {
+        "filename": "Auction.code",
+        "line": 988
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 989
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 990
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 991
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 992
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 993
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 994
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 995
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 996
+      }
+    },
+    "85b1f76d250178507d28cce19f5abbf2f4a6c5b54f7e1d457b2fb496143fd6bc": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 265
+      }
+    },
+    "85e28e5a247ec1ee1caf51714f20f39be9aa3717d9caec38f773fddea5fd5d37": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1427
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1428
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1429
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1430
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1456
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1457
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1458
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1459
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1485
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1486
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1487
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1488
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1514
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1515
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1516
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1517
+      }
+    },
+    "86051bcc55375b786c36726c161be38ddc9401ce9ffbbce3c2a610a38045f9cd": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 343
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 344
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 345
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 346
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 347
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 348
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "176": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "184": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "192": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "208": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "224": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "232": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "248": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "256": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "264": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "272": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "288": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "296": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 157
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 376
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 379
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 380
+      },
+      "344": {
+        "filename": "Auction.code",
+        "line": 383
+      }
+    },
+    "870b9a029b23f2671f65595ab859bd1808cd4fe47b4de7c8295235ed216a0391": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 178
+      },
+      "16": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 179
+      },
+      "32": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 180
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 180
+      },
+      "56": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 181
+      },
+      "64": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 181
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 183
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 183
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 183
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 183
+      },
+      "144": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 185
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 185
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 185
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 486
+      },
+      "192": {
+        "filename": "Auction.code",
+        "line": 488
+      }
+    },
+    "8a002ff2233de6df5c9a4c6b34cfcd448e26406cabf2570db82a48c2fd1c5760": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      }
+    },
+    "9443572d207a9c0f9122d4c87f093d7b50c48d262fc6c82133be37773780c438": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1489
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1490
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1491
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1492
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1495
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1496
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1497
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1498
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 1501
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 1502
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 1503
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 1504
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1507
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1508
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1509
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1510
+      }
+    },
+    "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7": {},
+    "99773102b9c9dc835bd801ff0570ee532b149e41da4ee6b7c3f68088faaaccc8": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 526
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 527
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 528
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 529
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 530
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 531
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 212
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 545
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 548
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 549
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 552
+      }
+    },
+    "9cb8f47fcb9f6b9c30bfde8fc752881ff24e68ccf11ac944d3bb13113dd890fc": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 954
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 957
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 958
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 959
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 962
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 963
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 964
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 965
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 968
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 969
+      }
+    },
+    "9f22ace3513aae7d5c80159dda91f9b5e63cf5010b9755cea564b6c24faf612c": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 874
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 875
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 876
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 877
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 878
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 879
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 880
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 881
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 882
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 883
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 884
+      },
+      "152": {
+        "filename": "Auction.code",
+        "line": 885
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 886
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 887
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 888
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 889
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 890
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 891
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 892
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 893
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 894
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 895
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 896
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 897
+      }
+    },
+    "a559c324fe9ea47c90305d121659358c5170f9ed6a1dd25547e014d8698c7536": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 905
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 906
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 907
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 908
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 909
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 910
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 911
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 912
+      },
+      "104": {
+        "filename": "Auction.code",
+        "line": 913
+      },
+      "120": {
+        "filename": "Auction.code",
+        "line": 914
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 915
+      },
+      "152": {
+        "filename": "Auction.code",
+        "line": 916
+      },
+      "168": {
+        "filename": "Auction.code",
+        "line": 917
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 918
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 919
+      },
+      "216": {
+        "filename": "Auction.code",
+        "line": 920
+      },
+      "224": {
+        "filename": "Auction.code",
+        "line": 921
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 922
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 923
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 924
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 925
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 926
+      },
+      "312": {
+        "filename": "Auction.code",
+        "line": 928
+      },
+      "320": {
+        "filename": "Auction.code",
+        "line": 929
+      },
+      "328": {
+        "filename": "Auction.code",
+        "line": 930
+      },
+      "336": {
+        "filename": "Auction.code",
+        "line": 931
+      },
+      "352": {
+        "filename": "Auction.code",
+        "line": 932
+      },
+      "368": {
+        "filename": "Auction.code",
+        "line": 933
+      },
+      "384": {
+        "filename": "Auction.code",
+        "line": 938
+      },
+      "392": {
+        "filename": "Auction.code",
+        "line": 939
+      },
+      "400": {
+        "filename": "Auction.code",
+        "line": 940
+      },
+      "408": {
+        "filename": "Auction.code",
+        "line": 941
+      },
+      "424": {
+        "filename": "Auction.code",
+        "line": 942
+      },
+      "440": {
+        "filename": "Auction.code",
+        "line": 943
+      },
+      "456": {
+        "filename": "Auction.code",
+        "line": 948
+      },
+      "464": {
+        "filename": "Auction.code",
+        "line": 949
+      },
+      "472": {
+        "filename": "Auction.code",
+        "line": 952
+      },
+      "480": {
+        "filename": "Auction.code",
+        "line": 953
+      }
+    },
+    "a7869944e2dd771d32fd494ebd5053637eb540871988ae70cc763aeafba73bf3": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 270
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 270
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 270
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "56": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "72": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "168": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "328": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "352": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "368": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "424": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "440": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "448": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "464": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "480": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "488": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "496": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "512": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "520": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "528": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "536": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "544": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "552": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 271
+      },
+      "568": {
+        "filename": "Auction.code",
+        "line": 760
+      },
+      "576": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "584": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "600": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "616": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "624": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "632": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "656": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "672": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "696": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "704": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "712": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "736": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "752": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "760": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "808": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "816": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "824": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "832": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "840": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "856": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "864": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "872": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "880": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "904": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 281
+      },
+      "920": {
+        "filename": "Auction.code",
+        "line": 787
+      }
+    },
+    "b9db12ef02874a0fbc3e59373aef67c7fcc6b567991b9646925c8cbdc9875181": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1227
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1228
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1229
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1232
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1233
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1234
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1235
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1236
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1237
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1238
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1239
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1240
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1241
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1243
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1244
+      }
+    },
+    "c7f24e73ee7d9d098f5214c0b345ba32609525dff21ef641afb7ab316aae07b6": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1347
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1348
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1349
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1352
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1353
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1354
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1355
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1356
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1357
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1358
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 1359
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1360
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1361
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1363
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1364
+      }
+    },
+    "d558e53bf690afc8a76b8887a99a49a52db1bd24bec5da84780ea0e7bc0aad3f": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 934
+      }
+    },
+    "d9d5c97e84ba7def0b8ebd6efca346f34a8a0b09a2b6e2246dc5ff5c2e42fded": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1287
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1288
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1289
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1292
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1293
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1294
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1295
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1296
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1297
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1298
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1299
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1300
+      },
+      "280": {
+        "filename": "Auction.code",
+        "line": 1301
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1303
+      },
+      "304": {
+        "filename": "Auction.code",
+        "line": 1304
+      }
+    },
+    "e538c832174b29323f306955d22c2d5843308c40d3ab8368c5fc71ad72cd6287": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1327
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 1328
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1329
+      },
+      "32": {
+        "filename": "Auction.code",
+        "line": 1332
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 1333
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1334
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 1335
+      },
+      "232": {
+        "filename": "Auction.code",
+        "line": 1336
+      },
+      "240": {
+        "filename": "Auction.code",
+        "line": 1337
+      },
+      "248": {
+        "filename": "Auction.code",
+        "line": 1338
+      },
+      "256": {
+        "filename": "Auction.code",
+        "line": 1339
+      },
+      "264": {
+        "filename": "Auction.code",
+        "line": 1340
+      },
+      "272": {
+        "filename": "Auction.code",
+        "line": 1341
+      },
+      "288": {
+        "filename": "Auction.code",
+        "line": 1343
+      },
+      "296": {
+        "filename": "Auction.code",
+        "line": 1344
+      }
+    },
+    "e6936e8f0e7b8fe98c2ca66eee9d4e9dafcfc747defef9cb795288fabb1b7ef3": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1108
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1109
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 1110
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 1111
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 1112
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 1113
+      },
+      "80": {
+        "filename": "Auction.code",
+        "line": 1114
+      },
+      "88": {
+        "filename": "Auction.code",
+        "line": 1115
+      },
+      "96": {
+        "filename": "Auction.code",
+        "line": 1116
+      },
+      "112": {
+        "filename": "Auction.code",
+        "line": 1117
+      },
+      "128": {
+        "filename": "Auction.code",
+        "line": 1118
+      },
+      "136": {
+        "filename": "Auction.code",
+        "line": 1119
+      },
+      "144": {
+        "filename": "Auction.code",
+        "line": 1120
+      }
+    },
+    "e747aeb04721620f93418c5b074016cf85147333b7050d7527853a38c3f54f59": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 278
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 279
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 280
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 281
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 282
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 283
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 144
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 297
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 300
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 301
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 304
+      }
+    },
+    "e9c3bab45f757659f92439d0c2959e9c81c564db76e7f230adc490bf7a411c46": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 668
+      },
+      "8": {
+        "filename": "Auction.code",
+        "line": 669
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 670
+      },
+      "48": {
+        "filename": "Auction.code",
+        "line": 671
+      },
+      "64": {
+        "filename": "Auction.code",
+        "line": 672
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 673
+      },
+      "88": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "120": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "128": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "136": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 263
+      },
+      "160": {
+        "filename": "Auction.code",
+        "line": 687
+      },
+      "176": {
+        "filename": "Auction.code",
+        "line": 690
+      },
+      "184": {
+        "filename": "Auction.code",
+        "line": 691
+      },
+      "200": {
+        "filename": "Auction.code",
+        "line": 694
+      }
+    },
+    "ea9f3bc8cef396278a7330a3024711efac729e4f18088a4f14b8db6980206829": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 900
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 901
+      },
+      "24": {
+        "filename": "Auction.code",
+        "line": 902
+      },
+      "40": {
+        "filename": "Auction.code",
+        "line": 903
+      },
+      "56": {
+        "filename": "Auction.code",
+        "line": 904
+      },
+      "72": {
+        "filename": "Auction.code",
+        "line": 998
+      }
+    },
+    "eb0e612e3dbbfac2122fa2369d08b7cbf2aa7df9adf66aa1fa6843bc32fa09db": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "16": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "64": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      },
+      "112": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 141
+      }
+    },
+    "f24e1e7aa04d89aad2945816b6e9b921f2b3892da9ba53e2383c148351b96d0c": {
+      "0": {
+        "filename": "Auction.code",
+        "line": 1150
+      },
+      "16": {
+        "filename": "Auction.code",
+        "line": 1151
+      }
+    },
+    "f5290cd41b194ebc2148ebf8237b8cfe8a6c7ea2e8ce5015b21b7b08dbb2ac84": {
+      "0": {
+        "filename": "<internal-selector>",
+        "line": 1
+      },
+      "24": {
+        "filename": "<internal-selector>",
+        "line": 2
+      }
+    },
+    "f5f6b2c65448b44796b64ec4c8e6935a1e040c171af074d63ee4c3b14b757895": {
+      "0": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      },
+      "8": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      },
+      "24": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      },
+      "40": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      },
+      "48": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 215
+      },
+      "72": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "80": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "96": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "104": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "152": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "160": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 216
+      },
+      "184": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 217
+      },
+      "200": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 217
+      },
+      "216": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 217
+      },
+      "232": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 217
+      },
+      "256": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 220
+      },
+      "272": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 220
+      },
+      "288": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 220
+      },
+      "304": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 237
+      },
+      "320": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 247
+      },
+      "328": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 247
+      },
+      "344": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 250
+      },
+      "352": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "360": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "376": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "392": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "400": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "408": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "432": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "448": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "472": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "480": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "488": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "512": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "528": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "536": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "584": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "592": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "600": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "608": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "616": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "624": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "640": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "648": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "656": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "664": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "688": {
+        "filename": "../contracts/Auction.tsol",
+        "line": 251
+      },
+      "704": {
+        "filename": "Auction.code",
+        "line": 665
+      }
+    }
+  }
+}

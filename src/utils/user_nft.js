@@ -3,7 +3,7 @@ import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
-import { useContext } from "react";
+import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
 
 import {
   createNFT,
@@ -48,6 +48,10 @@ export const COLLECTION_ADDRESS =
 
 export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
+
+export const FactoryDirectSellAddress = new Address(
+  "0:26248d728cdd709049651733f38067359bf55467b1021ba2c0279bbd954efa9c"
+);
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -497,7 +501,8 @@ export const list_nft = async (
   onchainNFTData,
   finalListingPrice,
   newFloorPrice,
-  stampedFloor
+  stampedFloor,
+  client
 ) => {
   try {
     if (!onchainNFTData) {
@@ -528,32 +533,54 @@ export const list_nft = async (
       );
     }
 
-    const marketplace_contract = new venomProvider.Contract(
-      marketplaceAbi,
-      MARKETPLACE_ADDRESS
+    const factory_contract = new venomProvider.Contract(
+      FactoryDirectSell,
+      FactoryDirectSellAddress
     );
 
-    const _payload = await marketplace_contract.methods
-      .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
+    const subscriber = new Subscriber(venomProvider);
+    const contractEvents = factory_contract.events(subscriber);
+
+    contractEvents.on(async (event) => {
+      console.log(event);
+    });
+
+    const listing_fee = await factory_contract.methods
+      .get_listing_fee({ answerId: 0 })
       .call();
 
+    const load = await client.abi.encode_boc({
+      params: [
+        { name: "price", type: "uint128" },
+        { name: "royalty", type: "uint128" },
+        { name: "royalty_address", type: "address" },
+      ],
+      data: {
+        price: parseFloat(price) * 1000000000,
+        royalty: parseFloat(),
+        royalty_address: parseFloat(price) * 1000000000,
+      },
+    });
+
+    console.log(load.boc);
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
     const output = await nft_contract.methods
       .changeManager({
-        newManager: new Address(MARKETPLACE_ADDRESS),
+        newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
         callbacks: [
           [
-            new Address(MARKETPLACE_ADDRESS),
-            { value: "1000000000", payload: _payload.payload },
+            FactoryDirectSellAddress,
+            { value: listing_fee.value0, payload: load.boc },
           ],
         ],
       })
       .send({
         from: new Address(signer_address),
-        amount: (listing_fees + 1000000000).toString(),
+        amount: (parseFloat(listing_fee.value0) + 10000000).toString(),
       });
+
     if (output) {
       let obj = {
         NFTAddress: nft_address,
