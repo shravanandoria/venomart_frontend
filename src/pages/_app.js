@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }) {
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
-  const defTheme = "light";
+  const defTheme = "dark";
 
   // other values
   const adminAccount = [
@@ -328,26 +328,26 @@ export default function App({ Component, pageProps }) {
     {
       id: 10,
       Cover:
-        "https://ipfs.io/ipfs/QmWdvKBGjY1Jm9ZtQE3gUuo8u5szszeN7v37tGqrFHx4hC/biovenomsdklatest.jpg",
-      Logo: "https://ipfs.io/ipfs/QmcfxTCCkmG9WZeK7nZRoVdZ9zkwdUtU9dABsQPpgPggkm/nft.gif",
-      Name: "Venomart x Soliders",
-      Description: "We are a NFT Project ready to fight for VenomFoundation dominance 💣! Join the troop 🪂!",
+        "https://ipfs.io/ipfs/QmXHBc2yztjMjCbkjwa7DNpv9WSzC9somdL68yQZDcj1cV/cover.jpg",
+      Logo: "https://ipfs.io/ipfs/QmQbpFyfQUrydfyKF5z4MnbpFdRn9oSTqfP3xNZedq2hmC/apeclubXvenomart.gif",
+      Name: "Venom Ape Club x Venomart",
+      Description: "Celebrate the collaboration of Venom Ape Club & Venomart",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
-      customLink: "custom/venomsoliders",
-      pageName: "venomsoliders",
-      supply: "2000",
-      twitterUserName: "Venom_Soldiers",
-      twitter: "https://twitter.com/Venom_Soldiers",
-      tweetID: "",
-      discord: "",
+      CollectionAddress: "0:552f25001a79abec50b247177c1ff14c846af109aece93b98658166ff3298b1f",
+      customLink: "custom/apeclub",
+      pageName: "apeclub",
+      supply: "2222",
+      twitterUserName: "VenomApe_NFT",
+      twitter: "https://twitter.com/VenomApe_NFT",
+      tweetID: "1711729588731257093",
+      discord: "https://discord.com/invite/EM9D62m4",
       instagram: "",
       telegram: "",
-      website: "https://venom-soldiers.web.app/",
-      startDate: "10/7/2023 16:00:00 GMT+0530",
-      endDate: "10/11/2023 16:00:00 GMT+0530",
-      verified: false,
+      website: "https://venomape.club/",
+      startDate: "10/10/2023 18:30:00 GMT+0530",
+      endDate: "10/12/2023 18:30:00 GMT+0530",
+      verified: true,
     },
   ];
 
@@ -505,7 +505,7 @@ export default function App({ Component, pageProps }) {
         "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "",
+      CollectionAddress: "0:ef4d10ea86a02a1ac6b2e0c7d226b39745424f79a8d70ecd021572b1d73e7de3",
       customLink: "launch/venomchads",
       pageName: "venomchads",
       supply: "2000",
@@ -633,7 +633,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
-      setTheme("light");
+      setTheme("dark");
     } else {
       setTheme(defThemeLocal);
     }

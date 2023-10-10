@@ -5,6 +5,7 @@ const OfferSchema = new mongoose.Schema(
     {
         chain: String,
         from: String,
+        offerContract: String,
         offerPrice: String,
         nft: {
             type: Schema.Types.ObjectId,

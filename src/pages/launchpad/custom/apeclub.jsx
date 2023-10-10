@@ -20,11 +20,10 @@ import {
 import Head from "next/head";
 import Loader from "../../../components/Loader";
 import { MyEver, create_launchpad_nft } from "../../../utils/user_nft";
-import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
+import collectionAbi from "../../../../abi/Launchpad_Collection.abi.json";
 import { has_minted } from "../../../utils/user_nft";
-import Image from "next/image";
 
-const venomons = ({
+const apeclub = ({
     blockURL,
     theme,
     webURL,
@@ -32,14 +31,15 @@ const venomons = ({
     venomProvider,
     signer_address,
     connectWallet,
-    customLaunchpad,
-    setAnyModalOpen
+    collabQuests,
+    anyModalOpen,
+    setAnyModalOpen,
 }) => {
+    const router = useRouter();
     // change from here
-    const launchSlug = customLaunchpad[6];
+    const launchSlug = collabQuests[10];
     // change till here
 
-    const router = useRouter();
     const venomartTwitter = "venomart23";
     const venomartDiscord = "https://discord.gg/wQbBr6Xean";
     const intendTweetId = launchSlug.tweetID;
@@ -65,7 +65,6 @@ const venomons = ({
     const [loading, setLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [comLoading, setCompLoading] = useState(false);
-    const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
     const [checkMint, setCheckMint] = useState();
@@ -73,23 +72,18 @@ const venomons = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
-    const [data, set_data] = useState();
-
-    const getRandomTokenId = () => {
-        let obj = {
-            image: NFTIMG,
-            collectionName: ProjectName,
-            name: ProjectName,
-            description: shortDesc,
-            collectionAddress: contractAddress,
-            mintPrice: parseFloat(mintPrice) + 1,
-            properties: [
-                { trait_type: "Benifit", value: "Fee Discount" },
-                { trait_type: "Version", value: "Testnet" },
-            ],
-        }
-        set_data(obj);
-    }
+    const [data] = useState({
+        image: NFTIMG,
+        collectionName: ProjectName,
+        name: ProjectName,
+        description: shortDesc,
+        collectionAddress: contractAddress,
+        mintPrice: parseFloat(mintPrice) + 1,
+        properties: [
+            { type: "Benifit", value: "Fee Discount" },
+            { type: "Version", value: "Testnet" },
+        ],
+    });
 
     const [startdays, setStartDays] = useState(0);
     const [starthours, setStartHours] = useState(0);
@@ -124,7 +118,6 @@ const venomons = ({
     // getting minted nfts
     useEffect(() => {
         getMintedCount();
-        getRandomTokenId();
     }, []);
 
     useEffect(() => {
@@ -177,7 +170,7 @@ const venomons = ({
                         setEndSeconds(s);
 
                         if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                            setStatus("Ended");
+                            setStatus("Sold Out");
                         }
                     }, 1000);
                     return () => clearInterval(interval);
@@ -204,7 +197,6 @@ const venomons = ({
             venomProvider
         );
         if (launchMint) {
-            setAfterMint(true);
             setAnyModalOpen(true);
             setMintLock(true);
         }
@@ -219,7 +211,7 @@ const venomons = ({
         }, 2000);
     };
 
-    const get_user_Data = async () => {
+    const get_minted_data = async () => {
         setLoading(true);
         const data = await has_minted(
             contractAddress,
@@ -231,7 +223,7 @@ const venomons = ({
 
     useEffect(() => {
         if (!signer_address) return;
-        get_user_Data();
+        get_minted_data();
     }, [signer_address]);
 
     useEffect(() => {
@@ -244,20 +236,21 @@ const venomons = ({
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>{`${ProjectName ? ProjectName : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
+                <title>{`${ProjectName ? ProjectName : "Project"
+                    } NFT Quest - Venomart Marketplace`}</title>
                 <meta
                     name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                    content={`${shortDesc ? shortDesc : "Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"}`}
                 />
                 <meta
                     name="keywords"
-                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                    content={`${ProjectName && ProjectName} testnet launch, ${ProjectName && ProjectName} venom, venomart launchpad, venom NFT launches`}
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.png" />
             </Head>
 
-            {afterMint && (
+            {anyModalOpen && (
                 <div className="backgroundModelBlur backdrop-blur-lg"></div>
             )}
 
@@ -271,9 +264,9 @@ const venomons = ({
                             className="container h-full w-full"
                             style={{ overflow: "hidden" }}
                         >
-                            <div className="launchHeroSectionStyle h-full">
+                            <div className="grid h-full items-center gap-4 md:grid-cols-12">
                                 {/* left section  */}
-                                <div className="launchHeroLeftSection h-full py-10">
+                                <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-4">
                                     {/* title  */}
                                     <h1
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
@@ -326,11 +319,11 @@ const venomons = ({
                                         )}
                                     </div>
                                     {/* short desc  */}
-                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left sm:w-[90%]">
+                                    <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
                                         {shortDesc}
                                     </p>
                                     {/* action  */}
-                                    <div className="flex justify-center align-middle space-x-2 lg:space-x-4">
+                                    <div className="flex space-x-6">
                                         {contractAddress != "" ? (
                                             <>
                                                 <a
@@ -373,15 +366,13 @@ const venomons = ({
                                 </div>
 
                                 {/* right section   */}
-                                <div className="launchHeroRightSection">
+                                <div className="col-span-6 xl:col-span-8">
                                     <div
-                                        className="relative"
+                                        className="relative text-center md:pl-8 md:text-right"
                                         style={{ overflow: "hidden" }}
                                     >
-                                        <Image
+                                        <img
                                             src={CoverIMG}
-                                            height={100}
-                                            width={100}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%" }}
                                         />
@@ -559,13 +550,17 @@ const venomons = ({
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
                                     {/* nftIMG  */}
                                     <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
-                                        <Image
+                                        <img
                                             alt="nftImg"
-                                            height={100}
-                                            width={100}
-                                            className="launchImage h-[100%] w-[100%] object-cover rounded"
+                                            className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
                                             src={NFTIMG}
                                         />
+                                        {/* <div className="hideInPhoneTxt">
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                Mint this NFT and get benefits of this NFT from venomart
+                                                after mainnet launch 🚀🚀
+                                            </p>
+                                        </div> */}
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -579,7 +574,7 @@ const venomons = ({
                                         {/* follow twitter  */}
                                         <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {pageName} on twitter
+                                                1] Follow {projectTwitter} on twitter
                                             </p>
                                             <Link
                                                 href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -606,25 +601,25 @@ const venomons = ({
                                             </Link>
                                         </div>
 
-                                        {/* join discord  */}
-                                        <div className="flex mt-2 items-center pb-5 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
+                                        {/* follow twitter  */}
+                                        <div className="flex mt-2 items-center pb-5 border-gray-100 ">
+                                            <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                3] Follow FrogKingDeals on twitter
                                             </p>
                                             <Link
-                                                href={venomartDiscord}
+                                                href={`https://twitter.com/intent/follow?screen_name=FrogKingDeals`}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
-                                                Join{" "}
-                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                                Follow{" "}
+                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
                                         </div>
 
                                         {/* join discord  */}
                                         <div className="flex items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                4] Join {pageName} discord server
+                                                4] Join {projectTwitter} discord server
                                             </p>
                                             <Link
                                                 href={projectDiscord}
@@ -636,19 +631,38 @@ const venomons = ({
                                             </Link>
                                         </div>
 
-                                        {/* retweet tweet  */}
-                                        <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
-                                            {/* <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                5] Retweet and like this tweet
+                                        {/* join discord  */}
+                                        <div className="flex items-center pb-5 mb-5">
+                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                5] Join venomart discord server
                                             </p>
                                             <Link
-                                                href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
+                                                href={venomartDiscord}
                                                 target="_blank"
                                                 className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                                             >
-                                                Retweet{" "}
-                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link> */}
+                                                Join{" "}
+                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                            </Link>
+                                        </div>
+
+                                        {/* retweet tweet  */}
+                                        <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5 mt-5">
+                                            {intendTweetId &&
+                                                <>
+                                                    <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                        6] Retweet and like this tweet
+                                                    </p>
+                                                    <Link
+                                                        href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
+                                                        target="_blank"
+                                                        className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                    >
+                                                        Retweet{" "}
+                                                        <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                                    </Link>
+                                                </>
+                                            }
                                         </div>
 
                                         {status == "Live" && !checkMint && (
@@ -922,8 +936,7 @@ const venomons = ({
                         </section>
                     </section>
 
-                    {afterMint && (
-                        // <div className="afterMintDiv absolute top-[30%] right-[40%] w-[500px] z-20">
+                    {anyModalOpen && (
                         <div className="afterMintDiv">
                             <form className="modal-dialog max-w-2xl">
                                 <div className="modal-content shadow-2xl dark:bg-jacarta-800">
@@ -936,7 +949,7 @@ const venomons = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
+                                            onClick={() => (setAnyModalOpen(false))}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -992,4 +1005,4 @@ const venomons = ({
     );
 };
 
-export default venomons;
+export default apeclub;

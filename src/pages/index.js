@@ -99,26 +99,6 @@ export default function Home({
                       Total NFTs
                     </span>
                   </div>
-                  {/* <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
-                    <span className="flex justify-center align-middle font-display text-3xl text-[#F35BC7]">
-                      <Image
-                        src={venomLogo}
-                        height={100}
-                        width={100}
-                        style={{
-                          height: "23px",
-                          width: "23px",
-                          marginRight: "8px",
-                          marginTop: "6px",
-                        }}
-                        alt="VenomLogo"
-                      />
-                      {websiteStats[0]?.mintVolume}
-                    </span>
-                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      Mint Volume
-                    </span>
-                  </div> */}
                 </div>
                 <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                   Buy, sell and collect NFTs.
@@ -144,63 +124,60 @@ export default function Home({
                 </div>
               </div>
 
-              {/* <!-- featured collections --> */}
               <div className="relative col-span-6 xl:col-span-6 xl:col-start-7">
                 <div className="md:flex md:space-x-6 xl:space-x-12">
                   {featuredCollections.map((collection, index) => {
                     return (
                       <div key={index} className={collection?.className}>
-                        <div>
-                          <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
-                            <div className="relative">
+                        <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
+                          <div className="relative">
+                            <Link
+                              href={`/collection/${collection?.collectionAddress}`}
+                            >
+                              <Image
+                                src={collection?.coverImage}
+                                alt="item"
+                                className="w-[500px] h-[450px] object-cover"
+                                height={100}
+                                width={100}
+                              />
+                            </Link>
+                          </div>
+                          <div className="p-6">
+                            <div className="flex">
                               <Link
                                 href={`/collection/${collection?.collectionAddress}`}
+                                className="shrink-0"
                               >
                                 <Image
-                                  src={collection?.coverImage}
-                                  alt="item"
-                                  className="w-[500px] h-[450px] object-cover"
+                                  src={collection?.collectionLogo}
+                                  alt="avatar"
+                                  className="mr-4 h-10 w-10 rounded-full"
                                   height={100}
                                   width={100}
                                 />
                               </Link>
-                            </div>
-                            <div className="p-6">
-                              <div className="flex">
+                              <div>
                                 <Link
                                   href={`/collection/${collection?.collectionAddress}`}
-                                  className="shrink-0"
+                                  className="block"
                                 >
-                                  <Image
-                                    src={collection?.collectionLogo}
-                                    alt="avatar"
-                                    className="mr-4 h-10 w-10 rounded-full"
-                                    height={100}
-                                    width={100}
-                                  />
+                                  <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
+                                    {collection?.collectionName}
+                                    <MdVerified
+                                      style={{
+                                        color: "#4f87ff",
+                                        marginBottom: "3px",
+                                        marginLeft: "3px",
+                                      }}
+                                      size={21}
+                                    />
+                                  </span>
                                 </Link>
-                                <div>
-                                  <Link
-                                    href={`/collection/${collection?.collectionAddress}`}
-                                    className="block"
-                                  >
-                                    <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                                      {collection?.collectionName}
-                                      <MdVerified
-                                        style={{
-                                          color: "#4f87ff",
-                                          marginBottom: "3px",
-                                          marginLeft: "3px",
-                                        }}
-                                        size={21}
-                                      />
-                                    </span>
-                                  </Link>
 
-                                  <a className="text-2xs text-accent dark:text-white">
-                                    {collection?.items} Items
-                                  </a>
-                                </div>
+                                <a className="text-2xs text-accent dark:text-white">
+                                  {collection?.items} Items
+                                </a>
                               </div>
                             </div>
                           </div>
@@ -213,7 +190,7 @@ export default function Home({
             </div>
           </div>
 
-          {theme === "dark" && (
+          {theme === "dark" ?
             <div className="custom-shape-divider-bottom-1690698441">
               <svg
                 data-name="Layer 1"
@@ -227,37 +204,34 @@ export default function Home({
                 ></path>
               </svg>
             </div>
-          )}
+            :
+            <div className="custom-shape-divider-bottom-1690698341">
+              <svg
+                data-name="Layer 1"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1200 120"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                  className="shape-fill"
+                ></path>
+              </svg>
+            </div>
+
+          }
         </section>
 
         {/* launchpad collections  */}
-        <div
-          className="relative py-24 dark:bg-jacarta-900"
-          style={{ userSelect: "none" }}
-        >
+        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
           <div className="container">
-            <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-              <h2 className="inline">Venomart Launchpad </h2>
+            <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+              <h2 className="inline">Venomart Launchpad 🚀</h2>
             </div>
             <div className="flex justify-center align-middle flex-wrap">
-              {/* {all_collections?.map((e, index) => {
-                  return (
-                    index < 8 && (
-                      <LaunchCollectionCard
-                        key={index}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        OwnerAddress={e.OwnerAddress}
-                        CollectionAddress={e.CollectionAddress}
-                      />
-                    )
-                  );
-                })} */}
-
               {/* custom lauchpad fetching  */}
               <Swiper
-                modules={[Pagination]}
+                modules={[Pagination, Navigation]}
                 spaceBetween={30}
                 slidesPerView={1}
                 pagination={{ clickable: true }}
@@ -313,17 +287,75 @@ export default function Home({
                   })}
               </Swiper>
             </div>
-
-            <div className="mt-10 text-center">
-              <Link
-                href="/explore/Launchpad"
-                className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-              >
-                View All
-              </Link>
-            </div>
           </div>
         </div>
+
+        {/* trending collections  */}
+        {/* <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+          <div className="container">
+            <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+              <h2 className="inline">Trending Collections 🔥</h2>
+            </div>
+            <div className="flex justify-center align-middle flex-wrap">
+              <Swiper
+                modules={[Pagination, Navigation]}
+                spaceBetween={30}
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  300: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                  },
+                  800: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  1204: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                  },
+                }}
+                className="mySwiper"
+              >
+                {customLaunchpad
+                  ?.sort(
+                    ({ id: previousID }, { id: currentID }) =>
+                      currentID - previousID
+                  )
+                  ?.map((e, id) => {
+                    return (
+                      id < 6 &&
+                      e.verified == true && (
+                        <SwiperSlide
+                          key={id}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <LaunchCollectionCard
+                            Cover={e.Cover}
+                            Logo={e.Logo}
+                            Name={e.Name}
+                            Description={e.Description}
+                            mintPrice={e.mintPrice}
+                            status={e.status}
+                            CollectionAddress={e.CollectionAddress}
+                            customLink={e.customLink}
+                            verified={e.verified}
+                            startDate={e.startDate}
+                            endDate={e.endDate}
+                          />
+                        </SwiperSlide>
+                      )
+                    );
+                  })}
+              </Swiper>
+            </div>
+          </div>
+        </div> */}
 
         {/* top collections  */}
         {!loading && (
@@ -430,42 +462,6 @@ export default function Home({
             </div>
           </section>
         )}
-
-        {/* Latest collections  */}
-        {/* <div className="relative py-24 dark:bg-jacarta-900">
-            <div className="container">
-              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Latest Collections </h2>
-              </div>
-              <div className="flex justify-center align-middle flex-wrap">
-                {topCollections?.map((e, index) => {
-                  return (
-                    index < 6 && (
-                      <CollectionCard
-                        key={index}
-                        Cover={e?.coverImage}
-                        Logo={e?.logo}
-                        Name={e?.name}
-                        Description={e?.description}
-                        OwnerAddress={e?.OwnerAddress}
-                        CollectionAddress={e?.contractAddress}
-                        verified={e?.isVerified}
-                      />
-                    )
-                  );
-                })}
-              </div>
-
-              <div className="mt-10 text-center">
-                <Link
-                  href="/explore/Collections"
-                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                >
-                  Explore All Collections
-                </Link>
-              </div>
-            </div>
-          </div> */}
       </>
     </div>
   );
