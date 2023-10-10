@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -63,6 +63,8 @@ export const getNftImage = async (provider, nftAddress) => {
 // Returns array with NFT's images urls
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
+
+  console.log(nftAddresses);
 
   await Promise.all(
     nftAddresses.map(async (nftAddress) => {
@@ -177,8 +179,9 @@ export const get_nft_by_address = async (provider, nft_address) => {
 export const loadNFTs_collection = async (
   provider,
   collection_address,
-  last_paid,
-  client
+  last_nft_addr,
+  client,
+  last_paid
 ) => {
   try {
     const myEver = new MyEver();
@@ -194,9 +197,11 @@ export const loadNFTs_collection = async (
       providerRpcClient,
       collection_address
     );
+    console.log({ nftCodeHash });
     if (!nftCodeHash) {
       return;
     }
+
     const query = `query {
       accounts(
         filter: {
@@ -219,6 +224,11 @@ export const loadNFTs_collection = async (
 
     client.close();
 
+    // if (!nftAddresses || !nftAddresses.accounts.length) {
+    //   if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
+    //   return;
+    // }
+
     const nftURLs = await getCollectionItems(provider, result.data.accounts);
     return {
       nfts: nftURLs,
@@ -234,8 +244,7 @@ export const loadNFTs_user = async (
   provider,
   ownerAddress,
   last_paid,
-  client,
-  onChainFilterNFT
+  client
 ) => {
   try {
     // Take a salted code
@@ -246,46 +255,23 @@ export const loadNFTs_user = async (
       return;
     }
 
-    let query;
-    if (onChainFilterNFT === "newestFirst") {
-      query = `query {
-        accounts(
-          filter: {
-            workchain_id: { eq: 0 }
-            code_hash: {
-              eq: "${codeHash}"
-            }
-            ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
+    const query = `query {
+      accounts(
+        filter: {
+          workchain_id: { eq: 0 }
+          code_hash: {
+            eq: "${codeHash}"
           }
-          orderBy: [{ path: "last_paid", direction: DESC }]
-          limit: 25
-        ) {
-          id
-          balance(format: DEC)
-          last_paid
+          ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
         }
-      }`;
-    }
-    else {
-      query = `query {
-        accounts(
-          filter: {
-            workchain_id: { eq: 0 }
-            code_hash: {
-              eq: "${codeHash}"
-            }
-            ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
-          }
-          orderBy: [{ path: "last_paid", direction: ASC }]
-          limit: 25
-        ) {
-          id
-          balance(format: DEC)
-          last_paid
-        }
-      }`;
-    }
-
+        orderBy: [{ path: "last_paid", direction: DESC }]
+        limit: 25
+      ) {
+        id
+        balance(format: DEC)
+        last_paid
+      }
+    }`;
     const { result } = await client.net.query({ query });
     client.close();
 
@@ -361,11 +347,13 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       files: [
         {
           source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
+          mimetype: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io"
+      external_url: "https://venomart.io",
+      nft_image: data.image,
+      collection_name: data.collection,
     });
 
     const outputs = await contract.methods
@@ -414,21 +402,24 @@ export const create_launchpad_nft = async (
     const ipfs_image = data.image;
 
     const nft_json = JSON.stringify({
-      type: "Basic NFT",
+      type: "Venom Testnet",
+      id: id,
       name: `${data.name} #${id}`,
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/jpg",
+        mimetype: "image/gif",
       },
       files: [
         {
           source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/jpg",
+          mimetype: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io/",
+      external_url: "https://venomart.io",
+      nft_image: ipfs_image,
+      collection_name: data.collectionName,
     });
 
     const outputs = await contract.methods.mint({ _json: nft_json }).send({
