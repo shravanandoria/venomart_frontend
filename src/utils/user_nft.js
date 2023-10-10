@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -502,7 +502,9 @@ export const list_nft = async (
   finalListingPrice,
   newFloorPrice,
   stampedFloor,
-  client
+  client,
+  royaltyPercent,
+  royaltyAddress
 ) => {
   try {
     if (!onchainNFTData) {
