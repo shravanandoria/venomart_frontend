@@ -79,9 +79,11 @@ const SmallCollectionCard = ({
             <span
               className="font-display font-semibold text-jacarta-700 dark:text-white"
               style={{
+                width: "180px",
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
+                display: "block"
               }}
             >
               {Name ? Name : "Unknown Collection"}

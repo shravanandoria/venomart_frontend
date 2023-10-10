@@ -7,7 +7,7 @@ import { BsChevronDown } from "react-icons/bs";
 import Loader from "../../../components/Loader";
 
 const Users = ({ theme, topUsers, setTopUsers }) => {
-    const [duration, set_duration] = useState("alltime");
+    const [duration, set_duration] = useState("30days");
     const [wallet_id, set_wallet_id] = useState("none");
 
     const [mobileFilter, openMobileFilter] = useState(true);
@@ -337,12 +337,12 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                 </div>
                                 <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Total Sales
+                                        NFT Sold
                                     </span>
                                 </div>
                                 <div className="w-[14%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Active Listing
+                                        Active Listings
                                     </span>
                                 </div>
                             </div>
