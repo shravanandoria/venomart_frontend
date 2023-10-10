@@ -340,7 +340,7 @@ export default function App({ Component, pageProps }) {
       supply: "2222",
       twitterUserName: "VenomApe_NFT",
       twitter: "https://twitter.com/VenomApe_NFT",
-      tweetID: "",
+      tweetID: "1711729588731257093",
       discord: "https://discord.com/invite/EM9D62m4",
       instagram: "",
       telegram: "",
