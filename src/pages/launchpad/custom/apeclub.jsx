@@ -78,7 +78,7 @@ const apeclub = ({
         name: ProjectName,
         description: shortDesc,
         collectionAddress: contractAddress,
-        mintPrice: mintPrice,
+        mintPrice: parseFloat(mintPrice) + 1,
         properties: [
             { type: "Benifit", value: "Fee Discount" },
             { type: "Version", value: "Testnet" },
