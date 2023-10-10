@@ -62,6 +62,7 @@ const Profile = ({
   const [moreLoading, setMoreLoading] = useState(false);
   const [userPurchases, setUserPurchases] = useState(true);
   const [mobileFilter, openMobileFilter] = useState(true);
+  const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
   const [priceRangeFilter, showPriceRangeFilter] = useState(false);
   const [saleTypeFilter, showSaleTypeFilter] = useState(false);
@@ -174,6 +175,28 @@ const Profile = ({
       currentFilter,
       minPrice,
       maxPrice,
+      skip
+    );
+    if (res) {
+      setOnSaleNFTs(res);
+      if (res == "") {
+        setHasMore(false);
+      }
+    }
+    setFetchedOnSaleNFTs(true);
+    setMoreLoading(false);
+  };
+
+  // clear price filter
+  const clear_user_listed_nfts = async () => {
+    if (!slug) return;
+    setMoreLoading(true);
+    const res = await fetch_user_listed_nfts(
+      slug,
+      saleType,
+      currentFilter,
+      0,
+      0,
       skip
     );
     if (res) {
@@ -405,6 +428,7 @@ const Profile = ({
   }, [skip]);
 
   useEffect(() => {
+    if (defaultFilterFetch == false) return;
     getting_user_listed_nfts();
   }, [saleType, currentFilter]);
 
@@ -924,6 +948,7 @@ const Profile = ({
                                     <li>
                                       <button
                                         onClick={() => (
+                                          setDefaultFilterFetch(true),
                                           setSkip(0),
                                           setHasMore(true),
                                           setMinPrice(0),
@@ -956,6 +981,7 @@ const Profile = ({
                                     <li>
                                       <button
                                         onClick={() => (
+                                          setDefaultFilterFetch(true),
                                           setSkip(0),
                                           setHasMore(true),
                                           setMinPrice(0),
@@ -995,6 +1021,7 @@ const Profile = ({
                               <button
                                 onClick={(e) => (
                                   e.stopPropagation(),
+                                  setDefaultFilterFetch(true),
                                   showListedFilter(false),
                                   showSaleTypeFilter(false),
                                   showPriceRangeFilter(!priceRangeFilter)
@@ -1045,6 +1072,7 @@ const Profile = ({
                                       }
                                       // value={minPrice}
                                       onChange={(e) => (
+                                        setDefaultFilterFetch(true),
                                         setSkip(0),
                                         setHasMore(true),
                                         setMinPrice(parseFloat(e.target.value))
@@ -1062,6 +1090,7 @@ const Profile = ({
                                       }
                                       // value={maxPrice}
                                       onChange={(e) => (
+                                        setDefaultFilterFetch(true),
                                         setSkip(0),
                                         setHasMore(true),
                                         setMaxPrice(parseFloat(e.target.value))
@@ -1074,8 +1103,10 @@ const Profile = ({
                                     <button
                                       type="button"
                                       onClick={() => (
+                                        setDefaultFilterFetch(true),
                                         setMaxPrice(0),
                                         setMinPrice(0),
+                                        clear_user_listed_nfts(),
                                         showPriceRangeFilter(false)
                                       )}
                                       className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
@@ -1085,6 +1116,7 @@ const Profile = ({
                                     <button
                                       type="button"
                                       onClick={() => (
+                                        setDefaultFilterFetch(true),
                                         getting_user_listed_nfts(),
                                         showPriceRangeFilter(false)
                                       )}
@@ -1144,6 +1176,7 @@ const Profile = ({
                                   </span>
                                   <button
                                     onClick={() => (
+                                      setDefaultFilterFetch(true),
                                       setSkip(0),
                                       setHasMore(true),
                                       setMinPrice(0),
@@ -1169,6 +1202,7 @@ const Profile = ({
                                   </button>
                                   <button
                                     onClick={() => (
+                                      setDefaultFilterFetch(true),
                                       setSkip(0),
                                       setHasMore(true),
                                       setMinPrice(0),
@@ -1195,6 +1229,7 @@ const Profile = ({
 
                                   <button
                                     onClick={() => (
+                                      setDefaultFilterFetch(true),
                                       setSkip(0),
                                       setHasMore(true),
                                       setMinPrice(0),

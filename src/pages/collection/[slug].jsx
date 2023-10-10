@@ -409,6 +409,25 @@ const Collection = ({
       }
     }
   };
+  // clearing nfts according to filter
+  const clear_filter_nfts = async () => {
+    if (defaultFilterFetch == false) return;
+    const nfts_offchain = await fetch_collection_nfts(
+      slug,
+      signer_address,
+      currentFilter,
+      propsFilter,
+      0,
+      0,
+      skip
+    );
+    if (nfts_offchain) {
+      set_nfts(nfts_offchain);
+      if (nfts_offchain == "") {
+        setHasMore(false);
+      }
+    }
+  };
 
   // filter btn for fetch onchain data
   const filterFetchOnchainData = async () => {
@@ -1382,6 +1401,7 @@ const Collection = ({
                                         setDefaultFilterFetch(true),
                                         setMaxPrice(0),
                                         setMinPrice(0),
+                                        clear_filter_nfts(),
                                         showPriceRangeFilter(false)
                                       )}
                                       className="flex-1 rounded-full bg-white py-2 px-6 text-center text-sm font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
