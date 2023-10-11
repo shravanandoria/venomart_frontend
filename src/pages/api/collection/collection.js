@@ -19,6 +19,7 @@ export default async function handler(req, res) {
           let timeArray = {};
           let findArray = {};
           let sortArray = {};
+          let limit = 20;
 
           if (category != "" && category != "All") {
             findArray.category = { $eq: category }
@@ -33,6 +34,7 @@ export default async function handler(req, res) {
               timeArray = {
                 createdAt: { $gte: currentTime }
               };
+              limit = 9;
             }
             if (sortby == "recentlyCreated") {
               sortArray.createdAt = -1
@@ -155,7 +157,7 @@ export default async function handler(req, res) {
               $skip: parseFloat(skip)
             },
             {
-              $limit: 20
+              $limit: limit
             }
           ]);
 
@@ -261,11 +263,7 @@ export default async function handler(req, res) {
               isVerified,
               isPropsEnabled,
               Category: "",
-              TotalSales: 0,
-              TotalSupply: 0,
-              TotalListed: 0,
-              FloorPrice: 0,
-              TotalVolume: 0,
+              TotalSupply: 0
             });
 
             await owner.nftCollections.push(collection);

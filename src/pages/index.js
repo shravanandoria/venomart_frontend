@@ -5,6 +5,7 @@ import Head from "next/head";
 import CollectionCard from "../components/cards/CollectionCard";
 import LaunchCollectionCard from "../components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "../components/cards/SmallCollectionCard";
+import SmallUserCard from "../components/cards/SmallUserCard";
 import Loader from "../components/Loader";
 import { MdVerified } from "react-icons/md";
 
@@ -12,44 +13,68 @@ import venomLogo from "../../public/venomBG.webp";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { top_collections } from "../utils/mongo_api/collection/collection";
+import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
+import { top_users } from "../utils/mongo_api/user/user";
 
 export default function Home({
   theme,
   customLaunchpad,
   featuredCollections,
-  topCollections,
-  setTopCollections,
   websiteStats,
 }) {
   const { client } = useContext(TonClientContext);
 
+  const [topCollections, setTopCollections] = useState([]);
+  const [trendingCollections, setTrendingCollections] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
+
   const [durationDrop, setDurationDrop] = useState(false);
+  const [topSwitchDrop, setTopSwitchDrop] = useState(false);
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
-  const [category, setCategory] = useState("All");
-  const [duration, setDuration] = useState("30days");
+  const [duration, setDuration] = useState("7days");
+  const [topSwitch, setTopSwitch] = useState("collections");
   const [loading, setLoading] = useState(false);
 
   const fetchTopCollections = async () => {
+    setLoading(true);
     const topCollections = await top_collections(
-      category,
+      "All",
       "unverified",
       duration
     );
     setTopCollections(topCollections);
+    setLoading(false);
+  };
+
+  const fetchTrendingCollection = async () => {
+    const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
+    setTrendingCollections(collectionsJSON);
+  };
+
+  const fetchTopUsers = async () => {
+    setLoading(true);
+    const result = await top_users(duration, "none");
+    setTopUsers(result);
+    setLoading(false);
   };
 
   useEffect(() => {
+    fetchTrendingCollection();
     if (topCollections != "") return;
     fetchTopCollections();
   }, []);
 
   useEffect(() => {
-    if (!duration || defaultFilterFetch != true) return;
+    if (!duration || defaultFilterFetch != true || topSwitch != "collections") return;
     fetchTopCollections();
-  }, [category, duration]);
+  }, [duration]);
+
+  useEffect(() => {
+    if (!duration || defaultFilterFetch != true || topSwitch != "users") return;
+    fetchTopUsers();
+  }, [topSwitch, duration]);
 
   if (!client) {
     return <>-</>;
@@ -318,29 +343,29 @@ export default function Home({
                 }}
                 className="mySwiper"
               >
-                {customLaunchpad?.map((e, id) => {
+                {trendingCollections?.map((e, id) => {
                   return (
-                    id < 6 && (
+                    id < 6 && (e?.name != "" && e?.name != undefined) && (
                       <SwiperSlide
                         key={id}
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          alignItems: "center",
+                          alignItems: "center"
                         }}
                       >
-                        <LaunchCollectionCard
-                          Cover={e.Cover}
-                          Logo={e.Logo}
-                          Name={e.Name}
-                          Description={e.Description}
-                          mintPrice={e.mintPrice}
-                          status={e.status}
-                          CollectionAddress={e.CollectionAddress}
-                          customLink={e.customLink}
-                          verified={e.verified}
-                          startDate={e.startDate}
-                          endDate={e.endDate}
+                        <CollectionCard
+                          Cover={e?.coverImage}
+                          Logo={e?.logo}
+                          Name={e?.name}
+                          Description={e?.description}
+                          OwnerAddress={e?.OwnerAddress}
+                          CollectionAddress={e?.contractAddress}
+                          verified={e?.isVerified}
+                          Listing={e?.TotalListed}
+                          Volume={e?.TotalVolume}
+                          FloorPrice={e?.FloorPrice}
+                          TotalSupply={e?.TotalSupply}
                         />
                       </SwiperSlide>
                     )
@@ -352,110 +377,201 @@ export default function Home({
         </div>
 
         {/* top collections  */}
-        {!loading && (
-          <section className="relative py-24 dark:bg-jacarta-900">
-            <div className="container">
-              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline mr-2">Top collections over</h2>
-                <div className="relative inline cursor-pointer">
-                  <button
-                    onClick={() => setDurationDrop(!durationDrop)}
-                    className="dropdown-toggle inline-flex items-center text-accent"
-                    type="button"
-                  >
-                    {duration == "1day" && "last 24 hours"}
-                    {duration == "7days" && "last 7 days"}
-                    {duration == "30days" && "last 30 days"}
-                    {duration == "1year" && "last 1 year"}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-8 w-8 fill-accent"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </button>
-                  {durationDrop && (
-                    <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
-                      <div
-                        onClick={() => (
-                          setDefaultFilterFetch(true),
-                          setDuration("1day"),
-                          setDurationDrop(false)
-                        )}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 24 Hours
-                      </div>
-                      <div
-                        onClick={() => (
-                          setDefaultFilterFetch(true),
-                          setDuration("7days"),
-                          setDurationDrop(false)
-                        )}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 7 Days
-                      </div>
-                      <div
-                        onClick={() => (
-                          setDefaultFilterFetch(true),
-                          setDuration("30days"),
-                          setDurationDrop(false)
-                        )}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 30 Days
-                      </div>
-                      <div
-                        onClick={() => (
-                          setDefaultFilterFetch(true),
-                          setDuration("1year"),
-                          setDurationDrop(false)
-                        )}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 1 Year
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex justify-center align-middle flex-wrap">
-                {topCollections?.map((e, index) => {
-                  return (
-                    index < 9 && (
-                      <SmallCollectionCard
-                        key={index}
-                        id={index + 1}
-                        Logo={e?.logo}
-                        Name={e?.name}
-                        OwnerAddress={e?.creatorAddress}
-                        CollectionAddress={e?.contractAddress}
-                        theme={theme}
-                        isVerified={e?.isVerified}
-                        Volume={e?.TotalVolume}
-                        Floor={e?.FloorPrice}
-                      />
-                    )
-                  );
-                })}
-              </div>
-              <div className="mt-10 text-center">
-                <Link
-                  href="/explore/rankings/Collections"
-                  className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+        <section className="relative py-24 dark:bg-jacarta-900">
+          <div className="container">
+            <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+              <h2 className="inline mr-2">Top</h2>
+              <div className="relative inline cursor-pointer">
+                <button
+                  onClick={() => setTopSwitchDrop(!topSwitchDrop)}
+                  className="dropdown-toggle inline-flex items-center text-accent"
+                  type="button"
                 >
-                  Go to Rankings
-                </Link>
+                  {topSwitch == "collections" && "collections"}
+                  {topSwitch == "users" && "users"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-8 w-8 fill-accent"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                  </svg>
+                </button>
+                {topSwitchDrop && (
+                  <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setTopSwitch("collections"),
+                        setTopSwitchDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      collections
+                    </div>
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setTopSwitch("users"),
+                        setTopSwitchDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      users
+                    </div>
+                  </div>
+                )}
+              </div>
+              <h2 className="inline mr-2">over</h2>
+              <div className="relative inline cursor-pointer">
+                <button
+                  onClick={() => setDurationDrop(!durationDrop)}
+                  className="dropdown-toggle inline-flex items-center text-accent"
+                  type="button"
+                >
+                  {duration == "1day" && "last 24 hours"}
+                  {duration == "7days" && "last 7 days"}
+                  {duration == "30days" && "last 30 days"}
+                  {duration == "1year" && "last 1 year"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-8 w-8 fill-accent"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                  </svg>
+                </button>
+                {durationDrop && (
+                  <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setDuration("1day"),
+                        setDurationDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      Last 24 Hours
+                    </div>
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setDuration("7days"),
+                        setDurationDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      Last 7 Days
+                    </div>
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setDuration("30days"),
+                        setDurationDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      Last 30 Days
+                    </div>
+                    <div
+                      onClick={() => (
+                        setDefaultFilterFetch(true),
+                        setDuration("1year"),
+                        setDurationDrop(false)
+                      )}
+                      className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                    >
+                      Last 1 Year
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </section>
-        )}
+
+            {topSwitch == "collections" ?
+              <>
+                <div className="flex justify-center align-middle flex-wrap">
+                  {topCollections?.map((e, index) => {
+                    return (
+                      index < 9 && (
+                        <SmallCollectionCard
+                          key={index}
+                          id={index + 1}
+                          Logo={e?.logo}
+                          Name={e?.name}
+                          OwnerAddress={e?.creatorAddress}
+                          CollectionAddress={e?.contractAddress}
+                          theme={theme}
+                          isVerified={e?.isVerified}
+                          Volume={e?.TotalVolume}
+                          Floor={e?.FloorPrice}
+                        />
+                      )
+                    );
+                  })}
+                  {loading && !topCollections &&
+                    <div className="flex items-center justify-center space-x-2 py-28">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  }
+                </div>
+                <div className="mt-10 text-center">
+                  <Link
+                    href="/explore/rankings/Collections"
+                    className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Go to Rankings
+                  </Link>
+                </div>
+              </>
+              :
+              <>
+                <div className="flex justify-center align-middle flex-wrap">
+                  {topUsers?.map((e, index) => {
+                    return (
+                      index < 9 && (
+                        <SmallUserCard
+                          key={index}
+                          theme={theme}
+                          id={index + 1}
+                          Logo={e?.profileImage}
+                          Name={e?.user_info}
+                          wallet_address={e?._id}
+                          isVerified={e?.isVerified}
+                          Volume={e?.totalSaleVolume}
+                          totalSales={e?.totalSales}
+                        />
+                      )
+                    );
+                  })}
+                  {loading && !topUsers &&
+                    <div className="flex items-center justify-center space-x-2 py-28">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  }
+                </div>
+                <div className="mt-10 text-center">
+                  <Link
+                    href="/explore/rankings/Users"
+                    className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Go to Rankings
+                  </Link>
+                </div>
+              </>
+            }
+          </div>
+        </section>
       </>
     </div>
   );

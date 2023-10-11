@@ -58,7 +58,6 @@ export default function App({ Component, pageProps }) {
   const [standalone, set_standalone] = useState();
 
   const [cartNFTs, setCartNFTs] = useState([]);
-  const [topCollections, setTopCollections] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
 
@@ -716,8 +715,6 @@ export default function App({ Component, pageProps }) {
           featuredCollections={featuredCollections}
           websiteStats={websiteStats}
           collabQuests={collabQuests}
-          topCollections={topCollections}
-          setTopCollections={setTopCollections}
           topUsers={topUsers}
           setTopUsers={setTopUsers}
           anyModalOpen={anyModalOpen}

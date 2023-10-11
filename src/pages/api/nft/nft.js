@@ -157,11 +157,7 @@ export default async function handler(req, res) {
               isVerified: false,
               isPropsEnabled: false,
               Category: "",
-              TotalSales: 0,
-              TotalSupply: 0,
-              TotalListed: 0,
-              FloorPrice: 0,
-              TotalVolume: 0,
+              TotalSupply: 0
             });
           }
 
