@@ -137,31 +137,34 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
-      const indexContract = new provider.Contract(indexAbi, indexAddress.id);
+      try {
+        const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
-      const indexInfo = await indexContract.methods
-        .getInfo({ answerId: 0 })
-        .call();
+        const indexInfo = await indexContract.methods
+          .getInfo({ answerId: 0 })
+          .call();
 
-      const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
+        const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
 
-      const getNftInfo = await nftContract.methods
-        .getInfo({ answerId: 0 })
-        .call();
+        const getNftInfo = await nftContract.methods
+          .getInfo({ answerId: 0 })
+          .call();
 
-      const getJsonAnswer = await nftContract.methods
-        .getJson({ answerId: 0 })
-        .call();
+        const getJsonAnswer = await nftContract.methods
+          .getJson({ answerId: 0 })
+          .call();
 
-      nfts.push({
-        ...getJsonAnswer,
-        ...getNftInfo,
-        ...indexInfo,
-        last_paid: indexAddress.last_paid,
-      });
+        nfts.push({
+          ...getJsonAnswer,
+          ...getNftInfo,
+          ...indexInfo,
+          last_paid: indexAddress.last_paid,
+        });
+      } catch (error) {
+        return false;
+      }
     })
   );
-
   return nfts;
 };
 
@@ -712,7 +715,7 @@ export const buy_nft = async (
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
-    
+
     const fees = (parseInt(price) + 1000000000).toString();
 
     // sending transaction
