@@ -261,6 +261,7 @@ export default async function handler(req, res) {
               description,
               socials,
               isVerified,
+              isNSFW: false,
               isPropsEnabled,
               Category: "",
               TotalSupply: 0
