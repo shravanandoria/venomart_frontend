@@ -4,6 +4,7 @@ import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
+import DirectSell from "../../new_abi/DirectSell.abi.json";
 
 import {
   createNFT,
@@ -17,7 +18,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -559,8 +560,8 @@ export const list_nft = async (
       ],
       data: {
         price: parseFloat(price) * 1000000000,
-        royalty: parseFloat(),
-        royalty_address: parseFloat(price) * 1000000000,
+        royalty: 0,
+        royalty_address: royaltyAddress,
       },
     });
 
@@ -691,6 +692,7 @@ export const buy_nft = async (
   stampedFloor
 ) => {
   try {
+    console.log(prev_nft_Manager);
     // checking nft owners across database and onchain
     const nft_onchain = await get_nft_by_address(standalone, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
@@ -710,7 +712,7 @@ export const buy_nft = async (
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
-
+    
     const fees = (parseInt(price) + 1000000000).toString();
 
     // sending transaction
