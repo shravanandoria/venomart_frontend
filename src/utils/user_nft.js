@@ -160,13 +160,11 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
           ...indexInfo,
           last_paid: indexAddress.last_paid,
         });
-
       } catch (error) {
         return false;
       }
     })
   );
-
   return nfts;
 };
 
