@@ -6,8 +6,10 @@ import { MdVerified } from 'react-icons/md';
 import { BsExclamationCircleFill, BsFillShareFill } from 'react-icons/bs';
 import { GoArrowUpRight } from 'react-icons/go';
 import numeral from 'numeral';
+import { useRouter } from 'next/router';
 
 const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, NFTImage, NFTName, NFTCollectionName, NFTAddress, NFTCollectionContract, CollectionVerification, NFTListingPrice, TransactionType = "List" }) => {
+    const { pathname } = useRouter();
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -174,7 +176,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                 </a>
                             </div>
                             :
-                            <div className="flex items-center justify-center space-x-4 m-2">
+                            <div className="flex items-center justify-center space-x-4 m-2" onClick={() => { pathname == "/nft/[slug]" && ((onCloseFunctionCall && TransactionType != "List") && onCloseFunctionCall()), setSuccessModal(false), setAnyModalOpen(false) }}>
                                 <Link
                                     href={`/nft/${NFTAddress}`}
                                     className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
