@@ -18,7 +18,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -51,7 +51,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:26248d728cdd709049651733f38067359bf55467b1021ba2c0279bbd954efa9c"
+  "0:140b5f15a65f7f9e120f9aa53c5d5ab7a10899dca02d459eb2ec49dc98616dc5"
 );
 
 // Extract an preview field of NFT's json
@@ -634,19 +634,15 @@ export const cancel_listing = async (
     //   return false;
     // }
 
-    const marketplace_contract = new venomProvider.Contract(
-      marketplaceAbi,
-      MARKETPLACE_ADDRESS
+    const DirectSellContract = new venomProvider.Contract(
+      DirectSell,
+      new Address(prev_nft_Manager)
     );
 
-    const output = await marketplace_contract.methods
-      .cancel_listing({
-        nft_address,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: "100000000",
-      });
+    const output = await DirectSellContract.methods.cancel_listing().send({
+      from: new Address(signer_address),
+      amount: "100000000",
+    });
 
     if (output) {
       let obj = {
@@ -678,7 +674,7 @@ export const buy_nft = async (
   provider,
   standalone,
   prev_nft_Owner,
-  prev_nft_Manager,
+  prev_nft_Manager, // THIS SHOULD BE CURRENT MANAGER OF NFT
   nft_address,
   collection_address,
   salePrice,
@@ -689,35 +685,41 @@ export const buy_nft = async (
   stampedFloor
 ) => {
   try {
+    console.log(prev_nft_Manager);
     // checking nft owners across database and onchain
-    // const nft_onchain = await get_nft_by_address(standalone, nft_address);
-    // let OnChainOwner = nft_onchain?.owner?._address;
-    // let OnChainManager = nft_onchain?.manager?._address;
+    const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    let OnChainOwner = nft_onchain?.owner?._address;
+    let OnChainManager = nft_onchain?.manager?._address;
 
-    // if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-    //   const updateNFTData = await update_verified_nft_data(
-    //     OnChainOwner,
-    //     OnChainManager,
-    //     nft_address
-    //   );
-    //   alert("This NFT is already sold out!");
-    //   return false;
-    // }
+    if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+      const updateNFTData = await update_verified_nft_data(
+        OnChainOwner,
+        OnChainManager,
+        nft_address
+      );
+      alert("This NFT is already sold out!");
+      return false;
+    }
 
-    const marketplace_contract = new provider.Contract(
-      marketplaceAbi,
-      MARKETPLACE_ADDRESS
+    const DirectSellContract = new provider.Contract(
+      DirectSell,
+      new Address(prev_nft_Manager)
     );
+
+    console.log(prev_nft_Manager);
 
     const fees = (parseInt(price) + 1000000000).toString();
 
+    const nft_price = await DirectSellContract.methods
+      .nft_price_cal({ answerId: 0, user_defined_price: 30000000000 })
+      .call();
+    console.log(nft_price);
+
     // sending transaction
-    const output = await marketplace_contract.methods
+    const output = await DirectSellContract.methods
       .buyNft({
         sendRemainingGasTo: new Address(signer_address),
-        nft_address: new Address(nft_address),
-        royalty: royalty,
-        royalty_address: new Address(royalty_address),
+        new_nft_holer: new Address(signer_address),
       })
       .send({
         from: new Address(signer_address),

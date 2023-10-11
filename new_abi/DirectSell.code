@@ -587,7 +587,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 107
+.loc ../contracts/DirectSell.tsol, 108
 OVER
 PUSHCONT {
 	LDREF
@@ -650,7 +650,18 @@ ADD
 UFITS 128
 GEQ
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 118
+.loc ../contracts/DirectSell.tsol, 116
+PUSHREF {
+	.blob x4e6577204e465420686f6c6465722061646472657373206973206e6f7420636f7272656374
+}
+PUSH S3
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
+SDEQ
+NOT
+THROWARGIFNOT 101
+.loc ../contracts/DirectSell.tsol, 119
 SWAP
 GETGLOB 12
 NEWC
@@ -663,7 +674,7 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 121
+.loc ../contracts/DirectSell.tsol, 122
 GETGLOB 15
 GETGLOB 14
 NEWC
@@ -676,7 +687,7 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 124
+.loc ../contracts/DirectSell.tsol, 125
 GETGLOB 18
 NEWC
 STSLICECONST x42_
@@ -688,24 +699,10 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 126
+.loc ../contracts/DirectSell.tsol, 127
 NEWDICT
-.loc ../contracts/DirectSell.tsol, 128
-OVER
-PUSHREFSLICE {
-	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
-}
-SDEQ
-PUSHCONT {
-	.loc ../contracts/DirectSell.tsol, 129
-	PUSH2 S0, S2
-	GETGLOB 9
-}
-PUSHCONT {
-	.loc ../contracts/DirectSell.tsol, 139
-	PUSH3 S0, S2, S1
-}
-IFELSE
+.loc ../contracts/DirectSell.tsol, 129
+ROTREV
 GETGLOB 13
 FALSE
 NEWC
@@ -729,7 +726,6 @@ ENDC
 PUSHINT 160
 SENDRAWMSG
 .loc ../contracts/DirectSell.tsol, 0
-BLKDROP 3
 
 .macro c4_to_c7
 PUSHROOT

@@ -65,7 +65,7 @@
 			"name": "buyNft",
 			"inputs": [
 				{"name":"sendRemainingGasTo","type":"address"},
-				{"name":"buyer","type":"address"}
+				{"name":"new_nft_holer","type":"address"}
 			],
 			"outputs": [
 			]
