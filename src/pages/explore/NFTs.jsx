@@ -852,6 +852,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                     >
                       {nfts?.map((e, index) => {
                         return (
+                          !e?.NFTCollection?.isNSFW &&
                           <NftCard
                             key={index}
                             ImageSrc={e?.nft_image?.replace(

@@ -215,7 +215,6 @@ const Profile = ({
   const fetch_user_nfts = async () => {
     setMoreLoading(true);
     const res = await loadNFTs_user(standalone, slug, lastNFT, client, onChainFilterNFT);
-    console.log({ res })
     let new_nfts = [...nfts];
     res?.nfts
       ?.sort((a, b) => b.last_paid - a.last_paid)

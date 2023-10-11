@@ -69,7 +69,7 @@ export default async function handler(req, res) {
                     }).populate({
                         path: "NFTCollection",
                         match: optionQuery,
-                        select: { contractAddress: 1, name: 1, isVerified: 1, royalty: 1, royaltyAddress: 1, FloorPrice: 1 },
+                        select: { contractAddress: 1, name: 1, isVerified: 1, isNSFW: 1, royalty: 1, royaltyAddress: 1, FloorPrice: 1 },
                     }).sort(sortQuery);
 
                     if (option == "verified") {
