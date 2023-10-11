@@ -16,7 +16,6 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import {
-  MARKETPLACE_ADDRESS,
   buy_nft,
   cancel_listing,
   loadNFTs_collection,
@@ -2403,7 +2402,6 @@ const Collection = ({
                               To={e?.to}
                               FromUser={e?.fromUser}
                               ToUser={e?.toUser}
-                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                               signerAddress={signer_address}
                             />
                           ))}

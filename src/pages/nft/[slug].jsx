@@ -20,7 +20,6 @@ import {
   update_verified_nft_image,
   update_verified_nft_props,
 } from "../../utils/mongo_api/nfts/nfts";
-import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import {
   BsArrowRight,
   BsFillCartPlusFill,
@@ -155,7 +154,6 @@ const NFTPage = ({
     if (!standalone && !slug) return;
 
     const nft_database = await nftInfo(slug);
-    console.log(nft_database);
     if (nft_database) {
       let obj = {
         ...nft_database,
@@ -379,7 +377,7 @@ const NFTPage = ({
       connect_wallet();
       return;
     }
-    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice || parseFloat(vnmBalance) <= nft?.listingPrice) {
       alert("You do not have sufficient venom tokens to buy this NFT!!")
       return;
     }
@@ -392,7 +390,6 @@ const NFTPage = ({
         100) *
       1000000000;
     try {
-      console.log(nft?.managerAddress);
       const buying = await buy_nft(
         venomProvider,
         standalone,
@@ -583,8 +580,8 @@ const NFTPage = ({
         <meta
           name="description"
           content={`${nft?.name
-              ? nft?.name
-              : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+            ? nft?.name
+            : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
             } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -639,8 +636,8 @@ const NFTPage = ({
                     <div className="flex items-center">
                       <Link
                         href={`/collection/${onchainNFTData
-                            ? nft?.collection?._address
-                            : nft?.NFTCollection?.contractAddress
+                          ? nft?.collection?._address
+                          : nft?.NFTCollection?.contractAddress
                           }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
@@ -770,8 +767,8 @@ const NFTPage = ({
                               ))}
                             <a
                               href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${nft?.NFTCollection?.name
-                                  ? nft?.NFTCollection?.name
-                                  : "NFT"
+                                ? nft?.NFTCollection?.name
+                                : "NFT"
                                 }%20collection%20minted%20on%20venom%20blockchain%0ACheck%20it%20out%20here%20-%20${webURL}nft/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
                               target="_blank"
                               className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
@@ -824,8 +821,8 @@ const NFTPage = ({
                         </span>
                         <Link
                           href={`/profile/${onchainNFTData
-                              ? nft?.owner?._address
-                              : nft?.ownerAddress
+                            ? nft?.owner?._address
+                            : nft?.ownerAddress
                             }`}
                           className="block text-accent"
                         >
@@ -882,8 +879,8 @@ const NFTPage = ({
                         ) : (
                           <Link
                             href={`/profile/${onchainNFTData
-                                ? nft?.manager?._address
-                                : nft?.managerAddress
+                              ? nft?.manager?._address
+                              : nft?.managerAddress
                               }`}
                             className="block text-accent"
                           >
@@ -1869,8 +1866,8 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType(""))}
                               className={`${activityType == ""
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <span
@@ -1886,8 +1883,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("list")
                               )}
                               className={`${activityType == "list"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1896,8 +1893,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "list"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1916,8 +1913,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("cancel")
                               )}
                               className={`${activityType == "cancel"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1926,8 +1923,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1946,8 +1943,8 @@ const NFTPage = ({
                                 setSkip(0), setActivityType("sale")
                               )}
                               className={`${activityType == "sale"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1956,8 +1953,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "sale"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -2037,7 +2034,6 @@ const NFTPage = ({
                               ToUser={e?.toUser}
                               createdAt={e?.createdAt}
                               blockURL={blockURL}
-                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                               signerAddress={signer_address}
                             />
                           ))}
@@ -2135,8 +2131,8 @@ const NFTPage = ({
                 <div className="mt-10 text-center">
                   <Link
                     href={`/collection/${nft?.NFTCollection?.contractAddress
-                        ? nft?.NFTCollection?.contractAddress
-                        : nft?.collection?._address
+                      ? nft?.NFTCollection?.contractAddress
+                      : nft?.collection?._address
                       }`}
                     className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >

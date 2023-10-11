@@ -18,7 +18,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -137,28 +137,33 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nfts = [];
   const nftAddresses = await Promise.all(
     indexAddresses.map(async (indexAddress) => {
-      const indexContract = new provider.Contract(indexAbi, indexAddress.id);
+      try {
+        const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
-      const indexInfo = await indexContract.methods
-        .getInfo({ answerId: 0 })
-        .call();
+        const indexInfo = await indexContract.methods
+          .getInfo({ answerId: 0 })
+          .call();
 
-      const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
+        const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
 
-      const getNftInfo = await nftContract.methods
-        .getInfo({ answerId: 0 })
-        .call();
+        const getNftInfo = await nftContract.methods
+          .getInfo({ answerId: 0 })
+          .call();
 
-      const getJsonAnswer = await nftContract.methods
-        .getJson({ answerId: 0 })
-        .call();
+        const getJsonAnswer = await nftContract.methods
+          .getJson({ answerId: 0 })
+          .call();
 
-      nfts.push({
-        ...getJsonAnswer,
-        ...getNftInfo,
-        ...indexInfo,
-        last_paid: indexAddress.last_paid,
-      });
+        nfts.push({
+          ...getJsonAnswer,
+          ...getNftInfo,
+          ...indexInfo,
+          last_paid: indexAddress.last_paid,
+        });
+
+      } catch (error) {
+        return false;
+      }
     })
   );
 
@@ -508,8 +513,8 @@ export const list_nft = async (
   royaltyAddress
 ) => {
   try {
+    // checking nft owners across database and onchain
     if (!onchainNFTData) {
-      // checking nft owners across database and onchain
       const nft_onchain = await get_nft_by_address(standalone, nft_address);
       let OnChainOwner = nft_onchain?.owner?._address;
       let OnChainManager = nft_onchain?.manager?._address;
@@ -541,13 +546,6 @@ export const list_nft = async (
       FactoryDirectSellAddress
     );
 
-    const subscriber = new Subscriber(venomProvider);
-    const contractEvents = factory_contract.events(subscriber);
-
-    contractEvents.on(async (event) => {
-      console.log(event);
-    });
-
     const listing_fee = await factory_contract.methods
       .get_listing_fee({ answerId: 0 })
       .call();
@@ -565,9 +563,7 @@ export const list_nft = async (
       },
     });
 
-    console.log(load.boc);
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
-
     const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
@@ -585,15 +581,18 @@ export const list_nft = async (
       });
 
     if (output) {
+      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      let OnChainManager = nft_onchain?.manager?._address;
+
       let obj = {
         NFTAddress: nft_address,
         isListed: true,
         price: finalListingPrice,
         demandPrice: price,
-        new_manager: MARKETPLACE_ADDRESS,
+        new_manager: OnChainManager,
         hash: output ? output?.id?.hash : "",
         from: signer_address,
-        to: MARKETPLACE_ADDRESS,
+        to: OnChainManager,
         saleprice: finalListingPrice,
         type: "list",
         wallet_id: signer_address,
@@ -623,19 +622,19 @@ export const cancel_listing = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
-    let OnChainOwner = nft_onchain?.owner?._address;
-    let OnChainManager = nft_onchain?.manager?._address;
+    // const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    // let OnChainOwner = nft_onchain?.owner?._address;
+    // let OnChainManager = nft_onchain?.manager?._address;
 
-    if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-      const updateNFTData = await update_verified_nft_data(
-        OnChainOwner,
-        OnChainManager,
-        nft_address
-      );
-      alert("This NFT is not owned by you!");
-      return false;
-    }
+    // if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+    //   const updateNFTData = await update_verified_nft_data(
+    //     OnChainOwner,
+    //     OnChainManager,
+    //     nft_address
+    //   );
+    //   alert("This NFT is not owned by you!");
+    //   return false;
+    // }
 
     const marketplace_contract = new venomProvider.Contract(
       marketplaceAbi,
@@ -692,27 +691,26 @@ export const buy_nft = async (
   stampedFloor
 ) => {
   try {
-    console.log(prev_nft_Manager);
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
-    let OnChainOwner = nft_onchain?.owner?._address;
-    let OnChainManager = nft_onchain?.manager?._address;
+    // const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    // let OnChainOwner = nft_onchain?.owner?._address;
+    // let OnChainManager = nft_onchain?.manager?._address;
 
-    if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-      const updateNFTData = await update_verified_nft_data(
-        OnChainOwner,
-        OnChainManager,
-        nft_address
-      );
-      alert("This NFT is already sold out!");
-      return false;
-    }
+    // if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+    //   const updateNFTData = await update_verified_nft_data(
+    //     OnChainOwner,
+    //     OnChainManager,
+    //     nft_address
+    //   );
+    //   alert("This NFT is already sold out!");
+    //   return false;
+    // }
 
     const marketplace_contract = new provider.Contract(
       marketplaceAbi,
       MARKETPLACE_ADDRESS
     );
-    
+
     const fees = (parseInt(price) + 1000000000).toString();
 
     // sending transaction

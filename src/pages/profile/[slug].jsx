@@ -9,7 +9,6 @@ import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
 import {
-  MARKETPLACE_ADDRESS,
   buy_nft,
   cancel_listing,
   loadNFTs_user,
@@ -216,6 +215,7 @@ const Profile = ({
   const fetch_user_nfts = async () => {
     setMoreLoading(true);
     const res = await loadNFTs_user(standalone, slug, lastNFT, client, onChainFilterNFT);
+    console.log({ res })
     let new_nfts = [...nfts];
     res?.nfts
       ?.sort((a, b) => b.last_paid - a.last_paid)
@@ -1831,7 +1831,6 @@ const Profile = ({
                             To={e?.to}
                             FromUser={e?.fromUser}
                             ToUser={e?.toUser}
-                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                             signerAddress={signer_address}
                           />
                         ))}

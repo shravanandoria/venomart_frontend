@@ -6,7 +6,7 @@ import Image from 'next/image';
 import numeral from 'numeral';
 
 
-const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, MARKETPLACE_ADDRESS, hash, blockURL, createdAt, signerAddress }) => {
+const NFTActivityCard = ({ type, price, from, to, FromUser, ToUser, hash, blockURL, createdAt, signerAddress }) => {
     const dateTimeAgo = moment(new Date(createdAt)).fromNow();
 
     function formatNumberShort(number) {
