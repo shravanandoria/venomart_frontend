@@ -25,10 +25,8 @@ import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import {
-  admin_collection_refresh,
   get_collection_by_contract,
   get_collection_props,
-  update_collection_information,
   update_collection_supply,
 } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
@@ -60,6 +58,8 @@ const Collection = ({
   setAnyModalOpen,
   cartNFTs,
   setCartNFTs,
+  vnmBalance,
+  connectWallet
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -516,9 +516,22 @@ const Collection = ({
     set_def_query("");
   };
 
+  // connecting wallet 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  };
+
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      return;
+    }
     setActionLoad(true);
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT?.demandPrice) *

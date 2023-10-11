@@ -1,7 +1,6 @@
 // def
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { TonClientContextProvider } from "../context/tonclient";
-import { ClientConfig } from "@eversdk/core";
 
 // components
 import Navbar from "../components/Navbar";
@@ -22,7 +21,6 @@ import { initVenomConnect } from "../utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "../utils/user_nft";
 
 // mongo imports
-import { get_collections } from "../utils/mongo_api/collection/collection";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { useRouter } from "next/router";
@@ -53,6 +51,7 @@ export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
+  const [vnmBalance, setVnmBalance] = useState("");
 
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
@@ -692,6 +691,8 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
         blockURL={blockURL}
+        vnmBalance={vnmBalance}
+        setVnmBalance={setVnmBalance}
       />
       <TonClientContextProvider config={config}>
         <Component
@@ -722,6 +723,8 @@ export default function App({ Component, pageProps }) {
           cartNFTs={cartNFTs}
           setCartNFTs={setCartNFTs}
           venomPrice={venomPrice}
+          vnmBalance={vnmBalance}
+          setVnmBalance={setVnmBalance}
         />
       </TonClientContextProvider>
       <Footer

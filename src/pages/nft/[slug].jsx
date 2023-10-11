@@ -52,9 +52,9 @@ const NFTPage = ({
   webURL,
   setAnyModalOpen,
   connectWallet,
-  apiFetchURL,
   cartNFTs,
-  setCartNFTs
+  setCartNFTs,
+  vnmBalance
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -93,7 +93,6 @@ const NFTPage = ({
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
   const [platformFees, setPlatformFees] = useState(0);
   const [skip, setSkip] = useState(0);
-  const [vnmBalance, setVnmBalance] = useState("");
 
   const [nft, set_nft_info] = useState({});
   const [activeOffers, setActiveOffers] = useState([]);
@@ -340,6 +339,10 @@ const NFTPage = ({
       connect_wallet();
       return;
     }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      return;
+    }
     set_loading(true);
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT ? selectedNFT?.demandPrice : nft?.demandPrice) *
@@ -507,24 +510,6 @@ const NFTPage = ({
     setDetails(false);
     setActivity(true);
   };
-
-  useEffect(() => {
-    if (!signer_address) return;
-    axios
-      .post(apiFetchURL, {
-        id: signer_address,
-      })
-      .then((response) => {
-        const balance = parseFloat(
-          response?.data?.balance / 1000000000
-        ).toFixed(2);
-        if (response.data) {
-          setVnmBalance(balance);
-        } else {
-          setVnmBalance("0.00");
-        }
-      });
-  }, [signer_address]);
 
   useEffect(() => {
     nft_info();
