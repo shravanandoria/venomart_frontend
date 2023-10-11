@@ -20,11 +20,7 @@ const CollectionSchema = new mongoose.Schema(
     isVerified: Boolean,
     isPropsEnabled: Boolean,
     Category: String,
-    TotalSales: Number,
     TotalSupply: Number,
-    TotalListed: Number,
-    FloorPrice: Number,
-    TotalVolume: Number,
   },
   { timestamps: true }
 );

@@ -41,6 +41,7 @@ const Profile = ({
   venomProvider,
   cartNFTs,
   setCartNFTs,
+  vnmBalance
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -286,6 +287,10 @@ const Profile = ({
     e.preventDefault();
     if (!signer_address) {
       connect_wallet();
+      return;
+    }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
       return;
     }
     setActionLoad(true);
