@@ -5,14 +5,16 @@ import LaunchCollectionCard from "../../components/cards/LaunchCollectionCard";
 
 const Launchpad = ({ theme, customLaunchpad }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(12);
+  const [postsPerPage] = useState(3);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollections = customLaunchpad?.slice(
+  const currentCollections = customLaunchpad?.reverse()?.slice(
     firstPostIndex,
     lastPostIndex
   );
+
+  console.log(customLaunchpad.reverse())
 
   return (
     <>
@@ -42,22 +44,10 @@ const Launchpad = ({ theme, customLaunchpad }) => {
 
 
             <div className="flex justify-center align-middle flex-wrap">
-              {/* loop public launches here  */}
-              {/* {currentCollections?.map((e, index) => (
-                <LaunchCollectionCard
-                  key={index}
-                  Cover={e.Cover}
-                  Logo={e.Logo}
-                  Name={e.Name}
-                  OwnerAddress={e.OwnerAddress}
-                  CollectionAddress={e.CollectionAddress}
-                />
-              ))} */}
-
               {/* fetching custom laucnh here  */}
               {currentCollections?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
                 return (
-                  id < 10 && e.verified == true && (
+                  e.verified == true && (
                     <LaunchCollectionCard
                       key={id}
                       Cover={e.Cover}
