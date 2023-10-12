@@ -350,7 +350,7 @@ const NFTPage = ({
           ? nft?.NFTCollection?.FloorPrice
           : collectionData?.data?.FloorPrice,
         client,
-        nft?.NFTCollection?.royalty,
+        nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : (collectionData?.data?.royalty ? collectionData?.data?.royalty : "0"),
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000"
