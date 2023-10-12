@@ -1788,8 +1788,8 @@
     },
     "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
       "0": {
-        "filename": "../contracts/FactoryMakeOffer.tsol",
-        "line": 178
+        "filename": "FactoryMakeOffer.code",
+        "line": 1212
       }
     },
     "6e7338509b82e9d6e6d68861ce9c9e59bd40199a07108cde6ac722d27a1a3d2a": {

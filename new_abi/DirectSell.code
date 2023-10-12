@@ -21,43 +21,43 @@ LDU 128
 LDU 128
 LDMSGADDR
 ENDS
-.loc ../contracts/DirectSell.tsol, 47
+.loc ../contracts/DirectSell.tsol, 48
 GETGLOB 9
 GETGLOB 11
 SDEQ
 THROWIFNOT 101
-.loc ../contracts/DirectSell.tsol, 48
+.loc ../contracts/DirectSell.tsol, 49
 PUSHREF {
 	.blob x506c656173652053656e6420436f727265637420416d6f756e74
 }
 DEPTH
 ADDCONST -2
 PICK
-GETGLOB 19
+GETGLOB 20
 GREATER
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 50
-GETGLOB 19
+.loc ../contracts/DirectSell.tsol, 51
+GETGLOB 20
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/DirectSell.tsol, 52
-ROLL 3
-SETGLOB 15
 .loc ../contracts/DirectSell.tsol, 53
-ROT
+ROLL 3
 SETGLOB 16
 .loc ../contracts/DirectSell.tsol, 54
-SWAP
+ROT
 SETGLOB 17
 .loc ../contracts/DirectSell.tsol, 55
+SWAP
 SETGLOB 18
-.loc ../contracts/DirectSell.tsol, 57
+.loc ../contracts/DirectSell.tsol, 56
+SETGLOB 19
+.loc ../contracts/DirectSell.tsol, 58
 GETGLOB 11
-GETGLOB 16
-GETGLOB 12
-GETGLOB 18
 GETGLOB 17
-GETGLOB 15
+GETGLOB 12
+GETGLOB 19
+GETGLOB 18
+GETGLOB 16
 GETGLOB 14
 GETGLOB 13
 PUSHSLICE xc0000000000000000000000001
@@ -90,7 +90,7 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 68
+.loc ../contracts/DirectSell.tsol, 69
 GETGLOB 14
 NEWC
 STSLICECONST x42_
@@ -115,7 +115,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 71
+.loc ../contracts/DirectSell.tsol, 72
 LDU 32
 GETGLOB 4
 ROT
@@ -191,17 +191,8 @@ THROW 0
 CALL $nft_price_cal_internal_macro$
 
 .macro nft_price_cal_internal_macro
-.loc ../contracts/DirectSell.tsol, 72
-GETGLOB 15
-GETGLOB 16
-MUL
-UFITS 128
-PUSHINT 1000
-DIV
-PUSHINT 100
-DIV
 .loc ../contracts/DirectSell.tsol, 73
-GETGLOB 15
+GETGLOB 16
 GETGLOB 17
 MUL
 UFITS 128
@@ -210,13 +201,22 @@ DIV
 PUSHINT 100
 DIV
 .loc ../contracts/DirectSell.tsol, 74
-GETGLOB 15
+GETGLOB 16
+GETGLOB 18
+MUL
+UFITS 128
+PUSHINT 1000
+DIV
+PUSHINT 100
+DIV
+.loc ../contracts/DirectSell.tsol, 75
+GETGLOB 16
 ROT
 ADD
 UFITS 128
 ADD
 UFITS 128
-.loc ../contracts/DirectSell.tsol, 76
+.loc ../contracts/DirectSell.tsol, 77
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -237,7 +237,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 79
+.loc ../contracts/DirectSell.tsol, 80
 LDU 32
 GETGLOB 4
 ROT
@@ -335,7 +335,7 @@ THROW 0
 CALL $read_data_internal_macro$
 
 .macro read_data_internal_macro
-.loc ../contracts/DirectSell.tsol, 80
+.loc ../contracts/DirectSell.tsol, 81
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -359,7 +359,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 83
+.loc ../contracts/DirectSell.tsol, 84
 LDU 32
 GETGLOB 4
 ROT
@@ -471,7 +471,7 @@ THROW 0
 CALL $get_listing_data_internal_macro$
 
 .macro get_listing_data_internal_macro
-.loc ../contracts/DirectSell.tsol, 85
+.loc ../contracts/DirectSell.tsol, 86
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -484,10 +484,10 @@ GETGLOB 11
 GETGLOB 12
 GETGLOB 13
 GETGLOB 14
-GETGLOB 18
-GETGLOB 15
+GETGLOB 19
 GETGLOB 16
 GETGLOB 17
+GETGLOB 18
 .loc ../contracts/DirectSell.tsol, 0
 
 .macro cancel_listing
@@ -499,7 +499,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 88
+.loc ../contracts/DirectSell.tsol, 89
 ENDS
 .loc ../contracts/DirectSell.tsol, 0
 CALLREF {
@@ -512,7 +512,7 @@ CALLREF {
 THROW 0
 
 .macro cancel_listing_internal_macro
-.loc ../contracts/DirectSell.tsol, 89
+.loc ../contracts/DirectSell.tsol, 90
 PUSHREF {
 	.blob x596f7520617265206e6f7420746865206f776e6572206f662074686973206e6674
 }
@@ -520,9 +520,9 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 91
+.loc ../contracts/DirectSell.tsol, 92
 NEWDICT
-.loc ../contracts/DirectSell.tsol, 93
+.loc ../contracts/DirectSell.tsol, 94
 MYADDR
 GETGLOB 9
 GETGLOB 13
@@ -547,7 +547,7 @@ STBREFR
 ENDC
 PUSHINT 160
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 103
+.loc ../contracts/DirectSell.tsol, 104
 TRUE
 PUSHSLICE xc000000000000000000000000037643de3
 NEWC
@@ -567,7 +567,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 106
+.loc ../contracts/DirectSell.tsol, 107
 LDU 32
 GETGLOB 4
 ROT
@@ -635,16 +635,7 @@ CALL $get_nft_price_internal_macro$
 
 .macro get_nft_price_internal_macro
 .loc ../contracts/DirectSell.tsol, 108
-GETGLOB 15
 GETGLOB 16
-MUL
-UFITS 128
-PUSHINT 1000
-DIV
-PUSHINT 100
-DIV
-.loc ../contracts/DirectSell.tsol, 109
-GETGLOB 15
 GETGLOB 17
 MUL
 UFITS 128
@@ -652,8 +643,17 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
+.loc ../contracts/DirectSell.tsol, 109
+GETGLOB 16
+GETGLOB 18
+MUL
+UFITS 128
+PUSHINT 1000
+DIV
+PUSHINT 100
+DIV
 .loc ../contracts/DirectSell.tsol, 111
-GETGLOB 15
+GETGLOB 16
 ROT
 ADD
 UFITS 128
@@ -705,8 +705,8 @@ CALL $buyNft_internal_macro$
 
 .macro buyNft_internal_macro
 .loc ../contracts/DirectSell.tsol, 118
-GETGLOB 15
 GETGLOB 16
+GETGLOB 17
 MUL
 UFITS 128
 PUSHINT 1000
@@ -714,8 +714,8 @@ DIV
 PUSHINT 100
 DIV
 .loc ../contracts/DirectSell.tsol, 119
-GETGLOB 15
-GETGLOB 17
+GETGLOB 16
+GETGLOB 18
 MUL
 UFITS 128
 PUSHINT 1000
@@ -729,7 +729,7 @@ PUSHREF {
 DEPTH
 ADDCONST -2
 PICK
-GETGLOB 15
+GETGLOB 16
 PUSH S4
 ADD
 UFITS 128
@@ -751,7 +751,7 @@ NOT
 THROWARGIFNOT 101
 .loc ../contracts/DirectSell.tsol, 125
 SWAP
-GETGLOB 12
+GETGLOB 15
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -763,8 +763,8 @@ ENDC
 PUSHINT 0
 SENDRAWMSG
 .loc ../contracts/DirectSell.tsol, 128
-GETGLOB 15
-GETGLOB 19
+GETGLOB 16
+GETGLOB 20
 ADD
 UFITS 128
 GETGLOB 14
@@ -781,7 +781,7 @@ SENDRAWMSG
 .loc ../contracts/DirectSell.tsol, 131
 DUP
 GTINT 0
-GETGLOB 18
+GETGLOB 19
 PUSHREFSLICE {
 	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 }
@@ -791,7 +791,7 @@ AND
 PUSHCONT {
 	.loc ../contracts/DirectSell.tsol, 132
 	DUP
-	GETGLOB 18
+	GETGLOB 19
 	NEWC
 	STSLICECONST x42_
 	STSLICE
@@ -859,6 +859,10 @@ LDREF
 ENDS
 CTOS
 LDMSGADDR
+LDREF
+ENDS
+CTOS
+LDMSGADDR
 LDU 128
 LDU 128
 LDU 128
@@ -868,6 +872,7 @@ CTOS
 LDMSGADDR
 LDU 128
 ENDS
+SETGLOB 20
 SETGLOB 19
 SETGLOB 18
 SETGLOB 17
@@ -940,12 +945,23 @@ PUSHCONT {
 		}
 	}
 	IFNOT
+	PUSHINT 6
+	PUSH S6
+	PUSHINT 64
+	DICTUGET
+	PUSHCONT {
+		PUSHREFSLICE {
+			.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+		}
+	}
+	IFNOT
 	PUSHINT 0
 	BLKPUSH 2, 0
 	PUSHREFSLICE {
 		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
 	}
 	PUSHINT 0
+	SETGLOB 20
 	SETGLOB 19
 	SETGLOB 18
 	SETGLOB 17
@@ -964,13 +980,14 @@ PUSHCONT {
 	PUSHINT 0 ; timestamp
 	SETGLOB 3
 	PUSHINT 100000000
-	SETGLOB 19
+	SETGLOB 20
 }
 IFREFELSE {
 	CALL $c4_to_c7$
 }
 
 .macro c7_to_c4
+GETGLOB 20
 GETGLOB 19
 GETGLOB 18
 GETGLOB 17
@@ -988,6 +1005,9 @@ STU 256
 STU 64
 STONE
 STU 256
+ROLLREV 10
+NEWC
+STSLICE
 ROLLREV 9
 NEWC
 STSLICE
@@ -1007,6 +1027,7 @@ ROTREV
 NEWC
 STSLICE
 STU 128
+STBREFR
 STBREFR
 STBREFR
 STBREFR

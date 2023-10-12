@@ -18,7 +18,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -51,7 +51,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:ed64649e047ab22f8ed013586206a1bb75d35f55a2232c639efa2649642a7b3a"
+  "0:74ba42b7b732211f9207f2e5abc6a5633ae7d6f5800636fae214a05975f2f19c"
 );
 
 // Extract an preview field of NFT's json
@@ -174,7 +174,7 @@ export const get_nft_by_address = async (provider, nft_address) => {
 
   let nft = {
     ...JSON.parse(nft_json.json),
-    ...getNftInfo
+    ...getNftInfo,
   };
   return nft;
 };

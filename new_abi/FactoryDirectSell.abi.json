@@ -10,7 +10,9 @@
 				{"name":"_listing_commission","type":"uint128"},
 				{"name":"_platform_fees","type":"uint128"},
 				{"name":"owner","type":"address"},
-				{"name":"_directSellCode","type":"cell"}
+				{"name":"_directSellCode","type":"cell"},
+				{"name":"_listing_commission_address","type":"address"},
+				{"name":"_platform_fees_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -78,6 +80,14 @@
 			]
 		},
 		{
+			"name": "update_owner",
+			"inputs": [
+				{"name":"new_owner","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "update_listing_fees",
 			"inputs": [
 				{"name":"_listing_commission","type":"uint128"}
@@ -89,6 +99,22 @@
 			"name": "update_platform_fees",
 			"inputs": [
 				{"name":"_platform_fees","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_listing_fee_address",
+			"inputs": [
+				{"name":"new_listing_commission_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_platform_fee_address",
+			"inputs": [
+				{"name":"new_platform_fees_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -148,6 +174,8 @@
 		{"name":"direct_sell_code","type":"address[]"},
 		{"name":"nft_to_nftPrice","type":"map(address,uint128)"},
 		{"name":"remain_on_contract","type":"uint128"},
-		{"name":"directSell_deployment_cost","type":"uint128"}
+		{"name":"directSell_deployment_cost","type":"uint128"},
+		{"name":"listing_commission_address","type":"address"},
+		{"name":"platform_fees_address","type":"address"}
 	]
 }
