@@ -574,7 +574,7 @@ export const list_nft = async (
       ],
       data: {
         price: parseFloat(price) * 1000000000,
-        royalty: 0,
+        royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
       },
     });
@@ -599,7 +599,7 @@ export const list_nft = async (
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     if (output) {
-      await wait(3000);
+      await wait(5000);
       const nft_onchain = await get_nft_by_address(standalone, nft_address);
       let OnChainManager = nft_onchain?.manager?._address;
       let obj = {
@@ -655,14 +655,27 @@ export const cancel_listing = async (
     }
 
     const DirectSellContract = new venomProvider.Contract(
-      DirectSell,
+      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
       new Address(prev_nft_Manager)
     );
 
-    const output = await DirectSellContract.methods.cancel_listing().send({
-      from: new Address(signer_address),
-      amount: "100000000",
-    });
+    let output;
+    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
+      output = await marketplace_contract.methods
+        .cancel_listing({
+          nft_address,
+        })
+        .send({
+          from: new Address(signer_address),
+          amount: "100000000",
+        });
+    }
+    else {
+      output = await DirectSellContract.methods.cancel_listing().send({
+        from: new Address(signer_address),
+        amount: "100000000",
+      });
+    }
 
     if (output) {
       let obj = {
@@ -721,25 +734,40 @@ export const buy_nft = async (
     }
 
     const DirectSellContract = new provider.Contract(
-      DirectSell,
+      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
       new Address(prev_nft_Manager)
     );
 
     const fees = (parseInt(price) + 1000000000).toString();
 
-    const nft_price = await DirectSellContract.methods
-      .nft_price_cal({ answerId: 0 })
-      .call();
+    // const nft_price = await DirectSellContract.methods
+    //   .nft_price_cal({ answerId: 0 })
+    //   .call();
 
-    // sending transaction
-    const output = await DirectSellContract.methods
-      .buyNft({
-        new_nft_holder: new Address(signer_address),
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: fees,
-      });
+    let output;
+    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
+      output = await DirectSellContract.methods
+        .buyNft({
+          sendRemainingGasTo: new Address(signer_address),
+          nft_address: new Address(nft_address),
+          royalty: royalty,
+          royalty_address: new Address(royalty_address),
+        })
+        .send({
+          from: new Address(signer_address),
+          amount: fees,
+        });
+    }
+    else {
+      output = await DirectSellContract.methods
+        .buyNft({
+          new_nft_holder: new Address(signer_address),
+        })
+        .send({
+          from: new Address(signer_address),
+          amount: fees,
+        });
+    }
 
     if (output) {
       let obj = {
@@ -767,35 +795,4 @@ export const buy_nft = async (
     console.log(error);
     return false;
   }
-};
-
-// getting all listed tokens on marketplace
-export const get_listed_tokens = async (venomProvider) => {
-  const marketplace_contract = new venomProvider.Contract(
-    marketplaceAbi,
-    MARKETPLACE_ADDRESS
-  );
-
-  const res = await marketplace_contract.methods.getAllNFTs().call();
-  let nfts = [];
-
-  await Promise.all(
-    res.value0.map(async (e) => {
-      const nft_contract = new venomProvider.Contract(
-        nftAbi,
-        e.nft_address._address
-      );
-
-      const getNftInfo = await nft_contract.methods
-        .getInfo({ answerId: 0 })
-        .call();
-      const getJsonAnswer = await nft_contract.methods
-        .getJson({ answerId: 0 })
-        .call();
-      let obj = { ...getNftInfo, ...JSON.parse(getJsonAnswer.json), ...e };
-      nfts.push(obj);
-    })
-  );
-
-  return nfts;
 };
