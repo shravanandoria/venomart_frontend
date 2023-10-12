@@ -17,7 +17,7 @@ import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
 import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -153,7 +153,6 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
           ...indexInfo,
           last_paid: indexAddress.last_paid,
         });
-
       } catch (error) {
         return false;
       }
@@ -269,8 +268,7 @@ export const loadNFTs_user = async (
           last_paid
         }
       }`;
-    }
-    else {
+    } else {
       query = `query {
         accounts(
           filter: {
@@ -369,7 +367,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io"
+      external_url: "https://venomart.io",
     });
 
     const outputs = await contract.methods
@@ -510,7 +508,8 @@ export const list_nft = async (
   onchainNFTData,
   finalListingPrice,
   newFloorPrice,
-  stampedFloor
+  stampedFloor,
+  client
 ) => {
   try {
     if (!onchainNFTData) {
@@ -546,9 +545,12 @@ export const list_nft = async (
       MARKETPLACE_ADDRESS
     );
 
-    const _payload = await marketplace_contract.methods
-      .generatePayload({ answerId: 0, price: (price * 1000000000).toString() })
-      .call();
+    const load = await client.abi.encode_boc({
+      params: [{ name: "price", type: "uint128" }],
+      data: {
+        price: parseFloat(price) * 1000000000,
+      },
+    });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
 
@@ -559,7 +561,7 @@ export const list_nft = async (
         callbacks: [
           [
             new Address(MARKETPLACE_ADDRESS),
-            { value: "1000000000", payload: _payload.payload },
+            { value: "1000000000", payload: load.boc },
           ],
         ],
       })
