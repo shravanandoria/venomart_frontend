@@ -520,6 +520,31 @@ export default function App({ Component, pageProps }) {
       endDate: "10/15/2023 12:00:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 7,
+      Cover:
+        "https://ipfs.io/ipfs/QmPLFmbAsPgbUHuHpjYEJvgokUL26X8zX4XvabeC5xGuM8/cover.jpg",
+      Logo: "https://ipfs.io/ipfs/QmR6CYvsQ87rahPmqTJzAUH1VztzCAGPDhj1k8Gh5AFJrH/nft.jpg",
+      Name: "Venom Turkey",
+      Description:
+        "Asynchronous blockchain building an interconnected future. Community Focused - VenomFoundation Approved by! 🇹🇷",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "launch/venomturkey",
+      pageName: "venomturkey",
+      supply: "2000",
+      twitterUserName: "Venom_Turkiye",
+      twitter: "https://twitter.com/Venom_Turkiye",
+      tweetID: "",
+      discord: "",
+      instagram: "",
+      telegram: "",
+      website: "",
+      startDate: "10/13/2023 21:30:00 GMT+0530",
+      endDate: "10/17/2023 21:30:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // featured collections

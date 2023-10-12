@@ -155,7 +155,7 @@ const DesktopNavbar = () => {
                     </Link>
                 </li>
 
-                <li className="hideInDesktop js-nav-dropdown group relative">
+                {/* <li className="hideInDesktop js-nav-dropdown group relative">
                     <Link
                         href="/explore/CollabQuests"
                         className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
@@ -166,7 +166,7 @@ const DesktopNavbar = () => {
                     >
                         Collab Quests
                     </Link>
-                </li>
+                </li> */}
             </ul>
         </div>
     )
