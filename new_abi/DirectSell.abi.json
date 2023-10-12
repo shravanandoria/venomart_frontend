@@ -71,7 +71,6 @@
 		{
 			"name": "buyNft",
 			"inputs": [
-				{"name":"sendRemainingGasTo","type":"address"},
 				{"name":"new_nft_holder","type":"address"}
 			],
 			"outputs": [
@@ -122,6 +121,7 @@
 		{"name":"price","type":"uint128"},
 		{"name":"platform_fee","type":"uint128"},
 		{"name":"royalty","type":"uint128"},
-		{"name":"royalty_address","type":"address"}
+		{"name":"royalty_address","type":"address"},
+		{"name":"remainOnContract","type":"uint128"}
 	]
 }

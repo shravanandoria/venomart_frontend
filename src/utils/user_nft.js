@@ -51,7 +51,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:a473076462602e6b46c708feb71276ac10d62d06aa9825762dff47a0f8b6d5d0"
+  "0:ed64649e047ab22f8ed013586206a1bb75d35f55a2232c639efa2649642a7b3a"
 );
 
 // Extract an preview field of NFT's json
@@ -597,7 +597,7 @@ export const list_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: (parseFloat(listing_fee.value0) + 10000000).toString(),
+        amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
       });
 
     console.log(output);
@@ -740,7 +740,6 @@ export const buy_nft = async (
     // sending transaction
     const output = await DirectSellContract.methods
       .buyNft({
-        sendRemainingGasTo: new Address(signer_address),
         new_nft_holder: new Address(signer_address),
       })
       .send({
