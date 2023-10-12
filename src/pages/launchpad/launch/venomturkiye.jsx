@@ -24,7 +24,7 @@ import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
 
-const venomturkey = ({
+const venomturkiye = ({
     blockURL,
     theme,
     webURL,
@@ -998,4 +998,4 @@ const venomturkey = ({
     );
 };
 
-export default venomturkey;
+export default venomturkiye;

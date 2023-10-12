@@ -525,14 +525,14 @@ export default function App({ Component, pageProps }) {
       Cover:
         "https://ipfs.io/ipfs/QmPLFmbAsPgbUHuHpjYEJvgokUL26X8zX4XvabeC5xGuM8/cover.jpg",
       Logo: "https://ipfs.io/ipfs/QmR6CYvsQ87rahPmqTJzAUH1VztzCAGPDhj1k8Gh5AFJrH/nft.jpg",
-      Name: "Venom Turkey",
+      Name: "Venom Turkiye",
       Description:
         "Asynchronous blockchain building an interconnected future. Community Focused - VenomFoundation Approved by! 🇹🇷",
       mintPrice: "1",
       status: "Upcoming",
       CollectionAddress: "",
-      customLink: "launch/venomturkey",
-      pageName: "venomturkey",
+      customLink: "launch/venomturkiye",
+      pageName: "venomturkiye",
       supply: "2000",
       twitterUserName: "Venom_Turkiye",
       twitter: "https://twitter.com/Venom_Turkiye",
