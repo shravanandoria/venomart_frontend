@@ -14,8 +14,11 @@ import {
   update_verified_nft_data,
 } from "./mongo_api/nfts/nfts";
 import { Subscriber } from "everscale-inpage-provider";
-import { ProviderRpcClient, TvmException } from "everscale-inpage-provider";
-import { EverscaleStandaloneClient } from "everscale-standalone-client";
+import {
+  ProviderRpcClient,
+  TvmException,
+  EverscaleStandaloneClient,
+} from "everscale-inpage-provider";
 
 export class MyEver {
   constructor() {}
@@ -391,6 +394,9 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         amount: "2000000000",
       });
   } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
     console.log(error.message);
   }
 };
@@ -506,6 +512,9 @@ export const create_launchpad_nft_latest = async (
 
     return true;
   } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
     console.log(error.message);
   }
 };
@@ -593,36 +602,41 @@ export const list_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
+        amount: (100000000).toString(),
+        // amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
       });
+    console.log(output);
 
-    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    // const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     if (output) {
-      await wait(5000);
-      const nft_onchain = await get_nft_by_address(standalone, nft_address);
-      let OnChainManager = nft_onchain?.manager?._address;
-      let obj = {
-        NFTAddress: nft_address,
-        isListed: true,
-        price: finalListingPrice,
-        demandPrice: price,
-        new_manager: OnChainManager,
-        hash: output ? output?.id?.hash : "",
-        from: signer_address,
-        to: OnChainManager,
-        saleprice: finalListingPrice,
-        type: "list",
-        wallet_id: signer_address,
-        nft_address: nft_address,
-        collection_address: collection_address,
-        newFloorPrice: parseFloat(newFloorPrice),
-        stampedFloor: parseFloat(stampedFloor),
-      };
-      const updateNFTData = await updateNFTListing(obj);
+      // await wait(5000);
+      // const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      // let OnChainManager = nft_onchain?.manager?._address;
+      // let obj = {
+      //   NFTAddress: nft_address,
+      //   isListed: true,
+      //   price: finalListingPrice,
+      //   demandPrice: price,
+      //   new_manager: OnChainManager,
+      //   hash: output ? output?.id?.hash : "",
+      //   from: signer_address,
+      //   to: OnChainManager,
+      //   saleprice: finalListingPrice,
+      //   type: "list",
+      //   wallet_id: signer_address,
+      //   nft_address: nft_address,
+      //   collection_address: collection_address,
+      //   newFloorPrice: parseFloat(newFloorPrice),
+      //   stampedFloor: parseFloat(stampedFloor),
+      // };
+      // const updateNFTData = await updateNFTListing(obj);
     }
     return true;
   } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
     console.log(error);
     return false;
   }
@@ -669,8 +683,7 @@ export const cancel_listing = async (
           from: new Address(signer_address),
           amount: "100000000",
         });
-    }
-    else {
+    } else {
       output = await DirectSellContract.methods.cancel_listing().send({
         from: new Address(signer_address),
         amount: "100000000",
@@ -698,6 +711,9 @@ export const cancel_listing = async (
     }
     return true;
   } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
     console.log(error);
     return false;
   }
@@ -744,6 +760,13 @@ export const buy_nft = async (
     //   .nft_price_cal({ answerId: 0 })
     //   .call();
 
+    const subscriber = new Subscriber(provider);
+    const contractEvents = DirectSellContract.events(subscriber);
+    console.log(contractEvents);
+    contractEvents.on(async (event) => {
+      console.log(event);
+    });
+
     let output;
     if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
       output = await DirectSellContract.methods
@@ -757,8 +780,7 @@ export const buy_nft = async (
           from: new Address(signer_address),
           amount: fees,
         });
-    }
-    else {
+    } else {
       output = await DirectSellContract.methods
         .buyNft({
           new_nft_holder: new Address(signer_address),
@@ -792,6 +814,9 @@ export const buy_nft = async (
     }
     return true;
   } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
     console.log(error);
     return false;
   }
