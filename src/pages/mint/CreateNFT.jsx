@@ -39,6 +39,12 @@ const CreateNFT = ({
     properties: [{ trait_type: "", value: "" }],
   });
 
+  // const default_images = [
+  //   "https://ipfs.io/ipfs/QmcgbwHnVGLUt9jjVt3nuG88tguRQqcXBK5NUht4QVDdTV/toon1.jpg",
+  //   "https://ipfs.io/ipfs/QmR792uc5rgkGJuhU72GHyZwi5w3xJoVFazw4Se5ZLpZJb/toon3.jpg",
+  //   "https://ipfs.io/ipfs/QmQRjW6GjzGpZsxzoGp53QeCid78VUFApDSBFmkAK3TEDV/toon5.jpg",
+  //   "https://ipfs.io/ipfs/QmdPettcGwTnUM1B3VqLid5UwA5aVRusEF3KTMKH5VFR33/toon2.jpg",
+  // ];
   const default_images = [
     "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
     "https://ipfs.io/ipfs/QmRSPF3cFpssXTZnYbgXqb1HncepyoY9oY1AHgESoLCdTY/2.webp",
