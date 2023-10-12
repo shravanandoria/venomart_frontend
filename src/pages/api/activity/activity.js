@@ -63,15 +63,23 @@ export default async function handler(req, res) {
           // Fetch fromUser and ToUser information for each activity
           const activityWithUserInfo = [];
           for (const activity of activities) {
-            const fromUser = await User.findOne({ wallet_id: activity.from });
-            const toUser = await User.findOne({ wallet_id: activity.to });
-            if (fromUser && toUser) {
-              activityWithUserInfo.push({
-                ...activity.toObject(),
-                fromUser: fromUser.user_name,
-                toUser: toUser.user_name,
-              });
+            let fromUser = "";
+            let toUser = "";
+
+            const fetchFromUser = await User.findOne({ wallet_id: activity.from });
+            if (fetchFromUser != null) {
+              fromUser = fetchFromUser;
             }
+            const fetchToUser = await User.findOne({ wallet_id: activity.to });
+            if (fetchToUser != null) {
+              toUser = fetchToUser;
+            }
+
+            activityWithUserInfo.push({
+              ...activity.toObject(),
+              fromUser: fromUser.user_name,
+              toUser: toUser.user_name,
+            });
           }
 
           return res.status(200).json({ success: true, data: activityWithUserInfo });
