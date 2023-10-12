@@ -51,7 +51,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:140b5f15a65f7f9e120f9aa53c5d5ab7a10899dca02d459eb2ec49dc98616dc5"
+  "0:a473076462602e6b46c708feb71276ac10d62d06aa9825762dff47a0f8b6d5d0"
 );
 
 // Extract an preview field of NFT's json
@@ -280,8 +280,7 @@ export const loadNFTs_user = async (
           last_paid
         }
       }`;
-    }
-    else {
+    } else {
       query = `query {
         accounts(
           filter: {
@@ -569,6 +568,8 @@ export const list_nft = async (
       .get_listing_fee({ answerId: 0 })
       .call();
 
+    console.log(listing_fee);
+
     const load = await client.abi.encode_boc({
       params: [
         { name: "price", type: "uint128" },
@@ -599,10 +600,10 @@ export const list_nft = async (
         amount: (parseFloat(listing_fee.value0) + 10000000).toString(),
       });
 
+    console.log(output);
     if (output) {
       const nft_onchain = await get_nft_by_address(standalone, nft_address);
       let OnChainManager = nft_onchain?.manager?._address;
-
       let obj = {
         NFTAddress: nft_address,
         isListed: true,
@@ -732,7 +733,7 @@ export const buy_nft = async (
     const fees = (parseInt(price) + 1000000000).toString();
 
     const nft_price = await DirectSellContract.methods
-      .nft_price_cal({ answerId: 0, user_defined_price: 30000000000 })
+      .nft_price_cal({ answerId: 0 })
       .call();
     console.log(nft_price);
 
@@ -740,7 +741,7 @@ export const buy_nft = async (
     const output = await DirectSellContract.methods
       .buyNft({
         sendRemainingGasTo: new Address(signer_address),
-        new_nft_holer: new Address(signer_address),
+        new_nft_holder: new Address(signer_address),
       })
       .send({
         from: new Address(signer_address),

@@ -249,7 +249,7 @@ THROW 0
 CALL $get_listing_fee_internal_macro$
 
 .macro get_listing_fee_internal_macro
-.loc ../contracts/FactoryDirectSell.tsol, 73
+.loc ../contracts/FactoryDirectSell.tsol, 74
 GETGLOB 13
 GETGLOB 19
 ADD
@@ -257,7 +257,10 @@ UFITS 128
 GETGLOB 20
 ADD
 UFITS 128
-.loc ../contracts/FactoryDirectSell.tsol, 74
+PUSHINT 200000000
+ADD
+UFITS 128
+.loc ../contracts/FactoryDirectSell.tsol, 75
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -277,7 +280,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 77
+.loc ../contracts/FactoryDirectSell.tsol, 78
 OVER
 PUSHCONT {
 	LDREF
@@ -316,7 +319,7 @@ CALLREF {
 THROW 0
 
 .macro onNftChangeManager_internal_macro
-.loc ../contracts/FactoryDirectSell.tsol, 86
+.loc ../contracts/FactoryDirectSell.tsol, 88
 PUSHREF {
 	.blob x506c656173652073656e642073756666696369656e7420616d6f756e74
 }
@@ -330,13 +333,16 @@ UFITS 128
 GETGLOB 20
 ADD
 UFITS 128
+PUSHINT 100000000
+ADD
+UFITS 128
 GEQ
 THROWARGIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 88
+.loc ../contracts/FactoryDirectSell.tsol, 90
 GETGLOB 19
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/FactoryDirectSell.tsol, 89
+.loc ../contracts/FactoryDirectSell.tsol, 91
 GETGLOB 13
 GETGLOB 12
 NEWC
@@ -349,13 +355,13 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/FactoryDirectSell.tsol, 91
+.loc ../contracts/FactoryDirectSell.tsol, 93
 CTOS
 LDU 128
 LDU 128
 LDMSGADDR
 ENDS
-.loc ../contracts/FactoryDirectSell.tsol, 93
+.loc ../contracts/FactoryDirectSell.tsol, 95
 PUSHINT 0
 NEWC
 STU 256
@@ -385,7 +391,7 @@ PUSHINT 1
 ROT
 PUSHINT 64
 DICTUSETB
-PUSH S8
+ROLL 8
 PUSHINT 5
 ROT
 PUSHINT 64
@@ -400,13 +406,11 @@ STOPTREF
 STOPTREF
 STZERO
 ENDC
-.loc ../contracts/FactoryDirectSell.tsol, 105
-ROLL 8
-SWAP2
-SWAP
+.loc ../contracts/FactoryDirectSell.tsol, 107
+XCHG S2
 GETGLOB 14
-PUSH S5
-ROLL 5
+PUSH S4
+ROLL 4
 DUP
 HASHCU
 NEWC
@@ -414,9 +418,9 @@ STSLICECONST x801_
 STU 256
 ENDC
 CTOS
-ROLLREV 6
+ROLLREV 5
 GETGLOB 20
-PUSH S7
+PUSH S6
 NEWC
 STSLICECONST x62_
 STSLICE
@@ -449,24 +453,20 @@ CALLREF {
 }
 STREF
 STSLICECONST 1
-ROLLREV 5
+ROLLREV 4
 NEWC
-STSLICECONST x3fdca348
+STSLICECONST x1be9e70a
 STU 128
 STU 128
 STU 128
 STSLICE
-SWAP
-NEWC
-STSLICE
-STBREFR
 STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/FactoryDirectSell.tsol, 117
+.loc ../contracts/FactoryDirectSell.tsol, 118
 NEWDICT
-.loc ../contracts/FactoryDirectSell.tsol, 119
+.loc ../contracts/FactoryDirectSell.tsol, 120
 ROLL 3
 PUSH S2
 GETGLOB 9
@@ -491,7 +491,7 @@ STBREFR
 ENDC
 PUSHPOW2 7
 SENDRAWMSG
-.loc ../contracts/FactoryDirectSell.tsol, 129
+.loc ../contracts/FactoryDirectSell.tsol, 130
 GETGLOB 9
 PUSHSLICE xc0000000000000000000000001
 NEWC
@@ -521,7 +521,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 136
+.loc ../contracts/FactoryDirectSell.tsol, 137
 LDU 32
 LDDICT
 ROTREV
@@ -548,11 +548,11 @@ THROW 0
 CALL $bulkBuy_internal_macro$
 
 .macro bulkBuy_internal_macro
-.loc ../contracts/FactoryDirectSell.tsol, 137
+.loc ../contracts/FactoryDirectSell.tsol, 138
 PUSHINT 200000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/FactoryDirectSell.tsol, 139
+.loc ../contracts/FactoryDirectSell.tsol, 140
 PUSHINT 0
 PUSHCONT {
 	PUSH2 S0, S2
@@ -560,14 +560,8 @@ PUSHCONT {
 	LESS
 }
 PUSHCONT {
-	.loc ../contracts/FactoryDirectSell.tsol, 140
-	PUSH2 S0, S1
-	SECOND
-	PUSHINT 32
-	DICTUGET
-	THROWIFNOT 50
-	PLDU 128
-	PUSH2 S1, S3
+	.loc ../contracts/FactoryDirectSell.tsol, 141
+	PUSH2 S0, S2
 	SECOND
 	PUSHINT 32
 	DICTUGET
@@ -575,35 +569,34 @@ PUSHCONT {
 	NEWC
 	STSLICECONST x62_
 	STSLICE
-	PUSHINT 2984502848819297337
+	PUSHINT 338194049725103161
 	STUR 175
-	STU 128
 	ENDC
 	PUSHINT 0
 	SENDRAWMSG
-	.loc ../contracts/FactoryDirectSell.tsol, 139
+	.loc ../contracts/FactoryDirectSell.tsol, 140
 	INC
 	.loc ../contracts/FactoryDirectSell.tsol, 0
 }
 WHILE
 DROP
-.loc ../contracts/FactoryDirectSell.tsol, 143
+.loc ../contracts/FactoryDirectSell.tsol, 144
 PUSHINT 0
 DUP
-.loc ../contracts/FactoryDirectSell.tsol, 145
+.loc ../contracts/FactoryDirectSell.tsol, 146
 PUSHCONT {
 	PUSH2 S0, S3
 	FIRST
 	LESS
 }
 PUSHCONT {
-	.loc ../contracts/FactoryDirectSell.tsol, 146
+	.loc ../contracts/FactoryDirectSell.tsol, 147
 	PUSH2 S0, S3
 	SECOND
 	PUSHINT 32
 	DICTUGET
 	THROWIFNOT 50
-	.loc ../contracts/FactoryDirectSell.tsol, 147
+	.loc ../contracts/FactoryDirectSell.tsol, 148
 	DUP
 	GETGLOB 18
 	PUSHINT 267
@@ -615,7 +608,7 @@ PUSHCONT {
 	IF
 	GTINT 0
 	PUSHCONT {
-		.loc ../contracts/FactoryDirectSell.tsol, 148
+		.loc ../contracts/FactoryDirectSell.tsol, 149
 		DUP
 		GETGLOB 18
 		PUSHINT 267
@@ -634,19 +627,19 @@ PUSHCONT {
 	IF
 	.loc ../contracts/FactoryDirectSell.tsol, 0
 	DROP
-	.loc ../contracts/FactoryDirectSell.tsol, 145
+	.loc ../contracts/FactoryDirectSell.tsol, 146
 	INC
 	.loc ../contracts/FactoryDirectSell.tsol, 0
 }
 WHILE
 DROP
-.loc ../contracts/FactoryDirectSell.tsol, 151
+.loc ../contracts/FactoryDirectSell.tsol, 152
 PUSHINT 100000000
 PUSH S3
 FIRST
 MUL
 ADD
-.loc ../contracts/FactoryDirectSell.tsol, 152
+.loc ../contracts/FactoryDirectSell.tsol, 153
 PUSHREF {
 	.blob x696e73756666696369656e7420666565
 }
@@ -656,7 +649,7 @@ PICK
 ROT
 GEQ
 THROWARGIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 154
+.loc ../contracts/FactoryDirectSell.tsol, 155
 PUSHINT 0
 PUSHCONT {
 	PUSH2 S0, S2
@@ -664,7 +657,7 @@ PUSHCONT {
 	LESS
 }
 PUSHCONT {
-	.loc ../contracts/FactoryDirectSell.tsol, 155
+	.loc ../contracts/FactoryDirectSell.tsol, 156
 	GETGLOB 9
 	PUSH3 S0, S1, S2
 	SECOND
@@ -699,7 +692,7 @@ PUSHCONT {
 	ENDC
 	PUSHINT 0
 	SENDRAWMSG
-	.loc ../contracts/FactoryDirectSell.tsol, 154
+	.loc ../contracts/FactoryDirectSell.tsol, 155
 	INC
 	.loc ../contracts/FactoryDirectSell.tsol, 0
 }
@@ -716,7 +709,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 159
+.loc ../contracts/FactoryDirectSell.tsol, 160
 OVER
 PUSHCONT {
 	LDREF
@@ -742,14 +735,14 @@ THROW 0
 CALL $bulkBuyAmountCheck_internal_macro$
 
 .macro bulkBuyAmountCheck_internal_macro
-.loc ../contracts/FactoryDirectSell.tsol, 160
+.loc ../contracts/FactoryDirectSell.tsol, 161
 PUSHREF {
 	.blob x496e636f727265637420416d6f756e74
 }
 PUSH S2
 GTINT 0
 THROWARGIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 161
+.loc ../contracts/FactoryDirectSell.tsol, 162
 GETGLOB 18
 ROT
 NEWC
@@ -769,7 +762,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 164
+.loc ../contracts/FactoryDirectSell.tsol, 165
 LDU 32
 GETGLOB 4
 ROT
@@ -842,17 +835,17 @@ IFREF {
 THROW 0
 
 .macro generatePayload_internal_macro
-.loc ../contracts/FactoryDirectSell.tsol, 170
+.loc ../contracts/FactoryDirectSell.tsol, 171
 PUSH S2
 GTINT 0
 THROWIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 172
+.loc ../contracts/FactoryDirectSell.tsol, 173
 XCHG S2
 NEWC
 STU 128
 STU 128
 STSLICE
-.loc ../contracts/FactoryDirectSell.tsol, 174
+.loc ../contracts/FactoryDirectSell.tsol, 175
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -873,7 +866,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 179
+.loc ../contracts/FactoryDirectSell.tsol, 180
 OVER
 PUSHCONT {
 	LDREF
@@ -920,7 +913,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 180
+.loc ../contracts/FactoryDirectSell.tsol, 181
 SETGLOB 13
 .loc ../contracts/FactoryDirectSell.tsol, 0
 
@@ -933,7 +926,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryDirectSell.tsol, 183
+.loc ../contracts/FactoryDirectSell.tsol, 184
 OVER
 PUSHCONT {
 	LDREF
@@ -980,7 +973,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/FactoryDirectSell.tsol, 184
+.loc ../contracts/FactoryDirectSell.tsol, 185
 SETGLOB 14
 .loc ../contracts/FactoryDirectSell.tsol, 0
 
@@ -1232,9 +1225,9 @@ PUSHCONT {
 	SETGLOB 2
 	PUSHINT 0 ; timestamp
 	SETGLOB 3
-	PUSHINT 500000000
+	PUSHINT 200000000
 	SETGLOB 19
-	PUSHINT 600000000
+	PUSHINT 200000000
 	SETGLOB 20
 }
 IFREFELSE {

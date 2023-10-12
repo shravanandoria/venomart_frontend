@@ -9,8 +9,7 @@
 				{"name":"_price","type":"uint128"},
 				{"name":"_platform_fee","type":"uint128"},
 				{"name":"_royalty","type":"uint128"},
-				{"name":"_royalty_address","type":"address"},
-				{"name":"sendRemainingGasTo","type":"address"}
+				{"name":"_royalty_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -18,8 +17,7 @@
 		{
 			"name": "nft_price_cal",
 			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"user_defined_price","type":"uint128"}
+				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"uint128"},
@@ -62,17 +60,26 @@
 			]
 		},
 		{
+			"name": "get_nft_price",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
 			"name": "buyNft",
 			"inputs": [
 				{"name":"sendRemainingGasTo","type":"address"},
-				{"name":"new_nft_holer","type":"address"}
+				{"name":"new_nft_holder","type":"address"}
 			],
 			"outputs": [
 			]
 		}
 	],
 	"data": [
-		{"key":1,"name":"nounce","type":"uint256"},
+		{"key":1,"name":"nonce","type":"uint256"},
 		{"key":2,"name":"factoryDirectSell","type":"address"},
 		{"key":3,"name":"owner","type":"address"},
 		{"key":4,"name":"nftAddress","type":"address"},
@@ -107,7 +114,7 @@
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
-		{"name":"nounce","type":"uint256"},
+		{"name":"nonce","type":"uint256"},
 		{"name":"factoryDirectSell","type":"address"},
 		{"name":"owner","type":"address"},
 		{"name":"nftAddress","type":"address"},
