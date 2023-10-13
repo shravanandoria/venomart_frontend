@@ -344,6 +344,11 @@ CALL $refund_old_offer_internal_macro$
 
 .macro refund_old_offer_internal_macro
 .loc ../contracts/MakeOffer.tsol, 123
+GETGLOB 9
+GETGLOB 11
+SDEQ
+THROWIFNOT 101
+.loc ../contracts/MakeOffer.tsol, 124
 PUSHREF {
 	.blob x4e6577206f66666572206973206c6f776572207468616e2063757272656e74206f66666572
 }
@@ -351,13 +356,13 @@ SWAP
 GETGLOB 15
 GREATER
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 125
+.loc ../contracts/MakeOffer.tsol, 126
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 127
+.loc ../contracts/MakeOffer.tsol, 128
 TRUE
 GETGLOB 14
-PUSHINT 100000000
+PUSHINT 0
 GETGLOB 14
 GETGLOB 15
 GETGLOB 19
@@ -393,7 +398,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 138
+.loc ../contracts/MakeOffer.tsol, 139
 OVER
 PUSHCONT {
 	LDREF
@@ -418,7 +423,7 @@ THROW 0
 CALL $cancel_offer_internal_macro$
 
 .macro cancel_offer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 139
+.loc ../contracts/MakeOffer.tsol, 140
 PUSHREF {
 	.blob x596f7520617265206e6f7420746865206f776e6572206f662074686973206f66666572
 }
@@ -426,17 +431,17 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 140
+.loc ../contracts/MakeOffer.tsol, 141
 PUSHREF {
 	.blob x4f6666657220416d6f756e7420697320696e76616c6964
 }
 GETGLOB 15
 GTINT 0
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 141
+.loc ../contracts/MakeOffer.tsol, 142
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 143
+.loc ../contracts/MakeOffer.tsol, 144
 TRUE
 ROT
 PUSHINT 100000000
@@ -475,7 +480,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 154
+.loc ../contracts/MakeOffer.tsol, 155
 ENDS
 .loc ../contracts/MakeOffer.tsol, 0
 CALLREF {
@@ -488,9 +493,9 @@ CALLREF {
 THROW 0
 
 .macro cancel_listing_internal_macro
-.loc ../contracts/MakeOffer.tsol, 157
+.loc ../contracts/MakeOffer.tsol, 158
 NEWDICT
-.loc ../contracts/MakeOffer.tsol, 159
+.loc ../contracts/MakeOffer.tsol, 160
 MYADDR
 GETGLOB 9
 GETGLOB 18
@@ -526,7 +531,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 170
+.loc ../contracts/MakeOffer.tsol, 171
 OVER
 PUSHCONT {
 	LDREF
@@ -551,10 +556,10 @@ THROW 0
 CALL $refund_offer_internal_macro$
 
 .macro refund_offer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 171
+.loc ../contracts/MakeOffer.tsol, 172
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 173
+.loc ../contracts/MakeOffer.tsol, 174
 TRUE
 ROT
 PUSHINT 100000000
@@ -593,7 +598,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 183
+.loc ../contracts/MakeOffer.tsol, 184
 OVER
 PUSHCONT {
 	LDREF
@@ -628,11 +633,11 @@ CALLREF {
 THROW 0
 
 .macro onAcceptTokensTransfer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 191
+.loc ../contracts/MakeOffer.tsol, 192
 DROP
 ROLL 3
 SETGLOB 15
-.loc ../contracts/MakeOffer.tsol, 193
+.loc ../contracts/MakeOffer.tsol, 194
 NEWC
 STSLICECONST x42_
 STSLICE

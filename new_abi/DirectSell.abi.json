@@ -82,7 +82,8 @@
 		{"key":2,"name":"factoryDirectSell","type":"address"},
 		{"key":3,"name":"owner","type":"address"},
 		{"key":4,"name":"nftAddress","type":"address"},
-		{"key":5,"name":"nft_owner","type":"address"}
+		{"key":5,"name":"nft_owner","type":"address"},
+		{"key":6,"name":"_platform_fees_address","type":"address"}
 	],
 	"events": [
 		{
@@ -118,6 +119,7 @@
 		{"name":"owner","type":"address"},
 		{"name":"nftAddress","type":"address"},
 		{"name":"nft_owner","type":"address"},
+		{"name":"_platform_fees_address","type":"address"},
 		{"name":"price","type":"uint128"},
 		{"name":"platform_fee","type":"uint128"},
 		{"name":"royalty","type":"uint128"},
