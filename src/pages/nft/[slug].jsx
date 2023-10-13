@@ -1361,9 +1361,7 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- not listed --> */}
-                  {(onchainNFTData
-                    ? nft?.manager?._address
-                    : nft?.managerAddress) !== signer_address &&
+                  {(onchainNFTData ? nft?.manager?._address : nft?.managerAddress) !== signer_address &&
                     nft?.isListed == false && (
                       <>
                         <div className="rounded-2lg border-jacarta-100 dark:border-jacarta-600">
