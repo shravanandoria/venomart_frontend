@@ -7,6 +7,7 @@ import Loader from "../../components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import {
+  MakeOpenOffer,
   buy_nft,
   get_nft_by_address,
   listing_fees,
@@ -473,6 +474,7 @@ const NFTPage = ({
     if (!nft) return;
     setMoreLoading(true);
     const getOffer = await getOffers(nft?._id, 0);
+    console.log(getOffer);
     setActiveOffers(getOffer);
     setfetchedNFTOffers(true);
     setMoreLoading(false);
@@ -500,12 +502,15 @@ const NFTPage = ({
     }
 
     set_loading(true);
-    const addoffer = await addOffer(
+    MakeOpenOffer(
+      venomProvider,
       signer_address,
-      offerPrice,
-      offerExpiration,
-      slug
+      slug,
+      client,
+      "0:0000000000000000000000000000000000000000000000000000000000000000"
     );
+    console.log({ signer_address, offerPrice, offerExpiration, slug });
+
     await getNFTOffers();
     set_loading(false);
     setOfferModal(false);
@@ -1361,7 +1366,9 @@ const NFTPage = ({
                     )}
 
                   {/* <!-- not listed --> */}
-                  {(onchainNFTData ? nft?.manager?._address : nft?.managerAddress) !== signer_address &&
+                  {(onchainNFTData
+                    ? nft?.manager?._address
+                    : nft?.managerAddress) !== signer_address &&
                     nft?.isListed == false && (
                       <>
                         <div className="rounded-2lg border-jacarta-100 dark:border-jacarta-600">
@@ -2315,6 +2322,7 @@ const NFTPage = ({
                     <div className="flex items-center justify-center space-x-4">
                       <button
                         type="submit"
+                        onClick={makeOffer}
                         className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                       >
                         Place your offer

@@ -5,7 +5,7 @@ import collectionAbi from "../../abi/CollectionDrop.abi.json";
 import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
 import DirectSell from "../../new_abi/DirectSell.abi.json";
-
+import moment from "moment";
 import {
   createNFT,
   updateNFTListing,
@@ -20,8 +20,9 @@ import {
   EverscaleStandaloneClient,
 } from "everscale-inpage-provider";
 
-import OpenOfferABI from "../../new_abi/FactoryMakeOffer.abi.json";
+import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
+import { addOffer } from "./mongo_api/offer/offer";
 
 export class MyEver {
   constructor() {}
@@ -57,16 +58,28 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
+  "0:74ba42b7b732211f9207f2e5abc6a5633ae7d6f5800636fae214a05975f2f19c"
+);
+export const FactoryMakeOffer = new Address(
   "0:4234a9941818970c136f366e1a26068f14b10a6d80d3085fb2f168e828c7968b"
+);
+
+export const WVenomAddress = new Address(
+  "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
 );
 
 export const MakeOpenOffer = async (
   provider,
   signer_address,
   nft_address,
-  client
+  client,
+  oldOffer
 ) => {
-  const contract_ = new provider.Contract(OpenOfferABI, OpenOfferAddress);
+  const factoryContract = new provider.Contract(
+    FactoryMakeOffer,
+    OpenOfferAddress
+  );
+
   const now = moment().add(1, "day").unix();
 
   const load = await client.abi.encode_boc({
@@ -76,29 +89,22 @@ export const MakeOpenOffer = async (
       { name: "validity", type: "uint128" },
     ],
     data: {
-      nft_address: nft_address,
-      old_offer:
-        "0:0000000000000000000000000000000000000000000000000000000000000000",
+      nft_address: new Address(nft_address),
+      old_offer: new Address(oldOffer),
       validity: now.toString(),
     },
   });
 
   console.log(load.boc);
 
-  const contract = new provider.Contract(
-    TokenRoot,
-    new Address(
-      "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
-    )
-  );
-
+  const contract = new provider.Contract(TokenRoot, WVenomAddress);
   const tokenWalletAddress = await contract.methods
     .walletOf({
       answerId: 0,
       walletOwner: new Address(signer_address),
     })
     .call();
-  
+
   const tokenWalletContract = new provider.Contract(
     TokenWallet,
     new Address(tokenWalletAddress.value0.toString())
@@ -118,7 +124,7 @@ export const MakeOpenOffer = async (
       amount: "1700000000",
     });
 
-  const data = await contract_.methods.read_code({ answerId: 0 }).call();
+  const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
   console.log(data);
 };
 
