@@ -13,19 +13,19 @@ import {
   updateNFTsale,
   update_verified_nft_data,
 } from "./mongo_api/nfts/nfts";
-import { Subscriber } from "everscale-inpage-provider";
 import {
+  Subscriber,
   ProviderRpcClient,
   TvmException,
-  EverscaleStandaloneClient,
 } from "everscale-inpage-provider";
+import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
 import { addOffer } from "./mongo_api/offer/offer";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -60,9 +60,9 @@ export const MARKETPLACE_ADDRESS =
 export const FactoryDirectSellAddress = new Address(
   "0:74ba42b7b732211f9207f2e5abc6a5633ae7d6f5800636fae214a05975f2f19c"
 );
-export const FactoryMakeOffer = new Address(
-  "0:4234a9941818970c136f366e1a26068f14b10a6d80d3085fb2f168e828c7968b"
-);
+// export const FactoryMakeOffer = new Address(
+//   "0:4234a9941818970c136f366e1a26068f14b10a6d80d3085fb2f168e828c7968b"
+// );
 
 export const WVenomAddress = new Address(
   "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
