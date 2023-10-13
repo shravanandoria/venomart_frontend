@@ -98,7 +98,7 @@ export const MakeOpenOffer = async (
       walletOwner: new Address(signer_address),
     })
     .call();
-
+  
   const tokenWalletContract = new provider.Contract(
     TokenWallet,
     new Address(tokenWalletAddress.value0.toString())

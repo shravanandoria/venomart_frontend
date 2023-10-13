@@ -64,7 +64,7 @@ const NFTPage = ({
   connectWallet,
   cartNFTs,
   setCartNFTs,
-  vnmBalance
+  vnmBalance,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -350,7 +350,11 @@ const NFTPage = ({
           ? nft?.NFTCollection?.FloorPrice
           : collectionData?.data?.FloorPrice,
         client,
-        nft?.NFTCollection?.royalty ? nft?.NFTCollection?.royalty : (collectionData?.data?.royalty ? collectionData?.data?.royalty : "0"),
+        nft?.NFTCollection?.royalty
+          ? nft?.NFTCollection?.royalty
+          : collectionData?.data?.royalty
+          ? collectionData?.data?.royalty
+          : "0",
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000"
@@ -377,8 +381,11 @@ const NFTPage = ({
       connect_wallet();
       return;
     }
-    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice || parseFloat(vnmBalance) <= nft?.listingPrice) {
-      alert("You do not have sufficient venom tokens to buy this NFT!!")
+    if (
+      parseFloat(vnmBalance) <= selectedNFT.listingPrice ||
+      parseFloat(vnmBalance) <= nft?.listingPrice
+    ) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!");
       return;
     }
     set_loading(true);
@@ -575,14 +582,16 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${nft?.name ? nft?.name : "NFT"
-          } - Venomart Marketplace`}</title>
+        <title>{`${
+          nft?.name ? nft?.name : "NFT"
+        } - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name
-            ? nft?.name
-            : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
-            } | An NFT on Venom Blockchain`}
+          content={`${
+            nft?.name
+              ? nft?.name
+              : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+          } | An NFT on Venom Blockchain`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.png" />
@@ -618,9 +627,9 @@ const NFTPage = ({
                       onchainNFTData
                         ? nft?.preview?.source
                         : nft?.nft_image?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )
                     }
                     width={100}
                     height={100}
@@ -635,21 +644,22 @@ const NFTPage = ({
                     {/* <!-- Collection --> */}
                     <div className="flex items-center">
                       <Link
-                        href={`/collection/${onchainNFTData
-                          ? nft?.collection?._address
-                          : nft?.NFTCollection?.contractAddress
-                          }`}
+                        href={`/collection/${
+                          onchainNFTData
+                            ? nft?.collection?._address
+                            : nft?.NFTCollection?.contractAddress
+                        }`}
                         className="mr-2 text-sm font-bold text-accent"
                       >
                         {onchainNFTData
                           ? collectionData?.data?.name
                             ? collectionData?.data?.name
                             : nft?.collection?._address?.slice(0, 5) +
-                            "..." +
-                            nft?.collection?._address?.slice(63)
+                              "..." +
+                              nft?.collection?._address?.slice(63)
                           : nft?.NFTCollection?.name
-                            ? nft?.NFTCollection?.name
-                            : nft?.NFTCollection?.contractAddress?.slice(0, 5) +
+                          ? nft?.NFTCollection?.name
+                          : nft?.NFTCollection?.contractAddress?.slice(0, 5) +
                             "..." +
                             nft?.NFTCollection?.contractAddress?.slice(63)}
                       </Link>
@@ -766,10 +776,11 @@ const NFTPage = ({
                                 </button>
                               ))}
                             <a
-                              href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${nft?.NFTCollection?.name
-                                ? nft?.NFTCollection?.name
-                                : "NFT"
-                                }%20collection%20minted%20on%20venom%20blockchain%0ACheck%20it%20out%20here%20-%20${webURL}nft/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
+                              href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${
+                                nft?.NFTCollection?.name
+                                  ? nft?.NFTCollection?.name
+                                  : "NFT"
+                              }%20collection%20minted%20on%20venom%20blockchain%0ACheck%20it%20out%20here%20-%20${webURL}nft/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
                               target="_blank"
                               className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
                             >
@@ -803,9 +814,9 @@ const NFTPage = ({
                             src={
                               nft?.userProfileImage
                                 ? nft?.userProfileImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
                                 : defLogo
                             }
                             height={100}
@@ -820,20 +831,21 @@ const NFTPage = ({
                           Owner
                         </span>
                         <Link
-                          href={`/profile/${onchainNFTData
-                            ? nft?.owner?._address
-                            : nft?.ownerAddress
-                            }`}
+                          href={`/profile/${
+                            onchainNFTData
+                              ? nft?.owner?._address
+                              : nft?.ownerAddress
+                          }`}
                           className="block text-accent"
                         >
                           <span className="text-sm font-bold">
                             {nft?.username
                               ? nft?.username
                               : (nft?.owner?._address
-                                ? nft?.owner?._address
-                                : nft?.ownerAddress) == signer_address
-                                ? "You"
-                                : (onchainNFTData
+                                  ? nft?.owner?._address
+                                  : nft?.ownerAddress) == signer_address
+                              ? "You"
+                              : (onchainNFTData
                                   ? nft?.owner?._address?.slice(0, 5)
                                   : nft?.ownerAddress?.slice(0, 5)) +
                                 "..." +
@@ -853,9 +865,9 @@ const NFTPage = ({
                             src={
                               nft?.ownerImage
                                 ? nft?.ownerImage.replace(
-                                  "ipfs://",
-                                  "https://ipfs.io/ipfs/"
-                                )
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
                                 : defLogo
                             }
                             height={100}
@@ -878,10 +890,11 @@ const NFTPage = ({
                           </Link>
                         ) : (
                           <Link
-                            href={`/profile/${onchainNFTData
-                              ? nft?.manager?._address
-                              : nft?.managerAddress
-                              }`}
+                            href={`/profile/${
+                              onchainNFTData
+                                ? nft?.manager?._address
+                                : nft?.managerAddress
+                            }`}
                             className="block text-accent"
                           >
                             <span className="text-sm font-bold">
@@ -890,12 +903,12 @@ const NFTPage = ({
                                 : nft?.managerAddress) == signer_address
                                 ? "You"
                                 : (onchainNFTData
-                                  ? nft?.manager?._address?.slice(0, 5)
-                                  : nft?.managerAddress?.slice(0, 5)) +
-                                "..." +
-                                (onchainNFTData
-                                  ? nft?.manager?._address?.slice(63)
-                                  : nft?.managerAddress?.slice(63))}
+                                    ? nft?.manager?._address?.slice(0, 5)
+                                    : nft?.managerAddress?.slice(0, 5)) +
+                                  "..." +
+                                  (onchainNFTData
+                                    ? nft?.manager?._address?.slice(63)
+                                    : nft?.managerAddress?.slice(63))}
                             </span>
                           </Link>
                         )}
@@ -909,78 +922,78 @@ const NFTPage = ({
                   {(onchainNFTData
                     ? nft?.manager?._address
                     : nft?.managerAddress) == signer_address && (
-                      <div className="rounded-2lg  border-jacarta-100 dark:border-jacarta-600">
-                        <div className="mb-8 flex flex-row justify-between">
-                          <div></div>
-                          <div
-                            className="flex flex-col justify-end"
-                            style={{ alignItems: "end" }}
-                          >
-                            {lastSold && (
-                              <div className="flex flex-row">
-                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
-                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
-                                  Last sold
-                                </span>
-                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
-                                  <Image
-                                    src={venomLogo}
-                                    height={100}
-                                    width={100}
-                                    alt="venomLogo"
-                                    className="h-3 w-3"
-                                  />
-                                </span>
-                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                  {lastSold
-                                    ? formatNumberShort(lastSold)
-                                    : "0.00"}
-                                </span>
-                              </div>
-                            )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
-                              : collectionData?.data?.FloorPrice) && (
-                                <div className="flex flex-row mt-2">
-                                  <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
-                                    Floor price
-                                  </span>
-                                  <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
-                                    <Image
-                                      src={venomLogo}
-                                      height={100}
-                                      width={100}
-                                      alt="venomLogo"
-                                      className="h-3 w-3"
-                                    />
-                                  </span>
-                                  <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
-                                      ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
-                                      )
-                                      : formatNumberShort(
-                                        collectionData?.data?.FloorPrice
-                                      )}
-                                  </span>
-                                </div>
-                              )}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => (
-                            onchainNFTData && getCollectionDataForOnchain(),
-                            setSelectedNFT(""),
-                            setListSale(true),
-                            setAnyModalOpen(true)
-                          )}
-                          href="#"
-                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                    <div className="rounded-2lg  border-jacarta-100 dark:border-jacarta-600">
+                      <div className="mb-8 flex flex-row justify-between">
+                        <div></div>
+                        <div
+                          className="flex flex-col justify-end"
+                          style={{ alignItems: "end" }}
                         >
-                          List For Sale
-                        </button>
+                          {lastSold && (
+                            <div className="flex flex-row">
+                              <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                              <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                Last sold
+                              </span>
+                              <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                <Image
+                                  src={venomLogo}
+                                  height={100}
+                                  width={100}
+                                  alt="venomLogo"
+                                  className="h-3 w-3"
+                                />
+                              </span>
+                              <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                {lastSold
+                                  ? formatNumberShort(lastSold)
+                                  : "0.00"}
+                              </span>
+                            </div>
+                          )}
+                          {(nft?.NFTCollection?.FloorPrice
+                            ? nft?.NFTCollection?.FloorPrice
+                            : collectionData?.data?.FloorPrice) && (
+                            <div className="flex flex-row mt-2">
+                              <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                Floor price
+                              </span>
+                              <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                <Image
+                                  src={venomLogo}
+                                  height={100}
+                                  width={100}
+                                  alt="venomLogo"
+                                  className="h-3 w-3"
+                                />
+                              </span>
+                              <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                {nft?.NFTCollection?.FloorPrice
+                                  ? formatNumberShort(
+                                      nft?.NFTCollection?.FloorPrice
+                                    )
+                                  : formatNumberShort(
+                                      collectionData?.data?.FloorPrice
+                                    )}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
+                      <button
+                        onClick={() => (
+                          onchainNFTData && getCollectionDataForOnchain(),
+                          setSelectedNFT(""),
+                          setListSale(true),
+                          setAnyModalOpen(true)
+                        )}
+                        href="#"
+                        className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        List For Sale
+                      </button>
+                    </div>
+                  )}
 
                   {/* buy now section  */}
                   {nft?.isListed == true &&
@@ -1045,30 +1058,30 @@ const NFTPage = ({
                             {(nft?.NFTCollection?.FloorPrice
                               ? nft?.NFTCollection?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
-                                <div className="flex flex-row mt-2">
-                                  <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
-                                    Floor price
-                                  </span>
-                                  <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
-                                    <Image
-                                      src={venomLogo}
-                                      height={100}
-                                      width={100}
-                                      alt="venomLogo"
-                                      className="h-3 w-3"
-                                    />
-                                  </span>
-                                  <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
-                                      ? formatNumberShort(
+                              <div className="flex flex-row mt-2">
+                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                  Floor price
+                                </span>
+                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                  <Image
+                                    src={venomLogo}
+                                    height={100}
+                                    width={100}
+                                    alt="venomLogo"
+                                    className="h-3 w-3"
+                                  />
+                                </span>
+                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                  {nft?.NFTCollection?.FloorPrice
+                                    ? formatNumberShort(
                                         nft?.NFTCollection?.FloorPrice
                                       )
-                                      : formatNumberShort(
+                                    : formatNumberShort(
                                         collectionData?.data?.FloorPrice
                                       )}
-                                  </span>
-                                </div>
-                              )}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -1145,7 +1158,7 @@ const NFTPage = ({
                                 className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                               >
                                 <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                                Make an Offer
+                                Make An Offer
                               </button>
                             </div>
                           </div>
@@ -1282,30 +1295,30 @@ const NFTPage = ({
                             {(nft?.NFTCollection?.FloorPrice
                               ? nft?.NFTCollection?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
-                                <div className="flex flex-row mt-2">
-                                  <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
-                                    Floor price
-                                  </span>
-                                  <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
-                                    <Image
-                                      src={venomLogo}
-                                      height={100}
-                                      width={100}
-                                      alt="venomLogo"
-                                      className="h-3 w-3"
-                                    />
-                                  </span>
-                                  <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
-                                      ? formatNumberShort(
+                              <div className="flex flex-row mt-2">
+                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                  Floor price
+                                </span>
+                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                  <Image
+                                    src={venomLogo}
+                                    height={100}
+                                    width={100}
+                                    alt="venomLogo"
+                                    className="h-3 w-3"
+                                  />
+                                </span>
+                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                  {nft?.NFTCollection?.FloorPrice
+                                    ? formatNumberShort(
                                         nft?.NFTCollection?.FloorPrice
                                       )
-                                      : formatNumberShort(
+                                    : formatNumberShort(
                                         collectionData?.data?.FloorPrice
                                       )}
-                                  </span>
-                                </div>
-                              )}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                         {loading ? (
@@ -1385,30 +1398,30 @@ const NFTPage = ({
                               {(nft?.NFTCollection?.FloorPrice
                                 ? nft?.NFTCollection?.FloorPrice
                                 : collectionData?.data?.FloorPrice) && (
-                                  <div className="flex flex-row mt-2">
-                                    <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
-                                      Floor price
-                                    </span>
-                                    <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
-                                      <Image
-                                        src={venomLogo}
-                                        height={100}
-                                        width={100}
-                                        alt="venomLogo"
-                                        className="h-3 w-3"
-                                      />
-                                    </span>
-                                    <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                      {nft?.NFTCollection?.FloorPrice
-                                        ? formatNumberShort(
+                                <div className="flex flex-row mt-2">
+                                  <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                    Floor price
+                                  </span>
+                                  <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                    <Image
+                                      src={venomLogo}
+                                      height={100}
+                                      width={100}
+                                      alt="venomLogo"
+                                      className="h-3 w-3"
+                                    />
+                                  </span>
+                                  <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                    {nft?.NFTCollection?.FloorPrice
+                                      ? formatNumberShort(
                                           nft?.NFTCollection?.FloorPrice
                                         )
-                                        : formatNumberShort(
+                                      : formatNumberShort(
                                           collectionData?.data?.FloorPrice
                                         )}
-                                    </span>
-                                  </div>
-                                )}
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -1452,8 +1465,9 @@ const NFTPage = ({
                       onClick={switchPropeties}
                     >
                       <button
-                        className={`nav-link ${properties && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          properties && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1480,8 +1494,9 @@ const NFTPage = ({
                       )}
                     >
                       <button
-                        className={`nav-link ${offers && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          offers && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1506,8 +1521,9 @@ const NFTPage = ({
                       onClick={switchDetails}
                     >
                       <button
-                        className={`nav-link ${details && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          details && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1535,8 +1551,9 @@ const NFTPage = ({
                       )}
                     >
                       <button
-                        className={`nav-link ${activity && "active relative"
-                          } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                        className={`nav-link ${
+                          activity && "active relative"
+                        } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -1711,8 +1728,8 @@ const NFTPage = ({
                                     {offer?.fromUser
                                       ? offer?.fromUser
                                       : offer?.from?.slice(0, 5) +
-                                      "..." +
-                                      offer?.from?.slice(64)}
+                                        "..." +
+                                        offer?.from?.slice(64)}
                                   </Link>
                                 </div>
                                 <div
@@ -1783,12 +1800,12 @@ const NFTPage = ({
 
                           {(activeOffers == "" ||
                             activeOffers == undefined) && (
-                              <div className="flex p-4">
-                                <p className="text-jacarta-700 dark:text-white">
-                                  No Offers
-                                </p>
-                              </div>
-                            )}
+                            <div className="flex p-4">
+                              <p className="text-jacarta-700 dark:text-white">
+                                No Offers
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1804,9 +1821,10 @@ const NFTPage = ({
                               href={
                                 `${blockURL}` +
                                 `accounts/` +
-                                `${onchainNFTData
-                                  ? nft?.collection?._address
-                                  : nft?.NFTCollection?.contractAddress
+                                `${
+                                  onchainNFTData
+                                    ? nft?.collection?._address
+                                    : nft?.NFTCollection?.contractAddress
                                 }`
                               }
                               target="_blank"
@@ -1815,15 +1833,15 @@ const NFTPage = ({
                               {(onchainNFTData
                                 ? nft?.collection?._address?.slice(0, 8)
                                 : nft?.NFTCollection?.contractAddress?.slice(
-                                  0,
-                                  8
-                                )) +
+                                    0,
+                                    8
+                                  )) +
                                 "..." +
                                 (onchainNFTData
                                   ? nft?.collection?._address?.slice(60)
                                   : nft?.NFTCollection?.contractAddress?.slice(
-                                    60
-                                  ))}
+                                      60
+                                    ))}
                             </a>
                           </div>
                           <div className="mb-2 flex items-center">
@@ -1865,14 +1883,16 @@ const NFTPage = ({
                           <div className="flex flex-wrap">
                             <button
                               onClick={() => (setSkip(0), setActivityType(""))}
-                              className={`${activityType == ""
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
+                              className={`${
+                                activityType == ""
+                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                              }`}
                             >
                               <span
-                                className={`text-2xs font-medium  ${activityType == "" && "text-white"
-                                  }`}
+                                className={`text-2xs font-medium  ${
+                                  activityType == "" && "text-white"
+                                }`}
                               >
                                 All
                               </span>
@@ -1882,27 +1902,30 @@ const NFTPage = ({
                               onClick={() => (
                                 setSkip(0), setActivityType("list")
                               )}
-                              className={`${activityType == "list"
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
+                              className={`${
+                                activityType == "list"
+                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                              }`}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className={`mr-2 h-4 w-4 ${activityType == "list"
-                                  ? "fill-white"
-                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                                  }`}
+                                className={`mr-2 h-4 w-4 ${
+                                  activityType == "list"
+                                    ? "fill-white"
+                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                               </svg>
                               <span
-                                className={`text-2xs font-medium  ${activityType == "list" && "text-white"
-                                  }`}
+                                className={`text-2xs font-medium  ${
+                                  activityType == "list" && "text-white"
+                                }`}
                               >
                                 Listing
                               </span>
@@ -1912,27 +1935,30 @@ const NFTPage = ({
                               onClick={() => (
                                 setSkip(0), setActivityType("cancel")
                               )}
-                              className={`${activityType == "cancel"
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
+                              className={`${
+                                activityType == "cancel"
+                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                              }`}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                                  ? "fill-white"
-                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                                  }`}
+                                className={`mr-2 h-4 w-4 ${
+                                  activityType == "cancel"
+                                    ? "fill-white"
+                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                               </svg>
                               <span
-                                className={`text-2xs font-medium ${activityType == "cancel" && "text-white"
-                                  }`}
+                                className={`text-2xs font-medium ${
+                                  activityType == "cancel" && "text-white"
+                                }`}
                               >
                                 Remove Listing
                               </span>
@@ -1942,27 +1968,30 @@ const NFTPage = ({
                               onClick={() => (
                                 setSkip(0), setActivityType("sale")
                               )}
-                              className={`${activityType == "sale"
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
+                              className={`${
+                                activityType == "sale"
+                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                              }`}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 width="24"
                                 height="24"
-                                className={`mr-2 h-4 w-4 ${activityType == "sale"
-                                  ? "fill-white"
-                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                                  }`}
+                                className={`mr-2 h-4 w-4 ${
+                                  activityType == "sale"
+                                    ? "fill-white"
+                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                               </svg>
                               <span
-                                className={`text-2xs font-medium ${activityType == "sale" && "text-white"
-                                  }`}
+                                className={`text-2xs font-medium ${
+                                  activityType == "sale" && "text-white"
+                                }`}
                               >
                                 Sale
                               </span>
@@ -1971,8 +2000,9 @@ const NFTPage = ({
                         </div>
 
                         <div
-                          className={`scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white  ${skip != 0 && "scroll-list"
-                            }`}
+                          className={`scrollbar-custom max-h-72 w-full overflow-y-auto rounded-lg rounded-tl-none border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white  ${
+                            skip != 0 && "scroll-list"
+                          }`}
                           onScroll={handleScroll}
                         >
                           <div
@@ -2130,10 +2160,11 @@ const NFTPage = ({
                 </div>
                 <div className="mt-10 text-center">
                   <Link
-                    href={`/collection/${nft?.NFTCollection?.contractAddress
-                      ? nft?.NFTCollection?.contractAddress
-                      : nft?.collection?._address
-                      }`}
+                    href={`/collection/${
+                      nft?.NFTCollection?.contractAddress
+                        ? nft?.NFTCollection?.contractAddress
+                        : nft?.collection?._address
+                    }`}
                     className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >
                     View collection
