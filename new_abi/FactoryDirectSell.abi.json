@@ -134,6 +134,38 @@
 			],
 			"outputs": [
 			]
+		},
+		{
+			"name": "listing_commission",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"listing_commission","type":"uint128"}
+			]
+		},
+		{
+			"name": "platform_fees",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"platform_fees","type":"uint128"}
+			]
+		},
+		{
+			"name": "listing_commission_address",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"listing_commission_address","type":"address"}
+			]
+		},
+		{
+			"name": "platform_fees_address",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"platform_fees_address","type":"address"}
+			]
 		}
 	],
 	"data": [

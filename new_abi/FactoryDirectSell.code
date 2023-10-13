@@ -1611,92 +1611,206 @@ CALLREF {
 }
 THROW 60
 
+.macro listing_commission
+DROP
+ENDS
+CALLREF {
+	CALL $c4_to_c7$
+}
+GETGLOB 13
+OVER
+PUSHCONT {
+	PUSHSLICE xc000000000000000000000000086ccc4a9
+	NEWC
+	STSLICE
+	STU 128
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+IF
+THROW 0
+
+.macro platform_fees
+DROP
+ENDS
+CALLREF {
+	CALL $c4_to_c7$
+}
+GETGLOB 14
+OVER
+PUSHCONT {
+	PUSHSLICE xc0000000000000000000000000eebcee33
+	NEWC
+	STSLICE
+	STU 128
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+IF
+THROW 0
+
+.macro listing_commission_address
+DROP
+ENDS
+CALLREF {
+	CALL $c4_to_c7$
+}
+GETGLOB 21
+OVER
+PUSHCONT {
+	PUSHSLICE xc000000000000000000000000086a67381
+	NEWC
+	STSLICE
+	STSLICE
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+IF
+THROW 0
+
+.macro platform_fees_address
+DROP
+ENDS
+CALLREF {
+	CALL $c4_to_c7$
+}
+GETGLOB 22
+OVER
+PUSHCONT {
+	PUSHSLICE xc0000000000000000000000000e2036b33
+	NEWC
+	STSLICE
+	STSLICE
+	ENDC
+	PUSHINT 0
+	SENDRAWMSG
+}
+IF
+THROW 0
+
 .macro public_function_selector
 DUP
-PUSHINT 274107737
+PUSHINT 1644391219
 LEQ
 IFJMPREF {
-	DUP
-	PUSHINT 139687732
-	EQUAL
-	IFJMPREF {
-		CALL $update_platform_fee_address$
-	}
 	DUP
 	PUSHINT 154531750
-	EQUAL
+	LEQ
 	IFJMPREF {
-		CALL $constructor$
-	}
-	DUP
-	PUSHINT 235197086
-	EQUAL
-	IFJMPREF {
-		CALL $transferOwnership$
-	}
-	DUP
-	PUSHINT 274107737
-	EQUAL
-	IFJMPREF {
-		CALL $update_listing_fees$
-	}
-}
-DUP
-PUSHINT 844036868
-LEQ
-IFJMPREF {
-	DUP
-	PUSHINT 601546343
-	EQUAL
-	IFJMPREF {
-		CALL $onNftChangeManager$
+		DUP
+		PUSHINT 111571841
+		EQUAL
+		IFJMPREF {
+			CALL $listing_commission_address$
+		}
+		DUP
+		PUSHINT 114082985
+		EQUAL
+		IFJMPREF {
+			CALL $listing_commission$
+		}
+		DUP
+		PUSHINT 139687732
+		EQUAL
+		IFJMPREF {
+			CALL $update_platform_fee_address$
+		}
+		DUP
+		PUSHINT 154531750
+		EQUAL
+		IFJMPREF {
+			CALL $constructor$
+		}
 	}
 	DUP
 	PUSHINT 681224352
-	EQUAL
+	LEQ
 	IFJMPREF {
-		CALL $bulkBuy$
-	}
-	DUP
-	PUSHINT 771967981
-	EQUAL
-	IFJMPREF {
-		CALL $update_owner$
-	}
-	DUP
-	PUSHINT 844036868
-	EQUAL
-	IFJMPREF {
-		CALL $generatePayload$
-	}
-}
-DUP
-PUSHINT 1461251805
-LEQ
-IFJMPREF {
-	DUP
-	PUSHINT 937143784
-	EQUAL
-	IFJMPREF {
-		CALL $update_platform_fees$
+		DUP
+		PUSHINT 235197086
+		EQUAL
+		IFJMPREF {
+			CALL $transferOwnership$
+		}
+		DUP
+		PUSHINT 274107737
+		EQUAL
+		IFJMPREF {
+			CALL $update_listing_fees$
+		}
+		DUP
+		PUSHINT 601546343
+		EQUAL
+		IFJMPREF {
+			CALL $onNftChangeManager$
+		}
+		DUP
+		PUSHINT 681224352
+		EQUAL
+		IFJMPREF {
+			CALL $bulkBuy$
+		}
 	}
 	DUP
 	PUSHINT 1128027008
-	EQUAL
+	LEQ
 	IFJMPREF {
-		CALL $update_listing_fee_address$
+		DUP
+		PUSHINT 771967981
+		EQUAL
+		IFJMPREF {
+			CALL $update_owner$
+		}
+		DUP
+		PUSHINT 844036868
+		EQUAL
+		IFJMPREF {
+			CALL $generatePayload$
+		}
+		DUP
+		PUSHINT 937143784
+		EQUAL
+		IFJMPREF {
+			CALL $update_platform_fees$
+		}
+		DUP
+		PUSHINT 1128027008
+		EQUAL
+		IFJMPREF {
+			CALL $update_listing_fee_address$
+		}
 	}
 	DUP
-	PUSHINT 1191443513
-	EQUAL
+	PUSHINT 1644391219
+	LEQ
 	IFJMPREF {
-		CALL $bulkBuyAmountCheck$
-	}
-	DUP
-	PUSHINT 1461251805
-	EQUAL
-	IFJMPREF {
-		CALL $read_code$
+		DUP
+		PUSHINT 1191443513
+		EQUAL
+		IFJMPREF {
+			CALL $bulkBuyAmountCheck$
+		}
+		DUP
+		PUSHINT 1461251805
+		EQUAL
+		IFJMPREF {
+			CALL $read_code$
+		}
+		DUP
+		PUSHINT 1594609630
+		EQUAL
+		IFJMPREF {
+			CALL $owner$
+		}
+		DUP
+		PUSHINT 1644391219
+		EQUAL
+		IFJMPREF {
+			CALL $platform_fees_address$
+		}
 	}
 }
 DUP
@@ -1704,10 +1818,10 @@ PUSHINT 1966611096
 LEQ
 IFJMPREF {
 	DUP
-	PUSHINT 1594609630
+	PUSHINT 1857875507
 	EQUAL
 	IFJMPREF {
-		CALL $owner$
+		CALL $platform_fees$
 	}
 	DUP
 	PUSHINT 1966611096

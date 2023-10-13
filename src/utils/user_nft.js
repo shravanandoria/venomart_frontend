@@ -20,6 +20,9 @@ import {
   EverscaleStandaloneClient,
 } from "everscale-inpage-provider";
 
+import OpenOfferABI from "../../new_abi/FactoryMakeOffer.abi.json";
+import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
+
 export class MyEver {
   constructor() {}
   ever = () => {
@@ -54,8 +57,70 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:74ba42b7b732211f9207f2e5abc6a5633ae7d6f5800636fae214a05975f2f19c"
+  "0:4234a9941818970c136f366e1a26068f14b10a6d80d3085fb2f168e828c7968b"
 );
+
+export const MakeOpenOffer = async (
+  provider,
+  signer_address,
+  nft_address,
+  client
+) => {
+  const contract_ = new provider.Contract(OpenOfferABI, OpenOfferAddress);
+  const now = moment().add(1, "day").unix();
+
+  const load = await client.abi.encode_boc({
+    params: [
+      { name: "nft_address", type: "address" },
+      { name: "old_offer", type: "address" },
+      { name: "validity", type: "uint128" },
+    ],
+    data: {
+      nft_address: nft_address,
+      old_offer:
+        "0:0000000000000000000000000000000000000000000000000000000000000000",
+      validity: now.toString(),
+    },
+  });
+
+  console.log(load.boc);
+
+  const contract = new provider.Contract(
+    TokenRoot,
+    new Address(
+      "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
+    )
+  );
+
+  const tokenWalletAddress = await contract.methods
+    .walletOf({
+      answerId: 0,
+      walletOwner: new Address(signer_address),
+    })
+    .call();
+
+  const tokenWalletContract = new provider.Contract(
+    TokenWallet,
+    new Address(tokenWalletAddress.value0.toString())
+  );
+
+  await tokenWalletContract.methods
+    .transfer({
+      amount: 1000000000,
+      recipient: new Address(OpenOfferAddress),
+      deployWalletValue: 0,
+      remainingGasTo: signer_address,
+      notify: true,
+      payload: load.boc,
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: "1700000000",
+    });
+
+  const data = await contract_.methods.read_code({ answerId: 0 }).call();
+  console.log(data);
+};
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
