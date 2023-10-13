@@ -33,10 +33,10 @@ PUSH S2
 CALLREF {
 	CALL $_transferOwnership_internal_macro$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 63
+.loc ../contracts/FactoryMakeOffer.tsol, 62
 GETGLOB 2
 THROWIFNOT 101
-.loc ../contracts/FactoryMakeOffer.tsol, 64
+.loc ../contracts/FactoryMakeOffer.tsol, 63
 GETGLOB 2
 GETGLOB 5
 DUP
@@ -48,31 +48,31 @@ PUSHCONT {
 IF
 EQUAL
 THROWIFNOT 102
-.loc ../contracts/FactoryMakeOffer.tsol, 66
+.loc ../contracts/FactoryMakeOffer.tsol, 65
 ACCEPT
-.loc ../contracts/FactoryMakeOffer.tsol, 67
-PUSHINT 1000000000
+.loc ../contracts/FactoryMakeOffer.tsol, 66
+PUSHINT 2000000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/FactoryMakeOffer.tsol, 69
+.loc ../contracts/FactoryMakeOffer.tsol, 68
 ROT
 SETGLOB 14
-.loc ../contracts/FactoryMakeOffer.tsol, 70
+.loc ../contracts/FactoryMakeOffer.tsol, 69
 ROT
 SETGLOB 16
-.loc ../contracts/FactoryMakeOffer.tsol, 71
+.loc ../contracts/FactoryMakeOffer.tsol, 70
 SWAP
 SETGLOB 21
-.loc ../contracts/FactoryMakeOffer.tsol, 73
+.loc ../contracts/FactoryMakeOffer.tsol, 72
 SETGLOB 13
-.loc ../contracts/FactoryMakeOffer.tsol, 77
+.loc ../contracts/FactoryMakeOffer.tsol, 76
 PUSHINT 100000000
 MYADDR
 GETGLOB 13
 NEWC
 STSLICECONST x62_
 STSLICE
-PUSHINT 2820045005182170565370280386138670788247553
+PUSHINT 2852496860548013238048595988196296388247553
 STUR 143
 ROTREV
 PUSHSLICE x31edd4c749b2f6d7
@@ -84,7 +84,7 @@ STBREFR
 ENDC
 PUSHINT 1
 SENDRAWMSG
-.loc ../contracts/FactoryMakeOffer.tsol, 86
+.loc ../contracts/FactoryMakeOffer.tsol, 85
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -108,7 +108,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 89
+.loc ../contracts/FactoryMakeOffer.tsol, 88
 OVER
 PUSHCONT {
 	LDREF
@@ -129,7 +129,7 @@ CALLREF {
 THROW 0
 
 .macro onTokenWallet_internal_macro
-.loc ../contracts/FactoryMakeOffer.tsol, 90
+.loc ../contracts/FactoryMakeOffer.tsol, 89
 DEPTH
 ADDCONST -2
 PICK
@@ -139,13 +139,13 @@ GETGLOB 13
 SDEQ
 AND
 THROWIFNOT 101
-.loc ../contracts/FactoryMakeOffer.tsol, 95
-PUSHINT 200000000
+.loc ../contracts/FactoryMakeOffer.tsol, 94
+PUSHINT 2000000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/FactoryMakeOffer.tsol, 97
+.loc ../contracts/FactoryMakeOffer.tsol, 96
 SETGLOB 12
-.loc ../contracts/FactoryMakeOffer.tsol, 98
+.loc ../contracts/FactoryMakeOffer.tsol, 97
 GETGLOB 14
 NEWC
 STSLICECONST x42_
@@ -166,7 +166,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 101
+.loc ../contracts/FactoryMakeOffer.tsol, 100
 LDU 32
 GETGLOB 4
 ROT
@@ -233,7 +233,7 @@ THROW 0
 CALL $makeOffer_fee_internal_macro$
 
 .macro makeOffer_fee_internal_macro
-.loc ../contracts/FactoryMakeOffer.tsol, 102
+.loc ../contracts/FactoryMakeOffer.tsol, 101
 GETGLOB 17
 GETGLOB 20
 ADD
@@ -244,7 +244,7 @@ UFITS 128
 GETGLOB 19
 ADD
 UFITS 128
-.loc ../contracts/FactoryMakeOffer.tsol, 103
+.loc ../contracts/FactoryMakeOffer.tsol, 102
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -264,7 +264,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 106
+.loc ../contracts/FactoryMakeOffer.tsol, 105
 OVER
 PUSHCONT {
 	LDREF
@@ -299,7 +299,7 @@ CALLREF {
 THROW 0
 
 .macro onAcceptTokensTransfer_internal_macro
-.loc ../contracts/FactoryMakeOffer.tsol, 114
+.loc ../contracts/FactoryMakeOffer.tsol, 113
 DEPTH
 ADDCONST -2
 PICK
@@ -369,197 +369,21 @@ PUSHCONT {
 IFNOT
 .loc ../contracts/FactoryMakeOffer.tsol, 126
 GETGLOB 23
-PUSH S3
+ROLL 3
 SETINDEX 0
 DUP
 SETGLOB 23
 .loc ../contracts/FactoryMakeOffer.tsol, 127
-PUSH S7
+ROLL 6
 SETINDEX 1
 DUP
 SETGLOB 23
 .loc ../contracts/FactoryMakeOffer.tsol, 128
-OVER
+SWAP
 SETINDEX 2
 SETGLOB 23
-.loc ../contracts/FactoryMakeOffer.tsol, 130
-PUSHINT 0
-NEWC
-STU 256
-PUSHINT 0
-NEWDICT
-PUSHINT 64
-DICTUSETB
-LTIME
-NEWC
-STU 256
-PUSHINT 1
-ROT
-PUSHINT 64
-DICTUSETB
-MYADDR
-PUSHINT 2
-ROT
-PUSHINT 64
-DICTUSET
-GETGLOB 14
-PUSHINT 3
-ROT
-PUSHINT 64
-DICTUSET
-GETGLOB 13
-PUSHINT 4
-ROT
-PUSHINT 64
-DICTUSET
-PUSH S6
-PUSHINT 5
-ROT
-PUSHINT 64
-DICTUSET
-NEWC
-STDICT
-ENDC
-GETGLOB 21
-NEWC
-STSLICECONST x2_
-STOPTREF
-STOPTREF
-STZERO
-ENDC
-.loc ../contracts/FactoryMakeOffer.tsol, 142
-PUSH S3
-GETGLOB 16
-PUSH2 S3, S6
-ROLL 4
-DUP
-HASHCU
-NEWC
-STSLICECONST x801_
-STU 256
-ENDC
-CTOS
-ROLLREV 5
-GETGLOB 18
-PUSH S6
-NEWC
-STSLICECONST x62_
-STSLICE
-SWAP
-STGRAMS
-PUSHINT 3
-STUR 107
-OVER
-CALLREF {
-	CTOS
-	LDI 1
-	SWAP
-	PUSHCONT {
-		LDI 5
-		NIP
-	}
-	IF
-	LDI 1
-	SWAP
-	PUSHCONT {
-		LDI 2
-		NIP
-	}
-	IF
-	LDOPTREF
-	LDOPTREF
-	LDDICT
-	ENDS
-	BLKDROP 3
-}
-STREF
-STSLICECONST 1
-ROLLREV 4
-NEWC
-STSLICECONST x234f6d53
-STSLICE
-STU 128
-STU 128
-SWAP
-NEWC
-STSLICE
-STBREFR
-STBREFR
-ENDC
-PUSHINT 1
-SENDRAWMSG
-.loc ../contracts/FactoryMakeOffer.tsol, 153
-PUSHREF {
-}
-.loc ../contracts/FactoryMakeOffer.tsol, 155
-TRUE
-ROLL 6
-PUSHINT 100000000
-PUSH2 S4, S10
-GETGLOB 19
-GETGLOB 12
-NEWC
-STSLICECONST x62_
-STSLICE
-SWAP
-STGRAMS
-PUSHINT 1
-STUR 107
-ROLLREV 6
-NEWC
-STSLICECONST x73e22143
-STU 128
-STSLICE
-STU 128
-ROLLREV 3
-NEWC
-STSLICE
-STI 1
-STREF
-STBREFR
-STBREFR
-ENDC
-PUSHINT 0
-SENDRAWMSG
-.loc ../contracts/FactoryMakeOffer.tsol, 164
-DUP
-GETGLOB 22
-UNPAIR
-OVER
-INC
-ROLLREV 3
-PUSHINT 32
-DICTUSET
-PAIR
-SETGLOB 22
-.loc ../contracts/FactoryMakeOffer.tsol, 166
-ROLL 3
-ROLL 6
-ROTREV
-PUSH S6
-PUSHSLICE xc0000000000000000000000001
-NEWC
-STSLICE
-ROLLREV 5
-NEWC
-STSLICECONST x1625600f
-STSLICE
-ROLLREV 4
-NEWC
-STSLICE
-ROLLREV 3
-NEWC
-STSLICE
-STU 128
-STU 128
-STBREFR
-STBREFR
-STBREFR
-ENDC
-PUSHINT 0
-SENDRAWMSG
-.loc ../contracts/FactoryMakeOffer.tsol, 174
-DROP2
+.loc ../contracts/FactoryMakeOffer.tsol, 175
+BLKDROP 3
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -580,7 +404,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 177
+.loc ../contracts/FactoryMakeOffer.tsol, 178
 LDU 32
 GETGLOB 4
 ROT
@@ -682,7 +506,7 @@ THROW 0
 CALL $read_code_internal_macro$
 
 .macro read_code_internal_macro
-.loc ../contracts/FactoryMakeOffer.tsol, 178
+.loc ../contracts/FactoryMakeOffer.tsol, 179
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -704,7 +528,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 181
+.loc ../contracts/FactoryMakeOffer.tsol, 182
 OVER
 PUSHCONT {
 	LDREF
@@ -751,7 +575,7 @@ DEPTH
 ADDCONST -2
 PICK
 THROWIFNOT 101
-.loc ../contracts/FactoryMakeOffer.tsol, 182
+.loc ../contracts/FactoryMakeOffer.tsol, 183
 SETGLOB 16
 .loc ../contracts/FactoryMakeOffer.tsol, 0
 
@@ -764,7 +588,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/FactoryMakeOffer.tsol, 185
+.loc ../contracts/FactoryMakeOffer.tsol, 186
 OVER
 PUSHCONT {
 	LDREF
@@ -785,9 +609,9 @@ CALLREF {
 THROW 0
 
 .macro cancel_listing_internal_macro
-.loc ../contracts/FactoryMakeOffer.tsol, 187
+.loc ../contracts/FactoryMakeOffer.tsol, 188
 NEWDICT
-.loc ../contracts/FactoryMakeOffer.tsol, 189
+.loc ../contracts/FactoryMakeOffer.tsol, 190
 MYADDR
 GETGLOB 9
 ROLL 3

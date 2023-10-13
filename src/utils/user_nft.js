@@ -24,6 +24,9 @@ import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
 import { addOffer } from "./mongo_api/offer/offer";
 
+import TokenWallet from "../../new_abi/TokenWallet.abi.json";
+import TokenRoot from "../../new_abi/TokenRoot.abi.json";
+
 export class MyEver {
   constructor() { }
   ever = () => {
@@ -58,11 +61,11 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:74ba42b7b732211f9207f2e5abc6a5633ae7d6f5800636fae214a05975f2f19c"
+  "0:39126a056846af1527b27612495fc7595a90d9bd67fabbdbdf3b919989821c20"
 );
-// export const FactoryMakeOffer = new Address(
-//   "0:4234a9941818970c136f366e1a26068f14b10a6d80d3085fb2f168e828c7968b"
-// );
+export const FactoryMakeOfferAddress = new Address(
+  "0:3c636f498f9304d85714abe69693c831e033da814b3915477ba9276b3fb9313e"
+);
 
 export const WVenomAddress = new Address(
   "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
@@ -73,31 +76,11 @@ export const MakeOpenOffer = async (
   signer_address,
   nft_address,
   client,
-  oldOffer
+  oldOffer,
+  offerAmount
 ) => {
-  const factoryContract = new provider.Contract(
-    FactoryMakeOffer,
-    OpenOfferAddress
-  );
-
-  const now = moment().add(1, "day").unix();
-
-  const load = await client.abi.encode_boc({
-    params: [
-      { name: "nft_address", type: "address" },
-      { name: "old_offer", type: "address" },
-      { name: "validity", type: "uint128" },
-    ],
-    data: {
-      nft_address: new Address(nft_address),
-      old_offer: new Address(oldOffer),
-      validity: now.toString(),
-    },
-  });
-
-  console.log(load.boc);
-
   const contract = new provider.Contract(TokenRoot, WVenomAddress);
+
   const tokenWalletAddress = await contract.methods
     .walletOf({
       answerId: 0,
@@ -110,19 +93,56 @@ export const MakeOpenOffer = async (
     new Address(tokenWalletAddress.value0.toString())
   );
 
+  const factoryContract = new provider.Contract(
+    FactoryMakeOffer,
+    FactoryMakeOfferAddress
+  );
+
+  const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
+  console.log({ res });
+  const now = moment().add(1, "day").unix();
+
+  const makeOfferFee = await factoryContract.methods
+    .makeOffer_fee({ answerId: 0 })
+    .call();
+
+  console.log(makeOfferFee);
+
+  const load = await client.abi.encode_boc({
+    params: [
+      { name: "nft_address", type: "address" },
+      { name: "old_offer", type: "address" },
+      { name: "validity", type: "uint128" },
+    ],
+    data: {
+      nft_address: nft_address,
+      old_offer: oldOffer,
+      validity: now.toString(),
+    },
+  });
+
+  console.log(load.boc);
+
   await tokenWalletContract.methods
     .transfer({
-      amount: 1000000000,
-      recipient: new Address(OpenOfferAddress),
+      amount: parseFloat(offerAmount) * 1000000000,
+      recipient: FactoryMakeOfferAddress,
       deployWalletValue: 0,
-      remainingGasTo: signer_address,
+      remainingGasTo: new Address(signer_address),
       notify: true,
       payload: load.boc,
     })
     .send({
       from: new Address(signer_address),
-      amount: "1700000000",
+      amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
     });
+
+  const addoffer = await addOffer(
+    signer_address,
+    offerAmount,
+    now,
+    nft_address
+  );
 
   const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
   console.log(data);

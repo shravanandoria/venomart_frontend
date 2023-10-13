@@ -518,9 +518,9 @@ const NFTPage = ({
       signer_address,
       slug,
       client,
-      "0:0000000000000000000000000000000000000000000000000000000000000000"
+      "0:0000000000000000000000000000000000000000000000000000000000000000",
+      offerPrice
     );
-    console.log({ signer_address, offerPrice, offerExpiration, slug });
 
     await getNFTOffers();
     set_loading(false);
