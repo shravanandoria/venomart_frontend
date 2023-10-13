@@ -359,7 +359,14 @@ const NFTPage = ({
         set_loading(false);
         setListSale(false);
         setTransactionType("List");
-        nft_info();
+        if (onchainNFTData) {
+          router.reload();
+        }
+        else {
+          nft_info();
+        }
+        setfetchedNFTActivity(false);
+        setfetchedNFTOffers(false);
         setSuccessModal(true);
       }
       if (listing == false) {
@@ -416,6 +423,8 @@ const NFTPage = ({
         set_loading(false);
         setBuyModal(false);
         setTransactionType("Sale");
+        setfetchedNFTActivity(false);
+        setfetchedNFTOffers(false);
         setSuccessModal(true);
       }
       if (buying == false) {
@@ -451,6 +460,8 @@ const NFTPage = ({
         set_loading(false);
         setCancelModal(false);
         setTransactionType("Cancel");
+        setfetchedNFTActivity(false);
+        setfetchedNFTOffers(false);
         setSuccessModal(true);
       }
       if (cancelling == false) {
@@ -851,12 +862,14 @@ const NFTPage = ({
                         <a className="relative block">
                           <Image
                             src={
-                              nft?.ownerImage
-                                ? nft?.ownerImage.replace(
+                              nft?.managerAddress ? ((nft?.managerAddress == nft?.ownerAddress)
+                                ? nft?.userProfileImage?.replace(
                                   "ipfs://",
                                   "https://ipfs.io/ipfs/"
                                 )
-                                : defLogo
+                                : defLogo)
+                                :
+                                defLogo
                             }
                             height={100}
                             width={100}
@@ -885,17 +898,20 @@ const NFTPage = ({
                             className="block text-accent"
                           >
                             <span className="text-sm font-bold">
-                              {(nft?.manager?._address
-                                ? nft?.manager?._address
-                                : nft?.managerAddress) == signer_address
-                                ? "You"
-                                : (onchainNFTData
-                                  ? nft?.manager?._address?.slice(0, 5)
-                                  : nft?.managerAddress?.slice(0, 5)) +
-                                "..." +
-                                (onchainNFTData
-                                  ? nft?.manager?._address?.slice(63)
-                                  : nft?.managerAddress?.slice(63))}
+                              {
+                                (nft?.username && nft?.managerAddress == nft?.ownerAddress)
+                                  ? nft?.username
+                                  : (nft?.manager?._address
+                                    ? nft?.manager?._address
+                                    : nft?.managerAddress) == signer_address
+                                    ? "You"
+                                    : (onchainNFTData
+                                      ? nft?.manager?._address?.slice(0, 5)
+                                      : nft?.managerAddress?.slice(0, 5)) +
+                                    "..." +
+                                    (onchainNFTData
+                                      ? nft?.manager?._address?.slice(63)
+                                      : nft?.managerAddress?.slice(63))}
                             </span>
                           </Link>
                         )}
@@ -1780,7 +1796,7 @@ const NFTPage = ({
                           )}
 
                           {(activeOffers == "" ||
-                            activeOffers == undefined) && (
+                            activeOffers == undefined) && !moreLoading && (
                               <div className="flex p-4">
                                 <p className="text-jacarta-700 dark:text-white">
                                   No Offers
