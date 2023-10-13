@@ -61,7 +61,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:39126a056846af1527b27612495fc7595a90d9bd67fabbdbdf3b919989821c20"
+  "0:ed64649e047ab22f8ed013586206a1bb75d35f55a2232c639efa2649642a7b3a"
 );
 export const FactoryMakeOfferAddress = new Address(
   "0:3c636f498f9304d85714abe69693c831e033da814b3915477ba9276b3fb9313e"
