@@ -174,7 +174,9 @@ export const get_nft_by_address = async (provider, nft_address) => {
 
   let nft = {
     ...JSON.parse(nft_json.json),
-    ...getNftInfo
+    ...getNftInfo,
+    isListed: false,
+    price: "0",
   };
   return nft;
 };
