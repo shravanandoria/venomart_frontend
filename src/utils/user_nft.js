@@ -13,12 +13,12 @@ import {
   updateNFTsale,
   update_verified_nft_data,
 } from "./mongo_api/nfts/nfts";
-import { Subscriber } from "everscale-inpage-provider";
 import {
+  Subscriber,
   ProviderRpcClient,
   TvmException,
-  EverscaleStandaloneClient,
 } from "everscale-inpage-provider";
+import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
@@ -28,7 +28,7 @@ import TokenWallet from "../../new_abi/TokenWallet.abi.json";
 import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
