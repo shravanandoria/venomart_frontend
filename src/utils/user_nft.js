@@ -61,8 +61,9 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:39126a056846af1527b27612495fc7595a90d9bd67fabbdbdf3b919989821c20"
+  "0:ed64649e047ab22f8ed013586206a1bb75d35f55a2232c639efa2649642a7b3a"
 );
+
 export const FactoryMakeOfferAddress = new Address(
   "0:3c636f498f9304d85714abe69693c831e033da814b3915477ba9276b3fb9313e"
 );
@@ -273,6 +274,13 @@ export const get_nft_by_address = async (provider, nft_address) => {
     price: "0",
   };
   return nft;
+};
+
+export const directSelll_nft_info = async (provider, nft_manager) => {
+  console.log(nft_manager);
+  const contract = new provider.Contract(DirectSell, new Address(nft_manager));
+  const data = await contract.methods.get_listing_data({ answerId: 0 }).call();
+  console.log(data);
 };
 
 // loading all the nft collection nfts
@@ -663,10 +671,11 @@ export const list_nft = async (
       FactoryDirectSell,
       FactoryDirectSellAddress
     );
-
     const listing_fee = await factory_contract.methods
       .get_listing_fee({ answerId: 0 })
       .call();
+
+    console.log(listing_fee);
 
     const load = await client.abi.encode_boc({
       params: [
@@ -680,6 +689,7 @@ export const list_nft = async (
         royalty_address: royaltyAddress,
       },
     });
+    console.log(load.boc);
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
@@ -695,35 +705,33 @@ export const list_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: (100000000).toString(),
-        // amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
+        amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
       });
-    console.log(output);
 
-    // const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     if (output) {
-      // await wait(5000);
-      // const nft_onchain = await get_nft_by_address(standalone, nft_address);
-      // let OnChainManager = nft_onchain?.manager?._address;
-      // let obj = {
-      //   NFTAddress: nft_address,
-      //   isListed: true,
-      //   price: finalListingPrice,
-      //   demandPrice: price,
-      //   new_manager: OnChainManager,
-      //   hash: output ? output?.id?.hash : "",
-      //   from: signer_address,
-      //   to: OnChainManager,
-      //   saleprice: finalListingPrice,
-      //   type: "list",
-      //   wallet_id: signer_address,
-      //   nft_address: nft_address,
-      //   collection_address: collection_address,
-      //   newFloorPrice: parseFloat(newFloorPrice),
-      //   stampedFloor: parseFloat(stampedFloor),
-      // };
-      // const updateNFTData = await updateNFTListing(obj);
+      await wait(5000);
+      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      let OnChainManager = nft_onchain?.manager?._address;
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: true,
+        price: finalListingPrice,
+        demandPrice: price,
+        new_manager: OnChainManager,
+        hash: output ? output?.id?.hash : "",
+        from: signer_address,
+        to: OnChainManager,
+        saleprice: finalListingPrice,
+        type: "list",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address,
+        newFloorPrice: parseFloat(newFloorPrice),
+        stampedFloor: parseFloat(stampedFloor),
+      };
+      const updateNFTData = await updateNFTListing(obj);
     }
     return true;
   } catch (error) {
