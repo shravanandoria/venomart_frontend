@@ -276,11 +276,11 @@ export const get_nft_by_address = async (provider, nft_address) => {
   return nft;
 };
 
-export const directSelll_nft_info = async (provider, nft_manager) => {
-  console.log(nft_manager);
+// getting nft info with listing info 
+export const directSell_nft_info = async (provider, nft_manager) => {
   const contract = new provider.Contract(DirectSell, new Address(nft_manager));
   const data = await contract.methods.get_listing_data({ answerId: 0 }).call();
-  console.log(data);
+  return data;
 };
 
 // loading all the nft collection nfts
@@ -675,8 +675,6 @@ export const list_nft = async (
       .get_listing_fee({ answerId: 0 })
       .call();
 
-    console.log(listing_fee);
-
     const load = await client.abi.encode_boc({
       params: [
         { name: "price", type: "uint128" },
@@ -689,7 +687,6 @@ export const list_nft = async (
         royalty_address: royaltyAddress,
       },
     });
-    console.log(load.boc);
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
