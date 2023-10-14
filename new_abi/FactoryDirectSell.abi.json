@@ -59,6 +59,15 @@
 			]
 		},
 		{
+			"name": "nft_price_callback",
+			"inputs": [
+				{"name":"nft_price","type":"uint128"},
+				{"name":"directSell_addr","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "update_owner",
 			"inputs": [
 				{"name":"new_owner","type":"address"}
@@ -139,6 +148,14 @@
 			]
 		},
 		{
+			"name": "directSell_to_nftPrice",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"directSell_to_nftPrice","type":"map(address,uint128)"}
+			]
+		},
+		{
 			"name": "listing_commission_address",
 			"inputs": [
 			],
@@ -161,6 +178,22 @@
 			"outputs": [
 				{"name":"total_priceNFT","type":"uint128"}
 			]
+		},
+		{
+			"name": "listed_nfts",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"listed_nfts","type":"address[]"}
+			]
+		},
+		{
+			"name": "directSellList",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"directSellList","type":"address[]"}
+			]
 		}
 	],
 	"data": [
@@ -173,6 +206,15 @@
 				{"name":"nft_address","type":"address"},
 				{"name":"nft_manager","type":"address"},
 				{"name":"price","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "bulkBuy_event",
+			"inputs": [
+				{"name":"directSell","type":"address"},
+				{"name":"amount","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -198,11 +240,13 @@
 		{"name":"platform_fees","type":"uint128"},
 		{"name":"directSellCode","type":"cell"},
 		{"name":"nftCartCode","type":"cell"},
-		{"name":"nft_to_nftPrice","type":"map(address,uint128)"},
+		{"name":"directSell_to_nftPrice","type":"map(address,uint128)"},
 		{"name":"remain_on_contract","type":"uint128"},
 		{"name":"directSell_deployment_cost","type":"uint128"},
 		{"name":"listing_commission_address","type":"address"},
 		{"name":"platform_fees_address","type":"address"},
-		{"name":"total_priceNFT","type":"uint128"}
+		{"name":"total_priceNFT","type":"uint128"},
+		{"name":"listed_nfts","type":"address[]"},
+		{"name":"directSellList","type":"address[]"}
 	]
 }

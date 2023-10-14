@@ -61,7 +61,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:ed64649e047ab22f8ed013586206a1bb75d35f55a2232c639efa2649642a7b3a"
+  "0:e6fa0359ccbabf5205e951d592dc48245ae6e845b5259dbcbb1a1d200db1b85e"
 );
 
 export const FactoryMakeOfferAddress = new Address(
@@ -276,7 +276,7 @@ export const get_nft_by_address = async (provider, nft_address) => {
   return nft;
 };
 
-// getting nft info with listing info 
+// getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
   const contract = new provider.Contract(DirectSell, new Address(nft_manager));
   const data = await contract.methods.get_listing_data({ answerId: 0 }).call();

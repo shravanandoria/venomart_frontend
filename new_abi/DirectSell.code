@@ -225,7 +225,7 @@ SETINDEXQ 1
 PUSHINT 64
 SETINDEXQ 4
 SETGLOB 4
-GETGLOB 13
+MYADDR
 .loc ../contracts/DirectSell.tsol, 0
 
 .macro read_data

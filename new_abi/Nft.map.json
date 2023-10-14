@@ -2310,8 +2310,8 @@
     },
     "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
       "0": {
-        "filename": "../node_modules/@broxus/tip4/contracts/TIP4_3/TIP4_3Nft.tsol",
-        "line": 88
+        "filename": "Nft.code",
+        "line": 2152
       }
     },
     "661510a747d6c1d9478d69fcee161dae7d3a3197c02351316a8b586361a7bb15": {

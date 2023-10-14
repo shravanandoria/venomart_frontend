@@ -822,84 +822,304 @@
         "line": 630
       }
     },
-    "36cb0a7ae718d168add362295f02617d5d617f569529ce2401f802d845dfdbe0": {
+    "26296559f87d3a7c74d781beeb5673a6477f7bedcb2c840d2e6b8fd612b55773": {
       "0": {
-        "filename": "<entry-selector>",
-        "line": 1
+        "filename": "DirectSell.code",
+        "line": 1101
       },
-      "8": {
-        "filename": "<entry-selector>",
-        "line": 2
+      "16": {
+        "filename": "DirectSell.code",
+        "line": 1102
       },
       "24": {
-        "filename": "<entry-selector>",
-        "line": 3
+        "filename": "DirectSell.code",
+        "line": 1103
       },
-      "32": {
-        "filename": "<entry-selector>",
-        "line": 4
-      },
-      "48": {
-        "filename": "<entry-selector>",
-        "line": 5
+      "40": {
+        "filename": "DirectSell.code",
+        "line": 1104
       },
       "56": {
-        "filename": "<entry-selector>",
-        "line": 6
+        "filename": "DirectSell.code",
+        "line": 1105
       },
       "72": {
-        "filename": "<entry-selector>",
-        "line": 7
-      },
-      "88": {
-        "filename": "<entry-selector>",
-        "line": 8
-      },
-      "96": {
-        "filename": "<entry-selector>",
-        "line": 9
-      },
-      "112": {
-        "filename": "<entry-selector>",
-        "line": 10
-      },
-      "128": {
-        "filename": "<entry-selector>",
-        "line": 11
-      }
-    },
-    "3877f7a3769006fb99c4e12f228ff8681567eefb007ab69a4b4fefb58ca1f965": {
-      "0": {
         "filename": "DirectSell.code",
-        "line": 1159
-      },
-      "8": {
-        "filename": "DirectSell.code",
-        "line": 1160
-      },
-      "56": {
-        "filename": "DirectSell.code",
-        "line": 1161
-      },
-      "64": {
-        "filename": "DirectSell.code",
-        "line": 1162
+        "line": 1106
       },
       "80": {
         "filename": "DirectSell.code",
-        "line": 1188
+        "line": 1109
       },
-      "88": {
+      "96": {
         "filename": "DirectSell.code",
-        "line": 1189
+        "line": 1110
+      },
+      "104": {
+        "filename": "DirectSell.code",
+        "line": 1111
+      },
+      "120": {
+        "filename": "DirectSell.code",
+        "line": 1114
       },
       "136": {
         "filename": "DirectSell.code",
-        "line": 1190
+        "line": 1115
       },
       "144": {
         "filename": "DirectSell.code",
-        "line": 1191
+        "line": 1116
+      },
+      "160": {
+        "filename": "DirectSell.code",
+        "line": 1117
+      },
+      "176": {
+        "filename": "DirectSell.code",
+        "line": 1118
+      },
+      "192": {
+        "filename": "DirectSell.code",
+        "line": 1119
+      },
+      "200": {
+        "filename": "DirectSell.code",
+        "line": 1120
+      },
+      "216": {
+        "filename": "DirectSell.code",
+        "line": 1121
+      },
+      "224": {
+        "filename": "DirectSell.code",
+        "line": 1122
+      },
+      "240": {
+        "filename": "DirectSell.code",
+        "line": 1123
+      },
+      "248": {
+        "filename": "DirectSell.code",
+        "line": 1124
+      },
+      "256": {
+        "filename": "DirectSell.code",
+        "line": 1125
+      },
+      "272": {
+        "filename": "DirectSell.code",
+        "line": 1126
+      },
+      "280": {
+        "filename": "DirectSell.code",
+        "line": 1127
+      },
+      "288": {
+        "filename": "DirectSell.code",
+        "line": 1129
+      },
+      "296": {
+        "filename": "DirectSell.code",
+        "line": 1130
+      },
+      "304": {
+        "filename": "DirectSell.code",
+        "line": 1131
+      },
+      "320": {
+        "filename": "DirectSell.code",
+        "line": 1133
+      },
+      "328": {
+        "filename": "DirectSell.code",
+        "line": 1134
+      },
+      "344": {
+        "filename": "DirectSell.code",
+        "line": 1135
+      },
+      "360": {
+        "filename": "DirectSell.code",
+        "line": 1137
+      },
+      "368": {
+        "filename": "DirectSell.code",
+        "line": 1138
+      },
+      "384": {
+        "filename": "DirectSell.code",
+        "line": 1139
+      },
+      "392": {
+        "filename": "DirectSell.code",
+        "line": 1140
+      },
+      "408": {
+        "filename": "DirectSell.code",
+        "line": 1142
+      },
+      "416": {
+        "filename": "DirectSell.code",
+        "line": 1143
+      },
+      "432": {
+        "filename": "DirectSell.code",
+        "line": 1144
+      },
+      "440": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "456": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "464": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "472": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "488": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "496": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "512": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "536": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "544": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "584": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "592": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "600": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "616": {
+        "filename": "stdlib.sol",
+        "line": 63
+      },
+      "632": {
+        "filename": "DirectSell.code",
+        "line": 1146
+      },
+      "648": {
+        "filename": "DirectSell.code",
+        "line": 1147
+      },
+      "656": {
+        "filename": "DirectSell.code",
+        "line": 1148
+      },
+      "672": {
+        "filename": "DirectSell.code",
+        "line": 1149
+      },
+      "680": {
+        "filename": "DirectSell.code",
+        "line": 1150
+      },
+      "696": {
+        "filename": "DirectSell.code",
+        "line": 1151
+      },
+      "712": {
+        "filename": "DirectSell.code",
+        "line": 1152
+      },
+      "720": {
+        "filename": "DirectSell.code",
+        "line": 1153
+      },
+      "736": {
+        "filename": "DirectSell.code",
+        "line": 1156
+      }
+    },
+    "41f00ec3dfbf9b6961e06bf152964e4c8535f0cc32e619e7faf3a731cfbdfec1": {
+      "0": {
+        "filename": "DirectSell.code",
+        "line": 1163
+      },
+      "8": {
+        "filename": "DirectSell.code",
+        "line": 1164
+      },
+      "56": {
+        "filename": "DirectSell.code",
+        "line": 1165
+      },
+      "64": {
+        "filename": "DirectSell.code",
+        "line": 1166
+      },
+      "80": {
+        "filename": "DirectSell.code",
+        "line": 1169
+      },
+      "88": {
+        "filename": "DirectSell.code",
+        "line": 1170
+      },
+      "136": {
+        "filename": "DirectSell.code",
+        "line": 1171
+      },
+      "144": {
+        "filename": "DirectSell.code",
+        "line": 1172
+      },
+      "160": {
+        "filename": "DirectSell.code",
+        "line": 1175
+      },
+      "168": {
+        "filename": "DirectSell.code",
+        "line": 1176
+      },
+      "216": {
+        "filename": "DirectSell.code",
+        "line": 1177
+      },
+      "224": {
+        "filename": "DirectSell.code",
+        "line": 1178
+      },
+      "240": {
+        "filename": "DirectSell.code",
+        "line": 1181
+      },
+      "248": {
+        "filename": "DirectSell.code",
+        "line": 1182
+      },
+      "296": {
+        "filename": "DirectSell.code",
+        "line": 1183
+      },
+      "304": {
+        "filename": "DirectSell.code",
+        "line": 1184
       }
     },
     "4fce3977421ec15bcf084afd7c18a73ffea6947a5a5bb8fbb9d3fcaa927b767b": {
@@ -1164,214 +1384,136 @@
         "line": 131
       }
     },
+    "5cee4e4f9e4ee81df906c120c858a07591af2acfe6a64fd9b0e3187cd784e6b0": {
+      "0": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "16": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "32": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "40": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "56": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "80": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "96": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "112": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 73
+      },
+      "128": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "144": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "160": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "168": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "184": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "208": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "224": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "240": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 74
+      },
+      "256": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "272": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "280": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "288": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "304": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "312": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 75
+      },
+      "328": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "344": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "352": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "368": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "376": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "392": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "408": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "424": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      },
+      "440": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 77
+      }
+    },
     "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
       "0": {
         "filename": "DirectSell.code",
-        "line": 914
-      }
-    },
-    "6202c3e10d5a33fbc2b6b8eeb68b6dbf0fbc8bce5a1c024b68eec48d9c281632": {
-      "0": {
-        "filename": "DirectSell.code",
-        "line": 1056
-      },
-      "16": {
-        "filename": "DirectSell.code",
-        "line": 1057
-      },
-      "24": {
-        "filename": "DirectSell.code",
-        "line": 1058
-      },
-      "40": {
-        "filename": "DirectSell.code",
-        "line": 1059
-      },
-      "56": {
-        "filename": "DirectSell.code",
-        "line": 1060
-      },
-      "72": {
-        "filename": "DirectSell.code",
-        "line": 1061
-      },
-      "80": {
-        "filename": "DirectSell.code",
-        "line": 1062
-      },
-      "88": {
-        "filename": "DirectSell.code",
-        "line": 1063
-      },
-      "104": {
-        "filename": "DirectSell.code",
-        "line": 1064
-      },
-      "120": {
-        "filename": "DirectSell.code",
-        "line": 1065
-      },
-      "128": {
-        "filename": "DirectSell.code",
-        "line": 1066
-      },
-      "144": {
-        "filename": "DirectSell.code",
-        "line": 1067
-      },
-      "168": {
-        "filename": "DirectSell.code",
-        "line": 1068
-      },
-      "184": {
-        "filename": "DirectSell.code",
-        "line": 1069
-      },
-      "192": {
-        "filename": "DirectSell.code",
-        "line": 1070
-      },
-      "208": {
-        "filename": "DirectSell.code",
-        "line": 1071
-      },
-      "248": {
-        "filename": "DirectSell.code",
-        "line": 1072
-      },
-      "264": {
-        "filename": "DirectSell.code",
-        "line": 1073
-      },
-      "272": {
-        "filename": "DirectSell.code",
-        "line": 1074
-      },
-      "288": {
-        "filename": "DirectSell.code",
-        "line": 1075
-      },
-      "296": {
-        "filename": "DirectSell.code",
-        "line": 1076
-      },
-      "312": {
-        "filename": "DirectSell.code",
-        "line": 1077
-      },
-      "328": {
-        "filename": "DirectSell.code",
-        "line": 1078
-      },
-      "336": {
-        "filename": "DirectSell.code",
-        "line": 1079
-      },
-      "344": {
-        "filename": "DirectSell.code",
-        "line": 1080
-      },
-      "360": {
-        "filename": "DirectSell.code",
-        "line": 1081
-      },
-      "376": {
-        "filename": "DirectSell.code",
-        "line": 1085
-      },
-      "384": {
-        "filename": "DirectSell.code",
-        "line": 1086
-      },
-      "408": {
-        "filename": "DirectSell.code",
-        "line": 1087
-      },
-      "424": {
-        "filename": "DirectSell.code",
-        "line": 1088
-      },
-      "432": {
-        "filename": "DirectSell.code",
-        "line": 1089
-      },
-      "448": {
-        "filename": "DirectSell.code",
-        "line": 1093
-      },
-      "456": {
-        "filename": "DirectSell.code",
-        "line": 1094
-      },
-      "472": {
-        "filename": "DirectSell.code",
-        "line": 1097
-      }
-    },
-    "724b4aab52f43974ac0b20cf03ba9b66adee5ea7849e66e402cddc7a05882fe2": {
-      "0": {
-        "filename": "DirectSell.code",
-        "line": 1163
-      },
-      "8": {
-        "filename": "DirectSell.code",
-        "line": 1164
-      },
-      "56": {
-        "filename": "DirectSell.code",
-        "line": 1165
-      },
-      "64": {
-        "filename": "DirectSell.code",
-        "line": 1166
-      },
-      "80": {
-        "filename": "DirectSell.code",
-        "line": 1169
-      },
-      "88": {
-        "filename": "DirectSell.code",
-        "line": 1170
-      },
-      "136": {
-        "filename": "DirectSell.code",
-        "line": 1171
-      },
-      "144": {
-        "filename": "DirectSell.code",
-        "line": 1172
-      },
-      "160": {
-        "filename": "DirectSell.code",
-        "line": 1175
-      },
-      "168": {
-        "filename": "DirectSell.code",
-        "line": 1176
-      },
-      "216": {
-        "filename": "DirectSell.code",
-        "line": 1177
-      },
-      "224": {
-        "filename": "DirectSell.code",
-        "line": 1178
-      },
-      "240": {
-        "filename": "DirectSell.code",
-        "line": 1181
-      },
-      "248": {
-        "filename": "DirectSell.code",
-        "line": 1182
-      },
-      "296": {
-        "filename": "DirectSell.code",
-        "line": 1183
-      },
-      "304": {
-        "filename": "DirectSell.code",
-        "line": 1184
+        "line": 1107
       }
     },
     "8215f9e207145c1f62241468a05dd25c1ec198548c6bcd38dbe8c9731c1781f2": {
@@ -1954,6 +2096,144 @@
         "line": 121
       }
     },
+    "9e3c9af15cb95c5660acbe41cf05c053475dc212545891121dd522ddcad7460a": {
+      "0": {
+        "filename": "DirectSell.code",
+        "line": 1056
+      },
+      "16": {
+        "filename": "DirectSell.code",
+        "line": 1057
+      },
+      "24": {
+        "filename": "DirectSell.code",
+        "line": 1058
+      },
+      "40": {
+        "filename": "DirectSell.code",
+        "line": 1059
+      },
+      "56": {
+        "filename": "DirectSell.code",
+        "line": 1060
+      },
+      "72": {
+        "filename": "DirectSell.code",
+        "line": 1061
+      },
+      "80": {
+        "filename": "DirectSell.code",
+        "line": 1062
+      },
+      "88": {
+        "filename": "DirectSell.code",
+        "line": 1063
+      },
+      "104": {
+        "filename": "DirectSell.code",
+        "line": 1064
+      },
+      "120": {
+        "filename": "DirectSell.code",
+        "line": 1065
+      },
+      "128": {
+        "filename": "DirectSell.code",
+        "line": 1066
+      },
+      "144": {
+        "filename": "DirectSell.code",
+        "line": 1067
+      },
+      "168": {
+        "filename": "DirectSell.code",
+        "line": 1068
+      },
+      "184": {
+        "filename": "DirectSell.code",
+        "line": 1069
+      },
+      "192": {
+        "filename": "DirectSell.code",
+        "line": 1070
+      },
+      "208": {
+        "filename": "DirectSell.code",
+        "line": 1071
+      },
+      "248": {
+        "filename": "DirectSell.code",
+        "line": 1072
+      },
+      "264": {
+        "filename": "DirectSell.code",
+        "line": 1073
+      },
+      "272": {
+        "filename": "DirectSell.code",
+        "line": 1074
+      },
+      "288": {
+        "filename": "DirectSell.code",
+        "line": 1075
+      },
+      "296": {
+        "filename": "DirectSell.code",
+        "line": 1076
+      },
+      "312": {
+        "filename": "DirectSell.code",
+        "line": 1077
+      },
+      "328": {
+        "filename": "DirectSell.code",
+        "line": 1078
+      },
+      "336": {
+        "filename": "DirectSell.code",
+        "line": 1079
+      },
+      "344": {
+        "filename": "DirectSell.code",
+        "line": 1080
+      },
+      "360": {
+        "filename": "DirectSell.code",
+        "line": 1081
+      },
+      "376": {
+        "filename": "DirectSell.code",
+        "line": 1085
+      },
+      "384": {
+        "filename": "DirectSell.code",
+        "line": 1086
+      },
+      "408": {
+        "filename": "DirectSell.code",
+        "line": 1087
+      },
+      "424": {
+        "filename": "DirectSell.code",
+        "line": 1088
+      },
+      "432": {
+        "filename": "DirectSell.code",
+        "line": 1089
+      },
+      "448": {
+        "filename": "DirectSell.code",
+        "line": 1093
+      },
+      "456": {
+        "filename": "DirectSell.code",
+        "line": 1094
+      },
+      "472": {
+        "filename": "DirectSell.code",
+        "line": 1097
+      }
+    },
     "ac49b727939eb4b8e7ad966da0f6a49d7af94ecc1cda1bfdeda47b5a5f094b47": {
       "0": {
         "filename": "DirectSell.code",
@@ -2348,6 +2628,326 @@
       "656": {
         "filename": "../contracts/DirectSell.tsol",
         "line": 104
+      }
+    },
+    "b8048998d0717720d793f12a904e3640eab47b5d1c242f6d26b79bee9c65e35f": {
+      "0": {
+        "filename": "<entry-selector>",
+        "line": 1
+      },
+      "8": {
+        "filename": "<entry-selector>",
+        "line": 2
+      },
+      "24": {
+        "filename": "<entry-selector>",
+        "line": 3
+      },
+      "32": {
+        "filename": "<entry-selector>",
+        "line": 4
+      },
+      "48": {
+        "filename": "<entry-selector>",
+        "line": 5
+      },
+      "56": {
+        "filename": "<entry-selector>",
+        "line": 6
+      },
+      "72": {
+        "filename": "<entry-selector>",
+        "line": 7
+      },
+      "88": {
+        "filename": "<entry-selector>",
+        "line": 8
+      },
+      "96": {
+        "filename": "<entry-selector>",
+        "line": 9
+      },
+      "112": {
+        "filename": "<entry-selector>",
+        "line": 10
+      },
+      "128": {
+        "filename": "<entry-selector>",
+        "line": 11
+      }
+    },
+    "bb6de9a73f7fd36baf4df902805ddcfd7468174b9131e3f363845f5cb2467c15": {
+      "0": {
+        "filename": "DirectSell.code",
+        "line": 110
+      },
+      "8": {
+        "filename": "DirectSell.code",
+        "line": 111
+      },
+      "24": {
+        "filename": "DirectSell.code",
+        "line": 112
+      },
+      "48": {
+        "filename": "DirectSell.code",
+        "line": 113
+      },
+      "64": {
+        "filename": "DirectSell.code",
+        "line": 114
+      },
+      "72": {
+        "filename": "DirectSell.code",
+        "line": 115
+      },
+      "88": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "104": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "120": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "128": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "144": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "160": {
+        "filename": "../contracts/DirectSell.tsol",
+        "line": 72
+      },
+      "168": {
+        "filename": "DirectSell.code",
+        "line": 126
+      },
+      "184": {
+        "filename": "DirectSell.code",
+        "line": 129
+      },
+      "192": {
+        "filename": "DirectSell.code",
+        "line": 130
+      },
+      "208": {
+        "filename": "DirectSell.code",
+        "line": 131
+      },
+      "216": {
+        "filename": "DirectSell.code",
+        "line": 132
+      },
+      "224": {
+        "filename": "DirectSell.code",
+        "line": 133
+      },
+      "240": {
+        "filename": "DirectSell.code",
+        "line": 134
+      },
+      "256": {
+        "filename": "DirectSell.code",
+        "line": 135
+      },
+      "264": {
+        "filename": "DirectSell.code",
+        "line": 136
+      },
+      "272": {
+        "filename": "DirectSell.code",
+        "line": 137
+      },
+      "280": {
+        "filename": "DirectSell.code",
+        "line": 138
+      },
+      "304": {
+        "filename": "DirectSell.code",
+        "line": 139
+      },
+      "312": {
+        "filename": "DirectSell.code",
+        "line": 140
+      },
+      "320": {
+        "filename": "DirectSell.code",
+        "line": 141
+      },
+      "344": {
+        "filename": "DirectSell.code",
+        "line": 142
+      },
+      "352": {
+        "filename": "DirectSell.code",
+        "line": 143
+      },
+      "360": {
+        "filename": "DirectSell.code",
+        "line": 144
+      },
+      "408": {
+        "filename": "DirectSell.code",
+        "line": 145
+      },
+      "424": {
+        "filename": "DirectSell.code",
+        "line": 146
+      },
+      "432": {
+        "filename": "DirectSell.code",
+        "line": 147
+      },
+      "440": {
+        "filename": "DirectSell.code",
+        "line": 148
+      },
+      "448": {
+        "filename": "DirectSell.code",
+        "line": 149
+      },
+      "456": {
+        "filename": "DirectSell.code",
+        "line": 151
+      },
+      "472": {
+        "filename": "DirectSell.code",
+        "line": 152
+      },
+      "488": {
+        "filename": "DirectSell.code",
+        "line": 153
+      },
+      "496": {
+        "filename": "DirectSell.code",
+        "line": 154
+      },
+      "512": {
+        "filename": "DirectSell.code",
+        "line": 155
+      },
+      "520": {
+        "filename": "DirectSell.code",
+        "line": 156
+      },
+      "536": {
+        "filename": "DirectSell.code",
+        "line": 157
+      },
+      "552": {
+        "filename": "DirectSell.code",
+        "line": 158
+      },
+      "568": {
+        "filename": "DirectSell.code",
+        "line": 159
+      },
+      "584": {
+        "filename": "DirectSell.code",
+        "line": 160
+      },
+      "592": {
+        "filename": "DirectSell.code",
+        "line": 161
+      },
+      "616": {
+        "filename": "DirectSell.code",
+        "line": 162
+      },
+      "632": {
+        "filename": "DirectSell.code",
+        "line": 163
+      },
+      "656": {
+        "filename": "DirectSell.code",
+        "line": 164
+      },
+      "664": {
+        "filename": "DirectSell.code",
+        "line": 165
+      },
+      "672": {
+        "filename": "DirectSell.code",
+        "line": 166
+      },
+      "688": {
+        "filename": "DirectSell.code",
+        "line": 167
+      },
+      "704": {
+        "filename": "DirectSell.code",
+        "line": 168
+      },
+      "712": {
+        "filename": "DirectSell.code",
+        "line": 169
+      },
+      "736": {
+        "filename": "DirectSell.code",
+        "line": 170
+      },
+      "744": {
+        "filename": "DirectSell.code",
+        "line": 171
+      },
+      "752": {
+        "filename": "DirectSell.code",
+        "line": 172
+      },
+      "768": {
+        "filename": "DirectSell.code",
+        "line": 173
+      },
+      "784": {
+        "filename": "DirectSell.code",
+        "line": 174
+      },
+      "808": {
+        "filename": "DirectSell.code",
+        "line": 175
+      },
+      "824": {
+        "filename": "DirectSell.code",
+        "line": 176
+      },
+      "832": {
+        "filename": "DirectSell.code",
+        "line": 177
+      },
+      "840": {
+        "filename": "DirectSell.code",
+        "line": 178
+      },
+      "848": {
+        "filename": "DirectSell.code",
+        "line": 179
+      },
+      "864": {
+        "filename": "DirectSell.code",
+        "line": 180
+      },
+      "880": {
+        "filename": "DirectSell.code",
+        "line": 182
+      },
+      "888": {
+        "filename": "DirectSell.code",
+        "line": 183
+      },
+      "904": {
+        "filename": "DirectSell.code",
+        "line": 184
+      },
+      "920": {
+        "filename": "DirectSell.code",
+        "line": 187
       }
     },
     "c69dc58f00c62533bc7469e606c2081c13929eae25514e9628aa8487ad21cc48": {
@@ -2756,240 +3356,6 @@
         "line": 913
       }
     },
-    "d7f2ab55b133c364ab5530e21997d083e416dcb588ddf73d9996330c4d19f442": {
-      "0": {
-        "filename": "DirectSell.code",
-        "line": 1101
-      },
-      "16": {
-        "filename": "DirectSell.code",
-        "line": 1102
-      },
-      "24": {
-        "filename": "DirectSell.code",
-        "line": 1103
-      },
-      "40": {
-        "filename": "DirectSell.code",
-        "line": 1104
-      },
-      "56": {
-        "filename": "DirectSell.code",
-        "line": 1105
-      },
-      "72": {
-        "filename": "DirectSell.code",
-        "line": 1106
-      },
-      "80": {
-        "filename": "DirectSell.code",
-        "line": 1109
-      },
-      "96": {
-        "filename": "DirectSell.code",
-        "line": 1110
-      },
-      "104": {
-        "filename": "DirectSell.code",
-        "line": 1111
-      },
-      "120": {
-        "filename": "DirectSell.code",
-        "line": 1114
-      },
-      "136": {
-        "filename": "DirectSell.code",
-        "line": 1115
-      },
-      "144": {
-        "filename": "DirectSell.code",
-        "line": 1116
-      },
-      "160": {
-        "filename": "DirectSell.code",
-        "line": 1117
-      },
-      "176": {
-        "filename": "DirectSell.code",
-        "line": 1118
-      },
-      "192": {
-        "filename": "DirectSell.code",
-        "line": 1119
-      },
-      "200": {
-        "filename": "DirectSell.code",
-        "line": 1120
-      },
-      "216": {
-        "filename": "DirectSell.code",
-        "line": 1121
-      },
-      "224": {
-        "filename": "DirectSell.code",
-        "line": 1122
-      },
-      "240": {
-        "filename": "DirectSell.code",
-        "line": 1123
-      },
-      "248": {
-        "filename": "DirectSell.code",
-        "line": 1124
-      },
-      "256": {
-        "filename": "DirectSell.code",
-        "line": 1125
-      },
-      "272": {
-        "filename": "DirectSell.code",
-        "line": 1126
-      },
-      "280": {
-        "filename": "DirectSell.code",
-        "line": 1127
-      },
-      "288": {
-        "filename": "DirectSell.code",
-        "line": 1129
-      },
-      "296": {
-        "filename": "DirectSell.code",
-        "line": 1130
-      },
-      "304": {
-        "filename": "DirectSell.code",
-        "line": 1131
-      },
-      "320": {
-        "filename": "DirectSell.code",
-        "line": 1133
-      },
-      "328": {
-        "filename": "DirectSell.code",
-        "line": 1134
-      },
-      "344": {
-        "filename": "DirectSell.code",
-        "line": 1135
-      },
-      "360": {
-        "filename": "DirectSell.code",
-        "line": 1137
-      },
-      "368": {
-        "filename": "DirectSell.code",
-        "line": 1138
-      },
-      "384": {
-        "filename": "DirectSell.code",
-        "line": 1139
-      },
-      "392": {
-        "filename": "DirectSell.code",
-        "line": 1140
-      },
-      "408": {
-        "filename": "DirectSell.code",
-        "line": 1142
-      },
-      "416": {
-        "filename": "DirectSell.code",
-        "line": 1143
-      },
-      "432": {
-        "filename": "DirectSell.code",
-        "line": 1144
-      },
-      "440": {
-        "filename": "stdlib.sol",
-        "line": 61
-      },
-      "456": {
-        "filename": "stdlib.sol",
-        "line": 61
-      },
-      "464": {
-        "filename": "stdlib.sol",
-        "line": 61
-      },
-      "472": {
-        "filename": "stdlib.sol",
-        "line": 61
-      },
-      "488": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "496": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "512": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "536": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "544": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "584": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "592": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "600": {
-        "filename": "stdlib.sol",
-        "line": 62
-      },
-      "616": {
-        "filename": "stdlib.sol",
-        "line": 63
-      },
-      "632": {
-        "filename": "DirectSell.code",
-        "line": 1146
-      },
-      "648": {
-        "filename": "DirectSell.code",
-        "line": 1147
-      },
-      "656": {
-        "filename": "DirectSell.code",
-        "line": 1148
-      },
-      "672": {
-        "filename": "DirectSell.code",
-        "line": 1149
-      },
-      "680": {
-        "filename": "DirectSell.code",
-        "line": 1150
-      },
-      "696": {
-        "filename": "DirectSell.code",
-        "line": 1151
-      },
-      "712": {
-        "filename": "DirectSell.code",
-        "line": 1152
-      },
-      "720": {
-        "filename": "DirectSell.code",
-        "line": 1153
-      },
-      "736": {
-        "filename": "DirectSell.code",
-        "line": 1156
-      }
-    },
     "d9ad621cc2af6d6c498bd869a09aa937463d1683a2f055dade904d449abb2ff9": {
       "0": {
         "filename": "../contracts/DirectSell.tsol",
@@ -3178,280 +3544,6 @@
         "line": 282
       }
     },
-    "e5e58fdd18a82c8642d212ce9155851e19ecce08a9371906d75e8f5f96821d73": {
-      "0": {
-        "filename": "DirectSell.code",
-        "line": 110
-      },
-      "8": {
-        "filename": "DirectSell.code",
-        "line": 111
-      },
-      "24": {
-        "filename": "DirectSell.code",
-        "line": 112
-      },
-      "48": {
-        "filename": "DirectSell.code",
-        "line": 113
-      },
-      "64": {
-        "filename": "DirectSell.code",
-        "line": 114
-      },
-      "72": {
-        "filename": "DirectSell.code",
-        "line": 115
-      },
-      "88": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "104": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "120": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "128": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "144": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "160": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 72
-      },
-      "168": {
-        "filename": "DirectSell.code",
-        "line": 126
-      },
-      "184": {
-        "filename": "DirectSell.code",
-        "line": 129
-      },
-      "192": {
-        "filename": "DirectSell.code",
-        "line": 130
-      },
-      "208": {
-        "filename": "DirectSell.code",
-        "line": 131
-      },
-      "216": {
-        "filename": "DirectSell.code",
-        "line": 132
-      },
-      "224": {
-        "filename": "DirectSell.code",
-        "line": 133
-      },
-      "240": {
-        "filename": "DirectSell.code",
-        "line": 134
-      },
-      "256": {
-        "filename": "DirectSell.code",
-        "line": 135
-      },
-      "264": {
-        "filename": "DirectSell.code",
-        "line": 136
-      },
-      "272": {
-        "filename": "DirectSell.code",
-        "line": 137
-      },
-      "280": {
-        "filename": "DirectSell.code",
-        "line": 138
-      },
-      "304": {
-        "filename": "DirectSell.code",
-        "line": 139
-      },
-      "312": {
-        "filename": "DirectSell.code",
-        "line": 140
-      },
-      "320": {
-        "filename": "DirectSell.code",
-        "line": 141
-      },
-      "344": {
-        "filename": "DirectSell.code",
-        "line": 142
-      },
-      "352": {
-        "filename": "DirectSell.code",
-        "line": 143
-      },
-      "360": {
-        "filename": "DirectSell.code",
-        "line": 144
-      },
-      "408": {
-        "filename": "DirectSell.code",
-        "line": 145
-      },
-      "424": {
-        "filename": "DirectSell.code",
-        "line": 146
-      },
-      "432": {
-        "filename": "DirectSell.code",
-        "line": 147
-      },
-      "440": {
-        "filename": "DirectSell.code",
-        "line": 148
-      },
-      "448": {
-        "filename": "DirectSell.code",
-        "line": 149
-      },
-      "456": {
-        "filename": "DirectSell.code",
-        "line": 151
-      },
-      "472": {
-        "filename": "DirectSell.code",
-        "line": 152
-      },
-      "488": {
-        "filename": "DirectSell.code",
-        "line": 153
-      },
-      "496": {
-        "filename": "DirectSell.code",
-        "line": 154
-      },
-      "512": {
-        "filename": "DirectSell.code",
-        "line": 155
-      },
-      "520": {
-        "filename": "DirectSell.code",
-        "line": 156
-      },
-      "536": {
-        "filename": "DirectSell.code",
-        "line": 157
-      },
-      "552": {
-        "filename": "DirectSell.code",
-        "line": 158
-      },
-      "568": {
-        "filename": "DirectSell.code",
-        "line": 159
-      },
-      "584": {
-        "filename": "DirectSell.code",
-        "line": 160
-      },
-      "592": {
-        "filename": "DirectSell.code",
-        "line": 161
-      },
-      "616": {
-        "filename": "DirectSell.code",
-        "line": 162
-      },
-      "632": {
-        "filename": "DirectSell.code",
-        "line": 163
-      },
-      "656": {
-        "filename": "DirectSell.code",
-        "line": 164
-      },
-      "664": {
-        "filename": "DirectSell.code",
-        "line": 165
-      },
-      "672": {
-        "filename": "DirectSell.code",
-        "line": 166
-      },
-      "688": {
-        "filename": "DirectSell.code",
-        "line": 167
-      },
-      "704": {
-        "filename": "DirectSell.code",
-        "line": 168
-      },
-      "712": {
-        "filename": "DirectSell.code",
-        "line": 169
-      },
-      "736": {
-        "filename": "DirectSell.code",
-        "line": 170
-      },
-      "744": {
-        "filename": "DirectSell.code",
-        "line": 171
-      },
-      "752": {
-        "filename": "DirectSell.code",
-        "line": 172
-      },
-      "768": {
-        "filename": "DirectSell.code",
-        "line": 173
-      },
-      "784": {
-        "filename": "DirectSell.code",
-        "line": 174
-      },
-      "808": {
-        "filename": "DirectSell.code",
-        "line": 175
-      },
-      "824": {
-        "filename": "DirectSell.code",
-        "line": 176
-      },
-      "832": {
-        "filename": "DirectSell.code",
-        "line": 177
-      },
-      "840": {
-        "filename": "DirectSell.code",
-        "line": 178
-      },
-      "848": {
-        "filename": "DirectSell.code",
-        "line": 179
-      },
-      "864": {
-        "filename": "DirectSell.code",
-        "line": 180
-      },
-      "880": {
-        "filename": "DirectSell.code",
-        "line": 182
-      },
-      "888": {
-        "filename": "DirectSell.code",
-        "line": 183
-      },
-      "904": {
-        "filename": "DirectSell.code",
-        "line": 184
-      },
-      "920": {
-        "filename": "DirectSell.code",
-        "line": 187
-      }
-    },
     "e6936e8f0e7b8fe98c2ca66eee9d4e9dafcfc747defef9cb795288fabb1b7ef3": {
       "0": {
         "filename": "DirectSell.code",
@@ -3504,132 +3596,6 @@
       "144": {
         "filename": "DirectSell.code",
         "line": 1052
-      }
-    },
-    "e9c01e416025c8975208af2eb24545681c456bd13ef1378cadfc8ef881a82186": {
-      "0": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "16": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "32": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "40": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "56": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "80": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "96": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "112": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 73
-      },
-      "128": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "144": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "160": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "168": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "184": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "208": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "224": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "240": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 74
-      },
-      "256": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "272": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "280": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "288": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "304": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "312": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 75
-      },
-      "328": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "344": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "352": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "368": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "376": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "392": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "408": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "424": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
-      },
-      "440": {
-        "filename": "../contracts/DirectSell.tsol",
-        "line": 77
       }
     },
     "ec5939b4612ab7e83f0cd6836fbe0e3db3519653178916bd7cd5cf8ca51e7b35": {
@@ -4088,6 +4054,40 @@
       "584": {
         "filename": "DirectSell.code",
         "line": 1037
+      }
+    },
+    "fd8d1767e5d798943344bf276d7e09fbd69e2dd56cdbecd31f1658778539e823": {
+      "0": {
+        "filename": "DirectSell.code",
+        "line": 1159
+      },
+      "8": {
+        "filename": "DirectSell.code",
+        "line": 1160
+      },
+      "56": {
+        "filename": "DirectSell.code",
+        "line": 1161
+      },
+      "64": {
+        "filename": "DirectSell.code",
+        "line": 1162
+      },
+      "80": {
+        "filename": "DirectSell.code",
+        "line": 1188
+      },
+      "88": {
+        "filename": "DirectSell.code",
+        "line": 1189
+      },
+      "136": {
+        "filename": "DirectSell.code",
+        "line": 1190
+      },
+      "144": {
+        "filename": "DirectSell.code",
+        "line": 1191
       }
     }
   }
