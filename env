@@ -1,0 +1,23 @@
+# -------------------------------------------------------- 
+# Main mongoDB URL
+NEXT_PUBLIC_Mongo_URI=mongodb+srv://venomartspace:anu2000@testnet.yickmgx.mongodb.net/?retryWrites=true&w=majority
+
+# test mongoDB URL
+# NEXT_PUBLIC_Mongo_URI=mongodb+srv://shravanandoria21437:123Snaahaha@cluster0.xdumlze.mongodb.net/?retryWrites=true&w=majority
+
+# -------------------------------------------------------- 
+#google analytics
+NEXT_PUBLIC_GOOGLE_ANALYTICS= 'G-5R9PSZERNN'
+
+# -------------------------------------------------------- 
+#thirdweb key pair 1
+NEXT_PUBLIC_THIRDWEB_CLIENTID=04c7f4ddaf81897e4915ec0310b47966
+NEXT_PUBLIC_THIRDWEB_SECRET=Jbw6fhMhHfX4Y7Eptx5_o069bOZsFiHkFdH4ejcYbUbIY6Ci8Dd16HkgSUmZEjtiOGMjSxgxnF_mXNaLIlCaFg
+
+#thirdweb key pair 2
+# NEXT_PUBLIC_THIRDWEB_CLIENTID=fa91f455c3c8041f3896dfa548898cfc
+# NEXT_PUBLIC_THIRDWEB_SECRET=rx8ZBe8ZX_UpXblfwleE1p0KYEEQ8pSYLg22wlmpNxbhR8gemkxHTTxvzuauVILQKUDJbh07SuKzBtbDEzmasw
+
+# -------------------------------------------------------- 
+
+# mongoexport --uri mongodb+srv://venomartspace:anu2000@testnet.yickmgx.mongodb.net/ --collection=users --db=testnet --out=users.json

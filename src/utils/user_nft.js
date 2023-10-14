@@ -28,7 +28,7 @@ import TokenWallet from "../../new_abi/TokenWallet.abi.json";
 import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -65,7 +65,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:3c636f498f9304d85714abe69693c831e033da814b3915477ba9276b3fb9313e"
+  "0:7d3f81a2a31d2865ba7d5536cd14adba139de133e33691f9c0fcccc7d14645e6"
 );
 
 export const WVenomAddress = new Address(
