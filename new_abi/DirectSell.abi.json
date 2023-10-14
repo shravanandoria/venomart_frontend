@@ -15,7 +15,7 @@
 			]
 		},
 		{
-			"name": "nft_price_cal",
+			"name": "nft_price",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],

@@ -18,16 +18,16 @@
 			]
 		},
 		{
-			"name": "read_code",
+			"name": "get_listing_fee",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
-				{"name":"value0","type":"address[]"}
+				{"name":"value0","type":"uint128"}
 			]
 		},
 		{
-			"name": "get_listing_fee",
+			"name": "nft_total_price",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
@@ -53,30 +53,9 @@
 			"name": "bulkBuy",
 			"inputs": [
 				{"name":"directSell_addr","type":"address[]"},
-				{"name":"nfts_price","type":"uint128[]"}
+				{"name":"total_nft_price","type":"uint128"}
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "bulkBuyAmountCheck",
-			"inputs": [
-				{"name":"nft_price","type":"uint128"},
-				{"name":"nftAddress","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "generatePayload",
-			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"price","type":"uint128"},
-				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"}
-			],
-			"outputs": [
-				{"name":"payload","type":"cell"}
 			]
 		},
 		{
@@ -115,6 +94,14 @@
 			"name": "update_platform_fee_address",
 			"inputs": [
 				{"name":"new_platform_fees_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_directSell_code",
+			"inputs": [
+				{"name":"new_directSell","type":"cell"}
 			],
 			"outputs": [
 			]
@@ -166,6 +153,14 @@
 			"outputs": [
 				{"name":"platform_fees_address","type":"address"}
 			]
+		},
+		{
+			"name": "total_priceNFT",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"total_priceNFT","type":"uint128"}
+			]
 		}
 	],
 	"data": [
@@ -203,11 +198,11 @@
 		{"name":"platform_fees","type":"uint128"},
 		{"name":"directSellCode","type":"cell"},
 		{"name":"nftCartCode","type":"cell"},
-		{"name":"direct_sell_code","type":"address[]"},
 		{"name":"nft_to_nftPrice","type":"map(address,uint128)"},
 		{"name":"remain_on_contract","type":"uint128"},
 		{"name":"directSell_deployment_cost","type":"uint128"},
 		{"name":"listing_commission_address","type":"address"},
-		{"name":"platform_fees_address","type":"address"}
+		{"name":"platform_fees_address","type":"address"},
+		{"name":"total_priceNFT","type":"uint128"}
 	]
 }

@@ -106,7 +106,7 @@ CALLREF {
 }
 THROW 0
 
-.macro nft_price_cal
+.macro nft_price
 DROP
 GETGLOB 6
 THROWIFNOT 76
@@ -124,7 +124,7 @@ SETGLOB 4
 ENDS
 .loc ../contracts/DirectSell.tsol, 0
 CALLREF {
-	CALL $nft_price_cal_internal_macro$
+	CALL $nft_price_internal_macro$
 }
 PUSH S2
 PUSHCONT {
@@ -141,7 +141,7 @@ PUSHCONT {
 	STUR 98
 	XCHG S2
 	NEWC
-	STSLICECONST x84b181b2
+	STSLICECONST x9e04ada4
 	STU 128
 	STSLICE
 	STBREFR
@@ -186,11 +186,11 @@ IFREF {
 }
 THROW 0
 
-.globl	nft_price_cal_internal
-.type	nft_price_cal_internal, @function
-CALL $nft_price_cal_internal_macro$
+.globl	nft_price_internal
+.type	nft_price_internal, @function
+CALL $nft_price_internal_macro$
 
-.macro nft_price_cal_internal_macro
+.macro nft_price_internal_macro
 .loc ../contracts/DirectSell.tsol, 73
 GETGLOB 16
 GETGLOB 17
@@ -1161,12 +1161,6 @@ PUSHINT 684028617
 LEQ
 IFJMPREF {
 	DUP
-	PUSHINT 78741938
-	EQUAL
-	IFJMPREF {
-		CALL $nft_price_cal$
-	}
-	DUP
 	PUSHINT 106922083
 	EQUAL
 	IFJMPREF {
@@ -1177,6 +1171,12 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $constructor$
+	}
+	DUP
+	PUSHINT 503623076
+	EQUAL
+	IFJMPREF {
+		CALL $nft_price$
 	}
 	DUP
 	PUSHINT 684028617
