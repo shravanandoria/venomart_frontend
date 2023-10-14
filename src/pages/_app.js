@@ -529,7 +529,7 @@ export default function App({ Component, pageProps }) {
       Description:
         "Asynchronous blockchain building an interconnected future. Community Focused - VenomFoundation Approved by! 🇹🇷",
       mintPrice: "1",
-      status: "Upcoming",
+      status: "Sold Out",
       CollectionAddress: "0:6e3315bc1fe4973867233098f11331d270bb36cb99c97adf70eb81ace8713b15",
       customLink: "launch/venomturkiye",
       pageName: "venomturkiye",
