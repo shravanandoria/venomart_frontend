@@ -303,7 +303,6 @@ export const loadNFTs_collection = async (
 ) => {
   try {
     const myEver = new MyEver();
-    // const myProvider = myEver.ever();
     const providerRpcClient = myEver.ever();
 
     const contract = new provider.Contract(

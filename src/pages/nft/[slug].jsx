@@ -656,20 +656,41 @@ const NFTPage = ({
             <div className="container">
               <div className="md:flex md:flex-wrap">
                 <div className="relative mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2">
-                  <Image
-                    src={
-                      onchainNFTData
-                        ? nft?.preview?.source
-                        : nft?.nft_image?.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/"
-                        )
-                    }
-                    width={100}
-                    height={100}
-                    alt="item"
-                    className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
-                  />
+                  {(onchainNFTData ? nft?.preview?.source?.includes(".mp4") : nft?.nft_image?.includes(".mp4")) ?
+                    <video
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      autoPlay="autoplay"
+                      loop="true"
+                    >
+                      <source src={
+                        onchainNFTData
+                          ? nft?.preview?.source
+                          : nft?.nft_image?.replace(
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )
+                      } type="video/mp4"></source>
+                    </video>
+                    :
+                    <Image
+                      src={
+                        onchainNFTData
+                          ? nft?.preview?.source
+                          : nft?.nft_image?.replace(
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )
+                      }
+                      width={100}
+                      height={100}
+                      alt="item"
+                      className="cursor-pointer rounded-2.5xl h-[auto] w-[100%]"
+                    />
+                  }
                 </div>
 
                 {/* <!-- Details --> */}
