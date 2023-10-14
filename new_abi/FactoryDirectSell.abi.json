@@ -50,19 +50,21 @@
 			]
 		},
 		{
-			"name": "bulkBuy",
+			"name": "get_bulkBuyAmount",
 			"inputs": [
+				{"name":"answerId","type":"uint32"},
 				{"name":"directSell_addr","type":"address[]"},
-				{"name":"total_nft_price","type":"uint128"}
+				{"name":"nft_price","type":"uint128[]"}
 			],
 			"outputs": [
+				{"name":"value0","type":"uint256"}
 			]
 		},
 		{
-			"name": "nft_price_callback",
+			"name": "bulkBuy",
 			"inputs": [
-				{"name":"nft_price","type":"uint128"},
-				{"name":"directSell_addr","type":"address"}
+				{"name":"directSell_addr","type":"address[]"},
+				{"name":"nft_price","type":"uint128[]"}
 			],
 			"outputs": [
 			]
@@ -194,6 +196,14 @@
 			"outputs": [
 				{"name":"directSellList","type":"address[]"}
 			]
+		},
+		{
+			"name": "user_spent_amount",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"user_spent_amount","type":"uint128"}
+			]
 		}
 	],
 	"data": [
@@ -247,6 +257,7 @@
 		{"name":"platform_fees_address","type":"address"},
 		{"name":"total_priceNFT","type":"uint128"},
 		{"name":"listed_nfts","type":"address[]"},
-		{"name":"directSellList","type":"address[]"}
+		{"name":"directSellList","type":"address[]"},
+		{"name":"user_spent_amount","type":"uint128"}
 	]
 }

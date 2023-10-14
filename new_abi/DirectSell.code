@@ -126,9 +126,9 @@ ENDS
 CALLREF {
 	CALL $nft_price_internal_macro$
 }
-PUSH S2
+OVER
 PUSHCONT {
-	PUSH S4
+	PUSH S3
 	CTOS
 	LDU 2
 	LDMSGADDR
@@ -137,14 +137,9 @@ PUSHCONT {
 	NEWC
 	STSLICECONST xc
 	STSLICE
-	PUSHINT 1
-	STUR 98
-	XCHG S2
-	NEWC
-	STSLICECONST x9e04ada4
+	PUSHINT 3151087884
+	STUR 130
 	STU 128
-	STSLICE
-	STBREFR
 	ENDC
 	PUSHINT 0
 }
@@ -165,16 +160,12 @@ PUSHCONT {
 	SWAP
 	STGRAMS
 	STDICT
-	PUSHINT 1
-	STUR 106
-	XCHG S2
-	NEWC
+	PUSHINT 106
+	STZEROES
 	GETGLOB 4
 	INDEX 5
 	STUR 32
 	STU 128
-	STSLICE
-	STBREFR
 	ENDC
 	GETGLOB 4
 	INDEX 4
@@ -216,7 +207,7 @@ ADD
 UFITS 128
 ADD
 UFITS 128
-.loc ../contracts/DirectSell.tsol, 77
+.loc ../contracts/DirectSell.tsol, 76
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -225,7 +216,6 @@ SETINDEXQ 1
 PUSHINT 64
 SETINDEXQ 4
 SETGLOB 4
-MYADDR
 .loc ../contracts/DirectSell.tsol, 0
 
 .macro read_data
@@ -237,7 +227,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 80
+.loc ../contracts/DirectSell.tsol, 79
 LDU 32
 GETGLOB 4
 ROT
@@ -335,7 +325,7 @@ THROW 0
 CALL $read_data_internal_macro$
 
 .macro read_data_internal_macro
-.loc ../contracts/DirectSell.tsol, 81
+.loc ../contracts/DirectSell.tsol, 80
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -359,7 +349,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 84
+.loc ../contracts/DirectSell.tsol, 83
 LDU 32
 GETGLOB 4
 ROT
@@ -471,7 +461,7 @@ THROW 0
 CALL $get_listing_data_internal_macro$
 
 .macro get_listing_data_internal_macro
-.loc ../contracts/DirectSell.tsol, 86
+.loc ../contracts/DirectSell.tsol, 85
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -499,7 +489,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 89
+.loc ../contracts/DirectSell.tsol, 88
 ENDS
 .loc ../contracts/DirectSell.tsol, 0
 CALLREF {
@@ -512,7 +502,7 @@ CALLREF {
 THROW 0
 
 .macro cancel_listing_internal_macro
-.loc ../contracts/DirectSell.tsol, 90
+.loc ../contracts/DirectSell.tsol, 89
 PUSHREF {
 	.blob x596f7520617265206e6f7420746865206f776e6572206f662074686973206e6674
 }
@@ -520,9 +510,9 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 92
+.loc ../contracts/DirectSell.tsol, 91
 NEWDICT
-.loc ../contracts/DirectSell.tsol, 94
+.loc ../contracts/DirectSell.tsol, 93
 MYADDR
 GETGLOB 9
 GETGLOB 13
@@ -547,7 +537,7 @@ STBREFR
 ENDC
 PUSHINT 160
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 104
+.loc ../contracts/DirectSell.tsol, 103
 TRUE
 PUSHSLICE xc000000000000000000000000037643de3
 NEWC
@@ -567,7 +557,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 107
+.loc ../contracts/DirectSell.tsol, 106
 LDU 32
 GETGLOB 4
 ROT
@@ -634,7 +624,7 @@ THROW 0
 CALL $get_nft_price_internal_macro$
 
 .macro get_nft_price_internal_macro
-.loc ../contracts/DirectSell.tsol, 108
+.loc ../contracts/DirectSell.tsol, 107
 GETGLOB 16
 GETGLOB 17
 MUL
@@ -643,7 +633,7 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
-.loc ../contracts/DirectSell.tsol, 109
+.loc ../contracts/DirectSell.tsol, 108
 GETGLOB 16
 GETGLOB 18
 MUL
@@ -652,14 +642,14 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
-.loc ../contracts/DirectSell.tsol, 111
+.loc ../contracts/DirectSell.tsol, 110
 GETGLOB 16
 ROT
 ADD
 UFITS 128
 ADD
 UFITS 128
-.loc ../contracts/DirectSell.tsol, 112
+.loc ../contracts/DirectSell.tsol, 111
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -679,7 +669,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/DirectSell.tsol, 115
+.loc ../contracts/DirectSell.tsol, 114
 OVER
 PUSHCONT {
 	LDREF
@@ -704,7 +694,20 @@ THROW 0
 CALL $buyNft_internal_macro$
 
 .macro buyNft_internal_macro
-.loc ../contracts/DirectSell.tsol, 118
+.loc ../contracts/DirectSell.tsol, 117
+DEPTH
+ADDCONST -2
+PICK
+GETGLOB 17
+GETGLOB 18
+ADD
+UFITS 128
+GETGLOB 16
+ADD
+UFITS 128
+GREATER
+THROWIFNOT 101
+.loc ../contracts/DirectSell.tsol, 119
 GETGLOB 16
 GETGLOB 17
 MUL
@@ -713,7 +716,7 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
-.loc ../contracts/DirectSell.tsol, 119
+.loc ../contracts/DirectSell.tsol, 120
 GETGLOB 16
 GETGLOB 18
 MUL
@@ -722,7 +725,7 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
-.loc ../contracts/DirectSell.tsol, 121
+.loc ../contracts/DirectSell.tsol, 122
 PUSHREF {
 	.blob x506c656173652053656e642053756666696369656e7420416d6f756e74
 }
@@ -738,7 +741,7 @@ ADD
 UFITS 128
 GEQ
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 122
+.loc ../contracts/DirectSell.tsol, 123
 PUSHREF {
 	.blob x4e6577204e465420686f6c6465722061646472657373206973206e6f7420636f7272656374
 }
@@ -749,7 +752,7 @@ PUSHREFSLICE {
 SDEQ
 NOT
 THROWARGIFNOT 101
-.loc ../contracts/DirectSell.tsol, 125
+.loc ../contracts/DirectSell.tsol, 126
 SWAP
 GETGLOB 15
 NEWC
@@ -762,7 +765,7 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 128
+.loc ../contracts/DirectSell.tsol, 129
 GETGLOB 16
 GETGLOB 20
 ADD
@@ -778,7 +781,7 @@ STZEROES
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/DirectSell.tsol, 131
+.loc ../contracts/DirectSell.tsol, 132
 DUP
 GTINT 0
 GETGLOB 19
@@ -789,7 +792,7 @@ SDEQ
 NOT
 AND
 PUSHCONT {
-	.loc ../contracts/DirectSell.tsol, 132
+	.loc ../contracts/DirectSell.tsol, 133
 	DUP
 	GETGLOB 19
 	NEWC
@@ -805,11 +808,11 @@ PUSHCONT {
 	.loc ../contracts/DirectSell.tsol, 0
 }
 IF
-.loc ../contracts/DirectSell.tsol, 135
+.loc ../contracts/DirectSell.tsol, 136
 DROP
 NEWDICT
-.loc ../contracts/DirectSell.tsol, 137
-GETGLOB 9
+.loc ../contracts/DirectSell.tsol, 138
+OVER
 ROT
 GETGLOB 13
 FALSE
@@ -1157,7 +1160,7 @@ THROW 60
 
 .macro public_function_selector
 DUP
-PUSHINT 684028617
+PUSHINT 1003604236
 LEQ
 IFJMPREF {
 	DUP
@@ -1173,16 +1176,16 @@ IFJMPREF {
 		CALL $constructor$
 	}
 	DUP
-	PUSHINT 503623076
-	EQUAL
-	IFJMPREF {
-		CALL $nft_price$
-	}
-	DUP
 	PUSHINT 684028617
 	EQUAL
 	IFJMPREF {
 		CALL $read_data$
+	}
+	DUP
+	PUSHINT 1003604236
+	EQUAL
+	IFJMPREF {
+		CALL $nft_price$
 	}
 }
 DUP

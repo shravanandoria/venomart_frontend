@@ -28,7 +28,7 @@ import TokenWallet from "../../new_abi/TokenWallet.abi.json";
 import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -61,7 +61,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:e6fa0359ccbabf5205e951d592dc48245ae6e845b5259dbcbb1a1d200db1b85e"
+  "0:e22767f97b08376755e04e2ec840715b6d1914465f43e81dd46a61f8c39fd1cd"
 );
 
 export const FactoryMakeOfferAddress = new Address(
@@ -147,7 +147,9 @@ export const MakeOpenOffer = async (
       nft_address
     );
 
-    const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    const data = await factoryContract.methods
+      .read_code({ answerId: 0 })
+      .call();
     console.log(data);
     return true;
   } catch (error) {
@@ -877,6 +879,7 @@ export const buy_nft = async (
 
     let output;
     if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
+      console.log("cal 1");
       output = await DirectSellContract.methods
         .buyNft({
           sendRemainingGasTo: new Address(signer_address),
@@ -889,6 +892,7 @@ export const buy_nft = async (
           amount: fees,
         });
     } else {
+      console.log("call 2");
       output = await DirectSellContract.methods
         .buyNft({
           new_nft_holder: new Address(signer_address),

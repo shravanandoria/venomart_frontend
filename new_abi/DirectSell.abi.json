@@ -20,8 +20,7 @@
 				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
-				{"name":"value0","type":"uint128"},
-				{"name":"value1","type":"address"}
+				{"name":"value0","type":"uint128"}
 			]
 		},
 		{
