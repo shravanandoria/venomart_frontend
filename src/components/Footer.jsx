@@ -4,11 +4,18 @@ import Link from "next/link";
 import darkPng from "../../public/darkpng.png";
 import whitePng from "../../public/whitepng.png";
 import venomLogo from "../../public/venomBG.webp";
-import { BsDiscord, BsExclamationCircleFill, BsTelegram, BsTwitter, BsYoutube } from "react-icons/bs";
+import {
+  BsDiscord,
+  BsExclamationCircleFill,
+  BsTelegram,
+  BsTwitter,
+  BsYoutube,
+} from "react-icons/bs";
 import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
+import { bulk_buy_nfts } from "../utils/user_nft";
 
 const Footer = ({
   theme,
@@ -21,9 +28,9 @@ const Footer = ({
   setCartNFTs,
   setAnyModalOpen,
   venomPrice,
-  venomTPS
+  venomTPS,
+  venomProvider,
 }) => {
-
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
   const [itemsModal, setItemsModal] = useState(false);
@@ -31,32 +38,43 @@ const Footer = ({
 
   function formatNumberShort(number) {
     if (number >= 1e6) {
-      const formatted = numeral(number / 1e6).format('0.00a');
-      if (formatted.endsWith('k')) {
-        return (formatted.slice(0, -1) + "M");
-      }
-      else {
-        return (formatted + "M");
+      const formatted = numeral(number / 1e6).format("0.00a");
+      if (formatted.endsWith("k")) {
+        return formatted.slice(0, -1) + "M";
+      } else {
+        return formatted + "M";
       }
     } else if (number >= 1e3) {
-      return numeral(number / 1e3).format('0.00a') + 'K';
+      return numeral(number / 1e3).format("0.00a") + "K";
     } else if (number % 1 !== 0) {
-      return numeral(number).format('0.00');
+      return numeral(number).format("0.00");
     } else {
-      return numeral(number).format('0');
+      return numeral(number).format("0");
     }
   }
 
   const getStats = async () => {
     const statsData = await getLiveStats();
     setStatsData(statsData);
-  }
+  };
 
   const buyCartNFTs = (e) => {
-    e.preventDefault()
-    alert("This feature will be available soon..");
+    e.preventDefault();
+
+    const managerAddresses = cartNFTs.map((item) => item.managerAddress);
+    const listingPrices = cartNFTs.map(
+      (item) => item.listingPrice * 1000000000
+    );
+
+    bulk_buy_nfts(
+      venomProvider,
+      signer_address,
+      managerAddresses,
+      listingPrices
+    );
+    // alert("This feature will be available soon..");
     return;
-  }
+  };
 
   const totalListingPrice = cartNFTs.reduce((total, nft) => {
     const amount = parseFloat(nft?.listingPrice);
@@ -64,7 +82,9 @@ const Footer = ({
   }, 0);
 
   const removeFromCart = (itemToRemoveId) => {
-    const updatedCartNFTs = cartNFTs.filter((item) => item._id !== itemToRemoveId);
+    const updatedCartNFTs = cartNFTs.filter(
+      (item) => item._id !== itemToRemoveId
+    );
     setCartNFTs(updatedCartNFTs);
   };
 
@@ -74,34 +94,48 @@ const Footer = ({
 
   useEffect(() => {
     getStats();
-  }, [])
+  }, []);
 
   return (
     <div className={`${theme}`}>
-
       {itemsModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
       {/* cart */}
-      {cartNFTs != "" &&
-        <div onClick={() => (setAnyModalOpen(true), setItemsModal(true))} className="fixed bottom-[5%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900 z-20">
+      {cartNFTs != "" && (
+        <div
+          onClick={() => (setAnyModalOpen(true), setItemsModal(true))}
+          className="fixed bottom-[5%] right-[1%] bg-blue py-4 px-4 rounded-[100px] cursor-pointer hover:bg-blue-900 z-20"
+        >
           <div className="relative flex flex-row justify-center align-middle">
             {cartNFTs?.map((nft, index) => {
               return (
-                index < 3 &&
-                (<Image key={nft._id} src={nft?.nft_image} alt="items" height={100} width={100} className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${index === 1 || index === 2 ? 'ml-[-16px]' : ''}`} />)
-              )
+                index < 3 && (
+                  <Image
+                    key={nft._id}
+                    src={nft?.nft_image}
+                    alt="items"
+                    height={100}
+                    width={100}
+                    className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${
+                      index === 1 || index === 2 ? "ml-[-16px]" : ""
+                    }`}
+                  />
+                )
+              );
             })}
-            {cartNFTs?.length > 3 &&
-              <h2 className="absolute top-[-20px] right-[-20px] bg-blue-800 px-2 text-[14px] text-white rounded-[100px]">+{(cartNFTs?.length) - 3}</h2>
-            }
+            {cartNFTs?.length > 3 && (
+              <h2 className="absolute top-[-20px] right-[-20px] bg-blue-800 px-2 text-[14px] text-white rounded-[100px]">
+                +{cartNFTs?.length - 3}
+              </h2>
+            )}
           </div>
         </div>
-      }
+      )}
 
       {/* cart modal  */}
-      {itemsModal &&
+      {itemsModal && (
         <div className="afterMintDiv">
           <form onSubmit={buyCartNFTs} className="modal-dialog max-w-2xl">
             <div className="modal-content shadow-2xl dark:bg-jacarta-800">
@@ -145,7 +179,10 @@ const Footer = ({
                 <div className="customCheckoutBar max-h-[275px] overflow-y-auto px-2">
                   {cartNFTs.map((nft, index) => {
                     return (
-                      <div key={index} className="dark:border-jacarta-600 relative flex items-center py-2">
+                      <div
+                        key={index}
+                        className="dark:border-jacarta-600 relative flex items-center py-2"
+                      >
                         {/* nft image  */}
                         <div className="relative mr-5 self-start">
                           <Image
@@ -161,7 +198,7 @@ const Footer = ({
                           <button
                             type="button"
                             className="absolute top-[-4px] right-[-4px] bg-red rounded-xl"
-                            onClick={() => (removeFromCart(nft?._id))}
+                            onClick={() => removeFromCart(nft?._id)}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -178,18 +215,35 @@ const Footer = ({
 
                         {/* main nft info  */}
                         <div>
-                          <div className="flex text-accent text-[13px] mb-2" >
-                            {(nft?.NFTCollection?.name ? nft?.NFTCollection?.name : nft?.NFTCollection?.contractAddress?.slice(0, 8) +
-                              "..." +
-                              nft?.NFTCollection?.contractAddress?.slice(60))}
+                          <div className="flex text-accent text-[13px] mb-2">
+                            {nft?.NFTCollection?.name
+                              ? nft?.NFTCollection?.name
+                              : nft?.NFTCollection?.contractAddress?.slice(
+                                  0,
+                                  8
+                                ) +
+                                "..." +
+                                nft?.NFTCollection?.contractAddress?.slice(60)}
 
-                            {nft?.NFTCollection?.isVerified ?
-                              <MdVerified style={{ color: "#4f87ff", marginLeft: "3px", marginTop: "3px" }}
-                                size={13} />
-                              :
-                              <BsExclamationCircleFill style={{ color: "#c3c944", marginLeft: "3px", marginTop: "3px" }}
-                                size={13} />
-                            }
+                            {nft?.NFTCollection?.isVerified ? (
+                              <MdVerified
+                                style={{
+                                  color: "#4f87ff",
+                                  marginLeft: "3px",
+                                  marginTop: "3px",
+                                }}
+                                size={13}
+                              />
+                            ) : (
+                              <BsExclamationCircleFill
+                                style={{
+                                  color: "#c3c944",
+                                  marginLeft: "3px",
+                                  marginTop: "3px",
+                                }}
+                                size={13}
+                              />
+                            )}
                           </div>
                           <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                             {nft?.name}
@@ -209,21 +263,23 @@ const Footer = ({
                               />
                             </span>
                             <span className="dark:text-jacarta-100 text-[18px] font-medium tracking-tight">
-                              {nft?.listingPrice ? formatNumberShort(nft?.listingPrice) : "0.00"}
+                              {nft?.listingPrice
+                                ? formatNumberShort(nft?.listingPrice)
+                                : "0.00"}
                             </span>
                           </span>
                           <span className="mb-1 flex items-center whitespace-nowrap"></span>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
 
-                {cartNFTs.length <= 0 &&
+                {cartNFTs.length <= 0 && (
                   <h3 className="font-display text-jacarta-700 mb-1 text-[20px] font-semibold dark:text-white text-center py-12">
                     Your cart is empty!
                   </h3>
-                }
+                )}
 
                 {/* total amount */}
                 <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between pt-3 pb-2 border-t mt-4 px-2">
@@ -242,7 +298,9 @@ const Footer = ({
                         />
                       </span>
                       <span className="text-green font-medium text-lg tracking-tight">
-                        {totalListingPrice ? formatNumberShort(totalListingPrice) : "0"}
+                        {totalListingPrice
+                          ? formatNumberShort(totalListingPrice)
+                          : "0"}
                       </span>
                     </span>
                   </div>
@@ -276,7 +334,11 @@ const Footer = ({
               <div className="modal-footer">
                 <div className="flex items-center justify-center space-x-4">
                   <button
-                    onClick={() => (setCartNFTs([]), setAnyModalOpen(false), setItemsModal(false))}
+                    onClick={() => (
+                      setCartNFTs([]),
+                      setAnyModalOpen(false),
+                      setItemsModal(false)
+                    )}
                     type="button"
                     className="flex w-38 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                   >
@@ -327,10 +389,14 @@ const Footer = ({
             </div>
           </form>
         </div>
-      }
+      )}
 
       {/* stats area  */}
-      <div id="global-toolbar-footer" className="hidden md:block w-full z-60 bg-gray-50 dark:bg-jacarta-900 border-t dark:border-jacarta-600 border-jacarta-100 sticky bottom-0 dark:text-jacarta-200 text-jacarta-700" style={{ height: '40px' }}>
+      <div
+        id="global-toolbar-footer"
+        className="hidden md:block w-full z-60 bg-gray-50 dark:bg-jacarta-900 border-t dark:border-jacarta-600 border-jacarta-100 sticky bottom-0 dark:text-jacarta-200 text-jacarta-700"
+        style={{ height: "40px" }}
+      >
         <div className="h-full flex justify-between">
           <div className="flex text-left">
             {/* live data emoji  */}
@@ -341,7 +407,9 @@ const Footer = ({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                   </span>
-                  <span className="ml-1 mr-3 dark:text-jacarta-100 text-black text-sm">Live Data</span>
+                  <span className="ml-1 mr-3 dark:text-jacarta-100 text-black text-sm">
+                    Live Data
+                  </span>
                 </div>
               </div>
             </div>
@@ -350,16 +418,26 @@ const Footer = ({
               <div id="statsNotch" className="w-full flex z-50 relative">
                 <div className="flex flex-auto relative h-8 overflow-hidden">
                   <ul className="flex justify-center items-center">
-                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                    <li
+                      className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0"
+                      style={{ marginTop: "0px" }}
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-light-gray-500">Sales 24h:</span>
                         <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
-                          {statsData?.SalesCountLast24Hours ? formatNumberShort(statsData?.SalesCountLast24Hours) : "---"}
+                          {statsData?.SalesCountLast24Hours
+                            ? formatNumberShort(
+                                statsData?.SalesCountLast24Hours
+                              )
+                            : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>
                       </div>
                     </li>
-                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                    <li
+                      className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0"
+                      style={{ marginTop: "0px" }}
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-light-gray-500">Vol 24h:</span>
                         <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
@@ -372,17 +450,24 @@ const Footer = ({
                                 height: "13px",
                                 width: "13px",
                                 marginTop: "2px",
-                                marginRight: "4px"
+                                marginRight: "4px",
                               }}
                               alt="VenomLogo"
                             />
                           </span>
-                          {statsData?.SalesVolumeLast24Hours ? formatNumberShort(statsData?.SalesVolumeLast24Hours) : "---"}
+                          {statsData?.SalesVolumeLast24Hours
+                            ? formatNumberShort(
+                                statsData?.SalesVolumeLast24Hours
+                              )
+                            : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>
                       </div>
                     </li>
-                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                    <li
+                      className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0"
+                      style={{ marginTop: "0px" }}
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-light-gray-500">Total Vol:</span>
                         <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
@@ -395,12 +480,14 @@ const Footer = ({
                                 height: "13px",
                                 width: "13px",
                                 marginTop: "2px",
-                                marginRight: "4px"
+                                marginRight: "4px",
                               }}
                               alt="VenomLogo"
                             />
                           </span>
-                          {statsData?.AllTimeSalesVolume ? formatNumberShort(statsData?.AllTimeSalesVolume) : "---"}
+                          {statsData?.AllTimeSalesVolume
+                            ? formatNumberShort(statsData?.AllTimeSalesVolume)
+                            : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>
                       </div>
@@ -417,7 +504,10 @@ const Footer = ({
               <div id="statsNotch" className="w-full flex z-50 relative">
                 <div className="flex flex-auto relative h-8 overflow-hidden">
                   <ul className="flex justify-center items-center">
-                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                    <li
+                      className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0"
+                      style={{ marginTop: "0px" }}
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-light-gray-500">
                           <Image
@@ -427,13 +517,15 @@ const Footer = ({
                             style={{
                               height: "13px",
                               width: "13px",
-                              marginTop: "3px"
+                              marginTop: "3px",
                             }}
                             alt="VenomLogo"
                           />
                         </span>
                         <span className="font-mono dark:text-jacarta-100 text-black text-tracking-tight">
-                          <span className="text-light-gray-500"></span>{venomPrice}<span className="text-light-gray-500"></span>
+                          <span className="text-light-gray-500"></span>
+                          {venomPrice}
+                          <span className="text-light-gray-500"></span>
                         </span>
                       </div>
                     </li>
@@ -448,11 +540,16 @@ const Footer = ({
                 <div className="flex flex-auto relative h-8 overflow-hidden">
                   <ul className="flex justify-center items-center">
                     {/* tps  */}
-                    <li className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0" style={{ marginTop: '0px' }}>
+                    <li
+                      className="text-xs whitespace-nowrap mb-0 mr-2 lg:mr-4 last:mr-0"
+                      style={{ marginTop: "0px" }}
+                    >
                       <div className="flex items-center gap-x-2">
                         <span className="text-light-gray-500">TPS:</span>
                         <span className="font-mono dark:text-jacarta-100 text-black text-tracking-tight">
-                          <span className="text-light-gray-500"></span>{formatNumberShort(venomTPS)}<span className="text-light-gray-500"></span>
+                          <span className="text-light-gray-500"></span>
+                          {formatNumberShort(venomTPS)}
+                          <span className="text-light-gray-500"></span>
                         </span>
                       </div>
                     </li>
@@ -572,7 +669,7 @@ const Footer = ({
               </ul>
             </div>
 
-            {signer_address &&
+            {signer_address && (
               <div className="col-span-full sm:col-span-3 md:col-span-2">
                 <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
                   My Account
@@ -634,7 +731,7 @@ const Footer = ({
                   )}
                 </ul>
               </div>
-            }
+            )}
 
             <div className="col-span-full sm:col-span-3 md:col-span-2">
               <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
@@ -745,7 +842,7 @@ const Footer = ({
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
