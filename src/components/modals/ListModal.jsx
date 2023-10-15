@@ -7,7 +7,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import { platform_fees } from '../../utils/user_nft'
 import numeral from 'numeral'
 
-const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, finalListingPrice, setFinalListingPrice, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked }) => {
+const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, finalListingPrice, setFinalListingPrice, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {

@@ -11,9 +11,7 @@ import {
   MakeOpenOffer,
   buy_nft,
   directSell_nft_info,
-  get_nft_by_address,
-  listing_fees,
-  platform_fees,
+  get_nft_by_address
 } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
@@ -1496,13 +1494,14 @@ const NFTPage = ({
                             type="button"
                             onClick={() => (
                               setSelectedNFT(""),
+                              !onchainNFTData && checkExistingOffer(),
                               setOfferModal(true),
                               setAnyModalOpen(true)
                             )}
                             className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                           >
                             <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                            Make an Offer
+                            Make An Offer
                           </button>
                         </div>
                       </>
@@ -2218,14 +2217,14 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal && (
             <div className="afterMintDiv">
-              {/* <form
+              <form
                 onSubmit={(e) => (
                   e.preventDefault(),
                   alert("This feature will be available soon..")
                 )}
                 className="modal-dialog max-w-2xl"
-              > */}
-              <form onSubmit={makeOffer} className="modal-dialog max-w-2xl">
+              >
+                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">
@@ -2403,7 +2402,6 @@ const NFTPage = ({
               setAnyModalOpen={setAnyModalOpen}
               currency={currency}
               loading={loading}
-              listing_fees={listing_fees}
               listingPrice={listingPrice}
               set_listing_price={set_listing_price}
               creatorRoyalty={creatorRoyalty}

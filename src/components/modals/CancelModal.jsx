@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MdVerified } from 'react-icons/md';
 import { BsExclamationCircleFill } from 'react-icons/bs';
-import { listing_fees, refundable_fees } from '../../utils/user_nft';
+import { cancel_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
 const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, actionLoad }) => {
@@ -113,7 +113,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                                     alt="venomLogo"
                                                     className="h-3 w-3 mr-1 ml-1 mt-1"
                                                 />
-                                                {refundable_fees / 1000000000}
+                                                {cancel_refundable_fees / 1000000000}
                                             </span>
                                         </span>
                                         <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
@@ -159,7 +159,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                         />
                                     </span>
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                                        {refundable_fees / 1000000000}
+                                        {cancel_refundable_fees / 1000000000}
                                     </span>
                                 </span>
                                 <span className="mb-1 flex items-center whitespace-nowrap"></span>
@@ -182,7 +182,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                         />
                                     </span>
                                     <span className="text-green font-medium tracking-tight">
-                                        {parseFloat(refundable_fees / 1000000000)}
+                                        {parseFloat(cancel_refundable_fees / 1000000000)}
                                     </span>
                                 </span>
                             </div>
