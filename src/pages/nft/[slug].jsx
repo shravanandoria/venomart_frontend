@@ -7,6 +7,7 @@ import Loader from "../../components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import {
+  MARKETPLACE_ADDRESS,
   MakeOpenOffer,
   buy_nft,
   directSell_nft_info,
@@ -1175,33 +1176,34 @@ const NFTPage = ({
                                   setBuyModal(true),
                                   setAnyModalOpen(true)
                                 )}
-                                className="flex justify-center align-middle w-[88%] rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                className={`flex justify-center align-middle ${nft?.managerAddress == MARKETPLACE_ADDRESS ? "w-[100%]" : "w-[88%]"} rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark`}
                               >
                                 <FaWallet className="text-[18px] mt-1 mr-2" />
                                 Buy Now
                               </button>
 
-                              {cartNFTs.some((item) => item._id === nft._id) ? (
-                                <button
-                                  type="button"
-                                  onClick={(e) => (
-                                    e.preventDefault(), removeFromCart(nft)
-                                  )}
-                                  className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-white ml-4 text-center font-semibold text-accent shadow-white-volume transition-all  hover:text-white"
-                                >
-                                  <BsFillCheckCircleFill className="text-center text-[28px] text-accent" />
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={(e) => (
-                                    e.preventDefault(), addToCart()
-                                  )}
-                                  className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-accent font-semibold text-white shadow-accent-volume hover:bg-accent-dark ml-4"
-                                >
-                                  <BsFillCartPlusFill className="text-center text-[25px]" />
-                                </button>
-                              )}
+                              {nft?.managerAddress != MARKETPLACE_ADDRESS &&
+                                (cartNFTs.some((item) => item._id === nft._id) ? (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => (
+                                      e.preventDefault(), removeFromCart(nft)
+                                    )}
+                                    className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-white ml-4 text-center font-semibold text-accent shadow-white-volume transition-all  hover:text-white"
+                                  >
+                                    <BsFillCheckCircleFill className="text-center text-[28px] text-accent" />
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => (
+                                      e.preventDefault(), addToCart()
+                                    )}
+                                    className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-accent font-semibold text-white shadow-accent-volume hover:bg-accent-dark ml-4"
+                                  >
+                                    <BsFillCartPlusFill className="text-center text-[25px]" />
+                                  </button>
+                                ))}
                             </div>
                             <div className="flex mt-4">
                               <button

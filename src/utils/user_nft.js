@@ -730,8 +730,6 @@ export const list_nft = async (
       FactoryDirectSellAddress
     );
 
-    console.log(factory_contract);
-
     const listing_fee = await factory_contract.methods
       .get_listing_fee({ answerId: 0 })
       .call();
@@ -834,7 +832,7 @@ export const cancel_listing = async (
 
     let output;
     if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      output = await marketplace_contract.methods
+      output = await DirectSellContract.methods
         .cancel_listing({
           nft_address,
         })

@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
 import { bulk_buy_nfts } from "../utils/user_nft";
+import { GoArrowUpRight } from 'react-icons/go';
 
 const Footer = ({
   theme,
@@ -34,6 +35,7 @@ const Footer = ({
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
   const [itemsModal, setItemsModal] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
   const [statsData, setStatsData] = useState("");
 
   function formatNumberShort(number) {
@@ -61,8 +63,6 @@ const Footer = ({
   const buyCartNFTs = async (e) => {
     e.preventDefault();
     setActionLoad(true);
-    // alert("This feature will be available soon..");
-    // return;
 
     const ownerAddresses = cartNFTs.map((item) => item.ownerAddress);
     const managerAddresses = cartNFTs.map((item) => item.managerAddress);
@@ -87,6 +87,7 @@ const Footer = ({
     if (bulkBuy == true) {
       setActionLoad(false);
       setItemsModal(false);
+      setSuccessModal(true);
     }
     else {
       setActionLoad(false);
@@ -110,12 +111,19 @@ const Footer = ({
   }, [router.pathname]);
 
   useEffect(() => {
+    setCartNFTs([]);
+  }, [signer_address]);
+
+  useEffect(() => {
     getStats();
   }, []);
 
   return (
     <div className={`${theme}`}>
       {itemsModal && (
+        <div className="backgroundModelBlur backdrop-blur-lg"></div>
+      )}
+      {successModal && (
         <div className="backgroundModelBlur backdrop-blur-lg"></div>
       )}
 
@@ -405,6 +413,97 @@ const Footer = ({
             </div>
           </form>
         </div>
+      )}
+
+      {successModal && (
+        <div className="afterMintDiv">
+          <form className="modal-dialog max-w-2xl">
+            <div className="modal-content shadow-2xl dark:bg-jacarta-800">
+              <div className="modal-header">
+                <h5 className="modal-title" id="placeBidLabel">
+                  Congratulations🎉🎉
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => (
+                    setSuccessModal(false), setAnyModalOpen(false)
+                  )}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                  >
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* fees and display section  */}
+              <div className="modal-body p-6">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                    You have successfully bought
+                  </span>
+                </div>
+                <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center py-4">
+                  {cartNFTs?.map((nft, index) => {
+                    return (
+                      <div className="mr-5 self-start" key={index}>
+                        <Image
+                          src={nft?.nft_image?.replace(
+                            "ipfs://",
+                            "https://ipfs.io/ipfs/"
+                          )}
+                          alt="nftPreview"
+                          width="70"
+                          height="70"
+                          className="rounded-2lg"
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
+                <div className="flex items-center justify-center space-x-4 m-2">
+                  <button
+                    onClick={() => (
+                      setCartNFTs([]), setSuccessModal(false), setAnyModalOpen(false)
+                    )}
+                    className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Close
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="ml-[5px] mt-[2px] text-[20px] fill-jacarta-700 dark:fill-white"
+                    >
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="flex items-center justify-center space-x-4 m-2" onClick={() => { setCartNFTs([]), setSuccessModal(false), setAnyModalOpen(false) }}>
+                  <Link
+                    href={`/profile/${signer_address}`}
+                    className="flex justify-center rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    View
+                    <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </form >
+        </div >
       )}
 
       {/* stats area  */}

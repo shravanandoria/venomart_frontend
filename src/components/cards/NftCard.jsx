@@ -6,6 +6,7 @@ import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import { AiFillPlusCircle } from "react-icons/ai";
 import numeral from 'numeral';
+import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 
 
 const NftCard = ({
@@ -79,7 +80,7 @@ const NftCard = ({
           />
         }
 
-        {(listedBool && signerAddress != Owner) &&
+        {(listedBool && signerAddress != Owner && NFTData?.managerAddress != MARKETPLACE_ADDRESS) &&
           (cartNFTs.some((item) => item._id === NFTData._id) ?
             <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
             :
