@@ -104,6 +104,18 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     setMoreLoading(false);
   };
 
+  const fetch_nfts_success = async () => {
+    setMoreLoading(true);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    if (res) {
+      set_nfts(res);
+      if (res == "") {
+        setHasMore(false);
+      }
+    }
+    setMoreLoading(false);
+  };
+
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
     setMoreLoading(true);
@@ -930,7 +942,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
             <SuccessModal
               setSuccessModal={setSuccessModal}
               setAnyModalOpen={setAnyModalOpen}
-              onCloseFunctionCall={fetch_filter_nfts}
+              onCloseFunctionCall={fetch_nfts_success}
               TransactionType={transactionType}
               NFTImage={selectedNFT?.nft_image}
               NFTAddress={selectedNFT?.NFTAddress}

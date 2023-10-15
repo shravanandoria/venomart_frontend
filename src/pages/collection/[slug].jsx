@@ -369,6 +369,26 @@ const Collection = ({
     setPropLoading(false);
   };
 
+  // getting nfts according to success modal response
+  const fetch_nfts_success = async () => {
+    if (defaultFilterFetch == false) return;
+    const nfts_offchain = await fetch_collection_nfts(
+      slug,
+      signer_address,
+      currentFilter,
+      propsFilter,
+      minPrice,
+      maxPrice,
+      skip
+    );
+    if (nfts_offchain) {
+      set_nfts(nfts_offchain);
+      if (nfts_offchain == "") {
+        setHasMore(false);
+      }
+    }
+  };
+
   // getting nfts according to filter
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
@@ -2582,7 +2602,7 @@ const Collection = ({
             <SuccessModal
               setSuccessModal={setSuccessModal}
               setAnyModalOpen={setAnyModalOpen}
-              onCloseFunctionCall={fetch_filter_nfts}
+              onCloseFunctionCall={fetch_nfts_success}
               TransactionType={transactionType}
               NFTImage={selectedNFT?.nft_image}
               NFTAddress={selectedNFT?.NFTAddress}
