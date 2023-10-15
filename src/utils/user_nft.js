@@ -24,8 +24,10 @@ import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
 import { addOffer } from "./mongo_api/offer/offer";
 
-import TokenWallet from "../../new_abi/TokenWallet.abi.json";
-import TokenRoot from "../../new_abi/TokenRoot.abi.json";
+import TokenWallet from "../../abi/TokenWallet.abi.json";
+import TokenRoot from "../../abi/TokenRoot.abi.json";
+// import TokenWallet from "../../new_abi/TokenWallet.abi.json";
+// import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
   constructor() {}
@@ -61,7 +63,7 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:e22767f97b08376755e04e2ec840715b6d1914465f43e81dd46a61f8c39fd1cd"
+  "0:af9147d7767f30740350dfc83c0c596250dfc8a0650ecaaf428371cbf175ae46"
 );
 
 export const FactoryMakeOfferAddress = new Address(
@@ -71,6 +73,34 @@ export const FactoryMakeOfferAddress = new Address(
 export const WVenomAddress = new Address(
   "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
 );
+
+export const bulk_buy_nfts = async (
+  provider,
+  signer_address,
+  directSell_addr,
+  nft_price
+) => {
+  console.log(directSell_addr, nft_price);
+  const contract = new provider.Contract(
+    FactoryDirectSell,
+    FactoryDirectSellAddress
+  );
+
+  const buy_amount = await contract.methods
+    .get_bulkBuyAmount({
+      answerId: 0,
+      directSell_addr,
+      nft_price,
+    })
+    .call();
+
+  console.log(buy_amount);
+
+  await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
+    from: new Address(signer_address),
+    amount: parseFloat(buy_amount.value0).toString(),
+  });
+};
 
 export const MakeOpenOffer = async (
   provider,

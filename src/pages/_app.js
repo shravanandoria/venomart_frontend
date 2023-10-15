@@ -332,7 +332,8 @@ export default function App({ Component, pageProps }) {
       Description: "Celebrate the collaboration of Venom Ape Club & Venomart",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "0:552f25001a79abec50b247177c1ff14c846af109aece93b98658166ff3298b1f",
+      CollectionAddress:
+        "0:552f25001a79abec50b247177c1ff14c846af109aece93b98658166ff3298b1f",
       customLink: "custom/apeclub",
       pageName: "apeclub",
       supply: "2222",
@@ -478,7 +479,8 @@ export default function App({ Component, pageProps }) {
         "Web3 Bros sssliding into decentralized realms. The Venomons' Sanctuary awaits you 🐍",
       mintPrice: "1",
       status: "Sold Out",
-      CollectionAddress: "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
+      CollectionAddress:
+        "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
       customLink: "launch/venomons",
       pageName: "venomons",
       supply: "1000",
@@ -499,11 +501,11 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmcGVH8wAJxVoeKavcaniUsvCcwnhcCgDQ25BoTRZXB1Yg/chads.jpg",
       Logo: "https://ipfs.io/ipfs/QmRdJmCipSd8Xsf8KSjqpzufrmD5zBBZF6vkzA3uVdbhU1/chadpass.jpg",
       Name: "Venomchad WL pass",
-      Description:
-        "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
+      Description: "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "0:ef4d10ea86a02a1ac6b2e0c7d226b39745424f79a8d70ecd021572b1d73e7de3",
+      CollectionAddress:
+        "0:ef4d10ea86a02a1ac6b2e0c7d226b39745424f79a8d70ecd021572b1d73e7de3",
       customLink: "launch/venomchads",
       pageName: "venomchads",
       supply: "2000",
@@ -739,6 +741,7 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
         venomPrice={venomPrice}
         venomTPS={venomTPS}
+        venomProvider={venomProvider}
       />
     </ThirdwebProvider>
   );
