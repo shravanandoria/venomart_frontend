@@ -1,5 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 import Collection from "../../../Models/Collection";
+import NFT from "../../../Models/NFT";
 import Activity from "../../../Models/Activity";
 
 export default async function handler(req, res) {
@@ -119,7 +120,6 @@ export default async function handler(req, res) {
                             isVerified: { $arrayElemAt: ["$collection_info.isVerified", 0] },
                             category: { $arrayElemAt: ["$collection_info.Category", 0] },
                             royalty: { $arrayElemAt: ["$collection_info.royalty", 0] },
-                            FloorPrice: { $arrayElemAt: ["$collection_info.FloorPrice", 0] },
                             TotalSupply: { $arrayElemAt: ["$collection_info.TotalSupply", 0] },
 
                         }
@@ -138,7 +138,52 @@ export default async function handler(req, res) {
                         $limit: 10
                     }
                 ]);
-                return res.status(200).json({ success: true, data: saleResult });
+
+                const getNFTResultForCollection = async (collectionId) => {
+                    const nftResult = await NFT.aggregate([
+                        {
+                            $match: {
+                                NFTCollection: collectionId,
+                                isListed: true
+                            }
+                        },
+                        {
+                            $addFields: {
+                                priceAsDouble: { $toDouble: "$listingPrice" }
+                            }
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                minimumListingPrice: {
+                                    $min: "$priceAsDouble"
+                                }
+                            }
+                        },
+                        {
+                            $limit: 1
+                        },
+                        {
+                            $sort: {
+                                minimumListingPrice: -1
+                            }
+                        }
+                    ]);
+                    return nftResult[0]?.minimumListingPrice || 0;
+                };
+
+                const mergedData = await Promise.all(
+                    saleResult.map(async (collection) => {
+                        const collectionId = collection?._id;
+                        const minimumListingPrice = await getNFTResultForCollection(collectionId);
+                        return {
+                            ...collection,
+                            FloorPrice: minimumListingPrice
+                        };
+                    })
+                );
+
+                return res.status(200).json({ success: true, data: mergedData });
             } catch (error) {
                 res.status(400).json({ success: false, data: error.message });
             }
