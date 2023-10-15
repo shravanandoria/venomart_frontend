@@ -556,7 +556,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (buying == true) {
         setActionLoad(false);
@@ -585,7 +585,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);

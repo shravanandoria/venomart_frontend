@@ -372,15 +372,15 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listing_fees, lis
 
                     <div className="modal-footer">
                         {finalListingPrice <
-                            (nft?.NFTCollection?.FloorPrice
-                                ? nft?.NFTCollection?.FloorPrice
+                            (nft?.FloorPrice
+                                ? nft?.FloorPrice
                                 : collectionData?.data?.FloorPrice) &&
                             confirmChecked && (
                                 <h3 className=" mb-6 text-[14px] text-red text-center">
                                     Please confirm you are listing your item below
                                     collection floor price, the current floor price is{" "}
-                                    {nft?.NFTCollection?.FloorPrice
-                                        ? nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
+                                        ? nft?.FloorPrice
                                         : collectionData?.data?.FloorPrice}{" "}
                                     VENOM
                                 </h3>

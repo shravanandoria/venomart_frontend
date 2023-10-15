@@ -278,3 +278,25 @@ export const updateNFTsale = async (data) => {
     console.log(error.message);
   }
 };
+
+export const updateNFTSaleBulk = async (data) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/cart_nfts`,
+      method: "PUT",
+      data: {
+        NFTAddresses: data.NFTAddresses,
+        NFTCollections: data.NFTCollections,
+        NFTPrices: data.NFTPrices,
+        ownerAddresses: data.ownerAddresses,
+        managerAddresses: data.managerAddresses,
+        signer_address: data.signer_address,
+        hash: data.hash,
+      },
+    });
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

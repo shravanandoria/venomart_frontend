@@ -12,6 +12,7 @@ import {
   cancelNFTListing,
   updateNFTsale,
   update_verified_nft_data,
+  updateNFTSaleBulk,
 } from "./mongo_api/nfts/nfts";
 import {
   Subscriber,
@@ -30,7 +31,7 @@ import TokenRoot from "../../abi/TokenRoot.abi.json";
 // import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -77,29 +78,51 @@ export const WVenomAddress = new Address(
 export const bulk_buy_nfts = async (
   provider,
   signer_address,
+  ownerAddresses,
   directSell_addr,
-  nft_price
+  nft_price,
+  NFTAddresses,
+  NFTCollections
 ) => {
-  console.log(directSell_addr, nft_price);
-  const contract = new provider.Contract(
-    FactoryDirectSell,
-    FactoryDirectSellAddress
-  );
+  try {
+    const contract = new provider.Contract(
+      FactoryDirectSell,
+      FactoryDirectSellAddress
+    );
 
-  const buy_amount = await contract.methods
-    .get_bulkBuyAmount({
-      answerId: 0,
-      directSell_addr,
-      nft_price,
-    })
-    .call();
+    const buy_amount = await contract.methods
+      .get_bulkBuyAmount({
+        answerId: 0,
+        directSell_addr,
+        nft_price,
+      })
+      .call();
 
-  console.log(buy_amount);
+    let output = await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
+      from: new Address(signer_address),
+      amount: parseFloat(buy_amount.value0).toString(),
+    });
 
-  await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
-    from: new Address(signer_address),
-    amount: parseFloat(buy_amount.value0).toString(),
-  });
+    if (output) {
+      let obj = {
+        NFTAddresses: NFTAddresses,
+        NFTCollections: NFTCollections,
+        NFTPrices: nft_price,
+        ownerAddresses: ownerAddresses,
+        managerAddresses: directSell_addr,
+        signer_address: signer_address,
+        hash: output ? output?.id?.hash : "undefined",
+      }
+      const updateNFTListings = await updateNFTSaleBulk(obj);
+    }
+
+    return true;
+  } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
+    return false;
+  }
 };
 
 export const MakeOpenOffer = async (
@@ -132,14 +155,11 @@ export const MakeOpenOffer = async (
     );
 
     const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
-    console.log({ res });
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods
       .makeOffer_fee({ answerId: 0 })
       .call();
-
-    console.log(makeOfferFee);
 
     const load = await client.abi.encode_boc({
       params: [
@@ -153,8 +173,6 @@ export const MakeOpenOffer = async (
         validity: now.toString(),
       },
     });
-
-    console.log(load.boc);
 
     await tokenWalletContract.methods
       .transfer({
@@ -180,7 +198,6 @@ export const MakeOpenOffer = async (
     const data = await factoryContract.methods
       .read_code({ answerId: 0 })
       .call();
-    console.log(data);
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
@@ -901,14 +918,12 @@ export const buy_nft = async (
 
     const subscriber = new Subscriber(provider);
     const contractEvents = DirectSellContract.events(subscriber);
-    console.log(contractEvents);
     contractEvents.on(async (event) => {
       console.log(event);
     });
 
     let output;
     if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      console.log("cal 1");
       output = await DirectSellContract.methods
         .buyNft({
           sendRemainingGasTo: new Address(signer_address),
@@ -921,7 +936,6 @@ export const buy_nft = async (
           amount: fees,
         });
     } else {
-      console.log("call 2");
       output = await DirectSellContract.methods
         .buyNft({
           new_nft_holder: new Address(signer_address),

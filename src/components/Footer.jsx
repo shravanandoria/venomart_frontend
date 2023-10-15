@@ -58,22 +58,39 @@ const Footer = ({
     setStatsData(statsData);
   };
 
-  const buyCartNFTs = (e) => {
+  const buyCartNFTs = async (e) => {
     e.preventDefault();
+    setActionLoad(true);
+    // alert("This feature will be available soon..");
+    // return;
 
+    const ownerAddresses = cartNFTs.map((item) => item.ownerAddress);
     const managerAddresses = cartNFTs.map((item) => item.managerAddress);
     const listingPrices = cartNFTs.map(
       (item) => item.listingPrice * 1000000000
     );
-
-    bulk_buy_nfts(
+    const NFTAddresses = cartNFTs.map(
+      (item) => item.NFTAddress
+    );
+    const NFTCollections = cartNFTs.map(
+      (item) => item.NFTCollection
+    );
+    const bulkBuy = await bulk_buy_nfts(
       venomProvider,
       signer_address,
+      ownerAddresses,
       managerAddresses,
-      listingPrices
+      listingPrices,
+      NFTAddresses,
+      NFTCollections
     );
-    // alert("This feature will be available soon..");
-    return;
+    if (bulkBuy == true) {
+      setActionLoad(false);
+      setItemsModal(false);
+    }
+    else {
+      setActionLoad(false);
+    }
   };
 
   const totalListingPrice = cartNFTs.reduce((total, nft) => {
@@ -118,9 +135,8 @@ const Footer = ({
                     alt="items"
                     height={100}
                     width={100}
-                    className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${
-                      index === 1 || index === 2 ? "ml-[-16px]" : ""
-                    }`}
+                    className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${index === 1 || index === 2 ? "ml-[-16px]" : ""
+                      }`}
                   />
                 )
               );
@@ -219,11 +235,11 @@ const Footer = ({
                             {nft?.NFTCollection?.name
                               ? nft?.NFTCollection?.name
                               : nft?.NFTCollection?.contractAddress?.slice(
-                                  0,
-                                  8
-                                ) +
-                                "..." +
-                                nft?.NFTCollection?.contractAddress?.slice(60)}
+                                0,
+                                8
+                              ) +
+                              "..." +
+                              nft?.NFTCollection?.contractAddress?.slice(60)}
 
                             {nft?.NFTCollection?.isVerified ? (
                               <MdVerified
@@ -427,8 +443,8 @@ const Footer = ({
                         <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
                           {statsData?.SalesCountLast24Hours
                             ? formatNumberShort(
-                                statsData?.SalesCountLast24Hours
-                              )
+                              statsData?.SalesCountLast24Hours
+                            )
                             : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>
@@ -457,8 +473,8 @@ const Footer = ({
                           </span>
                           {statsData?.SalesVolumeLast24Hours
                             ? formatNumberShort(
-                                statsData?.SalesVolumeLast24Hours
-                              )
+                              statsData?.SalesVolumeLast24Hours
+                            )
                             : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>

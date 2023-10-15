@@ -334,14 +334,14 @@ const NFTPage = ({
     let newFloorPrice = 0;
     if (
       finalListingPrice <
-      (nft?.NFTCollection?.FloorPrice
-        ? nft?.NFTCollection?.FloorPrice
+      (nft?.FloorPrice
+        ? nft?.FloorPrice
         : collectionData?.data?.FloorPrice)
     ) {
       newFloorPrice = finalListingPrice;
     }
     if (
-      nft?.NFTCollection?.FloorPrice == 0 ||
+      nft?.FloorPrice == 0 ||
       collectionData?.data?.FloorPrice == 0
     ) {
       newFloorPrice = finalListingPrice;
@@ -362,8 +362,8 @@ const NFTPage = ({
         onchainNFTData,
         finalListingPrice,
         newFloorPrice,
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice,
         client,
         nft?.NFTCollection?.royalty
@@ -436,8 +436,8 @@ const NFTPage = ({
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice
       );
 
@@ -474,8 +474,8 @@ const NFTPage = ({
         nft?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice
       );
       if (cancelling == true) {
@@ -499,7 +499,6 @@ const NFTPage = ({
     if (!nft) return;
     setMoreLoading(true);
     const getOffer = await getOffers(nft?._id, 0);
-    console.log(getOffer);
     setActiveOffers(getOffer);
     setfetchedNFTOffers(true);
     setMoreLoading(false);
@@ -917,9 +916,11 @@ const NFTPage = ({
                             src={
                               nft?.managerAddress
                                 ? nft?.managerAddress == nft?.ownerAddress
-                                  ? nft?.userProfileImage?.replace(
+                                  ? (nft?.userProfileImage ? nft?.userProfileImage?.replace(
                                     "ipfs://",
-                                    "https://ipfs.io/ipfs/"
+                                    "https://ipfs.io/ipfs/")
+                                    :
+                                    defLogo
                                   )
                                   : defLogo
                                 : defLogo
@@ -1007,8 +1008,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1024,9 +1025,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1111,8 +1112,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1128,9 +1129,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1348,8 +1349,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1365,9 +1366,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1451,8 +1452,8 @@ const NFTPage = ({
                                   </span>
                                 </div>
                               )}
-                              {(nft?.NFTCollection?.FloorPrice
-                                ? nft?.NFTCollection?.FloorPrice
+                              {(nft?.FloorPrice
+                                ? nft?.FloorPrice
                                 : collectionData?.data?.FloorPrice) && (
                                   <div className="flex flex-row mt-2">
                                     <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1468,9 +1469,9 @@ const NFTPage = ({
                                       />
                                     </span>
                                     <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                      {nft?.NFTCollection?.FloorPrice
+                                      {nft?.FloorPrice
                                         ? formatNumberShort(
-                                          nft?.NFTCollection?.FloorPrice
+                                          nft?.FloorPrice
                                         )
                                         : formatNumberShort(
                                           collectionData?.data?.FloorPrice
