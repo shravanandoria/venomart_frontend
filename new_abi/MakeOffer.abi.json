@@ -82,7 +82,7 @@
 		}
 	],
 	"data": [
-		{"key":1,"name":"nounce","type":"uint256"},
+		{"key":1,"name":"nonce","type":"uint256"},
 		{"key":2,"name":"contract_creator","type":"address"},
 		{"key":3,"name":"platform_owner","type":"address"},
 		{"key":4,"name":"_tokenRoot","type":"address"},
@@ -94,7 +94,7 @@
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
-		{"name":"nounce","type":"uint256"},
+		{"name":"nonce","type":"uint256"},
 		{"name":"contract_creator","type":"address"},
 		{"name":"platform_owner","type":"address"},
 		{"name":"_tokenRoot","type":"address"},

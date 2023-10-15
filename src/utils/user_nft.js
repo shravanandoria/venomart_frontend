@@ -63,11 +63,11 @@ export const MARKETPLACE_ADDRESS =
   "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
 
 export const FactoryDirectSellAddress = new Address(
-  "0:af9147d7767f30740350dfc83c0c596250dfc8a0650ecaaf428371cbf175ae46"
+  "0:bd49983602ab2155fd23d4bad4a2913e9bd014a3c8d1b3269c06dc5545b99451"
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:9bbbc1395852b61ef0a363d62e96acb33f2f1bce7b9b1c609586e33974195602"
+  "0:14806fb1781fcad6a0dcd7785b377edf08e41512d66ed75fd767075967594d82"
 );
 
 export const WVenomAddress = new Address(
@@ -93,8 +93,6 @@ export const bulk_buy_nfts = async (
       nft_price,
     })
     .call();
-
-  console.log(buy_amount);
 
   await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
     from: new Address(signer_address),
@@ -712,6 +710,9 @@ export const list_nft = async (
       FactoryDirectSell,
       FactoryDirectSellAddress
     );
+
+    console.log(factory_contract);
+
     const listing_fee = await factory_contract.methods
       .get_listing_fee({ answerId: 0 })
       .call();
