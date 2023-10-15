@@ -1,0 +1,209 @@
+pragma ever-solidity >=0.61.2 ;
+
+pragma AbiHeader expire;
+pragma AbiHeader time;
+pragma AbiHeader pubkey;
+
+// Interfaces we needs
+// This interface for transferring NFT to winner
+import "@broxus/tip4/contracts/TIP4_1/interfaces/ITIP4_1NFT.tsol";
+// This interface to accept NFT from owner
+import "@broxus/tip4/contracts/TIP4_1/interfaces/INftTransfer.tsol";
+import "@broxus/tip4/contracts/TIP4_1/interfaces/INftChangeManager.tsol";
+// This interface for implementing tip-3 tokens receiving callback
+import "@broxus/tip3/contracts/interfaces/IAcceptTokensTransferCallback.tsol";
+import "@broxus/tip4/contracts/access/OwnableInternal.tsol";
+
+import "./DirectSell.tsol";
+import "locklift/src/console.tsol";
+
+contract FactoryDirectSell is  INftChangeManager, OwnableInternal {
+
+    uint256 static _nonce; 
+    
+    address _owner; // Platform Owners
+    
+    uint128 public listing_commission; // fees paid by user to list NFT i.e 0.1
+    uint128 public platform_fees; // fees paid by NFT buyer when nft is sold (currently: 2.5%)
+
+    TvmCell directSellCode; // code of NFT's new manager contract 
+
+    uint128 remain_on_contract = 0.2 ever; // venom's that will remain on this contract
+    uint128 directSell_deployment_cost = 0.2 ever; // cost for deploying NFT's new manager contract
+
+    address public listing_commission_address; // address where listing_commission will be sent
+    address public platform_fees_address; // address where platform_fees will be sent
+
+    // emits when any NFT gets listed
+    event nft_listed (
+        address nft_address,
+        address nft_manager,
+        uint128 price
+    );
+
+    constructor(
+        address sendRemainingGasTo,
+        uint128 _listing_commission,
+        uint128 _platform_fees,
+        address owner,
+        TvmCell _directSellCode,
+        address _listing_commission_address,
+        address _platform_fees_address
+    )   public
+        OwnableInternal(owner){
+
+        require(tvm.pubkey() != 0, 101);
+        require(tvm.pubkey() == msg.pubkey(), 102);
+
+        tvm.accept();
+        tvm.rawReserve(remain_on_contract, 0);        
+        
+        _owner = owner;
+        listing_commission = _listing_commission;
+        platform_fees = _platform_fees;
+        directSellCode = _directSellCode;
+
+        listing_commission_address = _listing_commission_address;
+        platform_fees_address = _platform_fees_address;
+
+        sendRemainingGasTo.transfer({ value: 0, flag: 128, bounce: false });
+    }
+
+    // this deploys new manager contract for listed NFT which consists details of NFT listing
+    // new manager contract later gets destroyed when anyone buys the NFT
+
+    function onNftChangeManager(
+        uint256 id,
+        address owner,
+        address oldManager,
+        address newManager,
+        address collection,
+        address sendGasTo,
+        TvmCell payload
+    ) override external {
+        // total cost comes ~ V0.6 & V0.1 gets refunded
+        require(msg.value >= listing_commission + remain_on_contract + directSell_deployment_cost, 101, "Please send sufficient amount");
+
+        tvm.rawReserve(remain_on_contract, 0);
+        listing_commission_address.transfer(listing_commission, false, 0); // transferring listing fee to listing address
+
+        // user sends info of NFT listing
+        (uint128 price, uint128 royalty, address royalty_address) = abi.decode(payload, (uint128, uint128, address));
+
+        TvmCell _stateInit = tvm.buildStateInit({
+            code: directSellCode,
+            contr: DirectSell,
+            varInit: {
+                factoryDirectSell: address(this),
+                owner: _owner,
+                nftAddress: msg.sender,                
+                nonce: tx.timestamp,
+                nft_owner: owner,
+                _platform_fees_address: platform_fees_address             
+            }
+        });
+    
+        address directSell = new DirectSell{  // deploying new contract which becomes manager of this NFT
+            stateInit: _stateInit,
+            value: directSell_deployment_cost,
+            flag: 0
+        } (
+            price,
+            platform_fees,
+            royalty,
+            royalty_address
+        );
+
+        mapping(address => ITIP4_1NFT.CallbackParams) noCallbacks;
+        
+        // changing manager of this NFT to newly deployed NFT contract
+        ITIP4_1NFT(msg.sender).changeManager {  
+            value: 0,
+            flag: 128,            
+            bounce: false
+        } (
+            directSell,
+            sendGasTo,
+            noCallbacks
+        );
+
+        emit nft_listed (
+            msg.sender,
+            directSell,
+            price
+        );
+    }
+
+    // calculating complete amout to be paid when buying NFTs in bulk
+    function get_bulkBuyAmount (address[] directSell_addr, uint128[] nft_price) public view responsible returns (uint256) {
+        require(directSell_addr.length == nft_price.length);
+        uint128 spent_amount;
+        
+        for (uint i = 0; i < nft_price.length; ++i) {
+            spent_amount += nft_price[i];
+        }
+
+        uint256 total_price = spent_amount + remain_on_contract + directSell_addr.length * 1 ever;
+        return {value: 0, bounce: false, flag: 64} (total_price);
+    }
+
+    // function to let users buy NFTs in bulk
+    function bulkBuy(address[] directSell_addr, uint128[] nft_price) public {
+        require(directSell_addr.length == nft_price.length);
+        
+        uint128 spent_amount;
+        
+        for (uint i = 0; i < nft_price.length; ++i) {
+            spent_amount += nft_price[i];
+        }
+
+        require(msg.value >= spent_amount + remain_on_contract + directSell_addr.length * 1 ever, 101);
+        tvm.rawReserve(remain_on_contract, 0);
+
+        for (uint i = 0; i < directSell_addr.length; ++i) {
+            require(directSell_addr[i] != address(0) && nft_price[i] > 0, 101);
+            DirectSell(directSell_addr[i]).buyNft{value: nft_price[i] + 1 ever}(msg.sender);
+        }
+
+        msg.sender.transfer({ value: 0, flag: 128, bounce: false });
+    }
+    
+    // returns nft listing fee
+    function get_listing_fee() public view responsible returns (uint128) {
+        uint128 fee = listing_commission + remain_on_contract + directSell_deployment_cost;
+        return {value: 0, bounce: false, flag: 64} (fee);
+    }
+
+    // owner can be updated
+    function update_owner(address new_owner) public onlyOwner {
+        _owner = new_owner;
+    }
+
+    function update_listing_fees(uint128 _listing_commission) public onlyOwner{
+        listing_commission = _listing_commission;
+    }
+
+    function update_platform_fees(uint128 _platform_fees) public onlyOwner{
+        platform_fees = _platform_fees;
+    }
+
+    // new address to receive listing fee
+    function update_listing_fee_address(address new_listing_commission_address) public onlyOwner{
+        listing_commission_address = new_listing_commission_address;
+    }
+
+    // new address to receive platform fee
+    function update_platform_fee_address(address new_platform_fees_address) public onlyOwner{
+        platform_fees_address = new_platform_fees_address;
+    }
+
+    // function to update the code of new manager contract code
+    function update_directSell_code (TvmCell new_directSell) public onlyOwner {
+        directSellCode = new_directSell;
+    }
+
+    // to check the current manager contract code
+    function get_directSell_code () public view responsible onlyOwner returns (TvmCell)  {
+        return {value: 0, bounce: false, flag: 64} (directSellCode);
+    }
+}
