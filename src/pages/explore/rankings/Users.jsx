@@ -337,7 +337,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                 </div>
                                 <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        NFT Sold
+                                        NFTs Sold
                                     </span>
                                 </div>
                                 <div className="w-[14%] py-3 px-4" role="columnheader">

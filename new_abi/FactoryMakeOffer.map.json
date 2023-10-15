@@ -1,0 +1,5149 @@
+{
+  "map": {
+    "00bff5e96297f1d1276947d97f779e15366f0dfa33aac1ceb794132d5caf76f5": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1521
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1522
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1523
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1524
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1527
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1528
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1529
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1530
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1533
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1534
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1535
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1536
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1539
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1540
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1541
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1542
+      }
+    },
+    "04c5d7ad42d497fcf9205f62bec88803a1843efba3948d47a35300e9570d1caf": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1355
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1356
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1357
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1360
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1361
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1362
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1363
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1364
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1365
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1366
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1367
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1368
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1369
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1371
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1372
+      }
+    },
+    "05f79e789027fbaa0a02b1b20ae60088919517de1fd82759517a2b22a0a553da": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1395
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1396
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1397
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1400
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1401
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1402
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1403
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1404
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1405
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1406
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1407
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1408
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1409
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1411
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1412
+      }
+    },
+    "0ca0dd5f9f6f0f09b91b590500dcea743c43e645ee12319820035f7a24af6e7a": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 85
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 97
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 100
+      }
+    },
+    "0cffe2480443c1b4fb01c8215d14ee2245b3c790cf376ecc4eb0ca0afa4bd9ce": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1375
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1376
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1377
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1380
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1381
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1382
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1383
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1384
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1385
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1386
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1387
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1388
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1389
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1391
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1392
+      }
+    },
+    "128a00e4c51b89cea2994fb87590d2562204abd57292ec85065dbfa5bb669eb8": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1067
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1070
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1071
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1072
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1075
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1076
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1077
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1078
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1079
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1080
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1081
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1082
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1083
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1084
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1085
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1086
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1087
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1088
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1089
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1090
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1091
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1092
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1093
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1094
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1095
+      },
+      "368": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1096
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1097
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1098
+      },
+      "448": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1099
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1100
+      },
+      "512": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1101
+      },
+      "560": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1102
+      },
+      "576": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1103
+      },
+      "616": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1104
+      }
+    },
+    "167cbcddb50e29cce7c28a14df73bae947a561cc10d9c38c298a1e02278eb4e6": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "24": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "56": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "192": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      }
+    },
+    "1b734d5946680af681b38a789c7b3c8123850219916d057ebe7e6585100a61a2": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "56": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "176": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "192": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 175
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 574
+      }
+    },
+    "1f98f4cfbd3006276f0c0e3710cdf4fd92123e47af9eb39e4353418930304cb4": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1463
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1464
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1465
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1466
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1469
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1470
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1471
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1472
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1475
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1476
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1477
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1478
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1481
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1482
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1483
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1484
+      }
+    },
+    "20568bc0323d1b192910fd1187d60957771d1a1a45f860c7312eaaffbfe15d2f": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 820
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 821
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 822
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 823
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 824
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 825
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 15
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 831
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 834
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 835
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 836
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 837
+      },
+      "152": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 838
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 839
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 840
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 841
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 842
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 843
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 844
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 845
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 846
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 847
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 848
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 849
+      },
+      "336": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 850
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 851
+      },
+      "352": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 852
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 853
+      },
+      "368": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 854
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 856
+      },
+      "392": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 857
+      },
+      "400": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 859
+      },
+      "408": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 860
+      },
+      "424": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 863
+      }
+    },
+    "2634847108af37cdf82ad0d9311d6fb6d2a423e8584e85cb920a173cb67ae7cb": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "16": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "32": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "48": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "72": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "96": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "112": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "120": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "144": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "152": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "168": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "176": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 183
+      }
+    },
+    "28fce2fe868c6eaed06339d2a9e0f098c9b4afe376aed330e8950b636706573a": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 103
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 104
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 105
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 106
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 107
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 108
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 88
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 122
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 125
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 126
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 129
+      }
+    },
+    "29390105ec9bfeaffcd0c1a6731ce0945eed2f5ff269886b36a4bb3c7e64c63a": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 631
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 632
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 633
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 634
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 635
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 636
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 637
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 638
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 639
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 640
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 641
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 642
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 643
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 644
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 645
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 646
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 647
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 648
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 649
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 650
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 651
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 652
+      },
+      "312": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 653
+      },
+      "328": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 654
+      },
+      "352": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 655
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 656
+      },
+      "376": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 657
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 658
+      },
+      "400": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 659
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 660
+      },
+      "424": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 661
+      },
+      "440": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 662
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 663
+      },
+      "464": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 664
+      },
+      "480": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 665
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 666
+      },
+      "504": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 667
+      },
+      "512": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 668
+      },
+      "520": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 669
+      },
+      "528": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 670
+      },
+      "536": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 671
+      },
+      "544": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 672
+      },
+      "560": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 673
+      },
+      "576": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 675
+      },
+      "584": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 676
+      },
+      "600": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 677
+      },
+      "616": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 680
+      }
+    },
+    "2f8d7526efaa54b5c8eb7e063d1ee2b8dbaadbfad7e6071850bc3f29a50ff1b9": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1435
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1436
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1437
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1440
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1441
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1442
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1443
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1444
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1445
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1446
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1447
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1448
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1449
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1451
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1452
+      }
+    },
+    "3638b8fd97b73c047d760e8b2855a6bd5f0298b85b5449b9e4e3d03a8d9384fa": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "56": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 153
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 153
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 153
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "216": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "232": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 155
+      },
+      "248": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "256": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "272": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "288": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "416": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "424": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "432": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "448": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "456": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "504": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "512": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "528": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "536": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "544": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "560": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "568": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "576": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "592": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "608": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "616": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "624": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "632": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "640": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "648": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 157
+      },
+      "664": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "672": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "680": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "728": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "744": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "760": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "776": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "792": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "800": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "824": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "832": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "840": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "856": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "864": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "888": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "904": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "912": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "960": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "976": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "984": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      },
+      "1000": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 166
+      }
+    },
+    "394740f86f4d864f2a7798c366f78b4d22805bde8022b46e7523e3b5ce0cb075": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 701
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 702
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 703
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 704
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 705
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 706
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 182
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 720
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 723
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 724
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 727
+      }
+    },
+    "3a53cf296e978929046fde4036084b93d8f1d248276cc4a1707095616d5d2ac3": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "16": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "32": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "48": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "72": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "96": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "112": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "120": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "144": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "152": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "168": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "176": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 32
+      },
+      "200": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "208": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "224": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "240": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "264": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 20
+      },
+      "288": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 21
+      }
+    },
+    "42d8ff8eb38d16850100b5628d75999a041280e9bf79c0cb0bfcd2dfbea11d80": {
+      "0": {
+        "filename": "<entry-selector>",
+        "line": 1
+      },
+      "8": {
+        "filename": "<entry-selector>",
+        "line": 2
+      },
+      "24": {
+        "filename": "<entry-selector>",
+        "line": 3
+      },
+      "32": {
+        "filename": "<entry-selector>",
+        "line": 4
+      },
+      "48": {
+        "filename": "<entry-selector>",
+        "line": 5
+      },
+      "56": {
+        "filename": "<entry-selector>",
+        "line": 6
+      },
+      "72": {
+        "filename": "<entry-selector>",
+        "line": 7
+      },
+      "88": {
+        "filename": "<entry-selector>",
+        "line": 8
+      },
+      "96": {
+        "filename": "<entry-selector>",
+        "line": 9
+      },
+      "112": {
+        "filename": "<entry-selector>",
+        "line": 10
+      },
+      "128": {
+        "filename": "<entry-selector>",
+        "line": 11
+      }
+    },
+    "43eec3857cc5dd0c7c03dc4636aa055a87f5d626da614fc2b594cb8ceecd3c4b": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 25
+      },
+      "16": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 26
+      },
+      "24": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 26
+      },
+      "40": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "160": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "168": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "176": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "184": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "192": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "240": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "248": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "256": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "264": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "272": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "280": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "288": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "296": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      },
+      "304": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 27
+      }
+    },
+    "44c4ee1706b31152e7079eeb0f90f331403e2c2fc1d1c8c0bc37482b5966ad67": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "56": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 101
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "176": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "216": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      },
+      "232": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 102
+      }
+    },
+    "47be9428adf94589795ca2be48b5434c63a823636d6a64b4f6e67db7d0fec98d": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1235
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1236
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1237
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1238
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1239
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1240
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1243
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1244
+      },
+      "104": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1245
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1248
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1249
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1250
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1251
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1252
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1253
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1254
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1255
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1256
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1257
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1258
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1259
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1260
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1261
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1263
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1264
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1265
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1267
+      },
+      "328": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1268
+      },
+      "336": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1269
+      },
+      "352": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1270
+      },
+      "368": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1271
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1273
+      },
+      "392": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1274
+      },
+      "408": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1275
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1276
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1278
+      },
+      "440": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1279
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1280
+      },
+      "464": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "480": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "488": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "496": {
+        "filename": "stdlib.sol",
+        "line": 61
+      },
+      "512": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "520": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "536": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "560": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "568": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "608": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "616": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "624": {
+        "filename": "stdlib.sol",
+        "line": 62
+      },
+      "640": {
+        "filename": "stdlib.sol",
+        "line": 63
+      },
+      "656": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1282
+      },
+      "672": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1283
+      },
+      "680": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1284
+      },
+      "696": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1285
+      },
+      "704": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1286
+      },
+      "720": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1287
+      },
+      "736": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1288
+      },
+      "744": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1289
+      },
+      "760": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1292
+      }
+    },
+    "4ad3208923daf7be9f96160d6e894d12cb649b74e7815f91d1684121d0ef2704": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 577
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 578
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 579
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 580
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 581
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 582
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "144": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 178
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 593
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 596
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 597
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 598
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 599
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 600
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 601
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 602
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 603
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 604
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 605
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 606
+      },
+      "312": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 607
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 608
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 609
+      },
+      "352": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 610
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 611
+      },
+      "408": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 612
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 613
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 614
+      },
+      "440": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 615
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 616
+      },
+      "472": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 617
+      },
+      "480": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 618
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 619
+      },
+      "512": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 620
+      },
+      "520": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 621
+      },
+      "536": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 622
+      },
+      "552": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 623
+      },
+      "560": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 624
+      },
+      "568": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 625
+      },
+      "576": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 626
+      },
+      "584": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 627
+      },
+      "592": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 628
+      },
+      "600": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 629
+      }
+    },
+    "4ed7da3cad6fb8d18f7bd90b6d86bb204de886e8d8cc3fa444252bfed5855c96": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1550
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1551
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1552
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1553
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1556
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1557
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1558
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1559
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1562
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1563
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1564
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1565
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1568
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1569
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1570
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1571
+      }
+    },
+    "54f52d6940ac9712128fcbc41996c7c3db096a3527dac42d7665d49e40bd909f": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 761
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 762
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 763
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 764
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 765
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 766
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 186
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 780
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 783
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 784
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 787
+      }
+    },
+    "57c3e14d317faca5020b62337bf31289dece116b147a7ab6a0bc4718cbf808ef": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 259
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 260
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 261
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 262
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 263
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 264
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "176": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "192": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "208": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "216": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "224": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "232": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "248": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "256": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "264": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "272": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "288": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 105
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 292
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 295
+      },
+      "328": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 296
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 299
+      }
+    },
+    "5a18200c49204e2d6abe6f126869dcaf9e774b33ea44e93f00cbb45a286eaeef": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 4
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 5
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 6
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 7
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 10
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 11
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 12
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 13
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 14
+      },
+      "104": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 15
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 16
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 18
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 19
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 20
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 21
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 22
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 23
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 24
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 25
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 26
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 27
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 28
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 29
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 30
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 31
+      },
+      "264": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 12
+      },
+      "280": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 62
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 62
+      },
+      "320": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "336": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "352": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "360": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "368": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "376": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "384": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "392": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "400": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "408": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 63
+      },
+      "432": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 65
+      },
+      "448": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 66
+      },
+      "464": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 66
+      },
+      "472": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 66
+      },
+      "488": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 68
+      },
+      "496": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 68
+      },
+      "512": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 69
+      },
+      "520": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 69
+      },
+      "536": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 70
+      },
+      "544": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 70
+      },
+      "560": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 72
+      },
+      "576": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "624": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "640": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "656": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "664": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "688": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "696": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "856": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "880": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "888": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "968": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "976": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "984": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "992": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      },
+      "1008": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 76
+      }
+    },
+    "5c31eb0f135787cc904575c71a321a6288e723c6970a77060f77dcfde8058024": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1455
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1456
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1457
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1458
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1576
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1577
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1578
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1579
+      }
+    },
+    "61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1045
+      }
+    },
+    "645d388a35bcd2c528dfa6743e9c8ae11d38cbc580fbda891bd02122fbe5ed84": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1295
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1296
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1297
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1300
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1301
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1302
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1303
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1304
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1305
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1306
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1307
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1308
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1309
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1311
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1312
+      }
+    },
+    "72de81b73dce8e8acd77290e520178b7dcaf30e260a8b9cbbc207443d29a3f40": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1335
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1336
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1337
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1340
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1341
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1342
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1343
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1344
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1345
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1346
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1347
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1348
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1349
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1351
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1352
+      }
+    },
+    "73356af4bde36f95645db3c991d76ec85fc28c518e02ec3577c46626642cb162": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "24": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 89
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 94
+      },
+      "144": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 94
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 94
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 96
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "208": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "232": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "240": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "256": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "272": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "280": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 97
+      }
+    },
+    "7ebe351aea84f275b6521bec58c3d5d59f192dfeebbb9072b84f427cb3fb5b06": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1190
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1191
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1192
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1193
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1194
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1195
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1196
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1197
+      },
+      "104": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1198
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1199
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1200
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1201
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1202
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1203
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1204
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1205
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1206
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1207
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1208
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1209
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1210
+      },
+      "312": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1211
+      },
+      "328": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1212
+      },
+      "336": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1213
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1214
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1215
+      },
+      "376": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1219
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1220
+      },
+      "408": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1221
+      },
+      "424": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1222
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1223
+      },
+      "448": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1227
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1228
+      },
+      "472": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1231
+      }
+    },
+    "86de7ea744be765159c0a305c131bd31c78fc407ecf2a1eb9cea30ee4b780f22": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1492
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1493
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1494
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1495
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1498
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1499
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1500
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1501
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1504
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1505
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1506
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1507
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1510
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1511
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1512
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1513
+      }
+    },
+    "896dcda18a86126e62f7229e9b3d070c82917b21a972575f8d771c8864fd0da0": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      }
+    },
+    "8becb0807416583883dc6e1126ddb516b1eec72d4e530d13ad0e096157c0c527": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 875
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 876
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 877
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 878
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 879
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 880
+      },
+      "88": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "96": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "104": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "112": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "120": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "128": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "136": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "152": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 19
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 894
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 897
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 898
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 901
+      }
+    },
+    "8d36c2137728b4389ea75f0a5060e0f07456f5727ca84c3482b895596338850f": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1315
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1316
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1317
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1320
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1321
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1322
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1323
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1324
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1325
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1326
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1327
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1328
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1329
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1331
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1332
+      }
+    },
+    "9339226d53b062eb4c921def17e4afce76a6b213d87b5375c5ce4b4e02b3dc09": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "8": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "24": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      },
+      "40": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 31
+      }
+    },
+    "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7": {},
+    "996a13829a7338d32db49e007ef244ab4d7b1907d5ae680a5eb20dd22d6d5bef": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "24": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 179
+      }
+    },
+    "9cd8adce72325713fd4e72edcd85806070566623065e3dd758e032c522866d48": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1040
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1041
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1042
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1043
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1044
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1047
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1048
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1049
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1050
+      },
+      "104": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1051
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1052
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1053
+      },
+      "152": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1055
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1056
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1059
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1060
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1061
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1062
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1064
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1065
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1066
+      }
+    },
+    "9db96b0efd2daba74f6df2649821707a0d36b262dcd1a18346df3fc0bb068e9f": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1459
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1460
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1461
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1462
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1488
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1489
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1490
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1491
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1517
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1518
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1519
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1520
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1546
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1547
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1548
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1549
+      }
+    },
+    "a102a0b7057aacee4a44934843714f6285595b6a22913927143a9621d7e28a97": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1035
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1036
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1037
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1038
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1039
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1106
+      }
+    },
+    "ba4001f29f47e18c01dd04fd78b374ea35cfefb5d3802c40046e6868ba5d7024": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "24": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 113
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "144": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "208": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "224": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "240": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "248": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "264": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "280": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "288": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "304": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "312": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 115
+      },
+      "336": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 117
+      },
+      "352": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 117
+      },
+      "360": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 117
+      },
+      "376": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "384": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "400": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "408": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "416": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "424": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "440": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "456": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 119
+      },
+      "464": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 121
+      },
+      "472": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 121
+      },
+      "480": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 121
+      },
+      "496": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 121
+      },
+      "512": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "528": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "536": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "560": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "568": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "752": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "776": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "792": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "800": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "808": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 122
+      },
+      "824": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 123
+      },
+      "840": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 123
+      },
+      "848": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 123
+      },
+      "864": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 123
+      },
+      "880": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 369
+      },
+      "888": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 126
+      },
+      "904": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 126
+      },
+      "912": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 126
+      },
+      "928": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 126
+      },
+      "936": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 126
+      },
+      "952": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 127
+      },
+      "960": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 127
+      },
+      "976": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 127
+      },
+      "984": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 127
+      },
+      "1000": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 128
+      }
+    },
+    "ca55d6d838d5cad1e897f75f0215467e2864acfec839e93127e80d8565f0e0fe": {
+      "0": {
+        "filename": "../node_modules/@broxus/tip4/contracts/access/OwnableInternal.tsol",
+        "line": 16
+      }
+    },
+    "cabc84d2e406b32e88b2a659632dee9e44950b613f4392cdd34419526e4ccf48": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1415
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1416
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1417
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1420
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1421
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1422
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1423
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1424
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1425
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1426
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1427
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1428
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1429
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1431
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1432
+      }
+    },
+    "d320b94ec17c2eaa2ef485f6252b2ad495f439f4341b0f6dca4bc5921759ed97": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1111
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1112
+      },
+      "32": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1113
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1114
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1115
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1116
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1117
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1118
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1119
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1120
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1121
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1122
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1123
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1124
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1125
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1126
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1127
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1128
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1129
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1130
+      },
+      "312": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1131
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1132
+      },
+      "336": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1133
+      },
+      "344": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1134
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1135
+      },
+      "368": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1136
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1137
+      },
+      "392": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1138
+      },
+      "400": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1139
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1140
+      },
+      "424": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1141
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1142
+      },
+      "448": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1143
+      },
+      "464": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1144
+      },
+      "480": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1145
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1146
+      },
+      "504": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1147
+      },
+      "520": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1148
+      },
+      "536": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1149
+      },
+      "552": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1150
+      },
+      "560": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1151
+      },
+      "568": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1152
+      },
+      "584": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1153
+      },
+      "592": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1154
+      },
+      "608": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1155
+      },
+      "624": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1156
+      },
+      "632": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1157
+      },
+      "648": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1158
+      },
+      "664": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1159
+      },
+      "672": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1160
+      },
+      "688": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1161
+      },
+      "696": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1162
+      },
+      "712": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1163
+      },
+      "728": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1164
+      },
+      "736": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1165
+      },
+      "744": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1166
+      },
+      "752": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1167
+      },
+      "760": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1168
+      },
+      "768": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1169
+      },
+      "776": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1170
+      },
+      "784": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1171
+      }
+    },
+    "e378b1d6685dc047e1540481ee83eb4b1cbf7c9116bf0a6f98d4351e6c6865a7": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 161
+      },
+      "8": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 162
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 163
+      },
+      "48": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 164
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 165
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 166
+      },
+      "88": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "104": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "120": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "144": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 100
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 177
+      },
+      "184": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 180
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 181
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 182
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 183
+      },
+      "224": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 184
+      },
+      "240": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 185
+      },
+      "256": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 186
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 187
+      },
+      "272": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 188
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 189
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 190
+      },
+      "312": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 191
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 192
+      },
+      "384": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 193
+      },
+      "400": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 194
+      },
+      "408": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 195
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 197
+      },
+      "432": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 198
+      },
+      "448": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 199
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 200
+      },
+      "472": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 201
+      },
+      "480": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 202
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 203
+      },
+      "512": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 204
+      },
+      "528": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 205
+      },
+      "544": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 206
+      },
+      "552": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 207
+      },
+      "576": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 208
+      },
+      "592": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 209
+      },
+      "616": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 210
+      },
+      "624": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 211
+      },
+      "632": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 212
+      },
+      "648": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 213
+      },
+      "664": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 214
+      },
+      "680": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 215
+      },
+      "696": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 216
+      },
+      "712": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 217
+      },
+      "728": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 218
+      },
+      "752": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 219
+      },
+      "768": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 220
+      },
+      "776": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 221
+      },
+      "792": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 222
+      },
+      "808": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 224
+      },
+      "816": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 225
+      },
+      "832": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 226
+      },
+      "848": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 229
+      }
+    },
+    "e4eabc4e677226214d16210fdb64c15d0f784f2c37edc1d987cc907bf47efc92": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 128
+      },
+      "16": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 128
+      },
+      "32": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "48": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "80": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "128": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "160": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "168": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "184": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "216": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "224": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "232": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "248": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "264": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "280": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "288": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "312": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "328": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "344": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "352": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "360": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "376": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "392": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "400": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "408": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "416": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "432": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "448": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "456": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "472": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "480": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "496": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "504": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "528": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "544": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "560": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "576": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 130
+      },
+      "584": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "592": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "608": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "616": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "632": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "648": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "656": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "672": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "680": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "712": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "728": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "736": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "744": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "760": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "776": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "784": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "792": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "816": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "824": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "832": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "848": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "856": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "880": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "888": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "904": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "912": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "928": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "944": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "952": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      },
+      "1000": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 142
+      }
+    },
+    "e6936e8f0e7b8fe98c2ca66eee9d4e9dafcfc747defef9cb795288fabb1b7ef3": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1174
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1175
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1176
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1177
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1178
+      },
+      "64": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1179
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1180
+      },
+      "88": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1181
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1182
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1183
+      },
+      "128": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1184
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1185
+      },
+      "144": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1186
+      }
+    },
+    "f24e1e7aa04d89aad2945816b6e9b921f2b3892da9ba53e2383c148351b96d0c": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1216
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1217
+      }
+    },
+    "f3eac5624cb9b70c17bf86baf767036b1c173c085749ab7c4483532e545412f3": {
+      "0": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 188
+      },
+      "8": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "24": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "40": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "56": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "64": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "72": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "96": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "112": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "136": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "144": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "152": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "176": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "192": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "200": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "248": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "256": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "264": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "272": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "280": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "296": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "304": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "312": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "320": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      },
+      "336": {
+        "filename": "../contracts/FactoryMakeOffer.tsol",
+        "line": 190
+      }
+    },
+    "f5290cd41b194ebc2148ebf8237b8cfe8a6c7ea2e8ce5015b21b7b08dbb2ac84": {
+      "0": {
+        "filename": "<internal-selector>",
+        "line": 1
+      },
+      "24": {
+        "filename": "<internal-selector>",
+        "line": 2
+      }
+    },
+    "ff30c743084dab28ca08f32f97c799b47fe58d60cb0bfda2e402166ea1191399": {
+      "0": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 971
+      },
+      "16": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 972
+      },
+      "24": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 973
+      },
+      "40": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 974
+      },
+      "56": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 975
+      },
+      "72": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 976
+      },
+      "80": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 977
+      },
+      "96": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 978
+      },
+      "104": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 979
+      },
+      "112": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 980
+      },
+      "120": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 981
+      },
+      "136": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 982
+      },
+      "152": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 983
+      },
+      "160": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 984
+      },
+      "168": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 985
+      },
+      "176": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 986
+      },
+      "192": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 987
+      },
+      "200": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 988
+      },
+      "208": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 989
+      },
+      "216": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 990
+      },
+      "232": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 991
+      },
+      "248": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 992
+      },
+      "264": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 993
+      },
+      "280": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 994
+      },
+      "288": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 995
+      },
+      "296": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 996
+      },
+      "304": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 997
+      },
+      "320": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 998
+      },
+      "336": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 999
+      },
+      "352": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1000
+      },
+      "360": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1001
+      },
+      "376": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1002
+      },
+      "392": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1003
+      },
+      "400": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1004
+      },
+      "416": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1005
+      },
+      "424": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1006
+      },
+      "440": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1007
+      },
+      "448": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1008
+      },
+      "456": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1009
+      },
+      "464": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1010
+      },
+      "480": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1011
+      },
+      "496": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1012
+      },
+      "512": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1013
+      },
+      "528": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1014
+      },
+      "544": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1015
+      },
+      "552": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1016
+      },
+      "560": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1017
+      },
+      "576": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1018
+      },
+      "592": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1019
+      },
+      "608": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1020
+      },
+      "624": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1021
+      },
+      "640": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1022
+      },
+      "656": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1023
+      },
+      "672": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1024
+      },
+      "688": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1025
+      },
+      "704": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1026
+      },
+      "720": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1027
+      },
+      "736": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1028
+      },
+      "752": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1029
+      },
+      "768": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1030
+      },
+      "784": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1031
+      },
+      "800": {
+        "filename": "FactoryMakeOffer.code",
+        "line": 1032
+      }
+    }
+  }
+}

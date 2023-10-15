@@ -2,7 +2,6 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useState } from "react";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
-import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import { BsChevronDown, BsFillExclamationCircleFill } from "react-icons/bs";
 import { RxCrossCircled } from "react-icons/rx";
@@ -475,7 +474,6 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 To={e?.to}
                                                 FromUser={e?.fromUser}
                                                 ToUser={e?.toUser}
-                                                MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                                                 signerAddress={signer_address}
                                             />
                                         ))}

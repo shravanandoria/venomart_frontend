@@ -9,7 +9,6 @@ import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
 import {
-  MARKETPLACE_ADDRESS,
   buy_nft,
   cancel_listing,
   loadNFTs_user,
@@ -41,6 +40,7 @@ const Profile = ({
   venomProvider,
   cartNFTs,
   setCartNFTs,
+  vnmBalance
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -288,6 +288,10 @@ const Profile = ({
       connect_wallet();
       return;
     }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      return;
+    }
     setActionLoad(true);
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT?.demandPrice) *
@@ -313,7 +317,7 @@ const Profile = ({
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
 
       if (buying == true) {
@@ -344,7 +348,7 @@ const Profile = ({
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);
@@ -1826,7 +1830,6 @@ const Profile = ({
                             To={e?.to}
                             FromUser={e?.fromUser}
                             ToUser={e?.toUser}
-                            MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                             signerAddress={signer_address}
                           />
                         ))}

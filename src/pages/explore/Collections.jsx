@@ -517,6 +517,7 @@ const Collections = ({ theme }) => {
                     }
                   >
                     {collections?.map((e, index) => (
+                      (e?.name != "" && e?.name != undefined) &&
                       <CollectionCard
                         key={index}
                         Cover={e?.coverImage}

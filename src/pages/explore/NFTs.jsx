@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs }) => {
+const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -140,9 +140,22 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     setCollectionLoading(false);
   };
 
+  // connecting wallet 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  };
+
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      return;
+    }
     setActionLoad(true);
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT?.demandPrice) *
@@ -166,7 +179,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
 
       if (buying == true) {
@@ -196,7 +209,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);
@@ -839,6 +852,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                     >
                       {nfts?.map((e, index) => {
                         return (
+                          !e?.NFTCollection?.isNSFW &&
                           <NftCard
                             key={index}
                             ImageSrc={e?.nft_image?.replace(

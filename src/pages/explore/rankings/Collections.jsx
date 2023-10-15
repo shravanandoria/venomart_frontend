@@ -6,10 +6,10 @@ import { BsChevronDown } from "react-icons/bs";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 
 const Collections = ({
-    theme,
-    topCollections,
-    setTopCollections,
+    theme
 }) => {
+    const [topCollections, setTopCollections] = useState([]);
+
     const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
     const [filterCategories, openFilterCategories] = useState(false);
     const [filterSort, openFilterSort] = useState(false);

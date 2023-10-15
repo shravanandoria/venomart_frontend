@@ -18,13 +18,10 @@ const CollectionSchema = new mongoose.Schema(
     keywords: [String],
     socials: [String],
     isVerified: Boolean,
+    isNSFW: Boolean,
     isPropsEnabled: Boolean,
     Category: String,
-    TotalSales: Number,
     TotalSupply: Number,
-    TotalListed: Number,
-    FloorPrice: Number,
-    TotalVolume: Number,
   },
   { timestamps: true }
 );

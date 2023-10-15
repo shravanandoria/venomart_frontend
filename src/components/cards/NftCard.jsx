@@ -6,6 +6,7 @@ import { MdVerified } from "react-icons/md";
 import venomLogo from "../../../public/venomBG.webp";
 import { AiFillPlusCircle } from "react-icons/ai";
 import numeral from 'numeral';
+import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
 
 
 const NftCard = ({
@@ -62,15 +63,24 @@ const NftCard = ({
   return (
     <Link href={`/nft/${Address}`} className="cardHoverNFT hover:bg-gray-50 relative block rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 overflow-hidden m-6 w-[300px]">
       <div className="ImageHoverEffect relative mb-4">
-        <Image
-          src={ImageSrc}
-          height={100}
-          width={100}
-          alt="nftItem"
-          className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
-        />
+        {ImageSrc?.includes(".mp4") ?
+          <video
+            autoPlay="autoplay"
+            loop="true"
+          >
+            <source src={ImageSrc} type="video/mp4"></source>
+          </video>
+          :
+          <Image
+            src={ImageSrc}
+            height={100}
+            width={100}
+            alt="nftItem"
+            className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
+          />
+        }
 
-        {(listedBool && signerAddress != Owner) &&
+        {(listedBool && signerAddress != Owner && NFTData?.managerAddress != MARKETPLACE_ADDRESS) &&
           (cartNFTs.some((item) => item._id === NFTData._id) ?
             <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
             :

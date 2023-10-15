@@ -1,7 +1,6 @@
 // def
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { TonClientContextProvider } from "../context/tonclient";
-import { ClientConfig } from "@eversdk/core";
 
 // components
 import Navbar from "../components/Navbar";
@@ -22,7 +21,6 @@ import { initVenomConnect } from "../utils/wallet_connect";
 import { COLLECTION_ADDRESS } from "../utils/user_nft";
 
 // mongo imports
-import { get_collections } from "../utils/mongo_api/collection/collection";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { useRouter } from "next/router";
@@ -53,12 +51,12 @@ export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
+  const [vnmBalance, setVnmBalance] = useState("");
 
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
 
   const [cartNFTs, setCartNFTs] = useState([]);
-  const [topCollections, setTopCollections] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
 
@@ -334,7 +332,8 @@ export default function App({ Component, pageProps }) {
       Description: "Celebrate the collaboration of Venom Ape Club & Venomart",
       mintPrice: "1",
       status: "Upcoming",
-      CollectionAddress: "0:552f25001a79abec50b247177c1ff14c846af109aece93b98658166ff3298b1f",
+      CollectionAddress:
+        "0:552f25001a79abec50b247177c1ff14c846af109aece93b98658166ff3298b1f",
       customLink: "custom/apeclub",
       pageName: "apeclub",
       supply: "2222",
@@ -480,7 +479,8 @@ export default function App({ Component, pageProps }) {
         "Web3 Bros sssliding into decentralized realms. The Venomons' Sanctuary awaits you 🐍",
       mintPrice: "1",
       status: "Sold Out",
-      CollectionAddress: "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
+      CollectionAddress:
+        "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
       customLink: "launch/venomons",
       pageName: "venomons",
       supply: "1000",
@@ -501,11 +501,11 @@ export default function App({ Component, pageProps }) {
         "https://ipfs.io/ipfs/QmcGVH8wAJxVoeKavcaniUsvCcwnhcCgDQ25BoTRZXB1Yg/chads.jpg",
       Logo: "https://ipfs.io/ipfs/QmRdJmCipSd8Xsf8KSjqpzufrmD5zBBZF6vkzA3uVdbhU1/chadpass.jpg",
       Name: "Venomchad WL pass",
-      Description:
-        "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
+      Description: "Chad Art, Chad Utility, Chad Community. 'Be A Chad'",
       mintPrice: "1",
-      status: "Upcoming",
-      CollectionAddress: "0:ef4d10ea86a02a1ac6b2e0c7d226b39745424f79a8d70ecd021572b1d73e7de3",
+      status: "Sold Out",
+      CollectionAddress:
+        "0:ef4d10ea86a02a1ac6b2e0c7d226b39745424f79a8d70ecd021572b1d73e7de3",
       customLink: "launch/venomchads",
       pageName: "venomchads",
       supply: "2000",
@@ -718,6 +718,8 @@ export default function App({ Component, pageProps }) {
         MintNFTStatus={MintNFTStatus}
         MintCollectionStatus={MintCollectionStatus}
         blockURL={blockURL}
+        vnmBalance={vnmBalance}
+        setVnmBalance={setVnmBalance}
       />
       <TonClientContextProvider config={config}>
         <Component
@@ -741,8 +743,6 @@ export default function App({ Component, pageProps }) {
           featuredCollections={featuredCollections}
           websiteStats={websiteStats}
           collabQuests={collabQuests}
-          topCollections={topCollections}
-          setTopCollections={setTopCollections}
           topUsers={topUsers}
           setTopUsers={setTopUsers}
           anyModalOpen={anyModalOpen}
@@ -750,6 +750,8 @@ export default function App({ Component, pageProps }) {
           cartNFTs={cartNFTs}
           setCartNFTs={setCartNFTs}
           venomPrice={venomPrice}
+          vnmBalance={vnmBalance}
+          setVnmBalance={setVnmBalance}
         />
       </TonClientContextProvider>
       <Footer
@@ -764,6 +766,7 @@ export default function App({ Component, pageProps }) {
         MintCollectionStatus={MintCollectionStatus}
         venomPrice={venomPrice}
         venomTPS={venomTPS}
+        venomProvider={venomProvider}
       />
     </ThirdwebProvider>
   );

@@ -149,6 +149,27 @@ export const update_verified_nft_props = async (
   }
 };
 
+export const update_verified_nft_listing = async (
+  demandPrice,
+  listingPrice,
+  NFTAddress
+) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/update_nft_listing`,
+      method: "PUT",
+      data: {
+        demandPrice: parseFloat(demandPrice),
+        listingPrice: listingPrice,
+        NFTAddress: NFTAddress,
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const updateNFTListing = async (data) => {
   try {
     const res = await axios({
@@ -249,6 +270,28 @@ export const updateNFTsale = async (data) => {
         collection_address: data.collection_address,
         newFloorPrice: data.newFloorPrice,
         stampedFloor: data.stampedFloor,
+      },
+    });
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const updateNFTSaleBulk = async (data) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/cart_nfts`,
+      method: "PUT",
+      data: {
+        NFTAddresses: data.NFTAddresses,
+        NFTCollections: data.NFTCollections,
+        NFTPrices: data.NFTPrices,
+        ownerAddresses: data.ownerAddresses,
+        managerAddresses: data.managerAddresses,
+        signer_address: data.signer_address,
+        hash: data.hash,
       },
     });
 

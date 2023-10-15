@@ -25,6 +25,42 @@ export default async function handler(req, res) {
               .status(400)
               .json({ success: false, data: "Cannot Find This NFT" });
 
+          // getting floor price 
+          const getFloorPrice = async (collectionId) => {
+            const nftResult = await NFT.aggregate([
+              {
+                $match: {
+                  NFTCollection: collectionId,
+                  isListed: true
+                }
+              },
+              {
+                $addFields: {
+                  priceAsDouble: { $toDouble: "$listingPrice" }
+                }
+              },
+              {
+                $group: {
+                  _id: null,
+                  minimumListingPrice: {
+                    $min: "$priceAsDouble"
+                  }
+                }
+              },
+              {
+                $limit: 1
+              },
+              {
+                $sort: {
+                  minimumListingPrice: -1
+                }
+              }
+            ]);
+            return nftResult[0]?.minimumListingPrice || 0;
+          };
+
+          const minimumListingPrice = await getFloorPrice(nft?.NFTCollection?._id);
+
           // getting owner info 
           let user = await User.findOne({ wallet_id: nft.ownerAddress });
 
@@ -96,6 +132,7 @@ export default async function handler(req, res) {
 
           const mergedData = {
             ...nft.toObject(),
+            FloorPrice: minimumListingPrice,
             lastSold: lastSold[0]?.price,
             username: user.user_name,
             userProfileImage: user.profileImage,
@@ -155,13 +192,10 @@ export default async function handler(req, res) {
               description: "",
               socials: [],
               isVerified: false,
+              isNSFW: false,
               isPropsEnabled: false,
               Category: "",
-              TotalSales: 0,
-              TotalSupply: 0,
-              TotalListed: 0,
-              FloorPrice: 0,
-              TotalVolume: 0,
+              TotalSupply: 0
             });
           }
 

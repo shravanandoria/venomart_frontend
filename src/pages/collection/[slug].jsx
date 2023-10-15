@@ -16,7 +16,6 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import {
-  MARKETPLACE_ADDRESS,
   buy_nft,
   cancel_listing,
   loadNFTs_collection,
@@ -25,10 +24,8 @@ import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import {
-  admin_collection_refresh,
   get_collection_by_contract,
   get_collection_props,
-  update_collection_information,
   update_collection_supply,
 } from "../../utils/mongo_api/collection/collection";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
@@ -60,6 +57,8 @@ const Collection = ({
   setAnyModalOpen,
   cartNFTs,
   setCartNFTs,
+  vnmBalance,
+  connectWallet
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -260,7 +259,6 @@ const Collection = ({
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
-    const aggregatedData = await admin_collection_refresh(collection?._id);
 
     let myEver = new MyEver();
     const providerRpcClient = myEver.ever();
@@ -269,37 +267,18 @@ const Collection = ({
       .totalSupply({ answerId: 0 })
       .call();
 
-    if (
-      collection?.TotalListed != aggregatedData?.TotalListed ||
-      collection?.FloorPrice != aggregatedData?.FloorPrice ||
-      collection?.TotalVolume != aggregatedData?.SalesVolume ||
-      collection?.TotalSupply < totalSupply?.count
-    ) {
-      if (
-        aggregatedData != undefined &&
-        (collection?.TotalListed != aggregatedData?.TotalListed ||
-          collection?.FloorPrice != aggregatedData?.FloorPrice ||
-          collection?.TotalVolume != aggregatedData?.SalesVolume)
-      ) {
-        const updateCollectionData = await update_collection_information(
-          slug,
-          aggregatedData?.TotalListed,
-          aggregatedData?.FloorPrice,
-          aggregatedData?.SalesVolume
-        );
-      }
-      if (collection?.TotalSupply < totalSupply.count) {
-        const updateNFTData = await update_collection_supply(
-          slug,
-          totalSupply.count
-        );
-      }
+    if (collection?.TotalSupply < totalSupply?.count) {
+      const updateNFTData = await update_collection_supply(
+        slug,
+        totalSupply.count
+      );
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
       setMetaDataUpdated(true);
       return;
-    } else {
+    }
+    else {
       setMetaDataUpdated(true);
       setMetadataLoading(false);
       alert("Metadata is already up to date!");
@@ -536,9 +515,22 @@ const Collection = ({
     set_def_query("");
   };
 
+  // connecting wallet 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  };
+
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!signer_address) {
+      connect_wallet();
+      return;
+    }
+    if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
+      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      return;
+    }
     setActionLoad(true);
     let royaltyFinalAmount =
       ((parseFloat(selectedNFT?.demandPrice) *
@@ -564,7 +556,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.royaltyAddress
           ? selectedNFT?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (buying == true) {
         setActionLoad(false);
@@ -593,7 +585,7 @@ const Collection = ({
         selectedNFT?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        selectedNFT?.NFTCollection?.FloorPrice
+        selectedNFT?.FloorPrice
       );
       if (cancelling == true) {
         setActionLoad(false);
@@ -2410,7 +2402,6 @@ const Collection = ({
                               To={e?.to}
                               FromUser={e?.fromUser}
                               ToUser={e?.toUser}
-                              MARKETPLACE_ADDRESS={MARKETPLACE_ADDRESS}
                               signerAddress={signer_address}
                             />
                           ))}

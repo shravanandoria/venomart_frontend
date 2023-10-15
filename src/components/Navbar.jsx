@@ -27,6 +27,8 @@ const Navbar = ({
   MintNFTStatus,
   MintCollectionStatus,
   blockURL,
+  vnmBalance,
+  setVnmBalance
 }) => {
   const router = useRouter();
 
@@ -45,7 +47,6 @@ const Navbar = ({
   const [isTyping, set_isTyping] = useState(true);
 
   const [explorerLog, SetExplorerLog] = useState("");
-  const [vnmBalance, setVnmBalance] = useState("");
 
   const [searchValueState, setSearchValueState] = useState("");
 
