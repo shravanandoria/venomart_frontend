@@ -37,13 +37,14 @@ SETGLOB 16
 .loc ../contracts/MakeOffer.tsol, 48
 SETGLOB 18
 .loc ../contracts/MakeOffer.tsol, 50
+DROP
 PUSHINT 100000000
 MYADDR
 GETGLOB 13
 NEWC
 STSLICECONST x62_
 STSLICE
-PUSHINT 2852496860548013238048595988196296388247553
+PUSHINT 2811932041340709897200701485624264388247553
 STUR 143
 ROTREV
 PUSHSLICE x31edd4c749b2f6d7
@@ -55,13 +56,10 @@ STBREFR
 ENDC
 PUSHINT 1
 SENDRAWMSG
-.loc ../contracts/MakeOffer.tsol, 59
-NEWC
-STSLICECONST x42_
-STSLICE
-PUSHINT 111
-STZEROES
-ENDC
+.loc ../contracts/MakeOffer.tsol, 60
+PUSHREF {
+	.blob x42002981e4eba1185da2e3e503334e433265a0d6fab86855c48b0e5632dbb9af6a248000000000000000000000000000
+}
 PUSHPOW2 7
 SENDRAWMSG
 .loc ../contracts/MakeOffer.tsol, 0
@@ -79,7 +77,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 62
+.loc ../contracts/MakeOffer.tsol, 64
 OVER
 PUSHCONT {
 	LDREF
@@ -100,7 +98,7 @@ CALLREF {
 THROW 0
 
 .macro onTokenWallet_internal_macro
-.loc ../contracts/MakeOffer.tsol, 63
+.loc ../contracts/MakeOffer.tsol, 65
 DEPTH
 ADDCONST -2
 PICK
@@ -110,20 +108,16 @@ GETGLOB 13
 SDEQ
 AND
 THROWIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 68
+.loc ../contracts/MakeOffer.tsol, 70
 PUSHINT 200000000
 PUSHINT 0
 RAWRESERVE
-.loc ../contracts/MakeOffer.tsol, 70
+.loc ../contracts/MakeOffer.tsol, 72
 SETGLOB 19
-.loc ../contracts/MakeOffer.tsol, 71
-GETGLOB 14
-NEWC
-STSLICECONST x42_
-STSLICE
-PUSHINT 111
-STZEROES
-ENDC
+.loc ../contracts/MakeOffer.tsol, 73
+PUSHREF {
+	.blob x42007092bb8b2da7cc6d3b9e87b7a82be0a7e7685976d06b3f6efab4bc3ee1109dcc0000000000000000000000000000
+}
 PUSHPOW2 7
 SENDRAWMSG
 .loc ../contracts/MakeOffer.tsol, 0
@@ -137,7 +131,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 74
+.loc ../contracts/MakeOffer.tsol, 77
 OVER
 PUSHCONT {
 	LDREF
@@ -176,7 +170,7 @@ CALLREF {
 THROW 0
 
 .macro onNftChangeManager_internal_macro
-.loc ../contracts/MakeOffer.tsol, 83
+.loc ../contracts/MakeOffer.tsol, 86
 DROP
 PUSHREF {
 	.blob x506c656173652073656e642073756666696369656e7420616d6f756e74
@@ -187,7 +181,7 @@ PICK
 PUSHINT 300000000
 GREATER
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 84
+.loc ../contracts/MakeOffer.tsol, 87
 PUSHREF {
 	.blob x4e4654204164647265737320697320646966666572656e74
 }
@@ -195,14 +189,14 @@ GETGLOB 9
 GETGLOB 18
 SDEQ
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 85
+.loc ../contracts/MakeOffer.tsol, 88
 PUSHREF {
 	.blob x4f6666657220416d6f756e74206973206e6f7420456e6f756768
 }
 GETGLOB 15
 GTINT 0
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 86
+.loc ../contracts/MakeOffer.tsol, 89
 PUSHREF {
 	.blob x4f666665722076616c6964697479206973206f766572
 }
@@ -210,12 +204,12 @@ NOW
 GETGLOB 16
 LEQ
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 88
+.loc ../contracts/MakeOffer.tsol, 91
 NEWDICT
-.loc ../contracts/MakeOffer.tsol, 89
+.loc ../contracts/MakeOffer.tsol, 92
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 91
+.loc ../contracts/MakeOffer.tsol, 94
 GETGLOB 17
 GETGLOB 15
 MUL
@@ -224,7 +218,7 @@ PUSHINT 1000
 DIV
 PUSHINT 100
 DIV
-.loc ../contracts/MakeOffer.tsol, 93
+.loc ../contracts/MakeOffer.tsol, 96
 OVER
 TRUE
 PUSH S5
@@ -253,7 +247,7 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/MakeOffer.tsol, 102
+.loc ../contracts/MakeOffer.tsol, 105
 TRUE
 PUSH S3
 PUSHINT 100000000
@@ -281,7 +275,7 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/MakeOffer.tsol, 111
+.loc ../contracts/MakeOffer.tsol, 114
 SWAP
 GETGLOB 14
 GETGLOB 18
@@ -318,7 +312,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 122
+.loc ../contracts/MakeOffer.tsol, 125
 OVER
 PUSHCONT {
 	LDREF
@@ -343,12 +337,12 @@ THROW 0
 CALL $refund_old_offer_internal_macro$
 
 .macro refund_old_offer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 123
+.loc ../contracts/MakeOffer.tsol, 126
 GETGLOB 9
 GETGLOB 11
 SDEQ
 THROWIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 124
+.loc ../contracts/MakeOffer.tsol, 127
 PUSHREF {
 	.blob x4e6577206f66666572206973206c6f776572207468616e2063757272656e74206f66666572
 }
@@ -356,10 +350,10 @@ SWAP
 GETGLOB 15
 GREATER
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 126
+.loc ../contracts/MakeOffer.tsol, 129
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 128
+.loc ../contracts/MakeOffer.tsol, 131
 TRUE
 GETGLOB 14
 PUSHINT 0
@@ -398,7 +392,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 139
+.loc ../contracts/MakeOffer.tsol, 142
 OVER
 PUSHCONT {
 	LDREF
@@ -423,7 +417,7 @@ THROW 0
 CALL $cancel_offer_internal_macro$
 
 .macro cancel_offer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 140
+.loc ../contracts/MakeOffer.tsol, 143
 PUSHREF {
 	.blob x596f7520617265206e6f7420746865206f776e6572206f662074686973206f66666572
 }
@@ -431,17 +425,17 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 141
+.loc ../contracts/MakeOffer.tsol, 144
 PUSHREF {
 	.blob x4f6666657220416d6f756e7420697320696e76616c6964
 }
 GETGLOB 15
 GTINT 0
 THROWARGIFNOT 101
-.loc ../contracts/MakeOffer.tsol, 142
+.loc ../contracts/MakeOffer.tsol, 145
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 144
+.loc ../contracts/MakeOffer.tsol, 147
 TRUE
 ROT
 PUSHINT 100000000
@@ -480,7 +474,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 155
+.loc ../contracts/MakeOffer.tsol, 158
 ENDS
 .loc ../contracts/MakeOffer.tsol, 0
 CALLREF {
@@ -493,9 +487,9 @@ CALLREF {
 THROW 0
 
 .macro cancel_listing_internal_macro
-.loc ../contracts/MakeOffer.tsol, 158
+.loc ../contracts/MakeOffer.tsol, 161
 NEWDICT
-.loc ../contracts/MakeOffer.tsol, 160
+.loc ../contracts/MakeOffer.tsol, 163
 MYADDR
 GETGLOB 9
 GETGLOB 18
@@ -531,7 +525,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 171
+.loc ../contracts/MakeOffer.tsol, 174
 OVER
 PUSHCONT {
 	LDREF
@@ -556,10 +550,10 @@ THROW 0
 CALL $refund_offer_internal_macro$
 
 .macro refund_offer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 172
+.loc ../contracts/MakeOffer.tsol, 175
 PUSHREF {
 }
-.loc ../contracts/MakeOffer.tsol, 174
+.loc ../contracts/MakeOffer.tsol, 177
 TRUE
 ROT
 PUSHINT 100000000
@@ -598,7 +592,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/MakeOffer.tsol, 184
+.loc ../contracts/MakeOffer.tsol, 187
 OVER
 PUSHCONT {
 	LDREF
@@ -633,11 +627,11 @@ CALLREF {
 THROW 0
 
 .macro onAcceptTokensTransfer_internal_macro
-.loc ../contracts/MakeOffer.tsol, 192
+.loc ../contracts/MakeOffer.tsol, 195
 DROP
 ROLL 3
 SETGLOB 15
-.loc ../contracts/MakeOffer.tsol, 194
+.loc ../contracts/MakeOffer.tsol, 197
 NEWC
 STSLICECONST x42_
 STSLICE
