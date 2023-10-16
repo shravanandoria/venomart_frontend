@@ -68,46 +68,50 @@ export default async function handler(req, res) {
           const lastSold = await Activity.find({ type: "sale", item: nft._id }).limit(1).sort({ createdAt: -1 });
 
           // nft props proba 
-          const nfts = await NFT.find({ NFTCollection: nft.NFTCollection._id })
-            .select(["attributes"]);
-
-          const uniqueTraits = {};
-
-          nfts.forEach((nft) => {
-            nft.attributes.forEach((attribute) => {
-              const type = attribute.trait_type || attribute.type;
-              const value = attribute.value;
-
-              if (!uniqueTraits[type]) {
-                uniqueTraits[type] = {
-                  type,
-                  values: [],
-                };
-              }
-              const trait = uniqueTraits[type];
-              const valueIndex = trait.values.findIndex((item) => item.value === value);
-
-              if (valueIndex === -1) {
-                trait.values.push({ value, count: 1, probability: 0 });
-              } else {
-                trait.values[valueIndex].count++;
-              }
-            });
-          });
-
-          for (const traitType in uniqueTraits) {
-            const trait = uniqueTraits[traitType];
-            const total = trait.values.reduce((acc, item) => acc + item.count, 0);
-
-            trait.values.forEach((item) => {
-              item.probability = ((item.count / total) * 100).toFixed(2);
-            });
-          }
-
-          const propertyTraits = Object.values(uniqueTraits);
-          const updatedAttributes = [];
+          let updatedAttributes = [];
+          let rarityScore = 0;
 
           if (nft.NFTCollection.isPropsEnabled) {
+            const nfts = await NFT.find({ NFTCollection: nft.NFTCollection._id })
+              .select(["attributes"]);
+
+            const uniqueTraits = {};
+
+            nfts.forEach((nft) => {
+              nft.attributes.forEach((attribute) => {
+                const type = attribute.trait_type || attribute.type;
+                const value = attribute.value;
+
+                if (!uniqueTraits[type]) {
+                  uniqueTraits[type] = {
+                    type,
+                    values: [],
+                  };
+                }
+                const trait = uniqueTraits[type];
+                const valueIndex = trait.values.findIndex((item) => item.value === value);
+
+                if (valueIndex === -1) {
+                  trait.values.push({ value, count: 1, probability: 0 });
+                } else {
+                  trait.values[valueIndex].count++;
+                }
+              });
+            });
+
+            for (const traitType in uniqueTraits) {
+              const trait = uniqueTraits[traitType];
+              const total = trait.values.reduce((acc, item) => acc + item.count, 0);
+
+              trait.values.forEach((item) => {
+                item.probability = ((item.count / total) * 100).toFixed(2);
+                item.rarityscore = (1 / item.count / nfts.length);
+              });
+            }
+
+            const propertyTraits = Object.values(uniqueTraits);
+            updatedAttributes = [];
+
             nft.attributes.forEach((attribute) => {
               for (const trait of propertyTraits) {
                 const found = trait.values.find((item) => item.value === attribute.value);
@@ -116,11 +120,16 @@ export default async function handler(req, res) {
                     trait_type: trait.type,
                     value: attribute.value,
                     probability: found.probability,
+                    rarityscore: found.rarityscore
                   });
                   break;
                 }
               }
             });
+
+            for (const updatedAttribute of updatedAttributes) {
+              rarityScore += updatedAttribute.rarityscore;
+            }
           }
 
           // more nfts 
@@ -136,6 +145,7 @@ export default async function handler(req, res) {
             lastSold: lastSold[0]?.price,
             username: user.user_name,
             userProfileImage: user.profileImage,
+            rarityScore: parseFloat(rarityScore.toFixed(2)),
             attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
             moreNFTs: moreNFTs
           };

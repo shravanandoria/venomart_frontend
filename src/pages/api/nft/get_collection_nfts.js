@@ -90,6 +90,9 @@ export default async function handler(req, res) {
                                 $limit: 20,
                             },
                             {
+                                $skip: parseFloat(skip)
+                            },
+                            {
                                 $sort: { isListed: -1 },
                             }
                         ]);

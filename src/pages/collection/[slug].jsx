@@ -1627,30 +1627,32 @@ const Collection = ({
 
                             {/* property modal  */}
                             {collection?.isPropsEnabled && (
-                              <button
-                                onClick={() => (
-                                  getCollectionProperties(),
-                                  setAnyModalOpen(true),
-                                  setPropertyModal(true)
-                                )}
-                                className="dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 text-sm text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
-                                type="button"
-                                id="propertiesFilter"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                              <div className="typeModelMainDiv relative my-1 mr-2.5">
+                                <button
+                                  onClick={() => (
+                                    getCollectionProperties(),
+                                    setAnyModalOpen(true),
+                                    setPropertyModal(true)
+                                  )}
+                                  className="typeModelBtn dropdown-toggle group group flex h-9 items-center rounded-lg border border-jacarta-100 bg-white px-4 text-sm text-jacarta-700 transition-colors hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white dark:hover:bg-accent"
+                                  type="button"
+                                  id="propertiesFilter"
                                 >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
-                                </svg>
-                                <span style={{ whiteSpace: "nowrap" }}>
-                                  Filter Properties
-                                </span>
-                              </button>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    height="24"
+                                    className="mr-1 h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
+                                  >
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path d="M6.17 18a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2v-2h4.17zm6-7a3.001 3.001 0 0 1 5.66 0H22v2h-4.17a3.001 3.001 0 0 1-5.66 0H2v-2h10.17zm-6-7a3.001 3.001 0 0 1 5.66 0H22v2H11.83a3.001 3.001 0 0 1-5.66 0H2V4h4.17z" />
+                                  </svg>
+                                  <span style={{ whiteSpace: "nowrap" }}>
+                                    Filter Properties
+                                  </span>
+                                </button>
+                              </div>
                             )}
                           </div>
 
