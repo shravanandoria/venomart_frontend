@@ -228,7 +228,7 @@ const EditProfile = ({ signer_address, theme }) => {
                       alert("copied wallet address to clipboard")
                     )}
                   >
-                    <span>{signer_address.slice(0, 22) + "......"}</span>
+                    <span>{signer_address?.slice(0, 22) + "......"}</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

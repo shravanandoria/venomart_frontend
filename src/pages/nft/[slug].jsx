@@ -7,12 +7,11 @@ import Loader from "../../components/Loader";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import {
+  MARKETPLACE_ADDRESS,
   MakeOpenOffer,
   buy_nft,
   directSell_nft_info,
-  get_nft_by_address,
-  listing_fees,
-  platform_fees,
+  get_nft_by_address
 } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
@@ -334,14 +333,14 @@ const NFTPage = ({
     let newFloorPrice = 0;
     if (
       finalListingPrice <
-      (nft?.NFTCollection?.FloorPrice
-        ? nft?.NFTCollection?.FloorPrice
+      (nft?.FloorPrice
+        ? nft?.FloorPrice
         : collectionData?.data?.FloorPrice)
     ) {
       newFloorPrice = finalListingPrice;
     }
     if (
-      nft?.NFTCollection?.FloorPrice == 0 ||
+      nft?.FloorPrice == 0 ||
       collectionData?.data?.FloorPrice == 0
     ) {
       newFloorPrice = finalListingPrice;
@@ -362,8 +361,8 @@ const NFTPage = ({
         onchainNFTData,
         finalListingPrice,
         newFloorPrice,
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice,
         client,
         nft?.NFTCollection?.royalty
@@ -436,8 +435,8 @@ const NFTPage = ({
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice
       );
 
@@ -474,8 +473,8 @@ const NFTPage = ({
         nft?.NFTCollection?.contractAddress,
         venomProvider,
         signer_address,
-        nft?.NFTCollection?.FloorPrice
-          ? nft?.NFTCollection?.FloorPrice
+        nft?.FloorPrice
+          ? nft?.FloorPrice
           : collectionData?.data?.FloorPrice
       );
       if (cancelling == true) {
@@ -499,7 +498,6 @@ const NFTPage = ({
     if (!nft) return;
     setMoreLoading(true);
     const getOffer = await getOffers(nft?._id, 0);
-    console.log(getOffer);
     setActiveOffers(getOffer);
     setfetchedNFTOffers(true);
     setMoreLoading(false);
@@ -917,9 +915,11 @@ const NFTPage = ({
                             src={
                               nft?.managerAddress
                                 ? nft?.managerAddress == nft?.ownerAddress
-                                  ? nft?.userProfileImage?.replace(
+                                  ? (nft?.userProfileImage ? nft?.userProfileImage?.replace(
                                     "ipfs://",
-                                    "https://ipfs.io/ipfs/"
+                                    "https://ipfs.io/ipfs/")
+                                    :
+                                    defLogo
                                   )
                                   : defLogo
                                 : defLogo
@@ -1007,8 +1007,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1024,9 +1024,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1111,8 +1111,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1128,9 +1128,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1174,33 +1174,34 @@ const NFTPage = ({
                                   setBuyModal(true),
                                   setAnyModalOpen(true)
                                 )}
-                                className="flex justify-center align-middle w-[88%] rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                className={`flex justify-center align-middle ${nft?.managerAddress == MARKETPLACE_ADDRESS ? "w-[100%]" : "w-[88%]"} rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark`}
                               >
                                 <FaWallet className="text-[18px] mt-1 mr-2" />
                                 Buy Now
                               </button>
 
-                              {cartNFTs.some((item) => item._id === nft._id) ? (
-                                <button
-                                  type="button"
-                                  onClick={(e) => (
-                                    e.preventDefault(), removeFromCart(nft)
-                                  )}
-                                  className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-white ml-4 text-center font-semibold text-accent shadow-white-volume transition-all  hover:text-white"
-                                >
-                                  <BsFillCheckCircleFill className="text-center text-[28px] text-accent" />
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={(e) => (
-                                    e.preventDefault(), addToCart()
-                                  )}
-                                  className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-accent font-semibold text-white shadow-accent-volume hover:bg-accent-dark ml-4"
-                                >
-                                  <BsFillCartPlusFill className="text-center text-[25px]" />
-                                </button>
-                              )}
+                              {nft?.managerAddress != MARKETPLACE_ADDRESS &&
+                                (cartNFTs.some((item) => item._id === nft._id) ? (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => (
+                                      e.preventDefault(), removeFromCart(nft)
+                                    )}
+                                    className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-white ml-4 text-center font-semibold text-accent shadow-white-volume transition-all  hover:text-white"
+                                  >
+                                    <BsFillCheckCircleFill className="text-center text-[28px] text-accent" />
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => (
+                                      e.preventDefault(), addToCart()
+                                    )}
+                                    className="flex justify-center align-middle w-[12%] items-center rounded-xl bg-accent font-semibold text-white shadow-accent-volume hover:bg-accent-dark ml-4"
+                                  >
+                                    <BsFillCartPlusFill className="text-center text-[25px]" />
+                                  </button>
+                                ))}
                             </div>
                             <div className="flex mt-4">
                               <button
@@ -1348,8 +1349,8 @@ const NFTPage = ({
                                 </span>
                               </div>
                             )}
-                            {(nft?.NFTCollection?.FloorPrice
-                              ? nft?.NFTCollection?.FloorPrice
+                            {(nft?.FloorPrice
+                              ? nft?.FloorPrice
                               : collectionData?.data?.FloorPrice) && (
                                 <div className="flex flex-row mt-2">
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1365,9 +1366,9 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.NFTCollection?.FloorPrice
+                                    {nft?.FloorPrice
                                       ? formatNumberShort(
-                                        nft?.NFTCollection?.FloorPrice
+                                        nft?.FloorPrice
                                       )
                                       : formatNumberShort(
                                         collectionData?.data?.FloorPrice
@@ -1451,8 +1452,8 @@ const NFTPage = ({
                                   </span>
                                 </div>
                               )}
-                              {(nft?.NFTCollection?.FloorPrice
-                                ? nft?.NFTCollection?.FloorPrice
+                              {(nft?.FloorPrice
+                                ? nft?.FloorPrice
                                 : collectionData?.data?.FloorPrice) && (
                                   <div className="flex flex-row mt-2">
                                     <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
@@ -1468,9 +1469,9 @@ const NFTPage = ({
                                       />
                                     </span>
                                     <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
-                                      {nft?.NFTCollection?.FloorPrice
+                                      {nft?.FloorPrice
                                         ? formatNumberShort(
-                                          nft?.NFTCollection?.FloorPrice
+                                          nft?.FloorPrice
                                         )
                                         : formatNumberShort(
                                           collectionData?.data?.FloorPrice
@@ -1493,13 +1494,14 @@ const NFTPage = ({
                             type="button"
                             onClick={() => (
                               setSelectedNFT(""),
+                              !onchainNFTData && checkExistingOffer(),
                               setOfferModal(true),
                               setAnyModalOpen(true)
                             )}
                             className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                           >
                             <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                            Make an Offer
+                            Make An Offer
                           </button>
                         </div>
                       </>
@@ -2215,14 +2217,14 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal && (
             <div className="afterMintDiv">
-              {/* <form
+              <form
                 onSubmit={(e) => (
                   e.preventDefault(),
                   alert("This feature will be available soon..")
                 )}
                 className="modal-dialog max-w-2xl"
-              > */}
-              <form onSubmit={makeOffer} className="modal-dialog max-w-2xl">
+              >
+                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">
@@ -2400,7 +2402,6 @@ const NFTPage = ({
               setAnyModalOpen={setAnyModalOpen}
               currency={currency}
               loading={loading}
-              listing_fees={listing_fees}
               listingPrice={listingPrice}
               set_listing_price={set_listing_price}
               creatorRoyalty={creatorRoyalty}

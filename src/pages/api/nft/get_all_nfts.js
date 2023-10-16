@@ -76,7 +76,51 @@ export default async function handler(req, res) {
                         nfts = nfts.filter(nft => nft.NFTCollection);
                     }
 
-                    return res.status(200).json({ success: true, data: nfts });
+                    const getNFTResultForCollection = async (collectionId) => {
+                        const nftResult = await NFT.aggregate([
+                            {
+                                $match: {
+                                    NFTCollection: collectionId,
+                                    isListed: true
+                                }
+                            },
+                            {
+                                $addFields: {
+                                    priceAsDouble: { $toDouble: "$listingPrice" }
+                                }
+                            },
+                            {
+                                $group: {
+                                    _id: null,
+                                    minimumListingPrice: {
+                                        $min: "$priceAsDouble"
+                                    }
+                                }
+                            },
+                            {
+                                $limit: 1
+                            },
+                            {
+                                $sort: {
+                                    minimumListingPrice: -1
+                                }
+                            }
+                        ]);
+                        return nftResult[0]?.minimumListingPrice || null;
+                    };
+
+                    const mergedData = await Promise.all(
+                        nfts.map(async (nft) => {
+                            const collectionId = nft?.NFTCollection?._id;
+                            const minimumListingPrice = await getNFTResultForCollection(collectionId);
+                            return {
+                                ...nft.toObject(),
+                                FloorPrice: minimumListingPrice
+                            };
+                        })
+                    );
+
+                    return res.status(200).json({ success: true, data: mergedData });
 
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
