@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
           const find_collection = await Collection.findOne({
             contractAddress,
-          }).select({ FloorPrice: 0, keywords: 0, TotalSales: 0, TotalVolume: 0 });
+          }).select({ FloorPrice: 0, keywords: 0, TotalSales: 0, TotalVolume: 0, TotalListed: 0 });
 
           if (!find_collection)
             return res.status(400).json({
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
                 _id: 1,
                 TotalVolume: 1,
                 TotalListed: 1,
-                TotalSales: 1,
+                TotalSales: 1
               }
             }
           ]);

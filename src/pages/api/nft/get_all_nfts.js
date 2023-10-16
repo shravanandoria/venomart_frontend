@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { filterCollection, ownerAddress, collectionCategory, minPrice, maxPrice, sortby, option, skip } = req.query;
+                    const { filterCollection, ownerAddress, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip } = req.query;
 
                     let filterQuery = {};
                     let sortQuery = {};
@@ -24,7 +24,6 @@ export default async function handler(req, res) {
                     if (collectionCategory != "All") {
                         limit = 50
                         optionQuery.Category = collectionCategory
-                        // filterQuery['NFTCollection.Category'] = collectionCategory;
                     }
                     if (minPrice != 0 || maxPrice != 0) {
                         filterQuery.demandPrice = { $gte: minPrice, $lte: maxPrice }
@@ -62,6 +61,11 @@ export default async function handler(req, res) {
                             optionQuery.isVerified = true
                         }
                     }
+                    if (NSFW) {
+                        if (NSFW == "false") {
+                            optionQuery.isNSFW = false
+                        }
+                    }
 
                     let nfts = await NFT.find(filterQuery, undefined, {
                         skip,
@@ -72,8 +76,8 @@ export default async function handler(req, res) {
                         select: { contractAddress: 1, name: 1, isVerified: 1, isNSFW: 1, royalty: 1, royaltyAddress: 1, FloorPrice: 1 },
                     }).sort(sortQuery);
 
-                    if (option == "verified") {
-                        nfts = nfts.filter(nft => nft.NFTCollection);
+                    if (option == "verified" || NSFW == "false" || collectionCategory != "All") {
+                        nfts = nfts.filter(nft => { return nft.NFTCollection != null });
                     }
 
                     const getNFTResultForCollection = async (collectionId) => {

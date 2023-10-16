@@ -767,7 +767,7 @@ export default function App({ Component, pageProps }) {
         venomPrice={venomPrice}
         venomTPS={venomTPS}
         venomProvider={venomProvider}
-        connectWallet={connectWallet}
+        connectWallet={connect_wallet}
       />
     </ThirdwebProvider>
   );

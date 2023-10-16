@@ -8,11 +8,12 @@ export const fetch_nfts = async (
   maxPrice,
   sortby,
   option,
+  NSFW,
   skip
 ) => {
   try {
     const res = await axios({
-      url: `/api/nft/get_all_nfts?filterCollection=${filterCollection}&ownerAddress=${signer_address}&collectionCategory=${collectionCategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortby=${sortby}&option=${option}&skip=${skip}`,
+      url: `/api/nft/get_all_nfts?filterCollection=${filterCollection}&ownerAddress=${signer_address}&collectionCategory=${collectionCategory}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortby=${sortby}&option=${option}&NSFW=${NSFW}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;

@@ -49,6 +49,9 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
   // for verified fetch 
   const [option, setOption] = useState("unverified");
   const [verifiedCheck, setVerifiedCheck] = useState(false);
+  // for nsfw fetch 
+  const [NSFW, setNSFW] = useState(false);
+  const [NSFWCheck, setNSFWCheck] = useState(false);
 
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
@@ -94,7 +97,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
 
   const scroll_get_all_nfts = async () => {
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts([...nfts, ...res]);
       if (res == "") {
@@ -106,7 +109,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
 
   const fetch_nfts_success = async () => {
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
       if (res == "") {
@@ -119,7 +122,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
   const fetch_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
       if (res == "") {
@@ -132,7 +135,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
   const clear_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
     setMoreLoading(true);
-    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, 0, 0, sortby, option, skip);
+    const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, 0, 0, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
       if (res == "") {
@@ -270,7 +273,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
 
   useEffect(() => {
     fetch_filter_nfts();
-  }, [sortby, option, collectionCategory, filterCollection]);
+  }, [sortby, option, collectionCategory, filterCollection, NSFW]);
 
   useEffect(() => {
     if (collectionFilter || filterCategories || priceRangeFilter || filterSort) {
@@ -838,6 +841,17 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                                 />
                               </span>
                             </div>
+                            <div className="dropdown-item block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              <span className="flex items-center justify-between">
+                                <span className="text-jacarta-700 dark:text-white">Show NSFW</span>
+                                <input
+                                  type="checkbox"
+                                  defaultChecked={NSFWCheck ? true : false}
+                                  onChange={() => (NSFWCheck ? (setSkip(0), setHasMore(true), setNSFWCheck(false), setDefaultFilterFetch(true), setNSFW(false)) : (setSkip(0), setHasMore(true), setNSFWCheck(true), setNSFW(true)))}
+                                  className="relative h-4 w-7 cursor-pointer appearance-none rounded-lg border-none bg-jacarta-100 after:absolute after:top-0.5 after:left-0.5 after:h-3 after:w-3 after:rounded-full after:bg-jacarta-400 after:transition-all checked:bg-accent checked:bg-none checked:after:left-3.5 checked:after:bg-white checked:hover:bg-accent focus:ring-transparent focus:ring-offset-0 checked:focus:bg-accent"
+                                />
+                              </span>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -864,7 +878,6 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
                     >
                       {nfts?.map((e, index) => {
                         return (
-                          !e?.NFTCollection?.isNSFW &&
                           <NftCard
                             key={index}
                             ImageSrc={e?.nft_image?.replace(
