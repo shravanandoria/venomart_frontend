@@ -552,11 +552,9 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (collection_address, signer_address) => {
+export const has_minted = async (collection_address, signer_address, venomProvider) => {
   if (collection_address == "" || signer_address == "") return;
-  let myEver = new MyEver();
-  const providerRpcClient = myEver.ever();
-  const contract = new providerRpcClient.Contract(
+  const contract = new venomProvider.Contract(
     collectionAbi,
     collection_address
   );

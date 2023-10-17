@@ -102,11 +102,10 @@ const venomturkiye = ({
     const [endseconds, setEndSeconds] = useState(0);
 
     const getMintedCount = async () => {
+        if (!venomProvider) return;
         setLoading(true);
         try {
-            let myEver = new MyEver();
-            const providerRpcClient = myEver.ever();
-            const contract = new providerRpcClient.Contract(
+            const contract = new venomProvider.Contract(
                 collectionAbi,
                 contractAddress
             );
@@ -120,12 +119,6 @@ const venomturkiye = ({
         }
         setLoading(false);
     };
-
-    // getting minted nfts
-    useEffect(() => {
-        getMintedCount();
-        getRandomTokenId();
-    }, []);
 
     useEffect(() => {
         if (status == "Upcoming") {
@@ -223,23 +216,26 @@ const venomturkiye = ({
         setLoading(true);
         const data = await has_minted(
             contractAddress,
-            signer_address
+            signer_address,
+            venomProvider
         );
         setCheckMint(data);
         setLoading(false);
     };
 
     useEffect(() => {
-        if (!signer_address) return;
-        get_user_Data();
-    }, [signer_address]);
-
-    useEffect(() => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
         }, 3000);
-    }, [venomProvider]);
+
+        if (!venomProvider) return;
+        getMintedCount();
+        getRandomTokenId();
+
+        if (!signer_address) return;
+        get_user_Data();
+    }, [venomProvider, signer_address]);
 
     return (
         <div className={`${theme}`}>
