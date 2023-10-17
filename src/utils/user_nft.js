@@ -496,36 +496,31 @@ export const create_nft_database = async (
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
-  const contract = new venomProvider.Contract(
-    collectionAbi,
-    new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
-  );
-
-  // const subscriber = new Subscriber(venomProvider);
-  // const contractEvents = contract.events(subscriber);
-
-  // contractEvents.on(async (event) => {
-  //   let obj = {
-  //     NFTAddress: event.data.nft._address,
-  //     ownerAddress: signer_address,
-  //     managerAddress: signer_address,
-  //     imageURL: data.image,
-  //     title: data.title,
-  //     description: data.description,
-  //     properties: data.properties,
-  //     NFTCollection: data.collection,
-  //   };
-  //   createNFT(obj);
-  // });
-
-  const { count: id } = await contract.methods
-    .totalSupply({ answerId: 0 })
-    .call();
-
   try {
+    const contract = new venomProvider.Contract(
+      collectionAbi,
+      new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
+    );
+
+    // const subscriber = new Subscriber(venomProvider);
+    // const contractEvents = contract.events(subscriber);
+
+    // contractEvents.on(async (event) => {
+    //   let obj = {
+    //     NFTAddress: event.data.nft._address,
+    //     ownerAddress: signer_address,
+    //     managerAddress: signer_address,
+    //     imageURL: data.image,
+    //     title: data.title,
+    //     description: data.description,
+    //     properties: data.properties,
+    //     NFTCollection: data.collection,
+    //   };
+    //   createNFT(obj);
+    // });
+
     const nft_json = JSON.stringify({
       type: "Basic NFT",
-      id,
       name: data.name,
       description: data.description,
       preview: {
@@ -535,13 +530,11 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       files: [
         {
           source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: "image/png",
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io",
-      nft_image: data.image,
-      collection_name: data.collection,
+      external_url: "https://venomart.io"
     });
 
     const outputs = await contract.methods
@@ -552,11 +545,10 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         from: new Address(signer_address),
         amount: "2000000000",
       });
+    return true;
   } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
     console.log(error.message);
+    return false;
   }
 };
 

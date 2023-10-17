@@ -36,7 +36,7 @@ const CreateNFT = ({
     name: "Task Special NFT",
     description: "venomart X venom network launch special NFT on venom blockchain 🔥",
     collection: defaultCollectionAddress,
-    properties: [{ trait_type: "Event", value: "Venom Launch" }, { trait_type: "Type", value: "Testnet" }],
+    properties: [{ trait_type: "Event", value: "Venomart Launch" }, { trait_type: "Type", value: "Testnet" }],
   });
 
   const default_images = [
@@ -98,8 +98,8 @@ const CreateNFT = ({
 
     const creatingNFT = await create_nft(obj, signer_address, venomProvider);
     if (creatingNFT) {
+      setMintModal(false);
       setMintSuccessModal(true);
-      setAnyModalOpen(true);
     }
     else {
       router.push(`/profile/${signer_address}`)
@@ -695,7 +695,7 @@ const CreateNFT = ({
               <div className="modal-body p-6">
                 <div className="mb-2 flex items-center justify-between">
                   <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
-                    You have successfully minted the {data.name} NFT 🎉🎉🎉 <br /> View your profile to see the
+                    You have successfully minted the {data.name} 🎉🎉🎉 <br /> View your profile to see the
                     minted NFT 🤗
                   </span>
                 </div>
@@ -713,7 +713,7 @@ const CreateNFT = ({
                 </div>
                 <div className="flex items-center justify-center space-x-4 m-2">
                   <a
-                    href={`https://twitter.com/intent/tweet?text=Just%20minted%20my%20first%20custom%20NFT%20on%20Venomart%0ATry%20minting%20yours%20now!!%20%F0%9F%98%84%0AHere%20you%20go%20-%20https://venomart.io/mint/CreateNFT%0A%23Venom%20%23venomart%20%23VenomTestnet%20%23VenomNetwork%20%23VenomFoundation`}
+                    href={`https://twitter.com/intent/tweet?text=Just%20minted%20a%20brand%20new%20NFT%20onchain%20via%20venomart.io%20and%20completed%20the%20venom.network%20latest%20task%20%F0%9F%94%A5%0AHere%20you%20go%20-%20https://venomart.io/mint/CreateNFT%0A%23Venom%20%23venomart%20%23VenomTestnet%20%23VenomNetwork%20%23VenomFoundation`}
                     target="_blank"
                     className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >
@@ -721,6 +721,16 @@ const CreateNFT = ({
                     <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
                   </a>
                 </div>
+                {/* <div className="flex items-center justify-center space-x-4 m-2">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=Just%20minted%20my%20first%20custom%20NFT%20on%20Venomart%0ATry%20minting%20yours%20now!!%20%F0%9F%98%84%0AHere%20you%20go%20-%20https://venomart.io/mint/CreateNFT%0A%23Venom%20%23venomart%20%23VenomTestnet%20%23VenomNetwork%20%23VenomFoundation`}
+                    target="_blank"
+                    className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                  >
+                    Share
+                    <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
+                  </a>
+                </div> */}
               </div>
             </div>
           </form>
