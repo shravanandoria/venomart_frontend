@@ -827,6 +827,9 @@ const NFTPage = ({
                                   Refresh Metadata
                                 </button>
                               ))}
+                            <a href={nft?.nft_metadata} target="_blank" className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                              View Metadata
+                            </a>
                             <a
                               href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${nft?.NFTCollection?.name
                                 ? nft?.NFTCollection?.name

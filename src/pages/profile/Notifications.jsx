@@ -61,6 +61,7 @@ const Notifications = ({ signer_address, theme, blockURL }) => {
     }, [signer_address])
 
     useEffect(() => {
+        if (!skip) return;
         scroll_fetch_notifications();
     }, [skip])
 

@@ -32,25 +32,25 @@ const CreateNFT = ({
   const [user_collections, set_user_collections] = useState([]);
 
   const [data, set_data] = useState({
-    image: "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
-    name: "",
-    description: "",
+    image: "https://ipfs.io/ipfs/QmcgbwHnVGLUt9jjVt3nuG88tguRQqcXBK5NUht4QVDdTV/toon1.jpg",
+    name: "Task Special NFT",
+    description: "venomart X venom network launch special NFT on venom blockchain 🔥",
     collection: defaultCollectionAddress,
-    properties: [{ trait_type: "", value: "" }],
+    properties: [{ trait_type: "Event", value: "Venom Launch" }, { trait_type: "Type", value: "Testnet" }],
   });
 
-  // const default_images = [
-  //   "https://ipfs.io/ipfs/QmcgbwHnVGLUt9jjVt3nuG88tguRQqcXBK5NUht4QVDdTV/toon1.jpg",
-  //   "https://ipfs.io/ipfs/QmR792uc5rgkGJuhU72GHyZwi5w3xJoVFazw4Se5ZLpZJb/toon3.jpg",
-  //   "https://ipfs.io/ipfs/QmQRjW6GjzGpZsxzoGp53QeCid78VUFApDSBFmkAK3TEDV/toon5.jpg",
-  //   "https://ipfs.io/ipfs/QmdPettcGwTnUM1B3VqLid5UwA5aVRusEF3KTMKH5VFR33/toon2.jpg",
-  // ];
   const default_images = [
-    "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
-    "https://ipfs.io/ipfs/QmRSPF3cFpssXTZnYbgXqb1HncepyoY9oY1AHgESoLCdTY/2.webp",
-    "https://ipfs.io/ipfs/QmNqPGLMkkbJezyjuZTShnLe3GzGoU7VcjyACXcAeFiiWV/3.webp",
-    "https://ipfs.io/ipfs/QmWYVwPg2vVxc684M8AmUPuYPWaQqGs9LHhgbG8rHro4AE/4.webp",
+    "https://ipfs.io/ipfs/QmcgbwHnVGLUt9jjVt3nuG88tguRQqcXBK5NUht4QVDdTV/toon1.jpg",
+    "https://ipfs.io/ipfs/QmR792uc5rgkGJuhU72GHyZwi5w3xJoVFazw4Se5ZLpZJb/toon3.jpg",
+    "https://ipfs.io/ipfs/QmQRjW6GjzGpZsxzoGp53QeCid78VUFApDSBFmkAK3TEDV/toon5.jpg",
+    "https://ipfs.io/ipfs/QmdPettcGwTnUM1B3VqLid5UwA5aVRusEF3KTMKH5VFR33/toon2.jpg",
   ];
+  // const default_images = [
+  //   "https://ipfs.io/ipfs/QmPReY38m2m3gDqzgWEZJwk31uZKqiCswQjkJDdLzUMmiz/1.webp",
+  //   "https://ipfs.io/ipfs/QmRSPF3cFpssXTZnYbgXqb1HncepyoY9oY1AHgESoLCdTY/2.webp",
+  //   "https://ipfs.io/ipfs/QmNqPGLMkkbJezyjuZTShnLe3GzGoU7VcjyACXcAeFiiWV/3.webp",
+  //   "https://ipfs.io/ipfs/QmWYVwPg2vVxc684M8AmUPuYPWaQqGs9LHhgbG8rHro4AE/4.webp",
+  // ];
 
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
@@ -236,7 +236,7 @@ const CreateNFT = ({
                 </div> */}
 
               {/* <!-- Name --> */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <label
                   htmlFor="item-name"
                   className="mb-2 block font-display text-jacarta-700 dark:text-white"
@@ -255,7 +255,33 @@ const CreateNFT = ({
                   placeholder="Item name"
                   required
                 />
-              </div>
+              </div> */}
+              <label
+                htmlFor="item-name"
+                className="mb-2 block font-display text-jacarta-700 dark:text-white"
+              >
+                Name<span className="text-red">*</span>
+              </label>
+              <select
+                name="name"
+                // value={data.collection}
+                onChange={handleChange}
+                className={`dropdown my-1 cursor-pointer w-[100%] mb-6 ${theme == "dark"
+                  ? "dark:bg-jacarta-900 dark:text-white"
+                  : "bg-white text-black"
+                  }`}
+                required
+              >
+                <option value={"Task Special NFT"}>
+                  Task Special NFT
+                </option>
+                <option value={"My first NFT"}>
+                  My First NFT
+                </option>
+                <option value={"Venomart X Venom Network"}>
+                  Venomart X Venom Network
+                </option>
+              </select>
 
               {/* <!-- Description --> */}
               <div className="mb-6">
@@ -280,6 +306,8 @@ const CreateNFT = ({
                   rows="4"
                   required
                   placeholder="Provide a detailed description of your item."
+                  value="venomart X venom network launch special NFT on venom blockchain 🔥"
+                  readOnly
                 ></textarea>
               </div>
 
@@ -396,7 +424,7 @@ const CreateNFT = ({
                             key={index}
                             className="relative my-3 flex items-center"
                           >
-                            <button
+                            {/* <button
                               type="button"
                               onClick={() => handle_remove_field(index)}
                               className="flex h-12 w-12 shrink-0 items-center justify-center self-end rounded-l-lg border border-r-0 border-jacarta-100 bg-jacarta-50 hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700"
@@ -411,7 +439,7 @@ const CreateNFT = ({
                                 <path fill="none" d="M0 0h24v24H0z"></path>
                                 <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
                               </svg>
-                            </button>
+                            </button> */}
 
                             <div className="flex-1">
                               <input
@@ -426,6 +454,7 @@ const CreateNFT = ({
                                   : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                   }`}
                                 placeholder="Type"
+                                readOnly
                               />
                             </div>
 
@@ -442,18 +471,19 @@ const CreateNFT = ({
                                   : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                   }`}
                                 placeholder="Value"
+                                readOnly
                               />
                             </div>
                           </div>
                         ))}
 
-                        <button
+                        {/* <button
                           type="button"
                           onClick={handle_add_field}
                           className="mt-2 rounded-full border-2 border-accent py-2 px-8 text-center text-sm font-semibold text-accent transition-all hover:bg-accent hover:text-white"
                         >
                           Add More
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -528,20 +558,20 @@ const CreateNFT = ({
                         "https://ipfs.io/ipfs/"
                       )}
                       alt="nftPreview"
-                      width="70"
-                      height="70"
+                      width="80"
+                      height="80"
                       className="rounded-2lg"
                     />
                   </div>
                   <div>
-                    <Link
+                    {/* <Link
                       href={`/collection/${data?.collection}`}
                       className="text-accent text-sm"
                     >
                       {data.collection == defaultCollectionAddress ? "venomart venom collection" : (data?.collection?.slice(0, 5) +
                         "..." +
                         data?.collection?.slice(63))}
-                    </Link>
+                    </Link> */}
                     <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                       {data?.name}
                     </h3>
