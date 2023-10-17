@@ -28,6 +28,7 @@ import BuyModal from "../../components/modals/BuyModal";
 
 import { TonClientContext } from "../../context/tonclient";
 import { search_user_nfts } from "../../utils/mongo_api/search";
+import { get_user_collections } from "../../utils/mongo_api/collection/collection";
 
 const Profile = ({
   theme,
@@ -57,6 +58,7 @@ const Profile = ({
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
+  const [fetchedUserCollections, setFetchedUserCollections] = useState(false);
   const [fetchedOnSaleNFTs, setFetchedOnSaleNFTs] = useState(false);
   const [fetchedOwnedNFTs, setFetchedOwnedNFTs] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
@@ -76,8 +78,10 @@ const Profile = ({
   const [lastNFT, setLastNFT] = useState(undefined);
 
   const [activitySkip, setActivitySkip] = useState(0);
+  const [collectionSkip, setCollectionSkip] = useState(0);
   const [skip, setSkip] = useState(0);
   const [hasMoreActivity, setHasMoreActivity] = useState(true);
+  const [hasMoreCollections, setHasMoreCollections] = useState(true);
   const [hasMore, setHasMore] = useState(true);
 
   const [activityType, setActivityType] = useState("");
@@ -138,7 +142,6 @@ const Profile = ({
     const nftFetch = await getting_user_listed_nfts();
     if (data) {
       set_user_data(data?.data);
-      setNFTCollections(data?.data?.nftCollections);
     }
     set_loading(false);
   };
@@ -163,6 +166,46 @@ const Profile = ({
     }
     setFetchedProfileActivity(true);
     setMoreLoading(false);
+  };
+
+  // getting user collections
+  const getting_user_collections = async () => {
+    if (!slug) return;
+    setMoreLoading(true);
+    const res = await get_user_collections(
+      slug,
+      collectionSkip
+    );
+    if (res) {
+      setNFTCollections(res);
+      if (res == "") {
+        setHasMoreCollections(false);
+      }
+    }
+    setFetchedUserCollections(true);
+    setMoreLoading(false);
+  };
+
+  // scroll user collections
+  const scrollCollectionFetch = async () => {
+    if (user_data._id == undefined) return;
+    setMoreLoading(true);
+    const res = await get_user_collections(
+      slug,
+      collectionSkip
+    );
+    if (res) {
+      setNFTCollections([...NFTCollections, ...res]);
+      if (res == "") {
+        setHasMoreCollections(false);
+      }
+    }
+    setFetchedUserCollections(true);
+    setMoreLoading(false);
+  };
+
+  const handleCollectionScroll = () => {
+    setCollectionSkip(NFTCollections?.length);
   };
 
   // getting on sale nfts
@@ -426,6 +469,10 @@ const Profile = ({
   useEffect(() => {
     scrollActivityFetch();
   }, [activitySkip]);
+
+  useEffect(() => {
+    scrollCollectionFetch();
+  }, [collectionSkip]);
 
   useEffect(() => {
     scroll_get_all_nfts();
@@ -746,7 +793,10 @@ const Profile = ({
           <li
             className="nav-item"
             role="presentation"
-            onClick={switchToCollections}
+            onClick={() => (
+              !fetchedUserCollections && getting_user_collections(),
+              switchToCollections())
+            }
           >
             <button
               className={`nav-link ${collections && "active relative"
@@ -770,11 +820,7 @@ const Profile = ({
                 <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
               </svg>
               <span className="font-display text-base font-medium">
-                Collections (
-                {user_data?.nftCollections?.length
-                  ? user_data?.nftCollections?.length
-                  : "0"}
-                )
+                Collections
               </span>
             </button>
           </li>
@@ -1347,7 +1393,7 @@ const Profile = ({
                       )}
                     </div>
                     <div className="flex justify-center">
-                      {onSaleNFTs.length <= 0 && !moreLoading && (
+                      {(onSaleNFTs.length <= 0 && moreLoading == false) && (
                         <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
                           No NFTs found!
                         </h2>
@@ -1569,25 +1615,39 @@ const Profile = ({
                   aria-labelledby="on-sale-tab"
                 >
                   <div className="flex justify-center align-middle flex-wrap">
-                    {NFTCollections?.map((e, index) => (
-                      <CollectionCard
-                        key={index}
-                        Cover={e?.coverImage}
-                        Logo={e?.logo}
-                        Name={e?.name}
-                        Description={e?.description}
-                        OwnerAddress={e?.creatorAddress}
-                        CollectionAddress={e?.contractAddress}
-                        verified={e?.isVerified}
-                        Listing={e?.TotalListed}
-                        Volume={e?.TotalVolume}
-                        FloorPrice={e?.FloorPrice}
-                        TotalSupply={e?.TotalSupply}
-                      />
-                    ))}
+                    <InfiniteScroll
+                      dataLength={NFTCollections ? NFTCollections?.length : 0}
+                      next={handleCollectionScroll}
+                      hasMore={hasMoreCollections}
+                      className="flex flex-wrap justify-center align-middle"
+                      loader={
+                        <div className="flex items-center justify-center space-x-2 py-12">
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>
+                      }
+                    >
+                      {NFTCollections?.map((e, index) => (
+                        <CollectionCard
+                          key={index}
+                          Cover={e?.coverImage}
+                          Logo={e?.logo}
+                          Name={e?.name}
+                          Description={e?.description}
+                          OwnerAddress={e?.creatorAddress}
+                          CollectionAddress={e?.contractAddress}
+                          verified={e?.isVerified}
+                          Listing={e?.TotalListed}
+                          Volume={e?.TotalVolume}
+                          FloorPrice={e?.FloorPrice}
+                          TotalSupply={e?.TotalSupply}
+                        />
+                      ))}
+                    </InfiniteScroll>
                   </div>
                   <div className="flex justify-center">
-                    {NFTCollections?.length <= 0 && (
+                    {(NFTCollections?.length <= 0 && moreLoading == false) && (
                       <h2 className="text-xl font-display font-thin dark:text-jacarta-200">
                         No Collections to show!
                       </h2>

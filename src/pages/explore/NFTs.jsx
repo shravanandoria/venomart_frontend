@@ -321,7 +321,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
           <section className="relative py-24 dark:bg-jacarta-900">
             <div>
               <h1 className="pt-16 px-2 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                Explore NFTs
+                Explore NFTs🎨
               </h1>
               <p className=" pt-2 px-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                 Explore and trade the amazing NFTs on venomart marketplace

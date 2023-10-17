@@ -98,7 +98,7 @@ const Collections = ({
             <div className={`relative py-24 dark:bg-jacarta-900`}>
                 <div className="container">
                     <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                        Collection Rankings
+                        Collection Rankings🏆
                     </h1>
                     <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                         Top collections ranked by volume, floor price and more
