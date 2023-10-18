@@ -100,7 +100,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts([...nfts, ...res]);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -112,7 +112,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -125,7 +125,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, minPrice, maxPrice, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -138,7 +138,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
     const res = await fetch_nfts(filterCollection, signer_address, collectionCategory, 0, 0, sortby, option, NSFW, skip);
     if (res) {
       set_nfts(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }

@@ -160,7 +160,7 @@ const Profile = ({
     );
     if (res) {
       setActivityRecords(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMoreActivity(false);
       }
     }
@@ -178,7 +178,7 @@ const Profile = ({
     );
     if (res) {
       setNFTCollections(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMoreCollections(false);
       }
     }
@@ -196,7 +196,7 @@ const Profile = ({
     );
     if (res) {
       setNFTCollections([...NFTCollections, ...res]);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMoreCollections(false);
       }
     }
@@ -222,7 +222,7 @@ const Profile = ({
     );
     if (res) {
       setOnSaleNFTs(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -244,7 +244,7 @@ const Profile = ({
     );
     if (res) {
       setOnSaleNFTs(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -288,7 +288,7 @@ const Profile = ({
     );
     if (res) {
       setOnSaleNFTs([...onSaleNFTs, ...res]);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMore(false);
       }
     }
@@ -313,7 +313,7 @@ const Profile = ({
     );
     if (newArray) {
       setActivityRecords([...activityRecords, ...newArray]);
-      if (newArray == "") {
+      if (newArray == "" || newArray == undefined) {
         setHasMoreActivity(false);
       }
     }
@@ -450,7 +450,7 @@ const Profile = ({
       const res = await search_user_nfts(query_search, slug);
       if (res) {
         setOnSaleNFTs(res.nfts);
-        if (res.nfts == "") {
+        if (res.nfts == "" || res.nfts == undefined) {
           setHasMore(false);
         }
       }

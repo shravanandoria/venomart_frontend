@@ -333,7 +333,7 @@ const Collection = ({
     );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
-      if (nfts_offchain == "") {
+      if (nfts_offchain == "" || nfts_offchain == undefined) {
         setHasMore(false);
       }
     }
@@ -383,7 +383,7 @@ const Collection = ({
     );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
-      if (nfts_offchain == "") {
+      if (nfts_offchain == "" || nfts_offchain == undefined) {
         setHasMore(false);
       }
     }
@@ -403,7 +403,7 @@ const Collection = ({
     );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
-      if (nfts_offchain == "") {
+      if (nfts_offchain == "" || nfts_offchain == undefined) {
         setHasMore(false);
       }
     }
@@ -422,7 +422,7 @@ const Collection = ({
     );
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
-      if (nfts_offchain == "") {
+      if (nfts_offchain == "" || nfts_offchain == undefined) {
         setHasMore(false);
       }
     }
@@ -457,7 +457,7 @@ const Collection = ({
     );
     if (res) {
       set_activity(res);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMoreActivity(false);
       }
     }
@@ -492,7 +492,7 @@ const Collection = ({
     );
     if (nfts_offchain) {
       set_nfts([...nfts, ...nfts_offchain]);
-      if (nfts_offchain == "") {
+      if (nfts_offchain == "" || nfts_offchain == undefined) {
         setHasMore(false);
       }
     }
@@ -516,7 +516,7 @@ const Collection = ({
     );
     if (res) {
       set_activity([...activity, ...res]);
-      if (res == "") {
+      if (res == "" || res == undefined) {
         setHasMoreActivity(false);
       }
     }

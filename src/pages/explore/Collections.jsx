@@ -70,7 +70,7 @@ const Collections = ({ theme }) => {
     const collectionsJSON = await get_collections(category, sortby, option, skip);
     if (collectionsJSON) {
       set_collections([...collections, ...collectionsJSON]);
-      if (collectionsJSON == "") {
+      if (collectionsJSON == "" || collectionsJSON == undefined) {
         setHasMore(false);
       }
     }
@@ -83,7 +83,7 @@ const Collections = ({ theme }) => {
     const collectionsJSON = await get_collections(category, sortby, option, skip);
     if (collectionsJSON) {
       set_collections(collectionsJSON);
-      if (collectionsJSON == "") {
+      if (collectionsJSON == "" || collectionsJSON == undefined) {
         setHasMore(false);
       }
     }
@@ -109,7 +109,7 @@ const Collections = ({ theme }) => {
       const res = await search_collections(query_search);
       if (res) {
         set_collections(res.collections);
-        if (res.collections == "") {
+        if (res.collections == "" || res.collections == undefined) {
           setHasMore(false);
         }
       }
