@@ -31,7 +31,7 @@ import TokenRoot from "../../abi/TokenRoot.abi.json";
 // import TokenRoot from "../../new_abi/TokenRoot.abi.json";
 
 export class MyEver {
-  constructor() { }
+  constructor() {}
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -68,7 +68,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:14806fb1781fcad6a0dcd7785b377edf08e41512d66ed75fd767075967594d82"
+  "0:99448bdc1f27987e0706ba4968062d886869ca83ab7e58f4d6cc7ce85e17df00"
 );
 
 export const WVenomAddress = new Address(
@@ -98,10 +98,12 @@ export const bulk_buy_nfts = async (
       })
       .call();
 
-    let output = await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
-      from: new Address(signer_address),
-      amount: parseFloat(buy_amount.value0).toString(),
-    });
+    let output = await contract.methods
+      .bulkBuy({ directSell_addr, nft_price })
+      .send({
+        from: new Address(signer_address),
+        amount: parseFloat(buy_amount.value0).toString(),
+      });
 
     if (output) {
       let obj = {
@@ -112,7 +114,7 @@ export const bulk_buy_nfts = async (
         managerAddresses: directSell_addr,
         signer_address: signer_address,
         hash: output ? output?.id?.hash : "undefined",
-      }
+      };
       const updateNFTListings = await updateNFTSaleBulk(obj);
     }
 
@@ -155,6 +157,7 @@ export const MakeOpenOffer = async (
     );
 
     const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    console.log(res);
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods
@@ -198,6 +201,8 @@ export const MakeOpenOffer = async (
     const data = await factoryContract.methods
       .read_code({ answerId: 0 })
       .call();
+
+    console.log(data);
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
