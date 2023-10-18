@@ -30,7 +30,7 @@ import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 
 export class MyEver {
-  constructor() {}
+  constructor() { }
   ever = () => {
     return new ProviderRpcClient({
       fallback: () =>
@@ -91,7 +91,7 @@ export const create_collection = async (provider, signer_address, data) => {
     contractEvents.on(async (event) => {
       console.log(event);
     });
-    
+
     const nft_json = JSON.stringify({
       type: "Basic NFT",
       name: data.name,
@@ -311,7 +311,7 @@ export const getNftCodeHash = async (provider, collection_address) => {
 };
 
 // Method, that return NFT's addresses by single query with fetched code hash
-export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
+export const getNftAddresses = async (codeHash, last_nft_addr) => {
   const myEver = new MyEver();
   const addresses = await myEver.ever().getAccountsByCodeHash({
     codeHash,
