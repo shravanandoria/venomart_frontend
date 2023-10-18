@@ -104,9 +104,7 @@ const venomons = ({
     const getMintedCount = async () => {
         setLoading(true);
         try {
-            let myEver = new MyEver();
-            const providerRpcClient = myEver.ever();
-            const contract = new providerRpcClient.Contract(
+            const contract = new venomProvider.Contract(
                 collectionAbi,
                 contractAddress
             );
@@ -223,7 +221,8 @@ const venomons = ({
         setLoading(true);
         const data = await has_minted(
             contractAddress,
-            signer_address
+            signer_address,
+            venomProvider
         );
         setCheckMint(data);
         setLoading(false);

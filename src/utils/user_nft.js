@@ -68,7 +68,11 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
+<<<<<<< HEAD
   "0:99448bdc1f27987e0706ba4968062d886869ca83ab7e58f4d6cc7ce85e17df00"
+=======
+  "0:68b578e7668caba0aa60dde6e1b958981dba7c6e52d955eb5b480542222f1711"
+>>>>>>> 4900ee2739e19f2f49b96bc8f35217bc0a6f1b34
 );
 
 export const WVenomAddress = new Address(
@@ -501,36 +505,31 @@ export const create_nft_database = async (
 };
 
 export const create_nft = async (data, signer_address, venomProvider) => {
-  const contract = new venomProvider.Contract(
-    collectionAbi,
-    new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
-  );
-
-  // const subscriber = new Subscriber(venomProvider);
-  // const contractEvents = contract.events(subscriber);
-
-  // contractEvents.on(async (event) => {
-  //   let obj = {
-  //     NFTAddress: event.data.nft._address,
-  //     ownerAddress: signer_address,
-  //     managerAddress: signer_address,
-  //     imageURL: data.image,
-  //     title: data.title,
-  //     description: data.description,
-  //     properties: data.properties,
-  //     NFTCollection: data.collection,
-  //   };
-  //   createNFT(obj);
-  // });
-
-  const { count: id } = await contract.methods
-    .totalSupply({ answerId: 0 })
-    .call();
-
   try {
+    const contract = new venomProvider.Contract(
+      collectionAbi,
+      new Address(data.collection ? data.collection : COLLECTION_ADDRESS)
+    );
+
+    // const subscriber = new Subscriber(venomProvider);
+    // const contractEvents = contract.events(subscriber);
+
+    // contractEvents.on(async (event) => {
+    //   let obj = {
+    //     NFTAddress: event.data.nft._address,
+    //     ownerAddress: signer_address,
+    //     managerAddress: signer_address,
+    //     imageURL: data.image,
+    //     title: data.title,
+    //     description: data.description,
+    //     properties: data.properties,
+    //     NFTCollection: data.collection,
+    //   };
+    //   createNFT(obj);
+    // });
+
     const nft_json = JSON.stringify({
       type: "Basic NFT",
-      id,
       name: data.name,
       description: data.description,
       preview: {
@@ -540,13 +539,11 @@ export const create_nft = async (data, signer_address, venomProvider) => {
       files: [
         {
           source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: "image/png",
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io",
-      nft_image: data.image,
-      collection_name: data.collection,
+      external_url: "https://venomart.io"
     });
 
     const outputs = await contract.methods
@@ -557,19 +554,16 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         from: new Address(signer_address),
         amount: "2000000000",
       });
+    return true;
   } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
     console.log(error.message);
+    return false;
   }
 };
 
-export const has_minted = async (collection_address, signer_address) => {
+export const has_minted = async (collection_address, signer_address, venomProvider) => {
   if (collection_address == "" || signer_address == "") return;
-  let myEver = new MyEver();
-  const providerRpcClient = myEver.ever();
-  const contract = new providerRpcClient.Contract(
+  const contract = new venomProvider.Contract(
     collectionAbi,
     collection_address
   );

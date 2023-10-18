@@ -26,13 +26,7 @@ const UserSchema = new mongoose.Schema({
     sparse: true,
   },
   isArtist: Boolean,
-  socials: [String],
-  nftCollections: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Collection",
-    },
-  ],
+  socials: [String]
 },
   { timestamps: true }
 );

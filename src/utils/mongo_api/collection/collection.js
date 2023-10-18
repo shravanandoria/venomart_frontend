@@ -129,6 +129,18 @@ export const get_collections = async (category, sortby, option, skip) => {
   }
 };
 
+export const get_user_collections = async (wallet_id, skip) => {
+  try {
+    const res = await axios({
+      url: `/api/collection/user_collections?wallet_id=${wallet_id}&skip=${skip}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const top_collections = async (category, collection_status, duration) => {
   try {
     const res = await axios({

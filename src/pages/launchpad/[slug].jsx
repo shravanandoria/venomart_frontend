@@ -51,6 +51,7 @@ const launchpad = ({
 
     const [checkMint, setCheckMint] = useState();
     const [share, setShare] = useState(false);
+    const [status, setStatus] = useState(launchSlug.status);
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
@@ -153,7 +154,8 @@ const launchpad = ({
         if (signer_address == "") return;
         const data = await has_minted(
             launchSlug?.contractAddress,
-            signer_address
+            signer_address,
+            venomProvider
         );
         setCheckMint(data);
         setLoading(false);
@@ -161,7 +163,7 @@ const launchpad = ({
 
     // calculating live time here
     useEffect(() => {
-        if (launchSlug?.status == "Upcoming") {
+        if (status == "Upcoming") {
             setLoading(true);
             const target = new Date(
                 `${startDate ? startDate : ""}`
@@ -222,9 +224,9 @@ const launchpad = ({
     }, [startDate, endDate]);
 
     useEffect(() => {
-        if (!signer_address || !launchSlug) return;
+        if (!signer_address || !launchSlug || !venomProvider) return;
         get_user_Data();
-    }, [signer_address, launchSlug]);
+    }, [signer_address, launchSlug, venomProvider]);
 
     useEffect(() => {
         if (!slug) return;
@@ -395,7 +397,7 @@ const launchpad = ({
                                 </div>
 
                                 {/* if live  */}
-                                {launchSlug?.status == "Live" && (
+                                {status == "Live" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             MINT ENDS IN
@@ -429,7 +431,7 @@ const launchpad = ({
                                 )}
 
                                 {/* sold out */}
-                                {launchSlug?.status == "Sold Out" && (
+                                {status == "Sold Out" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             SOLD OUT IN
@@ -441,7 +443,7 @@ const launchpad = ({
                                 )}
 
                                 {/* ended */}
-                                {launchSlug?.status == "Ended" && (
+                                {status == "Ended" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                             SOLD OUT IN
@@ -453,7 +455,7 @@ const launchpad = ({
                                 )}
 
                                 {/* upcoming  */}
-                                {launchSlug?.status == "Upcoming" && (
+                                {status == "Upcoming" && (
                                     <div className="px-4 py-4">
                                         <h2 className="text-sm title-font text-gray-400 tracking-wides text-center">
                                             MINT STARTS IN
@@ -486,52 +488,52 @@ const launchpad = ({
                                     </div>
                                 )}
 
-                                {/* mint launchSlug?.status  */}
+                                {/* mint status  */}
                                 <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                         MINTING STATUS
                                     </h2>
-                                    {launchSlug?.status == "Live" && (
+                                    {status == "Live" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-green" />
                                             <span
                                                 className="text-green text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {launchSlug?.status}
+                                                {status}
                                             </span>
                                         </h1>
                                     )}
-                                    {launchSlug?.status == "Ended" && (
+                                    {status == "Ended" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-red" />
                                             <span
                                                 className="text-red text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {launchSlug?.status}
+                                                {status}
                                             </span>
                                         </h1>
                                     )}
-                                    {launchSlug?.status == "Upcoming" && (
+                                    {status == "Upcoming" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-[#2fa8b5]" />
                                             <span
                                                 className="text-[#2fa8b5] text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {launchSlug?.status}
+                                                {status}
                                             </span>
                                         </h1>
                                     )}
-                                    {launchSlug?.status == "Sold Out" && (
+                                    {status == "Sold Out" && (
                                         <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[25px] w-[25px] text-jacarta-300" />
                                             <span
                                                 className="text-jacarta-300 text-center"
                                                 style={{ textTransform: "uppercase" }}
                                             >
-                                                {launchSlug?.status}
+                                                {status}
                                             </span>
                                         </h1>
                                     )}
@@ -632,7 +634,7 @@ const launchpad = ({
                                                     )
                                                     :
                                                     (
-                                                        launchSlug?.status == "Ended" || launchSlug?.status == "Sold Out" ? (
+                                                        status == "Ended" || status == "Sold Out" ? (
                                                             <button
                                                                 onClick={() =>
                                                                     alert("The mint has ended! All nfts sold out")
@@ -736,8 +738,8 @@ const launchpad = ({
                                         </div>
                                         {/* message checks  */}
                                         {!checkMint &&
-                                            launchSlug?.status != "Ended" &&
-                                            launchSlug?.status != "Sold Out" && (
+                                            status != "Ended" &&
+                                            status != "Sold Out" && (
                                                 <div
                                                     className="flex justify-end mt-[10px] text-center"
                                                     style={{ zIndex: "10" }}
@@ -757,7 +759,7 @@ const launchpad = ({
                                                 </span>
                                             </div>
                                         )}
-                                        {launchSlug?.status == "Upcoming" && (
+                                        {status == "Upcoming" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
@@ -767,7 +769,7 @@ const launchpad = ({
                                                 </span>
                                             </div>
                                         )}
-                                        {launchSlug?.status == "Ended" && (
+                                        {status == "Ended" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}
@@ -777,7 +779,7 @@ const launchpad = ({
                                                 </span>
                                             </div>
                                         )}
-                                        {launchSlug?.status == "Sold Out" && (
+                                        {status == "Sold Out" && (
                                             <div
                                                 className="flex justify-end mt-[10px] text-center"
                                                 style={{ zIndex: "10" }}

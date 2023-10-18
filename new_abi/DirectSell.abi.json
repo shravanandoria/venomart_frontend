@@ -15,24 +15,12 @@
 			]
 		},
 		{
-			"name": "nft_price",
+			"name": "get_nft_price",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
 				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "read_data",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"address"},
-				{"name":"value1","type":"address"},
-				{"name":"value2","type":"address"},
-				{"name":"value3","type":"address"}
 			]
 		},
 		{
@@ -56,15 +44,6 @@
 			"inputs": [
 			],
 			"outputs": [
-			]
-		},
-		{
-			"name": "get_nft_price",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
 			]
 		},
 		{
@@ -96,14 +75,6 @@
 				{"name":"platform_owner","type":"address"},
 				{"name":"platform_fee","type":"uint128"},
 				{"name":"factory_address","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "TokenCancelStatus",
-			"inputs": [
-				{"name":"status","type":"bool"}
 			],
 			"outputs": [
 			]

@@ -61,6 +61,7 @@ const Notifications = ({ signer_address, theme, blockURL }) => {
     }, [signer_address])
 
     useEffect(() => {
+        if (!skip) return;
         scroll_fetch_notifications();
     }, [skip])
 
@@ -78,7 +79,7 @@ const Notifications = ({ signer_address, theme, blockURL }) => {
 
             <section className="relative py-24 dark:bg-jacarta-900">
                 <div className="container">
-                    <h1 className="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Notifications</h1>
+                    <h1 className="mt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">Notifications🔔</h1>
                     <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                         Stay updated with all your important activities on venomart marketplace
                     </p>

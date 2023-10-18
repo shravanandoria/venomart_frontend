@@ -31,6 +31,7 @@ const Footer = ({
   venomPrice,
   venomTPS,
   venomProvider,
+  connectWallet
 }) => {
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
@@ -60,8 +61,17 @@ const Footer = ({
     setStatsData(statsData);
   };
 
+  const connect_wallet = async () => {
+    const connect = await connectWallet();
+  };
+
   const buyCartNFTs = async (e) => {
     e.preventDefault();
+
+    if (!signer_address) {
+      connect_wallet();
+    }
+
     setActionLoad(true);
 
     const ownerAddresses = cartNFTs.map((item) => item.ownerAddress);

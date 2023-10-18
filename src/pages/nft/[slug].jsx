@@ -837,6 +837,9 @@ const NFTPage = ({
                                   Refresh Metadata
                                 </button>
                               ))}
+                            <a href={nft?.nft_metadata ? nft?.nft_metadata : nft?.files[0]?.source} target="_blank" className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                              View Metadata
+                            </a>
                             <a
                               href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20NFT%20on%20venomart.io%0AThis%20NFT%20is%20part%20of%20${
                                 nft?.NFTCollection?.name
@@ -1656,7 +1659,13 @@ const NFTPage = ({
                                   <span className="text-sm uppercase text-accent">
                                     {e.type ? e.type : e.trait_type}
                                   </span>
-                                  <span className="text-base text-jacarta-700 dark:text-white">
+                                  <span className="text-base text-jacarta-700 dark:text-white"
+                                    style={{
+                                      width: "220px",
+                                      whiteSpace: "nowrap",
+                                      textOverflow: "ellipsis",
+                                      overflow: "hidden",
+                                    }}>
                                     {e.value}
                                   </span>
                                   {nft?.NFTCollection?.isPropsEnabled && (

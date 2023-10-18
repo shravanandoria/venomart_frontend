@@ -18,7 +18,7 @@ contract CollectionDrop is TIP4_2Collection, TIP4_3Collection, IBurnableCollecti
 
   uint8 constant value_is_less_than_required = 104;
   uint8 constant account_minted_already = 105;
-
+  
   uint128 _remainOnNft;
   uint256 _totalMinted;
   uint128 _mintingFee;

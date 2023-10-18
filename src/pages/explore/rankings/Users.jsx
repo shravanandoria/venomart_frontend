@@ -119,7 +119,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
             <div className={`relative py-24 dark:bg-jacarta-900`}>
                 <div className="container">
                     <h1 className="pt-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                        User Rankings
+                        User Rankings🏆
                     </h1>
                     <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
                         Top users ranked by there purchases, sales and more
