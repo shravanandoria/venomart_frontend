@@ -99,7 +99,7 @@ const LaunchCollectionCard = ({
 
   return (
     <Link href={`/launchpad/${customLink ? customLink : CollectionAddress}`}>
-      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[450px] w-[320px] overflow-hidden  m-4 sm:m-8">
+      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[450px] w-[320px] overflow-hidden m-2 sm:m-4">
 
         <div
           className="relative flex space-x-[0.625rem]"

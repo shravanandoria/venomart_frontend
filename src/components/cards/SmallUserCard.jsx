@@ -40,7 +40,7 @@ const SmallUserCard = ({
         <Link href={`/profile/${wallet_address}`}>
             <div
                 className={`flex rounded-2.5xl border ${theme == "dark" ? "border-jacarta:900" : "border-jacarta-100"
-                    } bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800 h-[100px] w-[300px] m-4 sm:m-6 overflow-hidden`}
+                    } bg-white py-4 px-7 transition-shadow hover:shadow-lg dark:bg-jacarta-800 h-[100px] w-[300px] m-2 sm:m-4 overflow-hidden`}
             >
                 <div className="mr-4 shrink-0">
                     <div className="relative block">

@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@eversdk/core": "^1.44.3",
     "@eversdk/lib-node": "^1.44.1",
     "@eversdk/lib-web": "^1.44.3",
@@ -21,6 +25,7 @@
     "everscale-inpage-provider": "^0.3.61",
     "everscale-standalone-client": "^2.1.21",
     "express-rate-limit": "^6.9.0",
+    "framer-motion": "^10.16.4",
     "moment": "^2.29.4",
     "mongoose": "^7.4.5",
     "next": "13.4.10",
