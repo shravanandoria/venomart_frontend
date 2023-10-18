@@ -1,0 +1,111 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"_collection_code","type":"cell"},
+				{"name":"_codeNft","type":"cell"},
+				{"name":"_codeIndex","type":"cell"},
+				{"name":"_codeIndexBasis","type":"cell"},
+				{"name":"_fee_receiver","type":"address"},
+				{"name":"_createCollection_fee","type":"uint128"},
+				{"name":"_owner","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "create_collection",
+			"inputs": [
+				{"name":"remain_on_nft","type":"uint128"},
+				{"name":"mintingFee","type":"uint128"},
+				{"name":"json","type":"string"},
+				{"name":"max_supply_","type":"uint128"},
+				{"name":"_fee_receiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "get_create_collection_fees",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "update_fee",
+			"inputs": [
+				{"name":"new_fee","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_new_collection_cost",
+			"inputs": [
+				{"name":"newCost","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"nonce","type":"uint128"}
+	],
+	"events": [
+		{
+			"name": "CollectionCreated",
+			"inputs": [
+				{"name":"new_collection","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "OwnershipTransferred",
+			"inputs": [
+				{"name":"oldOwner","type":"address"},
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"owner_","type":"address"},
+		{"name":"nonce","type":"uint128"},
+		{"name":"CollectionCode","type":"cell"},
+		{"name":"codeNft","type":"cell"},
+		{"name":"codeIndex","type":"cell"},
+		{"name":"codeIndexBasis","type":"cell"},
+		{"name":"createCollection_fee","type":"uint128"},
+		{"name":"new_collection_cost","type":"uint128"},
+		{"name":"fee_receiver","type":"address"},
+		{"name":"remain_on_contract","type":"uint128"}
+	]
+}

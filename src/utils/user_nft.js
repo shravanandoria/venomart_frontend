@@ -27,8 +27,7 @@ import { addOffer } from "./mongo_api/offer/offer";
 
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
-// import TokenWallet from "../../new_abi/TokenWallet.abi.json";
-// import TokenRoot from "../../new_abi/TokenRoot.abi.json";
+import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 
 export class MyEver {
   constructor() {}
@@ -68,16 +67,74 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-<<<<<<< HEAD
-  "0:99448bdc1f27987e0706ba4968062d886869ca83ab7e58f4d6cc7ce85e17df00"
-=======
   "0:68b578e7668caba0aa60dde6e1b958981dba7c6e52d955eb5b480542222f1711"
->>>>>>> 4900ee2739e19f2f49b96bc8f35217bc0a6f1b34
 );
 
 export const WVenomAddress = new Address(
   "0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14"
 );
+
+export const CollectionFactoryAddress = new Address(
+  "0:b6f407a49bae41b02a87c99ea2988f932054a23bfef158e9cc82a34a3c8ada3c"
+);
+
+export const create_collection = async (provider, signer_address, data) => {
+  try {
+    const contract = new provider.Contract(
+      CollectionFactory,
+      CollectionFactoryAddress
+    );
+
+    const subscriber = new Subscriber(provider);
+    const contractEvents = contract.events(subscriber);
+
+    contractEvents.on(async (event) => {
+      console.log(event);
+    });
+    
+    const nft_json = JSON.stringify({
+      type: "Basic NFT",
+      name: data.name,
+      description: data.description,
+      preview: {
+        source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        mimetype: "image/png",
+      },
+      files: [
+        {
+          source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: "image/png",
+        },
+      ],
+      attributes: data.properties,
+      external_url: "https://venomart.io",
+    });
+
+    const fee = await contract.methods
+      .get_create_collection_fees({ answerId: 0 })
+      .call();
+    console.log(fee);
+
+    await contract.methods
+      .create_collection({
+        remain_on_nft: data.remain_on_nft,
+        mintingFee: data.mintingFee,
+        json: nft_json,
+        max_supply_: data.max_supply_,
+        _fee_receiver: data._fee_receiver,
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: fee.value0,
+      });
+  } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
+    console.log(error.message);
+    return false;
+  }
+};
 
 export const bulk_buy_nfts = async (
   provider,
@@ -88,6 +145,7 @@ export const bulk_buy_nfts = async (
   NFTAddresses,
   NFTCollections
 ) => {
+  create_collection(provider, signer_address);
   try {
     const contract = new provider.Contract(
       FactoryDirectSell,
@@ -543,7 +601,7 @@ export const create_nft = async (data, signer_address, venomProvider) => {
         },
       ],
       attributes: data.properties,
-      external_url: "https://venomart.io"
+      external_url: "https://venomart.io",
     });
 
     const outputs = await contract.methods
@@ -561,7 +619,11 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
-export const has_minted = async (collection_address, signer_address, venomProvider) => {
+export const has_minted = async (
+  collection_address,
+  signer_address,
+  venomProvider
+) => {
   if (collection_address == "" || signer_address == "") return;
   const contract = new venomProvider.Contract(
     collectionAbi,
