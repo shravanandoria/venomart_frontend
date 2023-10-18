@@ -101,9 +101,6 @@ const CreateNFT = ({
       setMintModal(false);
       setMintSuccessModal(true);
     }
-    else {
-      router.push(`/profile/${signer_address}`)
-    }
     set_loading(false);
   };
 
