@@ -25,7 +25,7 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
     uint128 public platform_fees;
     // reserve on contract, 0.5 to deploy child contract & reserve there, 0.2 = transferring WVENOMS to child contract, 0.1 = for safety
     uint128 public remainOnContract = 0.2 ever;
-    uint128 public deployMakeOffer_cost = 0.7 ever;
+    uint128 public deployMakeOffer_cost = 0.5 ever;
     uint128 public transfer_WVENOM_makeOffer_cost = 0.2 ever;
     uint128 public oldOffer_refund_cost= 0.01 ever;
     
@@ -71,10 +71,8 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
 
         _tokenRoot = tokenRoot;
 
-        //emit event - nft address
-
         ITokenRoot(_tokenRoot).deployWallet {
-            value: 0.4 ever,
+            value: 0.2 ever,
             flag: 1,
             callback: FactoryMakeOffer.onTokenWallet
         } (
@@ -142,7 +140,7 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
 
         address makeOffer = new MakeOffer {
             stateInit: _stateInit,
-            value: deployMakeOffer_cost, //0.6 ever
+            value: deployMakeOffer_cost, //0.5 ever
             flag: 1
         } (
             remainingGasTo,

