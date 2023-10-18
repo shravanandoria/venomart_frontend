@@ -1,6 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../Models/User";
-import Collection from "../../../Models/Collection";
 import limiter from "../limiter";
 
 export default async function handler(req, res) {
@@ -24,11 +23,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ success: false, message: "wallet_id is required" });
           }
 
-          let user = await User.findOne({ wallet_id }).populate({
-            path: "nftCollections",
-            options: { limit: 15 },
-            select: { socials: 0, royalty: 0, updatedAt: 0, createdAt: 0, _id: 0 }
-          });
+          let user = await User.findOne({ wallet_id });
 
           if (!user) {
             user = await User.create(req.body);
