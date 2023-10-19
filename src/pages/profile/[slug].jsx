@@ -53,8 +53,8 @@ const Profile = ({
 
   const [share, setShare] = useState(false);
   const [loading, set_loading] = useState(false);
-  const [onSale, setOnSale] = useState(false);
-  const [owned, setOwned] = useState(true);
+  const [onSale, setOnSale] = useState(true);
+  const [owned, setOwned] = useState(false);
   const [collections, setCollections] = useState(false);
   const [activity, setActivity] = useState(false);
   const [fetchedProfileActivity, setFetchedProfileActivity] = useState(false);
@@ -139,8 +139,8 @@ const Profile = ({
     set_loading(true);
     if (!slug) return;
     const data = await check_user(slug);
-    const nftFetch = await fetch_user_nfts();
-    // const nftFetch = await getting_user_listed_nfts();
+    // const nftFetch = await fetch_user_nfts();
+    const nftFetch = await getting_user_listed_nfts();
     if (data) {
       set_user_data(data?.data);
     }
