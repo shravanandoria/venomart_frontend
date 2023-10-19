@@ -10,9 +10,9 @@ export default async function handler(req, res) {
 
     limiter(req, res, async () => {
         switch (method) {
-            case "POST":
+            case "GET":
                 try {
-                    const { contractAddress } = req.body;
+                    const { contractAddress } = req.query;
 
                     const collection = await Collection.findOne({ contractAddress }, { royalty: 1, name: 1, isVerified: 1, contractAddress: 1, FloorPrice: 1 });
 

@@ -101,9 +101,6 @@ const CreateNFT = ({
       setMintModal(false);
       setMintSuccessModal(true);
     }
-    else {
-      router.push(`/profile/${signer_address}`)
-    }
     set_loading(false);
   };
 
@@ -702,7 +699,7 @@ const CreateNFT = ({
               </div>
 
               <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
-                <div className="flex items-center justify-center space-x-4 m-2">
+                {/* <div className="flex items-center justify-center space-x-4 m-2">
                   <Link
                     href={`/profile/${signer_address}`}
                     className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
@@ -710,7 +707,7 @@ const CreateNFT = ({
                     View
                     <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
                   </Link>
-                </div>
+                </div> */}
                 <div className="flex items-center justify-center space-x-4 m-2">
                   <a
                     href={`https://twitter.com/intent/tweet?text=Just%20minted%20a%20brand%20new%20NFT%20onchain%20via%20venomart.io%20and%20completed%20the%20venom.network%20latest%20task%20%F0%9F%94%A5%0AHere%20you%20go%20-%20https://venomart.io/mint/CreateNFT%0A%23Venom%20%23venomart%20%23VenomTestnet%20%23VenomNetwork%20%23VenomFoundation`}

@@ -834,7 +834,7 @@ const NFTPage = ({
                                   Refresh Metadata
                                 </button>
                               ))}
-                            <a href={nft?.nft_metadata ? nft?.nft_metadata : nft?.files[0]?.source} target="_blank" className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                            <a href={nft?.nft_metadata ? nft?.nft_metadata : (nft?.files ? nft?.files[0]?.source : "")} target="_blank" className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                               View Metadata
                             </a>
                             <a
@@ -2228,11 +2228,10 @@ const NFTPage = ({
           {offerModal && (
             <div className="afterMintDiv">
               <form
-                onSubmit={makeOffer}
-                // onSubmit={(e) => (
-                //   e.preventDefault(),
-                //   alert("This feature will be available soon..")
-                // )}
+                onSubmit={(e) => (
+                  e.preventDefault(),
+                  alert("This feature will be available soon..")
+                )}
                 className="modal-dialog max-w-2xl"
               >
                 {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}

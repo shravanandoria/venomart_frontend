@@ -56,11 +56,8 @@ export const get_collection_props = async (collection_id) => {
 export const get_collection_if_nft_onchain = async (contractAddress) => {
   try {
     const res = await axios({
-      url: "/api/collection/nft_onchain_collection",
-      method: "POST",
-      data: {
-        contractAddress,
-      },
+      url: `/api/collection/nft_onchain_collection?contractAddress=${contractAddress}`,
+      method: "GET"
     });
     return res.data;
   } catch (error) {

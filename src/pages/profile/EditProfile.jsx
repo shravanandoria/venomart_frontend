@@ -358,7 +358,7 @@ const EditProfile = ({ signer_address, theme }) => {
                       onChange={handleChange}
                       id="profile-discord"
                       className="-mt-px w-full border-jacarta-100 py-3 pl-10 hover:ring-2 hover:ring-accent/10 focus:ring-inset focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
-                      placeholder="discord username"
+                      placeholder="discord URL"
                     />
                   </div>
                   <div className="relative">

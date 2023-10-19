@@ -100,7 +100,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
         const res = await getActivity("", "", filterCollection, "", activityType, skipActivity);
         if (res) {
             set_activity([...activity, ...res]);
-            if (res == "") {
+            if (res == "" || res == undefined) {
                 setHasMore(false);
             }
         }

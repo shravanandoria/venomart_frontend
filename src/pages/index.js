@@ -32,6 +32,7 @@ export default function Home({
   const [duration, setDuration] = useState("7days");
   const [topSwitch, setTopSwitch] = useState("collections");
   const [loading, setLoading] = useState(false);
+  const [trendLoad, setTrendLoad] = useState(false);
 
   const fetchTopCollections = async () => {
     setLoading(true);
@@ -45,8 +46,10 @@ export default function Home({
   };
 
   const fetchTrendingCollection = async () => {
+    setTrendLoad(true);
     const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
     setTrendingCollections(collectionsJSON);
+    setTrendLoad(false);
   };
 
   const fetchTopUsers = async () => {
@@ -58,7 +61,6 @@ export default function Home({
 
   useEffect(() => {
     fetchTrendingCollection();
-    if (topCollections != "") return;
     fetchTopCollections();
   }, []);
 
@@ -117,7 +119,7 @@ export default function Home({
                       {websiteStats[0]?.mintedNFTs}+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      Total NFTs
+                      Minted NFTs
                     </span>
                   </div>
                 </div>
@@ -364,6 +366,13 @@ export default function Home({
                   );
                 })}
               </Swiper>
+              {trendLoad &&
+                <div className="flex items-center justify-center space-x-2 py-28">
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -507,7 +516,7 @@ export default function Home({
                       )
                     );
                   })}
-                  {loading && !topCollections &&
+                  {loading &&
                     <div className="flex items-center justify-center space-x-2 py-28">
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
@@ -544,7 +553,7 @@ export default function Home({
                       )
                     );
                   })}
-                  {loading && !topUsers &&
+                  {loading &&
                     <div className="flex items-center justify-center space-x-2 py-28">
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
