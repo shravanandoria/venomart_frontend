@@ -37,32 +37,8 @@
 			]
 		},
 		{
-			"name": "refund_old_offer",
+			"name": "return_offer",
 			"inputs": [
-				{"name":"new_offer_amount","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "cancel_offer",
-			"inputs": [
-				{"name":"sendRemainingGasTo","type":"address"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "cancel_listing",
-			"inputs": [
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "refund_offer",
-			"inputs": [
-				{"name":"sendGasTo","type":"address"}
 			],
 			"outputs": [
 			]

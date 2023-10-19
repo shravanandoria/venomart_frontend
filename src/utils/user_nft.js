@@ -66,8 +66,8 @@ export const FactoryDirectSellAddress = new Address(
   "0:bd49983602ab2155fd23d4bad4a2913e9bd014a3c8d1b3269c06dc5545b99451"
 );
 
-export const FactoryMakeOfferAddress = new Address(
-  "0:68b578e7668caba0aa60dde6e1b958981dba7c6e52d955eb5b480542222f1711"
+export const FactoryMakeOfferAddress = new Address( // <------------------------------
+  "0:e4e50b48d66aede1efd922aa328b3637e8c93041ab36a2693cdc5307fcbef486"
 );
 
 export const WVenomAddress = new Address(
@@ -91,7 +91,7 @@ export const create_collection = async (provider, signer_address, data) => {
     contractEvents.on(async (event) => {
       console.log(event);
     });
-    
+
     const nft_json = JSON.stringify({
       type: "Basic NFT",
       name: data.name,
@@ -234,7 +234,8 @@ export const MakeOpenOffer = async (
       ],
       data: {
         nft_address: nft_address,
-        old_offer: oldOffer,
+        old_offer:
+          "0:3254364c3d7babf15a076edaa6840650ecf4901c6bc404fa7c2be168df92843d",
         validity: now.toString(),
       },
     });
