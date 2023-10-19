@@ -2228,11 +2228,10 @@ const NFTPage = ({
           {offerModal && (
             <div className="afterMintDiv">
               <form
-                onSubmit={makeOffer}
-                // onSubmit={(e) => (
-                //   e.preventDefault(),
-                //   alert("This feature will be available soon..")
-                // )}
+                onSubmit={(e) => (
+                  e.preventDefault(),
+                  alert("This feature will be available soon..")
+                )}
                 className="modal-dialog max-w-2xl"
               >
                 {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
