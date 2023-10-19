@@ -1554,7 +1554,7 @@ const NFTPage = ({
                       className="nav-item"
                       role="presentation"
                       onClick={() => (
-                        !fetchedNFTOffers && getNFTOffers(), switchOffers()
+                        ((!fetchedNFTOffers && !onchainNFTData) && getNFTOffers()), switchOffers()
                       )}
                     >
                       <button
