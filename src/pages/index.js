@@ -117,7 +117,7 @@ export default function Home({
                       {websiteStats[0]?.mintedNFTs}+
                     </span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      Total NFTs
+                      Minted NFTs
                     </span>
                   </div>
                 </div>
