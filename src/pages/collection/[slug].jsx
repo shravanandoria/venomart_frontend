@@ -34,7 +34,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
-import { MyEver } from "../../utils/user_nft";
 import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import LineChart from "../../components/charts/LineChart";
@@ -260,9 +259,7 @@ const Collection = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
 
-    let myEver = new MyEver();
-    const providerRpcClient = myEver.ever();
-    const contract = new providerRpcClient.Contract(collectionAbi, slug);
+    const contract = new standalone.Contract(collectionAbi, slug);
     const totalSupply = await contract.methods
       .totalSupply({ answerId: 0 })
       .call();

@@ -29,24 +29,24 @@ import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 
-export class MyEver {
-  constructor() { }
-  ever = () => {
-    return new ProviderRpcClient({
-      fallback: () =>
-        EverscaleStandaloneClient.create({
-          connection: {
-            id: 1000,
-            group: "venom_testnet",
-            type: "jrpc",
-            data: {
-              endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-            },
-          },
-        }),
-    });
-  };
-}
+// export class MyEver {
+//   constructor() { }
+//   ever = () => {
+//     return new ProviderRpcClient({
+//       fallback: () =>
+//         EverscaleStandaloneClient.create({
+//           connection: {
+//             id: 1000,
+//             group: "venom_testnet",
+//             type: "jrpc",
+//             data: {
+//               endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+//             },
+//           },
+//         }),
+//     });
+//   };
+// }
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -310,17 +310,6 @@ export const getNftCodeHash = async (provider, collection_address) => {
   return BigInt(codeHash).toString(16);
 };
 
-// Method, that return NFT's addresses by single query with fetched code hash
-export const getNftAddresses = async (codeHash, last_nft_addr) => {
-  const myEver = new MyEver();
-  const addresses = await myEver.ever().getAccountsByCodeHash({
-    codeHash,
-    continuation: undefined || last_nft_addr,
-    limit: 25,
-  });
-  return addresses;
-};
-
 export const saltCode = async (provider, ownerAddress) => {
   // Index StateInit you should take from github. It ALWAYS constant!
   const INDEX_BASE_64 =
@@ -418,16 +407,13 @@ export const loadNFTs_collection = async (
   last_paid
 ) => {
   try {
-    const myEver = new MyEver();
-    const providerRpcClient = myEver.ever();
-
     const contract = new provider.Contract(
       collectionAbi,
       new Address(COLLECTION_ADDRESS)
     );
 
     const nftCodeHash = await getNftCodeHash(
-      providerRpcClient,
+      provider,
       collection_address
     );
     if (!nftCodeHash) {
