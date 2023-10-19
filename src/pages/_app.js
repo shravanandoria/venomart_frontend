@@ -25,6 +25,8 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { useRouter } from "next/router";
 
+import { ChakraProvider } from '@chakra-ui/react';
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
 
@@ -721,6 +723,7 @@ export default function App({ Component, pageProps }) {
         vnmBalance={vnmBalance}
         setVnmBalance={setVnmBalance}
       />
+      {/* <ChakraProvider> */}
       <TonClientContextProvider config={config}>
         <Component
           {...pageProps}
@@ -754,6 +757,7 @@ export default function App({ Component, pageProps }) {
           setVnmBalance={setVnmBalance}
         />
       </TonClientContextProvider>
+      {/* </ChakraProvider> */}
       <Footer
         cartNFTs={cartNFTs}
         setCartNFTs={setCartNFTs}

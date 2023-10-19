@@ -17,6 +17,7 @@ import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
 import { bulk_buy_nfts } from "../utils/user_nft";
 import { GoArrowUpRight } from 'react-icons/go';
+import { useToast } from '@chakra-ui/react'
 
 const Footer = ({
   theme,

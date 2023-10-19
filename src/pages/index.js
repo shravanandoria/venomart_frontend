@@ -6,11 +6,7 @@ import CollectionCard from "../components/cards/CollectionCard";
 import LaunchCollectionCard from "../components/cards/LaunchCollectionCard";
 import SmallCollectionCard from "../components/cards/SmallCollectionCard";
 import SmallUserCard from "../components/cards/SmallUserCard";
-import Loader from "../components/Loader";
 import { MdVerified } from "react-icons/md";
-
-import venomLogo from "../../public/venomBG.webp";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
@@ -324,21 +320,17 @@ export default function Home({
             <div className="flex justify-center align-middle flex-wrap">
               <Swiper
                 modules={[Pagination, Navigation]}
-                spaceBetween={30}
                 slidesPerView={1}
                 pagination={{ clickable: true }}
                 breakpoints={{
                   300: {
                     slidesPerView: 1,
-                    spaceBetween: 20,
                   },
                   800: {
                     slidesPerView: 2,
-                    spaceBetween: 20,
                   },
                   1204: {
                     slidesPerView: 3,
-                    spaceBetween: 30,
                   },
                 }}
                 className="mySwiper"
