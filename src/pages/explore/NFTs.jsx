@@ -47,7 +47,7 @@ const NFTs = ({ theme, venomProvider, standalone, signer_address, setAnyModalOpe
   const [maxPrice, setMaxPrice] = useState(0);
   const [sortby, setSortBy] = useState("recentlyListed");
   // for verified fetch 
-  const [option, setOption] = useState("unverified");
+  const [option, setOption] = useState("verified");
   const [verifiedCheck, setVerifiedCheck] = useState(false);
   // for nsfw fetch 
   const [NSFW, setNSFW] = useState(false);
