@@ -352,20 +352,7 @@ export default function App({ Component, pageProps }) {
     await venomConnect.connect();
   };
 
-  const delete_it = async (req, res) => {
-    // try {
-    const response = await fetch("https://dog.ceo/api/breeds/image/random");
-    console.log(response);
-    // const data = await response.arrayBuffer();
-    // res.setHeader("Content-Type", "application/wasm");
-    // res.status(200).send(data);
-    // } catch (error) {
-    //   res.status(500).send("Internal Server Error");
-    // }
-  };
-
   useEffect(() => {
-    delete_it();
     const off = venomConnect?.on("connect", onConnect);
     if (venomConnect) {
       initStandalone();

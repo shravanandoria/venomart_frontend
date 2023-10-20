@@ -217,7 +217,7 @@ export const MakeOpenOffer = async (
       FactoryMakeOffer,
       FactoryMakeOfferAddress
     );
-
+  
     const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
     console.log(res);
     const now = moment().add(1, "day").unix();
