@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import Loader from "../../components/Loader";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import { useStorage } from "@thirdweb-dev/react";
+import { create_collection } from "../../utils/user_nft";
 
-const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
-    const router = useRouter();
+const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, venomProvider }) => {
+    const storage = useStorage();
+
     const [loading, set_loading] = useState(false);
     const [preview, set_preview] = useState({ logo: "", cover: "" });
+    const [mintModal, setMintModal] = useState(false);
+    const [mintSuccessModal, setMintSuccessModal] = useState(false);
+
     const [data, set_data] = useState({
         name: "",
         symbol: "",
         logo: "",
-        image: "",
+        cover: "",
         royalty: "",
+        royaltyAddress: "",
         description: "",
+        max_supply: "",
+        external_url: "https://venomart.io/"
     });
 
     const handleChange = (e) => {
@@ -21,6 +29,27 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
             ...data,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const handle_submit = async (e) => {
+        e.preventDefault();
+        if (!signer_address) {
+            connectWallet();
+            return;
+        }
+        set_loading(true);
+
+        const cover = await storage.upload(data.cover);
+        const logo = await storage.upload(data.logo);
+
+        let obj = { ...data, cover: cover, logo: logo };
+
+        const createCollection = await create_collection(venomProvider, signer_address, obj);
+        if (createCollection) {
+            setMintModal(false);
+            setMintSuccessModal(true);
+        }
+        set_loading(false);
     };
 
     return (
@@ -42,7 +71,7 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
             {loading ? (
                 <Loader theme={theme} />
             ) : (
-                <form onSubmit="" className="relative py-24  dark:bg-jacarta-900">
+                <form onSubmit={handle_submit} className="relative py-24  dark:bg-jacarta-900">
                     {MintCollectionStatus ?
                         <div className="container">
                             <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
@@ -144,10 +173,10 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
                                                     ...preview,
                                                     cover: URL.createObjectURL(e.target.files[0]),
                                                 });
-                                                set_data({ ...data, image: e.target.files[0] });
+                                                set_data({ ...data, cover: e.target.files[0] });
                                             }}
                                             type="file"
-                                            name="image"
+                                            name="cover"
                                             accept="image/*,video/*"
                                             id="file-upload"
                                             className="absolute inset-0 z-20 cursor-pointer opacity-0"
@@ -194,31 +223,6 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
                                     />
                                 </div>
 
-                                {/* creator royalty  */}
-                                <div className="mb-6">
-                                    <label
-                                        htmlFor="item-name"
-                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                    >
-                                        Creator Royalty (%)<span className="text-red">*</span>
-                                    </label>
-                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                        If you set a royalty here, you will get X percent of sales
-                                        price each time an NFT is sold on our platform.
-                                    </p>
-                                    <input
-                                        onChange={handleChange}
-                                        name="royalty"
-                                        type="number"
-                                        id="item-name"
-                                        max={10}
-                                        step="any"
-                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                        placeholder="Eg: 5%"
-                                        required
-                                    />
-                                </div>
-
                                 {/* <!-- Description --> */}
                                 <div className="mb-6">
                                     <label
@@ -240,6 +244,95 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus }) => {
                                         required
                                         placeholder="Provide a detailed description of your collection."
                                     ></textarea>
+                                </div>
+
+                                {/* <!-- External URL --> */}
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-description"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        External URL
+                                        <span className="text-red">*</span>
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                        An external URL can be your any of your social media url which includes twitter or website, etc
+                                    </p>
+                                    <input
+                                        onChange={handleChange}
+                                        name="external_url"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Eg: https://venomart.io/"
+                                    />
+                                </div>
+
+                                {/* creator royalty  */}
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Creator Royalty (%)
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                        If you set a royalty here, you will get X percent of sales
+                                        price each time an NFT is sold on our platform.
+                                    </p>
+                                    <input
+                                        onChange={handleChange}
+                                        name="royalty"
+                                        type="number"
+                                        id="item-name"
+                                        max={10}
+                                        step="any"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Eg: 5%"
+                                    />
+                                </div>
+
+                                {/* <!-- Royalty Address --> */}
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Royalty Address
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                        You will get your royalty income on your mentioned royalty address
+                                    </p>
+                                    <input
+                                        onChange={handleChange}
+                                        name="royaltyAddress"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Eg: 0:f9a0684d6...4990db5cfeab"
+                                    />
+                                </div>
+
+                                {/* max supply  */}
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Max Supply
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                        If you set a max supply that will be the max NFTs that can be minted ever from your collection
+                                    </p>
+                                    <input
+                                        onChange={handleChange}
+                                        name="max_supply"
+                                        type="number"
+                                        id="item-name"
+                                        step="any"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Eg: 5555"
+                                    />
                                 </div>
 
                                 {/* <!-- Submit nft form --> */}

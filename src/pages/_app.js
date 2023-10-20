@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
   ];
   const MintNFTStatus = true;
-  const MintCollectionStatus = false;
+  const MintCollectionStatus = true;
 
   // variables
   const [theme, setTheme] = useState(defTheme);

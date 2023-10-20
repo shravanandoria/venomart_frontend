@@ -19,7 +19,6 @@ import {
   ProviderRpcClient,
   TvmException,
 } from "everscale-inpage-provider";
-import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
@@ -28,25 +27,6 @@ import { addOffer } from "./mongo_api/offer/offer";
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
-
-// export class MyEver {
-//   constructor() { }
-//   ever = () => {
-//     return new ProviderRpcClient({
-//       fallback: () =>
-//         EverscaleStandaloneClient.create({
-//           connection: {
-//             id: 1000,
-//             group: "venom_testnet",
-//             type: "jrpc",
-//             data: {
-//               endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-//             },
-//           },
-//         }),
-//     });
-//   };
-// }
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -66,7 +46,7 @@ export const FactoryDirectSellAddress = new Address(
   "0:bd49983602ab2155fd23d4bad4a2913e9bd014a3c8d1b3269c06dc5545b99451"
 );
 
-export const FactoryMakeOfferAddress = new Address( // <------------------------------
+export const FactoryMakeOfferAddress = new Address(
   "0:e4e50b48d66aede1efd922aa328b3637e8c93041ab36a2693cdc5307fcbef486"
 );
 
@@ -77,204 +57,6 @@ export const WVenomAddress = new Address(
 export const CollectionFactoryAddress = new Address(
   "0:b6f407a49bae41b02a87c99ea2988f932054a23bfef158e9cc82a34a3c8ada3c"
 );
-
-export const create_collection = async (provider, signer_address, data) => {
-  try {
-    const contract = new provider.Contract(
-      CollectionFactory,
-      CollectionFactoryAddress
-    );
-
-    const subscriber = new Subscriber(provider);
-    const contractEvents = contract.events(subscriber);
-
-    contractEvents.on(async (event) => {
-      console.log(event);
-    });
-
-    const nft_json = JSON.stringify({
-      type: "Basic NFT",
-      name: data.name,
-      description: data.description,
-      preview: {
-        source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/png",
-      },
-      files: [
-        {
-          source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
-        },
-      ],
-      attributes: data.properties,
-      external_url: "https://venomart.io",
-    });
-
-    const fee = await contract.methods
-      .get_create_collection_fees({ answerId: 0 })
-      .call();
-    console.log(fee);
-
-    await contract.methods
-      .create_collection({
-        remain_on_nft: data.remain_on_nft,
-        mintingFee: data.mintingFee,
-        json: nft_json,
-        max_supply_: data.max_supply_,
-        _fee_receiver: data._fee_receiver,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: fee.value0,
-      });
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    console.log(error.message);
-    return false;
-  }
-};
-
-export const bulk_buy_nfts = async (
-  provider,
-  signer_address,
-  ownerAddresses,
-  directSell_addr,
-  nft_price,
-  NFTAddresses,
-  NFTCollections
-) => {
-  create_collection(provider, signer_address);
-  try {
-    const contract = new provider.Contract(
-      FactoryDirectSell,
-      FactoryDirectSellAddress
-    );
-
-    const buy_amount = await contract.methods
-      .get_bulkBuyAmount({
-        answerId: 0,
-        directSell_addr,
-        nft_price,
-      })
-      .call();
-
-    let output = await contract.methods
-      .bulkBuy({ directSell_addr, nft_price })
-      .send({
-        from: new Address(signer_address),
-        amount: parseFloat(buy_amount.value0).toString(),
-      });
-
-    if (output) {
-      let obj = {
-        NFTAddresses: NFTAddresses,
-        NFTCollections: NFTCollections,
-        NFTPrices: nft_price,
-        ownerAddresses: ownerAddresses,
-        managerAddresses: directSell_addr,
-        signer_address: signer_address,
-        hash: output ? output?.id?.hash : "undefined",
-      };
-      const updateNFTListings = await updateNFTSaleBulk(obj);
-    }
-
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    return false;
-  }
-};
-
-export const MakeOpenOffer = async (
-  provider,
-  signer_address,
-  nft_address,
-  client,
-  oldOffer,
-  offerAmount,
-  offerExpiration
-) => {
-  try {
-    const contract = new provider.Contract(TokenRoot, WVenomAddress);
-
-    const tokenWalletAddress = await contract.methods
-      .walletOf({
-        answerId: 0,
-        walletOwner: new Address(signer_address),
-      })
-      .call();
-
-    const tokenWalletContract = new provider.Contract(
-      TokenWallet,
-      new Address(tokenWalletAddress.value0.toString())
-    );
-
-    const factoryContract = new provider.Contract(
-      FactoryMakeOffer,
-      FactoryMakeOfferAddress
-    );
-
-    const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
-    console.log(res);
-    const now = moment().add(1, "day").unix();
-
-    const makeOfferFee = await factoryContract.methods
-      .makeOffer_fee({ answerId: 0 })
-      .call();
-
-    const load = await client.abi.encode_boc({
-      params: [
-        { name: "nft_address", type: "address" },
-        { name: "old_offer", type: "address" },
-        { name: "validity", type: "uint128" },
-      ],
-      data: {
-        nft_address: nft_address,
-        old_offer:
-          "0:3254364c3d7babf15a076edaa6840650ecf4901c6bc404fa7c2be168df92843d",
-        validity: now.toString(),
-      },
-    });
-
-    await tokenWalletContract.methods
-      .transfer({
-        amount: parseFloat(offerAmount) * 1000000000,
-        recipient: FactoryMakeOfferAddress,
-        deployWalletValue: 0,
-        remainingGasTo: new Address(signer_address),
-        notify: true,
-        payload: load.boc,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
-      });
-
-    const addoffer = await addOffer(
-      signer_address,
-      offerAmount,
-      offerExpiration,
-      nft_address
-    );
-
-    const data = await factoryContract.methods
-      .read_code({ answerId: 0 })
-      .call();
-
-    console.log(data);
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    console.log(error);
-    return false;
-  }
-};
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -459,6 +241,7 @@ export const loadNFTs_collection = async (
   }
 };
 
+// loading user nfts 
 export const loadNFTs_user = async (
   provider,
   ownerAddress,
@@ -529,6 +312,7 @@ export const loadNFTs_user = async (
   }
 };
 
+// creating nft in only DB 
 export const create_nft_database = async (
   data,
   nft_address,
@@ -549,6 +333,7 @@ export const create_nft_database = async (
   createNFT(obj);
 };
 
+// creat nft onchain 
 export const create_nft = async (data, signer_address, venomProvider) => {
   try {
     const contract = new venomProvider.Contract(
@@ -606,6 +391,66 @@ export const create_nft = async (data, signer_address, venomProvider) => {
   }
 };
 
+// create collection 
+export const create_collection = async (provider, signer_address, data) => {
+  try {
+    const contract = new provider.Contract(
+      CollectionFactory,
+      CollectionFactoryAddress
+    );
+
+    const subscriber = new Subscriber(provider);
+    const contractEvents = contract.events(subscriber);
+
+    contractEvents.on(async (event) => {
+      console.log(event);
+    });
+
+    const nft_json = JSON.stringify({
+      type: "NFT Collection",
+      name: data.name,
+      description: data.description,
+      preview: {
+        source: data.logo.replace("ipfs://", "https://ipfs.io/ipfs/"),
+        mimetype: "image/png",
+      },
+      files: [
+        {
+          source: data.cover.replace("ipfs://", "https://ipfs.io/ipfs/"),
+          mimetype: "image/png",
+        },
+      ],
+      symbol: data.symbol,
+      external_url: data.external_url,
+    });
+
+    const fee = await contract.methods
+      .get_create_collection_fees({ answerId: 0 })
+      .call();
+    console.log(fee);
+
+    await contract.methods
+      .create_collection({
+        remain_on_nft: data.remain_on_nft,
+        mintingFee: data.mintingFee,
+        json: nft_json,
+        max_supply_: data.max_supply,
+        _fee_receiver: data._fee_receiver,
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: fee.value0,
+      });
+  } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
+    console.log(error.message);
+    return false;
+  }
+};
+
+// checking launchpad minted status 
 export const has_minted = async (
   collection_address,
   signer_address,
@@ -623,6 +468,7 @@ export const has_minted = async (
   return _has_minted.value0;
 };
 
+// creating launchpad NFT 
 export const create_launchpad_nft = async (
   data,
   signer_address,
@@ -672,6 +518,7 @@ export const create_launchpad_nft = async (
   }
 };
 
+// creating launchpad NFT testing
 export const create_launchpad_nft_latest = async (
   jsonURL,
   collection_address,
@@ -726,6 +573,7 @@ export const create_launchpad_nft_latest = async (
   }
 };
 
+// list nft for sale 
 export const list_nft = async (
   standalone,
   prev_nft_Owner,
@@ -847,6 +695,7 @@ export const list_nft = async (
   }
 };
 
+// remove nft for sale 
 export const cancel_listing = async (
   standalone,
   prev_nft_Owner,
@@ -924,6 +773,7 @@ export const cancel_listing = async (
   }
 };
 
+// buy nft from sale 
 export const buy_nft = async (
   provider,
   standalone,
@@ -1016,6 +866,148 @@ export const buy_nft = async (
       };
       const updateNFTData = await updateNFTsale(obj);
     }
+    return true;
+  } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
+    console.log(error);
+    return false;
+  }
+};
+
+// bulk buy cart nfts sale 
+export const bulk_buy_nfts = async (
+  provider,
+  signer_address,
+  ownerAddresses,
+  directSell_addr,
+  nft_price,
+  NFTAddresses,
+  NFTCollections
+) => {
+  create_collection(provider, signer_address);
+  try {
+    const contract = new provider.Contract(
+      FactoryDirectSell,
+      FactoryDirectSellAddress
+    );
+
+    const buy_amount = await contract.methods
+      .get_bulkBuyAmount({
+        answerId: 0,
+        directSell_addr,
+        nft_price,
+      })
+      .call();
+
+    let output = await contract.methods
+      .bulkBuy({ directSell_addr, nft_price })
+      .send({
+        from: new Address(signer_address),
+        amount: parseFloat(buy_amount.value0).toString(),
+      });
+
+    if (output) {
+      let obj = {
+        NFTAddresses: NFTAddresses,
+        NFTCollections: NFTCollections,
+        NFTPrices: nft_price,
+        ownerAddresses: ownerAddresses,
+        managerAddresses: directSell_addr,
+        signer_address: signer_address,
+        hash: output ? output?.id?.hash : "undefined",
+      };
+      const updateNFTListings = await updateNFTSaleBulk(obj);
+    }
+
+    return true;
+  } catch (error) {
+    if (error instanceof TvmException) {
+      console.log(`TVM Exception: ${error.code}`);
+    }
+    return false;
+  }
+};
+
+// make an offer on NFT
+export const MakeOpenOffer = async (
+  provider,
+  signer_address,
+  nft_address,
+  client,
+  oldOffer,
+  offerAmount,
+  offerExpiration
+) => {
+  try {
+    const contract = new provider.Contract(TokenRoot, WVenomAddress);
+
+    const tokenWalletAddress = await contract.methods
+      .walletOf({
+        answerId: 0,
+        walletOwner: new Address(signer_address),
+      })
+      .call();
+
+    const tokenWalletContract = new provider.Contract(
+      TokenWallet,
+      new Address(tokenWalletAddress.value0.toString())
+    );
+
+    const factoryContract = new provider.Contract(
+      FactoryMakeOffer,
+      FactoryMakeOfferAddress
+    );
+
+    const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    console.log(res);
+    const now = moment().add(1, "day").unix();
+
+    const makeOfferFee = await factoryContract.methods
+      .makeOffer_fee({ answerId: 0 })
+      .call();
+
+    const load = await client.abi.encode_boc({
+      params: [
+        { name: "nft_address", type: "address" },
+        { name: "old_offer", type: "address" },
+        { name: "validity", type: "uint128" },
+      ],
+      data: {
+        nft_address: nft_address,
+        old_offer:
+          "0:3254364c3d7babf15a076edaa6840650ecf4901c6bc404fa7c2be168df92843d",
+        validity: now.toString(),
+      },
+    });
+
+    await tokenWalletContract.methods
+      .transfer({
+        amount: parseFloat(offerAmount) * 1000000000,
+        recipient: FactoryMakeOfferAddress,
+        deployWalletValue: 0,
+        remainingGasTo: new Address(signer_address),
+        notify: true,
+        payload: load.boc,
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
+      });
+
+    const addoffer = await addOffer(
+      signer_address,
+      offerAmount,
+      offerExpiration,
+      nft_address
+    );
+
+    const data = await factoryContract.methods
+      .read_code({ answerId: 0 })
+      .call();
+
+    console.log(data);
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
