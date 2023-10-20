@@ -26,6 +26,7 @@
     "everscale-standalone-client": "^2.1.21",
     "express-rate-limit": "^6.9.0",
     "framer-motion": "^10.16.4",
+    "http-proxy-middleware": "^2.0.6",
     "moment": "^2.29.4",
     "mongoose": "^7.4.5",
     "next": "13.4.10",
