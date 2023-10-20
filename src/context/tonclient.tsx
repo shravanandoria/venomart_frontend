@@ -21,7 +21,7 @@ export const TonClientContextProvider: React.FC<TonClientContextProviderProps> =
 
     useMountEffectOnce(() => {
         libWebSetup({
-            // disableSeparateWorker: true,
+            disableSeparateWorker: true,
             binaryURL: "https://alivegamers.com/assets/eversdk.wasm", 
         })
         TonClient.useBinaryLibrary(libWeb as any)
