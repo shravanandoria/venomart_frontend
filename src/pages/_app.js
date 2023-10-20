@@ -5,7 +5,6 @@ import { TonClientContextProvider } from "../context/tonclient";
 // components
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
 // styles
 import "../styles/globals.css";
 import "../styles/custom.css";
@@ -25,7 +24,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { useRouter } from "next/router";
 
-import { ChakraProvider } from '@chakra-ui/react';
+// import { ChakraProvider } from "@chakra-ui/react";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -242,7 +241,8 @@ export default function App({ Component, pageProps }) {
         "Asynchronous blockchain building an interconnected future. Community Focused - VenomFoundation Approved by! 🇹🇷",
       mintPrice: "1",
       status: "Sold Out",
-      CollectionAddress: "0:6e3315bc1fe4973867233098f11331d270bb36cb99c97adf70eb81ace8713b15",
+      CollectionAddress:
+        "0:6e3315bc1fe4973867233098f11331d270bb36cb99c97adf70eb81ace8713b15",
       customLink: "launch/venomturkiye",
       pageName: "venomturkiye",
       supply: "2000",
@@ -352,7 +352,20 @@ export default function App({ Component, pageProps }) {
     await venomConnect.connect();
   };
 
+  const delete_it = async (req, res) => {
+    // try {
+    const response = await fetch("https://dog.ceo/api/breeds/image/random");
+    console.log(response);
+    // const data = await response.arrayBuffer();
+    // res.setHeader("Content-Type", "application/wasm");
+    // res.status(200).send(data);
+    // } catch (error) {
+    //   res.status(500).send("Internal Server Error");
+    // }
+  };
+
   useEffect(() => {
+    delete_it();
     const off = venomConnect?.on("connect", onConnect);
     if (venomConnect) {
       initStandalone();
