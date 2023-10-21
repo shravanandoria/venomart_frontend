@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Pagination from "../../components/Pagination";
 import LaunchCollectionCard from "../../components/cards/LaunchCollectionCard";
+import customLaunchpad from '../launchpad/customLaunchpad.json';
 
-const Launchpad = ({ theme, customLaunchpad }) => {
+const Launchpad = ({ theme }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(12);
 

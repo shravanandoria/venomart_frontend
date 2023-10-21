@@ -23,6 +23,7 @@ import { create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
+import customLaunchpad from '../customLaunchpad.json';
 
 const venomons = ({
     blockURL,
@@ -32,7 +33,6 @@ const venomons = ({
     venomProvider,
     signer_address,
     connectWallet,
-    customLaunchpad,
     setAnyModalOpen
 }) => {
     // change from here

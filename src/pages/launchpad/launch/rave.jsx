@@ -23,6 +23,7 @@ import { create_launchpad_nft } from "../../../utils/user_nft";
 import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
+import customLaunchpad from '../customLaunchpad.json';
 
 const rave = ({
     blockURL,
@@ -32,11 +33,10 @@ const rave = ({
     venomProvider,
     signer_address,
     connectWallet,
-    customLaunchpad,
     setAnyModalOpen
 }) => {
     // change from here
-    const launchSlug = customLaunchpad[8];
+    const launchSlug = customLaunchpad.find(item => item.id === 8);
     // change till here
 
     const router = useRouter();
@@ -213,6 +213,7 @@ const rave = ({
     };
 
     const get_user_Data = async () => {
+        if (!launchSlug?.CollectionAddress) return;
         setLoading(true);
         const data = await has_minted(
             contractAddress,
@@ -233,7 +234,7 @@ const rave = ({
         getMintedCount();
         getRandomTokenId();
 
-        if (!signer_address) return;
+        if (!signer_address || !contractAddress) return;
         get_user_Data();
     }, [venomProvider, signer_address]);
 
@@ -540,6 +541,23 @@ const rave = ({
                                             className="launchImage h-[100%] w-[100%] object-cover rounded"
                                             src={NFTIMG}
                                         />
+                                        <div className="hideInPhoneTxt">
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                Mint this NFT and get benefits like zero fee trading on
+                                                venomart after mainnet launch 🚀
+                                            </p>
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                ➡️ 10 winners will get Wl spots from Rave 🎟
+                                            </p>
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                ➡️ 10 winners will get $VMART token airdrop (exclusive for
+                                                rave community) 🥳
+                                            </p>
+                                            <p className="text-center text-[17px] m-2 dark:text-jacarta-200 md:text-left">
+                                                ➡️ 5 other winners will get premium version of venomart
+                                                marketplace 💰
+                                            </p>
+                                        </div>
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -568,7 +586,7 @@ const rave = ({
                                         }
 
                                         {/* follow twitter  */}
-                                        <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 border-b-2 dark:border-gray-100">
+                                        <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 dark:border-gray-100">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
                                                 2] Follow venomart on twitter
                                             </p>
@@ -583,7 +601,7 @@ const rave = ({
                                         </div>
 
                                         {/* join discord  */}
-                                        {/* <div className="flex mt-2 items-center pb-5 mb-5">
+                                        <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                                                 3] Join venomart discord server
                                             </p>
@@ -595,10 +613,10 @@ const rave = ({
                                                 Join{" "}
                                                 <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
-                                        </div> */}
+                                        </div>
 
                                         {/* join discord  */}
-                                        {/* {projectDiscord &&
+                                        {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                                                     4] Join {pageName} discord server
@@ -612,10 +630,10 @@ const rave = ({
                                                     <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                                 </Link>
                                             </div>
-                                        } */}
+                                        }
 
                                         {/* retweet tweet  */}
-                                        {/* {intendTweetId &&
+                                        {intendTweetId &&
                                             <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
                                                     5] Retweet and like this tweet
@@ -629,7 +647,7 @@ const rave = ({
                                                     <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                                 </Link>
                                             </div>
-                                        } */}
+                                        }
 
                                         {status == "Live" && !checkMint && (
                                             <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">

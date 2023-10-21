@@ -12,10 +12,10 @@ import { Navigation, Pagination } from "swiper/modules";
 import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
+import customLaunchpad from './launchpad/customLaunchpad.json';
 
 export default function Home({
   theme,
-  customLaunchpad,
   featuredCollections,
   websiteStats,
 }) {
