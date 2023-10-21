@@ -100,13 +100,13 @@ export default function Home({
         {/* hero section  */}
         <section
           className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
-          id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+        // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
           <div className="h-full px-6 xl:px-20">
             <div className="grid h-full items-center gap-4 lg:grid-cols-12">
               <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
-                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <div className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"}`}>
                     <span className="block font-display text-3xl text-[#8DD059]">
                       {websiteStats[0]?.nftCollection}+
                     </span>
@@ -114,7 +114,7 @@ export default function Home({
                       NFT Collections
                     </span>
                   </div>
-                  <div className="mb-4 flex-1 rounded-2lg bg-white p-4 text-center dark:bg-white/[.15]">
+                  <div className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"}`}>
                     <span className="block font-display text-3xl text-[#737EF2]">
                       {websiteStats[0]?.mintedNFTs}+
                     </span>
@@ -152,7 +152,7 @@ export default function Home({
                   {featuredCollections.map((collection, index) => {
                     return (
                       <div key={index} className={collection?.className}>
-                        <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-900">
+                        <div className={`block overflow-hidden rounded-2.5xl bg-white ${theme == "dark" ? "border border-gray-800" : "shadow-md"} transition-shadow hover:shadow-lg dark:bg-jacarta-900`}>
                           <div className="relative">
                             <Link
                               href={`/collection/${collection?.collectionAddress}`}

@@ -99,14 +99,13 @@ const LaunchCollectionCard = ({
 
   return (
     <Link href={`/launchpad/${customLink ? customLink : CollectionAddress}`}>
-      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[450px] w-[320px] overflow-hidden m-2 sm:m-4">
+      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[320px] overflow-hidden m-2 sm:m-4">
 
         <div
           className="relative flex space-x-[0.625rem]"
         >
           <span className="w-[100%] h-[150px]">
             <Image
-              // src={Cover?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               src={Cover}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
@@ -117,7 +116,6 @@ const LaunchCollectionCard = ({
           </span>
           <span className="absolute bottom-[-25px] right-[100px]">
             <Image
-              // src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
               src={Logo}
               alt="Logo"
               className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
@@ -161,7 +159,15 @@ const LaunchCollectionCard = ({
           }
         </div>
 
-        <div className="mt-2 flex items-center justify-center text-sm font-medium tracking-tight">
+        <div className="mt-1 mb-2 flex items-center justify-center text-sm font-medium tracking-tight">
+          <div className="flex flex-wrap justify-center items-center">
+            <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-300">
+              133 Items
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-2 mb-6 flex items-center justify-center text-sm font-medium tracking-tight">
           <div className="flex flex-wrap justify-center items-center">
             <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
               {Description}
@@ -169,122 +175,20 @@ const LaunchCollectionCard = ({
           </div>
         </div>
 
-        {statusNew == "Live" && (
-          <div className="px-4 pt-4">
-            <h2 className="text-[12px] title-font font-bold text-gray-400 tracking-widest text-center">
-              MINT ENDS IN
-            </h2>
-            <div className="text-[4px] text-jacarta-700 dark:text-white title-font font-medium mb-1">
-              <div className="show-counter">
-                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{enddays}</p>
-                    <span style={{ fontSize: "9px" }}>Days</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{endhours}</p>
-                    <span style={{ fontSize: "9px" }}>Hours</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{endminutes}</p>
-                    <span style={{ fontSize: "9px" }}>Mins</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{endseconds}</p>
-                    <span style={{ fontSize: "9px" }}>Seconds</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {statusNew == "Upcoming" && (
-          <div className="px-4 pt-4">
-            <h2 className="text-[12px] title-font font-bold text-gray-400 tracking-wides text-center ">
-              MINT STARTS IN
-            </h2>
-            <div className="text-[4px] text-jacarta-700 dark:text-white title-font font-medium mb-1">
-              <div className="show-counter">
-                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{startdays}</p>
-                    <span style={{ fontSize: "9px" }}>Days</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{starthours}</p>
-                    <span style={{ fontSize: "9px" }}>Hours</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{startminutes}</p>
-                    <span style={{ fontSize: "9px" }}>Mins</span>
-                  </div>
-                  <p>:</p>
-                  <div className="countdown">
-                    <p style={{ fontSize: "13px" }}>{startseconds}</p>
-                    <span style={{ fontSize: "9px" }}>Seconds</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* sold out */}
-        {statusNew == "Sold Out" && (
-          <div className="px-4 py-4">
-            <h2 className="text-[12px] title-font text-gray-400 tracking-widest text-center">
-              SOLD OUT IN
-            </h2>
-            <h1 className="text-[18px] py-2 text-jacarta-700 dark:text-white title-font font-medium mb-1" style={{ textAlign: "center" }}>
-              FEW HOURS{" "}
-            </h1>
-          </div>
-        )}
-
-        {/* ended */}
-        {statusNew == "Ended" && (
-          <div className="px-4 py-4">
-            <h2 className="text-[12px] title-font text-gray-400 tracking-widest text-center">
-              SOLD OUT IN
-            </h2>
-            <h1 className="text-[18px] py-2 text-jacarta-700 dark:text-white title-font font-medium mb-1" style={{ textAlign: "center" }}>
-              FEW HOURS{" "}
-            </h1>
-          </div>
-        )}
-
         <div className="flex justify-between align-middle mx-2">
-          {statusNew == "Live" &&
+          {(statusNew == "Live" || statusNew == "Upcoming") &&
             <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
               <GoDotFill className="h-[19px] w-[19px] mt-1 text-green" />
               <span className="text-green">{statusNew}</span>
             </button>
           }
-          {statusNew == "Upcoming" &&
-            <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-              <GoDotFill className="h-[19px] w-[19px] mt-1 text-[#2fa8b5]" />
-              <span className="text-[#2fa8b5]">{statusNew}</span>
-            </button>
-          }
-          {statusNew == "Sold Out" &&
+          {(statusNew == "Sold Out" || statusNew == "Ended") &&
             <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
               <GoDotFill className="h-[19px] w-[19px] mt-1 text-jacarta-300" />
-              <span className="text-jacarta-300">{statusNew}</span>
+              <span className="text-jacarta-500 dark:text-jacarta-200">{statusNew}</span>
             </button>
           }
-          {statusNew == "Ended" &&
-            <button className="flex align-middle justify-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-              <GoDotFill className="h-[19px] w-[19px] mt-1 text-red" />
-              <span className="text-red">{statusNew}</span>
-            </button>
-          }
-          <div className="flex border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
+          <div className="flex self-center border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-1.5 px-8 rounded-full text-jacarta-700">
             <Image
               src={venomLogo}
               height={100}

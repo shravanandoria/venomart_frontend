@@ -140,6 +140,7 @@ const Navbar = ({
                 height={160}
                 width={150}
                 alt="Venomart | NFT Marketplace"
+                className="hover:opacity-50"
               />
             </Link>
           ) : (
@@ -149,6 +150,7 @@ const Navbar = ({
                 height={160}
                 width={150}
                 alt="Venomart | NFT Marketplace"
+                className="hover:opacity-50"
               />
             </Link>
           )}

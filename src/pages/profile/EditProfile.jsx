@@ -155,6 +155,7 @@ const EditProfile = ({ signer_address, theme }) => {
                     id="profile-username"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
                     placeholder="Enter username"
+                    maxLength={16}
                     required
                   />
                 </div>
@@ -172,6 +173,7 @@ const EditProfile = ({ signer_address, theme }) => {
                     id="profile-bio"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700  dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
                     placeholder="Tell the world your story!"
+                    maxLength={150}
                   ></textarea>
                 </div>
 
@@ -193,6 +195,7 @@ const EditProfile = ({ signer_address, theme }) => {
                     id="profile-email"
                     className="w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:bg-jacarta-700 dark:placeholder:text-jacarta-300 dark:text-jacarta-200"
                     placeholder="Enter email"
+                    max={70}
                   />
                 </div>
 

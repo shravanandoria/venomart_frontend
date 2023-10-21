@@ -7,7 +7,7 @@ const DesktopNavbar = () => {
             <ul className="flex flex-col lg:flex-row">
                 <li className="js-nav-dropdown group relative">
                     <Link
-                        href="#"
+                        href="/explore/NFTs"
                         className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
                         id="navDropdown-4"
                         aria-expanded="false"
@@ -70,7 +70,7 @@ const DesktopNavbar = () => {
 
                 <li className="js-nav-dropdown group relative">
                     <Link
-                        href="#"
+                        href="/explore/rankings/Collections"
                         className="dropdown-toggle flex items-center justify-between py-3.5 font-display text-base text-jacarta-700 hover:text-accent focus:text-accent dark:text-white dark:hover:text-accent dark:focus:text-accent lg:px-5"
                         id="navDropdown-4"
                         aria-expanded="false"
