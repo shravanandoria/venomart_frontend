@@ -149,9 +149,8 @@ const Footer = ({
                     alt="items"
                     height={100}
                     width={100}
-                    className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${
-                      index === 1 || index === 2 ? "ml-[-16px]" : ""
-                    }`}
+                    className={`rounded-full h-[40px] w-[40px] border-[2px] border-black ${index === 1 || index === 2 ? "ml-[-16px]" : ""
+                      }`}
                   />
                 )
               );
@@ -226,22 +225,24 @@ const Footer = ({
                             height={100}
                             className="rounded-2lg h-[65px] w-[65px] object-cover"
                           />
-                          <button
-                            type="button"
-                            className="absolute top-[-4px] right-[-4px] bg-red rounded-xl"
-                            onClick={() => removeFromCart(nft?._id)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-4 w-4 fill-white"
+                          {!actionLoad &&
+                            <button
+                              type="button"
+                              className="absolute top-[-4px] right-[-4px] bg-red rounded-xl"
+                              onClick={() => removeFromCart(nft?._id)}
                             >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                            </svg>
-                          </button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="h-4 w-4 fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                              </svg>
+                            </button>
+                          }
                         </div>
 
                         {/* main nft info  */}
@@ -250,11 +251,11 @@ const Footer = ({
                             {nft?.NFTCollection?.name
                               ? nft?.NFTCollection?.name
                               : nft?.NFTCollection?.contractAddress?.slice(
-                                  0,
-                                  8
-                                ) +
-                                "..." +
-                                nft?.NFTCollection?.contractAddress?.slice(60)}
+                                0,
+                                8
+                              ) +
+                              "..." +
+                              nft?.NFTCollection?.contractAddress?.slice(60)}
 
                             {nft?.NFTCollection?.isVerified ? (
                               <MdVerified
@@ -364,17 +365,27 @@ const Footer = ({
               {/* purchase btns  */}
               <div className="modal-footer">
                 <div className="flex items-center justify-center space-x-4">
-                  <button
-                    onClick={() => (
-                      setCartNFTs([]),
-                      setAnyModalOpen(false),
-                      setItemsModal(false)
-                    )}
-                    type="button"
-                    className="flex w-38 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                  >
-                    Clear
-                  </button>
+                  {!actionLoad ?
+                    <button
+                      onClick={() => (
+                        setCartNFTs([]),
+                        setAnyModalOpen(false),
+                        setItemsModal(false)
+                      )}
+                      type="button"
+                      className="flex w-38 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                    >
+                      Clear
+                    </button>
+                    :
+                    <button
+                      type="button"
+                      disabled
+                      className="flex w-38 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                    >
+                      Clear
+                    </button>
+                  }
 
                   {actionLoad ? (
                     <button
@@ -558,8 +569,8 @@ const Footer = ({
                         <span className="flex justify-center align-middle font-mono dark:text-jacarta-100 text-black text-tracking-tight">
                           {statsData?.SalesCountLast24Hours
                             ? formatNumberShort(
-                                statsData?.SalesCountLast24Hours
-                              )
+                              statsData?.SalesCountLast24Hours
+                            )
                             : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>
@@ -588,8 +599,8 @@ const Footer = ({
                           </span>
                           {statsData?.SalesVolumeLast24Hours
                             ? formatNumberShort(
-                                statsData?.SalesVolumeLast24Hours
-                              )
+                              statsData?.SalesVolumeLast24Hours
+                            )
                             : "---"}
                           <span className="text-light-gray-500"></span>
                         </span>

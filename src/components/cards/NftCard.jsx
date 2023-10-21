@@ -148,7 +148,7 @@ const NftCard = ({
           overflow: "hidden",
         }}
       >
-        {listedBool && (
+        {listedBool ?
           <span className="text-sm font-medium tracking-tight">
             <span className="flex text-sm font-normal tracking-tight text-gray-400">
               Price
@@ -169,7 +169,29 @@ const NftCard = ({
               {formatNumberShort(listingPrice)}
             </span>
           </span>
-        )}
+          :
+          !Description &&
+          <span className="text-sm font-medium tracking-tight">
+            <span className="flex text-sm font-normal tracking-tight text-gray-400">
+              Price
+            </span>
+            <span className="flex text-sm font-medium tracking-tight text-green">
+              <Image
+                src={venomLogo}
+                height={100}
+                width={100}
+                style={{
+                  height: "14px",
+                  width: "15px",
+                  marginRight: "5px",
+                  marginTop: "3px",
+                }}
+                alt="VenomLogo"
+              />
+              Unlisted
+            </span>
+          </span>
+        }
         {(signerAddress && Owner) &&
           (listedBool ?
             (((signerAddress === Owner) ?
@@ -183,9 +205,13 @@ const NftCard = ({
             ))
             :
             (!listedBool &&
-              ((signerAddress === Owner) &&
+              ((signerAddress === Owner) ?
                 <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
                   List
+                </button>
+                :
+                <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
+                  Make Offer
                 </button>
               )))
         }

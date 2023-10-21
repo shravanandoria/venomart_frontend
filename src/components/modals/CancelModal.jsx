@@ -83,7 +83,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                 />
                             </div>
                             <div>
-                                <div className="flex text-accent text-sm mb-2">
+                                <div className="flex text-jacarta-600 dark:text-jacarta-100 text-sm mb-2">
                                     {(NFTCollectionName ? NFTCollectionName : NFTCollectionContract?.slice(0, 8) +
                                         "..." +
                                         NFTCollectionContract?.slice(60))}

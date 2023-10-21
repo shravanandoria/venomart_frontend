@@ -100,7 +100,7 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                             <div>
                                 <Link
                                     href={`/collection/${NFTCollectionContract}`}
-                                    className="flex text-accent text-sm mb-2"
+                                    className="flex text-jacarta-600 dark:text-jacarta-100 text-sm mb-2"
                                 >
                                     {(NFTCollectionName ? NFTCollectionName : NFTCollectionContract?.slice(0, 8) +
                                         "..." +

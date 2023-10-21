@@ -702,85 +702,84 @@ const NFTPage = ({
                 <div className="md:w-3/5 md:basis-auto md:pl-8 lg:w-1/2 lg:pl-[3.75rem]">
                   <div className="mb-3 flex">
                     {/* <!-- Collection --> */}
-                    <div className="flex items-center">
+                    <div className="flex items-center mb-4">
                       <Link
                         href={`/collection/${onchainNFTData
                           ? nft?.collection?._address
                           : nft?.NFTCollection?.contractAddress
                           }`}
-                        className="mr-2 text-sm font-bold text-accent"
+                        className="flex"
                       >
-                        {onchainNFTData
-                          ? collectionData?.data?.name
-                            ? collectionData?.data?.name
-                            : nft?.collection?._address?.slice(0, 5) +
-                            "..." +
-                            nft?.collection?._address?.slice(63)
-                          : nft?.NFTCollection?.name
-                            ? nft?.NFTCollection?.name
-                            : nft?.NFTCollection?.contractAddress?.slice(0, 5) +
-                            "..." +
-                            nft?.NFTCollection?.contractAddress?.slice(63)}
+                        {!onchainNFTData &&
+                          <div className="relative mr-2">
+                            <Image
+                              src={nft?.NFTCollection?.logo ?
+                                (nft?.NFTCollection?.logo?.replace(
+                                  "ipfs://",
+                                  "https://ipfs.io/ipfs/")
+                                )
+                                :
+                                defLogo
+                              }
+                              height={100}
+                              width={100}
+                              alt="avatar 1"
+                              className="rounded-full h-[40px] w-[40px] object-cover mr-2"
+                            />
+                            {!onchainNFTData ? (
+                              nft?.NFTCollection?.isVerified ? (
+                                <MdVerified
+                                  className="absolute top-[27px] right-[2px] text-[#4f87ff]"
+                                  size={17}
+                                />
+                              ) : (
+                                <BsFillExclamationCircleFill
+                                  className="absolute top-[27px] right-[2px] text-[#c3c944]"
+                                  size={16}
+                                />
+                              )
+                            ) : (
+                              collectionData &&
+                              (collectionData?.data?.isVerified ? (
+                                <MdVerified
+                                  className="absolute top-[27px] right-[2px] text-[#4f87ff]"
+                                  size={17}
+                                />
+                              ) : (
+                                <BsFillExclamationCircleFill
+                                  className="absolute top-[27px] right-[2px] text-[#c3c944]"
+                                  size={16}
+                                />
+                              ))
+                            )}
+                          </div>
+                        }
+                        <div className="mr-2">
+                          <p className="text-sm font-bold text-jacarta-600 dark:text-jacarta-100">
+                            {onchainNFTData
+                              ? collectionData?.data?.name
+                                ? collectionData?.data?.name
+                                : nft?.collection?._address?.slice(0, 5) +
+                                "..." +
+                                nft?.collection?._address?.slice(63)
+                              : nft?.NFTCollection?.name
+                                ? nft?.NFTCollection?.name
+                                : nft?.NFTCollection?.contractAddress?.slice(0, 5) +
+                                "..." +
+                                nft?.NFTCollection?.contractAddress?.slice(63)}
+                          </p>
+                          {!onchainNFTData &&
+                            <span className="flex text-[12px] text-jacarta-600 dark:text-jacarta-100">
+                              {formatNumberShort(nft?.NFTCollection?.TotalSupply)}
+                              {" "}
+                              Items
+                            </span>
+                          }
+                        </div>
                       </Link>
-                      {!onchainNFTData ? (
-                        nft?.NFTCollection?.isVerified ? (
-                          <MdVerified
-                            style={{ color: "#4f87ff", marginLeft: "-4px" }}
-                            size={25}
-                            onMouseOver={() => SetIsHovering(true)}
-                            onMouseOut={() => SetIsHovering(false)}
-                          />
-                        ) : (
-                          <BsFillExclamationCircleFill
-                            style={{ color: "#c3c944", marginLeft: "-4px" }}
-                            size={20}
-                            onMouseOver={() => SetIsHovering(true)}
-                            onMouseOut={() => SetIsHovering(false)}
-                          />
-                        )
-                      ) : (
-                        collectionData &&
-                        (collectionData?.data?.isVerified ? (
-                          <MdVerified
-                            style={{ color: "#4f87ff", marginLeft: "-4px" }}
-                            size={25}
-                            onMouseOver={() => SetIsHovering(true)}
-                            onMouseOut={() => SetIsHovering(false)}
-                          />
-                        ) : (
-                          <BsFillExclamationCircleFill
-                            style={{ color: "#c3c944", marginLeft: "-4px" }}
-                            size={20}
-                            onMouseOver={() => SetIsHovering(true)}
-                            onMouseOut={() => SetIsHovering(false)}
-                          />
-                        ))
-                      )}
-                    </div>
-                    <div className="absolute mt-[-18px] ml-[90px] inline-flex items-center justify-center">
-                      {(nft?.NFTCollection?.isVerified ||
-                        collectionData?.data?.isVerified) &&
-                        isHovering && (
-                          <p
-                            className="bg-blue px-[20px] py-[3px] text-white text-[12px]"
-                            style={{ borderRadius: "10px" }}
-                          >
-                            Verified
-                          </p>
-                        )}
-                      {(nft?.NFTCollection?.isVerified == false ||
-                        collectionData?.data?.isVerified == false) &&
-                        isHovering && (
-                          <p
-                            className="bg-[#c3c944] px-[10px] py-[3px] text-black text-[12px]"
-                            style={{ borderRadius: "10px" }}
-                          >
-                            Not Verified
-                          </p>
-                        )}
                     </div>
 
-                    <div className="ml-auto flex space-x-2">
+                    <div className="ml-auto ">
                       {/* <div className="flex items-center space-x-1 rounded-xl border border-jacarta-100 bg-white py-2 px-4 dark:border-jacarta-600 dark:bg-jacarta-700">
                         <span
                           className="js-likes relative cursor-pointer before:absolute before:h-4 before:w-4 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-0">

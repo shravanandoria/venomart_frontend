@@ -156,7 +156,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                 />
                             </div>
                             <div>
-                                <div className="text-accent text-sm">
+                                <div className=" text-jacarta-600 dark:text-jacarta-100 text-sm">
                                     {!onchainNFTData ? (
                                         <div className="flex align-middle mb-2">
                                             {nft?.NFTCollection?.name

@@ -263,26 +263,26 @@ export default function App({ Component, pageProps }) {
   const featuredCollections = [
     {
       id: 1,
-      collectionName: "Devenlabs",
+      collectionName: "Venomons",
       collectionAddress:
-        "0:f93547a42e465d07c5ce641f133270cbfa0ac4b44b0990b29f455af025e4efff",
-      items: 2000,
+        "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
+      items: 1000,
       coverImage:
-        "https://ipfs.io/ipfs/QmeWrjypYjXczYaHVGhoccto2PU7u9QnNmB12CTxMJ84j8/2.png",
+        "https://ipfs.io/ipfs/QmedApN5MhBQhkXJKoD4RHrLq31Ho4xgJPZtyqCAbVtwTW/venomons.jpg",
       collectionLogo:
-        "https://ipfs.io/ipfs/QmYV5DPbTRMUK9TZ95HaFq9zRMoYnMYHRyzDC76SUVMvnx/logo.jpg",
+        "https://ipfs.io/ipfs/QmZzvNhQbz8T5aRuBrjf44tAFYrWvjhwnU9kCDJBB4QMdw/logo.jpg",
       className: "mb-6 md:flex md:w-1/2 md:items-center",
     },
     {
       id: 2,
-      collectionName: "Venompumpy",
+      collectionName: "Venom Alligators",
       collectionAddress:
-        "0:4fa80560bd17c65026874719fe398151e59efe2614fb1e8e95ba2ca443f7d704",
+        "0:c36c4939e3ae582f4e9f7215f36bc39e89a1796e6a32260dec762cf53c137dd2",
       items: 2000,
       coverImage:
-        "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+        "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
       collectionLogo:
-        "https://ipfs.io/ipfs/QmRe3HoHZyBYQkddbXtQP2oLWYseVx5mK6FqtTQgLb3Pqn/nft.gif",
+        "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
       className: "mb-6 md:flex md:w-1/2 md:items-center",
     },
   ];
@@ -290,8 +290,8 @@ export default function App({ Component, pageProps }) {
   // web stats
   const websiteStats = [
     {
-      nftCollection: 50,
-      mintedNFTs: 43400,
+      nftCollection: 55,
+      mintedNFTs: 313800,
       mintVolume: 51780,
     },
   ];
