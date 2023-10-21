@@ -297,6 +297,7 @@ export default function Home({
                             Name={e.Name}
                             Description={e.Description}
                             mintPrice={e.mintPrice}
+                            supply={e.supply}
                             status={e.status}
                             CollectionAddress={e.CollectionAddress}
                             customLink={e.customLink}

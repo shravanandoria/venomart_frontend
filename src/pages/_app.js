@@ -72,6 +72,7 @@ export default function App({ Component, pageProps }) {
       Description: "Exclusive Passes On Venomart Marketplace",
       mintPrice: "1",
       status: "Sold Out",
+      supply: 3000,
       CollectionAddress:
         "0:9a49dc04f979f0ed7b0b465fc2d9266e57025406497ad5038e4ff61259eaf9d2",
       customLink: "custom/venomartPass",

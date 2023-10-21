@@ -13,6 +13,7 @@ const LaunchCollectionCard = ({
   Name,
   Description,
   mintPrice,
+  supply,
   status,
   CollectionAddress,
   customLink,
@@ -162,7 +163,7 @@ const LaunchCollectionCard = ({
         <div className="mt-1 mb-2 flex items-center justify-center text-sm font-medium tracking-tight">
           <div className="flex flex-wrap justify-center items-center">
             <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-300">
-              133 Items
+              {supply ? supply : "0"} Items
             </span>
           </div>
         </div>
