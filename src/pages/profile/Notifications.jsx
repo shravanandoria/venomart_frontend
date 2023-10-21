@@ -74,7 +74,7 @@ const Notifications = ({ signer_address, theme, blockURL }) => {
                     content="All your activity notifications on venomart marketplace"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/fav.png" />
+                <link rel="icon" href="/fav.webp" />
             </Head>
 
             <section className="relative py-24 dark:bg-jacarta-900">

@@ -710,7 +710,7 @@ const Collection = ({
           content={`${collection?.name}, ${collection?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/fav.png" />
+        <link rel="icon" href="/fav.webp" />
       </Head>
 
       {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}

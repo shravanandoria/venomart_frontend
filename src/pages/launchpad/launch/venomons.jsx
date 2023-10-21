@@ -253,7 +253,7 @@ const venomons = ({
                     content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/fav.png" />
+                <link rel="icon" href="/fav.webp" />
             </Head>
 
             {afterMint && (

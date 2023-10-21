@@ -531,7 +531,7 @@ const Profile = ({
           content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${user_data?.wallet} `}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/fav.png" />
+        <link rel="icon" href="/fav.webp" />
       </Head>
       {/* <!-- Banner IMG--> */}
       <div className="relative pt-24 dark:bg-jacarta-900">

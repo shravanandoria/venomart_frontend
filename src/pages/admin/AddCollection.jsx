@@ -62,7 +62,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
           content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/fav.png" />
+        <link rel="icon" href="/fav.webp" />
       </Head>
 
       {loading ? (

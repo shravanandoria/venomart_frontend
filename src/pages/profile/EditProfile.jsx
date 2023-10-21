@@ -79,7 +79,7 @@ const EditProfile = ({ signer_address, theme }) => {
           content="Edit your profile on venomart marketplace"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/fav.png" />
+        <link rel="icon" href="/fav.webp" />
       </Head>
 
       <form onSubmit={handle_submit} className={`${theme}`}>

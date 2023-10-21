@@ -11,7 +11,7 @@ const PrivacyPolicy = ({ theme }) => {
                     content="Privacy policy of venomart marketplace, 10 minutes read and understand the policies"
                 />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/fav.png" />
+                <link rel="icon" href="/fav.webp" />
             </Head>
             <section className="relative pt-48 pb-16 dark:bg-jacarta-800 md:pb-24">
                 <div className="container">
