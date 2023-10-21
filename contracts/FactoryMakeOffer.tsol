@@ -19,28 +19,16 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
     address public _tokenWallet;
     address public _tokenRoot;
     
-    address _owner;
     
     uint128 public listing_commission;
     uint128 public platform_fees;
     // reserve on contract, 0.5 to deploy child contract & reserve there, 0.2 = transferring WVENOMS to child contract, 0.1 = for safety
     uint128 public remainOnContract = 0.2 ever;
-    uint128 public deployMakeOffer_cost = 0.5 ever;
+    uint128 public deployMakeOffer_cost = 0.6 ever;
     uint128 public transfer_WVENOM_makeOffer_cost = 0.2 ever;
     uint128 public oldOffer_refund_cost= 0.01 ever;
     
     TvmCell makeOfferCode;
-
-    address[] openOffers;
-
-    struct offerInfo {
-        address nft_address;
-        uint128 offer_amount;
-        uint128 validity;
-        address old_offer;
-    }
-
-    offerInfo info;
 
     event new_offer(
         address offerrer,
@@ -65,7 +53,6 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
         tvm.accept();
         tvm.rawReserve(remainOnContract, 0);
         
-        _owner = owner;
         platform_fees = _platform_fees;
         makeOfferCode = _makeOfferCode;
 
@@ -92,11 +79,12 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
         tvm.rawReserve(remainOnContract, 0);
 
         _tokenWallet = value;
-        _owner.transfer({ value: 0, flag: 128, bounce: false });
+        owner().transfer({ value: 0, flag: 128, bounce: false });
     }
-    
+
     function makeOffer_fee() public view responsible returns (uint128) {
-        uint128 fee = remainOnContract + oldOffer_refund_cost + deployMakeOffer_cost + transfer_WVENOM_makeOffer_cost;
+        uint128 refundable_fee = 0.1 ever;
+        uint128 fee = remainOnContract + oldOffer_refund_cost + deployMakeOffer_cost + transfer_WVENOM_makeOffer_cost + refundable_fee;
         return {value: 0, bounce: false, flag: 64} (fee);
     }
 
@@ -118,21 +106,16 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
         (address nft_address, address old_offer, uint128 validity) = abi.decode(payload, (address, address, uint128));
 
         if(old_offer != address(0)) {
-            MakeOffer(old_offer).refund_old_offer{value: 0.01 ever}(amount);
-            info.old_offer = old_offer;
+            MakeOffer(old_offer).return_offer{value: 0.01 ever}();
         }
         
-        info.nft_address = nft_address;
-        info.offer_amount = amount;
-        info.validity = validity;
-
         TvmCell _stateInit = tvm.buildStateInit({
             code: makeOfferCode,
             contr: MakeOffer,
             varInit: {
                 nonce: tx.timestamp,
                 contract_creator: address(this),
-                platform_owner: _owner,
+                platform_owner: owner(),
                 _tokenRoot: _tokenRoot,
                 offer_owner: sender        
             }
@@ -151,8 +134,6 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
 
         TvmCell empty;
 
-        openOffers.push(makeOffer);
-
         emit new_offer (
             sender,
             nft_address,
@@ -160,8 +141,7 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
             amount,
             validity
         );
-
-        // ITokenWallet(_tokenWallet).transfer{value: 0, flag: 0}(
+    
         ITokenWallet(_tokenWallet).transfer{value: transfer_WVENOM_makeOffer_cost, flag: 1}(
             amount,
             makeOffer,
@@ -174,27 +154,19 @@ contract FactoryMakeOffer is OwnableInternal, IAcceptTokensTransferCallback {
         sender.transfer({ value: 0, flag: 128, bounce: false });
     }
 
-    function read_code() public view responsible returns (address[], offerInfo) {
-        return {value: 0, bounce: false, flag: 64} (openOffers, info); 
+    function update_allCosts(
+        uint128 _remainOnContract,
+        uint128 _deployMakeOffer_cost,
+        uint128 _transfer_WVENOM_makeOffer_cost,
+        uint128 _oldOffer_refund_cost
+    ) public onlyOwner {
+        remainOnContract = _remainOnContract;
+        deployMakeOffer_cost = _deployMakeOffer_cost;
+        transfer_WVENOM_makeOffer_cost = _transfer_WVENOM_makeOffer_cost;
+        oldOffer_refund_cost = _oldOffer_refund_cost;
     }
 
-    function update_platform_fees(uint128 _platform_fees) public onlyOwner{
-        platform_fees = _platform_fees;
-    }
-
-    function cancel_listing(address nftAddress) external {
-
-        mapping(address => ITIP4_1NFT.CallbackParams) noCallbacks;
-
-        ITIP4_1NFT(nftAddress).changeManager {
-            value: 0,
-            flag: 128 ,
-            bounce: false
-        } (
-            msg.sender,
-            address(this),
-            noCallbacks
-        );
-
+    function update_makeOfferCode(TvmCell new_makeOffer) public onlyOwner {
+        makeOfferCode = new_makeOffer;
     }
 }

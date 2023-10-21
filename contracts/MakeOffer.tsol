@@ -46,7 +46,7 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
 
         offer_validity = _offer_validity;
         nft_address = _nft_address;
-
+        
         ITokenRoot(_tokenRoot).deployWallet {
             value: 0.2 ever,
             flag: 1,
@@ -56,7 +56,7 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
             0.1 ever 
         );
 
-        address(0x5303c9d74230bb45c7ca06669c8664cb41adf570d0ab89161cac65b7735ed449).transfer({ value: 0, flag: 128, bounce: false }); 
+        offer_owner.transfer({ value: 0, flag: 128, bounce: false }); 
     }
 
     function onTokenWallet(address value) external {
@@ -65,11 +65,11 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
             msg.sender == _tokenRoot,
             101
         );
+
         tvm.rawReserve(remain_on_contract, 0);
-        
+
         _tokenWallet = value;
-        address(0xe12577165b4f98da773d0f6f5057c14fced0b2eda0d67eddf569787dc2213b98).transfer({ value: 0, flag: 128, bounce: false });
-        // offer_owner.transfer({ value: 0, flag: 128, bounce: false });
+        offer_owner.transfer({ value: 0, flag: 128, bounce: false });
     }
 
     function onNftChangeManager(
@@ -120,25 +120,13 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
         );
     }
 
-    function refund_old_offer(uint128 new_offer_amount) public {
-        require(msg.sender == contract_creator, 101);
-        require(new_offer_amount > offer_amount, 101, "New offer is lower than current offer");
-        
-        TvmCell empty;
+    function return_offer() public {
+        require(
+            msg.sender == offer_owner ||
+            msg.sender == platform_owner ||
+            msg.sender == contract_creator, 101, "You are not the owner of this offer");
 
-        ITokenWallet(_tokenWallet).transfer{value: 0, flag: 128 + 32}(
-            offer_amount,
-            offer_owner,
-            0,
-            offer_owner,
-            true,
-            empty
-        );
-    }
-
-    //IF USER WANTS TO CANCEL OFFER
-    function cancel_offer(address sendRemainingGasTo) public {
-        require(msg.sender == offer_owner, 101, "You are not the owner of this offer");
+        // require(now <= offer_validity, 102, "This offer is expired");
         require(offer_amount > 0, 101, "Offer Amount is invalid");
         TvmCell empty;
 
@@ -146,40 +134,10 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
             offer_amount,
             offer_owner,
             0.1 ever,
-            sendRemainingGasTo,
+            offer_owner,
             true,
             empty
         );      
-    }
-
-    //JUST FOR TESTING
-    function cancel_listing() external {
-        // require(msg.sender == platform_owner, 101, "You are not the owner of this platform");
-
-        mapping(address => ITIP4_1NFT.CallbackParams) noCallbacks;
-
-        ITIP4_1NFT(nft_address).changeManager {
-            value: 0,
-            flag: 128 ,
-            bounce: false
-        } (
-            msg.sender,
-            address(this),
-            noCallbacks
-        );
-    }
-
-    function refund_offer(address sendGasTo) public {
-        TvmCell empty;
-
-        ITokenWallet(_tokenWallet).transfer{value: 0, flag: 128 + 32}(
-            offer_amount,
-            offer_owner,
-            0.1 ever,
-            sendGasTo,
-            true,
-            empty
-        );
     }
 
     function onAcceptTokensTransfer(
@@ -190,6 +148,7 @@ contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
         address remainingGasTo,
         TvmCell payload
     ) override external {
+        tvm.rawReserve(0.2 ever, 0);
         offer_amount = amount;
 
         remainingGasTo.transfer({ value: 0, flag: 128, bounce: false });
