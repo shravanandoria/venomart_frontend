@@ -21,10 +21,10 @@ const nextConfig = {
   },
   reactStrictMode: true,
   transpilePackages: ["@eversdk/lib-web"],
-  webpack(config) {
-    config.experiments = { asyncWebAssembly: true, layers: true };
-    return config;
-  },
+  // webpack(config) {
+  //   config.experiments = { asyncWebAssembly: true, layers: true };
+  //   return config;
+  // },
   images: {
     unoptimized: true,
     remotePatterns: [
