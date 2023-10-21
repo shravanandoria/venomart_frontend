@@ -16,7 +16,6 @@ import {
 } from "./mongo_api/nfts/nfts";
 import {
   Subscriber,
-  ProviderRpcClient,
   TvmException,
 } from "everscale-inpage-provider";
 
