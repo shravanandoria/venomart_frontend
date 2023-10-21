@@ -258,6 +258,31 @@ export default function App({ Component, pageProps }) {
       endDate: "10/17/2023 21:30:00 GMT+0530",
       verified: true,
     },
+    {
+      id: 8,
+      Cover:
+        "https://ipfs.io/ipfs/QmQNUSRnqAuzNmkNWVZu83qyC4Cna46TxeceA6e6QmikqN/tt.jpg",
+      Logo: "https://ipfs.io/ipfs/QmRcao5xyQ9SkdhypiF1Fn8yc3bWyP9dXetUp4Bh8mb91s/rave_nft.gif",
+      Name: "Rave - Race on venom",
+      Description:
+        "An NFT car racing metaverse game on Venom Network Track ready! Collect, rave and earn 🏎",
+      mintPrice: "1",
+      status: "Upcoming",
+      CollectionAddress: "",
+      customLink: "launch/rave",
+      pageName: "rave",
+      supply: "5000",
+      twitterUserName: "ravegamenft",
+      twitter: "https://twitter.com/ravegamenft",
+      tweetID: "",
+      discord: "https://discord.com/invite/CyHyDa5ZYv",
+      instagram: "",
+      telegram: "",
+      website: "https://ravegame.net/",
+      startDate: "10/22/2023 20:30:00 GMT+0530",
+      endDate: "10/25/2023 20:30:00 GMT+0530",
+      verified: true,
+    },
   ];
 
   // featured collections

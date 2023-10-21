@@ -450,8 +450,8 @@ const Profile = ({
       setSearchLoading(true);
       const res = await search_user_nfts(query_search, slug);
       if (res) {
-        setOnSaleNFTs(res.nfts);
-        if (res.nfts == "" || res.nfts == undefined) {
+        setOnSaleNFTs(res?.nfts);
+        if (res?.nfts == "" || res?.nfts == undefined) {
           setHasMore(false);
         }
       }
@@ -1394,7 +1394,7 @@ const Profile = ({
                       )}
                     </div>
                     <div className="flex justify-center">
-                      {(onSaleNFTs.length <= 0 && moreLoading == false) && (
+                      {((onSaleNFTs.length <= 0 || !onSaleNFTs) && !moreLoading) && (
                         <h2 className="text-xl font-display font-thin dark:text-jacarta-200 py-12">
                           No NFTs found!
                         </h2>

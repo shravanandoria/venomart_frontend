@@ -2152,7 +2152,7 @@ const NFTPage = ({
                 <div className="flex justify-center align-middle flex-wrap">
                   <Swiper
                     modules={[Pagination]}
-                    spaceBetween={-60}
+                    spaceBetween={60}
                     slidesPerView={1}
                     pagination={{ clickable: true }}
                     breakpoints={{
