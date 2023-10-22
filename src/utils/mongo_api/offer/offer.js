@@ -12,6 +12,18 @@ export const getOffers = async (nftId, skip) => {
     }
 };
 
+export const getOfferWithOfferContract = async (offerContract) => {
+    try {
+        const res = await axios({
+            url: `/api/offer/offer?offerContract=${offerContract}`,
+            method: "GET"
+        });
+        return res.data.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const getActiveOffer = async (nftId) => {
     try {
         const res = await axios({

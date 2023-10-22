@@ -139,15 +139,7 @@ const NftCard = ({
           </span>
         </div>
       </div>
-      <div
-        className="mt-2 text-sm"
-        style={{
-          width: "220px",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          overflow: "hidden",
-        }}
-      >
+      <div className="mt-2 text-sm flex justify-between">
         {listedBool ?
           <span className="text-sm font-medium tracking-tight">
             <span className="flex text-sm font-normal tracking-tight text-gray-400">
@@ -171,7 +163,7 @@ const NftCard = ({
           </span>
           :
           !Description &&
-          <span className="text-sm font-medium tracking-tight">
+          (<span className="text-sm font-medium tracking-tight">
             <span className="flex text-sm font-normal tracking-tight text-gray-400">
               Price
             </span>
@@ -190,8 +182,30 @@ const NftCard = ({
               />
               Unlisted
             </span>
-          </span>
+          </span>)
         }
+        {/* {listedBool &&
+          <span className="cardHoverNFTOfferNone text-sm font-medium tracking-tight">
+            <span className="flex text-sm font-normal tracking-tight text-gray-400">
+              Best Offer
+            </span>
+            <span className="flex text-sm font-medium tracking-tight text-green">
+              <Image
+                src={venomLogo}
+                height={100}
+                width={100}
+                style={{
+                  height: "14px",
+                  width: "15px",
+                  marginRight: "5px",
+                  marginTop: "3px",
+                }}
+                alt="VenomLogo"
+              />
+              {formatNumberShort(listingPrice)}
+            </span>
+          </span>
+        } */}
         {(signerAddress && Owner) &&
           (listedBool ?
             (((signerAddress === Owner) ?

@@ -87,7 +87,18 @@ export default async function handler(req, res) {
                         await offer.save();
                     }
 
-                    return res.status(200).json({ success: true, data: "Successfully updated Notification" });
+                    if (actionType == "outbidded") {
+                        offer = await Offer.findOne({ _id: offerId });
+                        if (!offer)
+                            return res
+                                .status(400)
+                                .json({ success: false, data: "Cannot Find This Offer" });
+
+                        offer.status = "outbidded";
+                        await offer.save();
+                    }
+
+                    return res.status(200).json({ success: true, data: "Successfully updated Offer" });
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
                 }
