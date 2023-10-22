@@ -82,7 +82,7 @@ const rave = ({
             name: ProjectName,
             description: shortDesc,
             collectionAddress: contractAddress,
-            mintPrice: parseFloat(mintPrice) + 1,
+            mintPrice: parseFloat(mintPrice),
             properties: [
                 { trait_type: "Benifit", value: "Fee Discount" },
                 { trait_type: "Version", value: "Testnet" },
