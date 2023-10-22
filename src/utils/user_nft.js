@@ -937,73 +937,71 @@ export const MakeOpenOffer = async (
   offerExpiration
 ) => {
   try {
-    const contract = new provider.Contract(TokenRoot, WVenomAddress);
+    // const contract = new provider.Contract(TokenRoot, WVenomAddress);
 
-    const tokenWalletAddress = await contract.methods
-      .walletOf({
-        answerId: 0,
-        walletOwner: new Address(signer_address),
-      })
-      .call();
+    // const tokenWalletAddress = await contract.methods
+    //   .walletOf({
+    //     answerId: 0,
+    //     walletOwner: new Address(signer_address),
+    //   })
+    //   .call();
 
-    const tokenWalletContract = new provider.Contract(
-      TokenWallet,
-      new Address(tokenWalletAddress.value0.toString())
-    );
+    // const tokenWalletContract = new provider.Contract(
+    //   TokenWallet,
+    //   new Address(tokenWalletAddress.value0.toString())
+    // );
 
-    const factoryContract = new provider.Contract(
-      FactoryMakeOffer,
-      FactoryMakeOfferAddress
-    );
+    // const factoryContract = new provider.Contract(
+    //   FactoryMakeOffer,
+    //   FactoryMakeOfferAddress
+    // );
 
-    const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
-    console.log(res);
-    const now = moment().add(1, "day").unix();
+    // const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    // const now = moment().add(1, "day").unix();
 
-    const makeOfferFee = await factoryContract.methods
-      .makeOffer_fee({ answerId: 0 })
-      .call();
+    // const makeOfferFee = await factoryContract.methods
+    //   .makeOffer_fee({ answerId: 0 })
+    //   .call();
 
-    const load = await client.abi.encode_boc({
-      params: [
-        { name: "nft_address", type: "address" },
-        { name: "old_offer", type: "address" },
-        { name: "validity", type: "uint128" },
-      ],
-      data: {
-        nft_address: nft_address,
-        old_offer:
-          "0:3254364c3d7babf15a076edaa6840650ecf4901c6bc404fa7c2be168df92843d",
-        validity: now.toString(),
-      },
-    });
+    // const load = await client.abi.encode_boc({
+    //   params: [
+    //     { name: "nft_address", type: "address" },
+    //     { name: "old_offer", type: "address" },
+    //     { name: "validity", type: "uint128" },
+    //   ],
+    //   data: {
+    //     nft_address: nft_address,
+    //     old_offer: oldOffer,
+    //     validity: now.toString(),
+    //   },
+    // });
 
-    await tokenWalletContract.methods
-      .transfer({
-        amount: parseFloat(offerAmount) * 1000000000,
-        recipient: FactoryMakeOfferAddress,
-        deployWalletValue: 0,
-        remainingGasTo: new Address(signer_address),
-        notify: true,
-        payload: load.boc,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
-      });
+    // await tokenWalletContract.methods
+    //   .transfer({
+    //     amount: parseFloat(offerAmount) * 1000000000,
+    //     recipient: FactoryMakeOfferAddress,
+    //     deployWalletValue: 0,
+    //     remainingGasTo: new Address(signer_address),
+    //     notify: true,
+    //     payload: load.boc,
+    //   })
+    //   .send({
+    //     from: new Address(signer_address),
+    //     amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
+    //   });
+
+    // const data = await factoryContract.methods
+    //   .read_code({ answerId: 0 })
+    //   .call();
 
     const addoffer = await addOffer(
       signer_address,
       offerAmount,
+      "0:0000000000000000000000000000000000000000000000000000000000000000",
       offerExpiration,
       nft_address
     );
 
-    const data = await factoryContract.methods
-      .read_code({ answerId: 0 })
-      .call();
-
-    console.log(data);
     return true;
   } catch (error) {
     if (error instanceof TvmException) {

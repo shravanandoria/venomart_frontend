@@ -151,27 +151,20 @@ export default function Home({
                 <div className="md:flex md:space-x-6 xl:space-x-12">
                   {featuredCollections.map((collection, index) => {
                     return (
-                      <div key={index} className={collection?.className}>
+                      <Link key={index} className={collection?.className} href={`/collection/${collection?.collectionAddress}`}>
                         <div className={`block overflow-hidden rounded-2.5xl bg-white ${theme == "dark" ? "border border-gray-800" : "shadow-md"} transition-shadow hover:shadow-lg dark:bg-jacarta-900`}>
                           <div className="relative">
-                            <Link
-                              href={`/collection/${collection?.collectionAddress}`}
-                            >
-                              <Image
-                                src={collection?.coverImage}
-                                alt="item"
-                                className="w-[500px] h-[450px] object-cover"
-                                height={100}
-                                width={100}
-                              />
-                            </Link>
+                            <Image
+                              src={collection?.coverImage}
+                              alt="item"
+                              className="w-[500px] h-[450px] object-cover"
+                              height={100}
+                              width={100}
+                            />
                           </div>
                           <div className="p-6">
                             <div className="flex">
-                              <Link
-                                href={`/collection/${collection?.collectionAddress}`}
-                                className="shrink-0"
-                              >
+                              <div className="shrink-0">
                                 <Image
                                   src={collection?.collectionLogo}
                                   alt="avatar"
@@ -179,12 +172,9 @@ export default function Home({
                                   height={100}
                                   width={100}
                                 />
-                              </Link>
+                              </div>
                               <div>
-                                <Link
-                                  href={`/collection/${collection?.collectionAddress}`}
-                                  className="block"
-                                >
+                                <div className="block">
                                   <span className="flex align-middle font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
                                     {collection?.collectionName}
                                     <MdVerified
@@ -196,16 +186,16 @@ export default function Home({
                                       size={21}
                                     />
                                   </span>
-                                </Link>
+                                </div>
 
-                                <a className="text-2xs text-accent dark:text-white">
+                                <p className="text-2xs text-accent dark:text-white">
                                   {collection?.items} Items
-                                </a>
+                                </p>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     );
                   })}
                 </div>

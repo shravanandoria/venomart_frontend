@@ -46,6 +46,7 @@ import { GoHistory } from "react-icons/go";
 import {
   addOffer,
   existingOffer,
+  getActiveOffer,
   getOffers,
   updateOffer,
 } from "../../utils/mongo_api/offer/offer";
@@ -520,18 +521,20 @@ const NFTPage = ({
     e.preventDefault();
     if (!slug) return;
 
-    // if (noExistingOffer) {
-    //   alert("You already have an active offer on this NFT!!");
-    //   return;
-    // }
+    if (noExistingOffer) {
+      alert("You already have an active offer on this NFT!!");
+      return;
+    }
 
     set_loading(true);
+    const getActiveOffers = await getActiveOffer(nft?._id);
+
     const makeOffer = await MakeOpenOffer(
       venomProvider,
       signer_address,
       slug,
       client,
-      "0:0000000000000000000000000000000000000000000000000000000000000000",
+      getActiveOffers?.offerContract ? getActiveOffers?.offerContract : "0:0000000000000000000000000000000000000000000000000000000000000000",
       offerPrice,
       offerExpiration
     );
@@ -2226,14 +2229,14 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal && (
             <div className="afterMintDiv">
-              <form
+              {/* <form
                 onSubmit={(e) => (
                   e.preventDefault(),
                   alert("This feature will be available soon..")
                 )}
                 className="modal-dialog max-w-2xl"
-              >
-                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
+              > */}
+              <form onSubmit={makeOffer} className="modal-dialog max-w-2xl">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">

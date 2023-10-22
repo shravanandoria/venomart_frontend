@@ -13,7 +13,7 @@ const OfferSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ["active", "expired", "cancelled", "accepted"],
+            enum: ["active", "expired", "cancelled", "accepted", "outbidded"],
             default: "active",
         },
         expiration: {

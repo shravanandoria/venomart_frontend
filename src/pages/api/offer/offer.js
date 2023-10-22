@@ -37,7 +37,7 @@ export default async function handler(req, res) {
                 break;
             case "POST":
                 try {
-                    const { from, offerPrice, expiration, nftAddress } = req.body;
+                    const { from, offerPrice, offerContract, expiration, nftAddress } = req.body;
 
                     let nft = await NFT.findOne({ NFTAddress: nftAddress });
                     if (!nft)
@@ -48,6 +48,7 @@ export default async function handler(req, res) {
                     let makeOffer = await Offer.create({
                         chain: "Venom",
                         from,
+                        offerContract,
                         offerPrice,
                         nft,
                         status: "active",

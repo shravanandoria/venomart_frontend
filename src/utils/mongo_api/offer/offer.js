@@ -12,6 +12,18 @@ export const getOffers = async (nftId, skip) => {
     }
 };
 
+export const getActiveOffer = async (nftId) => {
+    try {
+        const res = await axios({
+            url: `/api/offer/get_active_offer?nftId=${nftId}`,
+            method: "GET"
+        });
+        return res.data.data;
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const existingOffer = async (nftId, signer_address) => {
     try {
         const res = await axios({
@@ -24,7 +36,7 @@ export const existingOffer = async (nftId, signer_address) => {
     }
 };
 
-export const addOffer = async (signer_address, offerPrice, OfferExpiration, nftAddress) => {
+export const addOffer = async (signer_address, offerPrice, offerContract, OfferExpiration, nftAddress) => {
     try {
         const res = await axios({
             url: `/api/offer/offer`,
@@ -32,6 +44,7 @@ export const addOffer = async (signer_address, offerPrice, OfferExpiration, nftA
             data: {
                 from: signer_address,
                 offerPrice,
+                offerContract,
                 expiration: OfferExpiration,
                 nftAddress
             }

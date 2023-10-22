@@ -63,7 +63,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         }
                         {ActivityType == "sale" &&
                             (<span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">
-                                {userPurchases ? "purchased " : "sold"}
+                                {userPurchases ? "purchased " : "sold "}
                                 for {formatNumberShort(Price)} VENOM about {dateTimeAgo}
                             </span>)
                         }
