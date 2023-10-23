@@ -17,7 +17,7 @@ import "swiper/css/pagination";
 
 //Wallet Connect
 import { initVenomConnect } from "../utils/wallet_connect";
-import { COLLECTION_ADDRESS, MyEver } from "../utils/user_nft";
+import { COLLECTION_ADDRESS } from "../utils/user_nft";
 
 // mongo imports
 import { ThirdwebProvider } from "@thirdweb-dev/react";
@@ -60,9 +60,6 @@ export default function App({ Component, pageProps }) {
   const [cartNFTs, setCartNFTs] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
-
-  const myEver = new MyEver();
-  const myEverStandalone = myEver.ever();
 
   // featured collections
   const featuredCollections = [
@@ -245,7 +242,6 @@ export default function App({ Component, pageProps }) {
           {...pageProps}
           theme={theme}
           standalone={standalone}
-          myEverStandalone={myEverStandalone}
           apiFetchURL={apiFetchURL}
           venomProvider={venomProvider}
           signer_address={signer_address}

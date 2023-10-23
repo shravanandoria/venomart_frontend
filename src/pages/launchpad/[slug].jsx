@@ -32,7 +32,7 @@ const launchpad = ({
     webURL,
     copyURL,
     venomProvider,
-    myEverStandalone,
+    standalone,
     signer_address,
     connectWallet,
     setAnyModalOpen
@@ -112,7 +112,7 @@ const launchpad = ({
     const getMintedSupply = async () => {
         try {
             setLoading(true);
-            const contract = new myEverStandalone.Contract(
+            const contract = new standalone.Contract(
                 collectionAbi,
                 launchSlug?.contractAddress
             );
@@ -136,7 +136,7 @@ const launchpad = ({
         const data = await has_minted(
             launchSlug?.contractAddress,
             signer_address,
-            myEverStandalone
+            standalone
         );
         setCheckMint(data);
     };
@@ -223,15 +223,15 @@ const launchpad = ({
 
 
     useEffect(() => {
-        if (!launchSlug || !myEverStandalone) return;
+        if (!launchSlug || !standalone) return;
         getMintedSupply();
         setMintingObjData();
-    }, [launchSlug]);
+    }, [standalone, launchSlug]);
 
     useEffect(() => {
-        if (!signer_address || !myEverStandalone) return;
+        if (!signer_address || !standalone) return;
         get_user_Data();
-    }, [signer_address]);
+    }, [standalone, signer_address]);
 
     useEffect(() => {
         if (!slug) return;

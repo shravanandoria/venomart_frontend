@@ -16,7 +16,6 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import {
-  MyEver,
   buy_nft,
   cancel_listing,
   loadNFTs_collection,
@@ -49,7 +48,7 @@ import { TonClientContext } from "../../context/tonclient";
 const Collection = ({
   blockURL,
   theme,
-  myEverStandalone,
+  standalone,
   webURL,
   copyURL,
   signer_address,
@@ -260,10 +259,7 @@ const Collection = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
 
-    const myEver = new MyEver();
-    const providerRpcClient = myEver.ever();
-
-    const contract = new providerRpcClient.Contract(collectionAbi, slug);
+    const contract = new venomProvider.Contract(collectionAbi, slug);
     const totalSupply = await contract.methods
       .totalSupply({ answerId: 0 })
       .call();
@@ -320,7 +316,7 @@ const Collection = ({
 
   // getting def collection info
   const gettingCollectionInfo = async () => {
-    if (!myEverStandalone && !slug) return;
+    if (!standalone && !slug) return;
     setLoading(true);
     const nfts_offchain = await fetch_collection_nfts(
       slug,
@@ -340,7 +336,7 @@ const Collection = ({
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
       const nfts_onchain = await loadNFTs_collection(
-        myEverStandalone,
+        standalone,
         slug,
         undefined,
         client
@@ -564,7 +560,7 @@ const Collection = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        myEverStandalone,
+        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
@@ -598,7 +594,7 @@ const Collection = ({
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
-        myEverStandalone,
+        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
