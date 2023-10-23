@@ -148,8 +148,8 @@ export default async function handler(req, res) {
             FloorPrice: minimumListingPrice,
             lastSold: lastSold[0]?.price,
             highestOffer: parseFloat(highestLastOffer?.offerPrice),
-            username: user.user_name,
-            userProfileImage: user.profileImage,
+            username: user?.user_name,
+            userProfileImage: user?.profileImage,
             rarityScore: parseFloat(rarityScore.toFixed(2)),
             attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
             moreNFTs: moreNFTs

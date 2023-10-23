@@ -52,7 +52,7 @@ import {
 } from "../../utils/mongo_api/offer/offer";
 import numeral from "numeral";
 import moment from "moment";
-// import { TonClientContext } from "../../context/tonclient";
+import { TonClientContext } from "../../context/tonclient";
 
 const NFTPage = ({
   signer_address,
@@ -60,7 +60,6 @@ const NFTPage = ({
   blockURL,
   currency,
   theme,
-  standalone,
   venomProvider,
   webURL,
   setAnyModalOpen,
@@ -71,7 +70,7 @@ const NFTPage = ({
 }) => {
   const router = useRouter();
   const { slug } = router.query;
-  // const { client } = useContext(TonClientContext);
+  const { client } = useContext(TonClientContext);
 
   const [lastSold, setLastSold] = useState("");
   const [higestOffer, setHigestOffer] = useState("");
@@ -81,7 +80,6 @@ const NFTPage = ({
   const [selectedNFT, setSelectedNFT] = useState("");
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
-  const [isHovering, SetIsHovering] = useState(false);
 
   const [offerModal, setOfferModal] = useState(false);
   const [listSale, setListSale] = useState(false);
@@ -155,7 +153,7 @@ const NFTPage = ({
   // getting nft information
   const nft_info = async () => {
     setPageLoading(true);
-    if (!standalone && !slug) return;
+    if (!venomProvider && !slug) return;
 
     const nft_database = await nftInfo(slug);
     if (nft_database) {
@@ -169,7 +167,7 @@ const NFTPage = ({
       set_nft_info({ ...obj });
     }
     if (nft_database == undefined) {
-      const nft_onchain = await get_nft_by_address(standalone, slug);
+      const nft_onchain = await get_nft_by_address(venomProvider, slug);
       if (nft_onchain.attributes == "" && nft_onchain.files[0].source != "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (
@@ -212,7 +210,7 @@ const NFTPage = ({
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
-    const nft_onchain = await get_nft_by_address(standalone, slug);
+    const nft_onchain = await get_nft_by_address(venomProvider, slug);
 
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
@@ -357,7 +355,7 @@ const NFTPage = ({
     }
     try {
       const listing = await list_nft(
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -428,7 +426,7 @@ const NFTPage = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -472,7 +470,7 @@ const NFTPage = ({
     set_loading(true);
     try {
       const cancelling = await cancel_listing(
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
