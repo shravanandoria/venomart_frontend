@@ -16,15 +16,16 @@ contract FactoryCollection is OwnableInternal {
     TvmCell codeIndex;
     TvmCell codeIndexBasis;
 
-
     uint128 createCollection_fee; // 0.3
     uint128 new_collection_cost = 1 ever;
     address fee_receiver;
     
     uint128 remain_on_contract = 0.2 ever;
+    uint128 remain_on_deployed_collection_nfts = 0.2 ever;
     
     event CollectionCreated (
-        address new_collection
+        address new_collection,
+        address user_address
     );
 
     constructor(
@@ -46,26 +47,20 @@ contract FactoryCollection is OwnableInternal {
         codeNft = _codeNft;
         codeIndex =  _codeIndex;
         codeIndexBasis =  _codeIndexBasis;
-        
+
         _owner.transfer({value: 0, flag:128, bounce: false});
     }
 
     function create_collection(
-        uint128 remain_on_nft,
-        uint128 mintingFee,
         string json,
-        uint128 max_supply_,
-        address _fee_receiver
+        uint128 max_supply_
         ) public {
-        
         // require(msg.value >= createCollection_fee + remain_on_contract + new_collection_cost, 101);
         // require(remain_on_nft > 0, 102, "invalid remain on nft");
         // require(_fee_receiver != address(0), 103, "invalid address");
 
         if(
-            msg.value >= createCollection_fee + remain_on_contract + new_collection_cost &&
-            remain_on_nft > 0 &&
-            _fee_receiver != address(0)
+            msg.value >= createCollection_fee + remain_on_contract + new_collection_cost
         ) {
         tvm.rawReserve(remain_on_contract, 0);
     
@@ -88,18 +83,17 @@ contract FactoryCollection is OwnableInternal {
             codeIndex,
             codeIndexBasis,
             msg.sender,
-            remain_on_nft,
-            mintingFee,
+            remain_on_deployed_collection_nfts,
             json,
-            max_supply_,
-            _fee_receiver
+            max_supply_
         );
     
         emit CollectionCreated(
-            new_collection
+            new_collection,
+            msg.sender
         );
 
-        _fee_receiver.transfer({value: 0, flag:128, bounce: false});
+        msg.sender.transfer({value: 0, flag:128, bounce: false});
         } else {
             msg.sender.transfer({value: msg.value - 0.1 ever, flag: 0, bounce: false});
         }
