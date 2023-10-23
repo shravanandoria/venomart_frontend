@@ -56,7 +56,7 @@ export const WVenomAddress = new Address(
 );
 
 export const CollectionFactoryAddress = new Address(
-  "0:b6f407a49bae41b02a87c99ea2988f932054a23bfef158e9cc82a34a3c8ada3c"
+  "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776"
 );
 
 // my ever works as standalone
