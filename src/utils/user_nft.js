@@ -349,12 +349,14 @@ export const create_nft = async (data, signer_address, venomProvider) => {
     //     ownerAddress: signer_address,
     //     managerAddress: signer_address,
     //     imageURL: data.image,
-    //     title: data.title,
+    //     metadata: data.image,
+    //     name: data.name,
     //     description: data.description,
     //     properties: data.properties,
     //     NFTCollection: data.collection,
+    //     signer_address: signer_address,
     //   };
-    //   createNFT(obj);
+    //   const create = await createNFT(obj);
     // });
 
     const nft_json = JSON.stringify({
