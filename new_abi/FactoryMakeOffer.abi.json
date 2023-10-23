@@ -24,6 +24,18 @@
 			]
 		},
 		{
+			"name": "generatePayload",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"nft_address","type":"address"},
+				{"name":"old_offer","type":"address"},
+				{"name":"validity","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"payload","type":"cell"}
+			]
+		},
+		{
 			"name": "makeOffer_fee",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -46,27 +58,20 @@
 			]
 		},
 		{
-			"name": "read_code",
+			"name": "update_allCosts",
 			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"address[]"},
-				{"components":[{"name":"nft_address","type":"address"},{"name":"offer_amount","type":"uint128"},{"name":"validity","type":"uint128"},{"name":"old_offer","type":"address"}],"name":"value1","type":"tuple"}
-			]
-		},
-		{
-			"name": "update_platform_fees",
-			"inputs": [
-				{"name":"_platform_fees","type":"uint128"}
+				{"name":"_remainOnContract","type":"uint128"},
+				{"name":"_deployMakeOffer_cost","type":"uint128"},
+				{"name":"_transfer_WVENOM_makeOffer_cost","type":"uint128"},
+				{"name":"_oldOffer_refund_cost","type":"uint128"}
 			],
 			"outputs": [
 			]
 		},
 		{
-			"name": "cancel_listing",
+			"name": "update_makeOfferCode",
 			"inputs": [
-				{"name":"nftAddress","type":"address"}
+				{"name":"new_makeOffer","type":"cell"}
 			],
 			"outputs": [
 			]
@@ -186,15 +191,12 @@
 		{"name":"_nonce","type":"uint256"},
 		{"name":"_tokenWallet","type":"address"},
 		{"name":"_tokenRoot","type":"address"},
-		{"name":"_owner","type":"address"},
 		{"name":"listing_commission","type":"uint128"},
 		{"name":"platform_fees","type":"uint128"},
 		{"name":"remainOnContract","type":"uint128"},
 		{"name":"deployMakeOffer_cost","type":"uint128"},
 		{"name":"transfer_WVENOM_makeOffer_cost","type":"uint128"},
 		{"name":"oldOffer_refund_cost","type":"uint128"},
-		{"name":"makeOfferCode","type":"cell"},
-		{"name":"openOffers","type":"address[]"},
-		{"components":[{"name":"nft_address","type":"address"},{"name":"offer_amount","type":"uint128"},{"name":"validity","type":"uint128"},{"name":"old_offer","type":"address"}],"name":"info","type":"tuple"}
+		{"name":"makeOfferCode","type":"cell"}
 	]
 }

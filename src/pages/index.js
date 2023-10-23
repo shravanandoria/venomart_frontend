@@ -9,16 +9,15 @@ import SmallUserCard from "../components/cards/SmallUserCard";
 import { MdVerified } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
+import {
+  get_collections,
+  top_collections,
+} from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
-import customLaunchpad from './launchpad/customLaunchpad.json';
+import customLaunchpad from "./launchpad/customLaunchpad.json";
 
-export default function Home({
-  theme,
-  featuredCollections,
-  websiteStats,
-}) {
+export default function Home({ theme, featuredCollections, websiteStats }) {
   const { client } = useContext(TonClientContext);
 
   const [topCollections, setTopCollections] = useState([]);
@@ -36,18 +35,19 @@ export default function Home({
 
   const fetchTopCollections = async () => {
     setLoading(true);
-    const topCollections = await top_collections(
-      "All",
-      "unverified",
-      duration
-    );
+    const topCollections = await top_collections("All", "unverified", duration);
     setTopCollections(topCollections);
     setLoading(false);
   };
 
   const fetchTrendingCollection = async () => {
     setTrendLoad(true);
-    const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
+    const collectionsJSON = await get_collections(
+      "All",
+      "trending",
+      "unverified",
+      0
+    );
     setTrendingCollections(collectionsJSON);
     setTrendLoad(false);
   };
@@ -65,7 +65,8 @@ export default function Home({
   }, []);
 
   useEffect(() => {
-    if (!duration || defaultFilterFetch != true || topSwitch != "collections") return;
+    if (!duration || defaultFilterFetch != true || topSwitch != "collections")
+      return;
     fetchTopCollections();
   }, [duration]);
 
@@ -100,13 +101,19 @@ export default function Home({
         {/* hero section  */}
         <section
           className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
-        // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+          // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
           <div className="h-full px-6 xl:px-20">
             <div className="grid h-full items-center gap-4 lg:grid-cols-12">
               <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
-                  <div className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"}`}>
+                  <div
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
+                      theme == "dark"
+                        ? "bg-white/[.15] shadow-none"
+                        : "shadow-white-volume"
+                    }`}
+                  >
                     <span className="block font-display text-3xl text-[#8DD059]">
                       {websiteStats[0]?.nftCollection}+
                     </span>
@@ -114,7 +121,13 @@ export default function Home({
                       NFT Collections
                     </span>
                   </div>
-                  <div className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"}`}>
+                  <div
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
+                      theme == "dark"
+                        ? "bg-white/[.15] shadow-none"
+                        : "shadow-white-volume"
+                    }`}
+                  >
                     <span className="block font-display text-3xl text-[#737EF2]">
                       {websiteStats[0]?.mintedNFTs}+
                     </span>
@@ -151,8 +164,18 @@ export default function Home({
                 <div className="md:flex md:space-x-6 xl:space-x-12">
                   {featuredCollections.map((collection, index) => {
                     return (
-                      <Link key={index} className={collection?.className} href={`/collection/${collection?.collectionAddress}`}>
-                        <div className={`block overflow-hidden rounded-2.5xl bg-white ${theme == "dark" ? "border border-gray-800" : "shadow-md"} transition-shadow hover:shadow-lg dark:bg-jacarta-900`}>
+                      <Link
+                        key={index}
+                        className={collection?.className}
+                        href={`/collection/${collection?.collectionAddress}`}
+                      >
+                        <div
+                          className={`block overflow-hidden rounded-2.5xl bg-white ${
+                            theme == "dark"
+                              ? "border border-gray-800"
+                              : "shadow-md"
+                          } transition-shadow hover:shadow-lg dark:bg-jacarta-900`}
+                        >
                           <div className="relative">
                             <Image
                               src={collection?.coverImage}
@@ -203,7 +226,7 @@ export default function Home({
             </div>
           </div>
 
-          {theme === "dark" ?
+          {theme === "dark" ? (
             <div className="custom-shape-divider-bottom-1690698441">
               <svg
                 data-name="Layer 1"
@@ -217,7 +240,7 @@ export default function Home({
                 ></path>
               </svg>
             </div>
-            :
+          ) : (
             <div className="custom-shape-divider-bottom-1690698341">
               <svg
                 data-name="Layer 1"
@@ -231,12 +254,14 @@ export default function Home({
                 ></path>
               </svg>
             </div>
-
-          }
+          )}
         </section>
 
         {/* launchpad collections  */}
-        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+        <div
+          className="relative py-12 dark:bg-jacarta-900"
+          style={{ userSelect: "none" }}
+        >
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Venomart Launchpad 🚀</h2>
@@ -305,7 +330,10 @@ export default function Home({
         </div>
 
         {/* trending collections  */}
-        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+        <div
+          className="relative py-12 dark:bg-jacarta-900"
+          style={{ userSelect: "none" }}
+        >
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Trending Collections 🔥</h2>
@@ -330,13 +358,15 @@ export default function Home({
               >
                 {trendingCollections?.map((e, id) => {
                   return (
-                    id < 6 && (e?.name != "" && e?.name != undefined) && (
+                    id < 6 &&
+                    e?.name != "" &&
+                    e?.name != undefined && (
                       <SwiperSlide
                         key={id}
                         style={{
                           display: "flex",
                           justifyContent: "center",
-                          alignItems: "center"
+                          alignItems: "center",
                         }}
                       >
                         <CollectionCard
@@ -357,13 +387,13 @@ export default function Home({
                   );
                 })}
               </Swiper>
-              {trendLoad &&
+              {trendLoad && (
                 <div className="flex items-center justify-center space-x-2 py-28">
                   <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                   <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                   <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                 </div>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -486,7 +516,7 @@ export default function Home({
               </div>
             </div>
 
-            {topSwitch == "collections" ?
+            {topSwitch == "collections" ? (
               <>
                 <div className="flex justify-center align-middle flex-wrap">
                   {topCollections?.map((e, index) => {
@@ -507,13 +537,13 @@ export default function Home({
                       )
                     );
                   })}
-                  {loading &&
+                  {loading && (
                     <div className="flex items-center justify-center space-x-2 py-28">
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                     </div>
-                  }
+                  )}
                 </div>
                 <div className="mt-10 text-center">
                   <Link
@@ -524,7 +554,7 @@ export default function Home({
                   </Link>
                 </div>
               </>
-              :
+            ) : (
               <>
                 <div className="flex justify-center align-middle flex-wrap">
                   {topUsers?.map((e, index) => {
@@ -544,13 +574,13 @@ export default function Home({
                       )
                     );
                   })}
-                  {loading &&
+                  {loading && (
                     <div className="flex items-center justify-center space-x-2 py-28">
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                     </div>
-                  }
+                  )}
                 </div>
                 <div className="mt-10 text-center">
                   <Link
@@ -561,7 +591,7 @@ export default function Home({
                   </Link>
                 </div>
               </>
-            }
+            )}
           </div>
         </section>
       </>

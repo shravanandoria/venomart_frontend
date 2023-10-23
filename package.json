@@ -14,7 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@eversdk/core": "^1.44.3",
-    "@eversdk/lib-node": "^1.44.1",
+    "@eversdk/lib-node": "^1.44.3",
     "@eversdk/lib-web": "^1.44.3",
     "@thirdweb-dev/react": "^3.14.27",
     "@thirdweb-dev/storage": "^1.2.2",
