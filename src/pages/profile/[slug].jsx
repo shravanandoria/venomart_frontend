@@ -249,7 +249,7 @@ const Profile = ({
   const fetch_user_nfts = async () => {
     setMoreLoading(true);
     const res = await loadNFTs_user(
-      standalone,
+      venomProvider,
       slug,
       lastNFT,
       client,
