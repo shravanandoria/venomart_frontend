@@ -1,17 +1,67 @@
+// import { VenomConnect } from "venom-connect";
+// import { ProviderRpcClient } from "everscale-inpage-provider";
+// import { EverscaleStandaloneClient } from "everscale-standalone-client";
+
+// export const initVenomConnect = async () => {
+//   return new VenomConnect({
+//     theme: "dark",
+//     checkNetworkId: 1000,
+//     providersOptions: {
+//       venomwallet: {
+//         walletWaysToConnect: [
+//           {
+//             package: ProviderRpcClient,
+
+//             packageOptions: {
+//               fallback:
+//                 VenomConnect.getPromise("venomwallet", "extension") ||
+//                 (() => Promise.reject()),
+//               forceUseFallback: true,
+//             },
+//             packageOptionsStandalone: {
+//               fallback: () =>
+//                 EverscaleStandaloneClient.create({
+//                   connection: {
+//                     id: 1000,
+//                     group: "venom_testnet",
+//                     type: "jrpc",
+//                     data: {
+//                       endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+//                     },
+//                   },
+//                 }),
+//               forceUseFallback: true,
+//             },
+
+//             id: "extension",
+//             type: "extension",
+//           },
+//         ],
+//         defaultWalletWaysToConnect: ["mobile", "ios", "android"],
+//       },
+//     },
+//   });
+// };
+
 import { VenomConnect } from "venom-connect";
 import { ProviderRpcClient } from "everscale-inpage-provider";
-import { EverscaleStandaloneClient } from "everscale-standalone-client";
+import EverscaleStandaloneClient from "everscale-standalone-client";
 
-export const initVenomConnect = async () => {
+const standaloneFallback = (checkNetworkId = 1000) =>
+  EverscaleStandaloneClient.create({
+    connection: getNetworkData(checkNetworkId, "connection"),
+  });
+
+export const initVenomConnect = async (checkNetworkId = 1000) => {
   return new VenomConnect({
     theme: "dark",
-    checkNetworkId: 1000,
+    checkNetworkId: checkNetworkId,
     providersOptions: {
       venomwallet: {
         walletWaysToConnect: [
           {
+            // NPM package
             package: ProviderRpcClient,
-
             packageOptions: {
               fallback:
                 VenomConnect.getPromise("venomwallet", "extension") ||
@@ -19,26 +69,22 @@ export const initVenomConnect = async () => {
               forceUseFallback: true,
             },
             packageOptionsStandalone: {
-              // fallback: () =>
-              //   EverscaleStandaloneClient.create({
-              //     connection: {
-              //       id: 1000,
-              //       group: "venom_testnet",
-              //       type: "jrpc",
-              //       data: {
-              //         endpoint: "https://jrpc-testnet.venom.foundation/rpc",
-              //       },
-              //     },
-              //   }),
+              fallback: standaloneFallback,
               forceUseFallback: true,
             },
 
+            // Setup
             id: "extension",
             type: "extension",
           },
         ],
-        defaultWalletWaysToConnect: ["mobile", "ios", "android"],
-      },
+        defaultWalletWaysToConnect: [
+          // List of enabled options
+          "mobile",
+          "ios",
+          "android",
+        ],
+      }
     },
   });
 };
