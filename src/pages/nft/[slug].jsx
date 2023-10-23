@@ -52,7 +52,7 @@ import {
 } from "../../utils/mongo_api/offer/offer";
 import numeral from "numeral";
 import moment from "moment";
-import { TonClientContext } from "../../context/tonclient";
+// import { TonClientContext } from "../../context/tonclient";
 
 const NFTPage = ({
   signer_address,
@@ -71,7 +71,7 @@ const NFTPage = ({
 }) => {
   const router = useRouter();
   const { slug } = router.query;
-  const { client } = useContext(TonClientContext);
+  // const { client } = useContext(TonClientContext);
 
   const [lastSold, setLastSold] = useState("");
   const [higestOffer, setHigestOffer] = useState("");

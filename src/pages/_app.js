@@ -199,6 +199,7 @@ export default function App({ Component, pageProps }) {
     setAnyModalOpen(false);
   }, [router.pathname]);
 
+  //GRAPHQL CONFIGS
   const config = {
     network: {
       endpoints: ["https://gql-testnet.venom.foundation/graphql"],
