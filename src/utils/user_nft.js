@@ -14,7 +14,8 @@ import {
   update_verified_nft_data,
   updateNFTSaleBulk,
 } from "./mongo_api/nfts/nfts";
-import { Subscriber, TvmException } from "everscale-inpage-provider";
+import { Subscriber, TvmException, ProviderRpcClient } from "everscale-inpage-provider";
+import { EverscaleStandaloneClient } from "everscale-standalone-client";
 
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
@@ -57,6 +58,26 @@ export const WVenomAddress = new Address(
 export const CollectionFactoryAddress = new Address(
   "0:b6f407a49bae41b02a87c99ea2988f932054a23bfef158e9cc82a34a3c8ada3c"
 );
+
+// my ever works as standalone
+export class MyEver {
+  constructor() { }
+  ever = () => {
+    return new ProviderRpcClient({
+      fallback: () =>
+        EverscaleStandaloneClient.create({
+          connection: {
+            id: 1000,
+            group: "venom_testnet",
+            type: "jrpc",
+            data: {
+              endpoint: "https://jrpc-testnet.venom.foundation/rpc",
+            },
+          },
+        }),
+    });
+  };
+}
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -284,7 +305,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
   return addresses;
 };
 
-// // Graphql User Nfts
+// // Graphql method for fetching user NFTs
 export const loadNFTs_user = async (
   provider,
   ownerAddress,
@@ -292,7 +313,6 @@ export const loadNFTs_user = async (
   client,
   onChainFilterNFT
 ) => {
-  console.log({ last_paid });
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
@@ -356,45 +376,41 @@ export const loadNFTs_user = async (
   }
 };
 
-// JRPC METHOD
-// export const loadNFTs_user = async (provider, ownerAddress, last_nft_addr) => {
-//   try {
-//     // Take a salted code
-//     const saltedCode = await saltCode(provider, ownerAddress);
-//     // Hash it
-//     const codeHash = await provider.getBocHash(saltedCode);
-//     if (!codeHash) {
-//       return;
-//     }
+// JRPC METHOD for fetching user NFTs
+export const loadNFTs_user_JRPC = async (provider, ownerAddress, last_nft_addr) => {
+  try {
+    // Take a salted code
+    const saltedCode = await saltCode(provider, ownerAddress);
+    // Hash it
+    const codeHash = await provider.getBocHash(saltedCode);
+    if (!codeHash) {
+      return;
+    }
 
-//     const indexesAddresses = await getAddressesFromIndex(
-//       provider,
-//       codeHash,
-//       last_nft_addr
-//     );
-//     console.log(indexesAddresses);
-//     const { continuation } = indexesAddresses;
-//     if (!indexesAddresses || !indexesAddresses.accounts.length) {
-//       if (indexesAddresses && !indexesAddresses.accounts.length)
-//         // setListIsEmpty_user(true);
-//         return;
-//     }
-//     // Fetch all image URLs
-//     const nfts = await getNftsByIndexes(provider, indexesAddresses.accounts);
-//     console.log(nfts);
-//     return { nfts, continuation };
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+    const indexesAddresses = await getAddressesFromIndex(
+      provider,
+      codeHash,
+      last_nft_addr
+    );
+    const { continuation } = indexesAddresses;
+    if (!indexesAddresses || !indexesAddresses.accounts.length) {
+      if (indexesAddresses && !indexesAddresses.accounts.length)
+        // setListIsEmpty_user(true);
+        return;
+    }
+    // Fetch all image URLs
+    const nfts = await getNftsByIndexes(provider, indexesAddresses.accounts);
+    return { nfts, continuation };
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 export const getAddressesFromIndex = async (
   standaloneProvider,
   codeHash,
   last_nft_addr
 ) => {
-  // const myEver = new MyEver();
-  // const addresses = await myEver.ever().getAccountsByCodeHash({
   const addresses = await standaloneProvider.getAccountsByCodeHash({
     codeHash,
     continuation: last_nft_addr,
@@ -654,7 +670,7 @@ export const create_launchpad_nft_latest = async (
 
 // list nft for sale
 export const list_nft = async (
-  standalone,
+  myEverStandalone,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -674,7 +690,7 @@ export const list_nft = async (
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
-      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      const nft_onchain = await get_nft_by_address(myEverStandalone, nft_address);
       let OnChainOwner = nft_onchain?.owner?._address;
       let OnChainManager = nft_onchain?.manager?._address;
 
@@ -705,31 +721,22 @@ export const list_nft = async (
       FactoryDirectSellAddress
     );
 
-    const payload = await factory_contract.methods.generatePayload({
-      answerId: 0,
-      price: parseFloat(price) * 1000000000,
-      royalty: parseFloat(royaltyPercent) * 1000,
-      royalty_address: new Address(royaltyAddress),
-    });
-
-    console.log(payload);
-
     const listing_fee = await factory_contract.methods
       .get_listing_fee({ answerId: 0 })
       .call();
 
-    // const load = await client.abi.encode_boc({
-    //   params: [
-    //     { name: "price", type: "uint128" },
-    //     { name: "royalty", type: "uint128" },
-    //     { name: "royalty_address", type: "address" },
-    //   ],
-    //   data: {
-    //     price: parseFloat(price) * 1000000000,
-    //     royalty: parseFloat(royaltyPercent) * 1000,
-    //     royalty_address: royaltyAddress,
-    //   },
-    // });
+    const load = await client.abi.encode_boc({
+      params: [
+        { name: "price", type: "uint128" },
+        { name: "royalty", type: "uint128" },
+        { name: "royalty_address", type: "address" },
+      ],
+      data: {
+        price: parseFloat(price) * 1000000000,
+        royalty: parseFloat(royaltyPercent) * 1000,
+        royalty_address: royaltyAddress,
+      },
+    });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
@@ -752,7 +759,7 @@ export const list_nft = async (
 
     if (output) {
       await wait(5000);
-      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      const nft_onchain = await get_nft_by_address(myEverStandalone, nft_address);
       let OnChainManager = nft_onchain?.manager?._address;
       let obj = {
         NFTAddress: nft_address,
@@ -785,7 +792,7 @@ export const list_nft = async (
 
 // remove nft for sale
 export const cancel_listing = async (
-  standalone,
+  myEverStandalone,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -796,7 +803,7 @@ export const cancel_listing = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    const nft_onchain = await get_nft_by_address(myEverStandalone, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
 
@@ -864,7 +871,7 @@ export const cancel_listing = async (
 // buy nft from sale
 export const buy_nft = async (
   provider,
-  standalone,
+  myEverStandalone,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -878,7 +885,7 @@ export const buy_nft = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    const nft_onchain = await get_nft_by_address(myEverStandalone, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
 
@@ -1048,32 +1055,24 @@ export const MakeOpenOffer = async (
     );
 
     const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
-    console.log(res);
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods
       .makeOffer_fee({ answerId: 0 })
       .call();
 
-    const payload = await factoryContract.methods.generatePayload({
-      answerId: 0,
-      nft_address: new Address(nft_address),
-      old_offer: new Address(oldOffer),
-      validity: now.toString(),
+    const load = await client.abi.encode_boc({
+      params: [
+        { name: "nft_address", type: "address" },
+        { name: "old_offer", type: "address" },
+        { name: "validity", type: "uint128" },
+      ],
+      data: {
+        nft_address: nft_address,
+        old_offer: oldOffer,
+        validity: now.toString(),
+      },
     });
-
-    // const load = await client.abi.encode_boc({
-    //   params: [
-    //     { name: "nft_address", type: "address" },
-    //     { name: "old_offer", type: "address" },
-    //     { name: "validity", type: "uint128" },
-    //   ],
-    //   data: {
-    //     nft_address: nft_address,
-    //     old_offer: oldOffer,
-    //     validity: now.toString(),
-    //   },
-    // });
 
     await tokenWalletContract.methods
       .transfer({
@@ -1100,7 +1099,7 @@ export const MakeOpenOffer = async (
     if (
       oldOffer != "" &&
       oldOffer !=
-        "0:0000000000000000000000000000000000000000000000000000000000000000" &&
+      "0:0000000000000000000000000000000000000000000000000000000000000000" &&
       oldOffer != undefined
     ) {
       const getOfferContract = await getOfferWithOfferContract(oldOffer);
@@ -1114,7 +1113,6 @@ export const MakeOpenOffer = async (
       .read_code({ answerId: 0 })
       .call();
 
-    console.log(data);
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
