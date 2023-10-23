@@ -398,13 +398,6 @@ export const create_collection = async (provider, signer_address, data) => {
       CollectionFactoryAddress
     );
 
-    const subscriber = new Subscriber(provider);
-    const contractEvents = contract.events(subscriber);
-
-    contractEvents.on(async (event) => {
-      console.log(event);
-    });
-
     const nft_json = JSON.stringify({
       type: "NFT Collection",
       name: data.name,
@@ -426,20 +419,17 @@ export const create_collection = async (provider, signer_address, data) => {
     const fee = await contract.methods
       .get_create_collection_fees({ answerId: 0 })
       .call();
-    console.log(fee);
 
     await contract.methods
       .create_collection({
-        remain_on_nft: data.remain_on_nft,
-        mintingFee: data.mintingFee,
         json: nft_json,
-        max_supply_: data.max_supply,
-        _fee_receiver: data._fee_receiver,
+        max_supply_: data.max_supply
       })
       .send({
         from: new Address(signer_address),
         amount: fee.value0,
       });
+
   } catch (error) {
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
@@ -882,7 +872,6 @@ export const bulk_buy_nfts = async (
   NFTAddresses,
   NFTCollections
 ) => {
-  create_collection(provider, signer_address);
   try {
     const contract = new provider.Contract(
       FactoryDirectSell,
