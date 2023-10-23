@@ -179,11 +179,11 @@ export default function App({ Component, pageProps }) {
     init();
   }, []);
 
-  useEffect(() => {
-    if (signer_address == undefined) {
-      connect_wallet();
-    }
-  }, [signer_address]);
+  // useEffect(() => {
+  //   if (signer_address == undefined) {
+  //     connect_wallet();
+  //   }
+  // }, [signer_address]);
 
   useEffect(() => {
     if (anyModalOpen) {
