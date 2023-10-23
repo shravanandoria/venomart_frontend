@@ -11,10 +11,8 @@
 				{"name":"codeIndexBasis","type":"cell"},
 				{"name":"owner","type":"address"},
 				{"name":"_remainOnNft","type":"uint128"},
-				{"name":"_mintingFee","type":"uint128"},
 				{"name":"json","type":"string"},
-				{"name":"max_supply_","type":"uint128"},
-				{"name":"_fee_receiver","type":"address"}
+				{"name":"max_supply_","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -45,26 +43,9 @@
 			]
 		},
 		{
-			"name": "getMintingFee",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
 			"name": "setRemainOnNft",
 			"inputs": [
 				{"name":"_remainOnNft","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "setMintingFee",
-			"inputs": [
-				{"name":"mintingFeee","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -264,8 +245,6 @@
 		{"name":"nonce","type":"uint64"},
 		{"name":"remainOnNft","type":"uint128"},
 		{"name":"remainOnContract","type":"uint128"},
-		{"name":"mintingFee","type":"uint128"},
-		{"name":"fee_receiver","type":"address"},
 		{"name":"max_supply","type":"uint128"}
 	]
 }

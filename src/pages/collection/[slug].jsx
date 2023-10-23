@@ -42,7 +42,7 @@ import { get_charts } from "../../utils/mongo_api/analytics/analytics";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
-import numeral from 'numeral';
+import numeral from "numeral";
 import { TonClientContext } from "../../context/tonclient";
 
 const Collection = ({
@@ -57,7 +57,7 @@ const Collection = ({
   cartNFTs,
   setCartNFTs,
   vnmBalance,
-  connectWallet
+  connectWallet,
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -259,7 +259,7 @@ const Collection = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
 
-    const contract = new standalone.Contract(collectionAbi, slug);
+    const contract = new venomProvider.Contract(collectionAbi, slug);
     const totalSupply = await contract.methods
       .totalSupply({ answerId: 0 })
       .call();
@@ -274,8 +274,7 @@ const Collection = ({
       router.reload();
       setMetaDataUpdated(true);
       return;
-    }
-    else {
+    } else {
       setMetaDataUpdated(true);
       setMetadataLoading(false);
       alert("Metadata is already up to date!");
@@ -429,7 +428,7 @@ const Collection = ({
   const filterFetchOnchainData = async () => {
     setSearchLoading(true);
     const nfts_onchain = await loadNFTs_collection(
-      standalone,
+      venomProvider,
       slug,
       undefined,
       client
@@ -465,7 +464,7 @@ const Collection = ({
   // fetching on onchain scroll
   const fetch_more_nftsOnChain = async () => {
     if (onChainData == false) return;
-    let res = await loadNFTs_collection(standalone, slug, lastNFT, client);
+    let res = await loadNFTs_collection(venomProvider, slug, lastNFT, client);
     setLastNFT(res?.continuation);
 
     if (res?.nfts?.length && res?.continuation) {
@@ -532,7 +531,7 @@ const Collection = ({
     set_def_query("");
   };
 
-  // connecting wallet 
+  // connecting wallet
   const connect_wallet = async () => {
     const connect = await connectWallet();
   };
@@ -545,7 +544,7 @@ const Collection = ({
       return;
     }
     if (parseFloat(vnmBalance) <= selectedNFT.listingPrice) {
-      alert("You do not have sufficient venom tokens to buy this NFT!!")
+      alert("You do not have sufficient venom tokens to buy this NFT!!");
       return;
     }
     setActionLoad(true);
@@ -618,22 +617,21 @@ const Collection = ({
     }
   };
 
-  // format num 
+  // format num
   function formatNumberShort(number) {
     if (number >= 1e6) {
-      const formatted = numeral(number / 1e6).format('0.00a');
-      if (formatted.endsWith('k')) {
-        return (formatted.slice(0, -1) + "M");
-      }
-      else {
-        return (formatted + "M");
+      const formatted = numeral(number / 1e6).format("0.00a");
+      if (formatted.endsWith("k")) {
+        return formatted.slice(0, -1) + "M";
+      } else {
+        return formatted + "M";
       }
     } else if (number >= 1e3) {
-      return numeral(number / 1e3).format('0.00a') + 'K';
+      return numeral(number / 1e3).format("0.00a") + "K";
     } else if (number % 1 !== 0) {
-      return numeral(number).format('0.00');
+      return numeral(number).format("0.00");
     } else {
-      return numeral(number).format('0');
+      return numeral(number).format("0");
     }
   }
 
@@ -660,7 +658,7 @@ const Collection = ({
   useEffect(() => {
     if (!slug) return;
     gettingCollectionInfo();
-  }, [standalone, slug]);
+  }, [slug]);
 
   useEffect(() => {
     if (!slug) return;
@@ -906,7 +904,9 @@ const Collection = ({
                 <div className="mb-8 mt-4 inline-flex flex-wrap items-center justify-center rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800">
                   <div className="w-1/2 rounded-l-xl border-r border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32">
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white uppercase">
-                      {collection?.TotalSupply ? formatNumberShort(collection?.TotalSupply) : "0"}
+                      {collection?.TotalSupply
+                        ? formatNumberShort(collection?.TotalSupply)
+                        : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       Items
@@ -914,7 +914,9 @@ const Collection = ({
                   </div>
                   <div className="w-1/2 border-jacarta-100 py-4 hover:shadow-md dark:border-jacarta-600 sm:w-32 sm:border-r">
                     <div className="mb-1 text-base font-bold text-jacarta-700 dark:text-white uppercase">
-                      {collection?.TotalListed ? formatNumberShort(collection?.TotalListed) : "0"}
+                      {collection?.TotalListed
+                        ? formatNumberShort(collection?.TotalListed)
+                        : "0"}
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">
                       For Sale
@@ -935,7 +937,9 @@ const Collection = ({
                       />
                       <span className="font-bold ml-1 uppercase">
                         {" "}
-                        {collection?.FloorPrice ? formatNumberShort(collection?.FloorPrice) : "0"}
+                        {collection?.FloorPrice
+                          ? formatNumberShort(collection?.FloorPrice)
+                          : "0"}
                       </span>
                     </div>
                     <div className="text-2xs font-medium tracking-tight dark:text-jacarta-400">

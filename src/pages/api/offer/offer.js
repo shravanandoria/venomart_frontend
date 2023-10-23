@@ -37,7 +37,7 @@ export default async function handler(req, res) {
                 break;
             case "POST":
                 try {
-                    const { from, offerPrice, expiration, nftAddress } = req.body;
+                    const { from, offerPrice, offerContract, expiration, nftAddress } = req.body;
 
                     let nft = await NFT.findOne({ NFTAddress: nftAddress });
                     if (!nft)
@@ -48,6 +48,7 @@ export default async function handler(req, res) {
                     let makeOffer = await Offer.create({
                         chain: "Venom",
                         from,
+                        offerContract,
                         offerPrice,
                         nft,
                         status: "active",
@@ -86,7 +87,18 @@ export default async function handler(req, res) {
                         await offer.save();
                     }
 
-                    return res.status(200).json({ success: true, data: "Successfully updated Notification" });
+                    if (actionType == "outbidded") {
+                        offer = await Offer.findOne({ _id: offerId });
+                        if (!offer)
+                            return res
+                                .status(400)
+                                .json({ success: false, data: "Cannot Find This Offer" });
+
+                        offer.status = "outbidded";
+                        await offer.save();
+                    }
+
+                    return res.status(200).json({ success: true, data: "Successfully updated Offer" });
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
                 }

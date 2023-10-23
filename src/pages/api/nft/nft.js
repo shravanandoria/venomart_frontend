@@ -3,6 +3,7 @@ import User from "../../../Models/User";
 import NFT from "../../../Models/NFT";
 import Activity from "../../../Models/Activity";
 import Collection from "../../../Models/Collection";
+import Offer from "../../../Models/Offer";
 import limiter from "../limiter";
 
 export default async function handler(req, res) {
@@ -66,6 +67,9 @@ export default async function handler(req, res) {
 
           // getting last sold 
           const lastSold = await Activity.find({ type: "sale", item: nft._id }).limit(1).sort({ createdAt: -1 });
+
+          // getting highest Offer
+          const highestLastOffer = await Offer.findOne({ nft: nft?._id, status: "active" }).sort({ createdAt: -1 });
 
           // nft props proba 
           let updatedAttributes = [];
@@ -143,8 +147,9 @@ export default async function handler(req, res) {
             ...nft.toObject(),
             FloorPrice: minimumListingPrice,
             lastSold: lastSold[0]?.price,
-            username: user.user_name,
-            userProfileImage: user.profileImage,
+            highestOffer: parseFloat(highestLastOffer?.offerPrice),
+            username: user?.user_name,
+            userProfileImage: user?.profileImage,
             rarityScore: parseFloat(rarityScore.toFixed(2)),
             attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
             moreNFTs: moreNFTs

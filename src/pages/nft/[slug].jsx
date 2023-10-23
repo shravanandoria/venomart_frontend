@@ -46,6 +46,7 @@ import { GoHistory } from "react-icons/go";
 import {
   addOffer,
   existingOffer,
+  getActiveOffer,
   getOffers,
   updateOffer,
 } from "../../utils/mongo_api/offer/offer";
@@ -59,7 +60,6 @@ const NFTPage = ({
   blockURL,
   currency,
   theme,
-  standalone,
   venomProvider,
   webURL,
   setAnyModalOpen,
@@ -73,13 +73,13 @@ const NFTPage = ({
   const { client } = useContext(TonClientContext);
 
   const [lastSold, setLastSold] = useState("");
+  const [higestOffer, setHigestOffer] = useState("");
   const [offerPrice, setOfferPrice] = useState(0);
   const [noExistingOffer, setNoExistingOffer] = useState(false);
   const [offerExpiration, setOfferExpiration] = useState("1day");
   const [selectedNFT, setSelectedNFT] = useState("");
   const [pageLoading, setPageLoading] = useState(false);
   const [loading, set_loading] = useState(false);
-  const [isHovering, SetIsHovering] = useState(false);
 
   const [offerModal, setOfferModal] = useState(false);
   const [listSale, setListSale] = useState(false);
@@ -153,7 +153,7 @@ const NFTPage = ({
   // getting nft information
   const nft_info = async () => {
     setPageLoading(true);
-    if (!standalone && !slug) return;
+    if (!venomProvider && !slug) return;
 
     const nft_database = await nftInfo(slug);
     if (nft_database) {
@@ -163,10 +163,11 @@ const NFTPage = ({
           nft_database?.attributes != "" ? nft_database?.attributes : [],
       };
       setLastSold(nft_database?.lastSold);
+      setHigestOffer(nft_database?.highestOffer);
       set_nft_info({ ...obj });
     }
     if (nft_database == undefined) {
-      const nft_onchain = await get_nft_by_address(standalone, slug);
+      const nft_onchain = await get_nft_by_address(venomProvider, slug);
       if (nft_onchain.attributes == "" && nft_onchain.files[0].source != "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (
@@ -209,7 +210,7 @@ const NFTPage = ({
   const refreshMetadata = async () => {
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
-    const nft_onchain = await get_nft_by_address(standalone, slug);
+    const nft_onchain = await get_nft_by_address(venomProvider, slug);
 
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
@@ -354,7 +355,7 @@ const NFTPage = ({
     }
     try {
       const listing = await list_nft(
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -425,7 +426,7 @@ const NFTPage = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -469,7 +470,7 @@ const NFTPage = ({
     set_loading(true);
     try {
       const cancelling = await cancel_listing(
-        standalone,
+        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -520,18 +521,20 @@ const NFTPage = ({
     e.preventDefault();
     if (!slug) return;
 
-    // if (noExistingOffer) {
-    //   alert("You already have an active offer on this NFT!!");
-    //   return;
-    // }
+    if (noExistingOffer) {
+      alert("You already have an active offer on this NFT!!");
+      return;
+    }
 
     set_loading(true);
+    const getActiveOffers = await getActiveOffer(nft?._id);
+
     const makeOffer = await MakeOpenOffer(
       venomProvider,
       signer_address,
       slug,
       client,
-      "0:0000000000000000000000000000000000000000000000000000000000000000",
+      getActiveOffers?.offerContract ? getActiveOffers?.offerContract : "0:0000000000000000000000000000000000000000000000000000000000000000",
       offerPrice,
       offerExpiration
     );
@@ -996,7 +999,7 @@ const NFTPage = ({
                           >
                             {lastSold && (
                               <div className="flex flex-row">
-                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1 mb-2" />
                                 <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
                                   Last sold
                                 </span>
@@ -1012,6 +1015,28 @@ const NFTPage = ({
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
                                   {lastSold
                                     ? formatNumberShort(lastSold)
+                                    : "0.00"}
+                                </span>
+                              </div>
+                            )}
+                            {higestOffer && (
+                              <div className="flex flex-row">
+                                <IoHandLeftSharp className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                  Best Offer
+                                </span>
+                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                  <Image
+                                    src={venomLogo}
+                                    height={100}
+                                    width={100}
+                                    alt="venomLogo"
+                                    className="h-3 w-3"
+                                  />
+                                </span>
+                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                  {higestOffer
+                                    ? formatNumberShort(higestOffer)
                                     : "0.00"}
                                 </span>
                               </div>
@@ -1098,7 +1123,7 @@ const NFTPage = ({
                           >
                             {lastSold && (
                               <div className="flex flex-row">
-                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1 mb-2" />
                                 <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
                                   Last sold
                                 </span>
@@ -1114,6 +1139,28 @@ const NFTPage = ({
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
                                   {lastSold
                                     ? formatNumberShort(lastSold)
+                                    : "0.00"}
+                                </span>
+                              </div>
+                            )}
+                            {higestOffer && (
+                              <div className="flex flex-row">
+                                <IoHandLeftSharp className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                  Best Offer
+                                </span>
+                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                  <Image
+                                    src={venomLogo}
+                                    height={100}
+                                    width={100}
+                                    alt="venomLogo"
+                                    className="h-3 w-3"
+                                  />
+                                </span>
+                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                  {higestOffer
+                                    ? formatNumberShort(higestOffer)
                                     : "0.00"}
                                 </span>
                               </div>
@@ -1339,7 +1386,7 @@ const NFTPage = ({
                           >
                             {lastSold && (
                               <div className="flex flex-row">
-                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1 mb-2" />
                                 <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
                                   Last sold
                                 </span>
@@ -1355,6 +1402,28 @@ const NFTPage = ({
                                 <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
                                   {lastSold
                                     ? formatNumberShort(lastSold)
+                                    : "0.00"}
+                                </span>
+                              </div>
+                            )}
+                            {higestOffer && (
+                              <div className="flex flex-row">
+                                <IoHandLeftSharp className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                  Best Offer
+                                </span>
+                                <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                  <Image
+                                    src={venomLogo}
+                                    height={100}
+                                    width={100}
+                                    alt="venomLogo"
+                                    className="h-3 w-3"
+                                  />
+                                </span>
+                                <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                  {higestOffer
+                                    ? formatNumberShort(higestOffer)
                                     : "0.00"}
                                 </span>
                               </div>
@@ -1440,7 +1509,7 @@ const NFTPage = ({
                             >
                               {lastSold && (
                                 <div className="flex flex-row">
-                                  <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                  <GoHistory className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1 mb-2" />
                                   <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
                                     Last sold
                                   </span>
@@ -1456,6 +1525,28 @@ const NFTPage = ({
                                   <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
                                     {lastSold
                                       ? formatNumberShort(lastSold)
+                                      : "0.00"}
+                                  </span>
+                                </div>
+                              )}
+                              {higestOffer && (
+                                <div className="flex flex-row">
+                                  <IoHandLeftSharp className="text-[13px] text-jacarta-700 dark:text-white mt-1 mr-1" />
+                                  <span className="text-sm text-jacarta-400 dark:text-jacarta-300">
+                                    Best Offer
+                                  </span>
+                                  <span className="dark:text-jacarta-200 mr-1 ml-2 mt-1">
+                                    <Image
+                                      src={venomLogo}
+                                      height={100}
+                                      width={100}
+                                      alt="venomLogo"
+                                      className="h-3 w-3"
+                                    />
+                                  </span>
+                                  <span className="text-[14px] font-medium leading-tight tracking-tight text-green">
+                                    {higestOffer
+                                      ? formatNumberShort(higestOffer)
                                       : "0.00"}
                                   </span>
                                 </div>
@@ -1723,6 +1814,7 @@ const NFTPage = ({
 
                           {/* offers loop here  */}
                           {activeOffers?.map((offer, index) => {
+                            const currentTime = new Date();
                             const date = new Date(offer?.createdAt);
                             let expDate;
                             if (offer?.expiration == "1day") {
@@ -1744,6 +1836,11 @@ const NFTPage = ({
                               expDate = new Date(
                                 date.setHours(date.getHours() + 720)
                               );
+                            }
+
+                            let expiredOffer = false;
+                            if (currentTime >= expDate) {
+                              expiredOffer = true;
                             }
 
                             const timeLeftToExp = moment(
@@ -1775,7 +1872,7 @@ const NFTPage = ({
                                   className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600 text-jacarta-700 dark:text-jacarta-200 font-semibold"
                                   role="cell"
                                 >
-                                  {offer?.status}
+                                  {expiredOffer ? "expired" : offer?.status}
                                 </div>
                                 <div
                                   className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600 text-jacarta-700 dark:text-jacarta-200"

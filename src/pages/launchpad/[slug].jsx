@@ -226,12 +226,12 @@ const launchpad = ({
         if (!launchSlug || !standalone) return;
         getMintedSupply();
         setMintingObjData();
-    }, [launchSlug, standalone]);
+    }, [standalone, launchSlug]);
 
     useEffect(() => {
         if (!signer_address || !standalone) return;
         get_user_Data();
-    }, [signer_address, standalone]);
+    }, [standalone, signer_address]);
 
     useEffect(() => {
         if (!slug) return;
