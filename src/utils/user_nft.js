@@ -641,7 +641,6 @@ export const create_launchpad_nft_latest = async (
 
 // list nft for sale
 export const list_nft = async (
-  standalone,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -661,7 +660,7 @@ export const list_nft = async (
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
-      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
       let OnChainOwner = nft_onchain?.owner?._address;
       let OnChainManager = nft_onchain?.manager?._address;
 
@@ -730,7 +729,7 @@ export const list_nft = async (
 
     if (output) {
       await wait(5000);
-      const nft_onchain = await get_nft_by_address(standalone, nft_address);
+      const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
       let OnChainManager = nft_onchain?.manager?._address;
       let obj = {
         NFTAddress: nft_address,
@@ -763,7 +762,6 @@ export const list_nft = async (
 
 // remove nft for sale
 export const cancel_listing = async (
-  standalone,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -774,7 +772,7 @@ export const cancel_listing = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
 
@@ -841,8 +839,7 @@ export const cancel_listing = async (
 
 // buy nft from sale
 export const buy_nft = async (
-  provider,
-  standalone,
+  venomProvider,
   prev_nft_Owner,
   prev_nft_Manager,
   nft_address,
@@ -856,7 +853,7 @@ export const buy_nft = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(standalone, nft_address);
+    const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
 
@@ -870,7 +867,7 @@ export const buy_nft = async (
       return false;
     }
 
-    const DirectSellContract = new provider.Contract(
+    const DirectSellContract = new venomProvider.Contract(
       prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
       new Address(prev_nft_Manager)
     );
@@ -881,7 +878,7 @@ export const buy_nft = async (
     //   .nft_price_cal({ answerId: 0 })
     //   .call();
 
-    const subscriber = new Subscriber(provider);
+    const subscriber = new Subscriber(venomProvider);
     const contractEvents = DirectSellContract.events(subscriber);
     contractEvents.on(async (event) => {
       console.log(event);

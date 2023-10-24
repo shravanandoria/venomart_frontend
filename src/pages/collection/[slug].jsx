@@ -336,7 +336,7 @@ const Collection = ({
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
       const nfts_onchain = await loadNFTs_collection(
-        standalone,
+        venomProvider,
         slug,
         undefined,
         client
@@ -560,7 +560,6 @@ const Collection = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
@@ -594,7 +593,6 @@ const Collection = ({
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
-        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,

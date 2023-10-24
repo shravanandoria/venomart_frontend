@@ -355,7 +355,6 @@ const NFTPage = ({
     }
     try {
       const listing = await list_nft(
-        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -426,7 +425,6 @@ const NFTPage = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,
@@ -470,7 +468,6 @@ const NFTPage = ({
     set_loading(true);
     try {
       const cancelling = await cancel_listing(
-        venomProvider,
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
         selectedNFT ? selectedNFT?.managerAddress : nft?.managerAddress,
         selectedNFT ? selectedNFT?.NFTAddress : slug,

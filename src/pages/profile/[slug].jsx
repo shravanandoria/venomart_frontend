@@ -30,7 +30,6 @@ const Profile = ({
   theme,
   signer_address,
   blockURL,
-  standalone,
   webURL,
   copyURL,
   setAnyModalOpen,
@@ -345,7 +344,6 @@ const Profile = ({
     try {
       const buying = await buy_nft(
         venomProvider,
-        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,
@@ -381,7 +379,6 @@ const Profile = ({
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
-        standalone,
         selectedNFT?.ownerAddress,
         selectedNFT?.managerAddress,
         selectedNFT?.NFTAddress,

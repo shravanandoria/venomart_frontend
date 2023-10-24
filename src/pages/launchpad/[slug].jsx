@@ -32,7 +32,6 @@ const launchpad = ({
     webURL,
     copyURL,
     venomProvider,
-    standalone,
     signer_address,
     connectWallet,
     setAnyModalOpen
@@ -112,7 +111,7 @@ const launchpad = ({
     const getMintedSupply = async () => {
         try {
             setLoading(true);
-            const contract = new standalone.Contract(
+            const contract = new venomProvider.Contract(
                 collectionAbi,
                 launchSlug?.contractAddress
             );
@@ -136,7 +135,7 @@ const launchpad = ({
         const data = await has_minted(
             launchSlug?.contractAddress,
             signer_address,
-            standalone
+            venomProvider
         );
         setCheckMint(data);
     };
@@ -223,15 +222,15 @@ const launchpad = ({
 
 
     useEffect(() => {
-        if (!launchSlug || !standalone) return;
+        if (!launchSlug || !venomProvider) return;
         getMintedSupply();
         setMintingObjData();
-    }, [standalone, launchSlug]);
+    }, [venomProvider, launchSlug]);
 
     useEffect(() => {
-        if (!signer_address || !standalone) return;
+        if (!signer_address || !venomProvider) return;
         get_user_Data();
-    }, [standalone, signer_address]);
+    }, [venomProvider, signer_address]);
 
     useEffect(() => {
         if (!slug) return;
