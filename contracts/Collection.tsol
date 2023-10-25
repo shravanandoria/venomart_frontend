@@ -20,8 +20,6 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, IBurnableCollection, 
   
   uint128 remainOnNft;
   uint128 remainOnContract = 0.2 ever;
-  uint128 mintingFee;
-  address fee_receiver;
   uint128 max_supply;
 
   constructor(
@@ -30,10 +28,8 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, IBurnableCollection, 
     TvmCell codeIndexBasis,
     address owner,
     uint128 _remainOnNft,
-    uint128 _mintingFee,
     string json,
-    uint128 max_supply_,
-    address _fee_receiver
+    uint128 max_supply_
   )
     public
     OwnableInternal(owner)
@@ -43,9 +39,7 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, IBurnableCollection, 
   {
     tvm.rawReserve(remainOnContract, 0);
     remainOnNft = _remainOnNft;
-    mintingFee = _mintingFee;
     max_supply = max_supply_;
-    fee_receiver = _fee_receiver;
 
     owner.transfer({value:0, flag: 128, bounce: false});
   }
@@ -55,13 +49,12 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, IBurnableCollection, 
   }
   
   function mint(string _json) public virtual {
-    require(msg.value > remainOnNft + mintingFee , value_is_less_than_required);
+    require(msg.value > remainOnNft, value_is_less_than_required);
 
     if(max_supply > 0){
         require(_totalSupply <= max_supply, 101);
     }
-
-    fee_receiver.transfer({value: mintingFee, flag: 0, bounce: false});    
+ 
     _mintNft(msg.sender, _json, 0, 128);
   }
 
@@ -90,18 +83,10 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, IBurnableCollection, 
     return { value: 0, flag: 64, bounce: false } (_totalSupply);
   }
 
-  function getMintingFee() external view responsible returns (uint128) {
-    return { value: 0, flag: 64, bounce: false } (mintingFee);
-  }
-
   function setRemainOnNft(uint128 _remainOnNft) external virtual onlyOwner {
     remainOnNft = _remainOnNft;
   }
-
-  function setMintingFee(uint128 mintingFeee) external virtual onlyOwner {
-    mintingFee = mintingFeee;
-  }
-
+  
   function _buildNftState(
     TvmCell code,
     uint256 id
