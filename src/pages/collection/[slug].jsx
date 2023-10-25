@@ -1621,7 +1621,7 @@ const Collection = ({
                       )}
                     </div>
                     <div className="flex justify-center">
-                      {nfts?.length <= 0 && def_query == undefined && (
+                      {(nfts?.length <= 0 || nfts == undefined) && def_query == undefined && (
                         <h2 className="text-xl font-display font-thin text-jacarta-100 dark:text-jacarta-200 py-20">
                           No NFTs Found!!
                         </h2>

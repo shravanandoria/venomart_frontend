@@ -43,11 +43,7 @@ export default async function handler(req, res) {
           }
           if (option != "") {
             if (option == "verified") {
-              findArray.name = { $ne: "" }
               findArray.isVerified = true
-            }
-            if (option == "unverified") {
-              findArray.name = { $ne: "" }
             }
           }
 

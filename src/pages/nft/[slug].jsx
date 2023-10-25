@@ -225,7 +225,7 @@ const NFTPage = ({
       OnChainOwner != offChainOwner ||
       OnChainManager != offChainManager ||
       offChainImage === "" ||
-      (nft_onchain.attributes == [] && nft_onchain.files[0].source != "") ||
+      (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
       (OnChainOwner != OnChainManager && !offChainListed)
     ) {
       if (offChainImage === "") {
