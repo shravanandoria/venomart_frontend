@@ -15,15 +15,9 @@ async function dbConnect() {
   if (cached.conn) {
     return cached.conn;
   }
-  
+
   if (!cached.promise) {
     const opts = {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      // bufferCommands: false,
-      // bufferMaxEntries: 0,
-      // useFindAndModify: true,
-      // useCreateIndex: true,
     };
     cached.promise = mongoose.connect(mongodb_uri, opts).then((mongoose) => {
       db = mongoose;

@@ -44,27 +44,30 @@ const Launchpad = ({ theme }) => {
 
             <div className="flex justify-center align-middle flex-wrap">
               {/* fetching custom laucnh here  */}
-              {currentCollections?.sort(({ id: previousID }, { id: currentID }) => currentID - previousID)?.map((e, id) => {
-                return (
-                  id < 7 && e.verified == true && (
-                    <LaunchCollectionCard
-                      key={id}
-                      Cover={e.Cover}
-                      Logo={e.Logo}
-                      Name={e.Name}
-                      Description={e.Description}
-                      mintPrice={e.mintPrice}
-                      supply={e.supply}
-                      status={e.status}
-                      CollectionAddress={e.CollectionAddress}
-                      customLink={e.customLink}
-                      verified={e.verified}
-                      startDate={e.startDate}
-                      endDate={e.endDate}
-                    />
-                  )
-                );
-              })}
+              {currentCollections
+                ?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
+                .filter((e, id) => id < 7 && e.verified === true)
+                .map((e, id) => {
+                  return (
+                    id < 7 && e.verified == true && (
+                      <LaunchCollectionCard
+                        key={id}
+                        Cover={e.Cover}
+                        Logo={e.Logo}
+                        Name={e.Name}
+                        Description={e.Description}
+                        mintPrice={e.mintPrice}
+                        supply={e.supply}
+                        status={e.status}
+                        CollectionAddress={e.CollectionAddress}
+                        customLink={e.customLink}
+                        verified={e.verified}
+                        startDate={e.startDate}
+                        endDate={e.endDate}
+                      />
+                    )
+                  );
+                })}
             </div>
             <Pagination
               totalPosts={customLaunchpad.length}
