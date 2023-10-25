@@ -130,11 +130,11 @@ export default async function handler(req, res) {
           const minimumListingPrice = await getFloorPriceForCollection(find_collection?._id);
 
           const mergedData =
-            collection_activity.map((collection) => ({
-              ...collection,
+            [{
+              ...collection_activity,
               FloorPrice: minimumListingPrice,
-              ...find_collection?._doc,
-            }))
+              ...find_collection?._doc
+            }]
 
           const responseData = mergedData[0] || {};
 
