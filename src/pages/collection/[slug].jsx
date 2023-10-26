@@ -300,7 +300,7 @@ const Collection = ({
 
   // getting def collection info
   const gettingCollectionInfo = async () => {
-    if (!standalone && !slug) return;
+    if (!venomProvider && !slug) return;
     setLoading(true);
     const nfts_offchain = await fetch_collection_nfts(
       slug,
@@ -613,7 +613,7 @@ const Collection = ({
   useEffect(() => {
     if (!slug) return;
     gettingCollectionInfo();
-  }, [slug]);
+  }, [slug, venomProvider]);
 
   useEffect(() => {
     if (!slug) return;
