@@ -570,7 +570,7 @@ const chepe_games = ({
                                         }
 
                                         {/* follow twitter  */}
-                                        <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 dark:border-gray-100">
+                                        {/* <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 dark:border-gray-100">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
                                                 2] Follow venomart on twitter
                                             </p>
@@ -582,12 +582,12 @@ const chepe_games = ({
                                                 Follow{" "}
                                                 <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
-                                        </div>
+                                        </div> */}
 
                                         {/* join discord  */}
-                                        {/* <div className="flex mt-2 items-center pb-5 mb-5">
+                                        <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
+                                                2] Join venomart discord server
                                             </p>
                                             <Link
                                                 href={venomartDiscord}
@@ -597,13 +597,13 @@ const chepe_games = ({
                                                 Join{" "}
                                                 <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
-                                        </div> */}
+                                        </div>
 
                                         {/* join discord  */}
-                                        {/* {projectDiscord &&
+                                        {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    4] Join {pageName} discord server
+                                                    3] Join {pageName} discord server
                                                 </p>
                                                 <Link
                                                     href={projectDiscord}
@@ -614,13 +614,13 @@ const chepe_games = ({
                                                     <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                                 </Link>
                                             </div>
-                                        } */}
+                                        }
 
                                         {/* retweet tweet  */}
                                         {intendTweetId &&
                                             <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    3] Retweet and like this tweet
+                                                    4] Retweet and like this tweet
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
