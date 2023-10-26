@@ -197,7 +197,7 @@
         "startDate": "10/22/2023 20:30:00 GMT+0530",
         "endDate": "10/25/2023 20:30:00 GMT+0530",
         "verified": true
-      },
+    },
     {
         "id": 9,
         "Cover": "https://ipfs.io/ipfs/QmeoPAJ1ifPCf1vgX1AmUigCvChLZ8TdCLvcq4g82Kp7tF/back.jpg",
@@ -220,7 +220,7 @@
         "startDate": "10/27/2023 20:30:00 GMT+0530",
         "endDate": "10/28/2023 20:30:00 GMT+0530",
         "verified": true
-      },
+    },
     {
         "id": 10,
         "Cover": "https://ipfs.io/ipfs/QmdzDheEft2evnknGvAqDkw4q2ejyde3thXY3mNzVcNGgt/chepe_back.jpg",
@@ -235,7 +235,7 @@
         "supply": "5000",
         "twitterUserName": "Chepe_Gaming",
         "twitter": "https://twitter.com/Chepe_Gaming",
-        "tweetID": "",
+        "tweetID": "1717482461003997416",
         "discord": "https://discord.com/invite/9vQrArhbhj",
         "instagram": "",
         "telegram": "",
@@ -243,5 +243,5 @@
         "startDate": "10/26/2023 15:30:00 GMT+0530",
         "endDate": "10/31/2023 15:30:00 GMT+0530",
         "verified": true
-      }
-  ]
+    }
+]
