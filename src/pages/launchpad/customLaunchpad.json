@@ -243,5 +243,28 @@
         "startDate": "10/26/2023 15:30:00 GMT+0530",
         "endDate": "10/31/2023 15:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 11,
+        "Cover": "https://ipfs.io/ipfs/QmPpvNVQ6WqKtRn8TmdwQcaqty4gF9b3cdcXUq1yiWtZB2/1500x500.jpg",
+        "Logo": "https://ipfs.io/ipfs/QmV6fYHiKbsUNvf6RucAg3MfjqwGZPHUPDLrVvxw71KcRe/gift.gif",
+        "Name": "Venom Gods",
+        "Description": "A set of 999 enchanted GODS landing on #VENOM 🎁 | ⭐First stakable NFTs on Venom",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/venomgods",
+        "pageName": "venomgods",
+        "supply": "5000",
+        "twitterUserName": "VenomGODSnft",
+        "twitter": "https://twitter.com/VenomGODSnft",
+        "tweetID": "",
+        "discord": "https://discord.com/invite/3aze9hGP4h",
+        "instagram": "",
+        "telegram": "",
+        "website": "https://linktr.ee/venomgods",
+        "startDate": "10/28/2023 16:30:00 GMT+0530",
+        "endDate": "10/31/2023 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
