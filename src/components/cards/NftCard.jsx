@@ -67,6 +67,7 @@ const NftCard = ({
           <video
             autoPlay="autoplay"
             loop="true"
+            className="max-h-[220px] w-[100%] object-cover"
           >
             <source src={ImageSrc} type="video/mp4"></source>
           </video>
