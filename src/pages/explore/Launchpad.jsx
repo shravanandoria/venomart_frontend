@@ -6,7 +6,7 @@ import customLaunchpad from '../launchpad/customLaunchpad.json';
 
 const Launchpad = ({ theme }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(12);
+  const [postsPerPage] = useState(24);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
@@ -46,10 +46,10 @@ const Launchpad = ({ theme }) => {
               {/* fetching custom laucnh here  */}
               {currentCollections
                 ?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
-                .filter((e, id) => id < 7 && e.verified === true)
+                .filter((e, id) => id < 6 && e.verified === true)
                 .map((e, id) => {
                   return (
-                    id < 7 && e.verified == true && (
+                    id < 6 && e.verified == true && (
                       <LaunchCollectionCard
                         key={id}
                         Cover={e.Cover}
