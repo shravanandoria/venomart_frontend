@@ -31,7 +31,28 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
             <div className='flex justify-center align-middle'>
                 <Link href={`/nft/${NFTAddress}`}>
                     <div className="mr-5 mb-4 self-start">
-                        <Image src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
+                        {NFTImage?.includes(".mp4") ?
+                            <video
+                                style={{
+                                    objectFit: "cover"
+                                }}
+                                className="ActivityCardImg rounded-2lg h-[100px] w-[100px]"
+                                autoPlay="autoplay"
+                                loop="true"
+                            >
+                                <source
+                                    src={
+                                        NFTImage?.replace(
+                                            "ipfs://",
+                                            "https://ipfs.io/ipfs/"
+                                        )
+                                    }
+                                    type="video/mp4"
+                                ></source>
+                            </video>
+                            :
+                            <Image src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
+                        }
                     </div>
                 </Link>
 

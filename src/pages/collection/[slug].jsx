@@ -708,7 +708,7 @@ const Collection = ({
                     width={100}
                     height={100}
                     alt="collection avatar"
-                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto] bg-gray-800"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] bg-gray-800 object-fill"
                   />
                 ) : (
                   <Image
@@ -716,7 +716,7 @@ const Collection = ({
                     width={100}
                     height={100}
                     alt="collection avatar"
-                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[auto]"
+                    className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px]"
                   />
                 )}
                 <div className="absolute -right-3 bottom-0 flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-white dark:border-jacarta-600">
