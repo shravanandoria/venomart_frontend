@@ -24,8 +24,9 @@ import collectionAbi from "../../../../abi/CollectionDrop.abi.json";
 import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
 import customLaunchpad from '../customLaunchpad.json';
+import axios from "axios";
 
-const chepe_games = ({
+const venomgods = ({
     blockURL,
     theme,
     webURL,
@@ -36,7 +37,7 @@ const chepe_games = ({
     setAnyModalOpen
 }) => {
     // change from here
-    const launchSlug = customLaunchpad.find(item => item.id === 10);
+    const launchSlug = customLaunchpad.find(item => item.id === 11);
     // change till here
 
     const router = useRouter();
@@ -75,19 +76,26 @@ const chepe_games = ({
 
     const [data, set_data] = useState();
 
-    const getRandomTokenId = () => {
+    const getRandomTokenId = async () => {
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        const token_id = getRandomInt(250);
+
+        const data = await axios({
+            url: `https://ipfs.io/ipfs/QmPk43b2BWu1R4eYSwDzLYiG1HWd341csKrDtByQBpQkxs/${token_id}.json`,
+            method: "GET",
+        });
+
         let obj = {
-            image: NFTIMG,
+            image: data?.data?.image ? data?.data?.image : NFTIMG,
             collectionName: ProjectName,
             name: ProjectName,
             description: shortDesc,
             collectionAddress: contractAddress,
             mintPrice: parseFloat(mintPrice),
-            properties: [
-                { trait_type: "Type", value: "Free Pass" },
-                { trait_type: "Benefit", value: "Mystery NFT Boxes" },
-                { trait_type: "Version", value: "Testnet" },
-            ],
+            properties: data?.data?.attributes,
         }
         set_data(obj);
     }
@@ -974,4 +982,4 @@ const chepe_games = ({
     );
 };
 
-export default chepe_games;
+export default venomgods;

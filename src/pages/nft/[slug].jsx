@@ -153,7 +153,7 @@ const NFTPage = ({
   // getting nft information
   const nft_info = async () => {
     setPageLoading(true);
-    if (!venomProvider && !slug) return;
+    if ((!venomProvider || venomProvider == undefined) && !slug) return;
 
     const nft_database = await nftInfo(slug);
     if (nft_database) {
@@ -168,7 +168,7 @@ const NFTPage = ({
     }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(venomProvider, slug);
-      if (nft_onchain.attributes == "" && nft_onchain.files[0].source != "") {
+      if (nft_onchain?.attributes == "" && nft_onchain?.files[0]?.source != "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (
           sourceURL &&
@@ -225,7 +225,7 @@ const NFTPage = ({
       OnChainOwner != offChainOwner ||
       OnChainManager != offChainManager ||
       offChainImage === "" ||
-      (nft_onchain.attributes == [] && nft_onchain.files[0].source != "") ||
+      (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
       (OnChainOwner != OnChainManager && !offChainListed)
     ) {
       if (offChainImage === "") {
@@ -2320,14 +2320,14 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal && (
             <div className="afterMintDiv">
-              <form
+              {/* <form
                 onSubmit={(e) => (
                   e.preventDefault(),
                   alert("This feature will be available soon..")
                 )}
                 className="modal-dialog max-w-2xl"
-              >
-                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
+              > */}
+              <form onSubmit={makeOffer} className="modal-dialog max-w-2xl">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">

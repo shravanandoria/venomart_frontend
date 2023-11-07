@@ -25,7 +25,7 @@ import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
 import customLaunchpad from '../customLaunchpad.json';
 
-const chepe_games = ({
+const revolt = ({
     blockURL,
     theme,
     webURL,
@@ -36,7 +36,7 @@ const chepe_games = ({
     setAnyModalOpen
 }) => {
     // change from here
-    const launchSlug = customLaunchpad.find(item => item.id === 10);
+    const launchSlug = customLaunchpad.find(item => item.id === 13);
     // change till here
 
     const router = useRouter();
@@ -84,8 +84,7 @@ const chepe_games = ({
             collectionAddress: contractAddress,
             mintPrice: parseFloat(mintPrice),
             properties: [
-                { trait_type: "Type", value: "Free Pass" },
-                { trait_type: "Benefit", value: "Mystery NFT Boxes" },
+                { trait_type: "Benifit", value: "Fee Discount" },
                 { trait_type: "Version", value: "Testnet" },
             ],
         }
@@ -399,11 +398,11 @@ const chepe_games = ({
                                         EXCLUSIVE MINT
                                     </h2>
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                        {supply} NFTs
+                                        {supply && (supply <= 0 ? "∞" : supply)} NFTs
                                     </h1>
                                     {mintedNFTs > 0 && (
                                         <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                            {mintedNFTs} / {supply} Minted
+                                            {mintedNFTs} / {supply && (supply <= 0 ? "∞" : supply)} Minted
                                         </p>
                                     )}
                                 </div>
@@ -535,13 +534,22 @@ const chepe_games = ({
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
                                     {/* nftIMG  */}
                                     <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
-                                        <Image
-                                            alt="nftImg"
-                                            height={100}
-                                            width={100}
-                                            className="launchImage h-[100%] w-[100%] object-cover rounded"
-                                            src={NFTIMG}
-                                        />
+                                        {NFTIMG?.includes(".mp4") ?
+                                            <video
+                                                autoPlay="autoplay"
+                                                loop="true"
+                                            >
+                                                <source src={NFTIMG} type="video/mp4"></source>
+                                            </video>
+                                            :
+                                            <Image
+                                                alt="nftImg"
+                                                height={100}
+                                                width={100}
+                                                className="launchImage h-[100%] w-[100%] object-cover rounded"
+                                                src={NFTIMG}
+                                            />
+                                        }
                                     </div>
 
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
@@ -570,7 +578,7 @@ const chepe_games = ({
                                         }
 
                                         {/* follow twitter  */}
-                                        {/* <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 dark:border-gray-100">
+                                        <div className="flex mt-2 items-center pb-5 border-gray-100 mb-5 dark:border-gray-100">
                                             <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
                                                 2] Follow venomart on twitter
                                             </p>
@@ -582,12 +590,12 @@ const chepe_games = ({
                                                 Follow{" "}
                                                 <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
                                             </Link>
-                                        </div> */}
+                                        </div>
 
                                         {/* join discord  */}
                                         <div className="flex mt-2 items-center pb-5 mb-5">
                                             <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                2] Join venomart discord server
+                                                3] Join venomart discord server
                                             </p>
                                             <Link
                                                 href={venomartDiscord}
@@ -603,7 +611,7 @@ const chepe_games = ({
                                         {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    3] Join {pageName} discord server
+                                                    4] Join {pageName} discord server
                                                 </p>
                                                 <Link
                                                     href={projectDiscord}
@@ -620,7 +628,7 @@ const chepe_games = ({
                                         {intendTweetId &&
                                             <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    4] Retweet and like this tweet
+                                                    5] Retweet and like this tweet
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
@@ -974,4 +982,4 @@ const chepe_games = ({
     );
 };
 
-export default chepe_games;
+export default revolt;

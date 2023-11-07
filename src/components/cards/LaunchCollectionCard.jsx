@@ -116,14 +116,23 @@ const LaunchCollectionCard = ({
             />
           </span>
           <span className="absolute bottom-[-25px] right-[100px]">
-            <Image
-              src={Logo}
-              alt="Logo"
-              className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
-
-              height={100}
-              width={100}
-            />
+            {Logo?.includes(".mp4") ?
+              <video
+                autoPlay="autoplay"
+                loop="true"
+                className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
+              >
+                <source src={Logo} type="video/mp4"></source>
+              </video>
+              :
+              <Image
+                src={Logo}
+                alt="Logo"
+                className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
+                height={100}
+                width={100}
+              />
+            }
           </span>
         </div>
 

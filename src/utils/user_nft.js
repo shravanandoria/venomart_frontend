@@ -116,7 +116,9 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nftAddresses = await Promise.all(
     indexAddresses.map(async indexAddress => {
       try {
+        // for RPC 
         const indexContract = new provider.Contract(indexAbi, indexAddress);
+        // for GRAPHQL 
         // const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
         const indexInfo = await indexContract.methods.getInfo({ answerId: 0 }).call();
@@ -142,7 +144,7 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
 };
 
 export const get_nft_by_address = async (provider, nft_address) => {
-  if (nft_address == undefined) return;
+  if (nft_address == undefined || !provider) return;
   const nftContract = new provider.Contract(nftAbi, nft_address);
   const nft_json = await nftContract.methods.getJson({ answerId: 0 }).call();
   const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();
@@ -313,7 +315,6 @@ export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) =
     }
 
     const indexesAddresses = await getAddressesFromIndex(provider, codeHash, last_nft_addr);
-    console.log({ indexesAddresses });
     const { continuation } = indexesAddresses;
     if (!indexesAddresses || !indexesAddresses.accounts.length) {
       if (indexesAddresses && !indexesAddresses.accounts.length)
