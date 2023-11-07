@@ -1,45 +1,33 @@
 import dbConnect from "../../lib/dbConnect";
 import limiter from "./limiter";
+import { libNode } from "@eversdk/lib-node";
 const { TonClient } = require("@eversdk/core");
-const { libNode } = require("@eversdk/lib-node");
+TonClient.useBinaryLibrary(libNode);
 
 export default async function handler(req, res) {
   const { method } = req;
 
   await dbConnect();
-  TonClient.useBinaryLibrary(libNode);
+
+  const client = new TonClient({
+    network: {
+      endpoints: ["https://gql-testnet.venom.foundation/graphql"],
+      // endpoints: ["https://jrpc-testnet.venom.foundation/rpc"],
+    },
+  });
 
   limiter(req, res, async () => {
     switch (method) {
       case "GET":
         try {
-          // const client = new TonClient({
-          //   network: {
-          //     endpoints: ["https://gql-testnet.venom.foundation/graphql"],
-          //     // endpoints: ["https://jrpc-testnet.venom.foundation/rpc"],
-          //   },
-          // });
-          // const query = client.net.query({
-          //   query: `query{
-          //   blockchain{
-          //     account(address:"0:e12577165b4f98da773d0f6f5057c14fced0b2eda0d67eddf569787dc2213b98"){
-          //       messages(msg_type:[ExtOut, ExtIn, IntIn, IntOut],first:2){
-          //         edges{
-          //           node{
-          //             hash
-          //             body
-          //             created_at_string
-          //           }
-          //           cursor
-          //         }
-          //         pageInfo{
-          //           hasNextPage
-          //         }
-          //       }
-          //     }
-          //   }
-          // }`,
-          // });
+          const result = await client.net.query_collection({
+            collection: "accounts",
+            filter: {
+              id: { eq: "0:e12577165b4f98da773d0f6f5057c14fced0b2eda0d67eddf569787dc2213b98" },
+            },
+            result: "balance",
+          });
+          console.log("result: ", { result });
 
           // console.log({ query });
           res.status(200).json({ success: true, data: "world" });
