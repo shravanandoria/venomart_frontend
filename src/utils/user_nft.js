@@ -42,7 +42,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:b8b0a9419de38682a7c7111cf169eb2a9307c9bc94938aed74c0a4c2d56a20fb",
+  "0:38306f3289892bee2cf93aa5f8822e6117fe9fac5710286c0636409f85659eb1",
 );
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
@@ -896,7 +896,6 @@ export const MakeOpenOffer = async (
 
     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
-    // const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods.makeOffer_fee({ answerId: 0 }).call();
@@ -945,8 +944,6 @@ export const MakeOpenOffer = async (
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
 
-    // const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
-
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
@@ -958,10 +955,7 @@ export const MakeOpenOffer = async (
 };
 
 export const cancel_offer = async (offer_address, provider, signer_address) => {
-  const contract = new provider.Contract(
-    make_offer_abi,
-    new Address(offer_address)
-  );
+  const contract = new provider.Contract(make_offer_abi, new Address(offer_address));
 
   await contract.methods.return_offer().send({
     from: new Address(signer_address),
@@ -970,17 +964,12 @@ export const cancel_offer = async (offer_address, provider, signer_address) => {
 };
 
 export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
-  const contract = new provider.Contract(
-    make_offer_abi,
-    new Address(offer_address)
-  );
-
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
       newManager: new Address(offer_address),
       sendGasTo: new Address(signer_address),
-      callbacks: [[new Address(offer_address), { value: "300000000", payload: "" }]],
+      callbacks: [[new Address(offer_address), { value: "600000000", payload: "" }]],
     })
     .send({
       from: new Address(signer_address),
