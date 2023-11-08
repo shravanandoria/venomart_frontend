@@ -116,9 +116,9 @@ export const getNftsByIndexes = async (provider, indexAddresses) => {
   const nftAddresses = await Promise.all(
     indexAddresses.map(async indexAddress => {
       try {
-        // for RPC 
+        // for RPC
         const indexContract = new provider.Contract(indexAbi, indexAddress);
-        // for GRAPHQL 
+        // for GRAPHQL
         // const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
         const indexInfo = await indexContract.methods.getInfo({ answerId: 0 }).call();
@@ -869,6 +869,7 @@ export const bulk_buy_nfts = async (
   }
 };
 
+
 // make an offer on NFT
 export const MakeOpenOffer = async (
   provider,
@@ -893,7 +894,7 @@ export const MakeOpenOffer = async (
 
     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
-    const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    // const res = await factoryContract.methods.read_code({ answerId: 0 }).call();
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods.makeOffer_fee({ answerId: 0 }).call();
@@ -942,7 +943,7 @@ export const MakeOpenOffer = async (
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
 
-    const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
+    // const data = await factoryContract.methods.read_code({ answerId: 0 }).call();
 
     return true;
   } catch (error) {
