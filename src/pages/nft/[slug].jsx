@@ -1608,7 +1608,7 @@ const NFTPage = ({
                                       className="text-jacarta-700 dark:text-jacarta-200"
                                       onClick={() => {
                                         if (window.confirm("Are you sure you want to accept this offer?")) {
-                                          accept_offer("0:e4cfc070b6d533abc9ccfc30f33b21b4be83a088d5a1cc5812928449a5579001", venomProvider, slug, signer_address)
+                                          accept_offer("0:f58ac567a9646c0b0ce99282702360e6019b64c7d5663991ff47fac68f2400ec", venomProvider, slug, signer_address)
                                           // acceptOffer(offer?._id);
                                         }
                                       }}

@@ -980,7 +980,7 @@ export const accept_offer = async (offer_address, provider, nft_address, signer_
     .changeManager({
       newManager: new Address(offer_address),
       sendGasTo: new Address(signer_address),
-      callbacks: [[new Address(offer_address), { value: "300000000", payload: "" }]],
+      callbacks: [[new Address(offer_address), { value: "600000000", payload: "" }]],
     })
     .send({
       from: new Address(signer_address),
