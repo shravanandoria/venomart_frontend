@@ -23,6 +23,7 @@ import { addOffer, getOfferWithOfferContract, updateOffer } from "./mongo_api/of
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
+import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -869,7 +870,6 @@ export const bulk_buy_nfts = async (
   }
 };
 
-
 // make an offer on NFT
 export const MakeOpenOffer = async (
   provider,
@@ -953,4 +953,35 @@ export const MakeOpenOffer = async (
     console.log(error);
     return false;
   }
+};
+
+export const cancel_offer = async (offer_address, provider) => {
+  const contract = new provider.Contract(
+    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+    make_offer_abi,
+  );
+
+  await contract.methods.return_offer().send({
+    from: new Address(signer_address),
+    amount: (100000000).toString(),
+  });
+};
+
+export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
+  const contract = new provider.Contract(
+    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+    make_offer_abi,
+  );
+
+  const nft_contract = new provider.Contract(nftAbi, nft_address);
+  const output = await nft_contract.methods
+    .changeManager({
+      newManager: offer_address,
+      sendGasTo: new Address(signer_address),
+      callbacks: [],
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
+    });
 };
