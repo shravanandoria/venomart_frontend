@@ -982,6 +982,6 @@ export const accept_offer = async (offer_address, provider, nft_address, signer_
     })
     .send({
       from: new Address(signer_address),
-      amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
+      amount: (100000000).toString(),
     });
 };
