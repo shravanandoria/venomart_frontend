@@ -955,10 +955,10 @@ export const MakeOpenOffer = async (
   }
 };
 
-export const cancel_offer = async (offer_address, provider) => {
+export const cancel_offer = async (offer_address, provider, signer_address) => {
   const contract = new provider.Contract(
-    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
     make_offer_abi,
+    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
   );
 
   await contract.methods.return_offer().send({
@@ -969,16 +969,21 @@ export const cancel_offer = async (offer_address, provider) => {
 
 export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
   const contract = new provider.Contract(
-    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
     make_offer_abi,
+    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
   );
 
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
-      newManager: offer_address,
+      newManager: new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
       sendGasTo: new Address(signer_address),
-      callbacks: [],
+      callbacks: [
+        [
+          new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+          { value: "100000000", payload: "" },
+        ],
+      ],
     })
     .send({
       from: new Address(signer_address),
