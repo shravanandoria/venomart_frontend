@@ -55,6 +55,38 @@
 			],
 			"outputs": [
 			]
+		},
+		{
+			"name": "offer_amount",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"offer_amount","type":"uint128"}
+			]
+		},
+		{
+			"name": "offer_validity",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"offer_validity","type":"uint128"}
+			]
+		},
+		{
+			"name": "platform_fee",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"platform_fee","type":"uint128"}
+			]
+		},
+		{
+			"name": "nft_address",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"nft_address","type":"address"}
+			]
 		}
 	],
 	"data": [
