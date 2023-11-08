@@ -483,12 +483,14 @@ export const create_launchpad_nft = async (data, signer_address, venomProvider) 
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/gif",
+        mimetype: "video/mp4",
+        // mimetype: "image/gif",
       },
       files: [
         {
           source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/gif",
+          mimetype: "video/mp4",
+          // mimetype: "image/gif",
         },
       ],
       attributes: data.properties,
@@ -958,7 +960,7 @@ export const MakeOpenOffer = async (
 export const cancel_offer = async (offer_address, provider, signer_address) => {
   const contract = new provider.Contract(
     make_offer_abi,
-    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+    new Address(offer_address)
   );
 
   await contract.methods.return_offer().send({
@@ -970,23 +972,18 @@ export const cancel_offer = async (offer_address, provider, signer_address) => {
 export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
   const contract = new provider.Contract(
     make_offer_abi,
-    new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+    new Address(offer_address)
   );
 
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
-      newManager: new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
+      newManager: new Address(offer_address),
       sendGasTo: new Address(signer_address),
-      callbacks: [
-        [
-          new Address("0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876"),
-          { value: "100000000", payload: "" },
-        ],
-      ],
+      callbacks: [[new Address(offer_address), { value: "300000000", payload: "" }]],
     })
     .send({
       from: new Address(signer_address),
-      amount: (100000000).toString(),
+      amount: (1000000000).toString(),
     });
 };
