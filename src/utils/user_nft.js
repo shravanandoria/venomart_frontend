@@ -42,7 +42,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:38306f3289892bee2cf93aa5f8822e6117fe9fac5710286c0636409f85659eb1",
+  "0:625ae6fc5cb1df566898dfe68f11ced153a5c29f7d8a4f0732e37f854a0e9df4",
 );
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
