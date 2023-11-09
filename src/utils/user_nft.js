@@ -42,7 +42,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 export const FactoryMakeOfferAddress = new Address(
-  "0:699e5a5832582cd8ffe57005930b9a9c1871ece5eba80e11b952c864ae5fecee",
+  "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
@@ -964,15 +964,16 @@ export const cancel_offer = async (offer_address, provider, signer_address) => {
 };
 
 export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
+  console.log({ offer_address, provider, nft_address, signer_address });
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
       newManager: new Address(offer_address),
       sendGasTo: new Address(signer_address),
-      callbacks: [[new Address(offer_address), { value: "600000000", payload: "" }]],
+      callbacks: [[new Address(offer_address), { value: "1000000000", payload: "" }]],
     })
     .send({
       from: new Address(signer_address),
-      amount: (1000000000).toString(),
+      amount: (1500000000).toString(),
     });
 };

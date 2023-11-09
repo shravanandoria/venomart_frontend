@@ -57,6 +57,38 @@
 			]
 		},
 		{
+			"name": "contract_creator",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"contract_creator","type":"address"}
+			]
+		},
+		{
+			"name": "platform_owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"platform_owner","type":"address"}
+			]
+		},
+		{
+			"name": "_tokenRoot",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"_tokenRoot","type":"address"}
+			]
+		},
+		{
+			"name": "offer_owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"offer_owner","type":"address"}
+			]
+		},
+		{
 			"name": "offer_amount",
 			"inputs": [
 			],
