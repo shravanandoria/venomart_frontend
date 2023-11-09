@@ -1613,7 +1613,7 @@ const NFTPage = ({
                                       onClick={() => {
                                         if (window.confirm("Are you sure you want to accept this offer?")) {
                                           accept_offer(
-                                            "0:a0d76b5080d825da0a46d1a9d773172ae194fc07fd1cf21fd2a8f7df128a436b",
+                                            "0:697a3e483a83aafa7264a92648a6544167041c6a4d584569a15e93b6dc1cf6e3",
                                             venomProvider,
                                             slug,
                                             signer_address,

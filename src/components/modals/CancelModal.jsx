@@ -71,16 +71,34 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                         </div>
                         <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-b py-4">
                             <div className="mr-5 self-start">
-                                <Image
-                                    src={NFTImage?.replace(
-                                        "ipfs://",
-                                        "https://ipfs.io/ipfs/"
-                                    )}
-                                    alt="nftPreview"
-                                    width="70"
-                                    height="70"
-                                    className="rounded-2lg"
-                                />
+                                {NFTImage?.includes(".mp4") ?
+                                    <video
+                                        style={{
+                                            objectFit: "cover"
+                                        }}
+                                        height={70}
+                                        width={70}
+                                        className="rounded-2lg"
+                                        autoPlay="autoplay"
+                                        loop="true"
+                                    >
+                                        <source
+                                            src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            type="video/mp4"
+                                        ></source>
+                                    </video>
+                                    :
+                                    <Image
+                                        src={NFTImage?.replace(
+                                            "ipfs://",
+                                            "https://ipfs.io/ipfs/"
+                                        )}
+                                        alt="nftPreview"
+                                        width="70"
+                                        height="70"
+                                        className="rounded-2lg"
+                                    />
+                                }
                             </div>
                             <div>
                                 <div className="flex text-jacarta-600 dark:text-jacarta-100 text-sm mb-2">
