@@ -66,7 +66,7 @@ const Profile = ({
   const [listedFilter, showListedFilter] = useState(false);
   const [onChainFilterNFT, setOnChainFilterNFT] = useState("newestFirst");
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
-  const [saleType, setSaleType] = useState("listed");
+  const [saleType, setSaleType] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0);
 

@@ -14,14 +14,21 @@ export default async function handler(req, res) {
                     let { owner_address, saleType, sortby, minprice, maxprice, skip } = req.query;
 
                     let filterQuery = {};
+                    let sortyBy = {};
 
                     if (owner_address != "") {
                         filterQuery.ownerAddress = owner_address
                         if (saleType == "listed") {
                             filterQuery.isListed = true
                         }
-                        if (saleType == "all" || saleType == "notlisted") {
+                        if (saleType == "notlisted") {
                             filterQuery.isListed = false
+                        }
+                        if (saleType != "All") {
+                            sortyBy.updatedAt = -1
+                        }
+                        if (saleType == "All") {
+                            sortyBy.isListed = -1
                         }
                     }
 
@@ -48,7 +55,7 @@ export default async function handler(req, res) {
                                     path: "NFTCollection",
                                     select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
-                                .limit(20).sort({ updatedAt: -1 });
+                                .limit(20).sort(sortyBy);
                             return res.status(200).json({ success: true, data: nfts });
                         }
                         if (sortby == "lowToHigh") {
