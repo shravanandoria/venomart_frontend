@@ -564,7 +564,7 @@ const revolt_trigger_fingers = ({
                                         {projectTwitter &&
                                             <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                                 <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    1] Follow {pageName} on twitter
+                                                    1] Follow Revolt on twitter
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -611,7 +611,7 @@ const revolt_trigger_fingers = ({
                                         {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    4] Join {pageName} discord server
+                                                    4] Join Revolt discord server
                                                 </p>
                                                 <Link
                                                     href={projectDiscord}
