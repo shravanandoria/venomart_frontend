@@ -913,6 +913,7 @@ export const MakeOpenOffer = async (
       },
     });
 
+    // sending transaction 
     await tokenWalletContract.methods
       .transfer({
         amount: parseFloat(offerAmount) * 1000000000,
@@ -927,6 +928,7 @@ export const MakeOpenOffer = async (
         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
       });
 
+    // saving new offer to database 
     const addoffer = await addOffer(
       signer_address,
       offerAmount,
@@ -935,6 +937,7 @@ export const MakeOpenOffer = async (
       nft_address,
     );
 
+    // updating the outbidded offer in database 
     if (
       oldOffer != "" &&
       oldOffer != "0:0000000000000000000000000000000000000000000000000000000000000000" &&

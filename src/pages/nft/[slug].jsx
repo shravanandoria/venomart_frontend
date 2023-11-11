@@ -474,6 +474,7 @@ const NFTPage = ({
     }
 
     set_loading(true);
+    // getting previous offer contract address if exists 
     const getActiveOffers = await getActiveOffer(nft?._id);
 
     const makeOffer = await MakeOpenOffer(
@@ -1932,14 +1933,14 @@ const NFTPage = ({
           {/* <!-- Place Bid Modal --> */}
           {offerModal && (
             <div className="afterMintDiv">
-              <form
+              {/* <form
                 onSubmit={(e) => (
                   e.preventDefault(),
                   alert("This feature will be available soon..")
                 )}
                 className="modal-dialog max-w-2xl"
-              >
-                {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
+              > */}
+              <form onSubmit={makeOffer} className="modal-dialog max-w-2xl">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="placeBidLabel">
