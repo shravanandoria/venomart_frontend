@@ -335,5 +335,28 @@
         "startDate": "11/8/2023 15:30:00 GMT+0530",
         "endDate": "11/12/2023 15:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 15,
+        "Cover": "https://ipfs.io/ipfs/QmP37FWnRWRymmepkS4aey9uiWrp64sieeXjnicqL2oJgx/cover.png",
+        "Logo": "https://bafybeicjkgioyhb357kyfubzzq6dntxfq3wdw73ujr3e32xoqwm4st2h3m.ipfs.nftstorage.link/",
+        "Name": "The Revolt Showcase: Trigger Fingers",
+        "Description": "The next entry in the Revolt Showcase,  Second of the new agents. All showcase series are a monument to our agents evolution on the Venom Blockchain.",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/revolt_trigger_fingers",
+        "pageName": "revolt_trigger_fingers",
+        "supply": "0",
+        "twitterUserName": "revoltnft",
+        "twitter": "https://twitter.com/revoltnft",
+        "tweetID": "",
+        "discord": "https://discord.com/invite/GmJk8tzbR4",
+        "instagram": "",
+        "telegram": "",
+        "website": "https://linktr.ee/revoltcollection",
+        "startDate": "11/13/2023 16:30:00 GMT+0530",
+        "endDate": "11/17/2023 16:30:00 GMT+0530",
+        "verified": true
     }
 ]

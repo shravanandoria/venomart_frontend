@@ -172,7 +172,7 @@ const LaunchCollectionCard = ({
         <div className="mb-2 flex items-center justify-center text-sm font-medium tracking-tight">
           <div className="flex flex-wrap justify-center items-center">
             <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-300">
-              {supply ? supply : "0"} Items
+              {supply ? (supply <= 0 ? "∞" : supply) : 0} Items
             </span>
           </div>
         </div>
