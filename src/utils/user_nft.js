@@ -934,14 +934,20 @@ export const MakeOpenOffer = async (
         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
       });
 
-    // saving new offer to database 
-    const addoffer = await addOffer(
-      signer_address,
-      offerAmount,
-      "0:0000000000000000000000000000000000000000000000000000000000000000",
-      offerExpiration,
-      nft_address,
-    );
+    // event 
+    const subscriber = new Subscriber(provider);
+    const contractEvents = factoryContract.events(subscriber);
+    contractEvents.on(async event => {
+      console.log(event?.data?.new_offer_contract);
+      // saving new offer to database 
+      const addoffer = await addOffer(
+        signer_address,
+        offerAmount,
+        event ? event?.data?.new_offer_contract : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        offerExpiration,
+        nft_address,
+      );
+    });
 
     // updating the outbidded offer in database 
     if (
@@ -952,6 +958,9 @@ export const MakeOpenOffer = async (
       const getOfferContract = await getOfferWithOfferContract(oldOffer);
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
+
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await wait(7000);
 
     return true;
   } catch (error) {
