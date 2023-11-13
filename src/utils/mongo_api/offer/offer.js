@@ -82,3 +82,18 @@ export const updateOffer = async (actionType, offerId) => {
     console.log(error.message);
   }
 };
+
+export const removeAllOffers = async (nft_address) => {
+  try {
+    const res = await axios({
+      url: `/api/offer/reset_offers`,
+      method: "POST",
+      data: {
+        nft_address
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

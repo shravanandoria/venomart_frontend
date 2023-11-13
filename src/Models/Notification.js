@@ -14,7 +14,7 @@ const NotificationSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            enum: ["sale", "bid"],
+            enum: ["sale", "bid", "offer"],
             default: "sale",
         }
     },

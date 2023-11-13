@@ -480,6 +480,8 @@ const NFTPage = ({
     const makeOffer = await MakeOpenOffer(
       venomProvider,
       signer_address,
+      onchainNFTData,
+      nft,
       slug,
       client,
       getActiveOffers?.offerContract
@@ -499,21 +501,31 @@ const NFTPage = ({
   };
 
   // remove offer
-  const removeOffer = async selectedOfferId => {
+  const removeOffer = async (offerAddress, venomProvider, slug, signer_address, selectedOfferId) => {
     set_loading(true);
-    const removeOffer = await updateOffer("cancelled", selectedOfferId);
-    await getNFTOffers();
-    set_loading(false);
-    setOfferModal(false);
+    const removeOffer = await cancel_offer(offerAddress, venomProvider, slug, signer_address, selectedOfferId);
+
+    if (removeOffer) {
+      await getNFTOffers();
+      set_loading(false);
+      setOfferModal(false);
+    } else {
+      set_loading(false);
+    }
   };
 
   // accept offer
-  const acceptOffer = async selectedOfferId => {
+  const acceptOffer = async (offerAddress, venomProvider, slug, signer_address, selectedOfferId) => {
     set_loading(true);
-    const acceptOffer = await updateOffer("accepted", selectedOfferId);
-    await getNFTOffers();
-    set_loading(false);
-    setOfferModal(false);
+    const acceptOffer = await accept_offer(offerAddress, venomProvider, slug, signer_address, selectedOfferId);
+
+    if (acceptOffer) {
+      await getNFTOffers();
+      set_loading(false);
+      setOfferModal(false);
+    } else {
+      set_loading(false);
+    }
   };
 
   // getting collection info if onChainData
@@ -554,7 +566,7 @@ const NFTPage = ({
 
   useEffect(() => {
     nft_info();
-  }, [slug]);
+  }, [slug, venomProvider]);
 
   useEffect(() => {
     scroll_fetch_nft_activity();
@@ -1589,42 +1601,61 @@ const NFTPage = ({
                                   role="cell"
                                 >
                                   {signer_address == offer?.from && offer?.status == "active" && (
-                                    <button
-                                      className="text-jacarta-700 dark:text-jacarta-200"
-                                      onClick={() => {
-                                        if (window.confirm("Are you sure you want to cancel your offer?")) {
-                                          cancel_offer(
-                                            "0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876",
-                                            venomProvider,
-                                            signer_address,
-                                          );
-                                          // removeOffer(offer?._id);
-                                        }
-                                      }}
-                                    >
-                                      Cancel
-                                    </button>
+                                    expiredOffer ?
+                                      <button
+                                        className="text-jacarta-700 dark:text-jacarta-200"
+                                        onClick={() => {
+                                          if (window.confirm("Are you sure you want to cancel your offer?")) {
+                                            removeOffer(
+                                              "0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876",
+                                              venomProvider,
+                                              signer_address,
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        Claim
+                                      </button>
+                                      :
+                                      <button
+                                        className="text-jacarta-700 dark:text-jacarta-200"
+                                        onClick={() => {
+                                          if (window.confirm("Are you sure you want to cancel your offer?")) {
+                                            removeOffer(
+                                              "0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876",
+                                              venomProvider,
+                                              signer_address,
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        Cancel
+                                      </button>
                                   )}
                                   {signer_address == offer?.from && offer?.status == "cancelled" && (
                                     <button className="text-red cursor-default">Cancelled</button>
                                   )}
                                   {signer_address == nft?.ownerAddress && offer?.status == "active" && (
-                                    <button
-                                      className="text-jacarta-700 dark:text-jacarta-200"
-                                      onClick={() => {
-                                        if (window.confirm("Are you sure you want to accept this offer?")) {
-                                          accept_offer(
-                                            "0:697a3e483a83aafa7264a92648a6544167041c6a4d584569a15e93b6dc1cf6e3",
-                                            venomProvider,
-                                            slug,
-                                            signer_address,
-                                          );
-                                          // acceptOffer(offer?._id);
-                                        }
-                                      }}
-                                    >
-                                      Accept
-                                    </button>
+                                    expiredOffer ?
+                                      <button className="text-red cursor-default">
+                                        Expired
+                                      </button>
+                                      :
+                                      <button
+                                        className="text-jacarta-700 dark:text-jacarta-200"
+                                        onClick={() => {
+                                          if (window.confirm("Are you sure you want to accept this offer?")) {
+                                            acceptOffer(
+                                              "0:697a3e483a83aafa7264a92648a6544167041c6a4d584569a15e93b6dc1cf6e3",
+                                              venomProvider,
+                                              slug,
+                                              signer_address,
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        Accept
+                                      </button>
                                   )}
                                   {signer_address == nft?.ownerAddress && offer?.status == "accepted" && (
                                     <button className="text-green cursor-default">Accepted</button>

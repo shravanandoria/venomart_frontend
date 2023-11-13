@@ -18,7 +18,7 @@ import { Subscriber, TvmException } from "everscale-inpage-provider";
 
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
-import { addOffer, getOfferWithOfferContract, updateOffer } from "./mongo_api/offer/offer";
+import { addOffer, getOfferWithOfferContract, removeAllOffers, updateOffer } from "./mongo_api/offer/offer";
 
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
@@ -876,6 +876,8 @@ export const bulk_buy_nfts = async (
 export const MakeOpenOffer = async (
   provider,
   signer_address,
+  onchainNFTData,
+  nft,
   nft_address,
   client,
   oldOffer,
@@ -883,6 +885,10 @@ export const MakeOpenOffer = async (
   offerExpiration,
 ) => {
   try {
+    if (onchainNFTData) {
+      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
+    }
+
     const contract = new provider.Contract(TokenRoot, WVenomAddress);
 
     const tokenWalletAddress = await contract.methods
@@ -957,17 +963,25 @@ export const MakeOpenOffer = async (
   }
 };
 
-export const cancel_offer = async (offer_address, provider, signer_address) => {
-  const contract = new provider.Contract(make_offer_abi, new Address(offer_address));
-
+// cancel offer 
+export const cancel_offer = async (offer_address, provider, signer_address, selectedOfferId) => {
+  const contract = new provider.Contract(make_offer_abi, offer_address);
   await contract.methods.return_offer().send({
     from: new Address(signer_address),
     amount: (100000000).toString(),
   });
+
+  // updating offer in DB 
+  const removeOffer = await updateOffer("cancelled", selectedOfferId);
+  return true;
 };
 
-export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
-  console.log({ offer_address, provider, nft_address, signer_address });
+// accept offer 
+export const accept_offer = async (offer_address, provider, nft_address, signer_address, selectedOfferId) => {
+  // write a function to remove nft listing if listed 
+  // code code code here 
+
+  // sending accept offer transaction 
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
@@ -979,4 +993,9 @@ export const accept_offer = async (offer_address, provider, nft_address, signer_
       from: new Address(signer_address),
       amount: (1500000000).toString(),
     });
+
+  // removing all other offers of the nft 
+  const resetOffers = await removeAllOffers(nft_address);
+
+  return true;
 };

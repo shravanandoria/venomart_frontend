@@ -55,6 +55,18 @@ export default async function handler(req, res) {
                         expiration
                     })
 
+                    // sending notification
+                    let notification = await Notification.create({
+                        chain: "Venom",
+                        user: from,
+                        soldTo: nft?.ownerAddress,
+                        price: offerPrice,
+                        hash: "undefined",
+                        hasReaded: false,
+                        nft,
+                        type: "offer"
+                    });
+
                     return res.status(200).json({ success: true, data: "Successfully created an offer" });
                 } catch (error) {
                     res.status(400).json({ success: false, data: error.message });
