@@ -902,6 +902,25 @@ export const MakeOpenOffer = async (
 
     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
+    const afterEvent = async (event) => {
+      // saving new offer to database 
+      const addoffer = await addOffer(
+        signer_address,
+        offerAmount,
+        event?.data ? event?.data?.new_offer_contract : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        offerExpiration,
+        nft_address,
+      );
+    }
+
+    // event 
+    const subscriber = new Subscriber(provider);
+    const contractEvents = factoryContract.events(subscriber);
+    contractEvents.on(async event => {
+      console.log(event);
+      afterEvent(event);
+    });
+
     const now = moment().add(1, "day").unix();
 
     const makeOfferFee = await factoryContract.methods.makeOffer_fee({ answerId: 0 }).call();
@@ -934,21 +953,6 @@ export const MakeOpenOffer = async (
         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
       });
 
-    // event 
-    const subscriber = new Subscriber(provider);
-    const contractEvents = factoryContract.events(subscriber);
-    contractEvents.on(async event => {
-      console.log(event?.data?.new_offer_contract);
-      // saving new offer to database 
-      const addoffer = await addOffer(
-        signer_address,
-        offerAmount,
-        event ? event?.data?.new_offer_contract : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        offerExpiration,
-        nft_address,
-      );
-    });
-
     // updating the outbidded offer in database 
     if (
       oldOffer != "" &&
@@ -960,9 +964,9 @@ export const MakeOpenOffer = async (
     }
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await wait(7000);
-
+    await wait(10000);
     return true;
+
   } catch (error) {
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
@@ -986,7 +990,7 @@ export const cancel_offer = async (offer_address, provider, signer_address, sele
 };
 
 // accept offer 
-export const accept_offer = async (offer_address, provider, nft_address, signer_address, selectedOfferId) => {
+export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
   // write a function to remove nft listing if listed 
   // code code code here 
 

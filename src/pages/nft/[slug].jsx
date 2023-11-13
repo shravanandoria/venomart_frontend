@@ -501,9 +501,9 @@ const NFTPage = ({
   };
 
   // remove offer
-  const removeOffer = async (offerAddress, venomProvider, slug, signer_address, selectedOfferId) => {
+  const removeOffer = async (offerAddress, venomProvider, signer_address, selectedOfferId) => {
     set_loading(true);
-    const removeOffer = await cancel_offer(offerAddress, venomProvider, slug, signer_address, selectedOfferId);
+    const removeOffer = await cancel_offer(offerAddress, venomProvider, signer_address, selectedOfferId);
 
     if (removeOffer) {
       await getNFTOffers();
@@ -515,9 +515,9 @@ const NFTPage = ({
   };
 
   // accept offer
-  const acceptOffer = async (offerAddress, venomProvider, slug, signer_address, selectedOfferId) => {
+  const acceptOffer = async (offerAddress, venomProvider, nft_address, signer_address) => {
     set_loading(true);
-    const acceptOffer = await accept_offer(offerAddress, venomProvider, slug, signer_address, selectedOfferId);
+    const acceptOffer = await accept_offer(offerAddress, venomProvider, nft_address, signer_address);
 
     if (acceptOffer) {
       await getNFTOffers();
@@ -1607,9 +1607,10 @@ const NFTPage = ({
                                         onClick={() => {
                                           if (window.confirm("Are you sure you want to cancel your offer?")) {
                                             removeOffer(
-                                              "0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876",
+                                              offer?.offerContract,
                                               venomProvider,
                                               signer_address,
+                                              offer?._id
                                             );
                                           }
                                         }}
@@ -1622,9 +1623,10 @@ const NFTPage = ({
                                         onClick={() => {
                                           if (window.confirm("Are you sure you want to cancel your offer?")) {
                                             removeOffer(
-                                              "0:ef540f71f8706118e16ca301d0f6bfd65b2811e9b8538187965d37518d045876",
+                                              offer?.offerContract,
                                               venomProvider,
                                               signer_address,
+                                              offer?._id
                                             );
                                           }
                                         }}
@@ -1646,10 +1648,10 @@ const NFTPage = ({
                                         onClick={() => {
                                           if (window.confirm("Are you sure you want to accept this offer?")) {
                                             acceptOffer(
-                                              "0:697a3e483a83aafa7264a92648a6544167041c6a4d584569a15e93b6dc1cf6e3",
+                                              offer?.offerContract,
                                               venomProvider,
                                               slug,
-                                              signer_address,
+                                              signer_address
                                             );
                                           }
                                         }}
