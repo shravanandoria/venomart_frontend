@@ -344,7 +344,7 @@
         "Description": "The next entry in the Revolt Showcase,  Second of the new agents. All showcase series are a monument to our agents evolution on the Venom Blockchain.",
         "mintPrice": "1",
         "status": "Upcoming",
-        "CollectionAddress": "",
+        "CollectionAddress": "0:b5e1afaa0d5526a06871e130f72c5ebad4010d6be32e66baefb2f08265d2374b",
         "customLink": "launch/revolt_trigger_fingers",
         "pageName": "revolt_trigger_fingers",
         "supply": "0",
