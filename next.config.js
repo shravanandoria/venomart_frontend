@@ -8,7 +8,7 @@ const nextConfig = {
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET,DELETE,PATCH,POST,PUT",
+            value: "GET",
           },
           {
             key: "Access-Control-Allow-Headers",

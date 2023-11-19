@@ -483,14 +483,12 @@ export const create_launchpad_nft = async (data, signer_address, venomProvider) 
       description: data.description,
       preview: {
         source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "video/mp4",
-        // mimetype: "image/gif",
+        mimetype: "image/gif",
       },
       files: [
         {
           source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "video/mp4",
-          // mimetype: "image/gif",
+          mimetype: "image/gif",
         },
       ],
       attributes: data.properties,
