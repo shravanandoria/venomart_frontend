@@ -1,13 +1,13 @@
 {
     "rewrites": [
         {
-            "source": "/api/*",
-            "destination": "/api/[...path]"
+            "source": "/api/(.*)",
+            "destination": "/api/$1"
         }
     ],
     "headers": [
         {
-            "source": "/api/*",
+            "source": "/api/(.*)",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Origin",
@@ -15,7 +15,11 @@
                 },
                 {
                     "key": "Access-Control-Allow-Methods",
-                    "value": "GET"
+                    "value": "GET,OPTIONS"
+                },
+                {
+                    "key": "Access-Control-Allow-Headers",
+                    "value": "Origin, X-Requested-With, Content-Type, Accept"
                 }
             ]
         }
