@@ -575,7 +575,7 @@ const vac_rave = ({
                                         {projectTwitter &&
                                             <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                                 <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    1] Follow Revolt on twitter
+                                                    1] Follow Rave on twitter
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/follow?screen_name=ravegamenft`}
@@ -639,7 +639,7 @@ const vac_rave = ({
                                         {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    5] Join Revolt discord server
+                                                    5] Join Rave discord server
                                                 </p>
                                                 <Link
                                                     href={"https://discord.com/invite/CyHyDa5ZYv"}
