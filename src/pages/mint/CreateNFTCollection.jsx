@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import { useStorage } from "@thirdweb-dev/react";
-import { create_collection } from "../../utils/user_nft";
+import { collection_minting_fees, create_main_collection } from "../../utils/user_nft";
+import venomLogo from "../../../public/venomBG.webp";
+import Image from "next/image";
+import Link from "next/link";
+import { GoArrowUpRight } from "react-icons/go";
 
-const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, venomProvider }) => {
+const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, venomProvider, setAnyModalOpen }) => {
     const storage = useStorage();
 
     const [loading, set_loading] = useState(false);
@@ -21,7 +25,11 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
         royaltyAddress: "",
         description: "",
         max_supply: "",
-        external_url: "https://venomart.io/"
+        category: "",
+        telegram: "",
+        twitter: "",
+        discord: "",
+        website: ""
     });
 
     const handleChange = (e) => {
@@ -32,6 +40,12 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
     };
 
     const handle_submit = async (e) => {
+        e.preventDefault();
+        setMintModal(true);
+        setAnyModalOpen(true);
+    };
+
+    const handle_create_collection = async (e) => {
         e.preventDefault();
         if (!signer_address) {
             connectWallet();
@@ -44,7 +58,7 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
 
         let obj = { ...data, cover: cover, logo: logo };
 
-        const createCollection = await create_collection(venomProvider, signer_address, obj);
+        const createCollection = await create_main_collection(venomProvider, signer_address, obj);
         if (createCollection) {
             setMintModal(false);
             setMintSuccessModal(true);
@@ -67,6 +81,13 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.webp" />
             </Head>
+
+            {mintModal && (
+                <div className="backgroundModelBlur backdrop-blur-lg"></div>
+            )}
+            {mintSuccessModal && (
+                <div className="backgroundModelBlur backdrop-blur-lg"></div>
+            )}
 
             {loading ? (
                 <Loader theme={theme} />
@@ -246,26 +267,42 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
                                     ></textarea>
                                 </div>
 
-                                {/* <!-- External URL --> */}
+                                {/* <!-- Category --> */}
                                 <div className="mb-6">
                                     <label
                                         htmlFor="item-description"
                                         className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                     >
-                                        External URL
-                                        <span className="text-red">*</span>
+                                        Category
                                     </label>
                                     <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                        An external URL can be your any of your social media url which includes twitter or website, etc
+                                        select a suitable category for your collection
                                     </p>
-                                    <input
+                                    <select
+                                        name="category"
                                         onChange={handleChange}
-                                        name="external_url"
-                                        type="text"
-                                        id="item-name"
-                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                        placeholder="Eg: https://venomart.io/"
-                                    />
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                            } `}
+                                        required
+                                    >
+                                        <option value={"Collectibles"}>
+                                            Collectibles
+                                        </option>
+                                        <option value={"Art"}>
+                                            Art
+                                        </option>
+                                        <option value={"Games"}>
+                                            Games
+                                        </option>
+                                        <option value={"Memes"}>
+                                            Memes
+                                        </option>
+                                        <option value={"Utility"}>
+                                            Utility
+                                        </option>
+                                    </select>
                                 </div>
 
                                 {/* creator royalty  */}
@@ -335,6 +372,72 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
                                     />
                                 </div>
 
+                                {/* socials  */}
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Website
+                                    </label>
+                                    <input
+                                        onChange={handleChange}
+                                        name="website"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Website URL"
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Twitter
+                                    </label>
+                                    <input
+                                        onChange={handleChange}
+                                        name="twitter"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Twitter URL"
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Discord
+                                    </label>
+                                    <input
+                                        onChange={handleChange}
+                                        name="discord"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Discord URL"
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <label
+                                        htmlFor="item-name"
+                                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                        Telegram
+                                    </label>
+                                    <input
+                                        onChange={handleChange}
+                                        name="telegram"
+                                        type="text"
+                                        id="item-name"
+                                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
+                                        placeholder="Telegram URL"
+                                    />
+                                </div>
+
                                 {/* <!-- Submit nft form --> */}
                                 <button
                                     type="submit"
@@ -355,6 +458,214 @@ const CreateNFTCollection = ({ theme, MintCollectionStatus, signer_address, veno
                         </div>
                     }
                 </form>
+            )}
+
+            {mintModal && (
+                <div className="afterMintDiv">
+                    <form onSubmit={handle_create_collection} className="modal-dialog max-w-2xl">
+                        <div className="modal-content shadow-2xl dark:bg-jacarta-800">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="placeBidLabel">
+                                    Confirm Create Collection
+                                </h5>
+                                {!loading && (
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={() => (
+                                            setMintModal(false), setAnyModalOpen(false)
+                                        )}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                                        >
+                                            <path fill="none" d="M0 0h24v24H0z" />
+                                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                                        </svg>
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* fees and display section  */}
+                            <div className="modal-body p-6">
+                                <div className="mb-2 flex items-center justify-between">
+                                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                                        You are about to create
+                                    </span>
+                                </div>
+                                <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center py-4">
+                                    <div className="mr-5 self-start">
+                                        <Image
+                                            src={preview?.logo?.replace(
+                                                "ipfs://",
+                                                "https://ipfs.io/ipfs/"
+                                            )}
+                                            alt="nftPreview"
+                                            width="80"
+                                            height="80"
+                                            className="rounded-2lg"
+                                        />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                                            {data?.name} {" "} <span className="text-jacarta-200 dark:text-gray-200">({data?.symbol})</span>
+                                        </h3>
+                                        <h3 className="text-jacarta-700 mb-1 text-base dark:text-white">
+                                            {data?.description}
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
+                                    <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
+                                        Minting Fees
+                                    </span>
+                                    <div className="ml-auto">
+                                        <span className="flex items-center whitespace-nowrap">
+                                            <span>
+                                                <Image
+                                                    src={venomLogo}
+                                                    height={100}
+                                                    width={100}
+                                                    className="h-4 w-4 mr-2"
+                                                />
+                                            </span>
+                                            <span className="text-green font-medium tracking-tight">
+                                                {collection_minting_fees / 1000000000}
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="mt-4 flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        id="buyNowTerms"
+                                        className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="buyNowTerms"
+                                        className="dark:text-jacarta-200 text-sm"
+                                    >
+                                        I am sure, i want to create this NFT Collection on venom blockchain{" "}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="modal-footer">
+                                <div className="flex items-center justify-center space-x-4">
+                                    {loading ? (
+                                        <button
+                                            disabled
+                                            type="button"
+                                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                        >
+                                            Creating{" "}
+                                            <svg
+                                                aria-hidden="true"
+                                                className="inline w-6 h-6 ml-3 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                viewBox="0 0 100 101"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                    fill="currentColor"
+                                                />
+                                                <path
+                                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                    fill="currentFill"
+                                                />
+                                            </svg>
+                                        </button>
+                                    ) : (
+                                        <button
+                                            type="submit"
+                                            className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                        >
+                                            Confirm Create
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                            {loading && (
+                                <h3 className="px-12 mb-6 text-[14px] dark:text-white text-jacarta-700 text-center">
+                                    Please do not refresh or leave this page, you will get
+                                    a popup after your collection is created successfully, hold
+                                    tight!
+                                </h3>
+                            )}
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {mintSuccessModal && (
+                <div className="afterMintDiv">
+                    <form className="modal-dialog max-w-2xl">
+                        <div className="modal-content shadow-2xl dark:bg-jacarta-800">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="placeBidLabel">
+                                    Success 🥳
+                                </h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={() => (setMintSuccessModal(false), setAnyModalOpen(false))}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                                    >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="modal-body p-6">
+                                <div className="mb-2 flex items-center justify-between">
+                                    <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
+                                        You have successfully created the {data.name} collection 🎉🎉🎉 <br /> View your profile to see the
+                                        created collection 🤗
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
+                                <div className="flex items-center justify-center space-x-4 m-2">
+                                    <Link
+                                        href={`/profile/${signer_address}`}
+                                        className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        View
+                                        <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
+                                    </Link>
+                                </div>
+                                {/* <div className="flex items-center justify-center space-x-4 m-2">
+                                    <a
+                                        href={`https://twitter.com/intent/tweet?text=Just%20minted%20a%20brand%20new%20NFT%20onchain%20via%20venomart.io%20and%20completed%20the%20venom.network%20latest%20task%20%F0%9F%94%A5%0AHere%20you%20go%20-%20https://venomart.io/mint/CreateNFT%0A%23Venom%20%23venomart%20%23VenomTestnet%20%23VenomNetwork%20%23VenomFoundation`}
+                                        target="_blank"
+                                        className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        Share
+                                        <BsFillShareFill className="ml-[8px] mt-[6px] text-[14px]" />
+                                    </a>
+                                </div> */}
+                            </div>
+                        </div>
+                    </form>
+                </div>
             )}
         </div>
     );

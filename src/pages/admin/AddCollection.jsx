@@ -25,6 +25,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     telegram: "",
     isVerified: false,
     isPropsEnabled: false,
+    Category: "",
     description: "",
   });
 
@@ -350,6 +351,44 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                   >
                     <option value={false}>False</option>
                     <option value={true}>True</option>
+                  </select>
+                </div>
+
+                {/* <!-- Category --> */}
+                <div className="mb-6">
+                  <label
+                    htmlFor="item-description"
+                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                  >
+                    Category
+                  </label>
+                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                    select a suitable category for your collection
+                  </p>
+                  <select
+                    name="Category"
+                    onChange={handleChange}
+                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                      } `}
+                    required
+                  >
+                    <option value={"Collectibles"}>
+                      Collectibles
+                    </option>
+                    <option value={"Art"}>
+                      Art
+                    </option>
+                    <option value={"Games"}>
+                      Games
+                    </option>
+                    <option value={"Memes"}>
+                      Memes
+                    </option>
+                    <option value={"Utility"}>
+                      Utility
+                    </option>
                   </select>
                 </div>
 

@@ -16,6 +16,8 @@ export const create_collection = async (data) => {
     isVerified: data.isVerified,
     isPropsEnabled: data.isPropsEnabled,
     description: data.description,
+    Category: data.Category ? data.Category : "",
+    TotalSupply: data.TotalSupply ? data.TotalSupply : 0
   };
 
   try {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import venomLogo from "../../../public/venomBG.webp";
 import { GoArrowUpRight } from "react-icons/go";
 import { BsFillShareFill } from "react-icons/bs";
+import { get_user_collections } from "../../utils/mongo_api/collection/collection";
 
 const CreateNFT = ({
   defaultCollectionAddress,
@@ -51,6 +52,15 @@ const CreateNFT = ({
   //   "https://ipfs.io/ipfs/QmNqPGLMkkbJezyjuZTShnLe3GzGoU7VcjyACXcAeFiiWV/3.webp",
   //   "https://ipfs.io/ipfs/QmWYVwPg2vVxc684M8AmUPuYPWaQqGs9LHhgbG8rHro4AE/4.webp",
   // ];
+
+  // getting user collections
+  const getting_user_collections = async () => {
+    if (!signer_address) return;
+    const res = await get_user_collections(signer_address, 0);
+    if (res) {
+      set_user_collections(res);
+    }
+  };
 
   const handleChange = (e) => {
     set_data({ ...data, [e.target.name]: e.target.value });
@@ -103,6 +113,10 @@ const CreateNFT = ({
     }
     set_loading(false);
   };
+
+  useEffect(() => {
+    getting_user_collections();
+  }, [signer_address]);
 
   return (
     <div className={`${theme}`}>
@@ -343,7 +357,7 @@ const CreateNFT = ({
                   </option>
                   {user_collections?.map((e, index) => {
                     return (
-                      <option key={index} value={e.collection_address}>
+                      <option key={index} value={e.contractAddress}>
                         {e.name}
                       </option>
                     );

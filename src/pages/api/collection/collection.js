@@ -220,7 +220,9 @@ export default async function handler(req, res) {
             description,
             socials,
             isVerified,
-            isPropsEnabled
+            isPropsEnabled,
+            Category,
+            TotalSupply
           } = req.body;
 
           const owner = await User.findOne({ wallet_id: creatorAddress });
@@ -241,6 +243,8 @@ export default async function handler(req, res) {
             existingCollection.socials = socials;
             existingCollection.isVerified = isVerified;
             existingCollection.isPropsEnabled = isPropsEnabled;
+            existingCollection.Category = Category;
+            existingCollection.TotalSupply = TotalSupply;
 
             await existingCollection.save();
           }
@@ -259,12 +263,9 @@ export default async function handler(req, res) {
               isVerified,
               isNSFW: false,
               isPropsEnabled,
-              Category: "",
-              TotalSupply: 0
+              Category: Category ? Category : "",
+              TotalSupply: TotalSupply ? TotalSupply : 0
             });
-
-            await owner.nftCollections.push(collection);
-            await owner.save();
           }
 
           res.status(200).json({ success: true, data: "collection created" });

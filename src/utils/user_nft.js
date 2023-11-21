@@ -24,6 +24,7 @@ import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
+import { create_collection } from "./mongo_api/collection/collection";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -417,9 +418,36 @@ export const create_nft = async (data, signer_address, venomProvider) => {
 };
 
 // create collection
-export const create_collection = async (provider, signer_address, data) => {
+export const create_main_collection = async (provider, signer_address, data) => {
   try {
     const contract = new provider.Contract(CollectionFactory, CollectionFactoryAddress);
+
+
+    const create_collection_db = async (event) => {
+      let obj = {
+        name: data.name,
+        contractAddress: event?.data?.new_collection?._address,
+        creatorAddress: signer_address,
+        royaltyAddress: data.royaltyAddress,
+        logo: data.logo,
+        coverImage: data.cover,
+        royalty: data.royalty,
+        socials: [data.website, data.twitter, data.discord, data.telegram],
+        isVerified: false,
+        isPropsEnabled: false,
+        description: data.description,
+        Category: data.category,
+        TotalSupply: data.max_supply
+      }
+      const createColl = await create_collection(obj);
+    }
+
+    const subscriber = new Subscriber(provider);
+    const contractEvents = contract.events(subscriber);
+
+    contractEvents.on(async (event) => {
+      create_collection_db(event);
+    });
 
     const nft_json = JSON.stringify({
       type: "NFT Collection",
@@ -450,6 +478,11 @@ export const create_collection = async (provider, signer_address, data) => {
         from: new Address(signer_address),
         amount: fee.value0,
       });
+
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await wait(5000);
+
+    return true;
   } catch (error) {
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
