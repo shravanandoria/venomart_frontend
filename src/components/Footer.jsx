@@ -909,15 +909,6 @@ const Footer = ({
                 </li>
                 <li>
                   <Link
-                    href="https://zealy.io/c/venomart/questboard"
-                    target="_blank"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    OG Quests
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     href="/Help"
                     className="hover:text-accent dark:hover:text-white"
                   >
