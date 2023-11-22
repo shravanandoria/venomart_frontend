@@ -499,13 +499,34 @@ const Profile = ({
       <section className="relative pb-6 pt-28 dark:bg-jacarta-900">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="relative">
-            <Image
-              src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") || defLogo}
-              alt="collection avatar"
-              height={100}
-              width={100}
-              className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
-            />
+            {user_data?.profileImage?.includes(".mp4") ?
+              <video
+                style={{
+                  objectFit: "cover"
+                }}
+                className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
+                autoPlay="autoplay"
+                loop="true"
+              >
+                <source
+                  src={
+                    user_data?.profileImage?.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/"
+                    )
+                  }
+                  type="video/mp4"
+                ></source>
+              </video>
+              :
+              <Image
+                src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") || defLogo}
+                alt="collection avatar"
+                height={100}
+                width={100}
+                className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
+              />
+            }
           </div>
         </div>
 

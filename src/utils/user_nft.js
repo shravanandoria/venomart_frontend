@@ -1021,9 +1021,25 @@ export const cancel_offer = async (offer_address, provider, signer_address, sele
 };
 
 // accept offer 
-export const accept_offer = async (offer_address, provider, nft_address, signer_address) => {
-  // write a function to remove nft listing if listed 
-  // code code code here 
+export const accept_offer = async (offer_address, offerPrice, from, provider, nft_address, signer_address, prev_nft_Owner, prev_nft_Manager, collection_address, stampedFloor) => {
+  //function to remove nft listing if listed
+  if (prev_nft_Owner != prev_nft_Manager) {
+    if (window.confirm("you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?")) {
+      const cancel_nft_list = await cancel_listing(
+        prev_nft_Owner,
+        prev_nft_Manager,
+        nft_address,
+        collection_address,
+        provider,
+        signer_address,
+        stampedFloor);
+
+      if (!cancel_nft_list) return;
+    }
+    else {
+      return;
+    }
+  }
 
   // sending accept offer transaction 
   const nft_contract = new provider.Contract(nftAbi, nft_address);
@@ -1040,6 +1056,28 @@ export const accept_offer = async (offer_address, provider, nft_address, signer_
 
   // removing all other offers of the nft 
   const resetOffers = await removeAllOffers(nft_address);
+
+  if (resetOffers) {
+    let obj = {
+      NFTAddress: nft_address,
+      isListed: false,
+      price: "0",
+      demandPrice: 0,
+      new_owner: from,
+      new_manager: from,
+      hash: output ? output?.id?.hash : "",
+      from: prev_nft_Owner,
+      to: signer_address,
+      saleprice: offerPrice,
+      type: "sale",
+      wallet_id: from,
+      nft_address: nft_address,
+      collection_address: collection_address,
+      newFloorPrice: 0,
+      stampedFloor: parseFloat(stampedFloor),
+    };
+    const updateNFTData = await updateNFTsale(obj);
+  }
 
   return true;
 };

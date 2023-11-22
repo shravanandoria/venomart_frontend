@@ -467,63 +467,80 @@ const NFTPage = ({
   const makeOffer = async e => {
     e.preventDefault();
     if (!slug) return;
+    try {
+      if (noExistingOffer) {
+        alert("You already have an active offer on this NFT!!");
+        return;
+      }
 
-    if (noExistingOffer) {
-      alert("You already have an active offer on this NFT!!");
-      return;
-    }
+      set_loading(true);
+      // getting previous offer contract address if exists 
+      const getActiveOffers = await getActiveOffer(nft?._id);
 
-    set_loading(true);
-    // getting previous offer contract address if exists 
-    const getActiveOffers = await getActiveOffer(nft?._id);
+      const makeOffer = await MakeOpenOffer(
+        venomProvider,
+        signer_address,
+        onchainNFTData,
+        nft,
+        slug,
+        client,
+        getActiveOffers?.offerContract
+          ? getActiveOffers?.offerContract
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        offerPrice,
+        offerExpiration,
+      );
 
-    const makeOffer = await MakeOpenOffer(
-      venomProvider,
-      signer_address,
-      onchainNFTData,
-      nft,
-      slug,
-      client,
-      getActiveOffers?.offerContract
-        ? getActiveOffers?.offerContract
-        : "0:0000000000000000000000000000000000000000000000000000000000000000",
-      offerPrice,
-      offerExpiration,
-    );
-
-    if (makeOffer) {
-      await getNFTOffers();
-      set_loading(false);
-      setOfferModal(false);
-    } else {
+      if (makeOffer) {
+        await getNFTOffers();
+        set_loading(false);
+        setOfferModal(false);
+      } else {
+        set_loading(false);
+      }
+    } catch (error) {
+      console.log(error);
       set_loading(false);
     }
   };
 
   // remove offer
   const removeOffer = async (offerAddress, venomProvider, signer_address, selectedOfferId) => {
-    set_loading(true);
-    const removeOffer = await cancel_offer(offerAddress, venomProvider, signer_address, selectedOfferId);
+    try {
+      set_loading(true);
+      const removeOffer = await cancel_offer(offerAddress, venomProvider, signer_address, selectedOfferId);
 
-    if (removeOffer) {
-      await getNFTOffers();
-      set_loading(false);
-      setOfferModal(false);
-    } else {
+      if (removeOffer) {
+        await getNFTOffers();
+        set_loading(false);
+        setOfferModal(false);
+      } else {
+        set_loading(false);
+      }
+
+    } catch (error) {
+      console.log(error);
       set_loading(false);
     }
   };
 
   // accept offer
-  const acceptOffer = async (offerAddress, venomProvider, nft_address, signer_address) => {
-    set_loading(true);
-    const acceptOffer = await accept_offer(offerAddress, venomProvider, nft_address, signer_address);
+  const acceptOffer = async (offerAddress, offerPrice, from, venomProvider, nft_address, signer_address) => {
+    try {
+      set_loading(true);
 
-    if (acceptOffer) {
-      await getNFTOffers();
-      set_loading(false);
-      setOfferModal(false);
-    } else {
+      const acceptOffer = await accept_offer(offerAddress, offerPrice, from, venomProvider, nft_address, signer_address, nft?.ownerAddress, nft?.managerAddress, nft?.NFTCollection?.contractAddress, nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice);
+
+      if (acceptOffer) {
+        await getNFTOffers();
+        set_loading(false);
+        setOfferModal(false);
+      } else {
+        set_loading(false);
+      }
+
+    } catch (error) {
+      console.log(error);
       set_loading(false);
     }
   };
@@ -799,17 +816,38 @@ const NFTPage = ({
                     <div className="mb-4 flex mr-8">
                       <div className="mr-4 shrink-0">
                         <a className="relative block">
-                          <Image
-                            src={
-                              nft?.userProfileImage
-                                ? nft?.userProfileImage.replace("ipfs://", "https://ipfs.io/ipfs/")
-                                : defLogo
-                            }
-                            height={100}
-                            width={100}
-                            alt="avatar 1"
-                            className="rounded-2lg h-[45px] w-[45px] object-cover"
-                          />
+                          {nft?.userProfileImage?.includes(".mp4") ?
+                            <video
+                              style={{
+                                objectFit: "cover"
+                              }}
+                              className="rounded-2lg h-[45px] w-[45px] object-cover"
+                              autoPlay="autoplay"
+                              loop="true"
+                            >
+                              <source
+                                src={
+                                  nft?.userProfileImage?.replace(
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
+                                }
+                                type="video/mp4"
+                              ></source>
+                            </video>
+                            :
+                            <Image
+                              src={
+                                nft?.userProfileImage
+                                  ? nft?.userProfileImage.replace("ipfs://", "https://ipfs.io/ipfs/")
+                                  : defLogo
+                              }
+                              height={100}
+                              width={100}
+                              alt="avatar 1"
+                              className="rounded-2lg h-[45px] w-[45px] object-cover"
+                            />
+                          }
                         </a>
                       </div>
                       <div className="flex flex-col justify-center">
@@ -835,21 +873,42 @@ const NFTPage = ({
                     <div className="mb-4 flex">
                       <div className="mr-4 shrink-0">
                         <a className="relative block">
-                          <Image
-                            src={
-                              nft?.managerAddress
-                                ? nft?.managerAddress == nft?.ownerAddress
-                                  ? nft?.userProfileImage
-                                    ? nft?.userProfileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                          {nft?.userProfileImage?.includes(".mp4") ?
+                            <video
+                              style={{
+                                objectFit: "cover"
+                              }}
+                              className="rounded-2lg h-[45px] w-[45px] object-cover"
+                              autoPlay="autoplay"
+                              loop="true"
+                            >
+                              <source
+                                src={
+                                  nft?.userProfileImage?.replace(
+                                    "ipfs://",
+                                    "https://ipfs.io/ipfs/"
+                                  )
+                                }
+                                type="video/mp4"
+                              ></source>
+                            </video>
+                            :
+                            <Image
+                              src={
+                                nft?.managerAddress
+                                  ? nft?.managerAddress == nft?.ownerAddress
+                                    ? nft?.userProfileImage
+                                      ? nft?.userProfileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                                      : defLogo
                                     : defLogo
                                   : defLogo
-                                : defLogo
-                            }
-                            height={100}
-                            width={100}
-                            alt="avatar 1"
-                            className="rounded-2lg h-[45px] w-[45px]"
-                          />
+                              }
+                              height={100}
+                              width={100}
+                              alt="avatar 1"
+                              className="rounded-2lg h-[45px] w-[45px]"
+                            />
+                          }
                         </a>
                       </div>
                       <div className="flex flex-col justify-center">
@@ -1649,6 +1708,8 @@ const NFTPage = ({
                                           if (window.confirm("Are you sure you want to accept this offer?")) {
                                             acceptOffer(
                                               offer?.offerContract,
+                                              offer?.offerPrice,
+                                              offer?.from,
                                               venomProvider,
                                               slug,
                                               signer_address

@@ -45,6 +45,11 @@ export default async function handler(req, res) {
                             .status(400)
                             .json({ success: false, data: "Cannot Find the NFT" });
 
+                    const find_offer = await Offer.findOne({ offerContract });
+                    if (find_offer) {
+                        return res.status(200).json({ success: true, data: "an offer with the contract address already exists!" });
+                    }
+
                     let makeOffer = await Offer.create({
                         chain: "Venom",
                         from,
