@@ -658,6 +658,23 @@ const venom_cows = ({
                                             </Link>
                                         </div>
 
+                                        {/* retweet tweet  */}
+                                        {intendTweetId &&
+                                            <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
+                                                <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
+                                                    5] Retweet and like this tweet
+                                                </p>
+                                                <Link
+                                                    href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
+                                                    target="_blank"
+                                                    className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                >
+                                                    Retweet{" "}
+                                                    <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
+                                                </Link>
+                                            </div>
+                                        }
+
                                         {status == "Live" && !checkMint && (
                                             <div className="flex items-center pb-5 border-b-2 border-gray-100 mb-5">
                                                 {actionVerify ? (
