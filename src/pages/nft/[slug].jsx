@@ -489,6 +489,8 @@ const NFTPage = ({
           : "0:0000000000000000000000000000000000000000000000000000000000000000",
         offerPrice,
         offerExpiration,
+        nft?.ownerAddress,
+        nft?.NFTCollection?.contractAddress
       );
 
       if (makeOffer) {
@@ -505,10 +507,10 @@ const NFTPage = ({
   };
 
   // remove offer
-  const removeOffer = async (offerAddress, venomProvider, signer_address, selectedOfferId) => {
+  const removeOffer = async (offerAddress, venomProvider, signer_address, nft_address, selectedOfferId) => {
     try {
       set_loading(true);
-      const removeOffer = await cancel_offer(offerAddress, venomProvider, signer_address, selectedOfferId);
+      const removeOffer = await cancel_offer(offerAddress, venomProvider, nft_address, signer_address, nft?.ownerAddress, nft?.NFTCollection?.contractAddress, selectedOfferId);
 
       if (removeOffer) {
         await getNFTOffers();
@@ -1669,6 +1671,7 @@ const NFTPage = ({
                                               offer?.offerContract,
                                               venomProvider,
                                               signer_address,
+                                              slug,
                                               offer?._id
                                             );
                                           }
@@ -1685,6 +1688,7 @@ const NFTPage = ({
                                               offer?.offerContract,
                                               venomProvider,
                                               signer_address,
+                                              slug,
                                               offer?._id
                                             );
                                           }

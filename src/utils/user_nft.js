@@ -25,6 +25,7 @@ import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 import { create_collection } from "./mongo_api/collection/collection";
+import { addActivity } from "./mongo_api/activity/activity";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -914,6 +915,8 @@ export const MakeOpenOffer = async (
   oldOffer,
   offerAmount,
   offerExpiration,
+  prev_nft_Owner,
+  collection_address
 ) => {
   try {
     if (onchainNFTData) {
@@ -994,6 +997,18 @@ export const MakeOpenOffer = async (
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
 
+    // adding activity in DB 
+    let obj = {
+      hash: data.hash ? data.hash : "",
+      from: signer_address,
+      to: prev_nft_Owner,
+      type: "offer",
+      wallet_id: signer_address,
+      nft_address: nft_address,
+      collection_address: collection_address
+    }
+    const add_activity = await addActivity(obj);
+
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await wait(10000);
     return true;
@@ -1008,7 +1023,7 @@ export const MakeOpenOffer = async (
 };
 
 // cancel offer 
-export const cancel_offer = async (offer_address, provider, signer_address, selectedOfferId) => {
+export const cancel_offer = async (offer_address, provider, nft_address, signer_address, prev_nft_Owner, collection_address, selectedOfferId) => {
   const contract = new provider.Contract(make_offer_abi, offer_address);
   await contract.methods.return_offer().send({
     from: new Address(signer_address),
@@ -1017,6 +1032,19 @@ export const cancel_offer = async (offer_address, provider, signer_address, sele
 
   // updating offer in DB 
   const removeOffer = await updateOffer("cancelled", selectedOfferId);
+
+  // adding activity in DB 
+  let obj = {
+    hash: data.hash ? data.hash : "",
+    from: signer_address,
+    to: prev_nft_Owner,
+    type: "canceloffer",
+    wallet_id: signer_address,
+    nft_address: nft_address,
+    collection_address: collection_address
+  }
+  const add_activity = await addActivity(obj);
+
   return true;
 };
 
