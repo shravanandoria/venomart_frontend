@@ -40,6 +40,7 @@ import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
 import numeral from "numeral";
 import { TonClientContext } from "../../context/tonclient";
+import { IoHandLeftOutline } from "react-icons/io5";
 
 const Collection = ({
   blockURL,
@@ -2125,6 +2126,36 @@ const Collection = ({
                             <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
                           </svg>
                           <span className={`text-2xs font-medium ${activityType == "sale" && "text-white"}`}>Sale</span>
+                        </button>
+
+                        <button
+                          onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("offer"))}
+                          className={`${activityType == "offer"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
+                        >
+                          <IoHandLeftOutline
+                            className={`mr-2 h-4 w-4 ${activityType == "offer"
+                              ? "text-white"
+                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                              }`} />
+                          <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>Offer</span>
+                        </button>
+
+                        <button
+                          onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("canceloffer"))}
+                          className={`${activityType == "canceloffer"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            }`}
+                        >
+                          <IoHandLeftOutline
+                            className={`mr-2 h-4 w-4 ${activityType == "canceloffer"
+                              ? "text-white"
+                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                              }`} />
+                          <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>Cancel Offer</span>
                         </button>
                       </div>
                     )}

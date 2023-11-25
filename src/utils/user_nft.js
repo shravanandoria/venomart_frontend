@@ -973,7 +973,7 @@ export const MakeOpenOffer = async (
     });
 
     // sending transaction 
-    await tokenWalletContract.methods
+    let output = await tokenWalletContract.methods
       .transfer({
         amount: parseFloat(offerAmount) * 1000000000,
         recipient: FactoryMakeOfferAddress,
@@ -998,16 +998,19 @@ export const MakeOpenOffer = async (
     }
 
     // adding activity in DB 
-    let obj = {
-      hash: data.hash ? data.hash : "",
-      from: signer_address,
-      to: prev_nft_Owner,
-      type: "offer",
-      wallet_id: signer_address,
-      nft_address: nft_address,
-      collection_address: collection_address
+    if (output) {
+      let obj = {
+        hash: output?.id?.hash ? output?.id?.hash : "",
+        from: signer_address,
+        to: prev_nft_Owner,
+        type: "offer",
+        price: offerAmount,
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address
+      }
+      const add_activity = await addActivity(obj);
     }
-    const add_activity = await addActivity(obj);
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await wait(10000);
@@ -1025,7 +1028,7 @@ export const MakeOpenOffer = async (
 // cancel offer 
 export const cancel_offer = async (offer_address, provider, nft_address, signer_address, prev_nft_Owner, collection_address, selectedOfferId) => {
   const contract = new provider.Contract(make_offer_abi, offer_address);
-  await contract.methods.return_offer().send({
+  let output = await contract.methods.return_offer().send({
     from: new Address(signer_address),
     amount: (100000000).toString(),
   });
@@ -1034,16 +1037,18 @@ export const cancel_offer = async (offer_address, provider, nft_address, signer_
   const removeOffer = await updateOffer("cancelled", selectedOfferId);
 
   // adding activity in DB 
-  let obj = {
-    hash: data.hash ? data.hash : "",
-    from: signer_address,
-    to: prev_nft_Owner,
-    type: "canceloffer",
-    wallet_id: signer_address,
-    nft_address: nft_address,
-    collection_address: collection_address
+  if (output) {
+    let obj = {
+      hash: output?.id?.hash ? output?.id?.hash : "",
+      from: signer_address,
+      to: prev_nft_Owner,
+      type: "canceloffer",
+      wallet_id: signer_address,
+      nft_address: nft_address,
+      collection_address: collection_address
+    }
+    const add_activity = await addActivity(obj);
   }
-  const add_activity = await addActivity(obj);
 
   return true;
 };

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import moment from 'moment';
 import numeral from 'numeral';
+import { IoHandLeftOutline } from 'react-icons/io5';
 
 const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress }) => {
 
@@ -82,6 +83,12 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                         {ActivityType == "cancel" &&
                             <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">removed from listing about {dateTimeAgo}</span>
                         }
+                        {ActivityType == "offer" &&
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">new offer of {formatNumberShort(Price)} VENOM about {dateTimeAgo}</span>
+                        }
+                        {ActivityType == "canceloffer" &&
+                            <span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">cancelled an offer about {dateTimeAgo}</span>
+                        }
                         {ActivityType == "sale" &&
                             (<span className="block text-sm text-jacarta-100 mb-3 font-medium dark:text-jacarta-100">
                                 {userPurchases ? "purchased " : "sold "}
@@ -133,6 +140,18 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
                         </svg>
                         <span className="block text-[17px]  text-jacarta-100 dark:text-jacarta-200 font-medium pl-1 pb-1">Remove Listing</span>
+                    </div>
+                }
+                {ActivityType == "canceloffer" &&
+                    <div className='flex flex-row' style={{ justifyContent: 'center', alignItems: "center" }}>
+                        <IoHandLeftOutline className="text-jacarta-700 dark:text-white" />
+                        <span className="block text-[17px]  text-jacarta-100 dark:text-jacarta-200 font-medium pl-1 pb-1">Cancel Offer</span>
+                    </div>
+                }
+                {ActivityType == "offer" &&
+                    <div className='flex flex-row' style={{ justifyContent: 'center', alignItems: "center" }}>
+                        <IoHandLeftOutline className="text-jacarta-700 dark:text-white" />
+                        <span className="block text-[17px]  text-jacarta-100 dark:text-jacarta-200 font-medium pl-1 pb-1">Offer</span>
                     </div>
                 }
                 {ActivityType == "sale" &&
