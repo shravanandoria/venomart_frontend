@@ -754,7 +754,7 @@ const Footer = ({
                   <BsTelegram className="h-5 w-5 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                 </a>
                 <a
-                  href="https://www.youtube.com/@Venomart-marketplace"
+                  href="https://www.youtube.com/@venomart23"
                   target="_blank"
                   className="group"
                 >
