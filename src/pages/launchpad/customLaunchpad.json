@@ -427,5 +427,28 @@
         "startDate": "11/20/2023 16:30:00 GMT+0530",
         "endDate": "11/25/2023 16:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 19,
+        "Cover": "https://ipfs.io/ipfs/QmP37FWnRWRymmepkS4aey9uiWrp64sieeXjnicqL2oJgx/cover.png",
+        "Logo": "https://ipfs.io/ipfs/QmQfwYtTz9JtLmXTtwXfSZeFdLvGm9VDQe1ugadP5nkkfb/download.png",
+        "Name": "The Revolt Showcase: Cutthroat",
+        "Description": "The third entry in the Revolt showcase series on Venomart Launchpad, a commemorative drop of our history together as partners on the Venom Network.",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/revolt_cutthroat",
+        "pageName": "revolt_cutthroat",
+        "supply": "0",
+        "twitterUserName": "revoltnft",
+        "twitter": "https://twitter.com/revoltnft",
+        "tweetID": "1724023761194852508",
+        "discord": "https://discord.com/invite/GmJk8tzbR4",
+        "instagram": "",
+        "telegram": "",
+        "website": "https://linktr.ee/revoltcollection",
+        "startDate": "11/30/2023 16:30:00 GMT+0530",
+        "endDate": "12/04/2023 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
