@@ -94,7 +94,7 @@ export default function App({ Component, pageProps }) {
     {
       nftCollection: 65,
       mintedNFTs: 1243820,
-      mintVolume: 823780,
+      mintVolume: 833780,
     },
   ];
 
