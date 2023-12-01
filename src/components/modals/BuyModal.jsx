@@ -79,7 +79,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         width={70}
                                         className="rounded-2lg"
                                         autoPlay="autoplay"
-                                        loop="true"
+                                        loop={true}
                                     >
                                         <source
                                             src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}

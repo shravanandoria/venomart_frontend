@@ -150,7 +150,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         width={70}
                                         className="rounded-2lg"
                                         autoPlay="autoplay"
-                                        loop="true"
+                                        loop={true}
                                     >
                                         <source
                                             src={onchainNFTData

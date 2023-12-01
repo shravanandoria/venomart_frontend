@@ -537,7 +537,7 @@ const revolt_trigger_fingers = ({
                                         {NFTIMG?.includes(".mp4") ?
                                             <video
                                                 autoPlay="autoplay"
-                                                loop="true"
+                                                loop={true}
                                             >
                                                 <source src={NFTIMG} type="video/mp4"></source>
                                             </video>

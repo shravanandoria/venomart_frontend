@@ -119,7 +119,7 @@ const LaunchCollectionCard = ({
             {Logo?.includes(".mp4") ?
               <video
                 autoPlay="autoplay"
-                loop="true"
+                loop={true}
                 className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
               >
                 <source src={Logo} type="video/mp4"></source>

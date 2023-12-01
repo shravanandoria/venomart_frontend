@@ -603,7 +603,7 @@ const NFTPage = ({
                         height: "100%",
                       }}
                       autoPlay="autoplay"
-                      loop="true"
+                      loop={true}
                     >
                       <source
                         src={
