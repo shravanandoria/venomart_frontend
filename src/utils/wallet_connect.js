@@ -13,9 +13,7 @@ export const initVenomConnect = async () => {
             package: ProviderRpcClient,
 
             packageOptions: {
-              fallback:
-                VenomConnect.getPromise("venomwallet", "extension") ||
-                (() => Promise.reject()),
+              fallback: VenomConnect.getPromise("venomwallet", "extension") || (() => Promise.reject()),
               forceUseFallback: true,
             },
             packageOptionsStandalone: {
