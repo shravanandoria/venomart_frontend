@@ -92,9 +92,9 @@ export default function App({ Component, pageProps }) {
   // web stats
   const websiteStats = [
     {
-      nftCollection: 55,
-      mintedNFTs: 313800,
-      mintVolume: 51780,
+      nftCollection: 65,
+      mintedNFTs: 1243820,
+      mintVolume: 833780,
     },
   ];
 

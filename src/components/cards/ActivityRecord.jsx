@@ -39,7 +39,7 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                                 }}
                                 className="ActivityCardImg rounded-2lg h-[100px] w-[100px]"
                                 autoPlay="autoplay"
-                                loop="true"
+                                loop={true}
                             >
                                 <source
                                     src={

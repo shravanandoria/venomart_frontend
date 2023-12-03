@@ -80,7 +80,7 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                         width={70}
                                         className="rounded-2lg"
                                         autoPlay="autoplay"
-                                        loop="true"
+                                        loop={true}
                                     >
                                         <source
                                             src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
