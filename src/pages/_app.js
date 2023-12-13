@@ -66,25 +66,19 @@ export default function App({ Component, pageProps }) {
     {
       id: 1,
       collectionName: "Venomons",
-      collectionAddress:
-        "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
+      collectionAddress: "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
       items: 1000,
-      coverImage:
-        "https://ipfs.io/ipfs/QmedApN5MhBQhkXJKoD4RHrLq31Ho4xgJPZtyqCAbVtwTW/venomons.jpg",
-      collectionLogo:
-        "https://ipfs.io/ipfs/QmZzvNhQbz8T5aRuBrjf44tAFYrWvjhwnU9kCDJBB4QMdw/logo.jpg",
+      coverImage: "https://ipfs.io/ipfs/QmedApN5MhBQhkXJKoD4RHrLq31Ho4xgJPZtyqCAbVtwTW/venomons.jpg",
+      collectionLogo: "https://ipfs.io/ipfs/QmZzvNhQbz8T5aRuBrjf44tAFYrWvjhwnU9kCDJBB4QMdw/logo.jpg",
       className: "mb-6 md:flex md:w-1/2 md:items-center",
     },
     {
       id: 2,
       collectionName: "Venom Alligators",
-      collectionAddress:
-        "0:c36c4939e3ae582f4e9f7215f36bc39e89a1796e6a32260dec762cf53c137dd2",
+      collectionAddress: "0:c36c4939e3ae582f4e9f7215f36bc39e89a1796e6a32260dec762cf53c137dd2",
       items: 2000,
-      coverImage:
-        "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
-      collectionLogo:
-        "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
+      coverImage: "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
+      collectionLogo: "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
       className: "mb-6 md:flex md:w-1/2 md:items-center",
     },
   ];
@@ -115,17 +109,17 @@ export default function App({ Component, pageProps }) {
     setVenomConnect(_venomConnect);
   };
 
-  const getAddress = async (provider) => {
+  const getAddress = async provider => {
     const providerState = await provider?.getProviderState?.();
     return providerState?.permissions.accountInteraction?.address.toString();
   };
 
-  const checkAuth = async (_venomConnect) => {
+  const checkAuth = async _venomConnect => {
     const auth = await _venomConnect?.checkAuth();
     if (auth) await getAddress(_venomConnect);
   };
 
-  const onConnect = async (provider) => {
+  const onConnect = async provider => {
     await onProviderReady(provider);
     setVenomProvider(provider);
   };
@@ -141,10 +135,8 @@ export default function App({ Component, pageProps }) {
     set_signer_address(undefined);
   };
 
-  const onProviderReady = async (provider) => {
-    const venomWalletAddress = provider
-      ? await getAddress(provider)
-      : undefined;
+  const onProviderReady = async provider => {
+    const venomWalletAddress = provider ? await getAddress(provider) : undefined;
     set_signer_address(venomWalletAddress);
     return venomWalletAddress;
   };
@@ -237,37 +229,37 @@ export default function App({ Component, pageProps }) {
         setVnmBalance={setVnmBalance}
       />
       {/* <ChakraProvider> */}
-      <TonClientContextProvider config={config}>
-        <Component
-          {...pageProps}
-          theme={theme}
-          standalone={standalone}
-          apiFetchURL={apiFetchURL}
-          venomProvider={venomProvider}
-          signer_address={signer_address}
-          defaultCollectionAddress={defaultCollectionAddress}
-          blockURL={blockURL}
-          blockChain={blockChain}
-          currency={currency}
-          webURL={webURL}
-          copyURL={copyURL}
-          connectWallet={connect_wallet}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
-          adminAccount={adminAccount}
-          featuredCollections={featuredCollections}
-          websiteStats={websiteStats}
-          topUsers={topUsers}
-          setTopUsers={setTopUsers}
-          anyModalOpen={anyModalOpen}
-          setAnyModalOpen={setAnyModalOpen}
-          cartNFTs={cartNFTs}
-          setCartNFTs={setCartNFTs}
-          venomPrice={venomPrice}
-          vnmBalance={vnmBalance}
-          setVnmBalance={setVnmBalance}
-        />
-      </TonClientContextProvider>
+      {/* <TonClientContextProvider config={config}> */}
+      <Component
+        {...pageProps}
+        theme={theme}
+        standalone={standalone}
+        apiFetchURL={apiFetchURL}
+        venomProvider={venomProvider}
+        signer_address={signer_address}
+        defaultCollectionAddress={defaultCollectionAddress}
+        blockURL={blockURL}
+        blockChain={blockChain}
+        currency={currency}
+        webURL={webURL}
+        copyURL={copyURL}
+        connectWallet={connect_wallet}
+        MintNFTStatus={MintNFTStatus}
+        MintCollectionStatus={MintCollectionStatus}
+        adminAccount={adminAccount}
+        featuredCollections={featuredCollections}
+        websiteStats={websiteStats}
+        topUsers={topUsers}
+        setTopUsers={setTopUsers}
+        anyModalOpen={anyModalOpen}
+        setAnyModalOpen={setAnyModalOpen}
+        cartNFTs={cartNFTs}
+        setCartNFTs={setCartNFTs}
+        venomPrice={venomPrice}
+        vnmBalance={vnmBalance}
+        setVnmBalance={setVnmBalance}
+      />
+      {/* </TonClientContextProvider> */}
       {/* </ChakraProvider> */}
       <Footer
         cartNFTs={cartNFTs}

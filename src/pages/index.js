@@ -9,10 +9,7 @@ import SmallUserCard from "../components/cards/SmallUserCard";
 import { MdVerified } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import {
-  get_collections,
-  top_collections,
-} from "../utils/mongo_api/collection/collection";
+import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
 import customLaunchpad from "./launchpad/customLaunchpad.json";
@@ -42,12 +39,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
 
   const fetchTrendingCollection = async () => {
     setTrendLoad(true);
-    const collectionsJSON = await get_collections(
-      "All",
-      "trending",
-      "unverified",
-      0
-    );
+    const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
     setTrendingCollections(collectionsJSON);
     setTrendLoad(false);
   };
@@ -65,8 +57,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
   }, []);
 
   useEffect(() => {
-    if (!duration || defaultFilterFetch != true || topSwitch != "collections")
-      return;
+    if (!duration || defaultFilterFetch != true || topSwitch != "collections") return;
     fetchTopCollections();
   }, [duration]);
 
@@ -75,14 +66,12 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
     fetchTopUsers();
   }, [topSwitch, duration]);
 
-  if (!client) {
-    return <>-</>;
-  }
+  // if (!client) {
+  //   return <>-</>;
+  // }
 
   return (
-    <div
-      className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}
-    >
+    <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
       <Head>
         <title>Venomart - NFT Marketplace on Venom</title>
         <meta
@@ -101,46 +90,37 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
         {/* hero section  */}
         <section
           className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
-        // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+          // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
           <div className="h-full px-6 xl:px-20">
             <div className="grid h-full items-center gap-4 lg:grid-cols-12">
               <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
                   <div
-                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark"
-                      ? "bg-white/[.15] shadow-none"
-                      : "shadow-white-volume"
-                      }`}
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
+                      theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
+                    }`}
                   >
                     <span className="block font-display text-3xl text-[#8DD059]">
                       {websiteStats[0]?.nftCollection}+
                     </span>
-                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      NFT Collections
-                    </span>
+                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">NFT Collections</span>
                   </div>
                   <div
-                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark"
-                      ? "bg-white/[.15] shadow-none"
-                      : "shadow-white-volume"
-                      }`}
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
+                      theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
+                    }`}
                   >
-                    <span className="block font-display text-3xl text-[#737EF2]">
-                      {websiteStats[0]?.mintedNFTs}+
-                    </span>
-                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">
-                      Minted NFTs
-                    </span>
+                    <span className="block font-display text-3xl text-[#737EF2]">{websiteStats[0]?.mintedNFTs}+</span>
+                    <span className="block font-display text-sm text-jacarta-500 dark:text-white">Minted NFTs</span>
                   </div>
                 </div>
                 <h1 className="mb-6 text-center font-display text-5xl text-jacarta-700 dark:text-white md:text-left lg:text-5xl xl:text-6xl">
                   Buy, sell and collect NFTs.
                 </h1>
                 <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left">
-                  Venomart is the first fully-fledged NFT Marketplace on Venom.
-                  Get quick and easy access to digital collectibles and explore,
-                  buy and sell NFTs
+                  Venomart is the first fully-fledged NFT Marketplace on Venom. Get quick and easy access to digital
+                  collectibles and explore, buy and sell NFTs
                 </p>
                 <div className="flex flex-wrap justify-center align-middle space-x-4">
                   <Link
@@ -168,10 +148,9 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                         href={`/collection/${collection?.collectionAddress}`}
                       >
                         <div
-                          className={`block overflow-hidden rounded-2.5xl bg-white ${theme == "dark"
-                            ? "border border-gray-800"
-                            : "shadow-md"
-                            } transition-shadow hover:shadow-lg dark:bg-jacarta-900`}
+                          className={`block overflow-hidden rounded-2.5xl bg-white ${
+                            theme == "dark" ? "border border-gray-800" : "shadow-md"
+                          } transition-shadow hover:shadow-lg dark:bg-jacarta-900`}
                         >
                           <div className="relative">
                             <Image
@@ -208,9 +187,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                                   </span>
                                 </div>
 
-                                <p className="text-2xs text-accent dark:text-white">
-                                  {collection?.items} Items
-                                </p>
+                                <p className="text-2xs text-accent dark:text-white">{collection?.items} Items</p>
                               </div>
                             </div>
                           </div>
@@ -255,10 +232,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
         </section>
 
         {/* launchpad collections  */}
-        <div
-          className="relative py-12 dark:bg-jacarta-900"
-          style={{ userSelect: "none" }}
-        >
+        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Venomart Launchpad 🚀</h2>
@@ -325,10 +299,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
         </div>
 
         {/* trending collections  */}
-        <div
-          className="relative py-12 dark:bg-jacarta-900"
-          style={{ userSelect: "none" }}
-        >
+        <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
               <h2 className="inline">Trending Collections 🔥</h2>
@@ -421,20 +392,14 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                   <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
                     <div
                       onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setTopSwitch("collections"),
-                        setTopSwitchDrop(false)
+                        setDefaultFilterFetch(true), setTopSwitch("collections"), setTopSwitchDrop(false)
                       )}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       collections
                     </div>
                     <div
-                      onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setTopSwitch("users"),
-                        setTopSwitchDrop(false)
-                      )}
+                      onClick={() => (setDefaultFilterFetch(true), setTopSwitch("users"), setTopSwitchDrop(false))}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       users
@@ -467,41 +432,25 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                 {durationDrop && (
                   <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
                     <div
-                      onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setDuration("1day"),
-                        setDurationDrop(false)
-                      )}
+                      onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), setDurationDrop(false))}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       Last 24 Hours
                     </div>
                     <div
-                      onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setDuration("7days"),
-                        setDurationDrop(false)
-                      )}
+                      onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), setDurationDrop(false))}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       Last 7 Days
                     </div>
                     <div
-                      onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setDuration("30days"),
-                        setDurationDrop(false)
-                      )}
+                      onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), setDurationDrop(false))}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       Last 30 Days
                     </div>
                     <div
-                      onClick={() => (
-                        setDefaultFilterFetch(true),
-                        setDuration("1year"),
-                        setDurationDrop(false)
-                      )}
+                      onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), setDurationDrop(false))}
                       className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
                     >
                       Last 1 Year
