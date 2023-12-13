@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
 
   // default values
   const venomPrice = 0.19;
-  const venomTPS = 99400;
+  const venomTPS = 98400;
   const currency = "VENOM";
   const blockChain = "Venom Testnet";
   const webURL = "https://venomart.io/";
