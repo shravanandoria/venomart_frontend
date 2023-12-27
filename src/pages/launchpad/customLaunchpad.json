@@ -473,5 +473,28 @@
         "startDate": "12/14/2023 17:30:00 GMT+0530",
         "endDate": "12/19/2023 17:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 21,
+        "Cover": "https://ipfs.io/ipfs/QmXUcYVeKC583qEtna47FVxeb88RAExzo6wqX34so5kQZi/1500x500.jpg",
+        "Logo": "https://ipfs.io/ipfs/Qmae9zuimjnLSNvfYVNK6Kf2qLyPgxxuq2HgYC5jCaULPm/nft.jpeg",
+        "Name": "Venom Dukes",
+        "Description": "A group of heroes leading an uprising against the wayward ruler in the Venom realm ",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/dukes_venom",
+        "pageName": "dukes_venom",
+        "supply": "3333",
+        "twitterUserName": "Dukes_of_Venom",
+        "twitter": "https://twitter.com/Dukes_of_Venom",
+        "tweetID": "",
+        "discord": "discord.gg/v6ckmanQp6",
+        "instagram": "",
+        "telegram": "",
+        "website": "https://dukesof-venom.vercel.app/",
+        "startDate": "12/28/2023 16:30:00 GMT+0530",
+        "endDate": "1/2/2024 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
