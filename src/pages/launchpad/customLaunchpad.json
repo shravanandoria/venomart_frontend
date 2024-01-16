@@ -496,5 +496,28 @@
         "startDate": "12/28/2023 16:30:00 GMT+0530",
         "endDate": "1/2/2024 16:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 22,
+        "Cover": "https://ipfs.io/ipfs/QmXUcYVeKC583qEtna47FVxeb88RAExzo6wqX34so5kQZi/1500x500.jpg",
+        "Logo": "https://ipfs.io/ipfs/QmSCSfvWgqGiBPeR7NhjdjZx8aqs4qJJ46YLJ6yTRvmRxp/kim.jpeg",
+        "Name": "Venom Dukes - The. Sailor Kim",
+        "Description": "The Dukes of Venom NFT project features a distinctive sailor character adorned in a classic navy sailor suit. This seafaring individual exudes a sense of adventure and maritime charm, embodying the spirit of the high seas within the unique digital realm of the project.",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/dukes_sailorkim",
+        "pageName": "dukes_sailorkim",
+        "supply": "2000",
+        "twitterUserName": "Dukes_of_Venom",
+        "twitter": "https://twitter.com/Dukes_of_Venom",
+        "tweetID": "",
+        "discord": "https://discord.gg/WyxRS6d5Sa",
+        "instagram": "",
+        "telegram": "",
+        "website": "https://dukesof-venom.vercel.app/",
+        "startDate": "1/17/2024 16:30:00 GMT+0530",
+        "endDate": "1/22/2024 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
