@@ -505,7 +505,7 @@
         "Description": "The Dukes of Venom NFT project features a distinctive sailor character adorned in a classic navy sailor suit. This seafaring individual exudes a sense of adventure and maritime charm, embodying the spirit of the high seas within the unique digital realm of the project.",
         "mintPrice": "1",
         "status": "Upcoming",
-        "CollectionAddress": "",
+        "CollectionAddress": "0:34d188f3c7586f01be5d9a644ebce7607af4f9068b09b177c08e821b34981914",
         "customLink": "launch/dukes_sailorkim",
         "pageName": "dukes_sailorkim",
         "supply": "2000",
@@ -516,8 +516,8 @@
         "instagram": "",
         "telegram": "",
         "website": "https://dukesof-venom.vercel.app/",
-        "startDate": "1/17/2024 16:30:00 GMT+0530",
-        "endDate": "1/22/2024 16:30:00 GMT+0530",
+        "startDate": "1/17/2024 17:30:00 GMT+0530",
+        "endDate": "1/22/2024 17:30:00 GMT+0530",
         "verified": true
     }
 ]
