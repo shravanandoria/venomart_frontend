@@ -519,5 +519,28 @@
         "startDate": "1/17/2024 17:30:00 GMT+0530",
         "endDate": "1/22/2024 17:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 23,
+        "Cover": "https://ipfs.io/ipfs/QmWVrqG8YzCYiaFS5Q7yayjtpcQnZXrX4dfiAQ183LiWwL/simpback.png",
+        "Logo": "https://ipfs.io/ipfs/QmTPzG8Pv3rYMYjyWeToVHTPsgn6h8CpzeVcGUQHHtp9zu/injsimps.gif",
+        "Name": "Injective Simps",
+        "Description": "A squad of simps who knows the future 🔮 | An NFT collection of 1111 simps on Injective",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/inj_simps",
+        "pageName": "inj_simps",
+        "supply": "1111",
+        "twitterUserName": "inj_simps",
+        "twitter": "https://twitter.com/inj_simps",
+        "tweetID": "",
+        "discord": "https://discord.com/invite/sPGwRpNV",
+        "instagram": "",
+        "telegram": "",
+        "website": "",
+        "startDate": "1/31/2024 16:30:00 GMT+0530",
+        "endDate": "2/5/2024 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
