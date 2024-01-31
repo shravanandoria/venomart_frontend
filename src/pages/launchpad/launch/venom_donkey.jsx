@@ -25,7 +25,7 @@ import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
 import customLaunchpad from '../customLaunchpad.json';
 
-const inj_simps = ({
+const venom_donkey = ({
     blockURL,
     theme,
     webURL,
@@ -36,7 +36,7 @@ const inj_simps = ({
     setAnyModalOpen
 }) => {
     // change from here
-    const launchSlug = customLaunchpad.find(item => item.id === 23);
+    const launchSlug = customLaunchpad.find(item => item.id === 24);
     // change till here
 
     const router = useRouter();
@@ -74,46 +74,46 @@ const inj_simps = ({
     const [share, setShare] = useState(false);
 
     const NFTARRAY = [
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/1.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/2.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/3.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/4.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/5.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/6.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/7.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/8.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/9.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/10.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/11.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/12.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/13.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/14.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/15.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/16.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/17.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/18.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/19.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/20.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/21.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/22.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/23.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/24.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/25.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/26.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/27.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/28.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/29.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/30.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/31.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/32.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/33.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/34.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/35.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/36.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/37.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/38.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/39.png",
-        "https://ipfs.io/ipfs/QmNPQBrz12LaiQECGSx3TEZ7hEHaYnfcb8geFyDdQeNcT2/40.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/1.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/2.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/3.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/4.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/5.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/6.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/7.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/8.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/9.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/10.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/11.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/12.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/13.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/14.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/15.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/16.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/17.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/18.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/19.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/20.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/21.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/22.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/23.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/24.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/25.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/26.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/27.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/28.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/29.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/30.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/31.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/32.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/33.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/34.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/35.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/36.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/37.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/38.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/39.png",
+        "https://ipfs.io/ipfs/QmdQycoGsNyuPia9ggpfdu1UPCAhAJ1LKpbTotPXF21e8H/40.png",
     ]
 
     const [data, set_data] = useState();
@@ -612,7 +612,7 @@ const inj_simps = ({
                                         {projectTwitter &&
                                             <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                                 <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    1] Follow Injective Simps on twitter
+                                                    1] Follow venom donkeys on twitter
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -644,7 +644,7 @@ const inj_simps = ({
                                         {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    3] Join Injective Simps discord server
+                                                    3] Join venom donkeys discord server
                                                 </p>
                                                 <Link
                                                     href={projectDiscord}
@@ -1015,4 +1015,4 @@ const inj_simps = ({
     );
 };
 
-export default inj_simps;
+export default venom_donkey;
