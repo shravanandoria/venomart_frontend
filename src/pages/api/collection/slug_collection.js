@@ -136,7 +136,7 @@ export default async function handler(req, res) {
               ...find_collection?._doc,
             }))
 
-          const responseData = mergedData[0] || {};
+          const responseData = mergedData[0] || find_collection?._doc;
 
           res.status(200).json({ success: true, data: responseData });
         } catch (error) {
