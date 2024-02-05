@@ -261,7 +261,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
         >
           <div className="container">
             <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-              <h2 className="inline">Venomart Testnet Launchpad 🚀</h2>
+              <h2 className="inline">Venomart Launchpad 🚀</h2>
             </div>
             <div className="flex justify-center align-middle flex-wrap">
               {/* custom lauchpad fetching  */}
