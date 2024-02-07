@@ -158,6 +158,7 @@ export const get_nft_by_address = async (provider, nft_address) => {
     isListed: false,
     price: "0",
   };
+
   return nft;
 };
 
@@ -423,8 +424,7 @@ export const create_main_collection = async (provider, signer_address, data) => 
   try {
     const contract = new provider.Contract(CollectionFactory, CollectionFactoryAddress);
 
-
-    const create_collection_db = async (event) => {
+    const create_collection_db = async event => {
       let obj = {
         name: data.name,
         contractAddress: event?.data?.new_collection?._address,
@@ -438,15 +438,15 @@ export const create_main_collection = async (provider, signer_address, data) => 
         isPropsEnabled: false,
         description: data.description,
         Category: data.category,
-        TotalSupply: data.max_supply
-      }
+        TotalSupply: data.max_supply,
+      };
       const createColl = await create_collection(obj);
-    }
+    };
 
     const subscriber = new Subscriber(provider);
     const contractEvents = contract.events(subscriber);
 
-    contractEvents.on(async (event) => {
+    contractEvents.on(async event => {
       create_collection_db(event);
     });
 
@@ -916,7 +916,7 @@ export const MakeOpenOffer = async (
   offerAmount,
   offerExpiration,
   prev_nft_Owner,
-  collection_address
+  collection_address,
 ) => {
   try {
     if (onchainNFTData) {
@@ -936,18 +936,20 @@ export const MakeOpenOffer = async (
 
     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
-    const afterEvent = async (event) => {
-      // saving new offer to database 
+    const afterEvent = async event => {
+      // saving new offer to database
       const addoffer = await addOffer(
         signer_address,
         offerAmount,
-        event?.data ? event?.data?.new_offer_contract : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        event?.data
+          ? event?.data?.new_offer_contract
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
         offerExpiration,
         nft_address,
       );
-    }
+    };
 
-    // event 
+    // event
     const subscriber = new Subscriber(provider);
     const contractEvents = factoryContract.events(subscriber);
     contractEvents.on(async event => {
@@ -972,7 +974,7 @@ export const MakeOpenOffer = async (
       },
     });
 
-    // sending transaction 
+    // sending transaction
     let output = await tokenWalletContract.methods
       .transfer({
         amount: parseFloat(offerAmount) * 1000000000,
@@ -987,7 +989,7 @@ export const MakeOpenOffer = async (
         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
       });
 
-    // updating the outbidded offer in database 
+    // updating the outbidded offer in database
     if (
       oldOffer != "" &&
       oldOffer != "0:0000000000000000000000000000000000000000000000000000000000000000" &&
@@ -997,7 +999,7 @@ export const MakeOpenOffer = async (
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
 
-    // adding activity in DB 
+    // adding activity in DB
     if (output) {
       let obj = {
         hash: output?.id?.hash ? output?.id?.hash : "",
@@ -1007,15 +1009,14 @@ export const MakeOpenOffer = async (
         price: offerAmount,
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address
-      }
+        collection_address: collection_address,
+      };
       const add_activity = await addActivity(obj);
     }
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await wait(10000);
     return true;
-
   } catch (error) {
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
@@ -1025,18 +1026,26 @@ export const MakeOpenOffer = async (
   }
 };
 
-// cancel offer 
-export const cancel_offer = async (offer_address, provider, nft_address, signer_address, prev_nft_Owner, collection_address, selectedOfferId) => {
+// cancel offer
+export const cancel_offer = async (
+  offer_address,
+  provider,
+  nft_address,
+  signer_address,
+  prev_nft_Owner,
+  collection_address,
+  selectedOfferId,
+) => {
   const contract = new provider.Contract(make_offer_abi, offer_address);
   let output = await contract.methods.return_offer().send({
     from: new Address(signer_address),
     amount: (100000000).toString(),
   });
 
-  // updating offer in DB 
+  // updating offer in DB
   const removeOffer = await updateOffer("cancelled", selectedOfferId);
 
-  // adding activity in DB 
+  // adding activity in DB
   if (output) {
     let obj = {
       hash: output?.id?.hash ? output?.id?.hash : "",
@@ -1045,19 +1054,34 @@ export const cancel_offer = async (offer_address, provider, nft_address, signer_
       type: "canceloffer",
       wallet_id: signer_address,
       nft_address: nft_address,
-      collection_address: collection_address
-    }
+      collection_address: collection_address,
+    };
     const add_activity = await addActivity(obj);
   }
 
   return true;
 };
 
-// accept offer 
-export const accept_offer = async (offer_address, offerPrice, from, provider, nft_address, signer_address, prev_nft_Owner, prev_nft_Manager, collection_address, stampedFloor) => {
+// accept offer
+export const accept_offer = async (
+  offer_address,
+  offerPrice,
+  from,
+  provider,
+  nft_address,
+  signer_address,
+  prev_nft_Owner,
+  prev_nft_Manager,
+  collection_address,
+  stampedFloor,
+) => {
   //function to remove nft listing if listed
   if (prev_nft_Owner != prev_nft_Manager) {
-    if (window.confirm("you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?")) {
+    if (
+      window.confirm(
+        "you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?",
+      )
+    ) {
       const cancel_nft_list = await cancel_listing(
         prev_nft_Owner,
         prev_nft_Manager,
@@ -1065,16 +1089,16 @@ export const accept_offer = async (offer_address, offerPrice, from, provider, nf
         collection_address,
         provider,
         signer_address,
-        stampedFloor);
+        stampedFloor,
+      );
 
       if (!cancel_nft_list) return;
-    }
-    else {
+    } else {
       return;
     }
   }
 
-  // sending accept offer transaction 
+  // sending accept offer transaction
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
@@ -1087,7 +1111,7 @@ export const accept_offer = async (offer_address, offerPrice, from, provider, nf
       amount: (1500000000).toString(),
     });
 
-  // removing all other offers of the nft 
+  // removing all other offers of the nft
   const resetOffers = await removeAllOffers(nft_address);
 
   if (resetOffers) {
