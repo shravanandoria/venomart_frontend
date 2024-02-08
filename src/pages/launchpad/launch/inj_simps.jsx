@@ -324,7 +324,7 @@ const inj_simps = ({
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
                                         style={{ fontSize: "35px" }}
                                     >
-                                        <span> {ProjectName} </span>{" "}
+                                        <span> {ProjectName} (Testnet) </span>{" "}
                                         {verified && (
                                             <MdVerified
                                                 style={{

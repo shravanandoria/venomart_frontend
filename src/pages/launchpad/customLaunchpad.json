@@ -541,7 +541,7 @@
         "website": "",
         "startDate": "1/31/2024 16:30:00 GMT+0530",
         "endDate": "2/5/2024 16:30:00 GMT+0530",
-        "verified": true
+        "verified": false
     },
     {
         "id": 24,
@@ -555,7 +555,7 @@
         "customLink": "launch/venom_donkey",
         "pageName": "venom_donkey",
         "supply": "2000",
-        "twitterUserName": "venom_donkey",
+        "twitterUserName": "VenomDonkeys",
         "twitter": " https://twitter.com/VenomDonkeys",
         "tweetID": "",
         "discord": "https://discord.gg/qCHbZ5vxTb",
