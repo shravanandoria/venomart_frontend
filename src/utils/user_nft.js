@@ -26,6 +26,8 @@ import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
+import MetadataHolderABI from "../../abi/MetadataHolder.abi.json";
+import metadata_json from "./metadata.json";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -52,6 +54,33 @@ export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a
 export const CollectionFactoryAddress = new Address(
   "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
 );
+
+export const upload_metadata = async (provider, signer_address, client) => {
+  console.log(client);
+  const load = await client.abi.encode_boc({
+    params: [{ name: "metadata", type: "string[]" }],
+    data: {
+      metadata: metadata_json,
+    },
+  });
+
+  console.log(load.boc);
+
+  // const contract = new provider.Contract(
+  //   MetadataHolderABI,
+  //   "0:13f591954a641e8090316bfdcd500cf290855b475fe5bef425ea92c4cab1a278",
+  // );
+  // const res = await contract.methods
+  //   .store_metadata({
+  //     col_addr: "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
+  //     metadata: [metadata_json],
+  //   })
+  //   .send({
+  //     from: new Address(signer_address),
+  //     amount: "300000000",
+  //   });
+  // console.log(res);
+};
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {

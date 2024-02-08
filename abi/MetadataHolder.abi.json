@@ -1,0 +1,62 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "store_metadata",
+			"inputs": [
+				{"name":"col_addr","type":"address"},
+				{"name":"metadata","type":"string[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "get_metadata",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"col_address","type":"address"},
+				{"name":"id","type":"uint256"},
+				{"name":"owner","type":"address"},
+				{"name":"value","type":"uint128"},
+				{"name":"flag","type":"uint16"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"},
+				{"name":"value1","type":"string"},
+				{"name":"value2","type":"uint128"},
+				{"name":"value3","type":"uint16"}
+			]
+		},
+		{
+			"name": "get_mapped_data",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"col_address","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"string"}
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"nonce","type":"uint256"}
+	],
+	"events": [
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"nonce","type":"uint256"},
+		{"name":"id_to_metadata","type":"map(address,string[])"}
+	]
+}

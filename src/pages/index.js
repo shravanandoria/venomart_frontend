@@ -13,6 +13,7 @@ import { get_collections, top_collections } from "../utils/mongo_api/collection/
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
 import customLaunchpad from "./launchpad/customLaunchpad.json";
+import { upload_metadata } from "../utils/user_nft";
 
 export default function Home({ theme, featuredCollections, websiteStats }) {
   const { client } = useContext(TonClientContext);
