@@ -565,5 +565,28 @@
         "startDate": "2/2/2024 16:30:00 GMT+0530",
         "endDate": "2/6/2024 16:30:00 GMT+0530",
         "verified": true
+    },
+    {
+        "id": 25,
+        "Cover": "https://ipfs.io/ipfs/QmbkQgYPrTqC7cfEewNBVc5jr8cbWzPkvkdFdCg5iaoKFj/twiiterHeaderPS2%20(1).png",
+        "Logo": "https://ipfs.io/ipfs/QmX8gTeLGZFSgSoUGySLdH4C5Cc4W7yUzgnJAsYFjUjZn6/souls.gif",
+        "Name": "Sentinel Souls",
+        "Description": "Sentinel Souls has arrived from the depths of the Orion Nebula 🪐 | First Multi edition NFT Collection on Sei Network",
+        "mintPrice": "1",
+        "status": "Upcoming",
+        "CollectionAddress": "",
+        "customLink": "launch/sentinel_nfts",
+        "pageName": "sentinel_nfts",
+        "supply": "1111",
+        "twitterUserName": "sentinel_nfts",
+        "twitter": "https://twitter.com/sentinel_nfts",
+        "tweetID": "",
+        "discord": "https://discord.gg/BpnUKReG",
+        "instagram": "",
+        "telegram": "",
+        "website": "",
+        "startDate": "2/9/2024 16:30:00 GMT+0530",
+        "endDate": "2/15/2024 16:30:00 GMT+0530",
+        "verified": true
     }
 ]
