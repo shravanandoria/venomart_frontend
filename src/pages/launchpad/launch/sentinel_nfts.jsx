@@ -94,7 +94,7 @@ const sentinel_souls = ({
             return Math.floor(Math.random() * max);
         }
 
-        const token_id_calcy = getRandomInt(40);
+        const token_id_calcy = getRandomInt(11);
         let obj = {
             image: NFTARRAY[token_id_calcy],
             collectionName: ProjectName,
