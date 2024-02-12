@@ -84,7 +84,7 @@ const revolt = ({
             collectionAddress: contractAddress,
             mintPrice: parseFloat(mintPrice),
             properties: [
-                { trait_type: "Benifit", value: "Fee Discount" },
+                { trait_type: "Benifits", value: "Fee Discount" },
                 { trait_type: "Version", value: "Testnet" },
             ],
         }
