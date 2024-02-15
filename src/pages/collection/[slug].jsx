@@ -39,7 +39,7 @@ import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
 import numeral from "numeral";
-import { TonClientContext } from "../../context/tonclient";
+// import { TonClientContext } from "../../context/tonclient";
 import { IoHandLeftOutline } from "react-icons/io5";
 
 const Collection = ({
@@ -297,7 +297,7 @@ const Collection = ({
   };
 
   const isBreakpoint = useMediaQuery(800);
-  const { client } = useContext(TonClientContext);
+  // const { client } = useContext(TonClientContext);
 
   // getting def collection info
   const gettingCollectionInfo = async () => {

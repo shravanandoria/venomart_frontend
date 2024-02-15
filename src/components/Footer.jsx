@@ -82,6 +82,13 @@ const Footer = ({
     );
     const NFTAddresses = cartNFTs.map((item) => item.NFTAddress);
     const NFTCollections = cartNFTs.map((item) => item.NFTCollection);
+
+    if (NFTAddresses.length == 0) {
+      alert("your cart is empty!")
+      setActionLoad(false);
+      return;
+    }
+
     const bulkBuy = await bulk_buy_nfts(
       venomProvider,
       signer_address,
