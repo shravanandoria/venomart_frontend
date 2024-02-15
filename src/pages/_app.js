@@ -38,9 +38,9 @@ export default function App({ Component, pageProps }) {
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const defaultCollectionAddress = COLLECTION_ADDRESS;
-  const defTheme = "dark";
+  const defTheme = "light";
 
-  // other values
+  // other valuesgit
   const adminAccount = [
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
@@ -164,7 +164,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
-      setTheme("dark");
+      setTheme("light");
     } else {
       setTheme(defThemeLocal);
     }
