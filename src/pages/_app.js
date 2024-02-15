@@ -172,7 +172,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
-      setTheme("dark");
+      setTheme("light");
     } else {
       setTheme(defThemeLocal);
     }
