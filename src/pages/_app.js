@@ -229,37 +229,37 @@ export default function App({ Component, pageProps }) {
         setVnmBalance={setVnmBalance}
       />
       {/* <ChakraProvider> */}
-      {/* <TonClientContextProvider config={config}> */}
-      <Component
-        {...pageProps}
-        theme={theme}
-        standalone={standalone}
-        apiFetchURL={apiFetchURL}
-        venomProvider={venomProvider}
-        signer_address={signer_address}
-        defaultCollectionAddress={defaultCollectionAddress}
-        blockURL={blockURL}
-        blockChain={blockChain}
-        currency={currency}
-        webURL={webURL}
-        copyURL={copyURL}
-        connectWallet={connect_wallet}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
-        adminAccount={adminAccount}
-        featuredCollections={featuredCollections}
-        websiteStats={websiteStats}
-        topUsers={topUsers}
-        setTopUsers={setTopUsers}
-        anyModalOpen={anyModalOpen}
-        setAnyModalOpen={setAnyModalOpen}
-        cartNFTs={cartNFTs}
-        setCartNFTs={setCartNFTs}
-        venomPrice={venomPrice}
-        vnmBalance={vnmBalance}
-        setVnmBalance={setVnmBalance}
-      />
-      {/* </TonClientContextProvider> */}
+      <TonClientContextProvider config={config}>
+        <Component
+          {...pageProps}
+          theme={theme}
+          standalone={standalone}
+          apiFetchURL={apiFetchURL}
+          venomProvider={venomProvider}
+          signer_address={signer_address}
+          defaultCollectionAddress={defaultCollectionAddress}
+          blockURL={blockURL}
+          blockChain={blockChain}
+          currency={currency}
+          webURL={webURL}
+          copyURL={copyURL}
+          connectWallet={connect_wallet}
+          MintNFTStatus={MintNFTStatus}
+          MintCollectionStatus={MintCollectionStatus}
+          adminAccount={adminAccount}
+          featuredCollections={featuredCollections}
+          websiteStats={websiteStats}
+          topUsers={topUsers}
+          setTopUsers={setTopUsers}
+          anyModalOpen={anyModalOpen}
+          setAnyModalOpen={setAnyModalOpen}
+          cartNFTs={cartNFTs}
+          setCartNFTs={setCartNFTs}
+          venomPrice={venomPrice}
+          vnmBalance={vnmBalance}
+          setVnmBalance={setVnmBalance}
+        />
+      </TonClientContextProvider>
       {/* </ChakraProvider> */}
       <Footer
         cartNFTs={cartNFTs}

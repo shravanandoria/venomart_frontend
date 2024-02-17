@@ -13,7 +13,6 @@ import { get_collections, top_collections } from "../utils/mongo_api/collection/
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
 import customLaunchpad from "./launchpad/customLaunchpad.json";
-import { upload_metadata } from "../utils/user_nft";
 
 export default function Home({ theme, featuredCollections, websiteStats }) {
   const { client } = useContext(TonClientContext);
@@ -67,9 +66,9 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
     fetchTopUsers();
   }, [topSwitch, duration]);
 
-  // if (!client) {
-  //   return <>-</>;
-  // }
+  if (!client) {
+    return <>-</>;
+  }
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>
@@ -91,16 +90,15 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
         {/* hero section  */}
         <section
           className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
-          // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
+        // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
           <div className="h-full px-6 xl:px-20">
             <div className="grid h-full items-center gap-4 lg:grid-cols-12">
               <div className="col-span-6 flex h-full flex-col items-center justify-center py-10 md:items-start md:py-20 xl:col-span-5 xl:pl-[20%] xl:pr-[10%]">
                 <div className="mb-10 w-full sm:flex sm:space-x-4">
                   <div
-                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
-                      theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
-                    }`}
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
+                      }`}
                   >
                     <span className="block font-display text-3xl text-[#8DD059]">
                       {websiteStats[0]?.nftCollection}+
@@ -108,9 +106,8 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">NFT Collections</span>
                   </div>
                   <div
-                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${
-                      theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
-                    }`}
+                    className={`mb-4 flex-1 rounded-2lg p-4 text-center ${theme == "dark" ? "bg-white/[.15] shadow-none" : "shadow-white-volume"
+                      }`}
                   >
                     <span className="block font-display text-3xl text-[#737EF2]">{websiteStats[0]?.mintedNFTs}+</span>
                     <span className="block font-display text-sm text-jacarta-500 dark:text-white">Minted NFTs</span>
@@ -149,9 +146,8 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                         href={`/collection/${collection?.collectionAddress}`}
                       >
                         <div
-                          className={`block overflow-hidden rounded-2.5xl bg-white ${
-                            theme == "dark" ? "border border-gray-800" : "shadow-md"
-                          } transition-shadow hover:shadow-lg dark:bg-jacarta-900`}
+                          className={`block overflow-hidden rounded-2.5xl bg-white ${theme == "dark" ? "border border-gray-800" : "shadow-md"
+                            } transition-shadow hover:shadow-lg dark:bg-jacarta-900`}
                         >
                           <div className="relative">
                             <Image
