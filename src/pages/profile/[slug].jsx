@@ -22,7 +22,7 @@ import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import BuyModal from "../../components/modals/BuyModal";
 
-import { TonClientContext } from "../../context/tonclient";
+// import { TonClientContext } from "../../context/tonclient";
 import { search_user_nfts } from "../../utils/mongo_api/search";
 import { get_user_collections } from "../../utils/mongo_api/collection/collection";
 import { IoHandLeftOutline } from "react-icons/io5";
@@ -222,7 +222,7 @@ const Profile = ({
     setMoreLoading(false);
   };
 
-  const { client } = useContext(TonClientContext);
+  // const { client } = useContext(TonClientContext);
 
   // getting owned nfts
   const fetch_user_nfts = async () => {

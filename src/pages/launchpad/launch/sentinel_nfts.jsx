@@ -25,7 +25,7 @@ import { has_minted } from "../../../utils/user_nft";
 import Image from "next/image";
 import customLaunchpad from '../customLaunchpad.json';
 
-const revolt = ({
+const sentinel_souls = ({
     blockURL,
     theme,
     webURL,
@@ -36,7 +36,7 @@ const revolt = ({
     setAnyModalOpen
 }) => {
     // change from here
-    const launchSlug = customLaunchpad.find(item => item.id === 13);
+    const launchSlug = customLaunchpad.find(item => item.id === 25);
     // change till here
 
     const router = useRouter();
@@ -73,19 +73,38 @@ const revolt = ({
     const [actionVerify, setActionVerify] = useState(false);
     const [share, setShare] = useState(false);
 
+    const NFTARRAY = [
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/1.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/2.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/3.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/4.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/5.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/6.jpg",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/7.png",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/8.png",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/9.png",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/10.png",
+        "https://ipfs.io/ipfs/QmVdr4CC8hKhVJN1YP6z75AvaPax4HGEvs65wCy8UNEDUm/11.png"
+    ]
+
     const [data, set_data] = useState();
 
     const getRandomTokenId = () => {
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        const token_id_calcy = getRandomInt(11);
         let obj = {
-            image: NFTIMG,
+            image: NFTARRAY[token_id_calcy],
             collectionName: ProjectName,
             name: ProjectName,
             description: shortDesc,
             collectionAddress: contractAddress,
-            mintPrice: parseFloat(mintPrice),
+            mintPrice: mintPrice,
             properties: [
-                { trait_type: "Benifits", value: "Fee Discount" },
-                { trait_type: "Version", value: "Testnet" },
+                { type: "Benifit", value: "Fee Discount" },
+                { type: "Version", value: "Testnet" },
             ],
         }
         set_data(obj);
@@ -276,7 +295,7 @@ const revolt = ({
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
                                         style={{ fontSize: "35px" }}
                                     >
-                                        <span> {ProjectName} </span>{" "}
+                                        <span> {ProjectName} (Testnet) </span>{" "}
                                         {verified && (
                                             <MdVerified
                                                 style={{
@@ -564,7 +583,7 @@ const revolt = ({
                                         {projectTwitter &&
                                             <div className="flex mt-6 items-center pb-5 border-gray-100 ">
                                                 <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    1] Follow {pageName} on twitter
+                                                    1] Follow Sentinel Souls on twitter
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/follow?screen_name=${projectTwitter}`}
@@ -593,25 +612,10 @@ const revolt = ({
                                         </div>
 
                                         {/* join discord  */}
-                                        <div className="flex mt-2 items-center pb-5 mb-5">
-                                            <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                3] Join venomart discord server
-                                            </p>
-                                            <Link
-                                                href={venomartDiscord}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Join{" "}
-                                                <BsDiscord className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {/* join discord  */}
                                         {projectDiscord &&
                                             <div className="flex items-center pb-5 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    4] Join {pageName} discord server
+                                                    3] Join Sentinel Souls discord server
                                                 </p>
                                                 <Link
                                                     href={projectDiscord}
@@ -628,7 +632,7 @@ const revolt = ({
                                         {intendTweetId &&
                                             <div className="flex items-center pb-5 border-b-2 dark:border-gray-100 mb-5">
                                                 <p className="text-left text-[20px] dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                    5] Retweet and like this tweet
+                                                    4] Retweet and like this tweet
                                                 </p>
                                                 <Link
                                                     href={`https://twitter.com/intent/retweet?tweet_id=${intendTweetId}`}
@@ -982,4 +986,4 @@ const revolt = ({
     );
 };
 
-export default revolt;
+export default sentinel_souls;
