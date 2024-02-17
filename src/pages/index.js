@@ -67,9 +67,9 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
     fetchTopUsers();
   }, [topSwitch, duration]);
 
-  // if (!client) {
-  //   return <>-</>;
-  // }
+  if (!client) {
+    return <>-</>;
+  }
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>

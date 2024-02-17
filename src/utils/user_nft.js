@@ -26,7 +26,9 @@ import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
-
+import MetadataHolderABI from "../../abi/MetadataHolder.abi.json";
+import LaunchpadABI from "../../abi/Launchpad_Collection.abi.json";
+import metadata_json from "./metadata.json";
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
 export const collection_minting_fees = 3000000000;
@@ -47,11 +49,231 @@ export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
+export const test_Launchpad = new Address("0:3cb669897c7ba8e67195b42ad847b82c8bb1cb5fb14cad8df580bac89d4c47a3");
+export const metadata_holder_addr = new Address("0:fd63c0b30dc509f087f76bf4f7cb69c139178e0b8503a314133190eb0d3b900f");
+
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
 export const CollectionFactoryAddress = new Address(
   "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
 );
+
+export const launchpad_minting = async (provider, signer_address) => {
+  const contract = new provider.Contract(LaunchpadABI, test_Launchpad);
+
+  const res = await contract.methods
+    .mint({
+      metadata_holder_addr: metadata_holder_addr,
+      launchpad_addr: "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: "800000000",
+    });
+  console.log({ res });
+};
+
+export const upload_metadata = async (provider, signer_address, client) => {
+  const nft_md = [
+    {
+      name: "Ranger #1",
+      description:
+        "5555 rangers has arrived in a village on avax to fight for a superior position | Collect this rangers and fight for the glory they want | Stake them to earn $ENRGY Token",
+      image: "ipfs://QmSyFQTMF4Y5C9okm1zNqdU66PyMPMuTEFLL1gH6gEtzcY/1.png",
+      dna: "7e2948cd199c9f713ed942a206e900cdd0fc6f69",
+      edition: 1,
+      date: 1643873369079,
+      attributes: [
+        {
+          trait_type: "Ranger",
+          value: "Sorcerer",
+        },
+        {
+          trait_type: "Ability",
+          value: "Invisibility",
+        },
+        {
+          trait_type: "Belt",
+          value: "Black Belt",
+        },
+        {
+          trait_type: "Bottom",
+          value: "BlackWhite Jeans",
+        },
+        {
+          trait_type: "Shoes",
+          value: "Black Work Boots",
+        },
+        {
+          trait_type: "Top Innerwear",
+          value: "Black Shirt",
+        },
+        {
+          trait_type: "Top Outerwear",
+          value: "White Hoodie",
+        },
+        {
+          trait_type: "Left Hand item",
+          value: "None",
+        },
+        {
+          trait_type: "Wrist",
+          value: "Silver Watch",
+        },
+        {
+          trait_type: "Gloves",
+          value: "Diamond Blue Boxing Gloves",
+        },
+        {
+          trait_type: "Right Hand item",
+          value: "Rc Car Radio Controller",
+        },
+        {
+          trait_type: "Neckwear",
+          value: "Doge Necklace",
+        },
+        {
+          trait_type: "Tribe",
+          value: "Human",
+        },
+        {
+          trait_type: "Headwear",
+          value: "Police Hat",
+        },
+        {
+          trait_type: "Eyewear",
+          value: "3D Glasses",
+        },
+        {
+          trait_type: "Mouth",
+          value: "None",
+        },
+        {
+          trait_type: "Attack",
+          value: "69",
+        },
+        {
+          trait_type: "Defence",
+          value: "90",
+        },
+        {
+          trait_type: "Sprint",
+          value: "10",
+        },
+        {
+          trait_type: "Stakable",
+          value: "Yes",
+        },
+      ],
+      compiler: "Ranger Village C1",
+    },
+    {
+      name: "Ranger #2",
+      description:
+        "5555 rangers has arrived in a village on avax to fight for a superior position | Collect this rangers and fight for the glory they want | Stake them to earn $ENRGY Token",
+      image: "ipfs://QmSyFQTMF4Y5C9okm1zNqdU66PyMPMuTEFLL1gH6gEtzcY/2.png",
+      dna: "83080b48445e6d4d7092cbb7701dddc3f7202232",
+      edition: 2,
+      date: 1643873369213,
+      attributes: [
+        {
+          trait_type: "Ranger",
+          value: "Sorcerer",
+        },
+        {
+          trait_type: "Ability",
+          value: "Invisibility",
+        },
+        {
+          trait_type: "Belt",
+          value: "White Belt",
+        },
+        {
+          trait_type: "Bottom",
+          value: "Red Jeans",
+        },
+        {
+          trait_type: "Shoes",
+          value: "Green Work Boots",
+        },
+        {
+          trait_type: "Top Innerwear",
+          value: "Plain Red TShirt",
+        },
+        {
+          trait_type: "Top Outerwear",
+          value: "None",
+        },
+        {
+          trait_type: "Left Hand item",
+          value: "Candy Cane",
+        },
+        {
+          trait_type: "Wrist",
+          value: "Red Sweat Band",
+        },
+        {
+          trait_type: "Gloves",
+          value: "Orange And White Mittens",
+        },
+        {
+          trait_type: "Right Hand item",
+          value: "None",
+        },
+        {
+          trait_type: "Neckwear",
+          value: "Legendary",
+        },
+        {
+          trait_type: "Tribe",
+          value: "Alien",
+        },
+        {
+          trait_type: "Headwear",
+          value: "None",
+        },
+        {
+          trait_type: "Eyewear",
+          value: "Legendary",
+        },
+        {
+          trait_type: "Mouth",
+          value: "Doge To The Moon",
+        },
+        {
+          trait_type: "Attack",
+          value: "50",
+        },
+        {
+          trait_type: "Defence",
+          value: "27",
+        },
+        {
+          trait_type: "Sprint",
+          value: "49",
+        },
+        {
+          trait_type: "Stakable",
+          value: "Yes",
+        },
+      ],
+      compiler: "Ranger Village C1",
+    },
+  ];
+
+  const contract = new provider.Contract(MetadataHolderABI, metadata_holder_addr);
+
+  const res = await contract.methods
+    .store_metadata({
+      col_addr: "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
+      metadata: nft_md,
+    })
+    .send({
+      from: new Address(signer_address),
+      amount: "300000000",
+    });
+  console.log({ res });
+};
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {
@@ -423,8 +645,7 @@ export const create_main_collection = async (provider, signer_address, data) => 
   try {
     const contract = new provider.Contract(CollectionFactory, CollectionFactoryAddress);
 
-
-    const create_collection_db = async (event) => {
+    const create_collection_db = async event => {
       let obj = {
         name: data.name,
         contractAddress: event?.data?.new_collection?._address,
@@ -438,15 +659,15 @@ export const create_main_collection = async (provider, signer_address, data) => 
         isPropsEnabled: false,
         description: data.description,
         Category: data.category,
-        TotalSupply: data.max_supply
-      }
+        TotalSupply: data.max_supply,
+      };
       const createColl = await create_collection(obj);
-    }
+    };
 
     const subscriber = new Subscriber(provider);
     const contractEvents = contract.events(subscriber);
 
-    contractEvents.on(async (event) => {
+    contractEvents.on(async event => {
       create_collection_db(event);
     });
 
@@ -916,7 +1137,7 @@ export const MakeOpenOffer = async (
   offerAmount,
   offerExpiration,
   prev_nft_Owner,
-  collection_address
+  collection_address,
 ) => {
   try {
     if (onchainNFTData) {
@@ -936,18 +1157,20 @@ export const MakeOpenOffer = async (
 
     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
-    const afterEvent = async (event) => {
-      // saving new offer to database 
+    const afterEvent = async event => {
+      // saving new offer to database
       const addoffer = await addOffer(
         signer_address,
         offerAmount,
-        event?.data ? event?.data?.new_offer_contract : "0:0000000000000000000000000000000000000000000000000000000000000000",
+        event?.data
+          ? event?.data?.new_offer_contract
+          : "0:0000000000000000000000000000000000000000000000000000000000000000",
         offerExpiration,
         nft_address,
       );
-    }
+    };
 
-    // event 
+    // event
     const subscriber = new Subscriber(provider);
     const contractEvents = factoryContract.events(subscriber);
     contractEvents.on(async event => {
@@ -972,7 +1195,7 @@ export const MakeOpenOffer = async (
       },
     });
 
-    // sending transaction 
+    // sending transaction
     let output = await tokenWalletContract.methods
       .transfer({
         amount: parseFloat(offerAmount) * 1000000000,
@@ -987,7 +1210,7 @@ export const MakeOpenOffer = async (
         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
       });
 
-    // updating the outbidded offer in database 
+    // updating the outbidded offer in database
     if (
       oldOffer != "" &&
       oldOffer != "0:0000000000000000000000000000000000000000000000000000000000000000" &&
@@ -997,7 +1220,7 @@ export const MakeOpenOffer = async (
       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
     }
 
-    // adding activity in DB 
+    // adding activity in DB
     if (output) {
       let obj = {
         hash: output?.id?.hash ? output?.id?.hash : "",
@@ -1007,15 +1230,14 @@ export const MakeOpenOffer = async (
         price: offerAmount,
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address
-      }
+        collection_address: collection_address,
+      };
       const add_activity = await addActivity(obj);
     }
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     await wait(10000);
     return true;
-
   } catch (error) {
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
@@ -1025,18 +1247,26 @@ export const MakeOpenOffer = async (
   }
 };
 
-// cancel offer 
-export const cancel_offer = async (offer_address, provider, nft_address, signer_address, prev_nft_Owner, collection_address, selectedOfferId) => {
+// cancel offer
+export const cancel_offer = async (
+  offer_address,
+  provider,
+  nft_address,
+  signer_address,
+  prev_nft_Owner,
+  collection_address,
+  selectedOfferId,
+) => {
   const contract = new provider.Contract(make_offer_abi, offer_address);
   let output = await contract.methods.return_offer().send({
     from: new Address(signer_address),
     amount: (100000000).toString(),
   });
 
-  // updating offer in DB 
+  // updating offer in DB
   const removeOffer = await updateOffer("cancelled", selectedOfferId);
 
-  // adding activity in DB 
+  // adding activity in DB
   if (output) {
     let obj = {
       hash: output?.id?.hash ? output?.id?.hash : "",
@@ -1045,19 +1275,34 @@ export const cancel_offer = async (offer_address, provider, nft_address, signer_
       type: "canceloffer",
       wallet_id: signer_address,
       nft_address: nft_address,
-      collection_address: collection_address
-    }
+      collection_address: collection_address,
+    };
     const add_activity = await addActivity(obj);
   }
 
   return true;
 };
 
-// accept offer 
-export const accept_offer = async (offer_address, offerPrice, from, provider, nft_address, signer_address, prev_nft_Owner, prev_nft_Manager, collection_address, stampedFloor) => {
+// accept offer
+export const accept_offer = async (
+  offer_address,
+  offerPrice,
+  from,
+  provider,
+  nft_address,
+  signer_address,
+  prev_nft_Owner,
+  prev_nft_Manager,
+  collection_address,
+  stampedFloor,
+) => {
   //function to remove nft listing if listed
   if (prev_nft_Owner != prev_nft_Manager) {
-    if (window.confirm("you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?")) {
+    if (
+      window.confirm(
+        "you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?",
+      )
+    ) {
       const cancel_nft_list = await cancel_listing(
         prev_nft_Owner,
         prev_nft_Manager,
@@ -1065,16 +1310,16 @@ export const accept_offer = async (offer_address, offerPrice, from, provider, nf
         collection_address,
         provider,
         signer_address,
-        stampedFloor);
+        stampedFloor,
+      );
 
       if (!cancel_nft_list) return;
-    }
-    else {
+    } else {
       return;
     }
   }
 
-  // sending accept offer transaction 
+  // sending accept offer transaction
   const nft_contract = new provider.Contract(nftAbi, nft_address);
   const output = await nft_contract.methods
     .changeManager({
@@ -1087,7 +1332,7 @@ export const accept_offer = async (offer_address, offerPrice, from, provider, nf
       amount: (1500000000).toString(),
     });
 
-  // removing all other offers of the nft 
+  // removing all other offers of the nft
   const resetOffers = await removeAllOffers(nft_address);
 
   if (resetOffers) {
