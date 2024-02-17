@@ -36,7 +36,7 @@ export const cancel_refundable_fees = 100000000;
 export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
-
+// hello world
 export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
 export const MARKETPLACE_ADDRESS = "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
