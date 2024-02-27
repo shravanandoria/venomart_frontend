@@ -24,7 +24,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
         twitter: "",
         discord: "",
         maxSupply: "",
-        jsonUrl: "",
+        jsonURL: "",
         mintPrice: "",
         status: "Upcoming",
         startDate: "",

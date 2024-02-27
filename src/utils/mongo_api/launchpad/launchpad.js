@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const create_launchpad_collection = async (data) => {
+  console.log({ data })
   let obj = {
     logo: data.logo,
     coverImage: data.coverImage,
@@ -12,7 +13,7 @@ export const create_launchpad_collection = async (data) => {
     royalty: data.royalty,
     socials: [data.website, data.twitter, data.discord, data.telegram],
     maxSupply: data.maxSupply,
-    jsonUrl: data.jsonUrl,
+    jsonURL: data.jsonURL,
     mintPrice: data.mintPrice,
     status: data.status,
     startDate: data.startDate,

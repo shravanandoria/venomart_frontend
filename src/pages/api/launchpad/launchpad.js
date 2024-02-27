@@ -41,8 +41,7 @@ export default async function handler(req, res) {
             comments,
           } = req.body;
 
-          const launchpad = await Launchpad.create({
-            chain: "Venom",
+          console.log({
             logo,
             coverImage,
             name,
@@ -62,6 +61,29 @@ export default async function handler(req, res) {
             startDate,
             endDate,
             comments,
+          })
+
+          const launchpad = await Launchpad.create({
+            chain: "Venom",
+            logo,
+            coverImage,
+            pageName: name,
+            description,
+            contractAddress,
+            creatorAddress,
+            royaltyAddress,
+            royalty,
+            socials,
+            maxSupply,
+            mintPrice,
+            status,
+            isActive,
+            isVerified,
+            isPropsEnabled,
+            startDate,
+            endDate,
+            comments,
+            jsonURL,
           });
 
           res.status(200).json({ success: true, data: launchpad });
