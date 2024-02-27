@@ -858,7 +858,7 @@ export const list_nft = async (
         royalty_address: royaltyAddress,
       },
     });
-
+    
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
       .changeManager({
