@@ -16,7 +16,6 @@ const Launchpad = new mongoose.Schema({
   royalty: String,
   socials: [String],
   maxSupply: String,
-  jsonURL: String,
   mintPrice: String,
   status: String,
   isActive: Boolean,
@@ -25,7 +24,9 @@ const Launchpad = new mongoose.Schema({
   startDate: String,
   endDate: String,
   comments: String,
+  jsonURL: String,
+  current_tokenId: Number,
+  nfts_by_id: [Number],
 });
 
-module.exports =
-  mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);
+module.exports = mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);

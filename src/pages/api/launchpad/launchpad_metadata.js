@@ -1,6 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
-import Launchpad_data_schema from "../../../Models/launchpad_data";
-import Launchpad_data from "./metadata.json";
+import Launchpad from "../../../Models/Launchpad";
 import limiter from "../limiter";
 
 export default async function handler(req, res) {
@@ -12,21 +11,26 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          //   const launchpadData = await Launchpad.find({});
-          delete Launchpad_data[0];
-          res.status(200).json({ success: true, data: Launchpad_data });
+          res.status(200).json({ success: true, data: "It;s a get requrest" });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }
         break;
       case "POST":
         try {
-          res.status(200).send("hello");
+          const { contractAddress } = req.body;
+
+          const collection = await Launchpad.findOne({ contractAddress });
+
+          if (!collection) return res.status(400).json({ success: false, data: "Cannot find this address" });
+          const { maxSupply, jsonURL, current_tokenId } = collection;
+
+          res.status(200).json({ success: true, data: `${jsonURL}/${current_tokenId}.json` });
+          await collection.current_tokenId++;
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }
         break;
-
       default:
         res.status(400).json({ success: false });
         break;

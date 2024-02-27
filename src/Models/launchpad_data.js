@@ -5,6 +5,7 @@ const LaunchpadData = new mongoose.Schema(
   {
     launchpad_addr: String,
     tokenId: Number,
+    unReserved: Boolean,
   },
   { timestamps: true },
 );
