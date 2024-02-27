@@ -10,9 +10,9 @@
 				{"name":"codeIndex","type":"cell"},
 				{"name":"codeIndexBasis","type":"cell"},
 				{"name":"owner","type":"address"},
-				{"name":"remainOnNft","type":"uint128"},
-				{"name":"mintingFee","type":"uint128"},
-				{"name":"json","type":"string"}
+				{"name":"_remainOnNft","type":"uint128"},
+				{"name":"json","type":"string"},
+				{"name":"max_supply_","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -28,7 +28,19 @@
 		{
 			"name": "mint",
 			"inputs": [
-				{"name":"_json","type":"string"}
+				{"name":"metadata_holder_addr","type":"address"},
+				{"name":"launchpad_addr","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "_mintNft",
+			"inputs": [
+				{"name":"owner","type":"address"},
+				{"name":"json","type":"string"},
+				{"name":"value","type":"uint128"},
+				{"name":"flag","type":"uint16"}
 			],
 			"outputs": [
 			]
@@ -43,62 +55,9 @@
 			]
 		},
 		{
-			"name": "mintingFee",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "hasMinted",
-			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"account","type":"address"}
-			],
-			"outputs": [
-				{"name":"value0","type":"bool"}
-			]
-		},
-		{
-			"name": "minting_status",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"bool"}
-			]
-		},
-		{
-			"name": "pause_mint",
-			"inputs": [
-				{"name":"mint_status","type":"bool"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "setRemainOnNft",
 			"inputs": [
-				{"name":"remainOnNft","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "setMintingFee",
-			"inputs": [
-				{"name":"mintingFeee","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "withdraw",
-			"inputs": [
-				{"name":"dest","type":"address"},
-				{"name":"value","type":"uint128"}
+				{"name":"_remainOnNft","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -242,10 +201,26 @@
 			"outputs": [
 				{"name":"value0","type":"bool"}
 			]
+		},
+		{
+			"name": "json_format",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"json_format","type":"string"}
+			]
+		},
+		{
+			"name": "mint_counter",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"mint_counter","type":"uint256"}
+			]
 		}
 	],
 	"data": [
-		{"key":1,"name":"nonce_","type":"uint64"}
+		{"key":1,"name":"nonce","type":"uint64"}
 	],
 	"events": [
 		{
@@ -295,11 +270,11 @@
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_deployIndexBasisValue","type":"uint128"},
 		{"name":"owner_","type":"address"},
-		{"name":"nonce_","type":"uint64"},
-		{"name":"_remainOnNft","type":"uint128"},
-		{"name":"_totalMinted","type":"uint256"},
-		{"name":"_mintingFee","type":"uint128"},
-		{"name":"minting_paused","type":"bool"},
-		{"name":"_minted","type":"map(address,bool)"}
+		{"name":"nonce","type":"uint64"},
+		{"name":"remainOnNft","type":"uint128"},
+		{"name":"remainOnContract","type":"uint128"},
+		{"name":"max_supply","type":"uint128"},
+		{"name":"json_format","type":"string"},
+		{"name":"mint_counter","type":"uint256"}
 	]
 }

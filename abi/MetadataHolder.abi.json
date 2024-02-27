@@ -14,7 +14,7 @@
 			"name": "store_metadata",
 			"inputs": [
 				{"name":"col_addr","type":"address"},
-				{"name":"metadata","type":"string[]"}
+				{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"metadata","type":"tuple[]"}
 			],
 			"outputs": [
 			]
@@ -31,7 +31,7 @@
 			],
 			"outputs": [
 				{"name":"value0","type":"address"},
-				{"name":"value1","type":"string"},
+				{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"value1","type":"tuple"},
 				{"name":"value2","type":"uint128"},
 				{"name":"value3","type":"uint16"}
 			]
@@ -39,11 +39,59 @@
 		{
 			"name": "get_mapped_data",
 			"inputs": [
-				{"name":"id","type":"uint256"},
 				{"name":"col_address","type":"address"}
 			],
 			"outputs": [
+				{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"value0","type":"tuple[]"}
+			]
+		},
+		{
+			"name": "metadata_index",
+			"inputs": [
+				{"name":"col_address","type":"address"},
+				{"name":"id","type":"uint256"}
+			],
+			"outputs": [
+				{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "get_nft_json",
+			"inputs": [
+			],
+			"outputs": [
 				{"name":"value0","type":"string"}
+			]
+		},
+		{
+			"name": "get_mapped_data_index",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"id","type":"uint256"},
+				{"name":"col_address","type":"address"},
+				{"name":"nft_owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"},
+				{"name":"value1","type":"string"},
+				{"name":"value2","type":"uint128"},
+				{"name":"value3","type":"uint16"}
+			]
+		},
+		{
+			"name": "id_to_metadata",
+			"inputs": [
+			],
+			"outputs": [
+				{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"id_to_metadata","type":"map(address,tuple[])"}
+			]
+		},
+		{
+			"name": "get_json",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"get_json","type":"string"}
 			]
 		}
 	],
@@ -57,6 +105,7 @@
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
 		{"name":"nonce","type":"uint256"},
-		{"name":"id_to_metadata","type":"map(address,string[])"}
+		{"components":[{"name":"name","type":"string"},{"name":"description","type":"string"},{"name":"image","type":"string"},{"name":"dna","type":"string"},{"name":"edition","type":"uint256"},{"name":"date","type":"uint256"},{"components":[{"name":"trait_type","type":"string"},{"name":"value","type":"string"}],"name":"attributes","type":"tuple[]"},{"name":"compiler","type":"string"}],"name":"id_to_metadata","type":"map(address,tuple[])"},
+		{"name":"get_json","type":"string"}
 	]
 }

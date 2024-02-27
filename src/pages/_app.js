@@ -44,6 +44,7 @@ export default function App({ Component, pageProps }) {
   const adminAccount = [
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
+    "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
   const MintNFTStatus = true;
   const MintCollectionStatus = false;
