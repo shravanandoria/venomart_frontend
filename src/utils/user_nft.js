@@ -26,9 +26,9 @@ import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
-import MetadataHolderABI from "../../abi/MetadataHolder.abi.json";
-import LaunchpadABI from "../../abi/Launchpad_Collection.abi.json";
-import metadata_json from "./metadata.json";
+import LaunchpadABI from "../../abi/Fixed_CollectionDrop.abi.json";
+import metadata_json from "./metadata2.json";
+
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
 export const collection_minting_fees = 3000000000;
@@ -49,8 +49,7 @@ export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
-export const test_Launchpad = new Address("0:3cb669897c7ba8e67195b42ad847b82c8bb1cb5fb14cad8df580bac89d4c47a3");
-export const metadata_holder_addr = new Address("0:fd63c0b30dc509f087f76bf4f7cb69c139178e0b8503a314133190eb0d3b900f");
+export const test_Launchpad = new Address("0:91d6c5eab144ed96f8b943019dbe601a05c00fb29755e0b06cd497a86c9320d4");
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
@@ -58,221 +57,51 @@ export const CollectionFactoryAddress = new Address(
   "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
 );
 
-export const launchpad_minting = async (provider, signer_address) => {
+export const test_launchpad_minting = async (provider, signer_address) => {
   const contract = new provider.Contract(LaunchpadABI, test_Launchpad);
 
-  const res = await contract.methods
-    .mint({
-      metadata_holder_addr: metadata_holder_addr,
-      launchpad_addr: "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: "800000000",
-    });
-  console.log({ res });
-};
+  const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
+  console.log({ need_more_metadata });
 
-export const upload_metadata = async (provider, signer_address, client) => {
-  const nft_md = [
-    {
-      name: "Ranger #1",
-      description:
-        "5555 rangers has arrived in a village on avax to fight for a superior position | Collect this rangers and fight for the glory they want | Stake them to earn $ENRGY Token",
-      image: "ipfs://QmSyFQTMF4Y5C9okm1zNqdU66PyMPMuTEFLL1gH6gEtzcY/1.png",
-      dna: "7e2948cd199c9f713ed942a206e900cdd0fc6f69",
-      edition: 1,
-      date: 1643873369079,
-      attributes: [
-        {
-          trait_type: "Ranger",
-          value: "Sorcerer",
-        },
-        {
-          trait_type: "Ability",
-          value: "Invisibility",
-        },
-        {
-          trait_type: "Belt",
-          value: "Black Belt",
-        },
-        {
-          trait_type: "Bottom",
-          value: "BlackWhite Jeans",
-        },
-        {
-          trait_type: "Shoes",
-          value: "Black Work Boots",
-        },
-        {
-          trait_type: "Top Innerwear",
-          value: "Black Shirt",
-        },
-        {
-          trait_type: "Top Outerwear",
-          value: "White Hoodie",
-        },
-        {
-          trait_type: "Left Hand item",
-          value: "None",
-        },
-        {
-          trait_type: "Wrist",
-          value: "Silver Watch",
-        },
-        {
-          trait_type: "Gloves",
-          value: "Diamond Blue Boxing Gloves",
-        },
-        {
-          trait_type: "Right Hand item",
-          value: "Rc Car Radio Controller",
-        },
-        {
-          trait_type: "Neckwear",
-          value: "Doge Necklace",
-        },
-        {
-          trait_type: "Tribe",
-          value: "Human",
-        },
-        {
-          trait_type: "Headwear",
-          value: "Police Hat",
-        },
-        {
-          trait_type: "Eyewear",
-          value: "3D Glasses",
-        },
-        {
-          trait_type: "Mouth",
-          value: "None",
-        },
-        {
-          trait_type: "Attack",
-          value: "69",
-        },
-        {
-          trait_type: "Defence",
-          value: "90",
-        },
-        {
-          trait_type: "Sprint",
-          value: "10",
-        },
-        {
-          trait_type: "Stakable",
-          value: "Yes",
-        },
-      ],
-      compiler: "Ranger Village C1",
-    },
-    {
-      name: "Ranger #2",
-      description:
-        "5555 rangers has arrived in a village on avax to fight for a superior position | Collect this rangers and fight for the glory they want | Stake them to earn $ENRGY Token",
-      image: "ipfs://QmSyFQTMF4Y5C9okm1zNqdU66PyMPMuTEFLL1gH6gEtzcY/2.png",
-      dna: "83080b48445e6d4d7092cbb7701dddc3f7202232",
-      edition: 2,
-      date: 1643873369213,
-      attributes: [
-        {
-          trait_type: "Ranger",
-          value: "Sorcerer",
-        },
-        {
-          trait_type: "Ability",
-          value: "Invisibility",
-        },
-        {
-          trait_type: "Belt",
-          value: "White Belt",
-        },
-        {
-          trait_type: "Bottom",
-          value: "Red Jeans",
-        },
-        {
-          trait_type: "Shoes",
-          value: "Green Work Boots",
-        },
-        {
-          trait_type: "Top Innerwear",
-          value: "Plain Red TShirt",
-        },
-        {
-          trait_type: "Top Outerwear",
-          value: "None",
-        },
-        {
-          trait_type: "Left Hand item",
-          value: "Candy Cane",
-        },
-        {
-          trait_type: "Wrist",
-          value: "Red Sweat Band",
-        },
-        {
-          trait_type: "Gloves",
-          value: "Orange And White Mittens",
-        },
-        {
-          trait_type: "Right Hand item",
-          value: "None",
-        },
-        {
-          trait_type: "Neckwear",
-          value: "Legendary",
-        },
-        {
-          trait_type: "Tribe",
-          value: "Alien",
-        },
-        {
-          trait_type: "Headwear",
-          value: "None",
-        },
-        {
-          trait_type: "Eyewear",
-          value: "Legendary",
-        },
-        {
-          trait_type: "Mouth",
-          value: "Doge To The Moon",
-        },
-        {
-          trait_type: "Attack",
-          value: "50",
-        },
-        {
-          trait_type: "Defence",
-          value: "27",
-        },
-        {
-          trait_type: "Sprint",
-          value: "49",
-        },
-        {
-          trait_type: "Stakable",
-          value: "Yes",
-        },
-      ],
-      compiler: "Ranger Village C1",
-    },
-  ];
+  const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
+  console.log({ total_supply });
 
-  const contract = new provider.Contract(MetadataHolderABI, metadata_holder_addr);
+  const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
+  console.log({ max_metadata });
 
-  const res = await contract.methods
-    .store_metadata({
-      col_addr: "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
-      metadata: nft_md,
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: "300000000",
-    });
-  console.log({ res });
+  const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
+  console.log({ metadata_count });
+
+  const need_metadata_count = need_more_metadata.value0
+    ? parseInt(total_supply)
+    : parseInt(total_supply) - parseInt(metadata_count);
+
+  console.log(need_metadata_count);
+  let new_metadata = [];
+  for (let i = need_metadata_count; i < parseInt(need_metadata_count) + parseInt(max_metadata); i++) {
+    new_metadata.push(JSON.stringify(metadata_json[i]));
+  }
+
+  console.log(new_metadata);
+
+  await contract.methods.mint({ json: new_metadata }).send({
+    from: new Address(signer_address),
+    amount: "2000000000",
+  });
+
+  {
+    const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
+    console.log(need_more_metadata);
+
+    const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
+    console.log(total_supply);
+
+    const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
+    console.log(max_metadata);
+
+    const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
+    console.log(metadata_count);
+  }
 };
 
 // Extract an preview field of NFT's json
@@ -858,7 +687,7 @@ export const list_nft = async (
         royalty_address: royaltyAddress,
       },
     });
-    
+
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
       .changeManager({
