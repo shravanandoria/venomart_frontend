@@ -49,7 +49,7 @@ export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
-export const test_Launchpad = new Address("0:91d6c5eab144ed96f8b943019dbe601a05c00fb29755e0b06cd497a86c9320d4");
+export const test_Launchpad = new Address("0:ab477d5e9fcab8dbd1bb5bc40be41c18d14fee07003ef27425411f8a2af8ffe7");
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
