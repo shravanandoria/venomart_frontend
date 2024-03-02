@@ -25,8 +25,6 @@ const Launchpad = new mongoose.Schema({
   endDate: String,
   comments: String,
   jsonURL: String,
-  current_tokenId: Number,
-  nfts_by_id: [Number],
 });
 
 module.exports = mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);
