@@ -48,6 +48,7 @@ export default function App({ Component, pageProps }) {
   ];
   const MintNFTStatus = true;
   const MintCollectionStatus = false;
+  const EnableMakeOffer = false;
 
   // variables
   const [theme, setTheme] = useState(defTheme);
@@ -247,6 +248,7 @@ export default function App({ Component, pageProps }) {
           connectWallet={connect_wallet}
           MintNFTStatus={MintNFTStatus}
           MintCollectionStatus={MintCollectionStatus}
+          EnableMakeOffer={EnableMakeOffer}
           adminAccount={adminAccount}
           featuredCollections={featuredCollections}
           websiteStats={websiteStats}
