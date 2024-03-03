@@ -281,6 +281,14 @@
 			]
 		},
 		{
+			"name": "nfts_metadata",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"nfts_metadata","type":"string[]"}
+			]
+		},
+		{
 			"name": "metadata_count",
 			"inputs": [
 			],

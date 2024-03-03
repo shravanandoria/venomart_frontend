@@ -37,6 +37,7 @@ export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 // hello world
+
 export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
 export const MARKETPLACE_ADDRESS = "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
@@ -49,7 +50,7 @@ export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
-export const test_Launchpad = new Address("0:ab477d5e9fcab8dbd1bb5bc40be41c18d14fee07003ef27425411f8a2af8ffe7");
+export const test_Launchpad = new Address("0:c8051cbe9d9c506ac1cdc30657cea84c35ed8e2b2e453420a160818a0c68fa9d");
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
@@ -72,13 +73,13 @@ export const test_launchpad_minting = async (provider, signer_address) => {
   const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
   console.log({ metadata_count });
 
-  const need_metadata_count = need_more_metadata.value0
-    ? parseInt(total_supply)
-    : parseInt(total_supply) - parseInt(metadata_count);
+  const start_metadata_index = parseInt(total_supply) - parseInt(metadata_count);
 
-  console.log(need_metadata_count);
+  const end_metadata_index = parseInt(start_metadata_index) + parseInt(max_metadata);
+  
+  console.log(start_metadata_index);
   let new_metadata = [];
-  for (let i = need_metadata_count; i < parseInt(need_metadata_count) + parseInt(max_metadata); i++) {
+  for (let i = start_metadata_index; i <= end_metadata_index; i++) {
     new_metadata.push(JSON.stringify(metadata_json[i]));
   }
 
