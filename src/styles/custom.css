@@ -609,3 +609,45 @@
   position: fixed;
   z-index: 20;
 }
+
+/* hero section slider  */
+.heroSectionFeatureCardSection {
+  width: 100%;
+  height: 460px;
+}
+
+.heroSectionFeatureCard {
+  bottom: 3%;
+  right: 27%;
+  transform: translate(-27%, -3%);
+  width: 440px;
+}
+
+@media (max-width: 550px) {
+  .heroSectionFeatureCard {
+    bottom: 3%;
+    right: 4%;
+    transform: translate(-4%, -3%);
+    width: 230px;
+  }
+  .heroSectionFeatureCardSection {
+    width: 100%;
+    height: 350px;
+  }
+}
+@media (max-width: 875px) {
+  .heroSectionFeatureCard {
+    bottom: 3%;
+    right: 4%;
+    transform: translate(-4%, -3%);
+    width: 330px;
+  }
+}
+@media (min-width: 1502px) {
+  .heroSectionFeatureCard {
+    width: 440px;
+  }
+}
+.swiper-pagination .swiper-pagination-clickable .swiper-pagination-bullets .swiper-pagination-horizontal {
+  margin-top: 100px; /* Adjust the value as needed */
+}

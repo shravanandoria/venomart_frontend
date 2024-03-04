@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
     "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
   const MintNFTStatus = true;
-  const MintCollectionStatus = false;
+  const MintCollectionStatus = true;
   const EnableMakeOffer = false;
 
   // variables
