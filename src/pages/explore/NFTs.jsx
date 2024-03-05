@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet }) => {
+const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -163,6 +163,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -213,6 +217,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
   // cancel nft sale
   const cancelNFT = async (e) => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(

@@ -76,7 +76,7 @@ export const test_launchpad_minting = async (provider, signer_address) => {
   const start_metadata_index = parseInt(total_supply) - parseInt(metadata_count);
 
   const end_metadata_index = parseInt(start_metadata_index) + parseInt(max_metadata);
-  
+
   console.log(start_metadata_index);
   let new_metadata = [];
   for (let i = start_metadata_index; i <= end_metadata_index; i++) {
