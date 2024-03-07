@@ -35,8 +35,6 @@ export const platform_fees = 2.5; //value in percent 2.5%
 
 export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
-export const MARKETPLACE_ADDRESS = "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
-
 export const CollectionFactoryAddress = new Address(
   "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
 );
@@ -644,26 +642,15 @@ export const cancel_listing = async (
     }
 
     const DirectSellContract = new venomProvider.Contract(
-      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
+      DirectSell,
       new Address(prev_nft_Manager),
     );
 
     let output;
-    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      output = await DirectSellContract.methods
-        .cancel_listing({
-          nft_address,
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: "100000000",
-        });
-    } else {
-      output = await DirectSellContract.methods.cancel_listing().send({
-        from: new Address(signer_address),
-        amount: "100000000",
-      });
-    }
+    output = await DirectSellContract.methods.cancel_listing().send({
+      from: new Address(signer_address),
+      amount: "100000000",
+    });
 
     if (output) {
       let obj = {
@@ -721,7 +708,7 @@ export const buy_nft = async (
     }
 
     const DirectSellContract = new venomProvider.Contract(
-      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
+      DirectSell,
       new Address(prev_nft_Manager),
     );
 
@@ -738,28 +725,14 @@ export const buy_nft = async (
     });
 
     let output;
-    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      output = await DirectSellContract.methods
-        .buyNft({
-          sendRemainingGasTo: new Address(signer_address),
-          nft_address: new Address(nft_address),
-          royalty: royalty,
-          royalty_address: new Address(royalty_address),
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: fees,
-        });
-    } else {
-      output = await DirectSellContract.methods
-        .buyNft({
-          new_nft_holder: new Address(signer_address),
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: fees,
-        });
-    }
+    output = await DirectSellContract.methods
+      .buyNft({
+        new_nft_holder: new Address(signer_address),
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: fees,
+      });
 
     if (output) {
       let obj = {
@@ -839,6 +812,10 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
+
+
+// -------------- offer feature functions ----------------
+
 
 // make an offer on NFT
 export const MakeOpenOffer = async (
