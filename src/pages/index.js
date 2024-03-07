@@ -8,11 +8,16 @@ import SmallCollectionCard from "../components/cards/SmallCollectionCard";
 import SmallUserCard from "../components/cards/SmallUserCard";
 import { MdVerified } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { get_collections, top_collections } from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
 import customLaunchpad from "./launchpad/customLaunchpad.json";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 export default function Home({ theme, featuredCollections, websiteStats }) {
   const { client } = useContext(TonClientContext);
@@ -88,7 +93,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
 
       <>
         {/* hero section  */}
-        <section
+        {/* <section
           className="relative pb-10 pt-20 md:pt-32 dark:bg-jacarta-900"
         // id={`${theme == "dark" ? "heroBackDark" : "heroBackLight"}`}
         >
@@ -226,7 +231,97 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
               </svg>
             </div>
           )}
-        </section>
+        </section> */}
+
+        {/* hero test silder */}
+        <div className="relative py-12 dark:bg-jacarta-900 pb-10 pt-40" style={{ userSelect: "none" }}>
+          <div className="containerForHeroSlider">
+            <div className="flex justify-center align-middle flex-wrap">
+              <Swiper
+                modules={[Pagination, Navigation, Autoplay]}
+                slidesPerView={1}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: true,
+                }}
+                navigation={true}
+                className="mySwiper"
+              >
+                {customLaunchpad
+                  ?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
+                  .filter((e, id) => id < 7 && e.verified === true)
+                  .map((e, id) => {
+                    return (
+                      id < 6 &&
+                      e.verified == true && (
+                        <SwiperSlide
+                          key={id}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Link href={""} className="relative heroSectionFeatureCardSection">
+                            <Image
+                              height={100}
+                              width={100}
+                              className="absolute inset-0 w-full h-full object-cover"
+                              style={{ borderRadius: "25px" }}
+                              src={e.Cover}
+                            />
+
+                            {/* feature card div */}
+                            <div className="flex absolute rounded-2.5xl border border-jacarta-100 bg-slate-100 hover:white py-4 px-7 transition-shadow hover:shadow-lg dark:border-transparent dark:bg-jacarta-700 heroSectionFeatureCard">
+                              <div className="mr-4 shrink-0">
+                                <div className="relative block">
+                                  <Image
+                                    src={
+                                      e?.Logo
+                                        ? e?.Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                                        : defLogo
+                                    }
+                                    alt="avatar 1"
+                                    className="rounded-2lg h-[85px] w-[85px]"
+                                    height={100}
+                                    width={100}
+
+                                  />
+                                  {e.verified == true ? (
+                                    <div className="absolute right-[-5px] top-[75%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+                                      <MdVerified style={{ color: "#4f87ff" }} size={25} />
+                                    </div>
+                                  ) : (
+                                    <div className="absolute right-[-5px] top-[75%] flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-white dark:bg-transparent dark:border-jacarta-600">
+                                      <BsFillExclamationCircleFill
+                                        style={{ color: "#c3c944" }}
+                                        size={20}
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="flex flex-col justify-start">
+                                <span className="text-[11px] font-bold dark:text-jacarta-300 text-left">FEATURED COLLECTION</span>
+                                <span className="text-left text-[27px] font-display font-semibold text-jacarta-700 dark:text-white">
+                                  Cryptopank
+                                </span>
+                                <div className="text-sm dark:text-jacarta-300 text-left max-w-md flex flex-wrap justify-center items-center">
+                                  <span className="text-left textDotStyle dark:text-jacarta-400">
+                                    is simply dummy text of the printing and typesetting industry.
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        </SwiperSlide>
+                      )
+                    );
+                  })}
+              </Swiper>
+            </div>
+          </div>
+        </div>
 
         {/* launchpad collections  */}
         <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>

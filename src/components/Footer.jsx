@@ -33,6 +33,7 @@ const Footer = ({
   venomTPS,
   venomProvider,
   connectWallet,
+  EnableNFTSale
 }) => {
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
@@ -68,6 +69,11 @@ const Footer = ({
 
   const buyCartNFTs = async (e) => {
     e.preventDefault();
+
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
 
     if (!signer_address) {
       connect_wallet();

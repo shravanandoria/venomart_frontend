@@ -55,6 +55,8 @@ const Collection = ({
   setCartNFTs,
   vnmBalance,
   connectWallet,
+  EnableNFTCancel,
+  EnableNFTSale
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -501,6 +503,10 @@ const Collection = ({
   // buy nft
   const buy_NFT_ = async e => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -548,6 +554,10 @@ const Collection = ({
   // cancel nft sale
   const cancelNFT = async e => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(

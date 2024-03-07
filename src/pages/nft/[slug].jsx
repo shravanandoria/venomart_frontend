@@ -59,6 +59,10 @@ const NFTPage = ({
   cartNFTs,
   setCartNFTs,
   vnmBalance,
+  EnableMakeOffer,
+  EnableNFTList,
+  EnableNFTCancel,
+  EnableNFTSale
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -301,6 +305,10 @@ const NFTPage = ({
   // list nft for sale
   const sell_nft = async e => {
     e.preventDefault();
+    if (!EnableNFTList) {
+      alert("Listing is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -362,6 +370,10 @@ const NFTPage = ({
   // buy nft
   const buy_NFT_ = async e => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -412,6 +424,10 @@ const NFTPage = ({
   // cancel nft sale
   const cancelNFT = async e => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -1136,34 +1152,20 @@ const NFTPage = ({
                                   </button>
                                 ))}
                             </div>
-                            <div className="flex mt-4">
-                              <button
-                                type="button"
-                                onClick={() => (
-                                  setSelectedNFT(""), checkExistingOffer(), setOfferModal(true), setAnyModalOpen(true)
-                                )}
-                                className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                              >
-                                <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                                Make An Offer
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => test_launchpad_minting(venomProvider, signer_address)}
-                                className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                              >
-                                <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                                click me
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => test_launchpad_minting(venomProvider, signer_address)}
-                                className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                              >
-                                <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                                Launch!!
-                              </button>
-                            </div>
+                            {EnableMakeOffer &&
+                              <div className="flex mt-4">
+                                <button
+                                  type="button"
+                                  onClick={() => (
+                                    setSelectedNFT(""), checkExistingOffer(), setOfferModal(true), setAnyModalOpen(true)
+                                  )}
+                                  className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                >
+                                  <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
+                                  Make An Offer
+                                </button>
+                              </div>
+                            }
                           </div>
                         )}
                       </div>
@@ -1411,21 +1413,23 @@ const NFTPage = ({
                             Not Listed
                           </button>
                         </div>
-                        <div className="flex mt-4">
-                          <button
-                            type="button"
-                            onClick={() => (
-                              setSelectedNFT(""),
-                              !onchainNFTData && checkExistingOffer(),
-                              setOfferModal(true),
-                              setAnyModalOpen(true)
-                            )}
-                            className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                          >
-                            <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                            Make An Offer
-                          </button>
-                        </div>
+                        {EnableMakeOffer &&
+                          <div className="flex mt-4">
+                            <button
+                              type="button"
+                              onClick={() => (
+                                setSelectedNFT(""),
+                                !onchainNFTData && checkExistingOffer(),
+                                setOfferModal(true),
+                                setAnyModalOpen(true)
+                              )}
+                              className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                            >
+                              <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
+                              Make An Offer
+                            </button>
+                          </div>
+                        }
                       </>
                     )}
 
@@ -1823,8 +1827,8 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType(""))}
                               className={`${activityType == ""
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <span className={`text-2xs font-medium  ${activityType == "" && "text-white"}`}>All</span>
@@ -1833,8 +1837,8 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType("list"))}
                               className={`${activityType == "list"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1843,8 +1847,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "list"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1858,8 +1862,8 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType("cancel"))}
                               className={`${activityType == "cancel"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1868,8 +1872,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1883,8 +1887,8 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType("sale"))}
                               className={`${activityType == "sale"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <svg
@@ -1893,8 +1897,8 @@ const NFTPage = ({
                                 width="24"
                                 height="24"
                                 className={`mr-2 h-4 w-4 ${activityType == "sale"
-                                    ? "fill-white"
-                                    : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                                  ? "fill-white"
+                                  : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                                   }`}
                               >
                                 <path fill="none" d="M0 0h24v24H0z" />
@@ -1908,14 +1912,14 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType("offer"))}
                               className={`${activityType == "offer"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <IoHandLeftOutline
                                 className={`mr-2 h-4 w-4 ${activityType == "offer"
-                                    ? "text-white"
-                                    : "group-hover:text-white text-jacarta-700 dark:text-white"
+                                  ? "text-white"
+                                  : "group-hover:text-white text-jacarta-700 dark:text-white"
                                   }`}
                               />
                               <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
@@ -1926,14 +1930,14 @@ const NFTPage = ({
                             <button
                               onClick={() => (setSkip(0), setActivityType("canceloffer"))}
                               className={`${activityType == "canceloffer"
-                                  ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                  : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                                 }`}
                             >
                               <IoHandLeftOutline
                                 className={`mr-2 h-4 w-4 ${activityType == "offer"
-                                    ? "text-white"
-                                    : "group-hover:text-white text-jacarta-700 dark:text-white"
+                                  ? "text-white"
+                                  : "group-hover:text-white text-jacarta-700 dark:text-white"
                                   }`}
                               />
                               <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
@@ -2076,8 +2080,8 @@ const NFTPage = ({
                 <div className="mt-10 text-center">
                   <Link
                     href={`/collection/${nft?.NFTCollection?.contractAddress
-                        ? nft?.NFTCollection?.contractAddress
-                        : nft?.collection?._address
+                      ? nft?.NFTCollection?.contractAddress
+                      : nft?.collection?._address
                       }`}
                     className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                   >

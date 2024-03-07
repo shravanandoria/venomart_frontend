@@ -46,9 +46,16 @@ export default function App({ Component, pageProps }) {
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
     "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
+
+  // enable mint nft and collection 
   const MintNFTStatus = true;
-  const MintCollectionStatus = false;
+  const MintCollectionStatus = true;
+
+  // enable trading on marketplace 
   const EnableMakeOffer = false;
+  const EnableNFTCancel = true;
+  const EnableNFTList = true;
+  const EnableNFTSale = true;
 
   // variables
   const [theme, setTheme] = useState(defTheme);
@@ -261,6 +268,9 @@ export default function App({ Component, pageProps }) {
           venomPrice={venomPrice}
           vnmBalance={vnmBalance}
           setVnmBalance={setVnmBalance}
+          EnableNFTList={EnableNFTList}
+          EnableNFTCancel={EnableNFTCancel}
+          EnableNFTSale={EnableNFTSale}
         />
       </TonClientContextProvider>
       {/* </ChakraProvider> */}
@@ -278,6 +288,7 @@ export default function App({ Component, pageProps }) {
         venomTPS={venomTPS}
         venomProvider={venomProvider}
         connectWallet={connect_wallet}
+        EnableNFTSale={EnableNFTSale}
       />
     </ThirdwebProvider>
   );
