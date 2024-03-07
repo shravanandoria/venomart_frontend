@@ -26,8 +26,6 @@ import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
-import LaunchpadABI from "../../abi/Fixed_CollectionDrop.abi.json";
-import metadata_json from "./metadata2.json";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
@@ -36,11 +34,15 @@ export const cancel_refundable_fees = 100000000;
 export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
-// hello world
+
 
 export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
 export const MARKETPLACE_ADDRESS = "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
+
+export const CollectionFactoryAddress = new Address(
+  "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
+);
 
 export const FactoryDirectSellAddress = new Address(
   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
@@ -49,61 +51,8 @@ export const FactoryDirectSellAddress = new Address(
 export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
-
-export const test_Launchpad = new Address("0:c8051cbe9d9c506ac1cdc30657cea84c35ed8e2b2e453420a160818a0c68fa9d");
-
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
-export const CollectionFactoryAddress = new Address(
-  "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
-);
-
-export const test_launchpad_minting = async (provider, signer_address) => {
-  const contract = new provider.Contract(LaunchpadABI, test_Launchpad);
-
-  const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
-  console.log({ need_more_metadata });
-
-  const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
-  console.log({ total_supply });
-
-  const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
-  console.log({ max_metadata });
-
-  const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
-  console.log({ metadata_count });
-
-  const start_metadata_index = parseInt(total_supply) - parseInt(metadata_count);
-
-  const end_metadata_index = parseInt(start_metadata_index) + parseInt(max_metadata);
-
-  console.log(start_metadata_index);
-  let new_metadata = [];
-  for (let i = start_metadata_index; i <= end_metadata_index; i++) {
-    new_metadata.push(JSON.stringify(metadata_json[i]));
-  }
-
-  console.log(new_metadata);
-
-  await contract.methods.mint({ json: new_metadata }).send({
-    from: new Address(signer_address),
-    amount: "2000000000",
-  });
-
-  {
-    const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
-    console.log(need_more_metadata);
-
-    const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
-    console.log(total_supply);
-
-    const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
-    console.log(max_metadata);
-
-    const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
-    console.log(metadata_count);
-  }
-};
 
 // Extract an preview field of NFT's json
 export const getNftImage = async (provider, nftAddress) => {

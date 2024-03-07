@@ -15,6 +15,10 @@ import { top_users } from "../utils/mongo_api/user/user";
 import customLaunchpad from "./launchpad/customLaunchpad.json";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 export default function Home({ theme, featuredCollections, websiteStats }) {
   const { client } = useContext(TonClientContext);
 
@@ -240,7 +244,7 @@ export default function Home({ theme, featuredCollections, websiteStats }) {
                   delay: 2500,
                   disableOnInteraction: true,
                 }}
-                pagination={{ clickable: true }}
+                navigation={true}
                 className="mySwiper"
               >
                 {customLaunchpad
