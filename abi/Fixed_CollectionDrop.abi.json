@@ -13,7 +13,8 @@
 				{"name":"remainOnNft","type":"uint128"},
 				{"name":"mintingFee","type":"uint128"},
 				{"name":"json","type":"string"},
-				{"name":"max_supply_","type":"uint128"}
+				{"name":"max_supply_","type":"uint128"},
+				{"name":"_metadata_updater","type":"address"}
 			],
 			"outputs": [
 			]
@@ -27,9 +28,27 @@
 			]
 		},
 		{
+			"name": "update_metadata",
+			"inputs": [
+				{"name":"new_json","type":"string"},
+				{"name":"nft_address","type":"address"},
+				{"name":"value","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_metadata_updater",
+			"inputs": [
+				{"name":"new_metadata_updater","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "mint",
 			"inputs": [
-				{"name":"json","type":"string[]"}
+				{"name":"json","type":"string"}
 			],
 			"outputs": [
 			]
@@ -43,33 +62,6 @@
 			]
 		},
 		{
-			"name": "max_metadata_hold",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint8"}
-			]
-		},
-		{
-			"name": "get_metadata_count",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint8"}
-			]
-		},
-		{
-			"name": "metadata_on_hold",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"string[]"}
-			]
-		},
-		{
 			"name": "get_total_supply",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -79,12 +71,12 @@
 			]
 		},
 		{
-			"name": "need_metadata",
+			"name": "get_metadata_updater",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
 			"outputs": [
-				{"name":"value0","type":"bool"}
+				{"name":"value0","type":"address"}
 			]
 		},
 		{
@@ -279,30 +271,6 @@
 			"outputs": [
 				{"name":"value0","type":"bool"}
 			]
-		},
-		{
-			"name": "nfts_metadata",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"nfts_metadata","type":"string[]"}
-			]
-		},
-		{
-			"name": "metadata_count",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"metadata_count","type":"uint8"}
-			]
-		},
-		{
-			"name": "need_more_metadata",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"need_more_metadata","type":"bool"}
-			]
 		}
 	],
 	"data": [
@@ -364,10 +332,7 @@
 		{"name":"max_supply","type":"uint128"},
 		{"name":"_totalMinted","type":"uint256"},
 		{"name":"_minted","type":"map(address,bool)"},
-		{"name":"max_metadata_can_hold","type":"uint8"},
-		{"name":"nfts_metadata","type":"string[]"},
-		{"name":"metadata_count","type":"uint8"},
-		{"name":"need_more_metadata","type":"bool"},
-		{"name":"minting_paused","type":"bool"}
+		{"name":"minting_paused","type":"bool"},
+		{"name":"metadata_updater","type":"address"}
 	]
 }

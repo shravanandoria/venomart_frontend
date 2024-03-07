@@ -50,7 +50,7 @@ export const FactoryMakeOfferAddress = new Address(
   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
 );
 
-export const test_Launchpad = new Address("0:c8051cbe9d9c506ac1cdc30657cea84c35ed8e2b2e453420a160818a0c68fa9d");
+export const test_Launchpad = new Address("0:1737acf18360938ccffb97d3086386127f11df71bd546ddcdc4c8abec91a7237");
 
 export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
@@ -61,48 +61,28 @@ export const CollectionFactoryAddress = new Address(
 export const test_launchpad_minting = async (provider, signer_address) => {
   const contract = new provider.Contract(LaunchpadABI, test_Launchpad);
 
-  const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
-  console.log({ need_more_metadata });
+  const nft_json = JSON.stringify({
+    type: "Basic NFT",
+    name: "Default Name",
+    description: "default Description",
+    preview: {
+      source: "sample_image",
+      mimetype: "image/png",
+    },
+    files: [
+      {
+        source: "sample_image",
+        mimetype: "image/png",
+      },
+    ],
+    attributes: [],
+    external_url: "https://venomart.io",
+  });
 
-  const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
-  console.log({ total_supply });
-
-  const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
-  console.log({ max_metadata });
-
-  const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
-  console.log({ metadata_count });
-
-  const start_metadata_index = parseInt(total_supply) - parseInt(metadata_count);
-
-  const end_metadata_index = parseInt(start_metadata_index) + parseInt(max_metadata);
-  
-  console.log(start_metadata_index);
-  let new_metadata = [];
-  for (let i = start_metadata_index; i <= end_metadata_index; i++) {
-    new_metadata.push(JSON.stringify(metadata_json[i]));
-  }
-
-  console.log(new_metadata);
-
-  await contract.methods.mint({ json: new_metadata }).send({
+  await contract.methods.mint({ json: nft_json }).send({
     from: new Address(signer_address),
     amount: "2000000000",
   });
-
-  {
-    const { value0: need_more_metadata } = await contract.methods.need_metadata({ answerId: 0 }).call();
-    console.log(need_more_metadata);
-
-    const { value0: total_supply } = await contract.methods.get_total_supply({ answerId: 0 }).call();
-    console.log(total_supply);
-
-    const { value0: max_metadata } = await contract.methods.max_metadata_hold({ answerId: 0 }).call();
-    console.log(max_metadata);
-
-    const { value0: metadata_count } = await contract.methods.get_metadata_count({ answerId: 0 }).call();
-    console.log(metadata_count);
-  }
 };
 
 // Extract an preview field of NFT's json
