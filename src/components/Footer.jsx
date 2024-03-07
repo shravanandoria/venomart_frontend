@@ -870,24 +870,15 @@ const Footer = ({
                 Other Links
               </h3>
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                {/* <li>
+                <li>
                   <Link
-                    href="https://forms.gle/98VPnY7FSTuHCvaTA"
+                    href="https://venomart.gitbook.io/venomart/about/venomart-marketplace"
                     target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Apply For Launchpad
+                    Whitepaper
                   </Link>
-                </li> */}
-                {/* <li>
-                  <Link
-                    href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
-                    target="_blank"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Verify Your Collection
-                  </Link>
-                </li> */}
+                </li>
                 <li>
                   <Link
                     href="https://forms.gle/DvYFih5vwvzJdwRL6"
@@ -899,18 +890,20 @@ const Footer = ({
                 </li>
                 <li>
                   <Link
-                    href="/Help"
+                    href="https://forms.gle/sQbz31VcFVqX6zmL8"
+                    target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Help Center
+                    Launchpad Form
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/Contact"
+                    href="https://forms.gle/BueLL6ViPNXq3yYR7"
+                    target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Contact Us
+                    Verify/Add Collection
                   </Link>
                 </li>
               </ul>

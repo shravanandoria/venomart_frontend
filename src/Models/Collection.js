@@ -20,6 +20,7 @@ const CollectionSchema = new mongoose.Schema(
     isVerified: Boolean,
     isNSFW: Boolean,
     isPropsEnabled: Boolean,
+    isFeatured: Boolean,
     Category: String,
     TotalSupply: Number,
   },

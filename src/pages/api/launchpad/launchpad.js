@@ -41,28 +41,6 @@ export default async function handler(req, res) {
             comments,
           } = req.body;
 
-          console.log({
-            logo,
-            coverImage,
-            name,
-            description,
-            contractAddress,
-            creatorAddress,
-            royaltyAddress,
-            royalty,
-            socials,
-            maxSupply,
-            jsonURL,
-            mintPrice,
-            status,
-            isActive,
-            isVerified,
-            isPropsEnabled,
-            startDate,
-            endDate,
-            comments,
-          })
-
           const launchpad = await Launchpad.create({
             chain: "Venom",
             logo,
