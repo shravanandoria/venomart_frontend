@@ -21,10 +21,7 @@ import { GoArrowUpRight } from "react-icons/go";
 
 const Footer = ({
   theme,
-  adminAccount,
   signer_address,
-  MintNFTStatus,
-  MintCollectionStatus,
   onDisconnect,
   cartNFTs,
   setCartNFTs,
@@ -854,26 +851,6 @@ const Footer = ({
                       Notifications
                     </Link>
                   </li>
-                  {MintNFTStatus && (
-                    <li>
-                      <Link
-                        href="/mint/CreateNFT"
-                        className="hover:text-accent dark:hover:text-white"
-                      >
-                        Create NFT
-                      </Link>
-                    </li>
-                  )}
-                  {MintCollectionStatus && (
-                    <li>
-                      <Link
-                        href="/mint/CreateNFTCollection"
-                        className="hover:text-accent dark:hover:text-white"
-                      >
-                        Create Collection
-                      </Link>
-                    </li>
-                  )}
                   {signer_address && (
                     <li>
                       <div
@@ -939,32 +916,6 @@ const Footer = ({
               </ul>
             </div>
 
-            {/* admin links  */}
-            {adminAccount.includes(signer_address) && (
-              <div className="col-span-full sm:col-span-3 md:col-span-2">
-                <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
-                  Admin Links
-                </h3>
-                <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                  <li>
-                    <Link
-                      href="/admin/AddCollection"
-                      className="hover:text-accent dark:hover:text-white"
-                    >
-                      Add Collection
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admin/CreateLaunch"
-                      className="hover:text-accent dark:hover:text-white"
-                    >
-                      Create A Launch
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
           </div>
           <div className="flex flex-col items-center justify-between space-y-2 py-8 pb-16 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">

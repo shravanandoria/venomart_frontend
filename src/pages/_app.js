@@ -47,10 +47,6 @@ export default function App({ Component, pageProps }) {
     "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
 
-  // enable mint nft and collection 
-  const MintNFTStatus = true;
-  const MintCollectionStatus = true;
-
   // enable trading on marketplace 
   const EnableMakeOffer = false;
   const EnableNFTCancel = true;
@@ -231,11 +227,10 @@ export default function App({ Component, pageProps }) {
         apiFetchURL={apiFetchURL}
         connectWallet={connect_wallet}
         onDisconnect={onDisconnect}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
         blockURL={blockURL}
         vnmBalance={vnmBalance}
         setVnmBalance={setVnmBalance}
+        adminAccount={adminAccount}
       />
       {/* <ChakraProvider> */}
       <TonClientContextProvider config={config}>
@@ -253,8 +248,6 @@ export default function App({ Component, pageProps }) {
           webURL={webURL}
           copyURL={copyURL}
           connectWallet={connect_wallet}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
           EnableMakeOffer={EnableMakeOffer}
           adminAccount={adminAccount}
           featuredCollections={featuredCollections}
@@ -281,9 +274,6 @@ export default function App({ Component, pageProps }) {
         theme={theme}
         signer_address={signer_address}
         onDisconnect={onDisconnect}
-        adminAccount={adminAccount}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
         venomPrice={venomPrice}
         venomTPS={venomTPS}
         venomProvider={venomProvider}
