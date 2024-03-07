@@ -41,7 +41,8 @@ export default function Home({ theme }) {
 
   const fetchTrendingCollection = async () => {
     setTrendLoad(true);
-    const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
+    // const collectionsJSON = await get_collections("All", "trending", "unverified", 0);
+    const collectionsJSON = await top_collections("All", "unverified", "1day");
     setTrendingCollections(collectionsJSON);
     setTrendLoad(false);
   };
@@ -291,7 +292,7 @@ export default function Home({ theme }) {
                           OwnerAddress={e?.OwnerAddress}
                           CollectionAddress={e?.contractAddress}
                           verified={e?.isVerified}
-                          Listing={e?.TotalListed}
+                          // Listing={e?.TotalListed}
                           Volume={e?.TotalVolume}
                           FloorPrice={e?.FloorPrice}
                           TotalSupply={e?.TotalSupply}
