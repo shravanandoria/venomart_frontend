@@ -28,8 +28,6 @@ import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
 
 // STRICT -- dont change this values, this values are used in transactions
-export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
-export const collection_minting_fees = 3000000000;
 export const cancel_refundable_fees = 100000000;
 export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
@@ -61,7 +59,7 @@ export const getNftImage = async (provider, nftAddress) => {
   return json;
 };
 
-// Returns array with NFT's images urls
+// ---- all functions used for rpc or graphql nft fetch ----
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
 
@@ -75,7 +73,6 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   return nfts;
 };
 
-// getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
   const contract = new provider.Contract(collectionAbi, collectionAddress);
@@ -159,6 +156,16 @@ export const get_nft_by_address = async (provider, nft_address) => {
   };
   return nft;
 };
+
+export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_nft_addr) => {
+  const addresses = await standaloneProvider.getAccountsByCodeHash({
+    codeHash,
+    continuation: last_nft_addr,
+    limit: 25,
+  });
+  return addresses;
+};
+// ---- all functions used for rpc or graphql nft fetch ----
 
 // getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
@@ -331,15 +338,6 @@ export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) =
   }
 };
 
-export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_nft_addr) => {
-  const addresses = await standaloneProvider.getAccountsByCodeHash({
-    codeHash,
-    continuation: last_nft_addr,
-    limit: 25,
-  });
-  return addresses;
-};
-
 // creating nft in only DB
 export const create_nft_database = async (data, nft_address, signer_address) => {
   let obj = {
@@ -355,66 +353,6 @@ export const create_nft_database = async (data, nft_address, signer_address) => 
     signer_address: signer_address,
   };
   createNFT(obj);
-};
-
-// creat nft onchain
-export const create_nft = async (data, signer_address, venomProvider) => {
-  try {
-    const contract = new venomProvider.Contract(
-      collectionAbi,
-      new Address(data.collection ? data.collection : COLLECTION_ADDRESS),
-    );
-
-    // const subscriber = new Subscriber(venomProvider);
-    // const contractEvents = contract.events(subscriber);
-
-    // contractEvents.on(async (event) => {
-    //   let obj = {
-    //     NFTAddress: event.data.nft._address,
-    //     ownerAddress: signer_address,
-    //     managerAddress: signer_address,
-    //     imageURL: data.image,
-    //     metadata: data.image,
-    //     name: data.name,
-    //     description: data.description,
-    //     properties: data.properties,
-    //     NFTCollection: data.collection,
-    //     signer_address: signer_address,
-    //   };
-    //   const create = await createNFT(obj);
-    // });
-
-    const nft_json = JSON.stringify({
-      type: "Basic NFT",
-      name: data.name,
-      description: data.description,
-      preview: {
-        source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/png",
-      },
-      files: [
-        {
-          source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
-        },
-      ],
-      attributes: data.properties,
-      external_url: "https://venomart.io",
-    });
-
-    const outputs = await contract.methods
-      .mint({
-        _json: nft_json,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: "2000000000",
-      });
-    return true;
-  } catch (error) {
-    console.log(error.message);
-    return false;
-  }
 };
 
 // create collection
