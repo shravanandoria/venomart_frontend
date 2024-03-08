@@ -31,10 +31,6 @@ export const platform_fees = 2.5; //value in percent 2.5%
 
 
 // all contract address here down
-export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
-export const CollectionFactoryAddress = new Address(
-  "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
-);
 export const FactoryDirectSellAddress = new Address(
   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
 );
@@ -167,8 +163,6 @@ export const directSell_nft_info = async (provider, nft_manager) => {
 // Graphql Collection NFTs
 export const loadNFTs_collection = async (provider, collection_address, last_nft_addr, client, last_paid) => {
   try {
-    const contract = new provider.Contract(collectionAbi, new Address(COLLECTION_ADDRESS));
-
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
@@ -209,9 +203,6 @@ export const loadNFTs_collection = async (provider, collection_address, last_nft
 // load NFTs using RPC
 export const loadNFTs_collection_RPC = async (provider, collection_address, last_nft_addr) => {
   try {
-    const contract = new provider.Contract(collectionAbi, new Address(COLLECTION_ADDRESS));
-
-    const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
@@ -343,80 +334,6 @@ export const create_nft_database = async (data, nft_address, signer_address) => 
     signer_address: signer_address,
   };
   createNFT(obj);
-};
-
-// create collection
-export const create_main_collection = async (provider, signer_address, data) => {
-  try {
-    const contract = new provider.Contract(CollectionFactory, CollectionFactoryAddress);
-
-    const create_collection_db = async event => {
-      let obj = {
-        name: data.name,
-        contractAddress: event?.data?.new_collection?._address,
-        creatorAddress: signer_address,
-        royaltyAddress: data.royaltyAddress,
-        logo: data.logo,
-        coverImage: data.cover,
-        royalty: data.royalty,
-        socials: [data.website, data.twitter, data.discord, data.telegram],
-        isVerified: false,
-        isPropsEnabled: false,
-        description: data.description,
-        Category: data.category,
-        TotalSupply: data.max_supply,
-      };
-      const createColl = await create_collection(obj);
-    };
-
-    const subscriber = new Subscriber(provider);
-    const contractEvents = contract.events(subscriber);
-
-    contractEvents.on(async event => {
-      create_collection_db(event);
-    });
-
-    const nft_json = JSON.stringify({
-      type: "NFT Collection",
-      name: data.name,
-      description: data.description,
-      preview: {
-        source: data.logo.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/png",
-      },
-      files: [
-        {
-          source: data.cover.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
-        },
-      ],
-      symbol: data.symbol,
-      external_url: data.external_url,
-    });
-
-    const fee = await contract.methods.get_create_collection_fees({ answerId: 0 }).call();
-
-    await contract.methods
-      .create_collection({
-        json: nft_json,
-        max_supply_: data.max_supply,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: fee.value0,
-      });
-
-    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await wait(5000);
-
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    console.log(error.message);
-    return false;
-  }
 };
 
 // checking launchpad minted status
