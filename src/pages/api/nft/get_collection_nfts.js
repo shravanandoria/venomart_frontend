@@ -53,6 +53,7 @@ export default async function handler(req, res) {
                             {
                                 $project: {
                                     "collectionData.isVerified": 1,
+                                    "collectionData.isTrading": 1,
                                     "collectionData.name": 1,
                                     "collectionData.contractAddress": 1,
                                     "collectionData.royalty": 1,
@@ -105,7 +106,7 @@ export default async function handler(req, res) {
                                 "-attributes",
                             ]).populate({
                                 path: "NFTCollection",
-                                select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                             }).skip(skip)
                             .limit(20).sort({ demandPrice: 1 });
                         return res.status(200).json({ success: true, data: nfts });
@@ -118,7 +119,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ updatedAt: -1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -129,7 +130,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ updatedAt: -1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -140,7 +141,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -151,7 +152,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: 1 });
                             return res.status(200).json({ success: true, data: nfts });
@@ -162,7 +163,7 @@ export default async function handler(req, res) {
                                     "-attributes",
                                 ]).populate({
                                     path: "NFTCollection",
-                                    select: { contractAddress: 1, isVerified: 1, name: 1, FloorPrice: 1 },
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: -1 });
                             return res.status(200).json({ success: true, data: nfts });

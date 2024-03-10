@@ -15,6 +15,8 @@ export const create_collection = async (data) => {
     socials: [data.website, data.twitter, data.discord, data.telegram],
     isVerified: data.isVerified,
     isPropsEnabled: data.isPropsEnabled,
+    isFeatured: data.isFeatured,
+    isTrading: data.isTrading,
     description: data.description,
     Category: data.Category ? data.Category : "",
     TotalSupply: data.TotalSupply ? data.TotalSupply : 0
@@ -26,6 +28,19 @@ export const create_collection = async (data) => {
       method: "POST",
       data: { ...obj },
     });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const edit_collection_settings = async (data) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/slug_collection",
+      method: "PUT",
+      data: { data },
+    });
+    return res.data;
   } catch (error) {
     console.log(error.message);
   }

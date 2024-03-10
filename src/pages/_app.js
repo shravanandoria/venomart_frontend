@@ -46,6 +46,7 @@ export default function App({ Component, pageProps }) {
 
   // enable trading on marketplace 
   const EnableMakeOffer = false;
+
   const EnableNFTCancel = true;
   const EnableNFTList = true;
   const EnableNFTSale = true;

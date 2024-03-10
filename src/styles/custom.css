@@ -218,6 +218,28 @@
   overflow-y: scroll;
 }
 
+.editDisplayDiv {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 35;
+  width: 90%;
+  height: 90%;
+  overflow-y: scroll;
+  border: 3px solid #b8a1fd;
+  border-radius: 15px;
+}
+
+.editDisplayDiv .editDisplayDivClose {
+  display: flex;
+  justify-content: end;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  right: 10%;
+}
+
 .backgroundModelBlur {
   position: fixed;
   top: 50%;

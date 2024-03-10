@@ -21,6 +21,7 @@ const CollectionSchema = new mongoose.Schema(
     isNSFW: Boolean,
     isPropsEnabled: Boolean,
     isFeatured: Boolean,
+    isTrading: Boolean,
     Category: String,
     TotalSupply: Number,
   },

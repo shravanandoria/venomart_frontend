@@ -1013,18 +1013,30 @@ const NFTPage = ({
                           )}
                         </div>
                       </div>
-                      <button
-                        onClick={() => (
-                          onchainNFTData && getCollectionDataForOnchain(),
-                          setSelectedNFT(""),
-                          setListSale(true),
-                          setAnyModalOpen(true)
-                        )}
-                        href="#"
-                        className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                      >
-                        List For Sale
-                      </button>
+                      {nft?.NFTCollection?.isTrading == true ?
+                        <button
+                          onClick={() => (
+                            onchainNFTData && getCollectionDataForOnchain(),
+                            setSelectedNFT(""),
+                            setListSale(true),
+                            setAnyModalOpen(true)
+                          )}
+                          href="#"
+                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale
+                        </button>
+                        :
+                        <button
+                          onClick={() => (
+                            alert("Trading is currently disabled on this collection!")
+                          )}
+                          href="#"
+                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale 🔒
+                        </button>
+                      }
                     </div>
                   )}
 
@@ -2286,6 +2298,7 @@ const NFTPage = ({
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
+              collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
               actionLoad={loading}
@@ -2302,6 +2315,7 @@ const NFTPage = ({
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
+              collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
             />

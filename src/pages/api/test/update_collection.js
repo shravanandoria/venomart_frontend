@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         case "POST":
             try {
                 const filter = {};
-                const update = { $set: { isNSFW: false } };
+                const update = { $set: { isFeatured: false, isTrading: true } };
 
                 const result = await Collection.updateMany(filter, update);
 

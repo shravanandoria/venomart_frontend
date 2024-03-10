@@ -1788,6 +1788,7 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
         />
@@ -1803,6 +1804,7 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
           NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}

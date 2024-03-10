@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -9,6 +9,11 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
   const storage = useStorage();
 
   const router = useRouter();
+  const [isVerified, setIsVerified] = useState(true);
+  const [isPropsEnabled, setIsPropsEnabled] = useState(true);
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [isTrading, setIsTrading] = useState(true);
+
   const [loading, set_loading] = useState(false);
   const [preview, set_preview] = useState({ logo: "", cover: "" });
   const [data, set_data] = useState({
@@ -23,8 +28,10 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     twitter: "",
     discord: "",
     telegram: "",
-    isVerified: false,
-    isPropsEnabled: false,
+    isVerified,
+    isPropsEnabled,
+    isFeatured,
+    isTrading,
     Category: "",
     description: "",
   });
@@ -33,6 +40,14 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     set_data({
       ...data,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleCheckChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    set_data({
+      ...data,
+      [e.target.name]: value,
     });
   };
 
@@ -208,150 +223,30 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                   />
                 </div>
 
-                {/* contract address  */}
+                {/* <!-- Description --> */}
                 <div className="mb-6">
                   <label
-                    htmlFor="item-name"
+                    htmlFor="item-description"
                     className="mb-2 block font-display text-jacarta-700 dark:text-white"
                   >
-                    Collection Contract Address
+                    Description
                     <span className="text-red">*</span>
                   </label>
-                  <input
-                    onChange={handleChange}
-                    name="contractAddress"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                    required
-                  />
-                </div>
-
-                {/* creator address  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Creator Address<span className="text-red">*</span>
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="creatorAddress"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                    required
-                  />
-                </div>
-
-                {/* royalty address  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Royalty Address<span className="text-red">*</span>
-                  </label>
                   <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    Creator will get his royalty commissions on royalty address
+                    The description will be the collection description.
                   </p>
-                  <input
+                  <textarea
                     onChange={handleChange}
-                    name="royaltyAddress"
-                    type="text"
-                    id="item-name"
+                    name="description"
+                    id="item-description"
                     className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
                       ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                       : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                       } `}
-                    placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                    rows="4"
                     required
-                  />
-                </div>
-
-                {/* creator royalty  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Creator Royalty (%)<span className="text-red">*</span>
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    If you set a royalty here, you will get X percent of sales
-                    price each time an NFT is sold on our platform.
-                  </p>
-                  <input
-                    onChange={handleChange}
-                    name="royalty"
-                    type="number"
-                    id="item-name"
-                    max={10}
-                    step="any"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Eg: 5%"
-                    required
-                  />
-                </div>
-
-                {/* status  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Verification status
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    If true then then collection will be verified
-                  </p>
-                  <select
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    name="isVerified"
-                    onChange={handleChange}
-                  >
-                    <option value={false}>False</option>
-                    <option value={true}>True</option>
-                  </select>
-                </div>
-
-                {/* props  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Enable Properties Filter
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    If enabled properties filter will be displayed
-                  </p>
-                  <select
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    name="isPropsEnabled"
-                    onChange={handleChange}
-                  >
-                    <option value={false}>False</option>
-                    <option value={true}>True</option>
-                  </select>
+                    placeholder="Provide a detailed description of your collection."
+                  ></textarea>
                 </div>
 
                 {/* <!-- Category --> */}
@@ -392,114 +287,242 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                   </select>
                 </div>
 
-                {/* <!-- Description --> */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-description"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Description
-                    <span className="text-red">*</span>
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    The description will be the collection description.
-                  </p>
-                  <textarea
-                    onChange={handleChange}
-                    name="description"
-                    id="item-description"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    rows="4"
-                    required
-                    placeholder="Provide a detailed description of your collection."
-                  ></textarea>
+                {/* contract address & creator address  */}
+                <div className="mb-6 flex flex-wrap justify-start">
+                  <div className="w-[350px] m-3 mr-6">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Collection Contract Address
+                      <span className="text-red">*</span>
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="contractAddress"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                      required
+                    />
+                  </div>
+                  <div className="w-[350px] m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Creator Address<span className="text-red">*</span>
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="creatorAddress"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                      required
+                    />
+                  </div>
                 </div>
 
-                {/* website  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Official Website
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="website"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Enter website URL"
-                  />
+                {/* royalty address & percent  */}
+                <div className="mb-6 flex flex-wrap justify-start">
+                  <div className="w-[350px] m-3 mr-6">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Royalty Address<span className="text-red">*</span>
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      Creator will get his royalty commissions on royalty address
+                    </p>
+                    <input
+                      onChange={handleChange}
+                      name="royaltyAddress"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                      required
+                    />
+                  </div>
+                  <div className="w-[350px] m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Creator Royalty (%)<span className="text-red">*</span>
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      If you set a royalty here, you will get X percent of sales
+                      price each time an NFT is sold on our platform.
+                    </p>
+                    <input
+                      onChange={handleChange}
+                      name="royalty"
+                      type="number"
+                      id="item-name"
+                      max={10}
+                      step="any"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Eg: 5%"
+                      required
+                    />
+                  </div>
                 </div>
 
-                {/* twitter  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Official Twitter
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="twitter"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Enter twitter URL"
-                  />
+                {/* website & twitter  */}
+                <div className="mb-6 flex justify-start flex-wrap">
+                  <div className="w-[350px] m-3 mr-6">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Official Website
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="website"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Enter website URL"
+                    />
+                  </div>
+                  <div className="w-[350px] m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Official Twitter
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="twitter"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Enter twitter URL"
+                    />
+                  </div>
                 </div>
 
-                {/* discord  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Official Discord
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="discord"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Enter discord URL"
-                  />
+                {/* discord & telegram */}
+                <div className="mb-6 flex justify-start flex-wrap">
+                  <div className="w-[350px] m-3 mr-6">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Official Discord
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="discord"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Enter discord URL"
+                    />
+                  </div>
+                  <div className="w-[350px] m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Official Telegram
+                    </label>
+                    <input
+                      onChange={handleChange}
+                      name="telegram"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Enter telegram URL"
+                    />
+                  </div>
                 </div>
 
-                {/* telegram  */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Official Telegram
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="telegram"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Enter telegram URL"
-                  />
+                {/* status and props  */}
+                <div className="mb-6 flex justify-start flex-wrap">
+                  <div className=" m-3 mr-12">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Verification status
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      If checked then the collection will be verified
+                    </p>
+                    <input type="checkbox" name="isVerified" value={true} checked={isVerified} onClick={() => setIsVerified(!isVerified)} onChange={handleCheckChange} />
+                  </div>
+                  <div className=" m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Enable Properties Filter
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      If checked properties filter will be displayed
+                    </p>
+                    <input type="checkbox" name="isPropsEnabled" value={true} checked={isPropsEnabled} onClick={() => setIsPropsEnabled(!isPropsEnabled)} onChange={handleCheckChange} />
+                  </div>
+                </div>
+
+                {/* trading and feature  */}
+                <div className="mb-6 flex justify-start flex-wrap">
+                  <div className=" m-3 mr-12">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Enable Trading
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      If checked trading will be enabled instantly
+                    </p>
+                    <input type="checkbox" name="isTrading" value={true} checked={isTrading} onClick={() => setIsTrading(!isTrading)} onChange={handleCheckChange} />
+                  </div>
+                  <div className=" m-3">
+                    <label
+                      htmlFor="item-name"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Feature this collection ?
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      If checked this collection will be featured
+                    </p>
+                    <input type="checkbox" name="isFeatured" value={true} checked={isFeatured} onClick={() => setIsFeatured(!isFeatured)} onChange={handleCheckChange} />
+                  </div>
                 </div>
 
                 {/* <!-- Submit nft form --> */}

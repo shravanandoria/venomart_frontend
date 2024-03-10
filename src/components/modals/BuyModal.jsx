@@ -8,7 +8,7 @@ import { buy_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
 
-const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, NFTListingPrice, actionLoad }) => {
+const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, NFTListingPrice, actionLoad }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -257,12 +257,22 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                     </svg>
                                 </button>
                             ) : (
-                                <button
-                                    type="submit"
-                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                >
-                                    Buy
-                                </button>
+                                (collectionTrading ?
+                                    <button
+                                        type="submit"
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        Buy
+                                    </button>
+                                    :
+                                    <button
+                                        onClick={() => alert("Trading is currently disabled on this collection!")}
+                                        type="button"
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        Buy 🔒
+                                    </button>
+                                )
                             )}
                         </div>
                     </div>

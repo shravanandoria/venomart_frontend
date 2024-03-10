@@ -935,6 +935,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
@@ -951,6 +952,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
             />
