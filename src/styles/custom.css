@@ -441,9 +441,9 @@
 .stickyFilterDivExplore {
   position: -webkit-sticky;
   position: sticky;
-  top: 60px;
+  top: 75px;
   z-index: 15;
-  padding-top: 15px;
+  padding-top: 22px;
   padding-bottom: 1px;
 }
 
@@ -461,7 +461,7 @@
 .collectionFilterDiv {
   position: -webkit-sticky;
   position: sticky;
-  top: 75px;
+  top: 95px;
   z-index: 15;
   display: flex;
   justify-content: space-around;

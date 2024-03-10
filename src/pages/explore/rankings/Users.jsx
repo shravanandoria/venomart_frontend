@@ -168,7 +168,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                 type="search"
                                                 onChange={(e) => handle_search((e.target.value))}
                                                 className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                                placeholder="search by wallet"
+                                                placeholder="search by wallet address"
                                             />
                                             <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                                                 <svg

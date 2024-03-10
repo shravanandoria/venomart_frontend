@@ -156,6 +156,7 @@ export default async function handler(req, res) {
             twitter: data.twitter,
             discord: data.discord,
             telegram: data.telegram,
+            isNSFW: data.isNSFW,
             isVerified: data.isVerified,
             isPropsEnabled: data.isPropsEnabled,
             isFeatured: data.isFeatured,

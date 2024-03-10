@@ -137,6 +137,7 @@ const Collection = ({
     twitter: "",
     discord: "",
     telegram: "",
+    isNSFW: false,
     isVerified: true,
     isPropsEnabled: true,
     isFeatured: false,
@@ -423,6 +424,7 @@ const Collection = ({
         twitter: res?.data?.socials[1],
         discord: res?.data?.socials[2],
         telegram: res?.data?.socials[3],
+        isNSFW: res?.data?.isNSFW,
         isVerified: res?.data?.isVerified,
         isPropsEnabled: res?.data?.isPropsEnabled,
         isFeatured: res?.data?.isFeatured,
@@ -2371,7 +2373,7 @@ const Collection = ({
                     {/* <!-- Logo Upload --> */}
                     <div className="mb-6">
                       <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Logo
+                        Logo (400x400)
                         <span className="text-red">*</span>
                       </label>
                       <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -2424,7 +2426,7 @@ const Collection = ({
                     {/* <!-- Cover Upload --> */}
                     <div className="mb-6">
                       <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Cover Image
+                        Cover Image (1375x300)
                         <span className="text-red">*</span>
                       </label>
                       <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -2728,11 +2730,8 @@ const Collection = ({
                             htmlFor="item-name"
                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                           >
-                            Verification status
+                            Verify collection
                           </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If checked then the collection will be verified
-                          </p>
                           <input type="checkbox" name="isVerified" value={data?.isVerified} checked={data?.isVerified} onChange={handleCheckChange} />
                         </div>
                         <div className=" m-3">
@@ -2740,12 +2739,18 @@ const Collection = ({
                             htmlFor="item-name"
                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                           >
-                            Feature this collection ?
+                            Feature collection ?
                           </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If checked this collection will be featured
-                          </p>
                           <input type="checkbox" name="isFeatured" value={data?.isFeatured} checked={data?.isFeatured} onChange={handleCheckChange} />
+                        </div>
+                        <div className=" m-3">
+                          <label
+                            htmlFor="item-name"
+                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                          >
+                            is NSFW ?
+                          </label>
+                          <input type="checkbox" name="isNSFW" value={data?.isNSFW} checked={data?.isNSFW} onChange={handleCheckChange} />
                         </div>
                       </div>)
                     }

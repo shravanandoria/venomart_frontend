@@ -15,8 +15,10 @@ const Collections = ({
     const [filterSort, openFilterSort] = useState(false);
     const [mobileFilter, openMobileFilter] = useState(true);
 
-    const [verifiedCheck, setVerifiedCheck] = useState(false);
-    const [collection_status, set_collection_status] = useState("unverified");
+    // for verified fetching 
+    const [verifiedCheck, setVerifiedCheck] = useState(true);
+    const [collection_status, set_collection_status] = useState("verified");
+
     const [category, setCategory] = useState("All");
     const [sortby, setSortBy] = useState("topVolume");
     const [duration, setDuration] = useState("30days");

@@ -97,7 +97,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                 {/* <!-- Logo Upload --> */}
                 <div className="mb-6">
                   <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                    Logo
+                    Logo (400x400)
                     <span className="text-red">*</span>
                   </label>
                   <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -151,7 +151,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                 {/* <!-- Cover Upload --> */}
                 <div className="mb-6">
                   <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                    Cover Image
+                    Cover Image (1375x300)
                     <span className="text-red">*</span>
                   </label>
                   <p className="mb-3 text-2xs dark:text-jacarta-300">

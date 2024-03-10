@@ -15,9 +15,10 @@ const Collections = ({ theme }) => {
 
   const [category, setCategory] = useState("All");
   const [sortby, setSortBy] = useState("topVolume");
+
   // for verified fetch 
-  const [option, setOption] = useState("unverified");
-  const [verifiedCheck, setVerifiedCheck] = useState(false);
+  const [option, setOption] = useState("verified");
+  const [verifiedCheck, setVerifiedCheck] = useState(true);
 
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
