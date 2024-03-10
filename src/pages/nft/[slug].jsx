@@ -635,9 +635,23 @@ const NFTPage = ({
         <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive NFTs on Venomart"
             } | An NFT on Venom Blockchain`}
         />
+
+        <meta property="og:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta property="og:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
+        <meta name="twitter:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta name="twitter:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>

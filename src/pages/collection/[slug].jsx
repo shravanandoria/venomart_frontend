@@ -761,8 +761,22 @@ const Collection = ({
         />
         <meta
           name="keywords"
-          content={`${collection?.name}, ${collection?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
+          content={`${collection?.name}, ${collection?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom, venom network nfts, venom nfts`}
         />
+
+        <meta property="og:title" content={`${collection?.name ? collection?.name : "Collection"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${collection?.description ? collection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta property="og:image" content={`${collection?.coverImage ? collection?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${collection?.name ? collection?.name : "Collection"} - Venomart Marketplace`} />
+        <meta name="twitter:description" content={`${collection?.description ? collection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta name="twitter:image" content={`${collection?.coverImage ? collection?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>

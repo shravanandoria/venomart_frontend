@@ -486,12 +486,24 @@ const Profile = ({
         <title>{`${user_data?.user_name ? user_data?.user_name : "User Profile"}`} - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
+          content="Explore users profile, their NFTs, collections and listings | Powered by Venomart"
         />
         <meta
           name="keywords"
-          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${user_data?.wallet} `}
+          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${slug} `}
         />
+        <meta property="og:title" content={`${user_data?.user_name ? user_data?.user_name : "Profile"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${user_data?.bio ? user_data?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta property="og:image" content={`${user_data?.profileImage ? user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
+        <meta name="twitter:description" content={`${user_data?.bio ? user_data?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta name="twitter:image" content={`${user_data?.profileImage ? user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>

@@ -85,6 +85,19 @@ export default function Home({ theme }) {
           name="keywords"
           content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom"
         />
+
+        <meta property="og:title" content="Venomart - NFT Marketplace on Venom" />
+        <meta property="og:description" content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain" />
+        <meta property="og:image" content="https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg" />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
+        <meta name="twitter:description" content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain" />
+        <meta name="twitter:image" content="https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg" />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
