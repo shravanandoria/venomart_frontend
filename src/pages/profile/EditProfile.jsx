@@ -314,7 +314,7 @@ const EditProfile = ({ signer_address, theme }) => {
                   </div>
                   <div className="mt-4">
                     <span className="mb-3 block font-display text-sm text-jacarta-700 dark:text-white">
-                      Profile Image (400x400)
+                      Profile Image (130x130)
                     </span>
                     <p className="text-sm leading-normal dark:text-jacarta-300">
                       Upload an image or GIF. Max 5mb.

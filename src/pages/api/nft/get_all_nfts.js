@@ -55,6 +55,16 @@ export default async function handler(req, res) {
                             sortQuery.isListed = -1
                             sortQuery.demandPrice = -1
                         }
+                        if (sortby == "rankLowToHigh") {
+                            limit = 50
+                            sortQuery.isListed = -1
+                            sortQuery.rank = 1
+                        }
+                        if (sortby == "rankHighToLow") {
+                            limit = 50
+                            sortQuery.isListed = -1
+                            sortQuery.rank = -1
+                        }
                     }
                     if (option) {
                         if (option == "verified") {

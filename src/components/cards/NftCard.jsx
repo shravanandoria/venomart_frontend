@@ -27,7 +27,8 @@ const NftCard = ({
   setSelectedNFT,
   cartNFTs,
   setCartNFTs,
-  Description
+  Description,
+  rank
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
@@ -89,11 +90,14 @@ const NftCard = ({
             <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
         }
 
+        {rank &&
+          <p className={`absolute bottom-[-4px] right-0 ${rank < 100 && "bg-[#d1d102]" || ((rank >= 100 && rank < 250) && "bg-[#8402db]") || ((rank >= 250 && rank < 500) && "bg-[#55c902]") || ((rank >= 500) && "bg-[#9e9e9e]")} px-[12px] py-[4px] text-white text-[12px] mb-1`} style={{ borderRadius: "10px" }}>Rank {rank}</p>
+        }
         {(NFTCollectionStatus == true) && isHovering &&
-          <p className="absolute bottom-[-3px] right-0 bg-blue px-[6px] py-[2px] text-white text-[12px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
+          <p className="absolute bottom-[-4px] right-0 bg-blue px-[20px] py-[4px] text-white text-[12px] mb-1" style={{ borderRadius: "10px" }}>Verified</p>
         }
         {(NFTCollectionStatus == false) && isHovering &&
-          <p className="absolute bottom-[-3px] right-0 bg-[#c3c944] px-[6px] py-[2px] text-black text-[12px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
+          <p className="absolute bottom-[-4px] right-0 bg-[#c3c944] px-[14px] py-[4px] text-black text-[12px] mb-1" style={{ borderRadius: "10px" }}>Not Verified</p>
         }
       </div>
       {(NFTCollectionName || NFTCollectionAddress) &&

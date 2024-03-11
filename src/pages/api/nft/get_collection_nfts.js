@@ -66,6 +66,7 @@ export default async function handler(req, res) {
                                     nft_metadata: 1,
                                     name: 1,
                                     description: 1,
+                                    rank: 1,
                                     isListed: 1,
                                     listingPrice: 1,
                                     demandPrice: 1
@@ -82,6 +83,7 @@ export default async function handler(req, res) {
                                     nft_metadata: { $first: "$nft_metadata" },
                                     name: { $first: "$name" },
                                     description: { $first: "$description" },
+                                    rank: { $first: "$rank" },
                                     isListed: { $first: "$isListed" },
                                     listingPrice: { $first: "$listingPrice" },
                                     demandPrice: { $first: "$demandPrice" },
@@ -166,6 +168,28 @@ export default async function handler(req, res) {
                                     select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "rankLowToHigh") {
+                            const nfts = await NFT.find({ NFTCollection: collection })
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, rank: 1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "rankHighToLow") {
+                            const nfts = await NFT.find({ NFTCollection: collection })
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, rank: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                     }

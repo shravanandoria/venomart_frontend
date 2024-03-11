@@ -854,9 +854,15 @@ const NFTPage = ({
                   </div>
 
                   {/* nft title  */}
-                  <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
+                  <h1 className="mb-1 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
                     {nft?.name}
                   </h1>
+
+                  {nft?.rank &&
+                    <div className="flex mb-6">
+                      <p className={`bottom-[-4px] right-0 ${nft?.rank < 100 && "bg-[#d1d102]" || ((nft?.rank >= 100 && nft?.rank < 250) && "bg-[#8402db]") || ((nft?.rank >= 250 && nft?.rank < 500) && "bg-[#55c902]") || ((nft?.rank >= 500) && "bg-[#9e9e9e]")} px-[12px] py-[4px] text-white text-[12px]`} style={{ borderRadius: "10px" }}>Rank {nft?.rank}</p>
+                    </div>
+                  }
 
                   {/* nnft desc  */}
                   <p className="mb-10 dark:text-jacarta-300">{nft?.description}</p>
@@ -2083,6 +2089,7 @@ const NFTPage = ({
                             Name={e?.name}
                             Address={e.NFTAddress}
                             Owner={e?.ownerAddress}
+                            rank={e?.rank}
                             signerAddress={signer_address}
                             tokenId={e?._id}
                             listedBool={e?.isListed}
@@ -2314,6 +2321,7 @@ const NFTPage = ({
               CollectionVerification={nft?.NFTCollection?.isVerified}
               collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
+              NFTRank={selectedNFT ? selectedNFT?.rank : nft?.rank}
               NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
               actionLoad={loading}
             />

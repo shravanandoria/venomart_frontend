@@ -97,7 +97,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                 {/* <!-- Logo Upload --> */}
                 <div className="mb-6">
                   <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                    Logo (400x400)
+                    Logo (130x130)
                     <span className="text-red">*</span>
                   </label>
                   <p className="mb-3 text-2xs dark:text-jacarta-300">

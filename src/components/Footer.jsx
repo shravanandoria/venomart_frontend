@@ -287,9 +287,14 @@ const Footer = ({
                               />
                             )}
                           </div>
-                          <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                          <h3 className="font-display text-jacarta-700 text-base font-semibold dark:text-white">
                             {nft?.name}
                           </h3>
+                          {nft?.rank &&
+                            <div className="flex mb-6">
+                              <p className={`bottom-[-4px] right-0 ${nft?.rank < 100 && "bg-[#d1d102]" || ((nft?.rank >= 100 && nft?.rank < 250) && "bg-[#8402db]") || ((nft?.rank >= 250 && nft?.rank < 500) && "bg-[#55c902]") || ((nft?.rank >= 500) && "bg-[#9e9e9e]")} px-[8px] py-[4px] text-white text-[9px]`} style={{ borderRadius: "10px" }}>Rank {nft?.rank}</p>
+                            </div>
+                          }
                         </div>
 
                         {/* fees amounts  */}

@@ -8,7 +8,7 @@ import { buy_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
 
-const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, NFTListingPrice, actionLoad }) => {
+const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTRank, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, NFTListingPrice, actionLoad }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -118,6 +118,11 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                 <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                                     {NFTName}
                                 </h3>
+                                {NFTRank &&
+                                    <div className="flex mb-6">
+                                        <p className={`bottom-[-4px] right-0 ${NFTRank < 100 && "bg-[#d1d102]" || ((NFTRank >= 100 && NFTRank < 250) && "bg-[#8402db]") || ((NFTRank >= 250 && NFTRank < 500) && "bg-[#55c902]") || ((NFTRank >= 500) && "bg-[#9e9e9e]")} px-[8px] py-[4px] text-white text-[9px]`} style={{ borderRadius: "10px" }}>Rank {NFTRank}</p>
+                                    </div>
+                                }
 
                                 {/* fees title  */}
                                 <div className="">

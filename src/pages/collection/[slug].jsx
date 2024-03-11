@@ -1433,10 +1433,16 @@ const Collection = ({
                                   <span className="text-jacarta-700 dark:text-white">Owned By You</span>
                                 )}
                                 {currentFilter == "lowToHigh" && (
-                                  <span className="text-jacarta-700 dark:text-white">Low To High</span>
+                                  <span className="text-jacarta-700 dark:text-white">Price: Low To High</span>
                                 )}
                                 {currentFilter == "highToLow" && (
-                                  <span className="text-jacarta-700 dark:text-white">High To Low</span>
+                                  <span className="text-jacarta-700 dark:text-white">Price: High To Low</span>
+                                )}
+                                {currentFilter == "rankLowToHigh" && (
+                                  <span className="text-jacarta-700 dark:text-white">Rank: Low To High</span>
+                                )}
+                                {currentFilter == "rankHighToLow" && (
+                                  <span className="text-jacarta-700 dark:text-white">Rank: High To Low</span>
                                 )}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1523,6 +1529,58 @@ const Collection = ({
                                   >
                                     Owned By You
                                     {currentFilter == "ownedBy" && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("rankLowToHigh"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
+                                    Rank: Low To High
+                                    {currentFilter == "rankLowToHigh" && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("rankHighToLow"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
+                                    Rank: High To Low
+                                    {currentFilter == "rankHighToLow" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1676,6 +1734,7 @@ const Collection = ({
                                 Name={e?.name}
                                 Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
                                 listedBool={e?.isListed}
+                                rank={e?.rank}
                                 listingPrice={e?.listingPrice}
                                 NFTCollectionAddress={e?.NFTCollection?.contractAddress}
                                 Description={e?.description}
@@ -1722,6 +1781,7 @@ const Collection = ({
                                       Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
                                       Owner={e?.ownerAddress}
                                       signerAddress={signer_address}
+                                      rank={e?.rank}
                                       listedBool={e?.isListed}
                                       listingPrice={e?.listingPrice}
                                       NFTCollectionAddress={e?.NFTCollection?.contractAddress}
@@ -2387,7 +2447,7 @@ const Collection = ({
                     {/* <!-- Logo Upload --> */}
                     <div className="mb-6">
                       <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Logo (400x400)
+                        Logo (130x130)
                         <span className="text-red">*</span>
                       </label>
                       <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -2683,7 +2743,6 @@ const Collection = ({
                             } `}
                           placeholder="Enter discord URL"
                           value={data?.discord}
-                          required
                         />
                       </div>
                       <div className="w-[350px] m-3">
@@ -2897,6 +2956,7 @@ const Collection = ({
                 CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
                 collectionTrading={selectedNFT?.NFTCollection?.isTrading}
                 NFTName={selectedNFT?.name}
+                NFTRank={selectedNFT?.rank}
                 NFTListingPrice={selectedNFT?.listingPrice}
                 actionLoad={actionLoad}
               />
