@@ -13,16 +13,16 @@ export default async function handler(req, res) {
         switch (method) {
             case "PUT":
                 try {
-                    const { collection_id } = req.query;
+                    const { collection_id } = req.body;
 
-                    const nfts = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId("64f4359a5e068e36d4e8568a") })
+                    const nfts = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId(collection_id) })
                         .select(["attributes"]);
 
                     const updatedNFTs = await Promise.all(nfts.map(async (nft) => {
                         let updatedAttributes = [];
                         let rarityScore = 0;
 
-                        const relatedNFTs = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId("64f4359a5e068e36d4e8568a") })
+                        const relatedNFTs = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId(collection_id) })
                             .select(["attributes"]);
 
                         const uniqueTraits = {};

@@ -131,6 +131,19 @@ export const update_collection_supply = async (contractAddress, TotalSupply) => 
   }
 };
 
+export const compute_rarity = async (collection_id) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/compute_rarity",
+      method: "PUT",
+      data: { collection_id },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const get_collections = async (category, sortby, option, skip) => {
   try {
     const res = await axios({

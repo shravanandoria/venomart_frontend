@@ -20,6 +20,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import {
+  compute_rarity,
   edit_collection_settings,
   get_collection_by_contract,
   get_collection_props,
@@ -184,6 +185,16 @@ const Collection = ({
     }
     setLoading(false);
   };
+
+  const computeRarity = async (collection_id) => {
+    if (!collection_id) return;
+    setLoading(true);
+    const compute = await compute_rarity(collection_id);
+    if (compute) {
+      router.reload();
+    }
+    setLoading(false);
+  }
 
   // chartdata
   const salesData = {
@@ -815,7 +826,7 @@ const Collection = ({
               />
             )}
             {(adminAccount.includes(signer_address) || (signer_address == collection?.creatorAddress)) && (
-              < div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
+              <div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
                 <div className="group absolute right-0 bottom-2 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                   <span className="mt-0.5 block group-hover:text-white">
                     Collection Settings ⚙️
@@ -2427,7 +2438,7 @@ const Collection = ({
                 </div>
 
                 {collectionSettingUpdated &&
-                  <div className="px-8 py-6 bg-green-400 text-white flex justify-between rounded">
+                  <div className="px-8 py-6 bg-green-600 text-white flex justify-between rounded">
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-6" viewBox="0 0 20 20" fill="currentColor">
                         <path
@@ -2792,6 +2803,26 @@ const Collection = ({
                           If checked properties filter will be displayed
                         </p>
                         <input type="checkbox" name="isPropsEnabled" value={data?.isPropsEnabled} checked={data?.isPropsEnabled} onChange={handleCheckChange} />
+                      </div>
+                    </div>
+
+                    {/* compute rarity */}
+                    <div className="mb-6 flex justify-start flex-wrap">
+                      <div className=" m-3 mr-12">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Compute Rarity
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          Your NFTs will show rank once you compute it (compute only when all NFTs are minted)**
+                        </p>
+                        <div onClick={() => computeRarity(collection?._id)} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                          <span className="mt-0.5 block group-hover:text-white">
+                            Compute Rarity 🌟
+                          </span>
+                        </div>
                       </div>
                     </div>
 
