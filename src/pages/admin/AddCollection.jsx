@@ -32,7 +32,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     isPropsEnabled,
     isFeatured,
     isTrading,
-    Category: "",
+    Category: "Collectibles",
     description: "",
   });
 
@@ -73,10 +73,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     <div className={`${theme}`}>
       <Head>
         <title>Add NFT Collection - Venomart Marketplace</title>
-        <meta
-          name="description"
-          content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -94,147 +90,192 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                 Add NFT Collection
               </h1>
               <div className="mx-auto max-w-[48.125rem]">
-                {/* <!-- Logo Upload --> */}
-                <div className="mb-6">
-                  <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                    Logo (130x130)
-                    <span className="text-red">*</span>
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    Drag or choose your file to upload
-                  </p>
+                <div className="flex mb-6 flex-wrap justify-around">
+                  {/* logo  */}
+                  <div className="mt-4">
+                    <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                      Logo (130x130)
+                      <span className="text-red">*</span>
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      Drag or choose your file to upload
+                    </p>
+                    <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                      {preview.logo ? (
+                        <img src={preview.logo} className="h-24 rounded-lg" />
+                      ) : (
+                        <div className="relative z-10 cursor-pointer">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                          </svg>
+                          <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
+                            JPG, PNG. Max size: 15 MB
+                          </p>
+                        </div>
+                      )}
+                      {!preview.logo && (
+                        <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                      )}
 
-                  {/* new input  */}
-                  <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
-                    {preview.logo ? (
-                      <img src={preview.logo} className="h-24 rounded-lg" />
-                    ) : (
-                      <div className="relative z-10 cursor-pointer">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                        </svg>
-                        <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
-                          JPG, PNG. Max size: 15 MB
-                        </p>
-                      </div>
-                    )}
-                    {!preview.logo && (
-                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
-                    )}
-
-                    <input
-                      onChange={(e) => {
-                        if (!e.target.files[0]) return;
-                        set_preview({
-                          ...preview,
-                          logo: URL.createObjectURL(e.target.files[0]),
-                        });
-                        set_data({ ...data, logo: e.target.files[0] });
-                      }}
-                      type="file"
-                      name="logo"
-                      accept="image/*,video/*"
-                      id="file-upload"
-                      className="absolute inset-0 z-20 cursor-pointer opacity-0"
-                      required
-                    />
+                      <input
+                        onChange={(e) => {
+                          if (!e.target.files[0]) return;
+                          set_preview({
+                            ...preview,
+                            logo: URL.createObjectURL(e.target.files[0]),
+                          });
+                          set_data({ ...data, logo: e.target.files[0] });
+                        }}
+                        type="file"
+                        name="logo"
+                        accept="image/*,video/*"
+                        id="file-upload"
+                        className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* <!-- Cover Upload --> */}
-                <div className="mb-6">
-                  <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                    Cover Image (1375x300)
-                    <span className="text-red">*</span>
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    Drag or choose your file to upload
-                  </p>
+                  {/* cover  */}
+                  <div className="mt-4">
+                    <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                      Cover Image (1375x300)
+                      <span className="text-red">*</span>
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      Drag or choose your file to upload
+                    </p>
 
-                  <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
-                    {preview.cover ? (
-                      <img src={preview.cover} className="h-44 rounded-lg " />
-                    ) : (
-                      <div className="relative z-10 cursor-pointer">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                        </svg>
-                        <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
-                          JPG, PNG, GIF, SVG. Max size: 40 MB
-                        </p>
-                      </div>
-                    )}
-                    {!preview.cover && (
-                      <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
-                    )}
+                    <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                      {preview.cover ? (
+                        <img src={preview.cover} className="h-44 rounded-lg " />
+                      ) : (
+                        <div className="relative z-10 cursor-pointer">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                          </svg>
+                          <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
+                            JPG, PNG, GIF, SVG. Max size: 40 MB
+                          </p>
+                        </div>
+                      )}
+                      {!preview.cover && (
+                        <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                      )}
 
-                    <input
-                      onChange={(e) => {
-                        if (!e.target.files[0]) return;
-                        set_preview({
-                          ...preview,
-                          cover: URL.createObjectURL(e.target.files[0]),
-                        });
-                        set_data({ ...data, coverImage: e.target.files[0] });
-                      }}
-                      type="file"
-                      name="coverImage"
-                      accept="image/*,video/*"
-                      id="file-upload"
-                      className="absolute inset-0 z-20 cursor-pointer opacity-0"
-                      required
-                    />
+                      <input
+                        onChange={(e) => {
+                          if (!e.target.files[0]) return;
+                          set_preview({
+                            ...preview,
+                            cover: URL.createObjectURL(e.target.files[0]),
+                          });
+                          set_data({ ...data, coverImage: e.target.files[0] });
+                        }}
+                        type="file"
+                        name="coverImage"
+                        accept="image/*,video/*"
+                        id="file-upload"
+                        className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* <!-- Name --> */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-name"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Collection Name<span className="text-red">*</span>
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    name="name"
-                    type="text"
-                    id="item-name"
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    placeholder="Eg: Wild Hunters"
-                    required
-                  />
+                <div className="mb-6 flex flex-wrap justify-start">
+                  <div className="w-[350px] m-3 mr-6">
+                    <div>
+                      <label
+                        htmlFor="item-name"
+                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                      >
+                        Collection Name<span className="text-red">*</span>
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        The official name of the collection
+                      </p>
+                    </div>
+                    <input
+                      onChange={handleChange}
+                      name="name"
+                      type="text"
+                      id="item-name"
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      placeholder="Eg: Wild Hunters"
+                      required
+                    />
+                  </div>
+                  <div className="w-[350px] m-3">
+                    <label
+                      htmlFor="item-description"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Category
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      select a suitable category for your collection
+                    </p>
+                    <select
+                      name="Category"
+                      onChange={handleChange}
+                      className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
+                      required
+                    >
+                      <option value={"Collectibles"}>
+                        Collectibles
+                      </option>
+                      <option value={"Art"}>
+                        Art
+                      </option>
+                      <option value={"Games"}>
+                        Games
+                      </option>
+                      <option value={"Memes"}>
+                        Memes
+                      </option>
+                      <option value={"Utility"}>
+                        Utility
+                      </option>
+                    </select>
+                  </div>
                 </div>
 
                 {/* <!-- Description --> */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-description"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Description
-                    <span className="text-red">*</span>
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    The description will be the collection description.
-                  </p>
+                <div className="mb-6 flex flex-wrap justify-start">
+                  <div>
+                    <label
+                      htmlFor="item-description"
+                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                    >
+                      Description
+                      <span className="text-red">*</span>
+                    </label>
+                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                      The description will be the collection description.
+                    </p>
+                  </div>
                   <textarea
                     onChange={handleChange}
                     name="description"
@@ -247,44 +288,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                     required
                     placeholder="Provide a detailed description of your collection."
                   ></textarea>
-                </div>
-
-                {/* <!-- Category --> */}
-                <div className="mb-6">
-                  <label
-                    htmlFor="item-description"
-                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                  >
-                    Category
-                  </label>
-                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                    select a suitable category for your collection
-                  </p>
-                  <select
-                    name="Category"
-                    onChange={handleChange}
-                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                      ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                      : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                      } `}
-                    required
-                  >
-                    <option value={"Collectibles"}>
-                      Collectibles
-                    </option>
-                    <option value={"Art"}>
-                      Art
-                    </option>
-                    <option value={"Games"}>
-                      Games
-                    </option>
-                    <option value={"Memes"}>
-                      Memes
-                    </option>
-                    <option value={"Utility"}>
-                      Utility
-                    </option>
-                  </select>
                 </div>
 
                 {/* contract address & creator address  */}

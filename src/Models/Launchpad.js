@@ -17,7 +17,6 @@ const Launchpad = new mongoose.Schema({
   socials: [String],
   maxSupply: String,
   mintPrice: String,
-  status: String,
   isActive: Boolean,
   isVerified: Boolean,
   isPropsEnabled: Boolean,

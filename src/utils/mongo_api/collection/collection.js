@@ -179,3 +179,15 @@ export const top_collections = async (category, collection_status, duration) => 
     console.log(error.message);
   }
 };
+
+export const featured_collections = async () => {
+  try {
+    const res = await axios({
+      url: `/api/collection/featured_collections`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
