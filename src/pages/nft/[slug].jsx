@@ -62,7 +62,8 @@ const NFTPage = ({
   EnableMakeOffer,
   EnableNFTList,
   EnableNFTCancel,
-  EnableNFTSale
+  EnableNFTSale,
+  NFTDataProps
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -632,22 +633,22 @@ const NFTPage = ({
   return (
     <>
       <Head>
-        <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
+        <title>{`${NFTDataProps?.name ? NFTDataProps?.name : "NFT"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive NFTs on Venomart"
+          content={`${NFTDataProps?.name ? NFTDataProps?.name : "Explore, Create and Experience exculsive NFTs on Venomart"
             } | An NFT on Venom Blockchain`}
         />
 
-        <meta property="og:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
-        <meta property="og:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta property="og:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:title" content={`${NFTDataProps?.name ? NFTDataProps?.name : "NFT"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${NFTDataProps?.NFTCollection?.description ? NFTDataProps?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta property="og:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta property="og:url" content={"https://venomart.io/"} />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
-        <meta name="twitter:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta name="twitter:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:title" content={`${NFTDataProps?.name ? NFTDataProps?.name : "NFT"} - Venomart Marketplace`} />
+        <meta name="twitter:description" content={`${NFTDataProps?.NFTCollection?.description ? NFTDataProps?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta name="twitter:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta name="twitter:site" content="@venomart23" />
         <meta name="twitter:creator" content="@venomart23" />
 
@@ -2365,5 +2366,23 @@ const NFTPage = ({
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const slug = context.query.slug;
+  let NFTDataProps;
+  if (context.req.headers.host.includes("localhost")) {
+    const NFTData = await (await fetch(`http://localhost:3000/api/nft/nft?nft_address=${slug}`)).json();
+    NFTDataProps = NFTData.data;
+  }
+  else {
+    const NFTData = await (await fetch(`https://venomart.io/api/nft/nft?nft_address=${slug}`)).json();
+    NFTDataProps = NFTData.data;
+  }
+  return {
+    props: {
+      NFTDataProps
+    },
+  };
+}
 
 export default NFTPage;

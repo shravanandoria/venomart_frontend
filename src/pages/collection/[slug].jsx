@@ -3042,7 +3042,7 @@ const Collection = ({
 export async function getServerSideProps(context) {
   const slug = context.query.slug;
   let collectionData;
-  if (context.req.url.includes("localhost")) {
+  if (context.req.headers.host.includes("localhost")) {
     const collectionDataProps = await (await fetch(`http://localhost:3000/api/collection/slug_collection?contractAddress=${slug}`)).json();
     collectionData = collectionDataProps.data;
   }
