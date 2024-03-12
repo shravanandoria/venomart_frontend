@@ -653,6 +653,16 @@
   width: 440px;
 }
 
+@media (max-width: 420px) {
+  .heroSectionFeatureCard {
+    bottom: 3%;
+    right: 4%;
+    transform: translate(-4%, -3%);
+    max-width: 290px;
+    max-height: 120px;
+  }
+}
+
 @media (max-width: 550px) {
   .heroSectionFeatureCard {
     bottom: 3%;
