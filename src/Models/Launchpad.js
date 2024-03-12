@@ -16,16 +16,14 @@ const Launchpad = new mongoose.Schema({
   royalty: String,
   socials: [String],
   maxSupply: String,
-  jsonURL: String,
   mintPrice: String,
-  status: String,
   isActive: Boolean,
   isVerified: Boolean,
   isPropsEnabled: Boolean,
   startDate: String,
   endDate: String,
   comments: String,
+  jsonURL: String,
 });
 
-module.exports =
-  mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);
+module.exports = mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);

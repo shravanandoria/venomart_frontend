@@ -1,6 +1,8 @@
 import dbConnect from "../../../lib/dbConnect";
 import Launchpad from "../../../Models/Launchpad";
 import limiter from "../limiter";
+import Collection from "../../../Models/Collection";
+
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -11,7 +13,7 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const launchpadData = await Launchpad.find({});
+          const launchpadData = await Launchpad.find({}).sort({ startDate: -1 });
           res.status(200).json({ success: true, data: launchpadData });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
@@ -23,28 +25,33 @@ export default async function handler(req, res) {
             logo,
             coverImage,
             name,
+            pageName,
             description,
             contractAddress,
             creatorAddress,
             royaltyAddress,
             royalty,
             socials,
+            isActive,
+            isVerified,
+            isTrading,
+            isPropsEnabled,
+            isFeatured,
             maxSupply,
             jsonURL,
             mintPrice,
-            status,
-            isActive,
-            isVerified,
-            isPropsEnabled,
+            comments,
+            Category,
             startDate,
             endDate,
-            comments,
           } = req.body;
 
+          // creating launchpad 
           const launchpad = await Launchpad.create({
             chain: "Venom",
             logo,
             coverImage,
+            pageName,
             name,
             description,
             contractAddress,
@@ -53,18 +60,41 @@ export default async function handler(req, res) {
             royalty,
             socials,
             maxSupply,
-            jsonURL,
             mintPrice,
-            status,
             isActive,
             isVerified,
             isPropsEnabled,
             startDate,
             endDate,
             comments,
+            jsonURL,
           });
 
-          res.status(200).json({ success: true, data: launchpad });
+          // creating collection 
+          const existingCollection = await Collection.findOne({ contractAddress });
+          if (!existingCollection) {
+            let collection = await Collection.create({
+              chain: "Venom",
+              contractAddress,
+              creatorAddress,
+              coverImage,
+              logo,
+              name,
+              royalty,
+              royaltyAddress,
+              description,
+              socials,
+              isVerified,
+              isNSFW: false,
+              isPropsEnabled,
+              isFeatured,
+              isTrading,
+              Category: Category ? Category : "",
+              TotalSupply: maxSupply ? maxSupply : 0
+            });
+          }
+
+          res.status(200).json({ success: true, data: "Successfully created a launchpad event!" });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
         }

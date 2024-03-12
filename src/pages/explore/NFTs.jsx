@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet }) => {
+const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -163,6 +163,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
   // buy nft
   const buy_NFT_ = async (e) => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -213,6 +217,10 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
   // cancel nft sale
   const cancelNFT = async (e) => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
@@ -296,6 +304,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
           name="keywords"
           content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
         />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -742,6 +751,16 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               Price: High To Low
                             </span>
                           }
+                          {sortby == "rankLowToHigh" &&
+                            <span className="text-jacarta-700 dark:text-white">
+                              Rank: Low To High
+                            </span>
+                          }
+                          {sortby == "rankHighToLow" &&
+                            <span className="text-jacarta-700 dark:text-white">
+                              Rank: High To Low
+                            </span>
+                          }
                           <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
                         </button>
 
@@ -825,6 +844,36 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                 </svg>
                               }
                             </button>
+                            <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("rankLowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Rank: Low To High
+                              {sortby == "rankLowToHigh" &&
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                </svg>
+                              }
+                            </button>
+                            <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("rankHighToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                              Rank: High To Low
+                              {sortby == "rankHighToLow" &&
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="mb-[3px] h-4 w-4 fill-accent"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                </svg>
+                              }
+                            </button>
                             <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                               Options
                             </span>
@@ -885,6 +934,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                             Name={e?.name}
                             Address={e.NFTAddress}
                             Owner={e?.ownerAddress}
+                            rank={e?.rank}
                             signerAddress={signer_address}
                             tokenId={e?._id}
                             listedBool={e?.isListed}
@@ -927,7 +977,9 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
+              NFTRank={selectedNFT?.rank}
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
             />
@@ -943,6 +995,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
               NFTCollectionName={selectedNFT?.NFTCollection?.name}
               CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
             />

@@ -7,7 +7,7 @@ import { BsExclamationCircleFill } from 'react-icons/bs';
 import { cancel_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
-const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, actionLoad }) => {
+const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, actionLoad }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -256,12 +256,22 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                     </svg>
                                 </button>
                             ) : (
-                                <button
-                                    type="submit"
-                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                >
-                                    Remove Listing
-                                </button>
+                                (collectionTrading ?
+                                    <button
+                                        type="submit"
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        Remove Listing
+                                    </button>
+                                    :
+                                    <button
+                                        onClick={() => alert("Trading is currently disabled on this collection!")}
+                                        type="button"
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        Remove Listing 🔒
+                                    </button>
+                                )
                             )}
                         </div>
                     </div>

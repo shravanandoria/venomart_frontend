@@ -113,6 +113,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                     name="keywords"
                     content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
+                <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.webp" />
             </Head>
@@ -168,7 +169,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                                 type="search"
                                                 onChange={(e) => handle_search((e.target.value))}
                                                 className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 py-[0.1875rem] px-2 pl-10 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-                                                placeholder="search by wallet"
+                                                placeholder="search by wallet address"
                                             />
                                             <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
                                                 <svg

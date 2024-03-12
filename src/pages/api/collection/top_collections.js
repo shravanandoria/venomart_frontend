@@ -115,6 +115,8 @@ export default async function handler(req, res) {
                             TotalSales: 1,
                             logo: { $arrayElemAt: ["$collection_info.logo", 0] },
                             name: { $arrayElemAt: ["$collection_info.name", 0] },
+                            description: { $arrayElemAt: ["$collection_info.description", 0] },
+                            coverImage: { $arrayElemAt: ["$collection_info.coverImage", 0] },
                             creatorAddress: { $arrayElemAt: ["$collection_info.creatorAddress", 0] },
                             contractAddress: { $arrayElemAt: ["$collection_info.contractAddress", 0] },
                             isVerified: { $arrayElemAt: ["$collection_info.isVerified", 0] },

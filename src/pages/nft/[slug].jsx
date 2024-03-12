@@ -13,6 +13,8 @@ import {
   buy_nft,
   directSell_nft_info,
   get_nft_by_address,
+  launchpad_minting,
+  test_launchpad_minting,
 } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
@@ -32,7 +34,6 @@ import CancelModal from "../../components/modals/CancelModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ListModal from "../../components/modals/ListModal";
 
-import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import NftCard from "../../components/cards/NftCard";
@@ -58,6 +59,10 @@ const NFTPage = ({
   cartNFTs,
   setCartNFTs,
   vnmBalance,
+  EnableMakeOffer,
+  EnableNFTList,
+  EnableNFTCancel,
+  EnableNFTSale
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -300,6 +305,10 @@ const NFTPage = ({
   // list nft for sale
   const sell_nft = async e => {
     e.preventDefault();
+    if (!EnableNFTList) {
+      alert("Listing is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -361,6 +370,10 @@ const NFTPage = ({
   // buy nft
   const buy_NFT_ = async e => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -411,6 +424,10 @@ const NFTPage = ({
   // cancel nft sale
   const cancelNFT = async e => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -474,7 +491,7 @@ const NFTPage = ({
       }
 
       set_loading(true);
-      // getting previous offer contract address if exists 
+      // getting previous offer contract address if exists
       const getActiveOffers = await getActiveOffer(nft?._id);
 
       const makeOffer = await MakeOpenOffer(
@@ -490,7 +507,7 @@ const NFTPage = ({
         offerPrice,
         offerExpiration,
         nft?.ownerAddress,
-        nft?.NFTCollection?.contractAddress
+        nft?.NFTCollection?.contractAddress,
       );
 
       if (makeOffer) {
@@ -510,7 +527,15 @@ const NFTPage = ({
   const removeOffer = async (offerAddress, venomProvider, signer_address, nft_address, selectedOfferId) => {
     try {
       set_loading(true);
-      const removeOffer = await cancel_offer(offerAddress, venomProvider, nft_address, signer_address, nft?.ownerAddress, nft?.NFTCollection?.contractAddress, selectedOfferId);
+      const removeOffer = await cancel_offer(
+        offerAddress,
+        venomProvider,
+        nft_address,
+        signer_address,
+        nft?.ownerAddress,
+        nft?.NFTCollection?.contractAddress,
+        selectedOfferId,
+      );
 
       if (removeOffer) {
         await getNFTOffers();
@@ -519,7 +544,6 @@ const NFTPage = ({
       } else {
         set_loading(false);
       }
-
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -531,7 +555,18 @@ const NFTPage = ({
     try {
       set_loading(true);
 
-      const acceptOffer = await accept_offer(offerAddress, offerPrice, from, venomProvider, nft_address, signer_address, nft?.ownerAddress, nft?.managerAddress, nft?.NFTCollection?.contractAddress, nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice);
+      const acceptOffer = await accept_offer(
+        offerAddress,
+        offerPrice,
+        from,
+        venomProvider,
+        nft_address,
+        signer_address,
+        nft?.ownerAddress,
+        nft?.managerAddress,
+        nft?.NFTCollection?.contractAddress,
+        nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice,
+      );
 
       if (acceptOffer) {
         await getNFTOffers();
@@ -540,7 +575,6 @@ const NFTPage = ({
       } else {
         set_loading(false);
       }
-
     } catch (error) {
       console.log(error);
       set_loading(false);
@@ -601,9 +635,23 @@ const NFTPage = ({
         <title>{`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive gaming NFTs on Venomart"
+          content={`${nft?.name ? nft?.name : "Explore, Create and Experience exculsive NFTs on Venomart"
             } | An NFT on Venom Blockchain`}
         />
+
+        <meta property="og:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta property="og:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${nft?.name ? nft?.name : "NFT"} - Venomart Marketplace`} />
+        <meta name="twitter:description" content={`${nft?.NFTCollection?.description ? nft?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta name="twitter:image" content={`${nft?.nft_image ? nft?.nft_image?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -806,9 +854,15 @@ const NFTPage = ({
                   </div>
 
                   {/* nft title  */}
-                  <h1 className="mb-4 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
+                  <h1 className="mb-1 font-display text-4xl font-semibold text-jacarta-700 dark:text-white">
                     {nft?.name}
                   </h1>
+
+                  {nft?.rank &&
+                    <div className="flex mb-6">
+                      <p className={`bottom-[-4px] right-0 ${nft?.rank < 100 && "bg-[#d1d102]" || ((nft?.rank >= 100 && nft?.rank < 250) && "bg-[#8402db]") || ((nft?.rank >= 250 && nft?.rank < 500) && "bg-[#55c902]") || ((nft?.rank >= 500) && "bg-[#9e9e9e]")} px-[12px] py-[4px] text-white text-[12px]`} style={{ borderRadius: "10px" }}>Rank {nft?.rank}</p>
+                    </div>
+                  }
 
                   {/* nnft desc  */}
                   <p className="mb-10 dark:text-jacarta-300">{nft?.description}</p>
@@ -818,26 +872,21 @@ const NFTPage = ({
                     <div className="mb-4 flex mr-8">
                       <div className="mr-4 shrink-0">
                         <a className="relative block">
-                          {nft?.userProfileImage?.includes(".mp4") ?
+                          {nft?.userProfileImage?.includes(".mp4") ? (
                             <video
                               style={{
-                                objectFit: "cover"
+                                objectFit: "cover",
                               }}
                               className="rounded-2lg h-[45px] w-[45px] object-cover"
                               autoPlay="autoplay"
                               loop="true"
                             >
                               <source
-                                src={
-                                  nft?.userProfileImage?.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )
-                                }
+                                src={nft?.userProfileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                 type="video/mp4"
                               ></source>
                             </video>
-                            :
+                          ) : (
                             <Image
                               src={
                                 nft?.userProfileImage
@@ -849,7 +898,7 @@ const NFTPage = ({
                               alt="avatar 1"
                               className="rounded-2lg h-[45px] w-[45px] object-cover"
                             />
-                          }
+                          )}
                         </a>
                       </div>
                       <div className="flex flex-col justify-center">
@@ -875,26 +924,21 @@ const NFTPage = ({
                     <div className="mb-4 flex">
                       <div className="mr-4 shrink-0">
                         <a className="relative block">
-                          {nft?.userProfileImage?.includes(".mp4") ?
+                          {nft?.userProfileImage?.includes(".mp4") ? (
                             <video
                               style={{
-                                objectFit: "cover"
+                                objectFit: "cover",
                               }}
                               className="rounded-2lg h-[45px] w-[45px] object-cover"
                               autoPlay="autoplay"
                               loop="true"
                             >
                               <source
-                                src={
-                                  nft?.userProfileImage?.replace(
-                                    "ipfs://",
-                                    "https://ipfs.io/ipfs/"
-                                  )
-                                }
+                                src={nft?.userProfileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                 type="video/mp4"
                               ></source>
                             </video>
-                            :
+                          ) : (
                             <Image
                               src={
                                 nft?.managerAddress
@@ -910,7 +954,7 @@ const NFTPage = ({
                               alt="avatar 1"
                               className="rounded-2lg h-[45px] w-[45px]"
                             />
-                          }
+                          )}
                         </a>
                       </div>
                       <div className="flex flex-col justify-center">
@@ -989,18 +1033,30 @@ const NFTPage = ({
                           )}
                         </div>
                       </div>
-                      <button
-                        onClick={() => (
-                          onchainNFTData && getCollectionDataForOnchain(),
-                          setSelectedNFT(""),
-                          setListSale(true),
-                          setAnyModalOpen(true)
-                        )}
-                        href="#"
-                        className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                      >
-                        List For Sale
-                      </button>
+                      {nft?.NFTCollection?.isTrading == true ?
+                        <button
+                          onClick={() => (
+                            onchainNFTData && getCollectionDataForOnchain(),
+                            setSelectedNFT(""),
+                            setListSale(true),
+                            setAnyModalOpen(true)
+                          )}
+                          href="#"
+                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale
+                        </button>
+                        :
+                        <button
+                          onClick={() => (
+                            alert("Trading is currently disabled on this collection!")
+                          )}
+                          href="#"
+                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          List For Sale 🔒
+                        </button>
+                      }
                     </div>
                   )}
 
@@ -1128,18 +1184,20 @@ const NFTPage = ({
                                   </button>
                                 ))}
                             </div>
-                            <div className="flex mt-4">
-                              <button
-                                type="button"
-                                onClick={() => (
-                                  setSelectedNFT(""), checkExistingOffer(), setOfferModal(true), setAnyModalOpen(true)
-                                )}
-                                className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                              >
-                                <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                                Make An Offer
-                              </button>
-                            </div>
+                            {EnableMakeOffer &&
+                              <div className="flex mt-4">
+                                <button
+                                  type="button"
+                                  onClick={() => (
+                                    setSelectedNFT(""), checkExistingOffer(), setOfferModal(true), setAnyModalOpen(true)
+                                  )}
+                                  className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                                >
+                                  <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
+                                  Make An Offer
+                                </button>
+                              </div>
+                            }
                           </div>
                         )}
                       </div>
@@ -1387,21 +1445,23 @@ const NFTPage = ({
                             Not Listed
                           </button>
                         </div>
-                        <div className="flex mt-4">
-                          <button
-                            type="button"
-                            onClick={() => (
-                              setSelectedNFT(""),
-                              !onchainNFTData && checkExistingOffer(),
-                              setOfferModal(true),
-                              setAnyModalOpen(true)
-                            )}
-                            className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                          >
-                            <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
-                            Make An Offer
-                          </button>
-                        </div>
+                        {EnableMakeOffer &&
+                          <div className="flex mt-4">
+                            <button
+                              type="button"
+                              onClick={() => (
+                                setSelectedNFT(""),
+                                !onchainNFTData && checkExistingOffer(),
+                                setOfferModal(true),
+                                setAnyModalOpen(true)
+                              )}
+                              className="flex justify-center align-middle w-full mb-4 rounded-xl bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                            >
+                              <IoHandLeftSharp className="text-[18px] mt-1 mr-1" />
+                              Make An Offer
+                            </button>
+                          </div>
+                        }
                       </>
                     )}
 
@@ -1661,8 +1721,9 @@ const NFTPage = ({
                                   className="flex items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
                                   role="cell"
                                 >
-                                  {signer_address == offer?.from && offer?.status == "active" && (
-                                    expiredOffer ?
+                                  {signer_address == offer?.from &&
+                                    offer?.status == "active" &&
+                                    (expiredOffer ? (
                                       <button
                                         className="text-jacarta-700 dark:text-jacarta-200"
                                         onClick={() => {
@@ -1672,14 +1733,14 @@ const NFTPage = ({
                                               venomProvider,
                                               signer_address,
                                               slug,
-                                              offer?._id
+                                              offer?._id,
                                             );
                                           }
                                         }}
                                       >
                                         Claim
                                       </button>
-                                      :
+                                    ) : (
                                       <button
                                         className="text-jacarta-700 dark:text-jacarta-200"
                                         onClick={() => {
@@ -1689,23 +1750,22 @@ const NFTPage = ({
                                               venomProvider,
                                               signer_address,
                                               slug,
-                                              offer?._id
+                                              offer?._id,
                                             );
                                           }
                                         }}
                                       >
                                         Cancel
                                       </button>
-                                  )}
+                                    ))}
                                   {signer_address == offer?.from && offer?.status == "cancelled" && (
                                     <button className="text-red cursor-default">Cancelled</button>
                                   )}
-                                  {signer_address == nft?.ownerAddress && offer?.status == "active" && (
-                                    expiredOffer ?
-                                      <button className="text-red cursor-default">
-                                        Expired
-                                      </button>
-                                      :
+                                  {signer_address == nft?.ownerAddress &&
+                                    offer?.status == "active" &&
+                                    (expiredOffer ? (
+                                      <button className="text-red cursor-default">Expired</button>
+                                    ) : (
                                       <button
                                         className="text-jacarta-700 dark:text-jacarta-200"
                                         onClick={() => {
@@ -1716,14 +1776,14 @@ const NFTPage = ({
                                               offer?.from,
                                               venomProvider,
                                               slug,
-                                              signer_address
+                                              signer_address,
                                             );
                                           }
                                         }}
                                       >
                                         Accept
                                       </button>
-                                  )}
+                                    ))}
                                   {signer_address == nft?.ownerAddress && offer?.status == "accepted" && (
                                     <button className="text-green cursor-default">Accepted</button>
                                   )}
@@ -1892,7 +1952,8 @@ const NFTPage = ({
                                 className={`mr-2 h-4 w-4 ${activityType == "offer"
                                   ? "text-white"
                                   : "group-hover:text-white text-jacarta-700 dark:text-white"
-                                  }`} />
+                                  }`}
+                              />
                               <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
                                 Offer
                               </span>
@@ -1909,7 +1970,8 @@ const NFTPage = ({
                                 className={`mr-2 h-4 w-4 ${activityType == "offer"
                                   ? "text-white"
                                   : "group-hover:text-white text-jacarta-700 dark:text-white"
-                                  }`} />
+                                  }`}
+                              />
                               <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
                                 Cancel Offer
                               </span>
@@ -2027,6 +2089,7 @@ const NFTPage = ({
                             Name={e?.name}
                             Address={e.NFTAddress}
                             Owner={e?.ownerAddress}
+                            rank={e?.rank}
                             signerAddress={signer_address}
                             tokenId={e?._id}
                             listedBool={e?.isListed}
@@ -2066,10 +2129,7 @@ const NFTPage = ({
           {offerModal && (
             <div className="afterMintDiv">
               <form
-                onSubmit={(e) => (
-                  e.preventDefault(),
-                  alert("This feature will be available soon..")
-                )}
+                onSubmit={e => (e.preventDefault(), alert("This feature will be available soon.."))}
                 className="modal-dialog max-w-2xl"
               >
                 {/* <form onSubmit={makeOffer} className="modal-dialog max-w-2xl"> */}
@@ -2259,7 +2319,9 @@ const NFTPage = ({
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
+              collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
+              NFTRank={selectedNFT ? selectedNFT?.rank : nft?.rank}
               NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
               actionLoad={loading}
             />
@@ -2275,6 +2337,7 @@ const NFTPage = ({
               NFTCollectionContract={nft?.NFTCollection?.contractAddress}
               NFTCollectionName={nft?.NFTCollection?.name}
               CollectionVerification={nft?.NFTCollection?.isVerified}
+              collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
             />

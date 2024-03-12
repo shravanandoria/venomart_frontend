@@ -244,12 +244,26 @@ const launchpad = ({
                 <title>{`${launchSlug?.name ? launchSlug?.name : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                    content="Explore, Create and Experience exculsive NFTs on Venomart | Powered by Venomart"
                 />
                 <meta
                     name="keywords"
                     content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
+
+                <meta property="og:title" content={`${launchSlug?.name ? launchSlug?.name : "NFT Launchpad"} - Venomart Marketplace`} />
+                <meta property="og:description" content={`${launchSlug?.description ? launchSlug?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+                <meta property="og:image" content={`${launchSlug?.logo ? launchSlug?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+                <meta property="og:url" content={"https://venomart.io/"} />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={`${launchSlug?.name ? launchSlug?.name : "NFT Launchpad"} - Venomart Marketplace`} />
+                <meta name="twitter:description" content={`${launchSlug?.description ? launchSlug?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+                <meta name="twitter:image" content={`${launchSlug?.logo ? launchSlug?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+                <meta name="twitter:site" content="@venomart23" />
+                <meta name="twitter:creator" content="@venomart23" />
+
+                <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.webp" />
             </Head>

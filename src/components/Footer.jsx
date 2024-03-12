@@ -21,10 +21,7 @@ import { GoArrowUpRight } from "react-icons/go";
 
 const Footer = ({
   theme,
-  adminAccount,
   signer_address,
-  MintNFTStatus,
-  MintCollectionStatus,
   onDisconnect,
   cartNFTs,
   setCartNFTs,
@@ -33,6 +30,7 @@ const Footer = ({
   venomTPS,
   venomProvider,
   connectWallet,
+  EnableNFTSale
 }) => {
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
@@ -68,6 +66,11 @@ const Footer = ({
 
   const buyCartNFTs = async (e) => {
     e.preventDefault();
+
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
 
     if (!signer_address) {
       connect_wallet();
@@ -284,9 +287,14 @@ const Footer = ({
                               />
                             )}
                           </div>
-                          <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                          <h3 className="font-display text-jacarta-700 text-base font-semibold dark:text-white">
                             {nft?.name}
                           </h3>
+                          {nft?.rank &&
+                            <div className="flex mb-6">
+                              <p className={`bottom-[-4px] right-0 ${nft?.rank < 100 && "bg-[#d1d102]" || ((nft?.rank >= 100 && nft?.rank < 250) && "bg-[#8402db]") || ((nft?.rank >= 250 && nft?.rank < 500) && "bg-[#55c902]") || ((nft?.rank >= 500) && "bg-[#9e9e9e]")} px-[8px] py-[4px] text-white text-[9px]`} style={{ borderRadius: "10px" }}>Rank {nft?.rank}</p>
+                            </div>
+                          }
                         </div>
 
                         {/* fees amounts  */}
@@ -848,26 +856,6 @@ const Footer = ({
                       Notifications
                     </Link>
                   </li>
-                  {MintNFTStatus && (
-                    <li>
-                      <Link
-                        href="/mint/CreateNFT"
-                        className="hover:text-accent dark:hover:text-white"
-                      >
-                        Create NFT
-                      </Link>
-                    </li>
-                  )}
-                  {MintCollectionStatus && (
-                    <li>
-                      <Link
-                        href="/mint/CreateNFTCollection"
-                        className="hover:text-accent dark:hover:text-white"
-                      >
-                        Create Collection
-                      </Link>
-                    </li>
-                  )}
                   {signer_address && (
                     <li>
                       <div
@@ -887,27 +875,18 @@ const Footer = ({
                 Other Links
               </h3>
               <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                {/* <li>
-                  <Link
-                    href="https://forms.gle/98VPnY7FSTuHCvaTA"
-                    target="_blank"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Apply For Launchpad
-                  </Link>
-                </li> */}
-                {/* <li>
-                  <Link
-                    href="https://forms.gle/UtYWWkhsBYG9ZUjD8"
-                    target="_blank"
-                    className="hover:text-accent dark:hover:text-white"
-                  >
-                    Verify Your Collection
-                  </Link>
-                </li> */}
                 <li>
                   <Link
-                    href="https://forms.gle/DvYFih5vwvzJdwRL6"
+                    href="https://venomart.gitbook.io/venomart/about/venomart-marketplace"
+                    target="_blank"
+                    className="hover:text-accent dark:hover:text-white"
+                  >
+                    Whitepaper
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://forms.gle/1bposNyD6MztNqDN6"
                     target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
@@ -916,49 +895,25 @@ const Footer = ({
                 </li>
                 <li>
                   <Link
-                    href="/Help"
+                    href="https://forms.gle/sQbz31VcFVqX6zmL8"
+                    target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Help Center
+                    Launchpad Form
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/Contact"
+                    href="https://forms.gle/BueLL6ViPNXq3yYR7"
+                    target="_blank"
                     className="hover:text-accent dark:hover:text-white"
                   >
-                    Contact Us
+                    Verify/Add Collection
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* admin links  */}
-            {adminAccount.includes(signer_address) && (
-              <div className="col-span-full sm:col-span-3 md:col-span-2">
-                <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
-                  Admin Links
-                </h3>
-                <ul className="flex flex-col space-y-1 dark:text-jacarta-300">
-                  <li>
-                    <Link
-                      href="/admin/AddCollection"
-                      className="hover:text-accent dark:hover:text-white"
-                    >
-                      Add Collection
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admin/CreateLaunch"
-                      className="hover:text-accent dark:hover:text-white"
-                    >
-                      Create A Launch
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            )}
           </div>
           <div className="flex flex-col items-center justify-between space-y-2 py-8 pb-16 sm:flex-row sm:space-y-0">
             <span className="text-sm dark:text-jacarta-400">

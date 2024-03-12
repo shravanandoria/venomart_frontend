@@ -38,6 +38,8 @@ const Profile = ({
   cartNFTs,
   setCartNFTs,
   vnmBalance,
+  EnableNFTCancel,
+  EnableNFTSale
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -227,7 +229,7 @@ const Profile = ({
   // getting owned nfts
   const fetch_user_nfts = async () => {
     setMoreLoading(true);
-    // fetch using RPC 
+    // fetch using RPC
     const res = await loadNFTs_user_RPC(venomProvider, slug, lastNFT);
 
     // fetch using GRAPHQL
@@ -293,6 +295,10 @@ const Profile = ({
   // buy nft
   const buy_NFT_ = async e => {
     e.preventDefault();
+    if (!EnableNFTSale) {
+      alert("Buying is disabled for a while!!")
+      return;
+    }
     if (!signer_address) {
       connect_wallet();
       return;
@@ -342,6 +348,10 @@ const Profile = ({
   // cancel nft sale
   const cancelNFT = async e => {
     e.preventDefault();
+    if (!EnableNFTCancel) {
+      alert("Cancel is disabled for a while!!")
+      return;
+    }
     setActionLoad(true);
     try {
       const cancelling = await cancel_listing(
@@ -476,12 +486,24 @@ const Profile = ({
         <title>{`${user_data?.user_name ? user_data?.user_name : "User Profile"}`} - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
+          content="Explore users profile, their NFTs, collections and listings | Powered by Venomart"
         />
         <meta
           name="keywords"
-          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${user_data?.wallet} `}
+          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${slug} `}
         />
+        <meta property="og:title" content={`${user_data?.user_name ? user_data?.user_name : "Profile"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${user_data?.bio ? user_data?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta property="og:image" content={`${user_data?.profileImage ? user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
+        <meta name="twitter:description" content={`${user_data?.bio ? user_data?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta name="twitter:image" content={`${user_data?.profileImage ? user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -500,26 +522,21 @@ const Profile = ({
       <section className="relative pb-6 pt-28 dark:bg-jacarta-900">
         <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <div className="relative">
-            {user_data?.profileImage?.includes(".mp4") ?
+            {user_data?.profileImage?.includes(".mp4") ? (
               <video
                 style={{
-                  objectFit: "cover"
+                  objectFit: "cover",
                 }}
                 className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
                 autoPlay="autoplay"
                 loop="true"
               >
                 <source
-                  src={
-                    user_data?.profileImage?.replace(
-                      "ipfs://",
-                      "https://ipfs.io/ipfs/"
-                    )
-                  }
+                  src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                   type="video/mp4"
                 ></source>
               </video>
-              :
+            ) : (
               <Image
                 src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") || defLogo}
                 alt="collection avatar"
@@ -527,7 +544,7 @@ const Profile = ({
                 width={100}
                 className="rounded-xl border-[5px] border-white dark:border-jacarta-600 h-[130px] w-[130px] object-cover"
               />
-            }
+            )}
           </div>
         </div>
 
@@ -724,7 +741,7 @@ const Profile = ({
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
               </svg>
-              <span className="font-display text-base font-medium">Owned</span>
+              <span className="font-display text-base font-medium">Owned (Onchain)</span>
             </button>
           </li>
 
@@ -1247,6 +1264,7 @@ const Profile = ({
                               key={index}
                               ImageSrc={e?.nft_image}
                               Name={e?.name}
+                              rank={e?.rank}
                               Address={e?.NFTAddress}
                               Owner={e?.ownerAddress}
                               signerAddress={signer_address}
@@ -1428,6 +1446,7 @@ const Profile = ({
                           key={index}
                           ImageSrc={e?.preview?.source?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                           Name={e?.name}
+                          rank={e?.rank}
                           Address={e?.nft._address}
                           Description={e?.description}
                           NFTCollectionName={e?.collection_name}
@@ -1686,10 +1705,9 @@ const Profile = ({
                           className={`mr-2 h-4 w-4 ${activityType == "offer"
                             ? "text-white"
                             : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
-                            }`} />
-                        <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
-                          Offer
-                        </span>
+                            }`}
+                        />
+                        <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>Offer</span>
                       </button>
 
                       <button
@@ -1708,7 +1726,8 @@ const Profile = ({
                           className={`mr-2 h-4 w-4 ${activityType == "canceloffer"
                             ? "text-white"
                             : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
-                            }`} />
+                            }`}
+                        />
                         <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
                           Cancel Offer
                         </span>
@@ -1783,6 +1802,7 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
         />
@@ -1798,7 +1818,9 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
+          NFTRank={selectedNFT?.rank}
           NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}
         />

@@ -18,7 +18,7 @@ export const TonClientContext = createContext(initial)
 
 export const TonClientContextProvider: React.FC<TonClientContextProviderProps> = ({children, config}) => {
     const [state, setState] = useState<ITonClientContext>(initial)
-
+    
     useMountEffectOnce(() => {
         libWebSetup({
             disableSeparateWorker: true,

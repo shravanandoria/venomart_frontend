@@ -221,6 +221,8 @@ export default async function handler(req, res) {
             socials,
             isVerified,
             isPropsEnabled,
+            isFeatured,
+            isTrading,
             Category,
             TotalSupply
           } = req.body;
@@ -243,6 +245,8 @@ export default async function handler(req, res) {
             existingCollection.socials = socials;
             existingCollection.isVerified = isVerified;
             existingCollection.isPropsEnabled = isPropsEnabled;
+            existingCollection.isFeatured = isFeatured;
+            existingCollection.isTrading = isTrading;
             existingCollection.Category = Category;
             existingCollection.TotalSupply = TotalSupply;
 
@@ -263,6 +267,8 @@ export default async function handler(req, res) {
               isVerified,
               isNSFW: false,
               isPropsEnabled,
+              isFeatured,
+              isTrading,
               Category: Category ? Category : "",
               TotalSupply: TotalSupply ? TotalSupply : 0
             });
