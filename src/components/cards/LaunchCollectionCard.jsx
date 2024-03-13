@@ -16,7 +16,7 @@ const LaunchCollectionCard = ({
   supply,
   status,
   CollectionAddress,
-  customLink,
+  pageName,
   verified,
   startDate,
   endDate
@@ -99,7 +99,7 @@ const LaunchCollectionCard = ({
   }, [])
 
   return (
-    <Link href={`/launchpad/${customLink ? customLink : CollectionAddress}`}>
+    <Link href={`/launchpad/${pageName ? pageName : CollectionAddress}`}>
       <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[320px] overflow-hidden m-2 sm:m-4">
 
         <div
@@ -107,7 +107,7 @@ const LaunchCollectionCard = ({
         >
           <span className="w-[100%] h-[150px]">
             <Image
-              src={Cover}
+              src={Cover.replace("ipfs://", "https://ipfs.io/ipfs/")}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
 
@@ -126,7 +126,7 @@ const LaunchCollectionCard = ({
               </video>
               :
               <Image
-                src={Logo}
+                src={Logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
                 alt="Logo"
                 className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
                 height={100}

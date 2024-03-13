@@ -778,7 +778,7 @@ const Footer = ({
               </div>
             </div>
 
-            <div className="col-span-full sm:col-span-3 md:col-span-2 md:col-start-7">
+            <div className="col-span-full sm:col-span-3 md:col-span-2 md:col-start-7 footerHideMobile">
               <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
                 Marketplace
               </h3>
@@ -827,7 +827,7 @@ const Footer = ({
             </div>
 
             {signer_address && (
-              <div className="col-span-full sm:col-span-3 md:col-span-2">
+              <div className="col-span-full sm:col-span-3 md:col-span-2 footerHideMobile">
                 <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
                   My Account
                 </h3>
@@ -870,7 +870,7 @@ const Footer = ({
               </div>
             )}
 
-            <div className="col-span-full sm:col-span-3 md:col-span-2">
+            <div className="col-span-full sm:col-span-3 md:col-span-2 footerHideMobile">
               <h3 className="mb-6 font-display text-sm text-jacarta-700 dark:text-white">
                 Other Links
               </h3>

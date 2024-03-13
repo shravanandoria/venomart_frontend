@@ -68,7 +68,9 @@ export default function Home({ theme }) {
     fetchFeaturedCollections();
     fetchTrendingCollection();
     fetchTopCollections();
-    setFullLoading(false);
+    setTimeout(() => {
+      setFullLoading(false);
+    }, 1000);
   }, []);
 
   useEffect(() => {

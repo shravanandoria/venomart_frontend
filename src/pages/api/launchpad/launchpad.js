@@ -13,7 +13,9 @@ export default async function handler(req, res) {
     switch (method) {
       case "GET":
         try {
-          const launchpadData = await Launchpad.find({}).sort({ startDate: -1 });
+          const { sortby, skip } = req.query;
+
+          const launchpadData = await Launchpad.find({}).skip(skip).limit(9).sort({ startDate: -1, status: -1 });
           res.status(200).json({ success: true, data: launchpadData });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });
@@ -68,6 +70,7 @@ export default async function handler(req, res) {
             endDate,
             comments,
             jsonURL,
+            status: "upcoming"
           });
 
           // creating collection 

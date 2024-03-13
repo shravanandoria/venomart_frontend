@@ -115,6 +115,10 @@
   width: 700px;
 }
 
+.launchpadPhasesFont {
+  font-family: Poppins, sans-serif;
+}
+
 .pagination {
   display: flex;
   flex-wrap: wrap;
@@ -673,6 +677,9 @@
   .heroSectionFeatureCardSection {
     width: 100%;
     height: 350px;
+  }
+  .footerHideMobile {
+    display: none;
   }
 }
 @media (max-width: 875px) {

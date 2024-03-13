@@ -37,11 +37,22 @@ export const create_launchpad_collection = async (data) => {
   }
 };
 
-
 export const get_launchpad_by_name = async (name) => {
   try {
     const res = await axios({
       url: `/api/launchpad/slug_launchpad?name=${name}`,
+      method: "GET"
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const get_launchpad_events = async (sortby, skip) => {
+  try {
+    const res = await axios({
+      url: `/api/launchpad/launchpad?sortby=${sortby}&skip=${skip}`,
       method: "GET"
     });
     return res.data.data;

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
             case "GET":
                 try {
                     const { name } = req.query;
-                    const launchpadData = await Launchpad.findOne({ name });
+                    const launchpadData = await Launchpad.findOne({ pageName: name });
 
                     res.status(200).json({ success: true, data: launchpadData });
                 } catch (error) {
