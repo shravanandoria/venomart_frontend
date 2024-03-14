@@ -1,0 +1,114 @@
+// pragma ever-solidity >=0.61.2;
+
+// pragma AbiHeader expire;
+// pragma AbiHeader time;
+// pragma AbiHeader pubkey;
+
+// import "@broxus/tip4/contracts/access/OwnableInternal.tsol";
+// import "./Collection.tsol";
+
+// contract FactoryCollection is OwnableInternal {
+
+//     uint128 static nonce;
+
+//     TvmCell CollectionCode;
+//     TvmCell codeNft;
+//     TvmCell codeIndex;
+//     TvmCell codeIndexBasis;
+
+//     uint128 createCollection_fee; // 0.3
+//     uint128 new_collection_cost = 1 ever;
+//     address fee_receiver;
+    
+//     uint128 remain_on_contract = 0.2 ever;
+//     uint128 remain_on_deployed_collection_nfts = 0.2 ever;
+    
+//     event CollectionCreated (
+//         address new_collection,
+//         address user_address
+//     );
+
+//     constructor(
+//         TvmCell _collection_code,
+//         TvmCell _codeNft,
+//         TvmCell _codeIndex,
+//         TvmCell _codeIndexBasis,
+//         address _fee_receiver,
+//         uint128 _createCollection_fee,
+//         address _owner
+//     ) public OwnableInternal(_owner) {
+//         tvm.accept();
+//         tvm.rawReserve(remain_on_contract, 0);
+
+//         fee_receiver = _fee_receiver;
+//         createCollection_fee = _createCollection_fee;
+
+//         CollectionCode = _collection_code;
+//         codeNft = _codeNft;
+//         codeIndex =  _codeIndex;
+//         codeIndexBasis =  _codeIndexBasis;
+
+//         _owner.transfer({value: 0, flag:128, bounce: false});
+//     }
+
+//     function create_collection(
+//         string json,
+//         uint128 max_supply_
+//         ) public {
+//         // require(msg.value >= createCollection_fee + remain_on_contract + new_collection_cost, 101);
+//         // require(remain_on_nft > 0, 102, "invalid remain on nft");
+//         // require(_fee_receiver != address(0), 103, "invalid address");
+
+//         if(
+//             msg.value >= createCollection_fee + remain_on_contract + new_collection_cost
+//         ) {
+//         tvm.rawReserve(remain_on_contract, 0);
+    
+//         fee_receiver.transfer({value: createCollection_fee, flag: 0, bounce: false});
+        
+//         TvmCell _stateInit = tvm.buildStateInit({
+//             code: CollectionCode,
+//             contr: Collection,
+//             varInit: {
+//                 nonce: tx.timestamp
+//             }
+//         });
+
+//         address new_collection = new Collection {
+//             stateInit: _stateInit,
+//             value: new_collection_cost, 
+//             flag: 1
+//         } (
+//             codeNft,
+//             codeIndex,
+//             codeIndexBasis,
+//             msg.sender,
+//             remain_on_deployed_collection_nfts,
+//             json,
+//             max_supply_
+//         );
+    
+//         emit CollectionCreated(
+//             new_collection,
+//             msg.sender
+//         );
+
+//         msg.sender.transfer({value: 0, flag:128, bounce: false});
+//         } else {
+//             msg.sender.transfer({value: msg.value - 0.1 ever, flag: 0, bounce: false});
+//         }
+//     }
+
+//     function get_create_collection_fees() public view responsible returns (uint128) {
+//         uint128 fee = createCollection_fee + remain_on_contract + new_collection_cost;
+//         return { value: 0, flag: 64, bounce: false } (fee);
+//     }
+
+//     function update_fee(uint128 new_fee) public onlyOwner {
+//         createCollection_fee = new_fee;
+//     }
+
+//     function update_new_collection_cost(uint128 newCost) public onlyOwner{
+//         new_collection_cost = newCost;
+//     }
+// }

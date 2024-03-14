@@ -1,0 +1,293 @@
+pragma ever-solidity >=0.61.2 ;
+
+pragma AbiHeader expire;
+pragma AbiHeader time;
+pragma AbiHeader pubkey;
+
+import "@broxus/tip4/contracts/TIP4_1/interfaces/ITIP4_1NFT.tsol";
+import "@broxus/tip4/contracts/TIP4_1/interfaces/INftChangeManager.tsol";
+import "@broxus/tip4/contracts/access/OwnableInternal.tsol";
+
+import "@broxus/tip4/contracts/TIP4_1/interfaces/ITIP4_1NFT.tsol";
+import "@broxus/tip4/contracts/TIP4_1/interfaces/INftTransfer.tsol";
+
+import "@broxus/tip3/contracts/interfaces/IAcceptTokensTransferCallback.tsol";
+import "@broxus/tip3/contracts/interfaces/ITokenRoot.tsol";
+import "@broxus/tip3/contracts/interfaces/ITokenWallet.tsol";
+
+
+contract MakeOffer is INftChangeManager, IAcceptTokensTransferCallback {
+
+    uint static nonce;
+    address public static contract_creator;
+    address public static platform_owner;
+    address public static _tokenRoot;
+    address public static offer_owner;
+
+    uint128 public offer_amount;
+    uint128 public offer_validity;
+    uint128 public platform_fee;
+    address public nft_address;
+
+    uint128 transfer_WVenom_cost;
+    uint128 refundable_fee;
+
+    address _tokenWallet;
+
+    uint128 remain_on_contract = 0.2 ever;
+    
+    uint128 received_amount;
+
+    event cancel_offer(
+        address offer_address,
+        address nft_address,
+        address signer_address,
+        address prev_nft_Owner,
+        address collection_address,
+        string selectedOfferId
+    );
+
+    event offer_accepted (
+        address offer_address,
+        uint8 offerPrice,
+        address from,
+        address nft_address,
+        address signer_address,
+        address prev_nft_Owner,
+        address collection_address,
+        uint8 stampedFloor    
+    );
+
+    constructor(
+        address sendRemainingGasTo,
+        uint128 _offer_validity,
+        uint128 _platform_fee,
+        address _nft_address,
+        uint128 _transfer_WVenom_cost,
+        uint128 _refundable_fee
+
+    ) public {
+        tvm.rawReserve(remain_on_contract, 0);
+
+        platform_fee = _platform_fee;
+
+        offer_validity = _offer_validity;
+        nft_address = _nft_address;
+        transfer_WVenom_cost = _transfer_WVenom_cost;
+        refundable_fee = _refundable_fee;
+        
+        ITokenRoot(_tokenRoot).deployWallet {
+            value: 0.2 ever,
+            flag: 1,
+            callback: MakeOffer.onTokenWallet
+        } (
+            address(this),
+            0.1 ever 
+        );
+
+        offer_owner.transfer({ value: 0, flag: 128, bounce: false }); 
+    }
+
+    function generate_acceptOffer_payload(
+        address offer_address,
+        uint8 offerPrice,
+        address from,
+        address _nft_address,
+        address signer_address,
+        address prev_nft_Owner,
+        address collection_address,
+        uint8 stampedFloor
+    ) external view
+		virtual
+		responsible
+		returns (
+			TvmCell payload
+		){
+        TvmBuilder payloadBuilder;
+        payloadBuilder.store(
+            offer_address,
+            offerPrice,
+            from,
+            _nft_address,
+            signer_address,
+            prev_nft_Owner,
+            collection_address,
+            stampedFloor
+        );
+
+        return {value: 0, bounce: false, flag: 64} (
+            payloadBuilder.toCell()
+        );
+    }
+
+    function generate_returnOffer_payload(
+        address offer_address,
+        address nft_address_,
+        address signer_address,
+        address prev_nft_Owner,
+        address collection_address,
+        string selectedOfferId
+    ) external view
+		virtual
+		responsible
+		returns (
+			TvmCell payload
+		){
+        TvmBuilder payloadBuilder;
+        payloadBuilder.store(
+            offer_address,
+            nft_address_,
+            signer_address,
+            prev_nft_Owner,
+            collection_address,
+            selectedOfferId
+        );
+
+        return {value: 0, bounce: false, flag: 64} (
+            payloadBuilder.toCell()
+        );
+    }
+
+    function onTokenWallet(address value) external {
+        require (
+            msg.value != 0 &&
+            msg.sender == _tokenRoot,
+            101
+        );
+
+        tvm.rawReserve(remain_on_contract, 0);
+
+        _tokenWallet = value;
+        offer_owner.transfer({ value: 0, flag: 128, bounce: false });
+    }
+    
+    function onNftChangeManager(
+        uint256 id,
+        address owner,
+        address oldManager,
+        address newManager,
+        address collection,
+        address sendGasTo,
+        TvmCell payload
+    ) override external {
+        // TRANSFERRING WVENOMS 2 TIMES SOO
+        require(msg.value > transfer_WVenom_cost + transfer_WVenom_cost, 101, "Sent Amount Is Not Enough");
+        require(msg.sender == nft_address, 101, "NFT Address is different");
+        require(offer_amount > 0, 101, "Offer Amount is not Enough");
+        require(now <= offer_validity, 101, "Offer validity is over");
+
+        (
+            address offer_address,
+            uint8 offerPrice,
+            address from,
+            address _nft_address,
+            address signer_address,
+            address prev_nft_Owner,
+            address collection_address,
+            uint8 stampedFloor
+        ) = abi.decode(payload, (address, uint8, address, address, address, address, address, uint8));
+
+        mapping(address => ITIP4_1NFT.CallbackParams) noCallbacks;
+        TvmCell empty;
+
+        uint128 fee = platform_fee * offer_amount / 1000 / 100;
+        uint128 nft_seller_amount = offer_amount - fee;
+
+        ITokenWallet(_tokenWallet).transfer{value: transfer_WVenom_cost, flag: 0}(
+            fee,
+            platform_owner,
+            0.1 ever,
+            owner,
+            true,
+            empty
+        );
+
+        ITokenWallet(_tokenWallet).transfer{value: transfer_WVenom_cost, flag: 0}(
+            nft_seller_amount,
+            owner,
+            0.1 ever,
+            owner,
+            true,
+            empty
+        );
+        
+        ITIP4_1NFT(nft_address).transfer{
+            value: 0,
+            flag: 128 + 32,
+            bounce: false
+        }(
+            offer_owner,
+            owner,
+            noCallbacks
+        );
+
+        emit offer_accepted(
+            offer_address,
+            offerPrice,
+            from,
+            _nft_address,
+            signer_address,
+            prev_nft_Owner,
+            collection_address,
+            stampedFloor
+        );
+    }
+
+    function return_offer(TvmCell payload) public {
+        require (
+            msg.sender == offer_owner ||
+            msg.sender == contract_creator, 101, "You are not the owner of this offer"
+        );
+
+        // require(now <= offer_validity, 102, "This offer is expired");
+        require(offer_amount > 0, 101, "Offer Amount is invalid");
+        
+        (
+            address offer_address,
+            address nft_address_,
+            address signer_address,
+            address prev_nft_Owner,
+            address collection_address,
+            string selectedOfferId
+        ) = abi.decode(payload, (address, address, address, address, address, string));
+
+        TvmCell empty;
+
+        ITokenWallet(_tokenWallet).transfer{value: 0 ever, flag: 128 + 32}(
+            offer_amount,
+            offer_owner,
+            0.1 ever,
+            offer_owner,
+            true,
+            empty
+        );
+
+        emit cancel_offer(
+            offer_address,  
+            nft_address,    
+            signer_address, 
+            prev_nft_Owner, 
+            collection_address, 
+            selectedOfferId
+        );
+    }
+
+    function onAcceptTokensTransfer(
+        address, // tokenRoot,
+        uint128 amount,
+        address sender,
+        address, // senderWallet,
+        address remainingGasTo,
+        TvmCell payload
+    ) override external {
+        tvm.rawReserve(0.2 ever, 0);
+        offer_amount = amount;
+
+        remainingGasTo.transfer({ value: 0, flag: 128, bounce: false });
+    }
+
+    function get_accept_offer_fee() public view responsible returns(uint128) {
+        uint128 fee = transfer_WVenom_cost + transfer_WVenom_cost + refundable_fee;
+        return {value: 0, bounce: false, flag: 64} (fee);
+    }
+}

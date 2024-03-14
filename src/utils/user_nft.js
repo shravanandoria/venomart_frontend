@@ -29,13 +29,11 @@ export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
-
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
 );
 // all contract address here up
-
 
 // ---- all functions used for rpc or graphql nft fetch ----
 export const getNftImage = async (provider, nftAddress) => {
@@ -505,10 +503,7 @@ export const cancel_listing = async (
       return false;
     }
 
-    const DirectSellContract = new venomProvider.Contract(
-      DirectSell,
-      new Address(prev_nft_Manager),
-    );
+    const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));
 
     let output;
     output = await DirectSellContract.methods.cancel_listing().send({
@@ -569,10 +564,7 @@ export const buy_nft = async (
       return false;
     }
 
-    const DirectSellContract = new venomProvider.Contract(
-      DirectSell,
-      new Address(prev_nft_Manager),
-    );
+    const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));
 
     const fees = (parseInt(price) + 1000000000).toString();
 
@@ -652,7 +644,7 @@ export const bulk_buy_nfts = async (
       from: new Address(signer_address),
       amount: parseFloat(buy_amount.value0).toString(),
     });
-    
+
     if (output) {
       let obj = {
         NFTAddresses: NFTAddresses,
@@ -674,7 +666,6 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
-
 
 // -------------- offer feature starts here ----------------
 
