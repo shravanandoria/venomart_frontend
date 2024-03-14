@@ -879,7 +879,7 @@ export const bulk_buy_nfts = async (
       from: new Address(signer_address),
       amount: parseFloat(buy_amount.value0).toString(),
     });
-
+    
     if (output) {
       let obj = {
         NFTAddresses: NFTAddresses,
