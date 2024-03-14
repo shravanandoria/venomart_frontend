@@ -17,7 +17,6 @@ const Launchpad = new mongoose.Schema({
   socials: [String],
   maxSupply: String,
   mintPrice: String,
-  status: String,
   isActive: Boolean,
   isVerified: Boolean,
   isPropsEnabled: Boolean,
@@ -25,6 +24,11 @@ const Launchpad = new mongoose.Schema({
   endDate: String,
   comments: String,
   jsonURL: String,
+  status: {
+    type: String,
+    enum: ["upcoming", "live", "sold out", "ended"],
+    default: "upcoming",
+  }
 });
 
 module.exports = mongoose.models.Launchpad || mongoose.model("Launchpad", Launchpad);

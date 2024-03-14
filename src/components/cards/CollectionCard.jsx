@@ -122,13 +122,15 @@ const CollectionCard = ({
             </span>
           </div>
         </div>
-        <div className="flex justify-between align-middle my-6">
-          <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
-            <span className="text-jacarta-400">Listings</span>{" "}
-            <span className="flex justify-center uppercase">
-              {Listing ? formatNumberShort(Listing) : "0"}
-            </span>
-          </button>
+        <div className="flex justify-around align-middle my-6">
+          {Listing &&
+            <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
+              <span className="text-jacarta-400">Listings</span>{" "}
+              <span className="flex justify-center uppercase">
+                {Listing ? formatNumberShort(Listing) : "0"}
+              </span>
+            </button>
+          }
           <button className=" dark:text-jacarta-200 font-bold py-2 px-4 rounded-full text-jacarta-700">
             <span className="text-jacarta-400">Floor</span>
             <span className="flex justify-center uppercase">

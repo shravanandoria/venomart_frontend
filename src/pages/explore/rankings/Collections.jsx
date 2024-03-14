@@ -15,8 +15,10 @@ const Collections = ({
     const [filterSort, openFilterSort] = useState(false);
     const [mobileFilter, openMobileFilter] = useState(true);
 
-    const [verifiedCheck, setVerifiedCheck] = useState(false);
-    const [collection_status, set_collection_status] = useState("unverified");
+    // for verified fetching 
+    const [verifiedCheck, setVerifiedCheck] = useState(true);
+    const [collection_status, set_collection_status] = useState("verified");
+
     const [category, setCategory] = useState("All");
     const [sortby, setSortBy] = useState("topVolume");
     const [duration, setDuration] = useState("30days");
@@ -91,6 +93,7 @@ const Collections = ({
                     name="keywords"
                     content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
                 />
+                <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.webp" />
             </Head>

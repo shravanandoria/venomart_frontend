@@ -143,6 +143,38 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false, data: error.message });
         }
         break;
+      case "PUT":
+        try {
+          const { data } = req.body;
+
+          let updateInfo = {
+            royaltyAddress: data.royaltyAddress,
+            name: data.name,
+            logo: data.logo,
+            coverImage: data.coverImage,
+            website: data.website,
+            twitter: data.twitter,
+            discord: data.discord,
+            telegram: data.telegram,
+            isNSFW: data.isNSFW,
+            isVerified: data.isVerified,
+            isPropsEnabled: data.isPropsEnabled,
+            isFeatured: data.isFeatured,
+            isTrading: data.isTrading,
+            Category: data.Category,
+            description: data.description,
+          };
+
+          const filter = { contractAddress: data.contractAddress };
+          const update = { $set: updateInfo };
+
+          const result = await Collection.updateOne(filter, update);
+
+          return res.status(200).json({ success: true, data: result });
+        } catch (error) {
+          res.status(400).json({ success: false, data: error.message });
+        }
+        break;
       default:
         res.status(400).json({ success: false });
         break;

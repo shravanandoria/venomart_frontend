@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Pagination from "../../components/Pagination";
 import LaunchCollectionCard from "../../components/cards/LaunchCollectionCard";
-import customLaunchpad from '../launchpad/customLaunchpad.json';
+import InfiniteScroll from "react-infinite-scroll-component";
+import { get_launchpad_events } from "../../utils/mongo_api/launchpad/launchpad";
 
 const Launchpad = ({ theme }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(24);
 
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentCollections = customLaunchpad?.slice(
-    firstPostIndex,
-    lastPostIndex
-  );
+  const [collections, set_collections] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [sortby, setSortBy] = useState("upcoming");
+  const [hasMore, setHasMore] = useState(true);
+
+  const scrollFetchLaunches = async () => {
+    const collectionsJSON = await get_launchpad_events(sortby, skip);
+    if (collectionsJSON) {
+      set_collections([...collections, ...collectionsJSON]);
+      if (collectionsJSON == "" || collectionsJSON == undefined) {
+        setHasMore(false);
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    setSkip(collections.length);
+  };
+
+  useEffect(() => {
+    scrollFetchLaunches();
+  }, [skip]);
 
   return (
     <>
@@ -27,6 +41,7 @@ const Launchpad = ({ theme }) => {
           name="keywords"
           content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
         />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -43,38 +58,38 @@ const Launchpad = ({ theme }) => {
 
 
             <div className="flex justify-center align-middle flex-wrap">
-              {/* fetching custom laucnh here  */}
-              {currentCollections
-                ?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
-                .filter((e, id) => id < 6 && e.verified === true)
-                .map((e, id) => {
-                  return (
-                    id < 6 && e.verified == true && (
-                      <LaunchCollectionCard
-                        key={id}
-                        Cover={e.Cover}
-                        Logo={e.Logo}
-                        Name={e.Name}
-                        Description={e.Description}
-                        mintPrice={e.mintPrice}
-                        supply={e.supply}
-                        status={e.status}
-                        CollectionAddress={e.CollectionAddress}
-                        customLink={e.customLink}
-                        verified={e.verified}
-                        startDate={e.startDate}
-                        endDate={e.endDate}
-                      />
-                    )
-                  );
-                })}
+              <InfiniteScroll
+                dataLength={collections ? collections?.length : 0}
+                next={handleScroll}
+                hasMore={hasMore}
+                className="flex flex-wrap justify-center align-middle"
+                loader={
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  </div>
+                }
+              >
+                {collections?.map((e, index) => (
+                  <LaunchCollectionCard
+                    key={index}
+                    Cover={e.coverImage}
+                    Logo={e.logo}
+                    Name={e.name}
+                    pageName={e.pageName}
+                    Description={e.description}
+                    mintPrice={e.mintPrice}
+                    supply={e.maxSupply}
+                    status={e.status}
+                    verified={true}
+                    CollectionAddress={e.contractAddress}
+                    startDate={e.startDate}
+                    endDate={e.endDate}
+                  />
+                ))}
+              </InfiniteScroll>
             </div>
-            <Pagination
-              totalPosts={customLaunchpad.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
           </div>
         </section>
       </div>

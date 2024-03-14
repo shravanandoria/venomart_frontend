@@ -39,7 +39,8 @@ const Profile = ({
   setCartNFTs,
   vnmBalance,
   EnableNFTCancel,
-  EnableNFTSale
+  EnableNFTSale,
+  profileDataProps
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -483,15 +484,27 @@ const Profile = ({
       {successModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       <Head>
-        <title>{`${user_data?.user_name ? user_data?.user_name : "User Profile"}`} - Venomart Marketplace</title>
+        <title>{`${profileDataProps?.user_name ? profileDataProps?.user_name : "User Profile"}`} - Venomart Marketplace</title>
         <meta
           name="description"
-          content="Explore users profile, their NFTs, collections and listings | Powered by Venom Blockchain"
+          content="Explore users profile, their NFTs, collections and listings | Powered by Venomart"
         />
         <meta
           name="keywords"
-          content={`venomart, ${user_data?.user_name} profile on venomart, ${user_data?.user_name} venomart, ${user_data?.wallet} `}
+          content={`venomart, ${profileDataProps?.user_name} profile on venomart, ${profileDataProps?.user_name} venomart, ${slug} `}
         />
+        <meta property="og:title" content={`${profileDataProps?.user_name ? profileDataProps?.user_name : "Profile"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta property="og:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
+        <meta name="twitter:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta name="twitter:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -729,7 +742,7 @@ const Profile = ({
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
               </svg>
-              <span className="font-display text-base font-medium">Owned</span>
+              <span className="font-display text-base font-medium">Owned (Onchain)</span>
             </button>
           </li>
 
@@ -1252,6 +1265,7 @@ const Profile = ({
                               key={index}
                               ImageSrc={e?.nft_image}
                               Name={e?.name}
+                              rank={e?.rank}
                               Address={e?.NFTAddress}
                               Owner={e?.ownerAddress}
                               signerAddress={signer_address}
@@ -1433,6 +1447,7 @@ const Profile = ({
                           key={index}
                           ImageSrc={e?.preview?.source?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                           Name={e?.name}
+                          rank={e?.rank}
                           Address={e?.nft._address}
                           Description={e?.description}
                           NFTCollectionName={e?.collection_name}
@@ -1788,6 +1803,7 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
         />
@@ -1803,7 +1819,9 @@ const Profile = ({
           NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
           NFTCollectionName={selectedNFT?.NFTCollection?.name}
           CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+          collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
+          NFTRank={selectedNFT?.rank}
           NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}
         />
@@ -1829,5 +1847,23 @@ const Profile = ({
     </div>
   );
 };
+
+export async function getServerSideProps(context) {
+  const slug = context.query.slug;
+  let profileDataProps;
+  if (context.req.headers.host.includes("localhost")) {
+    const ProfileData = await (await fetch(`http://localhost:3000/api/user/single_user?wallet_address=${slug}`)).json();
+    profileDataProps = ProfileData.data;
+  }
+  else {
+    const ProfileData = await (await fetch(`https://venomart.io/api/user/single_user?wallet_address=${slug}`)).json();
+    profileDataProps = ProfileData.data;
+  }
+  return {
+    props: {
+      profileDataProps
+    },
+  };
+}
 
 export default Profile;

@@ -34,18 +34,18 @@ const launchpad = ({
     venomProvider,
     signer_address,
     connectWallet,
-    setAnyModalOpen
+    setAnyModalOpen,
+    LaunchData
 }) => {
     const router = useRouter();
     const { slug } = router.query;
 
-    const [launchSlug, setLaunchSlug] = useState("");
-    const [twitterUsername, setTwitterUsername] = useState("");
+    const [collectionData, setCollectionData] = useState("");
 
     const [data, set_data] = useState();
     const [loading, setLoading] = useState(false);
-    const [mintedNFTs, setMintedNFTs] = useState(0);
-    const [mintedPercent, setMintedPercent] = useState(0);
+    const [mintedNFTs, setMintedNFTs] = useState(400);
+    const [mintedPercent, setMintedPercent] = useState(20);
     const [afterMint, setAfterMint] = useState(false);
     const [mintLock, setMintLock] = useState(false);
 
@@ -65,8 +65,20 @@ const launchpad = ({
     const [endhours, setEndHours] = useState(0);
     const [endminutes, setEndMinutes] = useState(0);
     const [endseconds, setEndSeconds] = useState(0);
+    const [mintCount, setMintCount] = useState(1);
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const handlemintCountInc = () => {
+        setMintCount(mintCount + 1);
+    };
+
+    const handlemintCountDec = () => {
+        if (mintCount > 1) {
+            setMintCount(mintCount - 1);
+        }
+    };
+
 
     // connect wallet 
     const connect_wallet = async () => {
@@ -76,12 +88,12 @@ const launchpad = ({
     // setting up minting data 
     const setMintingObjData = () => {
         let obj = {
-            image: launchSlug?.logo,
-            collectionName: launchSlug?.name,
-            name: launchSlug?.name,
-            description: launchSlug?.description,
-            collectionAddress: launchSlug?.contractAddress,
-            mintPrice: launchSlug?.mintPrice,
+            image: collectionData?.logo,
+            collectionName: collectionData?.name,
+            name: collectionData?.name,
+            description: collectionData?.description,
+            collectionAddress: collectionData?.contractAddress,
+            mintPrice: collectionData?.mintPrice,
             properties: [
                 { trait_type: "Benifit", value: "Fee Discount" },
                 { trait_type: "Version", value: "Testnet" },
@@ -94,12 +106,9 @@ const launchpad = ({
     const getLaunchpadData = async () => {
         // getting launchpad data 
         const launchpaddata = await get_launchpad_by_name(slug);
-        setStatus(launchpaddata?.status);
-        setLaunchSlug(launchpaddata);
-
-        const twitterUrl = launchpaddata?.socials[1];
-        const username = twitterUrl?.split("https://twitter.com/")[1];
-        setTwitterUsername(username);
+        console.log({ launchpaddata })
+        // setStatus(launchpaddata?.status);
+        setCollectionData(launchpaddata);
 
         // setting up count 
         const parsedStartDate = moment(launchpaddata?.startDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
@@ -113,12 +122,12 @@ const launchpad = ({
             setLoading(true);
             const contract = new venomProvider.Contract(
                 collectionAbi,
-                launchSlug?.contractAddress
+                collectionData?.contractAddress
             );
             const totalSupply = await contract.methods
                 .totalSupply({ answerId: 0 })
                 .call();
-            const mintedPercent = ((totalSupply.count * 100) / launchSlug?.maxSupply).toFixed(0);
+            const mintedPercent = ((totalSupply.count * 100) / collectionData?.maxSupply).toFixed(0);
             setMintedPercent(mintedPercent);
             setMintedNFTs(totalSupply.count);
             await wait(1000);
@@ -133,7 +142,7 @@ const launchpad = ({
     const get_user_Data = async () => {
         if (signer_address == "") return;
         const data = await has_minted(
-            launchSlug?.contractAddress,
+            collectionData?.contractAddress,
             signer_address,
             venomProvider
         );
@@ -222,34 +231,48 @@ const launchpad = ({
 
 
     useEffect(() => {
-        if (!launchSlug || !venomProvider) return;
-        getMintedSupply();
+        if (!collectionData || !venomProvider) return;
+        // getMintedSupply();
         setMintingObjData();
-    }, [venomProvider, launchSlug]);
+    }, [venomProvider, collectionData]);
 
-    useEffect(() => {
-        if (!signer_address || !venomProvider) return;
-        get_user_Data();
-    }, [venomProvider, signer_address]);
+    // useEffect(() => {
+    //     if (!signer_address || !venomProvider) return;
+    //     get_user_Data();
+    // }, [venomProvider, signer_address]);
 
     useEffect(() => {
         if (!slug) return;
-        setLoading(true);
+        // setLoading(true);
         getLaunchpadData();
     }, [slug]);
 
     return (
         <div className={`${theme}`}>
             <Head>
-                <title>{`${launchSlug?.name ? launchSlug?.name : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
+                <title>{`${LaunchData?.name ? LaunchData?.name : "Project"} NFT Launchpad - Venomart Marketplace`}</title>
                 <meta
                     name="description"
-                    content="Explore, Create and Experience exculsive gaming NFTs on Venomart | Powered by Venom Blockchain"
+                    content="Explore, Create and Experience exculsive NFTs on Venomart | Powered by Venomart"
                 />
                 <meta
                     name="keywords"
-                    content="venomart, venom blockchain, nft marketplace on venom, venomart nft marketplace, buy and sell nfts, best nft marketplaces, trusted nft marketplace on venom, venom blockchain nft, nft trading on venom, gaming nfts project on venom, defi on venom, nfts on venom, create a collection on venom"
+                    content={`venomart, venom blockchain nft,nfts on venom, NFT launchpad, nft launchpad venom, best nft launchpads, ${LaunchData?.name ? LaunchData?.name : ""} nft launchpad,  ${LaunchData?.name ? LaunchData?.name : ""} nft launch`}
                 />
+
+                <meta property="og:title" content={`${LaunchData?.name ? LaunchData?.name : "NFT Launchpad"} - Venomart Marketplace`} />
+                <meta property="og:description" content={`${LaunchData?.description ? LaunchData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+                <meta property="og:image" content={`${LaunchData?.logo ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+                <meta property="og:url" content={"https://venomart.io/"} />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={`${LaunchData?.name ? LaunchData?.name : "NFT Launchpad"} - Venomart Marketplace`} />
+                <meta name="twitter:description" content={`${LaunchData?.description ? LaunchData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+                <meta name="twitter:image" content={`${LaunchData?.logo ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+                <meta name="twitter:site" content="@venomart23" />
+                <meta name="twitter:creator" content="@venomart23" />
+
+                <meta name="robots" content="INDEX,FOLLOW" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/fav.webp" />
             </Head>
@@ -271,13 +294,12 @@ const launchpad = ({
                             <div className="launchHeroSectionStyle h-full">
                                 {/* left section  */}
                                 <div className="launchHeroLeftSection h-full py-10">
-                                    {/* title  */}
                                     <h1
                                         className="flex mb-6 text-center font-display text-[12px] text-jacarta-700 dark:text-white md:text-left lg:text-6xl xl:text-7xl"
                                         style={{ fontSize: "35px" }}
                                     >
-                                        <span> {launchSlug?.name} </span>{" "}
-                                        {launchSlug?.isVerified && (
+                                        <span> {collectionData?.name} </span>{" "}
+                                        {collectionData?.isVerified && (
                                             <MdVerified
                                                 style={{
                                                     color: "#4f87ff",
@@ -291,25 +313,25 @@ const launchpad = ({
                                     </h1>
                                     {/* social icons  */}
                                     <div className="flex space-x-4 mb-6 mt-[-8px] ml-[7px]">
-                                        {launchSlug?.socials &&
+                                        {collectionData?.socials &&
                                             (<>
-                                                {launchSlug?.socials[0] && (
-                                                    <a href={launchSlug?.socials[0]} target="_blank" className="group">
+                                                {collectionData?.socials[0] && (
+                                                    <a href={collectionData?.socials[0]} target="_blank" className="group">
                                                         <BsBrowserChrome className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                                     </a>
                                                 )}
-                                                {launchSlug?.socials[1] && (
-                                                    <a href={launchSlug?.socials[1]} target="_blank" className="group">
+                                                {collectionData?.socials[1] && (
+                                                    <a href={collectionData?.socials[1]} target="_blank" className="group">
                                                         <BsTwitter className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                                     </a>
                                                 )}
-                                                {launchSlug?.socials[2] && (
-                                                    <a href={launchSlug?.socials[2]} target="_blank" className="group">
+                                                {collectionData?.socials[2] && (
+                                                    <a href={collectionData?.socials[2]} target="_blank" className="group">
                                                         <BsDiscord className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                                     </a>
                                                 )}
-                                                {launchSlug?.socials[3] && (
-                                                    <a href={launchSlug?.socials[3]} target="_blank" className="group">
+                                                {collectionData?.socials[3] && (
+                                                    <a href={collectionData?.socials[3]} target="_blank" className="group">
                                                         <BsTelegram className="h-6 w-6 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white" />
                                                     </a>
                                                 )}
@@ -318,14 +340,14 @@ const launchpad = ({
                                     </div>
                                     {/* short desc  */}
                                     <p className="mb-8 text-center text-lg dark:text-jacarta-200 md:text-left sm:w-[90%]">
-                                        {launchSlug?.description}
+                                        {collectionData?.description}
                                     </p>
                                     {/* action  */}
                                     <div className="flex justify-center align-middle space-x-2 lg:space-x-4">
-                                        {launchSlug?.contractAddress != "" ? (
+                                        {collectionData?.contractAddress != "" ? (
                                             <>
                                                 <a
-                                                    href={`${blockURL}accounts/${launchSlug?.contractAddress}`}
+                                                    href={`${blockURL}accounts/${collectionData?.contractAddress}`}
                                                     target="_blank"
                                                     className="flex w-38 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                                 >
@@ -333,7 +355,7 @@ const launchpad = ({
                                                     <RiEarthFill className="ml-[5px] mt-[3px] h-[20px]" />
                                                 </a>
                                                 <Link
-                                                    href={`/collection/${launchSlug?.contractAddress}`}
+                                                    href={`/collection/${collectionData?.contractAddress}`}
                                                     className="flex w-38 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
                                                 >
                                                     Collection
@@ -372,7 +394,7 @@ const launchpad = ({
                                         <Image
                                             height={100}
                                             width={100}
-                                            src={launchSlug?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            src={collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%", marginBottom: "20px" }}
                                         />
@@ -382,111 +404,19 @@ const launchpad = ({
                         </div>
                     </div>
 
-                    {/* <!-- Mint Section --> */}
+                    {/* main content div  */}
                     <section className="relative bg-light-base pb-12 pt-12 dark:bg-jacarta-800">
                         <section className="text-gray-600 body-font overflow-hidden">
-                            {/* timer div  */}
+                            {/* sandwitch area  */}
                             <div className="flex flex-wrap justify-around align-middle container px-5 pt-6">
                                 <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-500 tracking-widest">
                                         EXCLUSIVE MINT
                                     </h2>
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                        {launchSlug?.maxSupply} NFTs
+                                        {collectionData?.maxSupply} NFTs
                                     </h1>
                                 </div>
-
-                                {/* if live  */}
-                                {status == "Live" && (
-                                    <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
-                                            MINT ENDS IN
-                                        </h2>
-                                        <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <div className="show-counter">
-                                                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                                                    <div className="countdown">
-                                                        <p>{enddays}</p>
-                                                        <span>Days</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{endhours}</p>
-                                                        <span>Hours</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{endminutes}</p>
-                                                        <span>Mins</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{endseconds}</p>
-                                                        <span>Seconds</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* sold out */}
-                                {status == "Sold Out" && (
-                                    <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
-                                            SOLD OUT IN
-                                        </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-xl title-font font-medium mb-1">
-                                            FEW HOURS{" "}
-                                        </h1>
-                                    </div>
-                                )}
-
-                                {/* ended */}
-                                {status == "Ended" && (
-                                    <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
-                                            SOLD OUT IN
-                                        </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-xl title-font font-medium mb-1">
-                                            FEW HOURS{" "}
-                                        </h1>
-                                    </div>
-                                )}
-
-                                {/* upcoming  */}
-                                {status == "Upcoming" && (
-                                    <div className="px-4 py-4">
-                                        <h2 className="text-sm title-font text-gray-400 tracking-wides text-center">
-                                            MINT STARTS IN
-                                        </h2>
-                                        <div className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            <div className="show-counter">
-                                                <div className="countdown-link text-jacarta-400 dark:text-jacarta-200">
-                                                    <div className="countdown">
-                                                        <p>{startdays}</p>
-                                                        <span>Days</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{starthours}</p>
-                                                        <span>Hours</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{startminutes}</p>
-                                                        <span>Mins</span>
-                                                    </div>
-                                                    <p>:</p>
-                                                    <div className="countdown">
-                                                        <p>{startseconds}</p>
-                                                        <span>Seconds</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
 
                                 {/* mint status  */}
                                 <div className="px-4 py-4">
@@ -494,8 +424,8 @@ const launchpad = ({
                                         MINTING STATUS
                                     </h2>
                                     {status == "Live" && (
-                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
-                                            <GoDotFill className="h-[25px] w-[25px] text-green" />
+                                        <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[28px] w-[28px] text-green mt-1" />
                                             <span
                                                 className="text-green text-center"
                                                 style={{ textTransform: "uppercase" }}
@@ -505,8 +435,8 @@ const launchpad = ({
                                         </h1>
                                     )}
                                     {status == "Ended" && (
-                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
-                                            <GoDotFill className="h-[25px] w-[25px] text-red" />
+                                        <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[28px] w-[28px] text-red mt-1" />
                                             <span
                                                 className="text-red text-center"
                                                 style={{ textTransform: "uppercase" }}
@@ -516,8 +446,8 @@ const launchpad = ({
                                         </h1>
                                     )}
                                     {status == "Upcoming" && (
-                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
-                                            <GoDotFill className="h-[25px] w-[25px] text-[#2fa8b5]" />
+                                        <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[28px] w-[28px] text-[#2fa8b5] mt-1" />
                                             <span
                                                 className="text-[#2fa8b5] text-center"
                                                 style={{ textTransform: "uppercase" }}
@@ -527,8 +457,8 @@ const launchpad = ({
                                         </h1>
                                     )}
                                     {status == "Sold Out" && (
-                                        <h1 className="flex text-[17px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
-                                            <GoDotFill className="h-[25px] w-[25px] text-jacarta-300" />
+                                        <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
+                                            <GoDotFill className="h-[28px] w-[28px] text-jacarta-300 mt-1" />
                                             <span
                                                 className="text-jacarta-300 text-center"
                                                 style={{ textTransform: "uppercase" }}
@@ -540,260 +470,126 @@ const launchpad = ({
                                 </div>
                             </div>
 
-                            {/* main div  */}
-                            <div className="container px-5 py-24 mx-auto">
+                            {/* mint zone  */}
+                            <div className="container px-5 pt-6 pb-24 mx-auto">
                                 <div className="lg:w-4/5 mx-auto flex flex-wrap justify-between w[100%]">
-                                    {/* nftIMG  */}
+                                    {/* left  */}
                                     <div className="lg:w-1/2 w-full lg:h-[100%] h-64 mb-2 sm:mb-[400px] lg:mt-0">
                                         <Image
                                             height={100}
                                             width={100}
                                             alt="nftImg"
-                                            className="launchImage h-[100%] w-[100%] object-cover object-center rounded"
-                                            src={launchSlug?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            className="launchImage h-[100%] w-[100%] object-cover object-center rounded-[20px]"
+                                            src={collectionData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
                                         />
                                     </div>
 
+                                    {/* right main */}
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                                        <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                                            PUBLIC MINTING
-                                        </h2>
-                                        <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                            Tasks :
-                                        </h1>
-
-                                        {/* follow twitter  */}
-                                        <div className="flex mt-6 items-center pb-5 border-gray-100 ">
-                                            <p className="text-left text-lg dark:text-jacarta-200 md:text-left mr-[7px]">
-                                                1] Follow {twitterUsername} on twitter
-                                            </p>
-                                            <Link
-                                                href={`https://twitter.com/intent/follow?screen_name=${twitterUsername}`}
-                                                target="_blank"
-                                                className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                            >
-                                                Follow{" "}
-                                                <BsTwitter className="h-5 w-5 fill-white ml-2 mt-[2px]" />
-                                            </Link>
-                                        </div>
-
-                                        {mintedNFTs ?
-                                            <div className="mt-4 mb-12">
-                                                <div className="flex justify-between">
-                                                    <h2 className="text-sm title-font text-jacarta-700 dark:text-white tracking-widest">
-                                                        Total Minted
-                                                    </h2>
-                                                    {mintedNFTs > 0 && (
-                                                        <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                                            ({mintedNFTs}/{launchSlug?.maxSupply})
-                                                        </p>
-                                                    )}
+                                        <div className="mt-4 mb-12">
+                                            {/* mint percent  */}
+                                            <div className="flex justify-between">
+                                                <h2 className="text-sm text-jacarta-700 dark:text-white tracking-widest">
+                                                    TOTAL MINTED
+                                                </h2>
+                                                {mintedNFTs > 0 && (
+                                                    <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                                                        ({mintedNFTs}/{collectionData?.maxSupply})
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>
+                                                <div
+                                                    className={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
+                                                    {mintedPercent}%
                                                 </div>
-                                                <div className="w-[100%] bg-neutral-200 dark:bg-neutral-600 rounded-lg">
-                                                    <div
-                                                        className={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
-                                                        {mintedPercent}%
+                                            </div>
+
+                                            {/* phases  */}
+                                            <div className="flex flex-col w-[100%] mt-6">
+                                                {/* phase 1  */}
+                                                <div className={`border-2 flex w-[100%] my-2 p-4 ${theme == "dark" ? "bg-[#0d102b] focus-border-[#ffffff]" : "bg-[#ffffff] focus-border-[#ababab]"} rounded-[13px] cursor-pointer`}>
+                                                    <div className="flex flex-col justify-between w-[100%] text-white">
+                                                        <h2 className={`font-display ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>WL Phase</h2>
+                                                        <p className={`text-[13px] font-sans ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>25 Per Wallet ● 10 VENOM</p>
+                                                    </div>
+                                                    <div>
+                                                        Ended
+                                                    </div>
+                                                </div>
+                                                <div className={`border-2 flex w-[100%] my-2 p-4 ${theme == "dark" ? "bg-[#0d102b] focus-border-[#ffffff]" : "bg-[#ffffff] focus-border-[#ababab]"} rounded-[13px] cursor-pointer`}>
+                                                    <div className="flex flex-col justify-between w-[100%] text-white">
+                                                        <h2 className={`font-display ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>Public Phase</h2>
+                                                        <p className={`text-[13px] font-sans ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>25 Per Wallet ● 15 VENOM</p>
+                                                    </div>
+                                                    <div>
+                                                        Ended
                                                     </div>
                                                 </div>
                                             </div>
-                                            :
-                                            <div className="mt-4 mb-12">
-                                            </div>
-                                        }
 
-                                        <div className="flex">
-                                            {/* price  */}
-                                            <div>
-                                                <span className="title-font font-medium text-[23px] text-jacarta-700 dark:text-white">
-                                                    price :{" "}
-                                                </span>
-                                                <span className="title-font font-medium text-[19px] text-gray-400 text-center mt-[6px] ml-[3px]">
-                                                    {" "}
-                                                    {launchSlug?.mintPrice} VENOM
-                                                </span>
-                                            </div>
-
-                                            {/* mint  */}
-                                            {checkMint ?
-                                                (
-                                                    <button
-                                                        onClick={() =>
-                                                            alert("Only 1 NFT minting is allowed for 1 user!")
-                                                        }
-                                                        className="flex justify-center w-auto ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                    >
-                                                        Already Minted{" "}
-                                                        <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                    </button>
-                                                )
-                                                : mintLock ?
-                                                    (
+                                            {/* final mint section  */}
+                                            <div className="flex flex-col w-[100%] mt-12">
+                                                {/* price  */}
+                                                <div className="flex justify-between w-[100%]">
+                                                    <div>
+                                                        <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}><span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>Price:</span> 11 VENOM</h2>
+                                                    </div>
+                                                    <div class="inline-flex items-center">
                                                         <button
-                                                            onClick={() =>
-                                                                alert("You have already minted the NFT!")
-                                                            }
-                                                            className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                                                            class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                            onClick={() => handlemintCountDec()}
                                                         >
-                                                            Mint NFT <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                        </button>
-                                                    )
-                                                    :
-                                                    (
-                                                        status == "Ended" || status == "Sold Out" ? (
-                                                            <button
-                                                                onClick={() =>
-                                                                    alert("The mint has ended! All nfts sold out")
-                                                                }
-                                                                className="flex justify-center w-42 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                            >
-                                                                Mint Ended
-                                                                <AiFillLock className="mt-[4px] ml-[5px]" />
-                                                            </button>
-                                                        )
-                                                            :
-                                                            (
-                                                                <button
-                                                                    onClick={() => mintLaunchNFT()}
-                                                                    className="flex justify-center w-36 ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-                                                                >
-                                                                    Mint NFT
-                                                                </button>
-                                                            )
-                                                    )}
-
-                                            {/* share btn  */}
-                                            <button
-                                                className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4"
-                                                style={{ zIndex: "20" }}
-                                            >
-                                                <div
-                                                    onClick={() => setShare(!share)}
-                                                    className="dropdown rounded-xl border border-jacarta-100 bg-white dark:border-jacarta-600 dark:bg-jacarta-800"
-                                                >
-                                                    <a
-                                                        className="dropdown-toggle inline-flex h-10 w-10 items-center justify-center text-sm"
-                                                        role="button"
-                                                        id="collectionShare"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
-                                                        data-tippy-content="Share"
-                                                    >
-                                                        {share ? (
-                                                            <AiFillCloseCircle className="h-6 w-6 fill-jacarta-500 dark:fill-jacarta-200" />
-                                                        ) : (
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                class="h-6 w-4"
+                                                                fill="none"
                                                                 viewBox="0 0 24 24"
-                                                                width="24"
-                                                                height="24"
-                                                                className="h-4 w-4 fill-jacarta-500 dark:fill-jacarta-200"
+                                                                stroke="currentColor"
                                                             >
-                                                                <path fill="none" d="M0 0h24v24H0z" />
-                                                                <path d="M13.576 17.271l-5.11-2.787a3.5 3.5 0 1 1 0-4.968l5.11-2.787a3.5 3.5 0 1 1 .958 1.755l-5.11 2.787a3.514 3.514 0 0 1 0 1.458l5.11 2.787a3.5 3.5 0 1 1-.958 1.755z" />
+                                                                <path
+                                                                    stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M20 12H4"
+                                                                />
                                                             </svg>
-                                                        )}
-                                                    </a>
-
-                                                    {share && (
-                                                        <div className="dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
-                                                            <a
-                                                                href={`https://twitter.com/intent/tweet?text=This%20collection%20is%20currently%20minting%20live%20on%20venomart.io%20,%20mint%20your%20NFT%20now-%20${webURL}launchpad/custom/${slug}%20`}
-                                                                target="_blank"
-                                                                className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                                            >
-                                                                <svg
-                                                                    aria-hidden="true"
-                                                                    focusable="false"
-                                                                    data-prefix="fab"
-                                                                    data-icon="twitter"
-                                                                    className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                                                                    role="img"
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 512 512"
-                                                                >
-                                                                    <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
-                                                                </svg>
-                                                                <span className="mt-1 inline-block text-jacarta-700 dark:text-jacarta-200">
-                                                                    Twitter
-                                                                </span>
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                onClick={copyURL}
-                                                                className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 24 24"
-                                                                    width="24"
-                                                                    height="24"
-                                                                    className="mr-2 h-4 w-4 fill-jacarta-300 group-hover:fill-accent dark:group-hover:fill-white"
-                                                                >
-                                                                    <path fill="none" d="M0 0h24v24H0z" />
-                                                                    <path d="M18.364 15.536L16.95 14.12l1.414-1.414a5 5 0 1 0-7.071-7.071L9.879 7.05 8.464 5.636 9.88 4.222a7 7 0 0 1 9.9 9.9l-1.415 1.414zm-2.828 2.828l-1.415 1.414a7 7 0 0 1-9.9-9.9l1.415-1.414L7.05 9.88l-1.414 1.414a5 5 0 1 0 7.071 7.071l1.414-1.414 1.415 1.414zm-.708-10.607l1.415 1.415-7.071 7.07-1.415-1.414 7.071-7.07z" />
-                                                                </svg>
-                                                                <span className="mt-1 inline-block  text-jacarta-700 dark:text-jacarta-200">
-                                                                    Copy
-                                                                </span>
-                                                            </a>
+                                                        </button>
+                                                        <div
+                                                            class="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none"
+                                                        >
+                                                            {mintCount}
                                                         </div>
-                                                    )}
+                                                        <button
+                                                            class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                            onClick={() => handlemintCountInc()}
+                                                        >
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                class="h-6 w-4"
+                                                                fill="none"
+                                                                viewBox="0 0 24 24"
+                                                                stroke="currentColor"
+                                                            >
+                                                                <path
+                                                                    stroke-linecap="round"
+                                                                    stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M12 4v16m8-8H4"
+                                                                />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </button>
+
+                                                {/* mint btn  */}
+                                                <div className="flex w-[100%] mt-4">
+                                                    <button class={`${theme = "dark" ? "bg-indigo-500" : "bg-indigo-500"} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}>
+                                                        <span className="text-white font-mono">Mint</span>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        {/* message checks  */}
-                                        {!checkMint &&
-                                            status != "Ended" &&
-                                            status != "Sold Out" && (
-                                                <div
-                                                    className="flex justify-end mt-[10px] text-center"
-                                                    style={{ zIndex: "10" }}
-                                                >
-                                                    <span className="text-[15px] text-gray-400 text-center">
-                                                        Please complete tasks to start minting
-                                                    </span>
-                                                </div>
-                                            )}
-                                        {checkMint && (
-                                            <div
-                                                className="flex justify-end mt-[10px] text-center"
-                                                style={{ zIndex: "10" }}
-                                            >
-                                                <span className="text-[15px] text-gray-400 text-center">
-                                                    You already have this NFT in your wallet
-                                                </span>
-                                            </div>
-                                        )}
-                                        {status == "Upcoming" && (
-                                            <div
-                                                className="flex justify-end mt-[10px] text-center"
-                                                style={{ zIndex: "10" }}
-                                            >
-                                                <span className="text-[15px] text-gray-400 text-center">
-                                                    You can start minting the NFTs once it gets live
-                                                </span>
-                                            </div>
-                                        )}
-                                        {status == "Ended" && (
-                                            <div
-                                                className="flex justify-end mt-[10px] text-center"
-                                                style={{ zIndex: "10" }}
-                                            >
-                                                <span className="text-[15px] text-gray-400 text-center">
-                                                    All {launchSlug?.name} got sold out in few hours
-                                                </span>
-                                            </div>
-                                        )}
-                                        {status == "Sold Out" && (
-                                            <div
-                                                className="flex justify-end mt-[10px] text-center"
-                                                style={{ zIndex: "10" }}
-                                            >
-                                                <span className="text-[15px] text-gray-400 text-center">
-                                                    All {launchSlug?.name} got sold out in few hours
-                                                </span>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -831,8 +627,8 @@ const launchpad = ({
                                     <div className="modal-body p-6">
                                         <div className="mb-2 flex items-center justify-between">
                                             <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
-                                                You have successfully minted the {launchSlug?.name} NFT for{" "}
-                                                {launchSlug?.mintPrice} VENOM. <br /> View your profile to see the
+                                                You have successfully minted the {collectionData?.name} NFT for{" "}
+                                                {collectionData?.mintPrice} VENOM. <br /> View your profile to see the
                                                 minted NFT 🤗
                                             </span>
                                         </div>
@@ -851,7 +647,7 @@ const launchpad = ({
                                         </div>
                                         <div className="flex items-center justify-center space-x-4 m-2">
                                             <a
-                                                href={`https://twitter.com/intent/tweet?text=Just%20minted%20${launchSlug?.name}%20NFT%20via%20venomart%20NFT%20launchpad%20%F0%9F%94%A5%0AVery%20smooth%20minting,%20great%20experience%20%F0%9F%98%84%0AHere%20you%20go%20-%20${webURL}launchpad/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
+                                                href={`https://twitter.com/intent/tweet?text=Just%20minted%20${collectionData?.name}%20NFT%20via%20venomart%20NFT%20launchpad%20%F0%9F%94%A5%0AVery%20smooth%20minting,%20great%20experience%20%F0%9F%98%84%0AHere%20you%20go%20-%20${webURL}launchpad/${slug}%0A%23NFT%20%23venomartNFTs%20%23venomart%20%23Venom%20%23VenomBlockchain`}
                                                 target="_blank"
                                                 className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
@@ -869,5 +665,23 @@ const launchpad = ({
         </div>
     );
 };
+
+export async function getServerSideProps(context) {
+    const slug = context.query.slug;
+    let LaunchData;
+    if (context.req.headers.host.includes("localhost")) {
+        const collectionDataProps = await (await fetch(`http://localhost:3000/api/launchpad/slug_launchpad?name=${slug}`)).json();
+        LaunchData = collectionDataProps.data;
+    }
+    else {
+        const collectionDataProps = await (await fetch(`https://venomart.io/api/launchpad/slug_launchpad?name=${slug}`)).json();
+        LaunchData = collectionDataProps.data;
+    }
+    return {
+        props: {
+            LaunchData
+        },
+    };
+}
 
 export default launchpad;

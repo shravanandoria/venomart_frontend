@@ -115,6 +115,10 @@
   width: 700px;
 }
 
+.launchpadPhasesFont {
+  font-family: Poppins, sans-serif;
+}
+
 .pagination {
   display: flex;
   flex-wrap: wrap;
@@ -143,6 +147,14 @@
   border-color: #101010;
   background: #835bfb;
   color: #eee;
+}
+
+.textDotStyleTitle {
+  text-align: center;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }
 
 .textDotStyle {
@@ -216,6 +228,28 @@
 .propertyDisplayDiv .modal-body {
   height: 300px;
   overflow-y: scroll;
+}
+
+.editDisplayDiv {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 35;
+  width: 90%;
+  height: 90%;
+  overflow-y: scroll;
+  border: 3px solid #b8a1fd;
+  border-radius: 15px;
+}
+
+.editDisplayDiv .editDisplayDivClose {
+  display: flex;
+  justify-content: end;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  right: 10%;
 }
 
 .backgroundModelBlur {
@@ -419,9 +453,9 @@
 .stickyFilterDivExplore {
   position: -webkit-sticky;
   position: sticky;
-  top: 60px;
+  top: 75px;
   z-index: 15;
-  padding-top: 15px;
+  padding-top: 22px;
   padding-bottom: 1px;
 }
 
@@ -439,7 +473,7 @@
 .collectionFilterDiv {
   position: -webkit-sticky;
   position: sticky;
-  top: 75px;
+  top: 95px;
   z-index: 15;
   display: flex;
   justify-content: space-around;
@@ -623,6 +657,16 @@
   width: 440px;
 }
 
+@media (max-width: 420px) {
+  .heroSectionFeatureCard {
+    bottom: 3%;
+    right: 4%;
+    transform: translate(-4%, -3%);
+    max-width: 290px;
+    max-height: 120px;
+  }
+}
+
 @media (max-width: 550px) {
   .heroSectionFeatureCard {
     bottom: 3%;
@@ -633,6 +677,9 @@
   .heroSectionFeatureCardSection {
     width: 100%;
     height: 350px;
+  }
+  .footerHideMobile {
+    display: none;
   }
 }
 @media (max-width: 875px) {

@@ -15,6 +15,8 @@ export const create_collection = async (data) => {
     socials: [data.website, data.twitter, data.discord, data.telegram],
     isVerified: data.isVerified,
     isPropsEnabled: data.isPropsEnabled,
+    isFeatured: data.isFeatured,
+    isTrading: data.isTrading,
     description: data.description,
     Category: data.Category ? data.Category : "",
     TotalSupply: data.TotalSupply ? data.TotalSupply : 0
@@ -26,6 +28,19 @@ export const create_collection = async (data) => {
       method: "POST",
       data: { ...obj },
     });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const edit_collection_settings = async (data) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/slug_collection",
+      method: "PUT",
+      data: { data },
+    });
+    return res.data;
   } catch (error) {
     console.log(error.message);
   }
@@ -116,6 +131,19 @@ export const update_collection_supply = async (contractAddress, TotalSupply) => 
   }
 };
 
+export const compute_rarity = async (collection_id) => {
+  try {
+    const res = await axios({
+      url: "/api/collection/compute_rarity",
+      method: "PUT",
+      data: { collection_id },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const get_collections = async (category, sortby, option, skip) => {
   try {
     const res = await axios({
@@ -144,6 +172,18 @@ export const top_collections = async (category, collection_status, duration) => 
   try {
     const res = await axios({
       url: `/api/collection/top_collections?category=${category}&collection_status=${collection_status}&duration=${duration}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const featured_collections = async () => {
+  try {
+    const res = await axios({
+      url: `/api/collection/featured_collections`,
       method: "GET",
     });
     return res.data.data;

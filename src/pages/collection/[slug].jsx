@@ -20,6 +20,8 @@ import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import {
+  compute_rarity,
+  edit_collection_settings,
   get_collection_by_contract,
   get_collection_props,
   update_collection_supply,
@@ -41,6 +43,7 @@ import PropertyModal from "../../components/modals/PropertyModal";
 import numeral from "numeral";
 // import { TonClientContext } from "../../context/tonclient";
 import { IoHandLeftOutline } from "react-icons/io5";
+import { useStorage } from "@thirdweb-dev/react";
 
 const Collection = ({
   blockURL,
@@ -56,9 +59,13 @@ const Collection = ({
   vnmBalance,
   connectWallet,
   EnableNFTCancel,
-  EnableNFTSale
+  EnableNFTSale,
+  adminAccount,
+  collectionData
 }) => {
   const router = useRouter();
+  const storage = useStorage();
+
   const { slug } = router.query;
 
   const [loading, setLoading] = useState(false);
@@ -115,7 +122,80 @@ const Collection = ({
   const [buyModal, setBuyModal] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [transactionType, setTransactionType] = useState("");
+  const [collectionSettingUpdated, setCollectionSettingUpdated] = useState(false);
+
+  const [preview, set_preview] = useState({ logo: "", coverImage: "" });
+
+  // edit collection 
+  const [data, set_data] = useState({
+    contractAddress: "",
+    royaltyAddress: "",
+    name: "",
+    logo: "",
+    coverImage: "",
+    website: "",
+    twitter: "",
+    discord: "",
+    telegram: "",
+    isNSFW: false,
+    isVerified: true,
+    isPropsEnabled: true,
+    isFeatured: false,
+    isTrading: true,
+    Category: "",
+    description: "",
+  });
+
+  const handleChange = (e) => {
+    set_data({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleCheckChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    set_data({
+      ...data,
+      [e.target.name]: value,
+    });
+  };
+
+  const handle_submit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    let obj = {
+      ...data,
+    };
+
+    if (typeof data.coverImage === "object") {
+      let ipfs_coverImg = await storage?.upload(data.coverImage);
+      obj.coverImage = ipfs_coverImg;
+    }
+    if (typeof data.logo === "object") {
+      let ipfs_logo = await storage?.upload(data.logo);
+      obj.logo = ipfs_logo;
+    }
+
+    const updatedSettings = await edit_collection_settings(obj);
+    if (updatedSettings) {
+      setCollectionSettingUpdated(true);
+    }
+    setLoading(false);
+  };
+
+  const computeRarity = async (collection_id) => {
+    if (!collection_id) return;
+    setLoading(true);
+    const compute = await compute_rarity(collection_id);
+    if (compute) {
+      router.reload();
+    }
+    setLoading(false);
+  }
 
   // chartdata
   const salesData = {
@@ -341,6 +421,29 @@ const Collection = ({
     const res = await get_collection_by_contract(slug);
     if (res) {
       set_collection(res?.data);
+      set_preview({
+        ...preview,
+        logo: res?.data?.logo,
+        coverImage: res?.data?.coverImage,
+      });
+      set_data({
+        contractAddress: res?.data?.contractAddress,
+        royaltyAddress: res?.data?.royaltyAddress,
+        logo: res?.data?.logo,
+        name: res?.data?.name,
+        coverImage: res?.data?.coverImage,
+        website: res?.data?.socials[0],
+        twitter: res?.data?.socials[1],
+        discord: res?.data?.socials[2],
+        telegram: res?.data?.socials[3],
+        isNSFW: res?.data?.isNSFW,
+        isVerified: res?.data?.isVerified,
+        isPropsEnabled: res?.data?.isPropsEnabled,
+        isFeatured: res?.data?.isFeatured,
+        isTrading: res?.data?.isTrading,
+        Category: res?.data?.Category,
+        description: res?.data?.description,
+      });
     }
     setLoading(false);
   };
@@ -660,18 +763,32 @@ const Collection = ({
   return (
     <div className={`${theme}`}>
       <Head>
-        <title>{`${collection?.name ? collection?.name : "Collection"} - Venomart Marketplace`}</title>
+        <title>{`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${collection?.description
-            ? collection?.description
+          content={`${collectionData?.description
+            ? collectionData?.description
             : "Explore, Create and Experience exculsive NFTs on Venomart"
             } | Powered by Venom Blockchain`}
         />
         <meta
           name="keywords"
-          content={`${collection?.name}, ${collection?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom testnet`}
+          content={`${collectionData?.name}, ${collectionData?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom, venom network nfts, venom nfts`}
         />
+
+        <meta property="og:title" content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${collectionData?.description ? collectionData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta property="og:image" content={`${collectionData?.coverImage ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta property="og:url" content={"https://venomart.io/"} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`} />
+        <meta name="twitter:description" content={`${collectionData?.description ? collectionData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
+        <meta name="twitter:image" content={`${collectionData?.coverImage ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta name="twitter:site" content="@venomart23" />
+        <meta name="twitter:creator" content="@venomart23" />
+
+        <meta name="robots" content="INDEX,FOLLOW" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/fav.webp" />
       </Head>
@@ -679,6 +796,8 @@ const Collection = ({
       {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {cancelModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
+
+      {!loading && (editModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>)}
 
       {propertyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
@@ -706,6 +825,15 @@ const Collection = ({
                 alt="banner"
                 className="h-[18.75rem] w-[100%] object-cover"
               />
+            )}
+            {(adminAccount.includes(signer_address) || (signer_address == collection?.creatorAddress)) && (
+              <div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
+                <div className="group absolute right-0 bottom-2 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
+                  <span className="mt-0.5 block group-hover:text-white">
+                    Collection Settings ⚙️
+                  </span>
+                </div>
+              </div>
             )}
           </div>
 
@@ -894,11 +1022,7 @@ const Collection = ({
                     collection?.description
                   ) : (
                     <div>
-                      This collection is tracked but not verified on Venomart. If you are the owner, you can{" "}
-                      <a href="https://forms.gle/UtYWWkhsBYG9ZUjD8" target="_blank" className="text-blue-500">
-                        submit
-                      </a>{" "}
-                      it for approval now!
+                      This collection is tracked but not verified on Venomart. If you are the owner, you can contact us for the approval now!
                     </div>
                   )}
                 </div>
@@ -1321,10 +1445,16 @@ const Collection = ({
                                   <span className="text-jacarta-700 dark:text-white">Owned By You</span>
                                 )}
                                 {currentFilter == "lowToHigh" && (
-                                  <span className="text-jacarta-700 dark:text-white">Low To High</span>
+                                  <span className="text-jacarta-700 dark:text-white">Price: Low To High</span>
                                 )}
                                 {currentFilter == "highToLow" && (
-                                  <span className="text-jacarta-700 dark:text-white">High To Low</span>
+                                  <span className="text-jacarta-700 dark:text-white">Price: High To Low</span>
+                                )}
+                                {currentFilter == "rankLowToHigh" && (
+                                  <span className="text-jacarta-700 dark:text-white">Rank: Low To High</span>
+                                )}
+                                {currentFilter == "rankHighToLow" && (
+                                  <span className="text-jacarta-700 dark:text-white">Rank: High To Low</span>
                                 )}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1411,6 +1541,58 @@ const Collection = ({
                                   >
                                     Owned By You
                                     {currentFilter == "ownedBy" && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("rankLowToHigh"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
+                                    Rank: Low To High
+                                    {currentFilter == "rankLowToHigh" && (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                      >
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                      </svg>
+                                    )}
+                                  </button>
+                                  <button
+                                    onClick={() => (
+                                      setSkip(0),
+                                      setHasMore(true),
+                                      setMinPrice(0),
+                                      setMaxPrice(0),
+                                      setDefaultFilterFetch(true),
+                                      setCurrentFilter("rankHighToLow"),
+                                      showListedFilter(false)
+                                    )}
+                                    className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                  >
+                                    Rank: High To Low
+                                    {currentFilter == "rankHighToLow" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -1564,6 +1746,7 @@ const Collection = ({
                                 Name={e?.name}
                                 Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
                                 listedBool={e?.isListed}
+                                rank={e?.rank}
                                 listingPrice={e?.listingPrice}
                                 NFTCollectionAddress={e?.NFTCollection?.contractAddress}
                                 Description={e?.description}
@@ -1610,6 +1793,7 @@ const Collection = ({
                                       Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
                                       Owner={e?.ownerAddress}
                                       signerAddress={signer_address}
+                                      rank={e?.rank}
                                       listedBool={e?.isListed}
                                       listingPrice={e?.listingPrice}
                                       NFTCollectionAddress={e?.NFTCollection?.contractAddress}
@@ -2229,158 +2413,648 @@ const Collection = ({
             )}
           </section>
 
-          {/* propertyModal  */}
-          {propertyModal && (
-            <div className="propertyDisplayDiv">
-              <div className="modal-dialog max-w-md">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="propertiesModalLabel">
-                      Properties
-                    </h5>
-                    <button
-                      onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
+          {/* edit collection setting modal  */}
+          {editModal &&
+            <div className="editDisplayDiv">
+              <form
+                onSubmit={handle_submit}
+                className="pb-8 dark:bg-jacarta-900 bg-white editDisplayForm"
+              >
+                <div className="editDisplayDivClose">
+                  <button
+                    onClick={() => (setAnyModalOpen(false), setEditModal(false))}
+                    type="button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="h-10 w-10 fill-jacarta-700 dark:fill-white mt-6 mr-6"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
-                      >
-                        <path fill="none" d="M0 0h24v24H0z" />
-                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                      </svg>
-                    </button>
-                  </div>
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                    </svg>
+                  </button>
+                </div>
 
-                  <div className="modal-body">
-                    {propLoading ? (
-                      <div
-                        className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                        style={{ alignItems: "center" }}
+                {collectionSettingUpdated &&
+                  <div className="px-8 py-6 bg-green-600 text-white flex justify-between rounded">
+                    <div className="flex items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-6" viewBox="0 0 20 20" fill="currentColor">
+                        <path
+                          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
+                        />
+                      </svg>
+                      <p>Successfully updated the settings!</p>
+                    </div>
+                  </div>
+                }
+
+                <div className="container">
+                  <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                    Collection settings ⚙️
+                  </h1>
+                  <div className="mx-auto max-w-[48.125rem]">
+                    {/* <!-- Logo Upload --> */}
+                    <div className="mb-6">
+                      <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                        Logo (130x130)
+                        <span className="text-red">*</span>
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        Drag or choose your file to upload
+                      </p>
+
+                      {/* new input  */}
+                      <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                        {preview?.logo ? (
+                          <img src={preview?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")} className="h-24 rounded-lg" />
+                        ) : (
+                          <div className="relative z-10 cursor-pointer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                            </svg>
+                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
+                              JPG, PNG. Max size: 15 MB
+                            </p>
+                          </div>
+                        )}
+                        {!preview?.logo && (
+                          <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                        )}
+
+                        <input
+                          onChange={(e) => {
+                            if (!e.target.files[0]) return;
+                            set_preview({
+                              ...preview,
+                              logo: URL.createObjectURL(e.target.files[0]),
+                            });
+                            set_data({ ...data, logo: e.target.files[0] });
+                          }}
+                          type="file"
+                          name="logo"
+                          accept="image/*,video/*"
+                          id="file-upload"
+                          className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                        />
+                      </div>
+                    </div>
+
+                    {/* <!-- Cover Upload --> */}
+                    <div className="mb-6">
+                      <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                        Cover Image (1375x300)
+                        <span className="text-red">*</span>
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        Drag or choose your file to upload
+                      </p>
+
+                      <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                        {preview?.coverImage ? (
+                          <img src={preview?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")} className="h-44 rounded-lg " />
+                        ) : (
+                          <div className="relative z-10 cursor-pointer">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                            </svg>
+                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
+                              JPG, PNG, GIF, SVG. Max size: 40 MB
+                            </p>
+                          </div>
+                        )}
+                        {!preview?.coverImage && (
+                          <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                        )}
+
+                        <input
+                          onChange={(e) => {
+                            if (!e.target.files[0]) return;
+                            set_preview({
+                              ...preview,
+                              coverImage: URL.createObjectURL(e.target.files[0]),
+                            });
+                            set_data({ ...data, coverImage: e.target.files[0] });
+                          }}
+                          type="file"
+                          name="coverImage"
+                          accept="image/*,video/*"
+                          id="file-upload"
+                          className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                        />
+                      </div>
+                    </div>
+
+                    {/* <!-- Name --> */}
+                    <div className="mb-6">
+                      <label
+                        htmlFor="item-name"
+                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
                       >
-                        <div className="flex space-x-2">
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        Collection Name<span className="text-red">*</span>
+                      </label>
+                      {adminAccount.includes(signer_address) ?
+                        <input
+                          onChange={handleChange}
+                          type="text"
+                          name="name"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          value={data?.name}
+                        />
+                        :
+                        <input
+                          type="text"
+                          name="name"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          value={data?.name}
+                          readOnly
+                          disabled
+                        />
+                      }
+                    </div>
+
+                    {/* <!-- Description --> */}
+                    <div className="mb-6">
+                      <label
+                        htmlFor="item-description"
+                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                      >
+                        Description
+                        <span className="text-red">*</span>
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        The description will be the collection description.
+                      </p>
+                      <textarea
+                        onChange={handleChange}
+                        name="description"
+                        id="item-description"
+                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
+                        rows="4"
+                        required
+                        placeholder="Provide a detailed description of your collection."
+                        value={data?.description}
+                      ></textarea>
+                    </div>
+
+                    {/* <!-- Category --> */}
+                    <div className="mb-6">
+                      <label
+                        htmlFor="item-description"
+                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                      >
+                        Category
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        select a suitable category for your collection
+                      </p>
+                      <select
+                        name="Category"
+                        onChange={handleChange}
+                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
+                        defaultValue={data?.Category}
+                      >
+                        <option value={data?.Category}>
+                          {data?.Category}
+                        </option>
+                        <option value={"Collectibles"}>
+                          Collectibles
+                        </option>
+                        <option value={"Art"}>
+                          Art
+                        </option>
+                        <option value={"Games"}>
+                          Games
+                        </option>
+                        <option value={"Memes"}>
+                          Memes
+                        </option>
+                        <option value={"Utility"}>
+                          Utility
+                        </option>
+                      </select>
+                    </div>
+
+                    {/* royalty address  */}
+                    <div className="mb-6">
+                      <label
+                        htmlFor="item-name"
+                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                      >
+                        Royalty Address<span className="text-red">*</span>
+                      </label>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">
+                        Creator will get his royalty commissions on royalty address
+                      </p>
+                      <input
+                        onChange={handleChange}
+                        name="royaltyAddress"
+                        type="text"
+                        id="item-name"
+                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
+                        placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                        required
+                        value={data?.royaltyAddress}
+                      />
+                    </div>
+
+                    {/* website & twitter  */}
+                    <div className="mb-6 flex justify-start flex-wrap">
+                      <div className="w-[350px] m-3 mr-6">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Official Website
+                        </label>
+                        <input
+                          onChange={handleChange}
+                          name="website"
+                          type="text"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          placeholder="Enter website URL"
+                          value={data?.website}
+                        />
+                      </div>
+                      <div className="w-[350px] m-3">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Official Twitter
+                        </label>
+                        <input
+                          onChange={handleChange}
+                          name="twitter"
+                          type="text"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          placeholder="Enter twitter URL"
+                          value={data?.twitter}
+                        />
+                      </div>
+                    </div>
+
+                    {/* discord & telegram */}
+                    <div className="mb-6 flex justify-start flex-wrap">
+                      <div className="w-[350px] m-3 mr-6">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Official Discord
+                        </label>
+                        <input
+                          onChange={handleChange}
+                          name="discord"
+                          type="text"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          placeholder="Enter discord URL"
+                          value={data?.discord}
+                        />
+                      </div>
+                      <div className="w-[350px] m-3">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Official Telegram
+                        </label>
+                        <input
+                          onChange={handleChange}
+                          name="telegram"
+                          type="text"
+                          id="item-name"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          placeholder="Enter telegram URL"
+                          value={data?.telegram}
+                        />
+                      </div>
+                    </div>
+
+                    {/* trading and feature  */}
+                    <div className="mb-6 flex justify-start flex-wrap">
+                      <div className=" m-3 mr-12">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Enable Trading
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          If checked trading will be enabled instantly
+                        </p>
+                        <input type="checkbox" name="isTrading" value={data?.isTrading} checked={data?.isTrading} onChange={handleCheckChange} />
+                      </div>
+                      <div className=" m-3">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Enable Properties Filter
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          If checked properties filter will be displayed
+                        </p>
+                        <input type="checkbox" name="isPropsEnabled" value={data?.isPropsEnabled} checked={data?.isPropsEnabled} onChange={handleCheckChange} />
+                      </div>
+                    </div>
+
+                    {/* compute rarity */}
+                    <div className="mb-6 flex justify-start flex-wrap">
+                      <div className=" m-3 mr-12">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Compute Rarity
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          Your NFTs will show rank once you compute it (compute only when all NFTs are minted)**
+                        </p>
+                        <div onClick={() => computeRarity(collection?._id)} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                          <span className="mt-0.5 block group-hover:text-white">
+                            Compute Rarity 🌟
+                          </span>
                         </div>
                       </div>
-                    ) : (
-                      <div className="accordion" id="accordionProps">
-                        {property_traits == "" ? (
-                          <div
-                            className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                            style={{ alignItems: "center" }}
-                          >
-                            <h5 className="modal-title" id="propertiesModalLabel">
-                              No Traits Found!
-                            </h5>
-                          </div>
-                        ) : (
-                          <PropertyModal
-                            property_traits={property_traits}
-                            propsFilter={propsFilter}
-                            setPropsFilter={setPropsFilter}
-                            setDefaultFilterFetch={setDefaultFilterFetch}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className="modal-footer">
-                    {property_traits == "" ? (
-                      <div className="flex items-center justify-center space-x-4">
-                        <button
-                          onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                    {/* status and props  */}
+                    {adminAccount.includes(signer_address) &&
+                      (<div className="mb-6 flex justify-start flex-wrap">
+                        <div className=" m-3 mr-12">
+                          <label
+                            htmlFor="item-name"
+                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                          >
+                            Verify collection
+                          </label>
+                          <input type="checkbox" name="isVerified" value={data?.isVerified} checked={data?.isVerified} onChange={handleCheckChange} />
+                        </div>
+                        <div className=" m-3">
+                          <label
+                            htmlFor="item-name"
+                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                          >
+                            Feature collection ?
+                          </label>
+                          <input type="checkbox" name="isFeatured" value={data?.isFeatured} checked={data?.isFeatured} onChange={handleCheckChange} />
+                        </div>
+                        <div className=" m-3">
+                          <label
+                            htmlFor="item-name"
+                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                          >
+                            is NSFW ?
+                          </label>
+                          <input type="checkbox" name="isNSFW" value={data?.isNSFW} checked={data?.isNSFW} onChange={handleCheckChange} />
+                        </div>
+                      </div>)
+                    }
+
+                    {/* <!-- Submit nft form --> */}
+                    <button
+                      type="submit"
+                      className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white transition-all cursor-pointer"
+                    >
+                      Save Settings
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          }
+
+          {/* propertyModal  */}
+          {
+            propertyModal && (
+              <div className="propertyDisplayDiv">
+                <div className="modal-dialog max-w-md">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="propertiesModalLabel">
+                        Properties
+                      </h5>
+                      <button
+                        onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className="h-6 w-6 fill-jacarta-700 dark:fill-white"
                         >
-                          Close
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center space-x-4">
-                        <button
-                          onClick={() => (
-                            setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="modal-body">
+                      {propLoading ? (
+                        <div
+                          className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                          style={{ alignItems: "center" }}
+                        >
+                          <div className="flex space-x-2">
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="accordion" id="accordionProps">
+                          {property_traits == "" ? (
+                            <div
+                              className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                              style={{ alignItems: "center" }}
+                            >
+                              <h5 className="modal-title" id="propertiesModalLabel">
+                                No Traits Found!
+                              </h5>
+                            </div>
+                          ) : (
+                            <PropertyModal
+                              property_traits={property_traits}
+                              propsFilter={propsFilter}
+                              setPropsFilter={setPropsFilter}
+                              setDefaultFilterFetch={setDefaultFilterFetch}
+                            />
                           )}
-                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                        >
-                          Clear All
-                        </button>
-                        <button
-                          onClick={() => (
-                            setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
-                          )}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                        >
-                          Apply
-                        </button>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="modal-footer">
+                      {property_traits == "" ? (
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            onClick={() => (
+                              setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                            )}
+                            className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                          >
+                            Clear All
+                          </button>
+                          <button
+                            onClick={() => (
+                              setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                            )}
+                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          }
 
           {/* buy modal  */}
-          {buyModal && (
-            <BuyModal
-              formSubmit={buy_NFT_}
-              setBuyModal={setBuyModal}
-              setAnyModalOpen={setAnyModalOpen}
-              NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              NFTName={selectedNFT?.name}
-              NFTListingPrice={selectedNFT?.listingPrice}
-              actionLoad={actionLoad}
-            />
-          )}
+          {
+            buyModal && (
+              <BuyModal
+                formSubmit={buy_NFT_}
+                setBuyModal={setBuyModal}
+                setAnyModalOpen={setAnyModalOpen}
+                NFTImage={selectedNFT?.nft_image}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+                NFTName={selectedNFT?.name}
+                NFTRank={selectedNFT?.rank}
+                NFTListingPrice={selectedNFT?.listingPrice}
+                actionLoad={actionLoad}
+              />
+            )
+          }
 
           {/* cancel modal  */}
-          {cancelModal && (
-            <CancelModal
-              formSubmit={cancelNFT}
-              setCancelModal={setCancelModal}
-              setAnyModalOpen={setAnyModalOpen}
-              NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              NFTName={selectedNFT?.name}
-              actionLoad={actionLoad}
-            />
-          )}
+          {
+            cancelModal && (
+              <CancelModal
+                formSubmit={cancelNFT}
+                setCancelModal={setCancelModal}
+                setAnyModalOpen={setAnyModalOpen}
+                NFTImage={selectedNFT?.nft_image}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+                NFTName={selectedNFT?.name}
+                actionLoad={actionLoad}
+              />
+            )
+          }
 
           {/* success modal  */}
-          {successModal && (
-            <SuccessModal
-              setSuccessModal={setSuccessModal}
-              setAnyModalOpen={setAnyModalOpen}
-              onCloseFunctionCall={fetch_nfts_success}
-              TransactionType={transactionType}
-              NFTImage={selectedNFT?.nft_image}
-              NFTAddress={selectedNFT?.NFTAddress}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              NFTListingPrice={selectedNFT?.listingPrice}
-              NFTName={selectedNFT?.name}
-              actionLoad={actionLoad}
-            />
-          )}
-        </div>
-      )}
-    </div>
+          {
+            successModal && (
+              <SuccessModal
+                setSuccessModal={setSuccessModal}
+                setAnyModalOpen={setAnyModalOpen}
+                onCloseFunctionCall={fetch_nfts_success}
+                TransactionType={transactionType}
+                NFTImage={selectedNFT?.nft_image}
+                NFTAddress={selectedNFT?.NFTAddress}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                NFTListingPrice={selectedNFT?.listingPrice}
+                NFTName={selectedNFT?.name}
+                actionLoad={actionLoad}
+              />
+            )
+          }
+        </div >
+      )
+      }
+    </div >
   );
 };
+
+export async function getServerSideProps(context) {
+  const slug = context.query.slug;
+  let collectionData;
+  if (context.req.headers.host.includes("localhost")) {
+    const collectionDataProps = await (await fetch(`http://localhost:3000/api/collection/slug_collection?contractAddress=${slug}`)).json();
+    collectionData = collectionDataProps.data;
+  }
+  else {
+    const collectionDataProps = await (await fetch(`https://venomart.io/api/collection/slug_collection?contractAddress=${slug}`)).json();
+    collectionData = collectionDataProps.data;
+  }
+  return {
+    props: {
+      collectionData
+    },
+  };
+}
 
 export default Collection;

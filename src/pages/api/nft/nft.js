@@ -151,6 +151,7 @@ export default async function handler(req, res) {
             username: user?.user_name,
             userProfileImage: user?.profileImage,
             rarityScore: parseFloat(rarityScore.toFixed(2)),
+            rank: nft.rank,
             attributes: nft.NFTCollection.isPropsEnabled ? updatedAttributes : nft.attributes,
             moreNFTs: moreNFTs
           };

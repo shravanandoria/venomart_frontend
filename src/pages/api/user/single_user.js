@@ -1,22 +1,21 @@
 import dbConnect from "../../../lib/dbConnect";
-import Launchpad from "../../../Models/Launchpad";
+import User from "../../../Models/User";
 import limiter from "../limiter";
 
 export default async function handler(req, res) {
-    const { method } = req;
-
     await dbConnect();
+    const { method } = req;
 
     limiter(req, res, async () => {
         switch (method) {
             case "GET":
-                try {
-                    const { name } = req.query;
-                    const launchpadData = await Launchpad.findOne({ pageName: name });
+                const { wallet_address } = req.query;
 
-                    res.status(200).json({ success: true, data: launchpadData });
+                try {
+                    const user = await User.find({ wallet_id: wallet_address });
+                    res.status(200).json({ success: true, data: user });
                 } catch (error) {
-                    res.status(400).json({ success: false, data: error.message });
+                    res.status(500).json({ success: false, message: "An error occurred" });
                 }
                 break;
             default:

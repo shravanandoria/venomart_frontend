@@ -5,12 +5,12 @@ import { TonClientContextProvider } from "../context/tonclient";
 // components
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
 // styles
 import "../styles/globals.css";
 import "../styles/custom.css";
 import "../styles/tailwind.css";
 import "../styles/Home.module.css";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -24,8 +24,6 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { useRouter } from "next/router";
 
-// import { ChakraProvider } from "@chakra-ui/react";
-
 export default function App({ Component, pageProps }) {
   const router = useRouter();
 
@@ -37,22 +35,18 @@ export default function App({ Component, pageProps }) {
   const webURL = "https://venomart.io/";
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
-  const defaultCollectionAddress = COLLECTION_ADDRESS;
   const defTheme = "light";
 
-  // other valuesgit
+  // other values
   const adminAccount = [
     "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
     "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
 
-  // enable mint nft and collection 
-  const MintNFTStatus = true;
-  const MintCollectionStatus = true;
-
   // enable trading on marketplace 
   const EnableMakeOffer = false;
+
   const EnableNFTCancel = true;
   const EnableNFTList = true;
   const EnableNFTSale = true;
@@ -69,37 +63,6 @@ export default function App({ Component, pageProps }) {
   const [cartNFTs, setCartNFTs] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
-
-  // featured collections
-  const featuredCollections = [
-    {
-      id: 1,
-      collectionName: "Venomons",
-      collectionAddress: "0:f269fddbe59ea50f57451d7434e411d4f6cfed9a1f8cda83f575263eae3095d9",
-      items: 1000,
-      coverImage: "https://ipfs.io/ipfs/QmedApN5MhBQhkXJKoD4RHrLq31Ho4xgJPZtyqCAbVtwTW/venomons.jpg",
-      collectionLogo: "https://ipfs.io/ipfs/QmZzvNhQbz8T5aRuBrjf44tAFYrWvjhwnU9kCDJBB4QMdw/logo.jpg",
-      className: "mb-6 md:flex md:w-1/2 md:items-center",
-    },
-    {
-      id: 2,
-      collectionName: "Venom Alligators",
-      collectionAddress: "0:c36c4939e3ae582f4e9f7215f36bc39e89a1796e6a32260dec762cf53c137dd2",
-      items: 2000,
-      coverImage: "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
-      collectionLogo: "https://ipfs.io/ipfs/QmUP4egVXhGqxdvVBbs95cdiBTV6R2ayRoHszcdcgZ7d1G/alilogo.gif",
-      className: "mb-6 md:flex md:w-1/2 md:items-center",
-    },
-  ];
-
-  // web stats
-  const websiteStats = [
-    {
-      nftCollection: 65,
-      mintedNFTs: 1243820,
-      mintVolume: 833780,
-    },
-  ];
 
   // copyURL function
   function copyURL() {
@@ -231,13 +194,11 @@ export default function App({ Component, pageProps }) {
         apiFetchURL={apiFetchURL}
         connectWallet={connect_wallet}
         onDisconnect={onDisconnect}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
         blockURL={blockURL}
         vnmBalance={vnmBalance}
         setVnmBalance={setVnmBalance}
+        adminAccount={adminAccount}
       />
-      {/* <ChakraProvider> */}
       <TonClientContextProvider config={config}>
         <Component
           {...pageProps}
@@ -246,19 +207,14 @@ export default function App({ Component, pageProps }) {
           apiFetchURL={apiFetchURL}
           venomProvider={venomProvider}
           signer_address={signer_address}
-          defaultCollectionAddress={defaultCollectionAddress}
           blockURL={blockURL}
           blockChain={blockChain}
           currency={currency}
           webURL={webURL}
           copyURL={copyURL}
           connectWallet={connect_wallet}
-          MintNFTStatus={MintNFTStatus}
-          MintCollectionStatus={MintCollectionStatus}
           EnableMakeOffer={EnableMakeOffer}
           adminAccount={adminAccount}
-          featuredCollections={featuredCollections}
-          websiteStats={websiteStats}
           topUsers={topUsers}
           setTopUsers={setTopUsers}
           anyModalOpen={anyModalOpen}
@@ -273,7 +229,6 @@ export default function App({ Component, pageProps }) {
           EnableNFTSale={EnableNFTSale}
         />
       </TonClientContextProvider>
-      {/* </ChakraProvider> */}
       <Footer
         cartNFTs={cartNFTs}
         setCartNFTs={setCartNFTs}
@@ -281,9 +236,6 @@ export default function App({ Component, pageProps }) {
         theme={theme}
         signer_address={signer_address}
         onDisconnect={onDisconnect}
-        adminAccount={adminAccount}
-        MintNFTStatus={MintNFTStatus}
-        MintCollectionStatus={MintCollectionStatus}
         venomPrice={venomPrice}
         venomTPS={venomTPS}
         venomProvider={venomProvider}

@@ -2,7 +2,6 @@ import { Address } from "everscale-inpage-provider";
 import indexAbi from "../../abi/Index.abi.json";
 import nftAbi from "../../abi/Nft.abi.json";
 import collectionAbi from "../../abi/CollectionDrop.abi.json";
-import marketplaceAbi from "../../abi/Marketplace.abi.json";
 import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
 import DirectSell from "../../new_abi/DirectSell.abi.json";
 import moment from "moment";
@@ -15,11 +14,8 @@ import {
   updateNFTSaleBulk,
 } from "./mongo_api/nfts/nfts";
 import { Subscriber, TvmException } from "everscale-inpage-provider";
-
 import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
-import MakeOfferABI from "../../new_abi/MakeOffer.abi.json";
 import { addOffer, getOfferWithOfferContract, removeAllOffers, updateOffer } from "./mongo_api/offer/offer";
-
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
 import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
@@ -28,31 +24,20 @@ import { create_collection } from "./mongo_api/collection/collection";
 import { addActivity } from "./mongo_api/activity/activity";
 
 // STRICT -- dont change this values, this values are used in transactions
-export const nft_minting_fees = 1000000000; //adding 9 zeros at the end makes it 1 venom
-export const collection_minting_fees = 3000000000;
 export const cancel_refundable_fees = 100000000;
 export const buy_refundable_fees = 1000000000;
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
-export const COLLECTION_ADDRESS = "0:332fea94780031e602c3362d89799a60424ccfeae769821d4907f69521d4c22b";
 
-export const MARKETPLACE_ADDRESS = "0:a8cb89e61f88965012e44df30ca2281ecf406c71167c6cd92badbb603107a55d";
-
-export const CollectionFactoryAddress = new Address(
-  "0:e96ae478d641837011b96d137a6b13a41429e5b62d51f40822b6ba44eba7e776",
-);
-
+// all contract address here down
 export const FactoryDirectSellAddress = new Address(
   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
 );
+// all contract address here up
 
-export const FactoryMakeOfferAddress = new Address(
-  "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
-);
-export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
-// Extract an preview field of NFT's json
+// ---- all functions used for rpc or graphql nft fetch ----
 export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
   const getJsonAnswer = await nftContract.methods.getJson({ answerId: 0 }).call();
@@ -61,7 +46,6 @@ export const getNftImage = async (provider, nftAddress) => {
   return json;
 };
 
-// Returns array with NFT's images urls
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
 
@@ -75,7 +59,6 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   return nfts;
 };
 
-// getting nft code hash
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
   const contract = new provider.Contract(collectionAbi, collectionAddress);
@@ -160,6 +143,16 @@ export const get_nft_by_address = async (provider, nft_address) => {
   return nft;
 };
 
+export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_nft_addr) => {
+  const addresses = await standaloneProvider.getAccountsByCodeHash({
+    codeHash,
+    continuation: last_nft_addr,
+    limit: 25,
+  });
+  return addresses;
+};
+// ---- all functions used for rpc or graphql nft fetch ----
+
 // getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
   const contract = new provider.Contract(DirectSell, new Address(nft_manager));
@@ -170,8 +163,6 @@ export const directSell_nft_info = async (provider, nft_manager) => {
 // Graphql Collection NFTs
 export const loadNFTs_collection = async (provider, collection_address, last_nft_addr, client, last_paid) => {
   try {
-    const contract = new provider.Contract(collectionAbi, new Address(COLLECTION_ADDRESS));
-
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
@@ -212,9 +203,6 @@ export const loadNFTs_collection = async (provider, collection_address, last_nft
 // load NFTs using RPC
 export const loadNFTs_collection_RPC = async (provider, collection_address, last_nft_addr) => {
   try {
-    const contract = new provider.Contract(collectionAbi, new Address(COLLECTION_ADDRESS));
-
-    const nft_ = await contract.methods.nftCodeHash({ answerId: 0 }).call();
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
       return;
@@ -331,15 +319,6 @@ export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) =
   }
 };
 
-export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_nft_addr) => {
-  const addresses = await standaloneProvider.getAccountsByCodeHash({
-    codeHash,
-    continuation: last_nft_addr,
-    limit: 25,
-  });
-  return addresses;
-};
-
 // creating nft in only DB
 export const create_nft_database = async (data, nft_address, signer_address) => {
   let obj = {
@@ -355,140 +334,6 @@ export const create_nft_database = async (data, nft_address, signer_address) => 
     signer_address: signer_address,
   };
   createNFT(obj);
-};
-
-// creat nft onchain
-export const create_nft = async (data, signer_address, venomProvider) => {
-  try {
-    const contract = new venomProvider.Contract(
-      collectionAbi,
-      new Address(data.collection ? data.collection : COLLECTION_ADDRESS),
-    );
-
-    // const subscriber = new Subscriber(venomProvider);
-    // const contractEvents = contract.events(subscriber);
-
-    // contractEvents.on(async (event) => {
-    //   let obj = {
-    //     NFTAddress: event.data.nft._address,
-    //     ownerAddress: signer_address,
-    //     managerAddress: signer_address,
-    //     imageURL: data.image,
-    //     metadata: data.image,
-    //     name: data.name,
-    //     description: data.description,
-    //     properties: data.properties,
-    //     NFTCollection: data.collection,
-    //     signer_address: signer_address,
-    //   };
-    //   const create = await createNFT(obj);
-    // });
-
-    const nft_json = JSON.stringify({
-      type: "Basic NFT",
-      name: data.name,
-      description: data.description,
-      preview: {
-        source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/png",
-      },
-      files: [
-        {
-          source: data.image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
-        },
-      ],
-      attributes: data.properties,
-      external_url: "https://venomart.io",
-    });
-
-    const outputs = await contract.methods
-      .mint({
-        _json: nft_json,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: "2000000000",
-      });
-    return true;
-  } catch (error) {
-    console.log(error.message);
-    return false;
-  }
-};
-
-// create collection
-export const create_main_collection = async (provider, signer_address, data) => {
-  try {
-    const contract = new provider.Contract(CollectionFactory, CollectionFactoryAddress);
-
-    const create_collection_db = async event => {
-      let obj = {
-        name: data.name,
-        contractAddress: event?.data?.new_collection?._address,
-        creatorAddress: signer_address,
-        royaltyAddress: data.royaltyAddress,
-        logo: data.logo,
-        coverImage: data.cover,
-        royalty: data.royalty,
-        socials: [data.website, data.twitter, data.discord, data.telegram],
-        isVerified: false,
-        isPropsEnabled: false,
-        description: data.description,
-        Category: data.category,
-        TotalSupply: data.max_supply,
-      };
-      const createColl = await create_collection(obj);
-    };
-
-    const subscriber = new Subscriber(provider);
-    const contractEvents = contract.events(subscriber);
-
-    contractEvents.on(async event => {
-      create_collection_db(event);
-    });
-
-    const nft_json = JSON.stringify({
-      type: "NFT Collection",
-      name: data.name,
-      description: data.description,
-      preview: {
-        source: data.logo.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/png",
-      },
-      files: [
-        {
-          source: data.cover.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/png",
-        },
-      ],
-      symbol: data.symbol,
-      external_url: data.external_url,
-    });
-
-    const fee = await contract.methods.get_create_collection_fees({ answerId: 0 }).call();
-
-    await contract.methods
-      .create_collection({
-        json: nft_json,
-        max_supply_: data.max_supply,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: fee.value0,
-      });
-
-    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await wait(5000);
-
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    console.log(error.message);
-    return false;
-  }
 };
 
 // checking launchpad minted status
@@ -534,51 +379,6 @@ export const create_launchpad_nft = async (data, signer_address, venomProvider) 
 
     return true;
   } catch (error) {
-    console.log(error.message);
-  }
-};
-
-// creating launchpad NFT testing
-export const create_launchpad_nft_latest = async (jsonURL, collection_address, signer_address, venomProvider) => {
-  try {
-    let nftData;
-    const response = await fetch(jsonURL);
-    if (response.ok) {
-      nftData = await response.json();
-    }
-
-    const contract = new venomProvider.Contract(collectionAbi, collection_address);
-
-    const { count: id } = await contract.methods.totalSupply({ answerId: 0 }).call();
-
-    const nft_json = JSON.stringify({
-      type: "NFT",
-      name: `${nftData.name}`,
-      description: nftData.description,
-      preview: {
-        source: nftData?.image?.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/gif",
-      },
-      files: [
-        {
-          source: jsonURL,
-          mimetype: "metadata/json",
-        },
-      ],
-      attributes: data.attributes,
-      external_url: "https://venomart.io/",
-    });
-
-    const outputs = await contract.methods.mint({ _json: nft_json }).send({
-      from: new Address(signer_address),
-      amount: (data.mintPrice * 1000000000).toString(),
-    });
-
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
     console.log(error.message);
   }
 };
@@ -706,26 +506,15 @@ export const cancel_listing = async (
     }
 
     const DirectSellContract = new venomProvider.Contract(
-      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
+      DirectSell,
       new Address(prev_nft_Manager),
     );
 
     let output;
-    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      output = await DirectSellContract.methods
-        .cancel_listing({
-          nft_address,
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: "100000000",
-        });
-    } else {
-      output = await DirectSellContract.methods.cancel_listing().send({
-        from: new Address(signer_address),
-        amount: "100000000",
-      });
-    }
+    output = await DirectSellContract.methods.cancel_listing().send({
+      from: new Address(signer_address),
+      amount: "100000000",
+    });
 
     if (output) {
       let obj = {
@@ -766,8 +555,6 @@ export const buy_nft = async (
   salePrice,
   price,
   signer_address,
-  royalty,
-  royalty_address,
   stampedFloor,
 ) => {
   try {
@@ -783,7 +570,7 @@ export const buy_nft = async (
     }
 
     const DirectSellContract = new venomProvider.Contract(
-      prev_nft_Manager == MARKETPLACE_ADDRESS ? marketplaceAbi : DirectSell,
+      DirectSell,
       new Address(prev_nft_Manager),
     );
 
@@ -800,28 +587,14 @@ export const buy_nft = async (
     });
 
     let output;
-    if (prev_nft_Manager == MARKETPLACE_ADDRESS) {
-      output = await DirectSellContract.methods
-        .buyNft({
-          sendRemainingGasTo: new Address(signer_address),
-          nft_address: new Address(nft_address),
-          royalty: royalty,
-          royalty_address: new Address(royalty_address),
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: fees,
-        });
-    } else {
-      output = await DirectSellContract.methods
-        .buyNft({
-          new_nft_holder: new Address(signer_address),
-        })
-        .send({
-          from: new Address(signer_address),
-          amount: fees,
-        });
-    }
+    output = await DirectSellContract.methods
+      .buyNft({
+        new_nft_holder: new Address(signer_address),
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: fees,
+      });
 
     if (output) {
       let obj = {
@@ -901,6 +674,14 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
+
+
+// -------------- offer feature starts here ----------------
+
+export const FactoryMakeOfferAddress = new Address(
+  "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
+);
+export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
 // make an offer on NFT
 export const MakeOpenOffer = async (
