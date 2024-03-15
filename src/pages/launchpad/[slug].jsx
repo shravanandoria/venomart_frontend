@@ -23,7 +23,7 @@ import { get_launchpad_by_name } from "../../utils/mongo_api/launchpad/launchpad
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
-import { get_total_minted } from "../../utils/launchpad_nft";
+import { get_phases_name, get_total_minted } from "../../utils/launchpad_nft";
 
 
 const launchpad = ({
@@ -79,9 +79,13 @@ const launchpad = ({
     }
 
     // smart contract functions here 
-    // const getMintedSupply = async () => {
-    //     const mintedSupply = get_total_minted();
-    // }
+    const getLaunchInfoFromContract = async () => {
+        // get minted supply 
+        const mintedSupply = get_total_minted(venomProvider, collectionData?.contractAddress);
+        setMintedNFTs(mintedSupply);
+    }
+
+
 
     useEffect(() => {
         if (!slug) return;

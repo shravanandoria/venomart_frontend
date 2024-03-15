@@ -24,6 +24,14 @@ const Launchpad = new mongoose.Schema({
   endDate: String,
   comments: String,
   jsonURL: String,
+  phases: [{
+    phaseName: String,
+    maxMint: String,
+    mintPrice: Number,
+    startDate: String,
+    EndDate: String,
+    EligibleWallets: [String]
+  }],
   status: {
     type: String,
     enum: ["upcoming", "live", "sold out", "ended"],

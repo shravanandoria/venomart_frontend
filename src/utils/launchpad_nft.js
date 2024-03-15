@@ -1,6 +1,6 @@
 import { Address } from "everscale-inpage-provider";
 import moment from "moment";
-// import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
+import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
 
 // extra amount for mint refundable 
 const extra_tokens = "100000000";
@@ -37,22 +37,22 @@ export const get_total_phases = async (provider, launchpad_address) => {
 };
 
 // main mint function to mint NFT 
-// export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, all_phases) => {
-//   const launchpad = launchpad_contract(provider, launchpad_address);
+export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, all_phases) => {
+  const launchpad = launchpad_contract(provider, launchpad_address);
 
-//   // Checks, current time fits in which phase, so that we can get the amount required to mint
-//   // if returned 0, means 1st phase has not started
-//   const current_phase = cal_current_phase(all_phases);
+  // Checks, current time fits in which phase, so that we can get the amount required to mint
+  // if returned 0, means 1st phase has not started
+  const current_phase = cal_current_phase(all_phases);
 
-//   const amount_to_mint = launchpad.methods
-//     .cal_minting_amount({ answerId: 0, amount: amount_to_mint, current_phase: current_phase })
-//     .call();
+  const amount_to_mint_ = launchpad.methods
+    .cal_minting_amount({ answerId: 0, amount: amount_to_mint, current_phase: current_phase })
+    .call();
 
-//   await launchpad.methods.mint({ amount: amount_to_mint }).send({
-//     from: new Address(signer_address),
-//     amount: amount_to_mint.value0 + extra_tokens,
-//   });
-// };
+  await launchpad.methods.mint({ amount: amount_to_mint }).send({
+    from: new Address(signer_address),
+    amount: amount_to_mint_.value0 + extra_tokens,
+  });
+};
 
 // get how many nfts user minted 
 export const get_address_mint_count = async (provider, launchpad_address, signer_address, all_phases) => {
@@ -138,3 +138,5 @@ export const get_total_minted = async (provider, launchpad_address) => {
 
   console.log({ res });
 };
+
+// get all phases mint price 
