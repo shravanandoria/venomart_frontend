@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useStorage } from "@thirdweb-dev/react";
 import { create_launchpad_collection } from "../../utils/mongo_api/launchpad/launchpad";
 
-const AddCollection = ({ theme, adminAccount, signer_address }) => {
+const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
     const storage = useStorage();
 
     const router = useRouter();
@@ -726,7 +726,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                                                                 ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                                                 }`}
-                                                                            placeholder="Max Mint"
+                                                                            placeholder="Max Mint Per Wallet"
                                                                         />
                                                                     </div>
                                                                 </div>
@@ -739,7 +739,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                                                             }
                                                                             value={data.phases[index].startDate}
                                                                             name="startDate"
-                                                                            type="date"
+                                                                            type="datetime-local"
                                                                             className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                                 ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
@@ -755,7 +755,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                                                             }
                                                                             value={data.phases[index].EndDate}
                                                                             name="EndDate"
-                                                                            type="date"
+                                                                            type="datetime-local"
                                                                             className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                                 ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
@@ -872,4 +872,4 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     );
 };
 
-export default AddCollection;
+export default CreateLaunch;
