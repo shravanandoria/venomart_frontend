@@ -86,7 +86,6 @@ const launchpad = ({
     }
 
 
-
     useEffect(() => {
         if (!slug) return;
         getLaunchpadData();

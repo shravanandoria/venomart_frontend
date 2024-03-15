@@ -41,11 +41,7 @@ export default async function handler(req, res) {
             isFeatured,
             maxSupply,
             jsonURL,
-            mintPrice,
-            comments,
             Category,
-            startDate,
-            endDate,
           } = req.body;
 
           // creating launchpad 
@@ -62,13 +58,9 @@ export default async function handler(req, res) {
             royalty,
             socials,
             maxSupply,
-            mintPrice,
             isActive,
             isVerified,
             isPropsEnabled,
-            startDate,
-            endDate,
-            comments,
             jsonURL,
             status: "upcoming"
           });
