@@ -18,13 +18,13 @@ import {
 } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { create_launchpad_nft } from "../../utils/user_nft";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
-import { has_minted } from "../../utils/user_nft";
 import { get_launchpad_by_name } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
+import { get_total_minted } from "../../utils/launchpad_nft";
+
 
 const launchpad = ({
     blockURL,
@@ -53,18 +53,6 @@ const launchpad = ({
     const [share, setShare] = useState(false);
     const [status, setStatus] = useState("Upcoming");
 
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-
-    const [startdays, setStartDays] = useState(0);
-    const [starthours, setStartHours] = useState(0);
-    const [startminutes, setStartMinutes] = useState(0);
-    const [startseconds, setStartSeconds] = useState(0);
-
-    const [enddays, setEndDays] = useState(0);
-    const [endhours, setEndHours] = useState(0);
-    const [endminutes, setEndMinutes] = useState(0);
-    const [endseconds, setEndSeconds] = useState(0);
     const [mintCount, setMintCount] = useState(1);
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -79,171 +67,24 @@ const launchpad = ({
         }
     };
 
-
     // connect wallet 
     const connect_wallet = async () => {
         const connect = await connectWallet();
     };
 
-    // setting up minting data 
-    const setMintingObjData = () => {
-        let obj = {
-            image: collectionData?.logo,
-            collectionName: collectionData?.name,
-            name: collectionData?.name,
-            description: collectionData?.description,
-            collectionAddress: collectionData?.contractAddress,
-            mintPrice: collectionData?.mintPrice,
-            properties: [
-                { trait_type: "Benifit", value: "Fee Discount" },
-                { trait_type: "Version", value: "Testnet" },
-            ],
-        }
-        set_data(obj);
-    }
-
     // getting launchpad data 
     const getLaunchpadData = async () => {
-        // getting launchpad data 
         const launchpaddata = await get_launchpad_by_name(slug);
-        console.log({ launchpaddata })
-        // setStatus(launchpaddata?.status);
         setCollectionData(launchpaddata);
-
-        // setting up count 
-        const parsedStartDate = moment(launchpaddata?.startDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
-        setStartDate(parsedStartDate);
-        const parsedEndDate = moment(launchpaddata?.endDate).format("MM/DD/YYYY HH:mm:ss [GMT]Z");
-        setEndDate(parsedEndDate);
     }
 
-    const getMintedSupply = async () => {
-        try {
-            setLoading(true);
-            const contract = new venomProvider.Contract(
-                collectionAbi,
-                collectionData?.contractAddress
-            );
-            const totalSupply = await contract.methods
-                .totalSupply({ answerId: 0 })
-                .call();
-            const mintedPercent = ((totalSupply.count * 100) / collectionData?.maxSupply).toFixed(0);
-            setMintedPercent(mintedPercent);
-            setMintedNFTs(totalSupply.count);
-            await wait(1000);
-            setLoading(false);
-        } catch (error) {
-            setMintedNFTs(0);
-            console.log(error.message);
-        }
-    }
-
-    // getting user minted or not data 
-    const get_user_Data = async () => {
-        if (signer_address == "") return;
-        const data = await has_minted(
-            collectionData?.contractAddress,
-            signer_address,
-            venomProvider
-        );
-        setCheckMint(data);
-    };
-
-    // final function to mint nft 
-    const mintLaunchNFT = async () => {
-        if (!signer_address) {
-            connect_wallet();
-            return;
-        }
-        setLoading(true);
-        const launchMint = await create_launchpad_nft(
-            data,
-            signer_address,
-            venomProvider
-        );
-        if (launchMint) {
-            setAfterMint(true);
-            setAnyModalOpen(true);
-            setMintLock(true);
-        }
-        setLoading(false);
-    };
-
-    // calculating live time here
-    useEffect(() => {
-        if (status == "Upcoming") {
-            const target = new Date(
-                `${startDate ? startDate : ""}`
-            );
-
-            const interval = setInterval(() => {
-                const now = new Date();
-                const difference = target.getTime() - now.getTime();
-
-                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-                setStartDays(d);
-
-                const h = Math.floor(
-                    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                );
-                setStartHours(h);
-
-                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                setStartMinutes(m);
-
-                const s = Math.floor((difference % (1000 * 60)) / 1000);
-                setStartSeconds(s);
-
-                if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                    setStatus("Live");
-                    const target = new Date(
-                        `${endDate ? endDate : ""}`
-                    );
-
-                    const interval = setInterval(() => {
-                        const now = new Date();
-                        const difference = target.getTime() - now.getTime();
-
-                        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-                        setEndDays(d);
-
-                        const h = Math.floor(
-                            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-                        );
-                        setEndHours(h);
-
-                        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                        setEndMinutes(m);
-
-                        const s = Math.floor((difference % (1000 * 60)) / 1000);
-                        setEndSeconds(s);
-
-                        if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-                            setStatus("Ended");
-                        }
-                    }, 1000);
-                    return () => clearInterval(interval);
-                }
-            }, 1000);
-            return () => clearInterval(interval);
-        }
-    }, [startDate, endDate]);
-
-
-    useEffect(() => {
-        if (!collectionData || !venomProvider) return;
-        // getMintedSupply();
-        setMintingObjData();
-    }, [venomProvider, collectionData]);
-
-    // useEffect(() => {
-    //     if (!signer_address || !venomProvider) return;
-    //     get_user_Data();
-    // }, [venomProvider, signer_address]);
+    // smart contract functions here 
+    // const getMintedSupply = async () => {
+    //     const mintedSupply = get_total_minted();
+    // }
 
     useEffect(() => {
         if (!slug) return;
-        // setLoading(true);
         getLaunchpadData();
     }, [slug]);
 
