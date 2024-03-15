@@ -35,7 +35,7 @@ export const launchpad_mint = async (provider, launchpad_address, signer_address
   const amount_to_mint = launchpad.methods
     .cal_minting_amount({ answerId: 0, amount: amount_to_mint, current_phase: current_phase })
     .call();
-
+  
   await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),
     amount: amount_to_mint.value0 + extra_tokens,

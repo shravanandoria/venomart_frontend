@@ -1,0 +1,376 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"codeNft","type":"cell"},
+				{"name":"codeIndex","type":"cell"},
+				{"name":"codeIndexBasis","type":"cell"},
+				{"name":"owner","type":"address"},
+				{"name":"remainOnNft","type":"uint128"},
+				{"name":"mintingFee","type":"uint128"},
+				{"name":"json","type":"string"},
+				{"name":"max_supply_","type":"uint128"},
+				{"name":"_metadata_updater","type":"address"},
+				{"name":"_total_phases","type":"uint8"},
+				{"name":"_phase_addrs","type":"address[][]"},
+				{"name":"_phase_start_time","type":"uint128"},
+				{"name":"_duration_each_phase","type":"uint128[]"},
+				{"name":"_max_mint_limit","type":"uint8[]"},
+				{"name":"_public_mint_deadline","type":"uint128"},
+				{"name":"_fee_receiver","type":"address"},
+				{"name":"_mintingPrice","type":"uint128[]"},
+				{"name":"_collection_owner","type":"address"},
+				{"name":"_phases_names","type":"string[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "codeDepth",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint16"}
+			]
+		},
+		{
+			"name": "update_phase_start_time",
+			"inputs": [
+				{"name":"new_time","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_duration_phase",
+			"inputs": [
+				{"name":"new_time","type":"uint128[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_metadata",
+			"inputs": [
+				{"name":"new_json","type":"string"},
+				{"name":"nft_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_mint_process_amount",
+			"inputs": [
+				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_remain_onNFT",
+			"inputs": [
+				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "mint",
+			"inputs": [
+				{"name":"json","type":"string"},
+				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "cal_minting_amount",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint256"}
+			]
+		},
+		{
+			"name": "change_feeReceiver",
+			"inputs": [
+				{"name":"new_receiver","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "get_total_supply",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint256"}
+			]
+		},
+		{
+			"name": "mintingFee",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "get_max_supply",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "setRemainOnNft",
+			"inputs": [
+				{"name":"remainOnNft","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "setMintingFee",
+			"inputs": [
+				{"name":"mintingFeee","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "resolveIndexCodeHash",
+			"inputs": [
+				{"name":"collection","type":"address"},
+				{"name":"owner","type":"address"}
+			],
+			"outputs": [
+				{"name":"hash","type":"uint256"}
+			]
+		},
+		{
+			"name": "acceptNftBurn",
+			"inputs": [
+				{"name":"_id","type":"uint256"},
+				{"name":"_owner","type":"address"},
+				{"name":"_manager","type":"address"},
+				{"name":"_sendGasTo","type":"address"},
+				{"name":"_callbackTo","type":"address"},
+				{"name":"_callbackPayload","type":"cell"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "indexBasisCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "indexBasisCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"hash","type":"uint256"}
+			]
+		},
+		{
+			"name": "resolveIndexBasis",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"indexBasis","type":"address"}
+			]
+		},
+		{
+			"name": "indexCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "indexCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"hash","type":"uint256"}
+			]
+		},
+		{
+			"name": "getJson",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"json","type":"string"}
+			]
+		},
+		{
+			"name": "totalSupply",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"count","type":"uint128"}
+			]
+		},
+		{
+			"name": "nftCode",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"code","type":"cell"}
+			]
+		},
+		{
+			"name": "nftCodeHash",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"codeHash","type":"uint256"}
+			]
+		},
+		{
+			"name": "nftAddress",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"id","type":"uint256"}
+			],
+			"outputs": [
+				{"name":"nft","type":"address"}
+			]
+		},
+		{
+			"name": "supportsInterface",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"interfaceID","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"nonce","type":"uint64"}
+	],
+	"events": [
+		{
+			"name": "custom_NFTCreated",
+			"inputs": [
+				{"name":"nft","type":"address"},
+				{"name":"owner","type":"address"},
+				{"name":"manager","type":"address"},
+				{"name":"creator","type":"address"},
+				{"name":"collection","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "OwnershipTransferred",
+			"inputs": [
+				{"name":"oldOwner","type":"address"},
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "NftCreated",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"nft","type":"address"},
+				{"name":"owner","type":"address"},
+				{"name":"manager","type":"address"},
+				{"name":"creator","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "NftBurned",
+			"inputs": [
+				{"name":"id","type":"uint256"},
+				{"name":"nft","type":"address"},
+				{"name":"owner","type":"address"},
+				{"name":"manager","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"_supportedInterfaces","type":"optional(cell)"},
+		{"name":"_codeNft","type":"cell"},
+		{"name":"_totalSupply","type":"uint128"},
+		{"name":"_json","type":"string"},
+		{"name":"_codeIndex","type":"cell"},
+		{"name":"_codeIndexBasis","type":"cell"},
+		{"name":"_indexDeployValue","type":"uint128"},
+		{"name":"_indexDestroyValue","type":"uint128"},
+		{"name":"_deployIndexBasisValue","type":"uint128"},
+		{"name":"owner_","type":"address"},
+		{"name":"nonce","type":"uint64"},
+		{"name":"fee_receiver","type":"address"},
+		{"name":"_remainOnNft","type":"uint128"},
+		{"name":"remainOnContract","type":"uint128"},
+		{"name":"_mintingFee","type":"uint128"},
+		{"name":"mintingPrice","type":"uint128[]"},
+		{"name":"max_supply","type":"uint128"},
+		{"name":"_totalMinted","type":"uint256"},
+		{"name":"metadata_updater","type":"address"},
+		{"name":"collection_owner","type":"address"},
+		{"name":"phases_names","type":"string[]"},
+		{"name":"total_phases","type":"uint8"},
+		{"name":"current_phase","type":"uint8"},
+		{"name":"phase_start_time","type":"uint128"},
+		{"name":"duration_each_phase","type":"uint128[]"},
+		{"name":"max_mint_limit","type":"uint8[]"},
+		{"name":"public_mint_deadline","type":"uint128"},
+		{"name":"mint_process_amount","type":"uint128"},
+		{"name":"phase_addr_mintCount","type":"map(uint256,map(address,uint8))"},
+		{"name":"public_mint_count","type":"map(address,uint8)"}
+	]
+}
