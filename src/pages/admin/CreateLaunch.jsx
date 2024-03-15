@@ -71,7 +71,13 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
     const handle_change_phases = (index, e) => {
         const values = [...data.phases];
         values[index][e.target.name] = e.target.value;
-        set_data({ ...data, phases: values });
+        if (e.target.name == "EligibleWallets") {
+            const parsedWallets = JSON.parse(e.target.value);
+            set_data({ ...data, phases: parsedWallets });
+        }
+        else {
+            set_data({ ...data, phases: values });
+        }
     };
 
     const handle_add_phase = () => {
@@ -767,10 +773,10 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                 <div className="relative my-3 flex items-center w-[100%]">
                                                                     <div className="flex-1 w-[100%]">
                                                                         <p className="block font-display text-jacarta-700 dark:text-white">Eligible wallets</p>
-                                                                        <textarea className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                        <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                             ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                             : "rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                                            }`} placeholder={data.phases[index].EligibleWallets} name="EligibleWallets" />
+                                                                            }`} placeholder={data.phases[index].EligibleWallets} onChange={(e) => handle_change_phases(index, e)} />
                                                                     </div>
                                                                 </div>
                                                             </div>

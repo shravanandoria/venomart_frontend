@@ -16,9 +16,6 @@ const Launchpad = new mongoose.Schema({
   royalty: String,
   socials: [String],
   maxSupply: String,
-  isActive: Boolean,
-  isVerified: Boolean,
-  isPropsEnabled: Boolean,
   jsonURL: String,
   phases: [{
     phaseName: String,
@@ -26,7 +23,7 @@ const Launchpad = new mongoose.Schema({
     mintPrice: Number,
     startDate: String,
     EndDate: String,
-    EligibleWallets: []
+    EligibleWallets: [String]
   }],
   status: {
     type: String,

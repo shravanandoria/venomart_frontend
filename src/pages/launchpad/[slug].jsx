@@ -379,14 +379,14 @@ const launchpad = ({
                                                     <div>
                                                         <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}><span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>Price:</span> 11 VENOM</h2>
                                                     </div>
-                                                    <div class="inline-flex items-center">
+                                                    <div className="inline-flex items-center">
                                                         <button
-                                                            class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                            className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
                                                             onClick={() => handlemintCountDec()}
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-4"
+                                                                className="h-6 w-4"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -400,17 +400,17 @@ const launchpad = ({
                                                             </svg>
                                                         </button>
                                                         <div
-                                                            class="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none"
+                                                            className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none"
                                                         >
                                                             {mintCount}
                                                         </div>
                                                         <button
-                                                            class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                            className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
                                                             onClick={() => handlemintCountInc()}
                                                         >
                                                             <svg
                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                class="h-6 w-4"
+                                                                className="h-6 w-4"
                                                                 fill="none"
                                                                 viewBox="0 0 24 24"
                                                                 stroke="currentColor"
@@ -428,7 +428,7 @@ const launchpad = ({
 
                                                 {/* mint btn  */}
                                                 <div className="flex w-[100%] mt-4">
-                                                    <button class={`${theme = "dark" ? "bg-indigo-500" : "bg-indigo-500"} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}>
+                                                    <button className={`${theme = "dark" ? "bg-indigo-500" : "bg-indigo-500"} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}>
                                                         <span className="text-white font-mono">Mint</span>
                                                     </button>
                                                 </div>

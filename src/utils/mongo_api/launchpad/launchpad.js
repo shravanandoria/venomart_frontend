@@ -19,11 +19,8 @@ export const create_launchpad_collection = async (data) => {
     isFeatured: data.isFeatured,
     maxSupply: data.maxSupply,
     jsonURL: data.jsonURL,
-    mintPrice: data.mintPrice,
-    comments: data.comments,
     Category: data.Category,
-    startDate: data.startDate,
-    endDate: data.endDate,
+    phases: data.phases
   };
 
   try {

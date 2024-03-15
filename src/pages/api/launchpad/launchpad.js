@@ -42,6 +42,7 @@ export default async function handler(req, res) {
             maxSupply,
             jsonURL,
             Category,
+            phases
           } = req.body;
 
           // creating launchpad 
@@ -49,8 +50,8 @@ export default async function handler(req, res) {
             chain: "Venom",
             logo,
             coverImage,
-            pageName,
             name,
+            pageName,
             description,
             contractAddress,
             creatorAddress,
@@ -58,11 +59,9 @@ export default async function handler(req, res) {
             royalty,
             socials,
             maxSupply,
-            isActive,
-            isVerified,
-            isPropsEnabled,
             jsonURL,
-            status: "upcoming"
+            status: "upcoming",
+            phases: phases
           });
 
           // creating collection 
