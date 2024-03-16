@@ -147,28 +147,53 @@ export default async function handler(req, res) {
         try {
           const { data } = req.body;
 
-          let updateInfo = {
-            royaltyAddress: data.royaltyAddress,
-            name: data.name,
-            logo: data.logo,
-            coverImage: data.coverImage,
-            website: data.website,
-            twitter: data.twitter,
-            discord: data.discord,
-            telegram: data.telegram,
-            isNSFW: data.isNSFW,
-            isVerified: data.isVerified,
-            isPropsEnabled: data.isPropsEnabled,
-            isFeatured: data.isFeatured,
-            isTrading: data.isTrading,
-            Category: data.Category,
-            description: data.description,
-          };
+          let result;
+          const existingCollection = await Collection.findOne({ contractAddress: data.contractAddress });
 
-          const filter = { contractAddress: data.contractAddress };
-          const update = { $set: updateInfo };
+          if (existingCollection) {
+            let updateInfo = {
+              creatorAddress: data.creatorAddress,
+              royalty: data.royalty,
+              royaltyAddress: data.royaltyAddress,
+              name: data.name,
+              logo: data.logo,
+              coverImage: data.coverImage,
+              socials: [data.website ? data.website : "", data.twitter ? data.twitter : "", data.discord ? data.discord : "", data.telegram ? data.telegram : ""],
+              isNSFW: data.isNSFW,
+              isVerified: data.isVerified,
+              isPropsEnabled: data.isPropsEnabled,
+              isFeatured: data.isFeatured,
+              isTrading: data.isTrading,
+              Category: data.Category,
+              description: data.description,
+            };
 
-          const result = await Collection.updateOne(filter, update);
+            const filter = { contractAddress: data.contractAddress };
+            const update = { $set: updateInfo };
+
+            result = await Collection.updateOne(filter, update);
+          }
+          else {
+            result = await Collection.create({
+              chain: "Venom",
+              contractAddress: data.contractAddress,
+              creatorAddress: data.creatorAddress,
+              coverImage: data.coverImage,
+              logo: data.logo,
+              name: data.name,
+              royalty: data.royalty,
+              royaltyAddress: data.royaltyAddress,
+              description: data.description,
+              socials: [data.website ? data.website : "", data.twitter ? data.twitter : "", data.discord ? data.discord : "", data.telegram ? data.telegram : ""],
+              isVerified: data.isVerified,
+              isNSFW: data.isNSFW,
+              isPropsEnabled: data.isPropsEnabled,
+              isFeatured: data.isFeatured,
+              isTrading: data.isTrading,
+              Category: data.Category ? data.Category : "",
+              TotalSupply: data.TotalSupply ? data.TotalSupply : 0
+            });
+          }
 
           return res.status(200).json({ success: true, data: result });
         } catch (error) {

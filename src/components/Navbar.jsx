@@ -581,24 +581,6 @@ const Navbar = ({
                         {adminAccount.includes(signer_address) && (
                           <>
                             <Link
-                              href="/admin/AddCollection"
-                              className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="h-4 w-4 fill-jacarta-700 transition-colors dark:fill-white rotate-180"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7 11V8l-5 4 5 4v-3h8v-2H7z" />
-                              </svg>
-                              <span className="mt-1 font-display text-sm text-jacarta-700 dark:text-white">
-                                Create Collection
-                              </span>
-                            </Link>
-                            <Link
                               href="/admin/CreateLaunch"
                               className="flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors hover:bg-jacarta-50 hover:text-accent focus:text-accent dark:hover:bg-jacarta-600"
                             >

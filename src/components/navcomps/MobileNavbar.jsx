@@ -310,7 +310,6 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                     }
                 </li>
 
-
                 <li className="js-nav-dropdown group relative">
                     <Link
                         href="/explore/Launchpad"

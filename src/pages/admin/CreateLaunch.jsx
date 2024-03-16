@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useStorage } from "@thirdweb-dev/react";
 import { create_launchpad_collection } from "../../utils/mongo_api/launchpad/launchpad";
 
-const AddCollection = ({ theme, adminAccount, signer_address }) => {
+const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
     const storage = useStorage();
 
     const router = useRouter();
@@ -14,6 +14,7 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     const [isFeatured, setIsFeatured] = useState(false);
     const [isTrading, setIsTrading] = useState(true);
     const [isActive, setIsActive] = useState(true);
+    const [phasesModal, setPhasesModal] = useState(false);
 
     const [loading, set_loading] = useState(false);
     const [preview, set_preview] = useState({ logo: "", cover: "" });
@@ -38,11 +39,17 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
         isActive,
         maxSupply: "",
         jsonURL: "",
-        mintPrice: "",
-        comments: "",
         Category: "Collectibles",
-        startDate: "",
-        endDate: "",
+        phases: [
+            {
+                phaseName: "",
+                maxMint: "",
+                mintPrice: "",
+                startDate: "",
+                EndDate: "",
+                EligibleWallets: ""
+            }
+        ]
     });
 
     const handleChange = (e) => {
@@ -58,6 +65,36 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
             ...data,
             [e.target.name]: value,
         });
+    };
+
+    // handling phases addition 
+    const handle_change_phases = (index, e) => {
+        const values = [...data.phases];
+        values[index][e.target.name] = e.target.value;
+        if (e.target.name == "EligibleWallets") {
+            values[index][e.target.name] = [e.target.value];
+        }
+        set_data({ ...data, phases: values });
+    };
+
+    const handle_add_phase = () => {
+        set_data({
+            ...data,
+            phases: [...data.phases, {
+                phaseName: "",
+                maxMint: "",
+                mintPrice: "",
+                startDate: "",
+                EndDate: "",
+                EligibleWallets: [""]
+            }],
+        });
+    };
+
+    const handle_remove_phase = (index) => {
+        const values = [...data.phases];
+        values.splice(index, 1);
+        set_data({ ...data, phases: values });
     };
 
     const handle_submit = async (e) => {
@@ -324,6 +361,91 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                         ></textarea>
                                     </div>
                                 </div>
+
+                                {/* website & twitter  */}
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                    <div className="w-[350px] m-3 mr-6">
+                                        <label
+                                            htmlFor="item-name"
+                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                        >
+                                            Official Website
+                                        </label>
+                                        <input
+                                            onChange={handleChange}
+                                            name="website"
+                                            type="text"
+                                            id="item-name"
+                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                } `}
+                                            placeholder="Enter website URL"
+                                        />
+                                    </div>
+                                    <div className="w-[350px] m-3">
+                                        <label
+                                            htmlFor="item-name"
+                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                        >
+                                            Official Twitter
+                                        </label>
+                                        <input
+                                            onChange={handleChange}
+                                            name="twitter"
+                                            type="text"
+                                            id="item-name"
+                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                } `}
+                                            placeholder="Enter twitter URL"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* discord & telegram */}
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                    <div className="w-[350px] m-3 mr-6">
+                                        <label
+                                            htmlFor="item-name"
+                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                        >
+                                            Official Discord
+                                        </label>
+                                        <input
+                                            onChange={handleChange}
+                                            name="discord"
+                                            type="text"
+                                            id="item-name"
+                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                } `}
+                                            placeholder="Enter discord URL"
+                                        />
+                                    </div>
+                                    <div className="w-[350px] m-3">
+                                        <label
+                                            htmlFor="item-name"
+                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                        >
+                                            Official Telegram
+                                        </label>
+                                        <input
+                                            onChange={handleChange}
+                                            name="telegram"
+                                            type="text"
+                                            id="item-name"
+                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                } `}
+                                            placeholder="Enter telegram URL"
+                                        />
+                                    </div>
+                                </div>
+
                                 {/* contract address & creator address  */}
                                 <div className="mb-6 flex flex-wrap justify-start">
                                     <div className="w-[350px] m-3 mr-6">
@@ -430,6 +552,9 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                         >
                                             Max supply<span className="text-red">*</span>
                                         </label>
+                                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                            Enter the max supply
+                                        </p>
                                         <input
                                             onChange={handleChange}
                                             name="maxSupply"
@@ -444,31 +569,6 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                         />
                                     </div>
                                     <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Mint Price<span className="text-red">*</span>
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="mintPrice"
-                                            type="number"
-                                            id="item-name"
-                                            step="any"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Eg: 2"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* json URL and comments */}
-                                <div className="mb-6 flex flex-wrap justify-start">
-                                    <div className="w-[350px] m-3 mr-6">
                                         <label
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
@@ -491,149 +591,207 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
                                             required
                                         />
                                     </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                </div>
+
+                                {/* phases  */}
+                                <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                                height="24"
+                                                className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                                            >
+                                                <path fill="none" d="M0 0h24v24H0z" />
+                                                <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                                            </svg>
+
+                                            <div>
+                                                <label className="block font-display text-jacarta-700 dark:text-white">
+                                                    Mint Phases <span className="text-red">*</span>
+                                                </label>
+                                                <p className="dark:text-jacarta-300">
+                                                    Add all the available mintable phases properly
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                                            type="button"
+                                            id="item-properties"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#propertiesModal"
+                                            onClick={() => setPhasesModal(!phasesModal)}
                                         >
-                                            Comments
-                                        </label>
-                                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                            Mention any original asset URL or owner info or anything just for future dispute reference
-                                        </p>
-                                        <input
-                                            onChange={handleChange}
-                                            name="comments"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Eg: drive link of artwork proof"
-                                        />
+                                            {!phasesModal ? (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    height="24"
+                                                    className="fill-accent group-hover:fill-white"
+                                                >
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    height="24"
+                                                    className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                                                >
+                                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                                </svg>
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* start date and end date */}
-                                <div className="mb-6 flex flex-wrap justify-start">
-                                    <div className="w-[350px] m-3 mr-6">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Start Date<span className="text-red">*</span>
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="startDate"
-                                            type="datetime-local"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                            placeholder="Eg: owner is legit and here are asset url, discord id, etc"
-                                        />
-                                    </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            End Date<span className="text-red">*</span>
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="endDate"
-                                            type="datetime-local"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark" ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300" : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"} `}
-                                            placeholder="Eg: owner is legit and here are asset url, discord id, etc"
-                                        />
-                                    </div>
-                                </div>
+                                {/* <!-- Phases  Modal --> */}
+                                {phasesModal && (
+                                    <div>
+                                        <div className="max-w-2xl mb-4">
+                                            <div className="modal-content">
+                                                <div className="modal-body p-6">
+                                                    {data.phases.map((e, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="relative my-3 flex flex-col items-center mt-12"
+                                                        >
+                                                            <div>
+                                                                <h2 className="block font-display text-jacarta-700 dark:text-white">Phase {index + 1}</h2>
+                                                            </div>
+                                                            <div className="relative my-3 flex flex-col items-center">
+                                                                <div className="relative my-3 flex items-center">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => handle_remove_phase(index)}
+                                                                        className="flex h-12 w-12 shrink-0 items-center justify-center self-end rounded-l-lg border border-r-0 border-jacarta-100 bg-jacarta-50 hover:bg-jacarta-100 dark:border-jacarta-600 dark:bg-jacarta-700"
+                                                                    >
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24"
+                                                                            width="24"
+                                                                            height="24"
+                                                                            className="h-6 w-6 fill-jacarta-500 dark:fill-jacarta-300"
+                                                                        >
+                                                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                                                            <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                                                        </svg>
+                                                                    </button>
 
-                                {/* website & twitter  */}
-                                <div className="mb-6 flex justify-start flex-wrap">
-                                    <div className="w-[350px] m-3 mr-6">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Official Website
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="website"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Enter website URL"
-                                        />
-                                    </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Official Twitter
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="twitter"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Enter twitter URL"
-                                        />
-                                    </div>
-                                </div>
+                                                                    <div className="flex-1">
+                                                                        <input
+                                                                            onChange={(e) =>
+                                                                                handle_change_phases(index, e)
+                                                                            }
+                                                                            value={data.phases[index].phaseName}
+                                                                            name="phaseName"
+                                                                            type="text"
+                                                                            className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                                }`}
+                                                                            placeholder="Phase Name"
+                                                                        />
+                                                                    </div>
 
-                                {/* discord & telegram */}
-                                <div className="mb-6 flex justify-start flex-wrap">
-                                    <div className="w-[350px] m-3 mr-6">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Official Discord
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="discord"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Enter discord URL"
-                                        />
+                                                                    <div className="flex-1">
+                                                                        <input
+                                                                            onChange={(e) =>
+                                                                                handle_change_phases(index, e)
+                                                                            }
+                                                                            value={data.phases[index].mintPrice}
+                                                                            name="mintPrice"
+                                                                            type="number"
+                                                                            className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                                }`}
+                                                                            placeholder="Mint Price"
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="flex-1">
+                                                                        <input
+                                                                            onChange={(e) =>
+                                                                                handle_change_phases(index, e)
+                                                                            }
+                                                                            value={data.phases[index].maxMint}
+                                                                            name="maxMint"
+                                                                            type="number"
+                                                                            className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                                }`}
+                                                                            placeholder="Max Mint Per Wallet"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="relative my-3 flex items-center">
+                                                                    <div className="flex-1">
+                                                                        <p className="block font-display text-jacarta-700 dark:text-white">Start Time</p>
+                                                                        <input
+                                                                            onChange={(e) =>
+                                                                                handle_change_phases(index, e)
+                                                                            }
+                                                                            value={data.phases[index].startDate}
+                                                                            name="startDate"
+                                                                            type="datetime-local"
+                                                                            className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                                }`}
+                                                                        />
+                                                                    </div>
+
+                                                                    <div className="flex-1">
+                                                                        <p className="block font-display text-jacarta-700 dark:text-white">End Time</p>
+                                                                        <input
+                                                                            onChange={(e) =>
+                                                                                handle_change_phases(index, e)
+                                                                            }
+                                                                            value={data.phases[index].EndDate}
+                                                                            name="EndDate"
+                                                                            type="datetime-local"
+                                                                            className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                                }`}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="relative my-3 flex items-center w-[100%]">
+                                                                    <div className="flex-1 w-[100%]">
+                                                                        <p className="block font-display text-jacarta-700 dark:text-white">Eligible wallets</p>
+                                                                        <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
+                                                                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                            : "rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                            }`} onChange={(e) => handle_change_phases(index, e)} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+
+                                                    <button
+                                                        type="button"
+                                                        onClick={handle_add_phase}
+                                                        className="mt-2 rounded-full border-2 border-accent py-2 px-8 text-center text-sm font-semibold text-accent transition-all hover:bg-accent hover:text-white"
+                                                    >
+                                                        Add More
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Official Telegram
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="telegram"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="Enter telegram URL"
-                                        />
-                                    </div>
-                                </div>
+                                )}
 
                                 {/* status and props  */}
                                 <div className="mb-6 flex justify-start flex-wrap">
@@ -717,4 +875,4 @@ const AddCollection = ({ theme, adminAccount, signer_address }) => {
     );
 };
 
-export default AddCollection;
+export default CreateLaunch;
