@@ -13,6 +13,7 @@ const Launchpad = ({ theme }) => {
 
   const scrollFetchLaunches = async () => {
     const collectionsJSON = await get_launchpad_events(sortby, skip);
+    console.log({ collectionsJSON })
     if (collectionsJSON) {
       set_collections([...collections, ...collectionsJSON]);
       if (collectionsJSON == "" || collectionsJSON == undefined) {

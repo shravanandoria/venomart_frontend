@@ -23,80 +23,6 @@ const LaunchCollectionCard = ({
 }) => {
 
   const [isHovering, SetIsHovering] = useState(false);
-  const [statusNew, setStatusNew] = useState(status);
-
-  const [startdays, setStartDays] = useState(0);
-  const [starthours, setStartHours] = useState(0);
-  const [startminutes, setStartMinutes] = useState(0);
-  const [startseconds, setStartSeconds] = useState(0);
-
-  const [enddays, setEndDays] = useState(0);
-  const [endhours, setEndHours] = useState(0);
-  const [endminutes, setEndMinutes] = useState(0);
-  const [endseconds, setEndSeconds] = useState(0);
-
-  const statusLive = () => {
-    if (status == "Upcoming") {
-      const target = new Date(
-        `${startDate}`
-      );
-
-      const interval = setInterval(() => {
-        const now = new Date();
-        const difference = target.getTime() - now.getTime();
-
-        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-        setStartDays(d);
-
-        const h = Math.floor(
-          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        setStartHours(h);
-
-        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        setStartMinutes(m);
-
-        const s = Math.floor((difference % (1000 * 60)) / 1000);
-        setStartSeconds(s);
-
-        if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-          setStatusNew("Live");
-          const target = new Date(
-            `${endDate}`
-          );
-
-          const interval = setInterval(() => {
-            const now = new Date();
-            const difference = target.getTime() - now.getTime();
-
-            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-            setEndDays(d);
-
-            const h = Math.floor(
-              (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-            );
-            setEndHours(h);
-
-            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            setEndMinutes(m);
-
-            const s = Math.floor((difference % (1000 * 60)) / 1000);
-            setEndSeconds(s);
-
-            if (d <= 0 && h <= 0 && m <= 0 && s <= 0) {
-              setStatusNew("Sold Out");
-            }
-          }, 1000);
-          return () => clearInterval(interval);
-        }
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }
-
-  useEffect(() => {
-    statusLive();
-  }, [])
 
   return (
     <Link href={`/launchpad/${pageName ? pageName : CollectionAddress}`}>
@@ -186,16 +112,16 @@ const LaunchCollectionCard = ({
         </div>
 
         <div className="flex justify-between align-middle mx-2">
-          {(statusNew == "Live" || statusNew == "Upcoming") &&
+          {(status == "live" || status == "upcoming") &&
             <button className="flex align-middle justify-center self-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
               <GoDotFill className="h-[19px] w-[19px] mt-[2px] text-green" />
-              <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{statusNew}</span>
+              <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{status}</span>
             </button>
           }
-          {(statusNew == "Sold Out" || statusNew == "Ended") &&
+          {(status == "sold out" || status == "ended") &&
             <button className="flex align-middle justify-center self-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
               <GoDotFill className="h-[19px] w-[19px] mt-[2px] text-jacarta-300" />
-              <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{statusNew}</span>
+              <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{status}</span>
             </button>
           }
           <div className="flex self-center border border-jacarta-100 dark:border-jacarta-600 dark:text-jacarta-200 font-bold py-1.5 px-8 rounded-full text-jacarta-700">
