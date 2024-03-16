@@ -2,13 +2,13 @@ import { Address } from "everscale-inpage-provider";
 import moment from "moment";
 import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
 
-const SAMPLE_LAUNCHPAD_ADDR = "0:2cbed75013aef6b6081cbfb9197acbf5d9bc3f60148efb5d93afb66a5a8ff73a";
+const SAMPLE_LAUNCHPAD_ADDR = "0:5b951447168aa22548ed8d6084e887af71642a9e2214904fc57d6a6e2254f982";
 
 // extra amount for mint refundable
 const extra_tokens = "100000000";
 
 // initiating launchpad contract
-const launchpad_contract = launchpad_address => {
+const launchpad_contract = (provider, launchpad_address) => {
   const contract = new provider.Contract(LaunchpadABI, launchpad_address);
   return contract;
 };
@@ -23,9 +23,8 @@ export const cal_current_phase = all_phases => {
       current_phase = all_phases[i];
     }
   }
-
+  
   console.log({ current_phase });
-
   return current_phase;
 };
 
@@ -40,7 +39,7 @@ export const get_total_phases = async (provider, launchpad_address) => {
 
 // main mint function to mint NFT
 export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, all_phases) => {
-  const launchpad = launchpad_contract(provider, launchpad_address);
+  const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
 
   // Checks, current time fits in which phase, so that we can get the amount required to mint
   // if returned 0, means 1st phase has not started
@@ -133,9 +132,10 @@ export const get_max_supply = async (provider, launchpad_address) => {
 
 // getting total minted
 export const get_total_minted = async (provider, launchpad_address) => {
+  console.log({ provider });
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-  
-  const res = await launchpad.methods.get_total_minted({ answerId: 0 });
 
-  console.log({ res });
+  const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
+
+  return res.value0;
 };
