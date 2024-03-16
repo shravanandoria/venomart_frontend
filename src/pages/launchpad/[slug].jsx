@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
 import { get_phases_name, get_total_minted } from "../../utils/launchpad_nft";
+import { Timer } from "../../components/Timer";
 
 
 const launchpad = ({
@@ -41,41 +42,91 @@ const launchpad = ({
     const { slug } = router.query;
 
     const [collectionData, setCollectionData] = useState("");
-
-    const [data, set_data] = useState();
     const [loading, setLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(400);
     const [mintedPercent, setMintedPercent] = useState(20);
     const [afterMint, setAfterMint] = useState(false);
-    const [mintLock, setMintLock] = useState(false);
-
     const [checkMint, setCheckMint] = useState();
-    const [share, setShare] = useState(false);
-    const [status, setStatus] = useState("Upcoming");
-
+    const [status, setStatus] = useState("");
     const [mintCount, setMintCount] = useState(1);
 
-    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const [selected_phase, set_selected_phase] = useState({
+        id: "",
+        phaseName: "",
+        maxMint: "",
+        mintPrice: "",
+        startDate: "",
+        EndDate: "",
+        EligibleWallets: [""],
+        mintEligibility: false
+    })
 
+    // handling mint count 
     const handlemintCountInc = () => {
-        setMintCount(mintCount + 1);
+        if (mintCount < selected_phase?.maxMint) {
+            setMintCount(mintCount + 1);
+        } else {
+            alert(`you cannot mint more than ${selected_phase?.maxMint} NFTs in this phase`)
+        }
     };
-
     const handlemintCountDec = () => {
         if (mintCount > 1) {
             setMintCount(mintCount - 1);
         }
     };
 
-    // connect wallet 
-    const connect_wallet = async () => {
-        const connect = await connectWallet();
-    };
-
     // getting launchpad data 
     const getLaunchpadData = async () => {
         const launchpaddata = await get_launchpad_by_name(slug);
-        setCollectionData(launchpaddata);
+        setStatus(launchpaddata?.status)
+
+        const updatedPhases = launchpaddata?.phases.map((phase, index) => {
+            let eligibleWallets = [];
+            if (phase.EligibleWallets != "") {
+                eligibleWallets = JSON.parse(phase.EligibleWallets);
+            }
+            const isUserWalletEligible = eligibleWallets.includes(signer_address);
+            return {
+                id: index,
+                phaseName: phase.phaseName,
+                maxMint: phase.maxMint,
+                mintPrice: phase.mintPrice,
+                startDate: phase.startDate,
+                EndDate: phase.EndDate,
+                EligibleWallets: eligibleWallets,
+                mintEligibility: isUserWalletEligible
+            };
+        });
+
+        const updatedLaunchpadData = {
+            ...launchpaddata,
+            phases: updatedPhases
+        };
+
+        setCollectionData(updatedLaunchpadData);
+
+        // setting default phase info 
+        const defaultPhaseData = launchpaddata?.phases[0];
+        const defaultEligibleWallets = JSON.parse(launchpaddata?.phases[0]?.EligibleWallets);
+
+        const isUserWalletEligible = defaultEligibleWallets.includes(signer_address)
+
+        const def_data = {
+            id: 0,
+            phaseName: launchpaddata?.phases[0]?.phaseName,
+            maxMint: launchpaddata?.phases[0]?.maxMint,
+            mintPrice: launchpaddata?.phases[0]?.mintPrice,
+            startDate: launchpaddata?.phases[0]?.startDate,
+            EndDate: launchpaddata?.phases[0]?.EndDate,
+            EligibleWallets: defaultEligibleWallets,
+            mintEligibility: isUserWalletEligible
+        }
+        set_selected_phase(def_data);
+    }
+
+    // selecting phase 
+    const selectPhaseFunction = (phase, index) => {
+        set_selected_phase({ id: index, phaseName: phase?.phaseName, maxMint: phase?.maxMint, mintPrice: phase?.mintPrice, startDate: phase?.startDate, EndDate: phase?.EndDate, mintEligibility: phase?.mintEligibility })
     }
 
     // smart contract functions here 
@@ -85,6 +136,19 @@ const launchpad = ({
         setMintedNFTs(mintedSupply);
     }
 
+    // mint function 
+    const mintLaunchNFT = async () => {
+
+    }
+
+
+    useEffect(() => {
+        console.log({ selected_phase: selected_phase })
+    }, [selected_phase]);
+
+    useEffect(() => {
+        console.log({ collectionData: collectionData })
+    }, [collectionData]);
 
     useEffect(() => {
         if (!slug) return;
@@ -267,7 +331,7 @@ const launchpad = ({
                                     <h2 className="text-sm title-font text-gray-400 tracking-widest text-center">
                                         MINTING STATUS
                                     </h2>
-                                    {status == "Live" && (
+                                    {status == "live" && (
                                         <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[28px] w-[28px] text-green mt-1" />
                                             <span
@@ -278,7 +342,7 @@ const launchpad = ({
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Ended" && (
+                                    {status == "ended" && (
                                         <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[28px] w-[28px] text-red mt-1" />
                                             <span
@@ -289,7 +353,7 @@ const launchpad = ({
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Upcoming" && (
+                                    {status == "upcoming" && (
                                         <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[28px] w-[28px] text-[#2fa8b5] mt-1" />
                                             <span
@@ -300,7 +364,7 @@ const launchpad = ({
                                             </span>
                                         </h1>
                                     )}
-                                    {status == "Sold Out" && (
+                                    {status == "sold out" && (
                                         <h1 className="flex text-[22px] text-jacarta-700 dark:text-white title-font font-medium mb-1 justify-center">
                                             <GoDotFill className="h-[28px] w-[28px] text-jacarta-300 mt-1" />
                                             <span
@@ -338,38 +402,62 @@ const launchpad = ({
                                                 </h2>
                                                 {mintedNFTs > 0 && (
                                                     <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                                        ({mintedNFTs}/{collectionData?.maxSupply})
+                                                        {mintedPercent}% ({mintedNFTs}/{collectionData?.maxSupply})
                                                     </p>
                                                 )}
                                             </div>
                                             <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>
                                                 <div
-                                                    className={`bg-indigo-500 p-0.5 text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
-                                                    {mintedPercent}%
+                                                    className={`bg-indigo-500 p-0.5 h-[12px] text-center text-xs font-medium text-white rounded-lg`} style={{ width: mintedPercent + "%" }}>
+
                                                 </div>
                                             </div>
 
                                             {/* phases  */}
                                             <div className="flex flex-col w-[100%] mt-6">
-                                                {/* phase 1  */}
-                                                <div className={`border-2 flex w-[100%] my-2 p-4 ${theme == "dark" ? "bg-[#0d102b] focus-border-[#ffffff]" : "bg-[#ffffff] focus-border-[#ababab]"} rounded-[13px] cursor-pointer`}>
-                                                    <div className="flex flex-col justify-between w-[100%] text-white">
-                                                        <h2 className={`font-display ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>WL Phase</h2>
-                                                        <p className={`text-[13px] font-sans ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>25 Per Wallet ● 10 VENOM</p>
+                                                {collectionData?.phases?.map((phase, index) => (
+                                                    <div
+                                                        className={`${(selected_phase?.id == index) && "border-2"} flex w-[100%] my-2 p-4 justify-between
+                                                        ${theme == "dark" ? `bg-[#0d102b] focus-border-[#ffffff]` : "bg-[#ffffff] focus-border-[#ababab]"} rounded-[13px] cursor-pointer`}
+                                                        key={index}
+                                                        onClick={() => selectPhaseFunction(phase, index)}
+                                                    >
+                                                        <div className="flex flex-col  w-[70%] text-white">
+                                                            <h2 className={`font-display mb-1 ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>
+                                                                {phase?.phaseName}
+                                                            </h2>
+                                                            <p className={`text-[14px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                {phase?.maxMint} Per Wallet ● {phase?.mintPrice} VENOM
+                                                            </p>
+                                                            {(phase?.mintEligibility == true || phase?.EligibleWallets == "") ?
+                                                                <p className={`text-[14px] font-mono text-green-400`}>
+                                                                    Eligible
+                                                                </p>
+                                                                :
+                                                                <p className={`text-[14px] font-mono text-red-400`}>
+                                                                    Not Eligible
+                                                                </p>
+                                                            }
+                                                        </div>
+                                                        {new Date(phase?.startDate) < new Date() && new Date(phase?.EndDate) > new Date() &&
+                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>Ends In</div>
+                                                                <span className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}><Timer date={phase?.EndDate} /></span>
+                                                            </div>
+                                                        }
+                                                        {new Date(phase?.startDate) > new Date() &&
+                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>Starts In</div>
+                                                                <span className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}><Timer date={phase?.startDate} /></span>
+                                                            </div>
+                                                        }
+                                                        {new Date(phase?.EndDate) < new Date() &&
+                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>Ended</div>
+                                                            </div>
+                                                        }
                                                     </div>
-                                                    <div>
-                                                        Ended
-                                                    </div>
-                                                </div>
-                                                <div className={`border-2 flex w-[100%] my-2 p-4 ${theme == "dark" ? "bg-[#0d102b] focus-border-[#ffffff]" : "bg-[#ffffff] focus-border-[#ababab]"} rounded-[13px] cursor-pointer`}>
-                                                    <div className="flex flex-col justify-between w-[100%] text-white">
-                                                        <h2 className={`font-display ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>Public Phase</h2>
-                                                        <p className={`text-[13px] font-sans ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>25 Per Wallet ● 15 VENOM</p>
-                                                    </div>
-                                                    <div>
-                                                        Ended
-                                                    </div>
-                                                </div>
+                                                ))}
                                             </div>
 
                                             {/* final mint section  */}
@@ -377,7 +465,7 @@ const launchpad = ({
                                                 {/* price  */}
                                                 <div className="flex justify-between w-[100%]">
                                                     <div>
-                                                        <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}><span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>Price:</span> 11 VENOM</h2>
+                                                        <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}><span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>Price:</span> {selected_phase?.mintPrice} VENOM</h2>
                                                     </div>
                                                     <div className="inline-flex items-center">
                                                         <button
@@ -392,9 +480,9 @@ const launchpad = ({
                                                                 stroke="currentColor"
                                                             >
                                                                 <path
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="2"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth="2"
                                                                     d="M20 12H4"
                                                                 />
                                                             </svg>
@@ -416,9 +504,9 @@ const launchpad = ({
                                                                 stroke="currentColor"
                                                             >
                                                                 <path
-                                                                    stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    stroke-width="2"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth="2"
                                                                     d="M12 4v16m8-8H4"
                                                                 />
                                                             </svg>
@@ -505,8 +593,9 @@ const launchpad = ({
                         </div>
                     )}
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 

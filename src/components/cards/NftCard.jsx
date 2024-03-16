@@ -51,8 +51,10 @@ const NftCard = ({
   }
 
   const addToCart = () => {
-    if (!cartNFTs.some((item) => item._id === NFTData._id)) {
+    if (cartNFTs.length < 10 && !cartNFTs.some((item) => item._id === NFTData._id)) {
       setCartNFTs([...cartNFTs, NFTData]);
+    } else {
+      alert("Cannot add more than 10 NFTs to the cart!");
     }
   };
 

@@ -47,7 +47,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                 mintPrice: "",
                 startDate: "",
                 EndDate: "",
-                EligibleWallets: []
+                EligibleWallets: ""
             }
         ]
     });
@@ -72,12 +72,9 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
         const values = [...data.phases];
         values[index][e.target.name] = e.target.value;
         if (e.target.name == "EligibleWallets") {
-            const parsedWallets = JSON.parse(e.target.value);
-            set_data({ ...data, phases: parsedWallets });
+            values[index][e.target.name] = [e.target.value];
         }
-        else {
-            set_data({ ...data, phases: values });
-        }
+        set_data({ ...data, phases: values });
     };
 
     const handle_add_phase = () => {
@@ -776,7 +773,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                         <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                             ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                             : "rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                                            }`} placeholder={data.phases[index].EligibleWallets} onChange={(e) => handle_change_phases(index, e)} />
+                                                                            }`} onChange={(e) => handle_change_phases(index, e)} />
                                                                     </div>
                                                                 </div>
                                                             </div>
