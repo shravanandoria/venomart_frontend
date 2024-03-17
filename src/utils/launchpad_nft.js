@@ -6,6 +6,7 @@ const SAMPLE_LAUNCHPAD_ADDR = "0:5b951447168aa22548ed8d6084e887af71642a9e2214904
 
 // extra amount for mint refundable
 const extra_tokens = "100000000";
+const ONE_VENOM = 1000000000;
 
 // initiating launchpad contract
 const launchpad_contract = (provider, launchpad_address) => {
@@ -23,7 +24,7 @@ export const cal_current_phase = all_phases => {
       current_phase = all_phases[i];
     }
   }
-  
+
   console.log({ current_phase });
   return current_phase;
 };
@@ -38,21 +39,22 @@ export const get_total_phases = async (provider, launchpad_address) => {
 };
 
 // main mint function to mint NFT
-export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, all_phases) => {
+export const launchpad_mint = async (
+  provider,
+  launchpad_address,
+  signer_address,
+  amount_to_mint,
+  current_phase,
+  payable_amount,
+) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
 
-  // Checks, current time fits in which phase, so that we can get the amount required to mint
-  // if returned 0, means 1st phase has not started
-  const current_phase = cal_current_phase(all_phases);
-
-  const amount_to_mint_ = launchpad.methods
-    .cal_minting_amount({ answerId: 0, amount: amount_to_mint, current_phase: current_phase })
-    .call();
-
+  const payable_venoms = payable_amount * ONE_VENOM;
   await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),
-    amount: amount_to_mint_.value0 + extra_tokens,
+    amount: payable_venoms + extra_tokens,
   });
+  
 };
 
 // get how many nfts user minted
