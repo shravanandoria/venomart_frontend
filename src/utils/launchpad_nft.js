@@ -5,7 +5,7 @@ import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
 const SAMPLE_LAUNCHPAD_ADDR = "0:5b951447168aa22548ed8d6084e887af71642a9e2214904fc57d6a6e2254f982";
 
 // extra amount for mint refundable
-const extra_tokens = "100000000";
+const extra_tokens = 100000000;
 const ONE_VENOM = 1000000000;
 
 // initiating launchpad contract
@@ -48,13 +48,12 @@ export const launchpad_mint = async (
   payable_amount,
 ) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
+  console.log({ payable_amount });
   const payable_venoms = payable_amount * ONE_VENOM;
   await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),
-    amount: payable_venoms + extra_tokens,
+    amount: (payable_venoms + extra_tokens).toString(),
   });
-  
 };
 
 // get how many nfts user minted
