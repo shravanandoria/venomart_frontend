@@ -5,6 +5,7 @@ import { MdVerified } from "react-icons/md";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import venomLogo from "../../../public/venomBG.webp"
 import { GoDotFill } from "react-icons/go";
+import { Timer } from "../Timer";
 
 
 const LaunchCollectionCard = ({
@@ -26,7 +27,7 @@ const LaunchCollectionCard = ({
 
   return (
     <Link href={`/launchpad/${pageName ? pageName : CollectionAddress}`}>
-      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[400px] w-[320px] overflow-hidden m-2 sm:m-4">
+      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[420px] w-[320px] overflow-hidden m-2 sm:m-4">
 
         <div
           className="relative flex space-x-[0.625rem]"
@@ -40,6 +41,13 @@ const LaunchCollectionCard = ({
               height={100}
               width={100}
             />
+            <div className="px-2 py-1 flex items-center justify-center text-[12px] font-medium tracking-tight absolute top-0 right-0 bg-neutral-200 rounded-lg">
+              <div className="flex flex-wrap justify-center items-center">
+                <span className="textDotStyle">
+                  {supply ? (supply <= 0 ? "∞" : supply) : 0} ITEMS
+                </span>
+              </div>
+            </div>
           </span>
           <span className="absolute bottom-[-25px] right-[100px]">
             {Logo?.includes(".mp4") ?
@@ -97,19 +105,68 @@ const LaunchCollectionCard = ({
 
         <div className="mb-2 flex items-center justify-center text-sm font-medium tracking-tight">
           <div className="flex flex-wrap justify-center items-center">
-            <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-300">
-              {supply ? (supply <= 0 ? "∞" : supply) : 0} Items
+            <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
+              {Description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima, exercitationem. Vel fuga dolorum, odit ducimus voluptas ratione numquam reprehenderit nulla voluptatibus ipsam pariatur, obcaecati doloribus aperiam? Molestias nesciunt repellendus vel deleniti minus! Iure ex hic asperiores non possimus officiis quod?
             </span>
           </div>
         </div>
 
-        <div className="mt-2 mb-6 flex items-center justify-center text-sm font-medium tracking-tight">
-          <div className="flex flex-wrap justify-center items-center">
-            <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
-              {Description}
-            </span>
+        {status == "upcoming" && (
+          <div className="pt-2">
+            <h2 className="text-[10px] title-font font-bold text-jacarta-600 dark:text-jacarta-200 tracking-widest text-center">
+              MINT STARTS IN
+            </h2>
+            <div className="text-[4px] text-jacarta-700 dark:text-white font-mono font-medium mb-1 mt-[-8px]">
+              <div className="show-counter">
+                <div className="countdown-link text-jacarta-600 dark:text-jacarta-200">
+                  <Timer date={startDate} />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+        {status == "live" && (
+          <div className="pt-2">
+            <h2 className="text-[10px] title-font font-bold text-jacarta-600 dark:text-jacarta-200 tracking-widest text-center">
+              MINT ENDS IN
+            </h2>
+            <div className="text-[4px] text-jacarta-700 dark:text-white font-mono font-medium mb-1 mt-[-8px]">
+              <div className="show-counter">
+                <div className="countdown-link text-jacarta-600 dark:text-jacarta-200">
+                  <Timer date={endDate} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {status == "ended" && (
+          <div className="pt-2">
+            <h2 className="text-[10px] title-font font-bold text-jacarta-600 dark:text-jacarta-200 tracking-widest text-center">
+              MINTED NFTS
+            </h2>
+            <div className="text-[4px] text-jacarta-700 dark:text-white font-mono font-medium mb-1 mt-[-8px]">
+              <div className="show-counter">
+                <div className="countdown-link text-jacarta-600 dark:text-jacarta-200">
+                  {supply}/{supply}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {status == "sold out" && (
+          <div className="pt-2">
+            <h2 className="text-[10px] title-font font-bold text-jacarta-600 dark:text-jacarta-200 tracking-widest text-center">
+              MINTED NFTS
+            </h2>
+            <div className="text-[4px] text-jacarta-700 dark:text-white font-mono font-medium mb-1 mt-[-8px]">
+              <div className="show-counter">
+                <div className="countdown-link text-jacarta-600 dark:text-jacarta-200">
+                  {supply}/{supply}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="flex justify-between align-middle mx-2">
           {(status == "live" || status == "upcoming") &&

@@ -311,11 +311,11 @@
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.75rem;
-  padding: 0.5rem;
+  padding: 0.25rem;
   /* border: 1px solid #ebebeb; */
   border-radius: 0.25rem;
   text-decoration: none;
-  color: #000;
+  /* color: #000; */
 }
 
 .show-counter .countdown {

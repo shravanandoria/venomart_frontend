@@ -8,7 +8,7 @@ import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai
 import Head from "next/head";
 import Loader from "../../components/Loader";
 import collectionAbi from "../../../abi/CollectionDrop.abi.json";
-import { get_launchpad_by_name } from "../../utils/mongo_api/launchpad/launchpad";
+import { get_launchpad_by_name, updateLaunchpadStatus } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
@@ -31,7 +31,7 @@ const launchpad = ({
 
     const [collectionData, setCollectionData] = useState("");
     const [loading, setLoading] = useState(false);
-    const [mintedNFTs, setMintedNFTs] = useState(400);
+    const [mintedNFTs, setMintedNFTs] = useState(100);
     const [mintedPercent, setMintedPercent] = useState(20);
     const [afterMint, setAfterMint] = useState(false);
     const [checkMint, setCheckMint] = useState();
@@ -110,19 +110,31 @@ const launchpad = ({
             mintEligibility: isUserWalletEligible,
         };
         set_selected_phase(def_data);
+        updateMintStatus();
     };
 
     // update mint status 
     const updateMintStatus = async () => {
-        if (new Date(collectionData.phases[0].startDate) < new Date() && collectionData?.pageName != "") {
-            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "live");
+        if (!collectionData || collectionData.pageName === "" || !collectionData.phases) return;
+        const endLength = collectionData?.phases?.length - 1;
+
+        const startDate = new Date(collectionData.phases[0].startDate);
+        const endDate = new Date(collectionData.phases[endLength].EndDate);
+        const today = new Date();
+
+        if ((startDate > today) && (collectionData.status != "upcoming")) {
+            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
         }
-        // TAKE LAST INDEX OF PHASES 
-        if (new Date(collectionData.phases[0].EndDate) > new Date() && collectionData?.pageName != "") {
-            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "ended");
+
+        if ((startDate < today) && (endDate > today) && (collectionData.status != "live")) {
+            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
         }
-        if (mintedNFTs >= collectionData?.maxSupply && collectionData?.pageName != "") {
-            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "sold out");
+
+        if ((endDate < today) && (collectionData.status != "ended")) {
+            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
+        }
+        if ((mintedNFTs >= collectionData.maxSupply) && (collectionData.status != "sold out")) {
+            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
         }
     }
 
@@ -144,7 +156,6 @@ const launchpad = ({
         if (!venomProvider) return console.log("Provider is undefined");
         // get minted supply
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
-        console.log({ mintedSupply });
         setMintedNFTs(mintedSupply);
     };
 
@@ -155,8 +166,6 @@ const launchpad = ({
 
         launchpad_mint(venomProvider, "", signer_address, 1, []);
     };
-
-    useEffect(() => { }, [collectionData]);
 
     useEffect(() => {
         if (!slug) return;

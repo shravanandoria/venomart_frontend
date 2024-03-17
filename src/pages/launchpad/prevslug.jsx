@@ -94,7 +94,6 @@ const launchpad = ({
     const getLaunchpadData = async () => {
         // getting launchpad data 
         const launchpaddata = await get_launchpad_by_name(slug);
-        console.log({ launchpaddata })
         setStatus(launchpaddata?.status);
         setLaunchSlug(launchpaddata);
 

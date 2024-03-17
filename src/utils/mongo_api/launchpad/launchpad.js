@@ -57,3 +57,19 @@ export const get_launchpad_events = async (sortby, skip) => {
     console.log(error.message);
   }
 };
+
+export const updateLaunchpadStatus = async (pageName, status) => {
+  try {
+    const res = await axios({
+      url: `/api/launchpad/slug_launchpad`,
+      method: "PUT",
+      data: {
+        pageName,
+        status
+      }
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

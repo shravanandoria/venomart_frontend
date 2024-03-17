@@ -16,12 +16,14 @@ import customLaunchpad from "./launchpad/customLaunchpad.json";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import defLogo from "../../public/deflogo.png";
 import Loader from "../components/Loader";
+import { get_launchpad_events } from "../utils/mongo_api/launchpad/launchpad";
 
 
 
 export default function Home({ theme }) {
   const { client } = useContext(TonClientContext);
 
+  const [launchCollections, setLaunchCollections] = useState([]);
   const [topCollections, setTopCollections] = useState([]);
   const [trendingCollections, setTrendingCollections] = useState([]);
   const [featuredCollections, setFeaturedCollections] = useState([]);
@@ -63,11 +65,19 @@ export default function Home({ theme }) {
     setLoading(false);
   };
 
+  const fetchLaunchpadCollections = async () => {
+    const collectionsJSON = await get_launchpad_events("upcoming", 0);
+    if (collectionsJSON) {
+      setLaunchCollections([...launchCollections, ...collectionsJSON]);
+    }
+  };
+
   useEffect(() => {
     setFullLoading(true);
     fetchFeaturedCollections();
     fetchTrendingCollection();
     fetchTopCollections();
+    fetchLaunchpadCollections();
     setTimeout(() => {
       setFullLoading(false);
     }, 1000);
@@ -233,39 +243,35 @@ export default function Home({ theme }) {
                   }}
                   className="mySwiper"
                 >
-                  {customLaunchpad
-                    ?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate))
-                    .filter((e, id) => id < 7 && e.verified === true)
-                    .map((e, id) => {
-                      return (
-                        id < 6 &&
-                        e.verified == true && (
-                          <SwiperSlide
-                            key={id}
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <LaunchCollectionCard
-                              Cover={e.Cover}
-                              Logo={e.Logo}
-                              Name={e.Name}
-                              Description={e.Description}
-                              mintPrice={e.mintPrice}
-                              supply={e.supply}
-                              status={e.status}
-                              CollectionAddress={e.CollectionAddress}
-                              customLink={e.customLink}
-                              verified={e.verified}
-                              startDate={e.startDate}
-                              endDate={e.endDate}
-                            />
-                          </SwiperSlide>
-                        )
-                      );
-                    })}
+                  {launchCollections?.map((e, index) => {
+                    const endLength = e?.phases?.length - 1;
+                    return (
+                      <SwiperSlide
+                        key={index}
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <LaunchCollectionCard
+                          key={index}
+                          Cover={e.coverImage}
+                          Logo={e.logo}
+                          Name={e.name}
+                          pageName={e.pageName}
+                          Description={e.description}
+                          mintPrice={e?.phases[endLength]?.mintPrice}
+                          supply={e.maxSupply}
+                          status={e.status}
+                          verified={true}
+                          CollectionAddress={e.contractAddress}
+                          startDate={e?.phases[0]?.startDate}
+                          endDate={e?.phases[endLength]?.EndDate}
+                        />
+                      </SwiperSlide>
+                    )
+                  })}
                 </Swiper>
               </div>
             </div>

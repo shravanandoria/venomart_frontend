@@ -13,7 +13,6 @@ const Launchpad = ({ theme }) => {
 
   const scrollFetchLaunches = async () => {
     const collectionsJSON = await get_launchpad_events(sortby, skip);
-    console.log({ collectionsJSON })
     if (collectionsJSON) {
       set_collections([...collections, ...collectionsJSON]);
       if (collectionsJSON == "" || collectionsJSON == undefined) {
@@ -29,7 +28,6 @@ const Launchpad = ({ theme }) => {
   useEffect(() => {
     scrollFetchLaunches();
   }, [skip]);
-
   return (
     <>
       <Head>
@@ -72,28 +70,31 @@ const Launchpad = ({ theme }) => {
                   </div>
                 }
               >
-                {collections?.map((e, index) => (
-                  <LaunchCollectionCard
-                    key={index}
-                    Cover={e.coverImage}
-                    Logo={e.logo}
-                    Name={e.name}
-                    pageName={e.pageName}
-                    Description={e.description}
-                    mintPrice={e.mintPrice}
-                    supply={e.maxSupply}
-                    status={e.status}
-                    verified={true}
-                    CollectionAddress={e.contractAddress}
-                    startDate={e.startDate}
-                    endDate={e.endDate}
-                  />
-                ))}
+                {collections?.map((e, index) => {
+                  const endLength = e?.phases?.length - 1;
+                  return (
+                    <LaunchCollectionCard
+                      key={index}
+                      Cover={e.coverImage}
+                      Logo={e.logo}
+                      Name={e.name}
+                      pageName={e.pageName}
+                      Description={e.description}
+                      mintPrice={e?.phases[endLength]?.mintPrice}
+                      supply={e.maxSupply}
+                      status={e.status}
+                      verified={true}
+                      CollectionAddress={e.contractAddress}
+                      startDate={e?.phases[0]?.startDate}
+                      endDate={e?.phases[endLength]?.EndDate}
+                    />
+                  );
+                })}
               </InfiniteScroll>
             </div>
           </div>
-        </section>
-      </div>
+        </section >
+      </div >
     </>
   );
 };
