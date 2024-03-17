@@ -12,7 +12,6 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { featured_collections, get_collections, top_collections } from "../utils/mongo_api/collection/collection";
 import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
-import customLaunchpad from "./launchpad/customLaunchpad.json";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import defLogo from "../../public/deflogo.png";
 import Loader from "../components/Loader";
