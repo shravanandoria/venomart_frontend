@@ -112,6 +112,20 @@ const launchpad = ({
         set_selected_phase(def_data);
     };
 
+    // update mint status 
+    const updateMintStatus = async () => {
+        if (new Date(collectionData.phases[0].startDate) < new Date() && collectionData?.pageName != "") {
+            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "live");
+        }
+        // TAKE LAST INDEX OF PHASES 
+        if (new Date(collectionData.phases[0].EndDate) > new Date() && collectionData?.pageName != "") {
+            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "ended");
+        }
+        if (mintedNFTs >= collectionData?.maxSupply && collectionData?.pageName != "") {
+            const updateStatus = updateLaunchpadStatus(collectionData?.pageName, "sold out");
+        }
+    }
+
     // selecting phase
     const selectPhaseFunction = (phase, index) => {
         set_selected_phase({
@@ -141,10 +155,6 @@ const launchpad = ({
 
         launchpad_mint(venomProvider, "", signer_address, 1, []);
     };
-
-    useEffect(() => {
-        mintLaunchNFT();
-    }, []);
 
     useEffect(() => { }, [collectionData]);
 
@@ -403,7 +413,7 @@ const launchpad = ({
                                             {/* mint percent  */}
                                             <div className="flex justify-between">
                                                 <h2 className="text-sm text-jacarta-700 dark:text-white tracking-widest">TOTAL MINTED</h2>
-                                                {mintedNFTs > 0 && (
+                                                {mintedNFTs >= 0 && (
                                                     <p className="text-jacarta-700 dark:text-white text-sm mb-1">
                                                         {mintedPercent}% ({mintedNFTs}/{collectionData?.maxSupply})
                                                     </p>
@@ -531,11 +541,7 @@ const launchpad = ({
 
                                                 {/* mint btn  */}
                                                 <div className="flex w-[100%] mt-4">
-                                                    <button
-                                                        type="button"
-                                                        // onClick={mintLaunchNFT}
-                                                        className={`${(theme = "dark" ? "bg-indigo-500" : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                    >
+                                                    <button onClick={mintLaunchNFT} className={`${theme = "dark" ? "bg-indigo-500" : "bg-indigo-500"} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}>
                                                         <span className="text-white font-mono">Mint</span>
                                                     </button>
                                                 </div>
