@@ -54,7 +54,7 @@ export const launchpad_mint = async (
     from: new Address(signer_address),
     amount: payable_venoms + extra_tokens,
   });
-  
+
 };
 
 // get how many nfts user minted
