@@ -71,7 +71,33 @@
 			]
 		},
 		{
+			"name": "update_default_nft_json",
+			"inputs": [
+				{"name":"new_json","type":"string"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "get_phase_minting_prices",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128[]"}
+			]
+		},
+		{
+			"name": "get_default_nft_json",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"string"}
+			]
+		},
+		{
+			"name": "get_duration_each_phase",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
