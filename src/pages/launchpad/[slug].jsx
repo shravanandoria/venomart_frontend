@@ -19,7 +19,6 @@ const launchpad = ({
     blockURL,
     theme,
     webURL,
-    copyURL,
     venomProvider,
     signer_address,
     connectWallet,
@@ -162,15 +161,24 @@ const launchpad = ({
     // mint function
     const mintLaunchNFT = async () => {
         if (!venomProvider) return;
+        if (new Date(selected_phase?.EndDate) < new Date()) {
+            alert(`Minting for ${selected_phase?.phaseName} has ended!!`)
+            return;
+        }
+
         getLaunchInfoFromContract();
 
-        launchpad_mint(venomProvider, "", signer_address, 1, []);
+        launchpad_mint(venomProvider, "", signer_address, 1, [1]);
     };
 
     useEffect(() => {
         if (!slug) return;
         getLaunchpadData();
     }, [slug]);
+
+    useEffect(() => {
+        setMintCount(1);
+    }, [selected_phase]);
 
     return (
         <div className={`${theme}`}>
@@ -493,7 +501,7 @@ const launchpad = ({
                                                         {new Date(phase?.EndDate) < new Date() && (
                                                             <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
                                                                 <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
-                                                                    Ended
+                                                                    Phase Ended
                                                                 </div>
                                                             </div>
                                                         )}
