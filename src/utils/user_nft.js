@@ -449,6 +449,8 @@ export const cancel_listing = async (
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
 
+    console.log({ OnChainOwner, OnChainManager })
+
     if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
       const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
       alert("This NFT is not owned by you!");
