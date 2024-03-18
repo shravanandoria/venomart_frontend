@@ -398,23 +398,6 @@ export const list_nft = async (
   royaltyPercent,
   royaltyAddress,
 ) => {
-  console.log({
-    prev_nft_Owner,
-    prev_nft_Manager,
-    nft_address,
-    collection_address,
-    price,
-    venomProvider,
-    signer_address,
-    nft,
-    onchainNFTData,
-    finalListingPrice,
-    newFloorPrice,
-    stampedFloor,
-    client,
-    royaltyPercent,
-    royaltyAddress,
-  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
