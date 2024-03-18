@@ -1,6 +1,6 @@
 // def
 import { useEffect, useState } from "react";
-import { TonClientContextProvider } from "../context/tonclient";
+// import { TonClientContextProvider } from "../context/tonclient";
 
 // components
 import Navbar from "../components/Navbar";
@@ -164,11 +164,11 @@ export default function App({ Component, pageProps }) {
   }, [router.pathname]);
 
   //GRAPHQL CONFIGS
-  const config = {
-    network: {
-      endpoints: ["https://gql-testnet.venom.foundation/graphql"],
-    },
-  };
+  // const config = {
+  //   network: {
+  //     endpoints: ["https://gql-testnet.venom.foundation/graphql"],
+  //   },
+  // };
 
   return (
     <ThirdwebProvider clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENTID}>
@@ -199,36 +199,36 @@ export default function App({ Component, pageProps }) {
         setVnmBalance={setVnmBalance}
         adminAccount={adminAccount}
       />
-      <TonClientContextProvider config={config}>
-        <Component
-          {...pageProps}
-          theme={theme}
-          standalone={standalone}
-          apiFetchURL={apiFetchURL}
-          venomProvider={venomProvider}
-          signer_address={signer_address}
-          blockURL={blockURL}
-          blockChain={blockChain}
-          currency={currency}
-          webURL={webURL}
-          copyURL={copyURL}
-          connectWallet={connect_wallet}
-          EnableMakeOffer={EnableMakeOffer}
-          adminAccount={adminAccount}
-          topUsers={topUsers}
-          setTopUsers={setTopUsers}
-          anyModalOpen={anyModalOpen}
-          setAnyModalOpen={setAnyModalOpen}
-          cartNFTs={cartNFTs}
-          setCartNFTs={setCartNFTs}
-          venomPrice={venomPrice}
-          vnmBalance={vnmBalance}
-          setVnmBalance={setVnmBalance}
-          EnableNFTList={EnableNFTList}
-          EnableNFTCancel={EnableNFTCancel}
-          EnableNFTSale={EnableNFTSale}
-        />
-      </TonClientContextProvider>
+      {/* <TonClientContextProvider config={config}> */}
+      <Component
+        {...pageProps}
+        theme={theme}
+        standalone={standalone}
+        apiFetchURL={apiFetchURL}
+        venomProvider={venomProvider}
+        signer_address={signer_address}
+        blockURL={blockURL}
+        blockChain={blockChain}
+        currency={currency}
+        webURL={webURL}
+        copyURL={copyURL}
+        connectWallet={connect_wallet}
+        EnableMakeOffer={EnableMakeOffer}
+        adminAccount={adminAccount}
+        topUsers={topUsers}
+        setTopUsers={setTopUsers}
+        anyModalOpen={anyModalOpen}
+        setAnyModalOpen={setAnyModalOpen}
+        cartNFTs={cartNFTs}
+        setCartNFTs={setCartNFTs}
+        venomPrice={venomPrice}
+        vnmBalance={vnmBalance}
+        setVnmBalance={setVnmBalance}
+        EnableNFTList={EnableNFTList}
+        EnableNFTCancel={EnableNFTCancel}
+        EnableNFTSale={EnableNFTSale}
+      />
+      {/* </TonClientContextProvider> */}
       <Footer
         cartNFTs={cartNFTs}
         setCartNFTs={setCartNFTs}

@@ -10,7 +10,7 @@ import { MdVerified } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { featured_collections, get_collections, top_collections } from "../utils/mongo_api/collection/collection";
-import { TonClientContext } from "../context/tonclient";
+// import { TonClientContext } from "../context/tonclient";
 import { top_users } from "../utils/mongo_api/user/user";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import defLogo from "../../public/deflogo.png";
@@ -20,7 +20,7 @@ import { get_launchpad_events } from "../utils/mongo_api/launchpad/launchpad";
 
 
 export default function Home({ theme }) {
-  const { client } = useContext(TonClientContext);
+  // const { client } = useContext(TonClientContext);
 
   const [launchCollections, setLaunchCollections] = useState([]);
   const [topCollections, setTopCollections] = useState([]);
@@ -92,9 +92,9 @@ export default function Home({ theme }) {
     fetchTopUsers();
   }, [topSwitch, duration]);
 
-  if (!client) {
-    return <>-</>;
-  }
+  // if (!client) {
+  //   return <>-</>;
+  // }
 
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500 dark:bg-jacarta-900`}>

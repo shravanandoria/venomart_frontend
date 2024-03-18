@@ -213,15 +213,15 @@ const launchpad = ({
                 <meta
                     property="og:description"
                     content={`${LaunchData?.description
-                            ? LaunchData?.description
-                            : "Explore, Create and Experience exclusive NFTs on Venomart"
+                        ? LaunchData?.description
+                        : "Explore, Create and Experience exclusive NFTs on Venomart"
                         } | Powered by Venomart`}
                 />
                 <meta
                     property="og:image"
                     content={`${LaunchData?.logo
-                            ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
-                            : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
+                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                        : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
                 <meta property="og:url" content={"https://venomart.io/"} />
@@ -234,15 +234,15 @@ const launchpad = ({
                 <meta
                     name="twitter:description"
                     content={`${LaunchData?.description
-                            ? LaunchData?.description
-                            : "Explore, Create and Experience exclusive NFTs on Venomart"
+                        ? LaunchData?.description
+                        : "Explore, Create and Experience exclusive NFTs on Venomart"
                         } | Powered by Venomart`}
                 />
                 <meta
                     name="twitter:image"
                     content={`${LaunchData?.logo
-                            ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
-                            : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
+                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                        : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
                 <meta name="twitter:site" content="@venomart23" />

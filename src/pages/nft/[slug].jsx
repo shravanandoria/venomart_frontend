@@ -43,7 +43,7 @@ import { GoHistory } from "react-icons/go";
 import { addOffer, existingOffer, getActiveOffer, getOffers, updateOffer } from "../../utils/mongo_api/offer/offer";
 import numeral from "numeral";
 import moment from "moment";
-import { TonClientContext } from "../../context/tonclient";
+// import { TonClientContext } from "../../context/tonclient";
 import { cancel_offer } from "../../utils/user_nft";
 
 const NFTPage = ({
@@ -67,7 +67,7 @@ const NFTPage = ({
 }) => {
   const router = useRouter();
   const { slug } = router.query;
-  const { client } = useContext(TonClientContext);
+  // const { client } = useContext(TonClientContext);
 
   const [lastSold, setLastSold] = useState("");
   const [higestOffer, setHigestOffer] = useState("");
@@ -344,7 +344,6 @@ const NFTPage = ({
         finalListingPrice,
         newFloorPrice,
         nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice,
-        client,
         nft?.NFTCollection?.royalty
           ? nft?.NFTCollection?.royalty
           : collectionData?.data?.royalty
@@ -508,7 +507,6 @@ const NFTPage = ({
         onchainNFTData,
         nft,
         slug,
-        client,
         getActiveOffers?.offerContract
           ? getActiveOffers?.offerContract
           : "0:0000000000000000000000000000000000000000000000000000000000000000",

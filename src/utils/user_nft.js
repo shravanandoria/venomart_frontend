@@ -353,7 +353,6 @@ export const list_nft = async (
   finalListingPrice,
   newFloorPrice,
   stampedFloor,
-  client,
   royaltyPercent,
   royaltyAddress,
 ) => {
