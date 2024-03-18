@@ -34,8 +34,12 @@ export const platform_fees = 2.5; //value in percent 2.5%
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
+  "0:4ab7c6a2c523c448445770414d521f608dacfeeb5a7902d673d7eb80bc5f569e",
 );
+
+// export const FactoryDirectSellAddress = new Address(
+//   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
+// );
 // all contract address here up
 
 // ---- all functions used for rpc or graphql nft fetch ----

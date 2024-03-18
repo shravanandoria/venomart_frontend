@@ -9,7 +9,6 @@
 				{"name":"owner","type":"address"},
 				{"name":"_directSellCode","type":"cell"},
 				{"name":"_platform_fees","type":"uint128"},
-				{"name":"_remain_on_contract","type":"uint128"},
 				{"name":"_directSell_deployment_cost","type":"uint128"},
 				{"name":"_bulk_buy_limit","type":"uint128"},
 				{"name":"_bulk_buy_processing_fee","type":"uint128"},
