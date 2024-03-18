@@ -166,7 +166,7 @@
 			]
 		},
 		{
-			"name": "get_max_supply",
+			"name": "maxSupply",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],

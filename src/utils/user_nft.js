@@ -375,25 +375,32 @@ export const list_nft = async (
 
     const listing_fee = await factory_contract.methods.get_listing_fee({ answerId: 0 }).call();
 
-    const load = await client.abi.encode_boc({
-      params: [
-        { name: "price", type: "uint128" },
-        { name: "royalty", type: "uint128" },
-        { name: "royalty_address", type: "address" },
-      ],
-      data: {
-        price: parseFloat(price) * 1000000000,
-        royalty: parseFloat(royaltyPercent) * 1000,
-        royalty_address: royaltyAddress,
-      },
+    const payload = await factory_contract.methods.generatePayload({
+      answerId: 0,
+      price: parseFloat(price) * 1000000000,
+      royalty: parseFloat(royaltyPercent) * 1000,
+      royalty_address: royaltyAddress,
     });
+
+    // const load = await client.abi.encode_boc({
+    //   params: [
+    //     { name: "price", type: "uint128" },
+    //     { name: "royalty", type: "uint128" },
+    //     { name: "royalty_address", type: "address" },
+    //   ],
+    //   data: {
+    //     price: parseFloat(price) * 1000000000,
+    //     royalty: parseFloat(royaltyPercent) * 1000,
+    //     royalty_address: royaltyAddress,
+    //   },
+    // });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
-        callbacks: [[FactoryDirectSellAddress, { value: listing_fee.value0, payload: load.boc }]],
+        callbacks: [[FactoryDirectSellAddress, { value: listing_fee.value0, payload: payload.value0 }]],
       })
       .send({
         from: new Address(signer_address),
@@ -401,7 +408,7 @@ export const list_nft = async (
       });
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-
+    
     if (output) {
       await wait(5000);
       const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
