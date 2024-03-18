@@ -7,7 +7,6 @@ import { BsBrowserChrome, BsDiscord, BsFillShareFill, BsInstagram, BsTelegram, B
 import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import collectionAbi from "../../../abi/CollectionDrop.abi.json";
 import { get_launchpad_by_name, updateLaunchpadStatus } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
@@ -153,7 +152,7 @@ const launchpad = ({
 
     // get minted supply
     const getMintedSupply = async () => {
-        if (!venomProvider) return console.log("Provider is undefined");
+        if (!venomProvider) return;
 
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
         const mint_percent = Math.floor((mintedSupply / collectionData?.maxSupply) * 100);

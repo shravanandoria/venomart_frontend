@@ -250,15 +250,8 @@ const NFTPage = ({
       if (OnChainOwner != OnChainManager && !offChainListed) {
         const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
         let demandPrice = onChainNFTData?.value5 / 1000000000;
-        let platformFeesPercent = onChainNFTData?.value6 / 1000;
-        let royaltyPercent = onChainNFTData?.value7 / 1000;
 
-        let platformFees = (demandPrice * platformFeesPercent) / 100;
-        let royaltyFees = (demandPrice * royaltyPercent) / 100;
-
-        let listingPrice = demandPrice + platformFees + royaltyFees;
-
-        const updatingData = await update_verified_nft_listing(demandPrice, listingPrice, slug);
+        const updatingData = await update_verified_nft_listing(demandPrice, demandPrice, slug);
         alert("Listing price updated successfully");
       }
 
