@@ -163,7 +163,9 @@ const launchpad = ({
     // mint function
     const mintLaunchNFT = async () => {
         if (!venomProvider) return;
-        if (!signer_address) { connectWallet() }
+        if (!signer_address) {
+            connectWallet();
+        }
         if (new Date(selected_phase?.EndDate) < new Date()) {
             alert(`Minting for ${selected_phase?.phaseName} has ended!!`);
             return;
@@ -211,15 +213,15 @@ const launchpad = ({
                 <meta
                     property="og:description"
                     content={`${LaunchData?.description
-                        ? LaunchData?.description
-                        : "Explore, Create and Experience exclusive NFTs on Venomart"
+                            ? LaunchData?.description
+                            : "Explore, Create and Experience exclusive NFTs on Venomart"
                         } | Powered by Venomart`}
                 />
                 <meta
                     property="og:image"
                     content={`${LaunchData?.logo
-                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
-                        : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
+                            ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                            : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
                 <meta property="og:url" content={"https://venomart.io/"} />
@@ -232,15 +234,15 @@ const launchpad = ({
                 <meta
                     name="twitter:description"
                     content={`${LaunchData?.description
-                        ? LaunchData?.description
-                        : "Explore, Create and Experience exclusive NFTs on Venomart"
+                            ? LaunchData?.description
+                            : "Explore, Create and Experience exclusive NFTs on Venomart"
                         } | Powered by Venomart`}
                 />
                 <meta
                     name="twitter:image"
                     content={`${LaunchData?.logo
-                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
-                        : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
+                            ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                            : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
                 <meta name="twitter:site" content="@venomart23" />
@@ -522,54 +524,65 @@ const launchpad = ({
                                             {/* final mint section  */}
                                             <div className="flex flex-col w-[100%] mt-12">
                                                 {/* price  */}
-                                                {!(new Date(collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate) < new Date()) &&
-                                                    <div className="flex justify-between w-[100%]">
-                                                        <div>
-                                                            <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}>
-                                                                <span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>
-                                                                    Price:
-                                                                </span>{" "}
-                                                                {selected_phase?.mintPrice} VENOM
-                                                            </h2>
-                                                        </div>
-                                                        <div className="inline-flex items-center">
-                                                            <button
-                                                                className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-                                                                onClick={() => handlemintCountDec()}
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    className="h-6 w-4"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
-                                                                </svg>
-                                                            </button>
-                                                            <div className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
-                                                                {mintCount}
+                                                {!(
+                                                    new Date(
+                                                        collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                    ) < new Date()
+                                                ) && (
+                                                        <div className="flex justify-between w-[100%]">
+                                                            <div>
+                                                                <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}>
+                                                                    <span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>
+                                                                        Price:
+                                                                    </span>{" "}
+                                                                    {selected_phase?.mintPrice} VENOM
+                                                                </h2>
                                                             </div>
-                                                            <button
-                                                                className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-                                                                onClick={() => handlemintCountInc()}
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    className="h-6 w-4"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
+                                                            <div className="inline-flex items-center">
+                                                                <button
+                                                                    className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                                    onClick={() => handlemintCountDec()}
                                                                 >
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                                                                </svg>
-                                                            </button>
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="h-6 w-4"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        stroke="currentColor"
+                                                                    >
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                                                                    </svg>
+                                                                </button>
+                                                                <div className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
+                                                                    {mintCount}
+                                                                </div>
+                                                                <button
+                                                                    className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                                    onClick={() => handlemintCountInc()}
+                                                                >
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        className="h-6 w-4"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        stroke="currentColor"
+                                                                    >
+                                                                        <path
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            strokeWidth="2"
+                                                                            d="M12 4v16m8-8H4"
+                                                                        />
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                }
+                                                    )}
 
                                                 {/* mint btn  */}
-                                                {(new Date(collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate) < new Date()) ?
+                                                {new Date(
+                                                    collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                ) < new Date() ? (
                                                     <div className="flex w-[100%] mt-4">
                                                         <button
                                                             onClick={() => alert("Oops! The launchpad minting for this collection has ended!!")}
@@ -580,9 +593,9 @@ const launchpad = ({
                                                             <span className="text-white font-mono">Minting Ended!</span>
                                                         </button>
                                                     </div>
-                                                    :
+                                                ) : (
                                                     <div className="flex w-[100%] mt-4">
-                                                        {new Date(selected_phase?.startDate) > new Date() ?
+                                                        {new Date(selected_phase?.startDate) > new Date() ? (
                                                             <button
                                                                 onClick={() => alert("Minting in this phase has not started yet!")}
                                                                 className={`${(theme = "dark"
@@ -591,29 +604,27 @@ const launchpad = ({
                                                             >
                                                                 <span className="text-white font-mono">Not Started 🔒</span>
                                                             </button>
-                                                            :
-                                                            (selected_phase?.mintEligibility == true || selected_phase?.EligibleWallets == "" ?
-                                                                <button
-                                                                    onClick={mintLaunchNFT}
-                                                                    className={`${(theme = "dark"
-                                                                        ? "bg-indigo-500"
-                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                                >
-                                                                    <span className="text-white font-mono">Mint</span>
-                                                                </button>
-                                                                :
-                                                                <button
-                                                                    onClick={() => alert("You are not eligible to mint in this phase!!")}
-                                                                    className={`${(theme = "dark"
-                                                                        ? "bg-indigo-500"
-                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                                >
-                                                                    <span className="text-white font-mono">Not Eligible ❌</span>
-                                                                </button>
-                                                            )
-                                                        }
+                                                        ) : selected_phase?.mintEligibility == true || selected_phase?.EligibleWallets == "" ? (
+                                                            <button
+                                                                onClick={mintLaunchNFT}
+                                                                className={`${(theme = "dark"
+                                                                    ? "bg-indigo-500"
+                                                                    : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                            >
+                                                                <span className="text-white font-mono">Mint</span>
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => alert("You are not eligible to mint in this phase!!")}
+                                                                className={`${(theme = "dark"
+                                                                    ? "bg-indigo-500"
+                                                                    : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                            >
+                                                                <span className="text-white font-mono">Not Eligible ❌</span>
+                                                            </button>
+                                                        )}
                                                     </div>
-                                                }
+                                                )}
                                             </div>
                                         </div>
                                     </div>
