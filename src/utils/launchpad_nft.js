@@ -2,10 +2,10 @@ import { Address } from "everscale-inpage-provider";
 import moment from "moment";
 import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
 
-const SAMPLE_LAUNCHPAD_ADDR = "0:5b951447168aa22548ed8d6084e887af71642a9e2214904fc57d6a6e2254f982";
+const SAMPLE_LAUNCHPAD_ADDR = "0:8f2c3c967bae335e4f59b6e2ba7b5eede23d69118d37a3f1c7319773973fb315";
 
 // extra amount for mint refundable
-const extra_tokens = "100000000";
+const extra_tokens = 2000000000;
 const ONE_VENOM = 1000000000;
 
 // initiating launchpad contract
@@ -48,13 +48,12 @@ export const launchpad_mint = async (
   payable_amount,
 ) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
+  console.log({ current_phase });
   const payable_venoms = payable_amount * ONE_VENOM;
   await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),
-    amount: payable_venoms + extra_tokens,
+    amount: (payable_venoms + extra_tokens).toString(),
   });
-
 };
 
 // get how many nfts user minted
@@ -114,30 +113,15 @@ export const get_max_mint_limit = async (provider, launchpad_address) => {
   console.log({ res });
 };
 
-// get all phases names
-export const get_phases_name = async (provider, launchpad_address) => {
-  const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
-  const res = await launchpad.methods.get_phases_name({ answerId: 0 });
-
-  console.log({ res });
-};
-
 // getting max supply of collection
 export const get_max_supply = async (provider, launchpad_address) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
   const res = await launchpad.methods.get_max_supply({ answerId: 0, phase_num: current_phase, addr: signer_address });
-
-  console.log({ res });
 };
 
 // getting total minted
 export const get_total_minted = async (provider, launchpad_address) => {
-  console.log({ provider });
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
   const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
-
   return res.value0;
 };

@@ -990,7 +990,7 @@ const NFTPage = ({
                   {/* -------------------------- all action buttons start ------------------------  */}
 
                   {/* <!-- list nft --> */}
-                  {(onchainNFTData ? nft?.manager?._address : nft?.managerAddress) == signer_address && (
+                  {(((onchainNFTData ? nft?.manager?._address : nft?.managerAddress) == signer_address) && nft?.isListed != true) && (
                     <div className="rounded-2lg  border-jacarta-100 dark:border-jacarta-600">
                       <div className="mb-8 flex flex-row justify-between">
                         <div></div>
@@ -1034,7 +1034,7 @@ const NFTPage = ({
                           )}
                         </div>
                       </div>
-                      {nft?.NFTCollection?.isTrading == true ?
+                      {(nft?.NFTCollection?.isTrading == true || collectionData?.data?.isTrading == true) ?
                         <button
                           onClick={() => (
                             onchainNFTData && getCollectionDataForOnchain(),
@@ -1048,15 +1048,28 @@ const NFTPage = ({
                           List For Sale
                         </button>
                         :
-                        <button
-                          onClick={() => (
-                            alert("Trading is currently disabled on this collection!")
-                          )}
-                          href="#"
-                          className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                        >
-                          List For Sale 🔒
-                        </button>
+                        (onchainNFTData ?
+                          <button
+                            onClick={() => (
+                              setSelectedNFT(""),
+                              setListSale(true),
+                              setAnyModalOpen(true)
+                            )}
+                            href="#"
+                            className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            List For Sale
+                          </button>
+                          :
+                          <button
+                            onClick={() => (
+                              alert("Trading is currently disabled on this collection!")
+                            )}
+                            href="#"
+                            className="inline-block w-full rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            List For Sale 🔒
+                          </button>)
                       }
                     </div>
                   )}

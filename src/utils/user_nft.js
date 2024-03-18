@@ -208,7 +208,7 @@ export const loadNFTs_collection_RPC = async (provider, collection_address, last
     const nftAddresses = await getNftAddresses(nftCodeHash, provider, last_nft_addr);
     const { continuation } = nftAddresses;
     if (!nftAddresses || !nftAddresses.accounts.length) {
-      if (nftAddresses && !nftAddresses.accounts.length) setListIsEmpty(true);
+      if (nftAddresses && !nftAddresses.accounts.length);
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses.accounts);
@@ -306,7 +306,6 @@ export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) =
     const { continuation } = indexesAddresses;
     if (!indexesAddresses || !indexesAddresses.accounts.length) {
       if (indexesAddresses && !indexesAddresses.accounts.length)
-        // setListIsEmpty_user(true);
         return;
     }
     // Fetch all image URLs
@@ -323,8 +322,8 @@ export const create_nft_database = async (data, nft_address, signer_address) => 
     NFTAddress: nft_address,
     ownerAddress: data.owner._address,
     managerAddress: data.manager._address,
-    imageURL: data.preview.source,
-    metadata: data.files[0].source,
+    imageURL: data?.preview?.source,
+    metadata: data?.files[0]?.source,
     name: data.name,
     description: data.description,
     properties: data.attributes,
@@ -399,6 +398,23 @@ export const list_nft = async (
   royaltyPercent,
   royaltyAddress,
 ) => {
+  console.log({
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    price,
+    venomProvider,
+    signer_address,
+    nft,
+    onchainNFTData,
+    finalListingPrice,
+    newFloorPrice,
+    stampedFloor,
+    client,
+    royaltyPercent,
+    royaltyAddress,
+  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
