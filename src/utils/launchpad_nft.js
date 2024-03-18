@@ -125,30 +125,15 @@ export const get_max_mint_limit = async (provider, launchpad_address) => {
   console.log({ res });
 };
 
-// get all phases names
-export const get_phases_name = async (provider, launchpad_address) => {
-  const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
-  const res = await launchpad.methods.get_phases_name({ answerId: 0 });
-
-  console.log({ res });
-};
-
 // getting max supply of collection
 export const get_max_supply = async (provider, launchpad_address) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
   const res = await launchpad.methods.get_max_supply({ answerId: 0, phase_num: current_phase, addr: signer_address });
-
-  console.log({ res });
 };
 
 // getting total minted
 export const get_total_minted = async (provider, launchpad_address) => {
-  console.log({ provider });
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-
   const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
-
   return res.value0;
 };
