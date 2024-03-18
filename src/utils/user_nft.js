@@ -1,9 +1,4 @@
 import { Address } from "everscale-inpage-provider";
-import indexAbi from "../../abi/Index.abi.json";
-import nftAbi from "../../abi/Nft.abi.json";
-import collectionAbi from "../../abi/CollectionDrop.abi.json";
-import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
-import DirectSell from "../../new_abi/DirectSell.abi.json";
 import moment from "moment";
 import {
   createNFT,
@@ -14,14 +9,22 @@ import {
   updateNFTSaleBulk,
 } from "./mongo_api/nfts/nfts";
 import { Subscriber, TvmException } from "everscale-inpage-provider";
-import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import { addOffer, getOfferWithOfferContract, removeAllOffers, updateOffer } from "./mongo_api/offer/offer";
+import { addActivity } from "./mongo_api/activity/activity";
+import { create_collection } from "./mongo_api/collection/collection";
+
+// importing abis 
+import indexAbi from "../../abi/Index.abi.json";
+import nftAbi from "../../abi/Nft.abi.json";
+import collectionAbi from "../../abi/CollectionDrop.abi.json";
+import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
+import DirectSell from "../../new_abi/DirectSell.abi.json";
+
+// make offer abis 
 import TokenWallet from "../../abi/TokenWallet.abi.json";
 import TokenRoot from "../../abi/TokenRoot.abi.json";
-import CollectionFactory from "../../new_abi/CollectionFactory.abi.json";
+import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
 import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
-import { create_collection } from "./mongo_api/collection/collection";
-import { addActivity } from "./mongo_api/activity/activity";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const cancel_refundable_fees = 100000000;
