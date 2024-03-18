@@ -2,10 +2,10 @@ import { Address } from "everscale-inpage-provider";
 import moment from "moment";
 import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
 
-const SAMPLE_LAUNCHPAD_ADDR = "0:5b951447168aa22548ed8d6084e887af71642a9e2214904fc57d6a6e2254f982";
+const SAMPLE_LAUNCHPAD_ADDR = "0:8f2c3c967bae335e4f59b6e2ba7b5eede23d69118d37a3f1c7319773973fb315";
 
 // extra amount for mint refundable
-const extra_tokens = 100000000;
+const extra_tokens = 10000000000;
 const ONE_VENOM = 1000000000;
 
 // initiating launchpad contract
@@ -48,7 +48,19 @@ export const launchpad_mint = async (
   payable_amount,
 ) => {
   const launchpad = launchpad_contract(provider, SAMPLE_LAUNCHPAD_ADDR);
-  console.log({ payable_amount });
+  console.log({ current_phase });
+  console.log({ amount_to_mint });
+
+  // const req_amount = await launchpad.methods
+  //   .cal_minting_amount({
+  //     answerId: 0,
+  //     amount: amount_to_mint,
+  //     current_phase_: current_phase,
+  //   })
+  //   .call();
+
+  // console.log({ req_amount });
+
   const payable_venoms = payable_amount * ONE_VENOM;
   await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),

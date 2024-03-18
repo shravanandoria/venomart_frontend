@@ -415,6 +415,22 @@
 			"outputs": [
 				{"name":"value0","type":"bool"}
 			]
+		},
+		{
+			"name": "current_phase",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"current_phase","type":"uint8"}
+			]
+		},
+		{
+			"name": "total_phases",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"total_phases","type":"uint256"}
+			]
 		}
 	],
 	"data": [

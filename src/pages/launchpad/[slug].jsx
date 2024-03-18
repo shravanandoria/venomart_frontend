@@ -50,11 +50,11 @@ const launchpad = ({
 
   // handling mint count
   const handlemintCountInc = () => {
-    if (mintCount < selected_phase?.maxMint) {
+    // if (mintCount < selected_phase?.maxMint) {
       setMintCount(mintCount + 1);
-    } else {
-      alert(`you cannot mint more than ${selected_phase?.maxMint} NFTs in this phase`);
-    }
+    // } else {
+    //   alert(`you cannot mint more than ${selected_phase?.maxMint} NFTs in this phase`);
+    // }
   };
   const handlemintCountDec = () => {
     if (mintCount > 1) {
@@ -168,7 +168,7 @@ const launchpad = ({
 
     getLaunchInfoFromContract();
     const payable_amount = selected_phase.mintPrice * mintCount;
-    launchpad_mint(venomProvider, "", signer_address, 1, selected_phase.id, payable_amount);
+    await launchpad_mint(venomProvider, "", signer_address, mintCount, selected_phase.id, payable_amount);
   };
 
   useEffect(() => {
