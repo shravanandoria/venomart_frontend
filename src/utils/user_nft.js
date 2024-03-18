@@ -382,6 +382,8 @@ export const list_nft = async (
       royalty_address: royaltyAddress,
     });
 
+    console.log({ payload })
+
     // const load = await client.abi.encode_boc({
     //   params: [
     //     { name: "price", type: "uint128" },
@@ -408,7 +410,7 @@ export const list_nft = async (
       });
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-    
+
     if (output) {
       await wait(5000);
       const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
