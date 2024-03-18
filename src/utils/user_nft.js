@@ -14,12 +14,11 @@ import { addActivity } from "./mongo_api/activity/activity";
 import { create_collection } from "./mongo_api/collection/collection";
 
 // importing abis
-import indexAbi from "../../Latest_abi/Index.abi.json";
-import nftAbi from "../../Latest_abi/Nft.abi.json";
-import FactoryDirectSell from "../../Latest_abi/FactoryDirectSell.abi.json";
-import DirectSell from "../../Latest_abi/DirectSell.abi.json";
-
-import Launchpad_Contract_ABI from "../../Latest_abi/LaunchpadContract.abi.json";
+import indexAbi from "../../abi/Index.abi.json";
+import nftAbi from "../../abi/Nft.abi.json";
+import FactoryDirectSell from "../../abi/FactoryDirectSell.abi.json";
+import DirectSell from "../../abi/DirectSell.abi.json";
+import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 
 // make offer abis
 // import TokenWallet from "../../abi/TokenWallet.abi.json";

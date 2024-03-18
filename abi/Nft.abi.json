@@ -12,7 +12,18 @@
 				{"name":"json","type":"string"},
 				{"name":"codeIndex","type":"cell"},
 				{"name":"indexDeployValue","type":"uint128"},
-				{"name":"indexDestroyValue","type":"uint128"}
+				{"name":"indexDestroyValue","type":"uint128"},
+				{"name":"_parent_collection_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_metadata",
+			"inputs": [
+				{"name":"new_json","type":"string"},
+				{"name":"metadata_updater","type":"address"},
+				{"name":"remainOnNFT","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -165,6 +176,7 @@
 		{"name":"_json","type":"string"},
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
-		{"name":"_codeIndex","type":"cell"}
+		{"name":"_codeIndex","type":"cell"},
+		{"name":"parent_collection_address","type":"address"}
 	]
 }
