@@ -1,0 +1,98 @@
+{
+	"ABI version": 2,
+	"version": "2.2",
+	"header": ["pubkey", "time", "expire"],
+	"functions": [
+		{
+			"name": "constructor",
+			"inputs": [
+				{"name":"_factoryDirectSell","type":"address"},
+				{"name":"_owner","type":"address"},
+				{"name":"_price","type":"uint128"},
+				{"name":"_platform_fee","type":"uint128"},
+				{"name":"_royalty","type":"uint128"},
+				{"name":"_royalty_address","type":"address"},
+				{"name":"_remainOnContract","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "get_nft_price",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "get_listing_data",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"value0","type":"address"},
+				{"name":"value1","type":"address"},
+				{"name":"value2","type":"address"},
+				{"name":"value3","type":"address"},
+				{"name":"value4","type":"address"},
+				{"name":"value5","type":"uint128"},
+				{"name":"value6","type":"uint128"},
+				{"name":"value7","type":"uint128"}
+			]
+		},
+		{
+			"name": "cancel_listing",
+			"inputs": [
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "buyNft",
+			"inputs": [
+				{"name":"new_nft_holder","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"data": [
+		{"key":1,"name":"nonce","type":"uint256"},
+		{"key":2,"name":"nftAddress","type":"address"},
+		{"key":3,"name":"nft_owner","type":"address"}
+	],
+	"events": [
+		{
+			"name": "NFT_Listed",
+			"inputs": [
+				{"name":"nft_address","type":"address"},
+				{"name":"nft_owner","type":"address"},
+				{"name":"nft_price","type":"uint128"},
+				{"name":"royalty_percent","type":"uint128"},
+				{"name":"royalty_address","type":"address"},
+				{"name":"platform_owner","type":"address"},
+				{"name":"platform_fee","type":"uint128"},
+				{"name":"factory_address","type":"address"}
+			],
+			"outputs": [
+			]
+		}
+	],
+	"fields": [
+		{"name":"_pubkey","type":"uint256"},
+		{"name":"_timestamp","type":"uint64"},
+		{"name":"_constructorFlag","type":"bool"},
+		{"name":"nonce","type":"uint256"},
+		{"name":"nftAddress","type":"address"},
+		{"name":"nft_owner","type":"address"},
+		{"name":"owner","type":"address"},
+		{"name":"factoryDirectSell","type":"address"},
+		{"name":"nft_price","type":"uint128"},
+		{"name":"platform_fee","type":"uint128"},
+		{"name":"royalty","type":"uint128"},
+		{"name":"royalty_address","type":"address"},
+		{"name":"platform_fee_receiver","type":"address"},
+		{"name":"remainOnContract","type":"uint128"}
+	]
+}
