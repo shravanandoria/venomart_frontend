@@ -23,7 +23,20 @@
 				{"name":"_mintingPrice","type":"uint128[]"},
 				{"name":"_collection_owner","type":"address"},
 				{"name":"_phases_names","type":"string[]"},
-				{"name":"_default_nft_json","type":"string"}
+				{"name":"_default_nft_json","type":"string"},
+				{"name":"_mint_process_amount","type":"uint128"},
+				{"name":"_remainOnContract","type":"uint128"},
+				{"name":"pre_mint_addr","type":"address"},
+				{"name":"pre_mint_amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "pre_mint",
+			"inputs": [
+				{"name":"pre_mint_addr","type":"address"},
+				{"name":"amount","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -134,6 +147,14 @@
 			"name": "update_remain_onNFT",
 			"inputs": [
 				{"name":"amount","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "collection_creator_mint",
+			"inputs": [
+				{"name":"mint_amount","type":"uint128"}
 			],
 			"outputs": [
 			]
