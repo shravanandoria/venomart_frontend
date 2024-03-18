@@ -377,16 +377,12 @@ export const list_nft = async (
 
     const factory_contract = new venomProvider.Contract(FactoryDirectSell, FactoryDirectSellAddress);
 
-    const listing_fee = await factory_contract.methods.get_listing_fee({ answerId: 0 }).call();
-
     const payload = await factory_contract.methods.generatePayload({
       answerId: 0,
       price: parseFloat(price) * 1000000000,
       royalty: parseFloat(royaltyPercent) * 1000,
       royalty_address: royaltyAddress,
-    });
-
-    console.log({ payload })
+    }).call();
 
     // const load = await client.abi.encode_boc({
     //   params: [
@@ -406,11 +402,11 @@ export const list_nft = async (
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
-        callbacks: [[FactoryDirectSellAddress, { value: listing_fee.value0, payload: payload.value0 }]],
+        callbacks: [[FactoryDirectSellAddress, { payload: payload.payload }]],
       })
       .send({
         from: new Address(signer_address),
-        amount: (parseFloat(listing_fee.value0) + 100000000).toString(),
+        amount: (100000000).toString(),
       });
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
