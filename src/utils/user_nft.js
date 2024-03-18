@@ -359,30 +359,32 @@ export const list_nft = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    if (!onchainNFTData) {
-      const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
-      let OnChainOwner = nft_onchain?.owner?._address;
-      let OnChainManager = nft_onchain?.manager?._address;
+    // if (!onchainNFTData) {
+    //   const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
+    //   let OnChainOwner = nft_onchain?.owner?._address;
+    //   let OnChainManager = nft_onchain?.manager?._address;
 
-      if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-        const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
-        alert("This NFT is not owned by you!");
-        return false;
-      }
-    }
+    //   if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+    //     const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
+    //     alert("This NFT is not owned by you!");
+    //     return false;
+    //   }
+    // }
 
-    if (onchainNFTData) {
-      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
-    }
+    // if (onchainNFTData) {
+    //   const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
+    // }
 
     const factory_contract = new venomProvider.Contract(FactoryDirectSell, FactoryDirectSellAddress);
 
-    const payload = await factory_contract.methods.generatePayload({
-      answerId: 0,
-      price: parseFloat(price) * 1000000000,
-      royalty: parseFloat(royaltyPercent) * 1000,
-      royalty_address: royaltyAddress,
-    }).call();
+    const payload = await factory_contract.methods
+      .generatePayload({
+        answerId: 0,
+        price: parseFloat(price) * 1000000000,
+        royalty: parseFloat(royaltyPercent) * 1000,
+        royalty_address: royaltyAddress,
+      })
+      .call();
 
     // const load = await client.abi.encode_boc({
     //   params: [
@@ -402,7 +404,7 @@ export const list_nft = async (
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
-        callbacks: [[FactoryDirectSellAddress, { payload: payload.payload }]],
+        callbacks: [[FactoryDirectSellAddress, { value: "100000000", payload: payload.payload }]],
       })
       .send({
         from: new Address(signer_address),
