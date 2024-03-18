@@ -1,232 +1,169 @@
 {
-	"ABI version": 2,
-	"version": "2.2",
-	"header": ["pubkey", "time", "expire"],
-	"functions": [
-		{
-			"name": "constructor",
-			"inputs": [
-				{"name":"owner","type":"address"},
-				{"name":"_directSellCode","type":"cell"},
-				{"name":"_platform_fees","type":"uint128"},
-				{"name":"_directSell_deployment_cost","type":"uint128"},
-				{"name":"_bulk_buy_limit","type":"uint128"},
-				{"name":"_bulk_buy_processing_fee","type":"uint128"},
-				{"name":"_pause_trading","type":"bool"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "onNftChangeManager",
-			"inputs": [
-				{"name":"id","type":"uint256"},
-				{"name":"owner","type":"address"},
-				{"name":"oldManager","type":"address"},
-				{"name":"newManager","type":"address"},
-				{"name":"collection","type":"address"},
-				{"name":"sendGasTo","type":"address"},
-				{"name":"payload","type":"cell"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "bulkBuy",
-			"inputs": [
-				{"name":"directSell_addr","type":"address[]"},
-				{"name":"nft_price","type":"uint128[]"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "generatePayload",
-			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"price","type":"uint128"},
-				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"}
-			],
-			"outputs": [
-				{"name":"payload","type":"cell"}
-			]
-		},
-		{
-			"name": "get_bulkBuyAmount",
-			"inputs": [
-				{"name":"answerId","type":"uint32"},
-				{"name":"directSell_addr","type":"address[]"},
-				{"name":"nft_price","type":"uint128[]"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint256"}
-			]
-		},
-		{
-			"name": "get_bulkBuy_limit",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "get_directSell_code",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"cell"}
-			]
-		},
-		{
-			"name": "get_remain_on_contract",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "get_directSell_deployment_cost",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "get_platform_fees",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "get_bulk_buy_limit",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "get_bulk_buy_processing_fee",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
-			"name": "update_max_allowed_bulk_buy",
-			"inputs": [
-				{"name":"new_limit","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_remain_on_contract",
-			"inputs": [
-				{"name":"new_remain_on_contract","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_directSell_deployment_cost",
-			"inputs": [
-				{"name":"new_directSell_deployment_cost","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_platform_fees",
-			"inputs": [
-				{"name":"new_platform_fees","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_bulk_buy_limit",
-			"inputs": [
-				{"name":"new_bulk_buy_limit","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_bulk_buy_processing_fee",
-			"inputs": [
-				{"name":"new_bulk_buy_processing_fee","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "owner",
-			"inputs": [
-			],
-			"outputs": [
-				{"name":"value0","type":"address"}
-			]
-		},
-		{
-			"name": "transferOwnership",
-			"inputs": [
-				{"name":"newOwner","type":"address"}
-			],
-			"outputs": [
-			]
-		}
-	],
-	"data": [
-		{"key":1,"name":"_nonce","type":"uint256"}
-	],
-	"events": [
-		{
-			"name": "nft_listed",
-			"inputs": [
-				{"name":"nft_address","type":"address"},
-				{"name":"nft_manager","type":"address"},
-				{"name":"price","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "OwnershipTransferred",
-			"inputs": [
-				{"name":"oldOwner","type":"address"},
-				{"name":"newOwner","type":"address"}
-			],
-			"outputs": [
-			]
-		}
-	],
-	"fields": [
-		{"name":"_pubkey","type":"uint256"},
-		{"name":"_timestamp","type":"uint64"},
-		{"name":"_constructorFlag","type":"bool"},
-		{"name":"owner_","type":"address"},
-		{"name":"_nonce","type":"uint256"},
-		{"name":"directSellCode","type":"cell"},
-		{"name":"remain_on_contract","type":"uint128"},
-		{"name":"directSell_deployment_cost","type":"uint128"},
-		{"name":"platform_fees","type":"uint128"},
-		{"name":"bulk_buy_limit","type":"uint128"},
-		{"name":"bulk_buy_processing_fee","type":"uint128"},
-		{"name":"pause_trading","type":"bool"}
-	]
+  "ABI version": 2,
+  "version": "2.2",
+  "header": ["pubkey", "time", "expire"],
+  "functions": [
+    {
+      "name": "constructor",
+      "inputs": [
+        { "name": "owner", "type": "address" },
+        { "name": "_directSellCode", "type": "cell" },
+        { "name": "_platform_fees", "type": "uint128" },
+        { "name": "_directSell_deployment_cost", "type": "uint128" },
+        { "name": "_bulk_buy_limit", "type": "uint128" },
+        { "name": "_bulk_buy_processing_fee", "type": "uint128" },
+        { "name": "_pause_trading", "type": "bool" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "onNftChangeManager",
+      "inputs": [
+        { "name": "id", "type": "uint256" },
+        { "name": "owner", "type": "address" },
+        { "name": "oldManager", "type": "address" },
+        { "name": "newManager", "type": "address" },
+        { "name": "collection", "type": "address" },
+        { "name": "sendGasTo", "type": "address" },
+        { "name": "payload", "type": "cell" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "bulkBuy",
+      "inputs": [
+        { "name": "directSell_addr", "type": "address[]" },
+        { "name": "nft_price", "type": "uint128[]" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "generatePayload",
+      "inputs": [
+        { "name": "answerId", "type": "uint32" },
+        { "name": "price", "type": "uint128" },
+        { "name": "royalty", "type": "uint128" },
+        { "name": "royalty_address", "type": "address" }
+      ],
+      "outputs": [{ "name": "payload", "type": "cell" }]
+    },
+    {
+      "name": "get_bulkBuyAmount",
+      "inputs": [
+        { "name": "answerId", "type": "uint32" },
+        { "name": "directSell_addr", "type": "address[]" },
+        { "name": "nft_price", "type": "uint128[]" }
+      ],
+      "outputs": [{ "name": "value0", "type": "uint256" }]
+    },
+    {
+      "name": "get_bulkBuy_limit",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "get_directSell_code",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "cell" }]
+    },
+    {
+      "name": "get_remain_on_contract",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "get_directSell_deployment_cost",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "get_platform_fees",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "get_bulk_buy_limit",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "get_bulk_buy_processing_fee",
+      "inputs": [{ "name": "answerId", "type": "uint32" }],
+      "outputs": [{ "name": "value0", "type": "uint128" }]
+    },
+    {
+      "name": "update_max_allowed_bulk_buy",
+      "inputs": [{ "name": "new_limit", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "update_remain_on_contract",
+      "inputs": [{ "name": "new_remain_on_contract", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "update_directSell_deployment_cost",
+      "inputs": [{ "name": "new_directSell_deployment_cost", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "update_platform_fees",
+      "inputs": [{ "name": "new_platform_fees", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "update_bulk_buy_limit",
+      "inputs": [{ "name": "new_bulk_buy_limit", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "update_bulk_buy_processing_fee",
+      "inputs": [{ "name": "new_bulk_buy_processing_fee", "type": "uint128" }],
+      "outputs": []
+    },
+    {
+      "name": "owner",
+      "inputs": [],
+      "outputs": [{ "name": "value0", "type": "address" }]
+    },
+    {
+      "name": "transferOwnership",
+      "inputs": [{ "name": "newOwner", "type": "address" }],
+      "outputs": []
+    }
+  ],
+  "data": [{ "key": 1, "name": "_nonce", "type": "uint256" }],
+  "events": [
+    {
+      "name": "nft_listed",
+      "inputs": [
+        { "name": "nft_address", "type": "address" },
+        { "name": "nft_manager", "type": "address" },
+        { "name": "price", "type": "uint128" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "OwnershipTransferred",
+      "inputs": [
+        { "name": "oldOwner", "type": "address" },
+        { "name": "newOwner", "type": "address" }
+      ],
+      "outputs": []
+    }
+  ],
+  "fields": [
+    { "name": "_pubkey", "type": "uint256" },
+    { "name": "_timestamp", "type": "uint64" },
+    { "name": "_constructorFlag", "type": "bool" },
+    { "name": "owner_", "type": "address" },
+    { "name": "_nonce", "type": "uint256" },
+    { "name": "directSellCode", "type": "cell" },
+    { "name": "remain_on_contract", "type": "uint128" },
+    { "name": "directSell_deployment_cost", "type": "uint128" },
+    { "name": "platform_fees", "type": "uint128" },
+    { "name": "bulk_buy_limit", "type": "uint128" },
+    { "name": "bulk_buy_processing_fee", "type": "uint128" },
+    { "name": "pause_trading", "type": "bool" }
+  ]
 }
