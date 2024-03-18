@@ -26,7 +26,7 @@ import {
   get_collection_props,
   update_collection_supply,
 } from "../../utils/mongo_api/collection/collection";
-import collectionAbi from "../../../abi/LaunchpadContract.abi.json";
+import LaunchpadContractAbi from "../../../abi/LaunchpadContract.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
@@ -335,8 +335,8 @@ const Collection = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
 
-    const contract = new venomProvider.Contract(collectionAbi, slug);
-    const totalSupply = await contract.methods.get_max_supply({ answerId: 0 }).call();
+    const contract = new venomProvider.Contract(LaunchpadContractAbi, slug);
+    const totalSupply = await contract.methods.maxSupply({ answerId: 0 }).call();
 
     if (collection?.TotalSupply < totalSupply?.count) {
       const updateNFTData = await update_collection_supply(slug, totalSupply.count);
