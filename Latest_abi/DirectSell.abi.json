@@ -11,8 +11,7 @@
 				{"name":"_price","type":"uint128"},
 				{"name":"_platform_fee","type":"uint128"},
 				{"name":"_royalty","type":"uint128"},
-				{"name":"_royalty_address","type":"address"},
-				{"name":"_remainOnContract","type":"uint128"}
+				{"name":"_royalty_address","type":"address"}
 			],
 			"outputs": [
 			]

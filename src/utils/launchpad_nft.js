@@ -1,6 +1,6 @@
 import { Address } from "everscale-inpage-provider";
 import moment from "moment";
-import LaunchpadABI from "../../new_abi/Fixed_CollectionDrop.abi.json";
+import LaunchpadABI from "../../Latest_abi/LaunchpadContract.abi.json";
 
 const SAMPLE_LAUNCHPAD_ADDR = "0:c427a87eba0007f85e38dfa6444c4e475504adac738ac65640a30db3696be132";
 

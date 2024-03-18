@@ -13,7 +13,6 @@
 				{"name":"_directSell_deployment_cost","type":"uint128"},
 				{"name":"_bulk_buy_limit","type":"uint128"},
 				{"name":"_bulk_buy_processing_fee","type":"uint128"},
-				{"name":"_remain_on_contract_for_directSell","type":"uint128"},
 				{"name":"_pause_trading","type":"bool"}
 			],
 			"outputs": [
@@ -38,14 +37,6 @@
 			"inputs": [
 				{"name":"directSell_addr","type":"address[]"},
 				{"name":"nft_price","type":"uint128[]"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "update_max_allowed_bulk_buy",
-			"inputs": [
-				{"name":"new_limit","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -101,23 +92,6 @@
 			]
 		},
 		{
-			"name": "update_remain_on_contract",
-			"inputs": [
-				{"name":"new_remain_on_contract","type":"uint128"}
-			],
-			"outputs": [
-			]
-		},
-		{
-			"name": "get_remain_on_contract_for_directSell",
-			"inputs": [
-				{"name":"answerId","type":"uint32"}
-			],
-			"outputs": [
-				{"name":"value0","type":"uint128"}
-			]
-		},
-		{
 			"name": "get_directSell_deployment_cost",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
@@ -154,9 +128,17 @@
 			]
 		},
 		{
-			"name": "update_remain_on_contract_for_directSell",
+			"name": "update_max_allowed_bulk_buy",
 			"inputs": [
-				{"name":"new_remain_on_contract_for_directSell","type":"uint128"}
+				{"name":"new_limit","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_remain_on_contract",
+			"inputs": [
+				{"name":"new_remain_on_contract","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -242,7 +224,6 @@
 		{"name":"_nonce","type":"uint256"},
 		{"name":"directSellCode","type":"cell"},
 		{"name":"remain_on_contract","type":"uint128"},
-		{"name":"remain_on_contract_for_directSell","type":"uint128"},
 		{"name":"directSell_deployment_cost","type":"uint128"},
 		{"name":"platform_fees","type":"uint128"},
 		{"name":"bulk_buy_limit","type":"uint128"},

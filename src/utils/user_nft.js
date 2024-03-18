@@ -13,18 +13,19 @@ import { addOffer, getOfferWithOfferContract, removeAllOffers, updateOffer } fro
 import { addActivity } from "./mongo_api/activity/activity";
 import { create_collection } from "./mongo_api/collection/collection";
 
-// importing abis 
-import indexAbi from "../../abi/Index.abi.json";
-import nftAbi from "../../abi/Nft.abi.json";
-import collectionAbi from "../../abi/CollectionDrop.abi.json";
-import FactoryDirectSell from "../../new_abi/FactoryDirectSell.abi.json";
-import DirectSell from "../../new_abi/DirectSell.abi.json";
+// importing abis
+import indexAbi from "../../Latest_abi/Index.abi.json";
+import nftAbi from "../../Latest_abi/Nft.abi.json";
+import FactoryDirectSell from "../../Latest_abi/FactoryDirectSell.abi.json";
+import DirectSell from "../../Latest_abi/DirectSell.abi.json";
 
-// make offer abis 
-import TokenWallet from "../../abi/TokenWallet.abi.json";
-import TokenRoot from "../../abi/TokenRoot.abi.json";
-import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
-import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
+import Launchpad_Contract_ABI from "../../Latest_abi/LaunchpadContract.abi.json";
+
+// make offer abis
+// import TokenWallet from "../../abi/TokenWallet.abi.json";
+// import TokenRoot from "../../abi/TokenRoot.abi.json";
+// import FactoryMakeOffer from "../../new_abi/FactoryMakeOffer.abi.json";
+// import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const cancel_refundable_fees = 100000000;
@@ -62,7 +63,7 @@ export const getCollectionItems = async (provider, nftAddresses) => {
 
 export const getNftCodeHash = async (provider, collection_address) => {
   const collectionAddress = new Address(collection_address);
-  const contract = new provider.Contract(collectionAbi, collectionAddress);
+  const contract = new provider.Contract(Launchpad_Contract_ABI, collectionAddress);
   const { codeHash } = await contract.methods.nftCodeHash({ answerId: 0 }).call({ responsible: true });
   return BigInt(codeHash).toString(16);
 };
@@ -308,8 +309,7 @@ export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) =
     const indexesAddresses = await getAddressesFromIndex(provider, codeHash, last_nft_addr);
     const { continuation } = indexesAddresses;
     if (!indexesAddresses || !indexesAddresses.accounts.length) {
-      if (indexesAddresses && !indexesAddresses.accounts.length)
-        return;
+      if (indexesAddresses && !indexesAddresses.accounts.length) return;
     }
     // Fetch all image URLs
     const nfts = await getNftsByIndexes(provider, indexesAddresses.accounts);
@@ -334,53 +334,6 @@ export const create_nft_database = async (data, nft_address, signer_address) => 
     signer_address: signer_address,
   };
   createNFT(obj);
-};
-
-// checking launchpad minted status
-export const has_minted = async (collection_address, signer_address, venomProvider) => {
-  if (collection_address == "" || signer_address == "") return;
-  const contract = new venomProvider.Contract(collectionAbi, collection_address);
-  const _has_minted = await contract.methods.hasMinted({ answerId: 0, account: signer_address }).call();
-
-  return _has_minted.value0;
-};
-
-// creating launchpad NFT
-export const create_launchpad_nft = async (data, signer_address, venomProvider) => {
-  try {
-    const contract = new venomProvider.Contract(collectionAbi, data.collectionAddress);
-
-    const { count: id } = await contract.methods.totalSupply({ answerId: 0 }).call();
-
-    const ipfs_image = data.image;
-
-    const nft_json = JSON.stringify({
-      type: "Venom Testnet",
-      name: `${data.name}`,
-      description: data.description,
-      preview: {
-        source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-        mimetype: "image/gif",
-      },
-      files: [
-        {
-          source: ipfs_image.replace("ipfs://", "https://ipfs.io/ipfs/"),
-          mimetype: "image/gif",
-        },
-      ],
-      attributes: data.properties,
-      external_url: "https://venomart.io/",
-    });
-
-    const outputs = await contract.methods.mint({ _json: nft_json }).send({
-      from: new Address(signer_address),
-      amount: (data.mintPrice * 1000000000).toString(),
-    });
-
-    return true;
-  } catch (error) {
-    console.log(error.message);
-  }
 };
 
 // list nft for sale
@@ -671,242 +624,242 @@ export const bulk_buy_nfts = async (
 
 // -------------- offer feature starts here ----------------
 
-export const FactoryMakeOfferAddress = new Address(
-  "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
-);
-export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
+// export const FactoryMakeOfferAddress = new Address(
+//   "0:0873216d824c458aaa8f2e6015ef6e7af15768c0cb3f804e93754325407e2b41",
+// );
+// export const WVenomAddress = new Address("0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14");
 
 // make an offer on NFT
-export const MakeOpenOffer = async (
-  provider,
-  signer_address,
-  onchainNFTData,
-  nft,
-  nft_address,
-  client,
-  oldOffer,
-  offerAmount,
-  offerExpiration,
-  prev_nft_Owner,
-  collection_address,
-) => {
-  try {
-    if (onchainNFTData) {
-      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
-    }
+// export const MakeOpenOffer = async (
+//   provider,
+//   signer_address,
+//   onchainNFTData,
+//   nft,
+//   nft_address,
+//   client,
+//   oldOffer,
+//   offerAmount,
+//   offerExpiration,
+//   prev_nft_Owner,
+//   collection_address,
+// ) => {
+//   try {
+//     if (onchainNFTData) {
+//       const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
+//     }
 
-    const contract = new provider.Contract(TokenRoot, WVenomAddress);
+//     const contract = new provider.Contract(TokenRoot, WVenomAddress);
 
-    const tokenWalletAddress = await contract.methods
-      .walletOf({
-        answerId: 0,
-        walletOwner: new Address(signer_address),
-      })
-      .call();
+//     const tokenWalletAddress = await contract.methods
+//       .walletOf({
+//         answerId: 0,
+//         walletOwner: new Address(signer_address),
+//       })
+//       .call();
 
-    const tokenWalletContract = new provider.Contract(TokenWallet, new Address(tokenWalletAddress.value0.toString()));
+//     const tokenWalletContract = new provider.Contract(TokenWallet, new Address(tokenWalletAddress.value0.toString()));
 
-    const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
+//     const factoryContract = new provider.Contract(FactoryMakeOffer, FactoryMakeOfferAddress);
 
-    const afterEvent = async event => {
-      // saving new offer to database
-      const addoffer = await addOffer(
-        signer_address,
-        offerAmount,
-        event?.data
-          ? event?.data?.new_offer_contract
-          : "0:0000000000000000000000000000000000000000000000000000000000000000",
-        offerExpiration,
-        nft_address,
-      );
-    };
+//     const afterEvent = async event => {
+//       // saving new offer to database
+//       const addoffer = await addOffer(
+//         signer_address,
+//         offerAmount,
+//         event?.data
+//           ? event?.data?.new_offer_contract
+//           : "0:0000000000000000000000000000000000000000000000000000000000000000",
+//         offerExpiration,
+//         nft_address,
+//       );
+//     };
 
-    // event
-    const subscriber = new Subscriber(provider);
-    const contractEvents = factoryContract.events(subscriber);
-    contractEvents.on(async event => {
-      console.log(event);
-      afterEvent(event);
-    });
+//     // event
+//     const subscriber = new Subscriber(provider);
+//     const contractEvents = factoryContract.events(subscriber);
+//     contractEvents.on(async event => {
+//       console.log(event);
+//       afterEvent(event);
+//     });
 
-    const now = moment().add(1, "day").unix();
+//     const now = moment().add(1, "day").unix();
 
-    const makeOfferFee = await factoryContract.methods.makeOffer_fee({ answerId: 0 }).call();
+//     const makeOfferFee = await factoryContract.methods.makeOffer_fee({ answerId: 0 }).call();
 
-    const load = await client.abi.encode_boc({
-      params: [
-        { name: "nft_address", type: "address" },
-        { name: "old_offer", type: "address" },
-        { name: "validity", type: "uint128" },
-      ],
-      data: {
-        nft_address: nft_address,
-        old_offer: oldOffer,
-        validity: now.toString(),
-      },
-    });
+//     const load = await client.abi.encode_boc({
+//       params: [
+//         { name: "nft_address", type: "address" },
+//         { name: "old_offer", type: "address" },
+//         { name: "validity", type: "uint128" },
+//       ],
+//       data: {
+//         nft_address: nft_address,
+//         old_offer: oldOffer,
+//         validity: now.toString(),
+//       },
+//     });
 
-    // sending transaction
-    let output = await tokenWalletContract.methods
-      .transfer({
-        amount: parseFloat(offerAmount) * 1000000000,
-        recipient: FactoryMakeOfferAddress,
-        deployWalletValue: 0,
-        remainingGasTo: new Address(signer_address),
-        notify: true,
-        payload: load.boc,
-      })
-      .send({
-        from: new Address(signer_address),
-        amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
-      });
+//     // sending transaction
+//     let output = await tokenWalletContract.methods
+//       .transfer({
+//         amount: parseFloat(offerAmount) * 1000000000,
+//         recipient: FactoryMakeOfferAddress,
+//         deployWalletValue: 0,
+//         remainingGasTo: new Address(signer_address),
+//         notify: true,
+//         payload: load.boc,
+//       })
+//       .send({
+//         from: new Address(signer_address),
+//         amount: (parseFloat(makeOfferFee.value0) + 100000000).toString(),
+//       });
 
-    // updating the outbidded offer in database
-    if (
-      oldOffer != "" &&
-      oldOffer != "0:0000000000000000000000000000000000000000000000000000000000000000" &&
-      oldOffer != undefined
-    ) {
-      const getOfferContract = await getOfferWithOfferContract(oldOffer);
-      const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
-    }
+//     // updating the outbidded offer in database
+//     if (
+//       oldOffer != "" &&
+//       oldOffer != "0:0000000000000000000000000000000000000000000000000000000000000000" &&
+//       oldOffer != undefined
+//     ) {
+//       const getOfferContract = await getOfferWithOfferContract(oldOffer);
+//       const updateOutbiddedOffer = await updateOffer("outbidded", getOfferContract?._id);
+//     }
 
-    // adding activity in DB
-    if (output) {
-      let obj = {
-        hash: output?.id?.hash ? output?.id?.hash : "",
-        from: signer_address,
-        to: prev_nft_Owner,
-        type: "offer",
-        price: offerAmount,
-        wallet_id: signer_address,
-        nft_address: nft_address,
-        collection_address: collection_address,
-      };
-      const add_activity = await addActivity(obj);
-    }
+//     // adding activity in DB
+//     if (output) {
+//       let obj = {
+//         hash: output?.id?.hash ? output?.id?.hash : "",
+//         from: signer_address,
+//         to: prev_nft_Owner,
+//         type: "offer",
+//         price: offerAmount,
+//         wallet_id: signer_address,
+//         nft_address: nft_address,
+//         collection_address: collection_address,
+//       };
+//       const add_activity = await addActivity(obj);
+//     }
 
-    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-    await wait(10000);
-    return true;
-  } catch (error) {
-    if (error instanceof TvmException) {
-      console.log(`TVM Exception: ${error.code}`);
-    }
-    console.log(error);
-    return false;
-  }
-};
+//     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+//     await wait(10000);
+//     return true;
+//   } catch (error) {
+//     if (error instanceof TvmException) {
+//       console.log(`TVM Exception: ${error.code}`);
+//     }
+//     console.log(error);
+//     return false;
+//   }
+// };
 
-// cancel offer
-export const cancel_offer = async (
-  offer_address,
-  provider,
-  nft_address,
-  signer_address,
-  prev_nft_Owner,
-  collection_address,
-  selectedOfferId,
-) => {
-  const contract = new provider.Contract(make_offer_abi, offer_address);
-  let output = await contract.methods.return_offer().send({
-    from: new Address(signer_address),
-    amount: (100000000).toString(),
-  });
+// // cancel offer
+// export const cancel_offer = async (
+//   offer_address,
+//   provider,
+//   nft_address,
+//   signer_address,
+//   prev_nft_Owner,
+//   collection_address,
+//   selectedOfferId,
+// ) => {
+//   const contract = new provider.Contract(make_offer_abi, offer_address);
+//   let output = await contract.methods.return_offer().send({
+//     from: new Address(signer_address),
+//     amount: (100000000).toString(),
+//   });
 
-  // updating offer in DB
-  const removeOffer = await updateOffer("cancelled", selectedOfferId);
+//   // updating offer in DB
+//   const removeOffer = await updateOffer("cancelled", selectedOfferId);
 
-  // adding activity in DB
-  if (output) {
-    let obj = {
-      hash: output?.id?.hash ? output?.id?.hash : "",
-      from: signer_address,
-      to: prev_nft_Owner,
-      type: "canceloffer",
-      wallet_id: signer_address,
-      nft_address: nft_address,
-      collection_address: collection_address,
-    };
-    const add_activity = await addActivity(obj);
-  }
+//   // adding activity in DB
+//   if (output) {
+//     let obj = {
+//       hash: output?.id?.hash ? output?.id?.hash : "",
+//       from: signer_address,
+//       to: prev_nft_Owner,
+//       type: "canceloffer",
+//       wallet_id: signer_address,
+//       nft_address: nft_address,
+//       collection_address: collection_address,
+//     };
+//     const add_activity = await addActivity(obj);
+//   }
 
-  return true;
-};
+//   return true;
+// };
 
-// accept offer
-export const accept_offer = async (
-  offer_address,
-  offerPrice,
-  from,
-  provider,
-  nft_address,
-  signer_address,
-  prev_nft_Owner,
-  prev_nft_Manager,
-  collection_address,
-  stampedFloor,
-) => {
-  //function to remove nft listing if listed
-  if (prev_nft_Owner != prev_nft_Manager) {
-    if (
-      window.confirm(
-        "you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?",
-      )
-    ) {
-      const cancel_nft_list = await cancel_listing(
-        prev_nft_Owner,
-        prev_nft_Manager,
-        nft_address,
-        collection_address,
-        provider,
-        signer_address,
-        stampedFloor,
-      );
+// // accept offer
+// export const accept_offer = async (
+//   offer_address,
+//   offerPrice,
+//   from,
+//   provider,
+//   nft_address,
+//   signer_address,
+//   prev_nft_Owner,
+//   prev_nft_Manager,
+//   collection_address,
+//   stampedFloor,
+// ) => {
+//   //function to remove nft listing if listed
+//   if (prev_nft_Owner != prev_nft_Manager) {
+//     if (
+//       window.confirm(
+//         "you cannot accept the offer if the NFT is listed on marketplace, do you want to proceed to cancel the nft listing before accepting the offer ?",
+//       )
+//     ) {
+//       const cancel_nft_list = await cancel_listing(
+//         prev_nft_Owner,
+//         prev_nft_Manager,
+//         nft_address,
+//         collection_address,
+//         provider,
+//         signer_address,
+//         stampedFloor,
+//       );
 
-      if (!cancel_nft_list) return;
-    } else {
-      return;
-    }
-  }
+//       if (!cancel_nft_list) return;
+//     } else {
+//       return;
+//     }
+//   }
 
-  // sending accept offer transaction
-  const nft_contract = new provider.Contract(nftAbi, nft_address);
-  const output = await nft_contract.methods
-    .changeManager({
-      newManager: new Address(offer_address),
-      sendGasTo: new Address(signer_address),
-      callbacks: [[new Address(offer_address), { value: "1000000000", payload: "" }]],
-    })
-    .send({
-      from: new Address(signer_address),
-      amount: (1500000000).toString(),
-    });
+//   // sending accept offer transaction
+//   const nft_contract = new provider.Contract(nftAbi, nft_address);
+//   const output = await nft_contract.methods
+//     .changeManager({
+//       newManager: new Address(offer_address),
+//       sendGasTo: new Address(signer_address),
+//       callbacks: [[new Address(offer_address), { value: "1000000000", payload: "" }]],
+//     })
+//     .send({
+//       from: new Address(signer_address),
+//       amount: (1500000000).toString(),
+//     });
 
-  // removing all other offers of the nft
-  const resetOffers = await removeAllOffers(nft_address);
+//   // removing all other offers of the nft
+//   const resetOffers = await removeAllOffers(nft_address);
 
-  if (resetOffers) {
-    let obj = {
-      NFTAddress: nft_address,
-      isListed: false,
-      price: "0",
-      demandPrice: 0,
-      new_owner: from,
-      new_manager: from,
-      hash: output ? output?.id?.hash : "",
-      from: prev_nft_Owner,
-      to: signer_address,
-      saleprice: offerPrice,
-      type: "sale",
-      wallet_id: from,
-      nft_address: nft_address,
-      collection_address: collection_address,
-      newFloorPrice: 0,
-      stampedFloor: parseFloat(stampedFloor),
-    };
-    const updateNFTData = await updateNFTsale(obj);
-  }
+//   if (resetOffers) {
+//     let obj = {
+//       NFTAddress: nft_address,
+//       isListed: false,
+//       price: "0",
+//       demandPrice: 0,
+//       new_owner: from,
+//       new_manager: from,
+//       hash: output ? output?.id?.hash : "",
+//       from: prev_nft_Owner,
+//       to: signer_address,
+//       saleprice: offerPrice,
+//       type: "sale",
+//       wallet_id: from,
+//       nft_address: nft_address,
+//       collection_address: collection_address,
+//       newFloorPrice: 0,
+//       stampedFloor: parseFloat(stampedFloor),
+//     };
+//     const updateNFTData = await updateNFTsale(obj);
+//   }
 
-  return true;
-};
+//   return true;
+// };
