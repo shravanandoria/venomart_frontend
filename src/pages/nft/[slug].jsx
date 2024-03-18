@@ -201,6 +201,7 @@ const NFTPage = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
     const nft_onchain = await get_nft_by_address(venomProvider, slug);
+    console.log({ nft_onchain })
 
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
@@ -211,19 +212,31 @@ const NFTPage = ({
     let offChainListed = nft?.isListed;
     let offChainImage = nft?.nft_image;
 
+    console.log({
+      OnChainOwner,
+      OnChainManager,
+      onChainImage
+    })
+
+    console.log({
+      offChainOwner,
+      offChainManager,
+      offChainListed,
+      offChainImage
+    })
+
     if (
-      OnChainOwner != offChainOwner ||
-      OnChainManager != offChainManager ||
-      offChainImage === "" ||
-      (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
+      OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
       (OnChainOwner != OnChainManager && !offChainListed)
     ) {
+      console.log("ghusaa kyaaaa")
       if (offChainImage === "") {
         const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
         alert("Metadata updated successfully");
       }
 
       if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
+        console.log("ghusaa")
         const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
         alert("Owners data updated successfully");
       }
@@ -248,6 +261,7 @@ const NFTPage = ({
       }
 
       if (OnChainOwner != OnChainManager && !offChainListed) {
+        console.log("ghusa2")
         const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
         let demandPrice = onChainNFTData?.value5 / 1000000000;
 

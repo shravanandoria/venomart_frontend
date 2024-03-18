@@ -161,7 +161,7 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_n
 // getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
   const contract = new provider.Contract(DirectSell, new Address(nft_manager));
-  const data = await contract.methods.get_listing_data({ answerId: 0 }).call();
+  const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
   return data;
 };
 
@@ -359,21 +359,21 @@ export const list_nft = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    // if (!onchainNFTData) {
-    //   const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
-    //   let OnChainOwner = nft_onchain?.owner?._address;
-    //   let OnChainManager = nft_onchain?.manager?._address;
+    if (!onchainNFTData) {
+      const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
+      let OnChainOwner = nft_onchain?.owner?._address;
+      let OnChainManager = nft_onchain?.manager?._address;
 
-    //   if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-    //     const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
-    //     alert("This NFT is not owned by you!");
-    //     return false;
-    //   }
-    // }
+      if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+        const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
+        alert("This NFT is not owned by you!");
+        return false;
+      }
+    }
 
-    // if (onchainNFTData) {
-    //   const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
-    // }
+    if (onchainNFTData) {
+      const createNFTInDatabase = await create_nft_database(nft, nft_address, signer_address);
+    }
 
     const factory_contract = new venomProvider.Contract(FactoryDirectSell, FactoryDirectSellAddress);
 
@@ -386,25 +386,12 @@ export const list_nft = async (
       })
       .call();
 
-    // const load = await client.abi.encode_boc({
-    //   params: [
-    //     { name: "price", type: "uint128" },
-    //     { name: "royalty", type: "uint128" },
-    //     { name: "royalty_address", type: "address" },
-    //   ],
-    //   data: {
-    //     price: parseFloat(price) * 1000000000,
-    //     royalty: parseFloat(royaltyPercent) * 1000,
-    //     royalty_address: royaltyAddress,
-    //   },
-    // });
-
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
-        callbacks: [[FactoryDirectSellAddress, { value: "100000000", payload: payload.payload }]],
+        callbacks: [[FactoryDirectSellAddress, { value: "50000000", payload: payload.payload }]],
       })
       .send({
         from: new Address(signer_address),
