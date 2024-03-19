@@ -44,10 +44,10 @@ export default function Home({ theme }) {
   };
 
   const fetchTopCollections = async () => {
-    setLoading(true);
+    setFullLoading(true);
     const topCollections = await top_collections("All", "unverified", duration);
     setTopCollections(topCollections);
-    setLoading(false);
+    setFullLoading(false);
   };
 
   const fetchTrendingCollection = async () => {
@@ -58,10 +58,10 @@ export default function Home({ theme }) {
   };
 
   const fetchTopUsers = async () => {
-    setLoading(true);
+    setFullLoading(true);
     const result = await top_users(duration, "none");
     setTopUsers(result);
-    setLoading(false);
+    setFullLoading(false);
   };
 
   const fetchLaunchpadCollections = async () => {
@@ -77,9 +77,9 @@ export default function Home({ theme }) {
     fetchTrendingCollection();
     fetchTopCollections();
     fetchLaunchpadCollections();
-    setTimeout(() => {
-      setFullLoading(false);
-    }, 1000);
+    // setTimeout(() => {
+    //   setFullLoading(false);
+    // }, 1000);
   }, []);
 
   useEffect(() => {

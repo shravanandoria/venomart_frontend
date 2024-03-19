@@ -27,8 +27,10 @@ import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 // import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
-export const cancel_refundable_fees = 100000000;
-export const buy_refundable_fees = 1000000000;
+export const ONE_VENOM = 1000000000; //one venom
+export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction
+export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
+export const buy_refundable_fees = 1 * ONE_VENOM; //amount we send when buy NFT
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
@@ -378,7 +380,7 @@ export const list_nft = async (
     const payload = await factory_contract.methods
       .generatePayload({
         answerId: 0,
-        price: parseFloat(price) * 1000000000,
+        price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
       }).call();
@@ -457,7 +459,7 @@ export const cancel_listing = async (
     let output;
     output = await DirectSellContract.methods.cancel_listing().send({
       from: new Address(signer_address),
-      amount: "100000000",
+      amount: cancel_refundable_fees,
     });
 
     if (output) {
@@ -515,17 +517,7 @@ export const buy_nft = async (
 
     const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));
 
-    const fees = (parseInt(price) + 1000000000).toString();
-
-    // const nft_price = await DirectSellContract.methods
-    //   .nft_price_cal({ answerId: 0 })
-    //   .call();
-
-    const subscriber = new Subscriber(venomProvider);
-    const contractEvents = DirectSellContract.events(subscriber);
-    contractEvents.on(async event => {
-      console.log(event);
-    });
+    const fees = (parseInt(price) + ONE_VENOM).toString();
 
     let output;
     output = await DirectSellContract.methods
