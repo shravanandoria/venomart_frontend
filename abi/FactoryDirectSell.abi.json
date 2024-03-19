@@ -12,7 +12,8 @@
 				{"name":"_directSell_deployment_cost","type":"uint128"},
 				{"name":"_bulk_buy_limit","type":"uint128"},
 				{"name":"_bulk_buy_processing_fee","type":"uint128"},
-				{"name":"_pause_trading","type":"bool"}
+				{"name":"_pause_trading","type":"bool"},
+				{"name":"_fee_receiver","type":"address"}
 			],
 			"outputs": [
 			]
@@ -50,6 +51,15 @@
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
+			]
+		},
+		{
+			"name": "get_lisitng_amount",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"total_cost","type":"uint256"}
 			]
 		},
 		{
@@ -227,6 +237,7 @@
 		{"name":"platform_fees","type":"uint128"},
 		{"name":"bulk_buy_limit","type":"uint128"},
 		{"name":"bulk_buy_processing_fee","type":"uint128"},
-		{"name":"pause_trading","type":"bool"}
+		{"name":"pause_trading","type":"bool"},
+		{"name":"fee_receiver","type":"address"}
 	]
 }
