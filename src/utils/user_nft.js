@@ -32,6 +32,7 @@ export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cance
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
 export const buy_refundable_fees = 1 * ONE_VENOM; //amount we send when buy NFT
 export const platform_fees = 2.5; //value in percent 2.5%
+export const extra_venom_fees = 0.01 * ONE_VENOM; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
 // all contract address here down
@@ -383,18 +384,22 @@ export const list_nft = async (
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
-      }).call();
+      })
+      .call();
+
+    const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
+    console.log({ listing_cost });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
-        callbacks: [[FactoryDirectSellAddress, { value: "50000000", payload: payload.payload }]],
+        callbacks: [[FactoryDirectSellAddress, { value: listing_cost, payload: payload.payload }]],
       })
       .send({
         from: new Address(signer_address),
-        amount: (100000000).toString(),
+        amount: (parseInt(listing_cost) + parseInt(extra_venom_fees)).toString(),
       });
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -517,7 +522,7 @@ export const buy_nft = async (
 
     const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));
 
-    const fees = (parseInt(price) + ONE_VENOM).toString();
+    const nft_price = await DirectSellContract.methods.get_nft_price().call();
 
     let output;
     output = await DirectSellContract.methods
@@ -526,7 +531,7 @@ export const buy_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: fees,
+        amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
       });
 
     if (output) {
