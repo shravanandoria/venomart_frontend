@@ -1853,11 +1853,11 @@ export async function getServerSideProps(context) {
   let profileDataProps;
   if (context.req.headers.host.includes("localhost")) {
     const ProfileData = await (await fetch(`http://localhost:3000/api/user/single_user?wallet_address=${slug}`)).json();
-    profileDataProps = ProfileData.data;
+    profileDataProps = ProfileData.data[0];
   }
   else {
     const ProfileData = await (await fetch(`https://venomart.io/api/user/single_user?wallet_address=${slug}`)).json();
-    profileDataProps = ProfileData.data;
+    profileDataProps = ProfileData.data[0];
   }
   return {
     props: {

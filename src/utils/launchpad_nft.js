@@ -51,11 +51,9 @@ export const get_public_mint_count = async (provider, launchpad_address, signer_
 
 // getting total minted
 export const get_total_minted = async (provider, launchpad_address) => {
-  console.log({ provider, launchpad_address })
   try {
     const launchpad = launchpad_contract(provider, launchpad_address);
     const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
-    console.log({ res: res.value0 })
     return res.value0;
   } catch (error) {
     console.log("some error!")
