@@ -27,12 +27,12 @@ import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 // import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
-export const ONE_VENOM = 1000000000; //one venom
-export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction
-export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
-export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT
-export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions
-export const platform_fees = 2.5; //value in percent 2.5%
+export const ONE_VENOM = 1000000000; //one venom for calculations
+export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction {PASSING IT IN TRANSACTIONS}
+export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT {PASSING IT IN TRANSACTIONS}
+export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT {FOR DISPLAY}
+export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions {PASSING IT IN TRANSACTIONS}
+export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 // dont change this values, this values are used in transactions -- STRICT
 
 // all contract address here down
@@ -358,21 +358,6 @@ export const list_nft = async (
   royaltyPercent,
   royaltyAddress,
 ) => {
-  console.log({
-    prev_nft_Owner,
-    prev_nft_Manager,
-    nft_address,
-    collection_address,
-    price,
-    venomProvider,
-    signer_address,
-    nft,
-    onchainNFTData,
-    newFloorPrice,
-    stampedFloor,
-    royaltyPercent,
-    royaltyAddress,
-  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
@@ -402,7 +387,6 @@ export const list_nft = async (
       .call();
 
     const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
-    console.log({ listing_cost });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
