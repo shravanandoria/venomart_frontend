@@ -30,7 +30,7 @@ import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 export const ONE_VENOM = 1000000000; //one venom
 export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
-export const buy_refundable_fees = 1 * ONE_VENOM; //amount we send when buy NFT
+export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT
 export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions
 export const platform_fees = 2.5; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
