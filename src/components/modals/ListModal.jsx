@@ -7,7 +7,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import { platform_fees } from '../../utils/user_nft'
 import numeral from 'numeral'
 
-const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, finalListingPrice, setFinalListingPrice, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked }) => {
+const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -100,25 +100,6 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         ),
                                         setPlatformFees(
                                             (platform_fees * e.target.value) / 100
-                                        ),
-                                        setFinalListingPrice(
-                                            (
-                                                parseFloat(e.target.value) -
-                                                parseFloat(
-                                                    (parseFloat(
-                                                        nft?.NFTCollection?.royalty
-                                                            ? nft?.NFTCollection?.royalty
-                                                            : collectionData?.data?.royalty
-                                                                ? collectionData?.data?.royalty
-                                                                : 0
-                                                    ) *
-                                                        e.target.value) /
-                                                    100
-                                                ) -
-                                                parseFloat(
-                                                    (platform_fees * e.target.value) / 100
-                                                )
-                                            ).toFixed(2)
                                         )
                                     )}
                                     className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
@@ -361,7 +342,23 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         />
                                     </span>
                                     <span className="text-green font-medium tracking-tight">
-                                        {finalListingPrice}
+                                        {(
+                                            parseFloat(listingPrice) -
+                                            parseFloat(
+                                                (parseFloat(
+                                                    nft?.NFTCollection?.royalty
+                                                        ? nft?.NFTCollection?.royalty
+                                                        : collectionData?.data?.royalty
+                                                            ? collectionData?.data?.royalty
+                                                            : 0
+                                                ) *
+                                                    listingPrice) /
+                                                100
+                                            ) -
+                                            parseFloat(
+                                                (platform_fees * listingPrice) / 100
+                                            )
+                                        ).toFixed(2)}
                                     </span>
                                 </span>
                             </div>
@@ -392,7 +389,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                     </div>
 
                     <div className="modal-footer">
-                        {finalListingPrice <
+                        {listingPrice <
                             (nft?.FloorPrice
                                 ? nft?.FloorPrice
                                 : collectionData?.data?.FloorPrice) &&

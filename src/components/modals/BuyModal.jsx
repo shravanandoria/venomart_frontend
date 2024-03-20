@@ -125,7 +125,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                 }
 
                                 {/* fees title  */}
-                                <div className="">
+                                {/* <div className="">
                                     <div className="flex flex-wrap items-center mt-2">
                                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 text-sm flex">
                                             Refundable Fees:
@@ -153,7 +153,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                             </svg>
                                         </span>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* fees amounts  */}
@@ -172,7 +172,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         {NFTListingPrice ? formatNumberShort(NFTListingPrice) : "0.00"}
                                     </span>
                                 </span>
-                                <span className="mb-1 flex items-center whitespace-nowrap">
+                                {/* <span className="mb-1 flex items-center whitespace-nowrap">
                                     <span>
                                         <Image
                                             src={venomLogo}
@@ -185,7 +185,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
                                         {buy_refundable_fees / 1000000000}
                                     </span>
-                                </span>
+                                </span> */}
                                 <span className="mb-1 flex items-center whitespace-nowrap"></span>
                             </div>
                         </div>
@@ -206,7 +206,7 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         />
                                     </span>
                                     <span className="text-green font-medium tracking-tight">
-                                        {formatNumberShort(parseFloat(buy_refundable_fees / 1000000000) + parseFloat(NFTListingPrice))}
+                                        {formatNumberShort(parseFloat(NFTListingPrice))}
                                     </span>
                                 </span>
                             </div>

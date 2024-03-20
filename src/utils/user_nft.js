@@ -31,8 +31,8 @@ export const ONE_VENOM = 1000000000; //one venom
 export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
 export const buy_refundable_fees = 1 * ONE_VENOM; //amount we send when buy NFT
+export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions
 export const platform_fees = 2.5; //value in percent 2.5%
-export const extra_venom_fees = 0.01 * ONE_VENOM; //value in percent 2.5%
 // dont change this values, this values are used in transactions -- STRICT
 
 // all contract address here down
@@ -353,12 +353,26 @@ export const list_nft = async (
   signer_address,
   nft,
   onchainNFTData,
-  finalListingPrice,
   newFloorPrice,
   stampedFloor,
   royaltyPercent,
   royaltyAddress,
 ) => {
+  console.log({
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    price,
+    venomProvider,
+    signer_address,
+    nft,
+    onchainNFTData,
+    newFloorPrice,
+    stampedFloor,
+    royaltyPercent,
+    royaltyAddress,
+  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
@@ -411,13 +425,12 @@ export const list_nft = async (
       let obj = {
         NFTAddress: nft_address,
         isListed: true,
-        price: finalListingPrice,
+        price: price,
         demandPrice: price,
         new_manager: OnChainManager,
         hash: output ? output?.id?.hash : "",
         from: signer_address,
         to: OnChainManager,
-        saleprice: finalListingPrice,
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
@@ -464,7 +477,7 @@ export const cancel_listing = async (
     let output;
     output = await DirectSellContract.methods.cancel_listing().send({
       from: new Address(signer_address),
-      amount: cancel_refundable_fees,
+      amount: (cancel_refundable_fees).toString(),
     });
 
     if (output) {

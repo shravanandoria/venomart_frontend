@@ -191,7 +191,7 @@ export const updateNFTListing = async (data) => {
         hash: data.hash,
         from: data.from,
         to: data.to,
-        price: data.saleprice,
+        price: data.price,
         type: data.type,
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
