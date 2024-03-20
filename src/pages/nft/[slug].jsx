@@ -161,6 +161,7 @@ const NFTPage = ({
     }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(venomProvider, slug);
+      console.log({ nft_onchain })
       if (nft_onchain?.attributes == "" && nft_onchain?.files[0]?.source != "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (sourceURL && sourceURL.startsWith("https://") && sourceURL.endsWith(".json")) {
