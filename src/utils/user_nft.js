@@ -572,10 +572,6 @@ export const bulk_buy_nfts = async (
   NFTAddresses,
   NFTCollections,
 ) => {
-  console.log({
-    directSell_addr,
-    nft_price,
-  })
   try {
     const contract = new provider.Contract(FactoryDirectSell, FactoryDirectSellAddress);
 
@@ -586,8 +582,6 @@ export const bulk_buy_nfts = async (
         nft_price,
       })
       .call();
-
-    console.log({ buy_amount })
 
     let output = await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
       from: new Address(signer_address),

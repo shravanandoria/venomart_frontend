@@ -58,6 +58,19 @@ export const get_launchpad_events = async (sortby, skip) => {
   }
 };
 
+export const get_user_mints = async (contractAddress, signer_address) => {
+  console.log({ contractAddress, signer_address })
+  try {
+    const res = await axios({
+      url: `/api/launchpad/user_launch_mints?contractAddress=${contractAddress}&signer_address=${signer_address}`,
+      method: "GET"
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const updateLaunchpadStatus = async (pageName, status) => {
   try {
     const res = await axios({
