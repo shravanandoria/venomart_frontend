@@ -61,7 +61,7 @@ const Collection = ({
   EnableNFTCancel,
   EnableNFTSale,
   adminAccount,
-  collectionData
+  collectionData,
 }) => {
   const router = useRouter();
   const storage = useStorage();
@@ -129,7 +129,7 @@ const Collection = ({
 
   const [preview, set_preview] = useState({ logo: "", coverImage: "" });
 
-  // edit collection 
+  // edit collection
   const [data, set_data] = useState({
     contractAddress: "",
     royaltyAddress: "",
@@ -148,25 +148,25 @@ const Collection = ({
     Category: "",
     description: "",
     royalty: "",
-    creatorAddress: ""
+    creatorAddress: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     set_data({
       ...data,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleCheckChange = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+  const handleCheckChange = e => {
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     set_data({
       ...data,
       [e.target.name]: value,
     });
   };
 
-  const handle_submit = async (e) => {
+  const handle_submit = async e => {
     e.preventDefault();
     setLoading(true);
 
@@ -190,8 +190,10 @@ const Collection = ({
     setLoading(false);
   };
 
-  const computeRarity = async (collection_id) => {
-    const confirmed = confirm("Are you sure you want to compute the rarity now ? using this feature is only allowed once, make sure your full collection has been minted!!");
+  const computeRarity = async collection_id => {
+    const confirmed = confirm(
+      "Are you sure you want to compute the rarity now ? using this feature is only allowed once, make sure your full collection has been minted!!",
+    );
     if (!confirmed || !collection_id) return;
     setLoading(true);
     const compute = await compute_rarity(collection_id);
@@ -199,7 +201,7 @@ const Collection = ({
       router.reload();
     }
     setLoading(false);
-  }
+  };
 
   // chartdata
   const salesData = {
@@ -210,8 +212,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-          ? moment(new Date(e.Time)).format("DD MMM")
-          : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
     ),
     datasets: [
       {
@@ -233,8 +235,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-          ? moment(new Date(e.Time)).format("DD MMM")
-          : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
     ),
     datasets: [
       {
@@ -256,8 +258,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-          ? moment(new Date(e.Time)).format("DD MMM")
-          : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
     ),
     datasets: [
       {
@@ -279,8 +281,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-          ? moment(new Date(e.Time)).format("DD MMM")
-          : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
     ),
     datasets: [
       {
@@ -302,8 +304,8 @@ const Collection = ({
           currentDuration === "30days" ||
           currentDuration === "6months" ||
           currentDuration === "1year"
-          ? moment(new Date(e.Time)).format("DD MMM")
-          : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
+        ? moment(new Date(e.Time)).format("DD MMM")
+        : currentDuration === "alltime" && moment(new Date(e.Time)).format("MMMM"),
     ),
     datasets: [
       {
@@ -406,7 +408,7 @@ const Collection = ({
     }
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
-      // fetch using RPC 
+      // fetch using RPC
       const nfts_onchain = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
 
       // fetch using GRAPHQL
@@ -613,7 +615,7 @@ const Collection = ({
   const buy_NFT_ = async e => {
     e.preventDefault();
     if (!EnableNFTSale) {
-      alert("Buying is disabled for a while!!")
+      alert("Buying is disabled for a while!!");
       return;
     }
     if (!signer_address) {
@@ -664,7 +666,7 @@ const Collection = ({
   const cancelNFT = async e => {
     e.preventDefault();
     if (!EnableNFTCancel) {
-      alert("Cancel is disabled for a while!!")
+      alert("Cancel is disabled for a while!!");
       return;
     }
     setActionLoad(true);
@@ -772,25 +774,60 @@ const Collection = ({
         <title>{`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`}</title>
         <meta
           name="description"
-          content={`${collectionData?.description
-            ? collectionData?.description
-            : "Explore, Create and Experience exculsive NFTs on Venomart"
-            } | Powered by Venom Blockchain`}
+          content={`${
+            collectionData?.description
+              ? collectionData?.description
+              : "Explore, Create and Experience exculsive NFTs on Venomart"
+          } | Powered by Venom Blockchain`}
         />
         <meta
           name="keywords"
           content={`${collectionData?.name}, ${collectionData?.name} nft collection, venomart, nft collections on venom, top nft collection on venom, best NFTs on venom, venom network nfts, venom nfts`}
         />
 
-        <meta property="og:title" content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`} />
-        <meta property="og:description" content={`${collectionData?.description ? collectionData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta property="og:image" content={`${collectionData?.coverImage ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta
+          property="og:title"
+          content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`}
+        />
+        <meta
+          property="og:description"
+          content={`${
+            collectionData?.description
+              ? collectionData?.description
+              : "Explore, Create and Experience exclusive NFTs on Venomart"
+          } | Powered by Venomart`}
+        />
+        <meta
+          property="og:image"
+          content={`${
+            collectionData?.coverImage
+              ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+              : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
+          }`}
+        />
         <meta property="og:url" content={"https://venomart.io/"} />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`} />
-        <meta name="twitter:description" content={`${collectionData?.description ? collectionData?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta name="twitter:image" content={`${collectionData?.coverImage ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"}`} />
+        <meta
+          name="twitter:title"
+          content={`${collectionData?.name ? collectionData?.name : "Collection"} - Venomart Marketplace`}
+        />
+        <meta
+          name="twitter:description"
+          content={`${
+            collectionData?.description
+              ? collectionData?.description
+              : "Explore, Create and Experience exclusive NFTs on Venomart"
+          } | Powered by Venomart`}
+        />
+        <meta
+          name="twitter:image"
+          content={`${
+            collectionData?.coverImage
+              ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+              : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
+          }`}
+        />
         <meta name="twitter:site" content="@venomart23" />
         <meta name="twitter:creator" content="@venomart23" />
 
@@ -803,7 +840,7 @@ const Collection = ({
 
       {cancelModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
-      {!loading && (editModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>)}
+      {!loading && editModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {propertyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
@@ -832,12 +869,10 @@ const Collection = ({
                 className="h-[18.75rem] w-[100%] object-cover"
               />
             )}
-            {(adminAccount.includes(signer_address) || (signer_address == collection?.creatorAddress)) && (
+            {(adminAccount.includes(signer_address) || signer_address == collection?.creatorAddress) && (
               <div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
                 <div className="group absolute right-0 bottom-2 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
-                  <span className="mt-0.5 block group-hover:text-white">
-                    Collection Settings ⚙️
-                  </span>
+                  <span className="mt-0.5 block group-hover:text-white">Collection Settings ⚙️</span>
                 </div>
               </div>
             )}
@@ -1028,7 +1063,8 @@ const Collection = ({
                     collection?.description
                   ) : (
                     <div>
-                      This collection is tracked but not verified on Venomart. If you are the owner, you can contact us for the approval now!
+                      This collection is tracked but not verified on Venomart. If you are the owner, you can contact us
+                      for the approval now!
                     </div>
                   )}
                 </div>
@@ -1055,8 +1091,9 @@ const Collection = ({
                     {share && (
                       <div className="absolute left-[-140px] top-[50px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
                         <a
-                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${collection?.name ? collection?.name : "It"
-                            }%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
+                          href={`https://twitter.com/intent/tweet?text=I%20found%20this%20awesome%20collection%20on%20venomart.io%0A${
+                            collection?.name ? collection?.name : "It"
+                          }%20is%20an%20NFT%20collection%20on%20venom%20blockchain%20%F0%9F%94%A5%0ACheck%20it%20out%20here%20-%20${webURL}collection/${slug}%0A%23Venom%20%23VenomBlockchain%20%23venomart%20%23NFTCollection%20%23VenomNFTs`}
                           target="_blank"
                           className="flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                         >
@@ -1154,8 +1191,9 @@ const Collection = ({
               <li className="nav-item" role="presentation">
                 <button
                   onClick={() => (showActivityTab(false), showAnalyticsTab(false), showItemsTab(true))}
-                  className={`nav-link ${itemsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${
+                    itemsTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1179,8 +1217,9 @@ const Collection = ({
                     showActivityTab(false),
                     showAnalyticsTab(true)
                   )}
-                  className={`nav-link ${analyticsTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${
+                    analyticsTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1204,8 +1243,9 @@ const Collection = ({
                     showAnalyticsTab(false),
                     showActivityTab(true)
                   )}
-                  className={`nav-link ${activityTab && "active relative"
-                    } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                  className={`nav-link ${
+                    activityTab && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
                 >
                   <RxActivityLog className="mr-1 h-4 w-4 fill-current" />
                   <span className="font-display text-base font-medium">Activity</span>
@@ -2247,30 +2287,33 @@ const Collection = ({
                       <div className="flex flex-wrap">
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType(""))}
-                          className={`${activityType == ""
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == ""
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <span className={`text-2xs font-medium  ${activityType == "" && "text-white"}`}>All</span>
                         </button>
 
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("list"))}
-                          className={`${activityType == "list"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == "list"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "list"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                              }`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "list"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
@@ -2282,20 +2325,22 @@ const Collection = ({
 
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("cancel"))}
-                          className={`${activityType == "cancel"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == "cancel"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                              }`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "cancel"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M10.9 2.1l9.899 1.415 1.414 9.9-9.192 9.192a1 1 0 0 1-1.414 0l-9.9-9.9a1 1 0 0 1 0-1.414L10.9 2.1zm.707 2.122L3.828 12l8.486 8.485 7.778-7.778-1.06-7.425-7.425-1.06zm2.12 6.364a2 2 0 1 1 2.83-2.829 2 2 0 0 1-2.83 2.829z" />
@@ -2307,20 +2352,22 @@ const Collection = ({
 
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("sale"))}
-                          className={`${activityType == "sale"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == "sale"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="24"
                             height="24"
-                            className={`mr-2 h-4 w-4 ${activityType == "sale"
-                              ? "fill-white"
-                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
-                              }`}
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "sale"
+                                ? "fill-white"
+                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                            }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M6.5 2h11a1 1 0 0 1 .8.4L21 6v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6l2.7-3.6a1 1 0 0 1 .8-.4zM19 8H5v12h14V8zm-.5-2L17 4H7L5.5 6h13zM9 10v2a3 3 0 0 0 6 0v-2h2v2a5 5 0 0 1-10 0v-2h2z" />
@@ -2330,32 +2377,42 @@ const Collection = ({
 
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("offer"))}
-                          className={`${activityType == "offer"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == "offer"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <IoHandLeftOutline
-                            className={`mr-2 h-4 w-4 ${activityType == "offer"
-                              ? "text-white"
-                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
-                              }`} />
-                          <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>Offer</span>
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "offer"
+                                ? "text-white"
+                                : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                            }`}
+                          />
+                          <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
+                            Offer
+                          </span>
                         </button>
 
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("canceloffer"))}
-                          className={`${activityType == "canceloffer"
-                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                            }`}
+                          className={`${
+                            activityType == "canceloffer"
+                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                          }`}
                         >
                           <IoHandLeftOutline
-                            className={`mr-2 h-4 w-4 ${activityType == "canceloffer"
-                              ? "text-white"
-                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
-                              }`} />
-                          <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>Cancel Offer</span>
+                            className={`mr-2 h-4 w-4 ${
+                              activityType == "canceloffer"
+                                ? "text-white"
+                                : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                            }`}
+                          />
+                          <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
+                            Cancel Offer
+                          </span>
                         </button>
                       </div>
                     )}
@@ -2420,17 +2477,11 @@ const Collection = ({
           </section>
 
           {/* edit collection setting modal  */}
-          {editModal &&
+          {editModal && (
             <div className="editDisplayDiv">
-              <form
-                onSubmit={handle_submit}
-                className="pb-8 dark:bg-jacarta-900 bg-white editDisplayForm"
-              >
+              <form onSubmit={handle_submit} className="pb-8 dark:bg-jacarta-900 bg-white editDisplayForm">
                 <div className="editDisplayDivClose">
-                  <button
-                    onClick={() => (setAnyModalOpen(false), setEditModal(false))}
-                    type="button"
-                  >
+                  <button onClick={() => (setAnyModalOpen(false), setEditModal(false))} type="button">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -2444,18 +2495,21 @@ const Collection = ({
                   </button>
                 </div>
 
-                {collectionSettingUpdated &&
+                {collectionSettingUpdated && (
                   <div className="px-8 py-6 bg-green-600 text-white flex justify-between rounded">
                     <div className="flex items-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-6" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                          d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
-                        />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-7 w-7 mr-6"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                       </svg>
                       <p>Successfully updated the settings!</p>
                     </div>
                   </div>
-                }
+                )}
 
                 <div className="container">
                   <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
@@ -2468,14 +2522,15 @@ const Collection = ({
                         Logo (130x130)
                         <span className="text-red">*</span>
                       </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">
-                        Drag or choose your file to upload
-                      </p>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
 
                       {/* new input  */}
                       <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                         {preview?.logo ? (
-                          <img src={preview?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")} className="h-24 rounded-lg" />
+                          <img
+                            src={preview?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                            className="h-24 rounded-lg"
+                          />
                         ) : (
                           <div className="relative z-10 cursor-pointer">
                             <svg
@@ -2488,9 +2543,7 @@ const Collection = ({
                               <path fill="none" d="M0 0h24v24H0z" />
                               <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
                             </svg>
-                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
-                              JPG, PNG. Max size: 15 MB
-                            </p>
+                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">JPG, PNG. Max size: 15 MB</p>
                           </div>
                         )}
                         {!preview?.logo && (
@@ -2498,7 +2551,7 @@ const Collection = ({
                         )}
 
                         <input
-                          onChange={(e) => {
+                          onChange={e => {
                             if (!e.target.files[0]) return;
                             set_preview({
                               ...preview,
@@ -2521,13 +2574,14 @@ const Collection = ({
                         Cover Image (1375x300)
                         <span className="text-red">*</span>
                       </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">
-                        Drag or choose your file to upload
-                      </p>
+                      <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
 
                       <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                         {preview?.coverImage ? (
-                          <img src={preview?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")} className="h-44 rounded-lg " />
+                          <img
+                            src={preview?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                            className="h-44 rounded-lg "
+                          />
                         ) : (
                           <div className="relative z-10 cursor-pointer">
                             <svg
@@ -2550,7 +2604,7 @@ const Collection = ({
                         )}
 
                         <input
-                          onChange={(e) => {
+                          onChange={e => {
                             if (!e.target.files[0]) return;
                             set_preview({
                               ...preview,
@@ -2569,38 +2623,37 @@ const Collection = ({
 
                     {/* <!-- Name --> */}
                     <div className="mb-6">
-                      <label
-                        htmlFor="item-name"
-                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                      >
+                      <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                         Collection Name<span className="text-red">*</span>
                       </label>
-                      {adminAccount.includes(signer_address) ?
+                      {adminAccount.includes(signer_address) ? (
                         <input
                           onChange={handleChange}
                           type="text"
                           name="name"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           value={data?.name}
                         />
-                        :
+                      ) : (
                         <input
                           type="text"
                           name="name"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           value={data?.name}
                           readOnly
                           disabled
                         />
-                      }
+                      )}
                     </div>
 
                     {/* <!-- Description --> */}
@@ -2619,10 +2672,11 @@ const Collection = ({
                         onChange={handleChange}
                         name="description"
                         id="item-description"
-                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                          } `}
+                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                          theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
                         rows="4"
                         required
                         placeholder="Provide a detailed description of your collection."
@@ -2644,30 +2698,19 @@ const Collection = ({
                       <select
                         name="Category"
                         onChange={handleChange}
-                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                          } `}
+                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                          theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                        } `}
                         defaultValue={data?.Category}
                       >
-                        <option value={data?.Category}>
-                          {data?.Category}
-                        </option>
-                        <option value={"Collectibles"}>
-                          Collectibles
-                        </option>
-                        <option value={"Art"}>
-                          Art
-                        </option>
-                        <option value={"Games"}>
-                          Games
-                        </option>
-                        <option value={"Memes"}>
-                          Memes
-                        </option>
-                        <option value={"Utility"}>
-                          Utility
-                        </option>
+                        <option value={data?.Category}>{data?.Category}</option>
+                        <option value={"Collectibles"}>Collectibles</option>
+                        <option value={"Art"}>Art</option>
+                        <option value={"Games"}>Games</option>
+                        <option value={"Memes"}>Memes</option>
+                        <option value={"Utility"}>Utility</option>
                       </select>
                     </div>
 
@@ -2745,12 +2788,14 @@ const Collection = ({
                                     Compute Rarity
                                   </label>
                                   <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Your NFTs will show rank once you compute it (compute only when all NFTs are minted)**
+                                    Your NFTs will show rank once you compute it (compute only when all NFTs are
+                                    minted)**
                                   </p>
-                                  <div onClick={() => computeRarity(collection?._id)} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
-                                    <span className="mt-0.5 block group-hover:text-white">
-                                      Compute Rarity 🌟
-                                    </span>
+                                  <div
+                                    onClick={() => computeRarity(collection?._id)}
+                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                  >
+                                    <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
                                   </div>
                                 </div>
                               </div>
@@ -2761,7 +2806,7 @@ const Collection = ({
                     )}
 
                     {/* creator address and contract address  */}
-                    {adminAccount.includes(signer_address) &&
+                    {adminAccount.includes(signer_address) && (
                       <div className="mb-6 flex justify-start flex-wrap">
                         <div className="w-[350px] m-3 mr-6">
                           <label
@@ -2770,39 +2815,39 @@ const Collection = ({
                           >
                             Contract Address<span className="text-red">*</span>
                           </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            The deployed contract address
-                          </p>
-                          {(data?.contractAddress == "" || data?.contractAddress == undefined) ?
+                          <p className="mb-3 text-2xs dark:text-jacarta-300">The deployed contract address</p>
+                          {data?.contractAddress == "" || data?.contractAddress == undefined ? (
                             <input
                               onChange={handleChange}
                               name="contractAddress"
                               type="text"
                               id="item-name"
-                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                } `}
+                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                                theme == "dark"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
                               placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                               required
                               value={data?.contractAddress}
                             />
-                            :
+                          ) : (
                             <input
                               onChange={handleChange}
                               name="contractAddress"
                               type="text"
                               id="item-name"
-                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                } `}
+                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                                theme == "dark"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
                               placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                               required
                               value={data?.contractAddress}
                               readOnly
                             />
-                          }
+                          )}
                         </div>
                         <div className="w-[350px] m-3">
                           <label
@@ -2819,25 +2864,23 @@ const Collection = ({
                             name="creatorAddress"
                             type="text"
                             id="item-name"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                              theme == "dark"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
                             placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                             required
                             value={data?.creatorAddress}
                           />
                         </div>
                       </div>
-                    }
+                    )}
 
                     {/* royalty address and percent  */}
                     <div className="mb-6 flex flex-wrap justify-start">
                       <div className={`${adminAccount.includes(signer_address) ? "w-[350px]" : "w-[100%]"} m-3 mr-6`}>
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Royalty Address<span className="text-red">*</span>
                         </label>
                         <p className="mb-3 text-2xs dark:text-jacarta-300">
@@ -2848,16 +2891,17 @@ const Collection = ({
                           name="royaltyAddress"
                           type="text"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                           required
                           value={data?.royaltyAddress}
                         />
                       </div>
-                      {adminAccount.includes(signer_address) &&
+                      {adminAccount.includes(signer_address) && (
                         <div className="w-[350px] m-3">
                           <label
                             htmlFor="item-name"
@@ -2866,8 +2910,8 @@ const Collection = ({
                             Creator Royalty (%)<span className="text-red">*</span>
                           </label>
                           <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If you set a royalty here, you will get X percent of sales
-                            price each time an NFT is sold on our platform.
+                            If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
+                            our platform.
                           </p>
                           <input
                             onChange={handleChange}
@@ -2876,25 +2920,23 @@ const Collection = ({
                             id="item-name"
                             max={10}
                             step="any"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                              theme == "dark"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
                             placeholder="Eg: 5"
                             required
                             value={data?.royalty}
                           />
                         </div>
-                      }
+                      )}
                     </div>
 
                     {/* website & twitter  */}
                     <div className="mb-6 flex justify-start flex-wrap">
                       <div className="w-[350px] m-3 mr-6">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Official Website
                         </label>
                         <input
@@ -2902,19 +2944,17 @@ const Collection = ({
                           name="website"
                           type="text"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           placeholder="Enter website URL"
                           value={data?.website}
                         />
                       </div>
                       <div className="w-[350px] m-3">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Official Twitter
                         </label>
                         <input
@@ -2922,10 +2962,11 @@ const Collection = ({
                           name="twitter"
                           type="text"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           placeholder="Enter twitter URL"
                           value={data?.twitter}
                         />
@@ -2935,10 +2976,7 @@ const Collection = ({
                     {/* discord & telegram */}
                     <div className="mb-6 flex justify-start flex-wrap">
                       <div className="w-[350px] m-3 mr-6">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Official Discord
                         </label>
                         <input
@@ -2946,19 +2984,17 @@ const Collection = ({
                           name="discord"
                           type="text"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           placeholder="Enter discord URL"
                           value={data?.discord}
                         />
                       </div>
                       <div className="w-[350px] m-3">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Official Telegram
                         </label>
                         <input
@@ -2966,10 +3002,11 @@ const Collection = ({
                           name="telegram"
                           type="text"
                           id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${
+                            theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          } `}
                           placeholder="Enter telegram URL"
                           value={data?.telegram}
                         />
@@ -2979,34 +3016,40 @@ const Collection = ({
                     {/* trading and feature  */}
                     <div className="mb-6 flex justify-start flex-wrap">
                       <div className=" m-3 mr-12">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Enable Trading
                         </label>
                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                           If checked trading will be enabled instantly
                         </p>
-                        <input type="checkbox" name="isTrading" value={data?.isTrading} checked={data?.isTrading} onChange={handleCheckChange} />
+                        <input
+                          type="checkbox"
+                          name="isTrading"
+                          value={data?.isTrading}
+                          checked={data?.isTrading}
+                          onChange={handleCheckChange}
+                        />
                       </div>
                       <div className=" m-3">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Enable Properties Filter
                         </label>
                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                           If checked properties filter will be displayed
                         </p>
-                        <input type="checkbox" name="isPropsEnabled" value={data?.isPropsEnabled} checked={data?.isPropsEnabled} onChange={handleCheckChange} />
+                        <input
+                          type="checkbox"
+                          name="isPropsEnabled"
+                          value={data?.isPropsEnabled}
+                          checked={data?.isPropsEnabled}
+                          onChange={handleCheckChange}
+                        />
                       </div>
                     </div>
 
                     {/* status and props  */}
-                    {adminAccount.includes(signer_address) &&
-                      (<div className="mb-6 flex justify-start flex-wrap">
+                    {adminAccount.includes(signer_address) && (
+                      <div className="mb-6 flex justify-start flex-wrap">
                         <div className=" m-3 mr-12">
                           <label
                             htmlFor="item-name"
@@ -3014,7 +3057,13 @@ const Collection = ({
                           >
                             Verify collection
                           </label>
-                          <input type="checkbox" name="isVerified" value={data?.isVerified} checked={data?.isVerified} onChange={handleCheckChange} />
+                          <input
+                            type="checkbox"
+                            name="isVerified"
+                            value={data?.isVerified}
+                            checked={data?.isVerified}
+                            onChange={handleCheckChange}
+                          />
                         </div>
                         <div className=" m-3">
                           <label
@@ -3023,7 +3072,13 @@ const Collection = ({
                           >
                             Feature collection ?
                           </label>
-                          <input type="checkbox" name="isFeatured" value={data?.isFeatured} checked={data?.isFeatured} onChange={handleCheckChange} />
+                          <input
+                            type="checkbox"
+                            name="isFeatured"
+                            value={data?.isFeatured}
+                            checked={data?.isFeatured}
+                            onChange={handleCheckChange}
+                          />
                         </div>
                         <div className=" m-3">
                           <label
@@ -3032,10 +3087,16 @@ const Collection = ({
                           >
                             is NSFW ?
                           </label>
-                          <input type="checkbox" name="isNSFW" value={data?.isNSFW} checked={data?.isNSFW} onChange={handleCheckChange} />
+                          <input
+                            type="checkbox"
+                            name="isNSFW"
+                            value={data?.isNSFW}
+                            checked={data?.isNSFW}
+                            onChange={handleCheckChange}
+                          />
                         </div>
-                      </div>)
-                    }
+                      </div>
+                    )}
 
                     {/* <!-- Submit nft form --> */}
                     <button
@@ -3048,171 +3109,162 @@ const Collection = ({
                 </div>
               </form>
             </div>
-          }
+          )}
 
           {/* propertyModal  */}
-          {
-            propertyModal && (
-              <div className="propertyDisplayDiv">
-                <div className="modal-dialog max-w-md">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="propertiesModalLabel">
-                        Properties
-                      </h5>
-                      <button
-                        onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
+          {propertyModal && (
+            <div className="propertyDisplayDiv">
+              <div className="modal-dialog max-w-md">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="propertiesModalLabel">
+                      Properties
+                    </h5>
+                    <button
+                      onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className="h-6 w-6 fill-jacarta-700 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                        </svg>
-                      </button>
-                    </div>
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                      </svg>
+                    </button>
+                  </div>
 
-                    <div className="modal-body">
-                      {propLoading ? (
-                        <div
-                          className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                          style={{ alignItems: "center" }}
-                        >
-                          <div className="flex space-x-2">
-                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  <div className="modal-body">
+                    {propLoading ? (
+                      <div
+                        className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                        style={{ alignItems: "center" }}
+                      >
+                        <div className="flex space-x-2">
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="accordion" id="accordionProps">
+                        {property_traits == "" ? (
+                          <div
+                            className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
+                            <h5 className="modal-title" id="propertiesModalLabel">
+                              No Traits Found!
+                            </h5>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="accordion" id="accordionProps">
-                          {property_traits == "" ? (
-                            <div
-                              className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                              style={{ alignItems: "center" }}
-                            >
-                              <h5 className="modal-title" id="propertiesModalLabel">
-                                No Traits Found!
-                              </h5>
-                            </div>
-                          ) : (
-                            <PropertyModal
-                              property_traits={property_traits}
-                              propsFilter={propsFilter}
-                              setPropsFilter={setPropsFilter}
-                              setDefaultFilterFetch={setDefaultFilterFetch}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </div>
+                        ) : (
+                          <PropertyModal
+                            property_traits={property_traits}
+                            propsFilter={propsFilter}
+                            setPropsFilter={setPropsFilter}
+                            setDefaultFilterFetch={setDefaultFilterFetch}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
 
-                    <div className="modal-footer">
-                      {property_traits == "" ? (
-                        <div className="flex items-center justify-center space-x-4">
-                          <button
-                            onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                          >
-                            Close
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center space-x-4">
-                          <button
-                            onClick={() => (
-                              setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
-                            )}
-                            className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
-                          >
-                            Clear All
-                          </button>
-                          <button
-                            onClick={() => (
-                              setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
-                            )}
-                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                          >
-                            Apply
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                  <div className="modal-footer">
+                    {property_traits == "" ? (
+                      <div className="flex items-center justify-center space-x-4">
+                        <button
+                          onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center space-x-4">
+                        <button
+                          onClick={() => (
+                            setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                          )}
+                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                        >
+                          Clear All
+                        </button>
+                        <button
+                          onClick={() => (
+                            setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                          )}
+                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            )
-          }
+            </div>
+          )}
 
           {/* buy modal  */}
-          {
-            buyModal && (
-              <BuyModal
-                formSubmit={buy_NFT_}
-                setBuyModal={setBuyModal}
-                setAnyModalOpen={setAnyModalOpen}
-                NFTImage={selectedNFT?.nft_image}
-                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-                NFTCollectionName={selectedNFT?.NFTCollection?.name}
-                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
-                NFTName={selectedNFT?.name}
-                NFTRank={selectedNFT?.rank}
-                NFTListingPrice={selectedNFT?.listingPrice}
-                actionLoad={actionLoad}
-              />
-            )
-          }
+          {buyModal && (
+            <BuyModal
+              formSubmit={buy_NFT_}
+              setBuyModal={setBuyModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+              NFTName={selectedNFT?.name}
+              NFTRank={selectedNFT?.rank}
+              NFTListingPrice={selectedNFT?.listingPrice}
+              actionLoad={actionLoad}
+            />
+          )}
 
           {/* cancel modal  */}
-          {
-            cancelModal && (
-              <CancelModal
-                formSubmit={cancelNFT}
-                setCancelModal={setCancelModal}
-                setAnyModalOpen={setAnyModalOpen}
-                NFTImage={selectedNFT?.nft_image}
-                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-                NFTCollectionName={selectedNFT?.NFTCollection?.name}
-                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
-                NFTName={selectedNFT?.name}
-                actionLoad={actionLoad}
-              />
-            )
-          }
+          {cancelModal && (
+            <CancelModal
+              formSubmit={cancelNFT}
+              setCancelModal={setCancelModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT?.nft_image}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
 
           {/* success modal  */}
-          {
-            successModal && (
-              <SuccessModal
-                setSuccessModal={setSuccessModal}
-                setAnyModalOpen={setAnyModalOpen}
-                onCloseFunctionCall={fetch_nfts_success}
-                TransactionType={transactionType}
-                NFTImage={selectedNFT?.nft_image}
-                NFTAddress={selectedNFT?.NFTAddress}
-                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-                NFTCollectionName={selectedNFT?.NFTCollection?.name}
-                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-                NFTListingPrice={selectedNFT?.listingPrice}
-                NFTName={selectedNFT?.name}
-                actionLoad={actionLoad}
-              />
-            )
-          }
-        </div >
-      )
-      }
-    </div >
+          {successModal && (
+            <SuccessModal
+              setSuccessModal={setSuccessModal}
+              setAnyModalOpen={setAnyModalOpen}
+              onCloseFunctionCall={fetch_nfts_success}
+              TransactionType={transactionType}
+              NFTImage={selectedNFT?.nft_image}
+              NFTAddress={selectedNFT?.NFTAddress}
+              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+              NFTCollectionName={selectedNFT?.NFTCollection?.name}
+              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+              NFTListingPrice={selectedNFT?.listingPrice}
+              NFTName={selectedNFT?.name}
+              actionLoad={actionLoad}
+            />
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -3220,16 +3272,19 @@ export async function getServerSideProps(context) {
   const slug = context.query.slug;
   let collectionData;
   if (context.req.headers.host.includes("localhost")) {
-    const collectionDataProps = await (await fetch(`http://localhost:3000/api/collection/slug_collection?contractAddress=${slug}`)).json();
+    const collectionDataProps = await (
+      await fetch(`http://localhost:3000/api/collection/slug_collection?contractAddress=${slug}`)
+    ).json();
     collectionData = collectionDataProps.data;
-  }
-  else {
-    const collectionDataProps = await (await fetch(`https://venomart.io/api/collection/slug_collection?contractAddress=${slug}`)).json();
+  } else {
+    const collectionDataProps = await (
+      await fetch(`https://venomart.io/api/collection/slug_collection?contractAddress=${slug}`)
+    ).json();
     collectionData = collectionDataProps.data;
   }
   return {
     props: {
-      collectionData
+      collectionData,
     },
   };
 }
