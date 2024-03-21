@@ -758,7 +758,7 @@ const launchpad = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false), getUserWalletMints())}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

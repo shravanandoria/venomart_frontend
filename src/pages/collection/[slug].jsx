@@ -520,6 +520,7 @@ const Collection = ({
   const filterFetchOnchainData = async () => {
     setSearchLoading(true);
     const nfts_onchain = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
+    console.log({ nfts_onchain })
     setOnChainData(true);
     setLastNFT(nfts_onchain?.continuation);
     set_nfts(nfts_onchain?.nfts);
