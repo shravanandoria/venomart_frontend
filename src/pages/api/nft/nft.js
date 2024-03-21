@@ -251,6 +251,7 @@ export default async function handler(req, res) {
           } = req.body;
 
           let nft = await NFT.findOne({ NFTAddress });
+
           if (!nft)
             return res
               .status(400)
