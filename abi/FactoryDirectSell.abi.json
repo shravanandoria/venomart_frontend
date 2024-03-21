@@ -14,7 +14,7 @@
         { "name": "_bulk_buy_processing_fee", "type": "uint128" },
         { "name": "_pause_trading", "type": "bool" },
         { "name": "_fee_receiver", "type": "address" },
-        { "name": "_NFT_transfer_cost", "type": "uint256" }
+        { "name": "_NFT_transfer_cost", "type": "uint128" }
       ],
       "outputs": []
     },
@@ -40,6 +40,14 @@
       "outputs": []
     },
     {
+      "name": "get_bulkBuyAmount",
+      "inputs": [
+        { "name": "directSell_addr", "type": "address[]" },
+        { "name": "nft_price", "type": "uint128[]" }
+      ],
+      "outputs": [{ "name": "value0", "type": "uint256" }]
+    },
+    {
       "name": "generatePayload",
       "inputs": [
         { "name": "answerId", "type": "uint32" },
@@ -53,15 +61,6 @@
       "name": "get_lisitng_amount",
       "inputs": [{ "name": "answerId", "type": "uint32" }],
       "outputs": [{ "name": "total_cost", "type": "uint256" }]
-    },
-    {
-      "name": "get_bulkBuyAmount",
-      "inputs": [
-        { "name": "answerId", "type": "uint32" },
-        { "name": "directSell_addr", "type": "address[]" },
-        { "name": "nft_price", "type": "uint128[]" }
-      ],
-      "outputs": [{ "name": "value0", "type": "uint256" }]
     },
     {
       "name": "get_bulkBuy_limit",
@@ -129,6 +128,15 @@
       "outputs": []
     },
     {
+      "name": "emit_cancel_nft",
+      "inputs": [
+        { "name": "_nft_manager", "type": "address" },
+        { "name": "nft_address", "type": "address" },
+        { "name": "nft_owner", "type": "address" }
+      ],
+      "outputs": []
+    },
+    {
       "name": "owner",
       "inputs": [],
       "outputs": [{ "name": "value0", "type": "address" }]
@@ -144,9 +152,29 @@
     {
       "name": "nft_listed",
       "inputs": [
-        { "name": "nft_address", "type": "address" },
         { "name": "nft_manager", "type": "address" },
-        { "name": "price", "type": "uint128" }
+        { "name": "nft_address", "type": "address" },
+        { "name": "nft_owner", "type": "address" },
+        { "name": "nft_price", "type": "uint128" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "cancel_nft",
+      "inputs": [
+        { "name": "nft_manager", "type": "address" },
+        { "name": "nft_address", "type": "address" },
+        { "name": "nft_owner", "type": "address" }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "buy_nft",
+      "inputs": [
+        { "name": "nft_manager", "type": "address" },
+        { "name": "nft_address", "type": "address" },
+        { "name": "nft_owner", "type": "address" },
+        { "name": "nft_price", "type": "uint128" }
       ],
       "outputs": []
     },
@@ -173,6 +201,6 @@
     { "name": "bulk_buy_processing_fee", "type": "uint128" },
     { "name": "pause_trading", "type": "bool" },
     { "name": "fee_receiver", "type": "address" },
-    { "name": "NFT_transfer_cost", "type": "uint256" }
+    { "name": "NFT_transfer_cost", "type": "uint128" }
   ]
 }
