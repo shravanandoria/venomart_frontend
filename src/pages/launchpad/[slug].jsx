@@ -203,7 +203,7 @@ const launchpad = ({
                 setAfterMint(true);
             }
         } catch (error) {
-            console.log("some error in minting!")
+            console.log(error);
         }
         setMintLoading(false);
     };
