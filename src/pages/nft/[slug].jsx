@@ -99,7 +99,6 @@ const NFTPage = ({
   const [metadataLoading, setMetadataLoading] = useState(false);
 
   const [listingPrice, set_listing_price] = useState(0);
-  const [finalListingPrice, setFinalListingPrice] = useState(0);
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
   const [platformFees, setPlatformFees] = useState(0);
   const [skip, setSkip] = useState(0);
@@ -307,11 +306,11 @@ const NFTPage = ({
     set_loading(true);
 
     let newFloorPrice = 0;
-    if (finalListingPrice < (nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice)) {
-      newFloorPrice = finalListingPrice;
+    if (listingPrice < (nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice)) {
+      newFloorPrice = listingPrice;
     }
     if (nft?.FloorPrice == 0 || collectionData?.data?.FloorPrice == 0) {
-      newFloorPrice = finalListingPrice;
+      newFloorPrice = listingPrice;
     }
     try {
       const listing = await list_nft(
@@ -324,7 +323,6 @@ const NFTPage = ({
         signer_address,
         selectedNFT ? selectedNFT : nft,
         onchainNFTData,
-        finalListingPrice,
         newFloorPrice,
         nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice,
         nft?.NFTCollection?.royalty
@@ -2302,8 +2300,6 @@ const NFTPage = ({
               setCreatorRoyalty={setCreatorRoyalty}
               platformFees={platformFees}
               setPlatformFees={setPlatformFees}
-              finalListingPrice={finalListingPrice}
-              setFinalListingPrice={setFinalListingPrice}
               confirmChecked={confirmChecked}
               setConfirmChecked={setConfirmChecked}
               onchainNFTData={onchainNFTData}

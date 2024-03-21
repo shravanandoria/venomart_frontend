@@ -8,7 +8,7 @@ import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai
 import { RiSwordLine } from "react-icons/ri";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { get_launchpad_by_name, updateLaunchpadStatus } from "../../utils/mongo_api/launchpad/launchpad";
+import { get_launchpad_by_name, get_user_mints, updateLaunchpadStatus } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
@@ -29,11 +29,13 @@ const launchpad = ({
     const { slug } = router.query;
 
     const [collectionData, setCollectionData] = useState("");
+    const [mintedNFTsArray, setMintedNFTsArray] = useState("");
     const [loading, setLoading] = useState(false);
     const [mintLoading, setMintLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [mintedPercent, setMintedPercent] = useState(0);
     const [afterMint, setAfterMint] = useState(false);
+    const [userMints, setUserMints] = useState(false);
     const [status, setStatus] = useState("");
     const [mintCount, setMintCount] = useState(1);
     const [phaseMintedCount, setPhaseMintedCount] = useState(0);
@@ -162,6 +164,16 @@ const launchpad = ({
         setPhaseMintedCount(walletMintCount);
     }
 
+    // get user wallet mints
+    const getUserWalletMints = async () => {
+        if (!collectionData) return;
+        const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
+        if (walletMints != "") {
+            setMintedNFTsArray(walletMints);
+            setUserMints(true);
+        }
+    }
+
     // get minted supply
     const getMintedSupply = async () => {
         if (!venomProvider || !collectionData) return;
@@ -199,11 +211,13 @@ const launchpad = ({
     useEffect(() => {
         if (!slug) return;
         getLaunchpadData();
+        getUserWalletMints();
     }, [slug, signer_address]);
 
     useEffect(() => {
         getMintedSupply();
         updateMintStatus();
+        getUserWalletMints();
     }, [venomProvider, collectionData]);
 
     useEffect(() => {
@@ -485,8 +499,8 @@ const launchpad = ({
                                                         className={`${selected_phase?.id == index && "border-2"
                                                             } flex w-[100%] my-2 p-4 justify-between
                                                         ${theme == "dark"
-                                                                ? `bg-[#0d102b] focus-border-[#ffffff]`
-                                                                : "bg-[#ffffff] focus-border-[#ababab]"
+                                                                ? `bg-[#0d102b] border-[#767676]`
+                                                                : "bg-[#ffffff] border-[#ababab]"
                                                             } rounded-[13px] cursor-pointer`}
                                                         key={index}
                                                         onClick={() => selectPhaseFunction(phase, index)}
@@ -706,6 +720,27 @@ const launchpad = ({
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* user mints  */}
+                                {userMints == true &&
+                                    <div className={`flex flex-col w-[100%] my-2 p-4 justify-between border-2 border-[#7e7e7e] rounded-[13px]`}>
+                                        <h2 className="text-lg text-jacarta-700 dark:text-white tracking-widest font-bold font-mono">Your Mints 🎉</h2>
+                                        <p className="text-sm text-jacarta-700 dark:text-white tracking-widest font-normal mb-2">It might take few minutes to update your latest minted NFTs here!</p>
+                                        <div className="flex flex-wrap justify-start align-middle">
+                                            {mintedNFTsArray?.map((nft) => (
+                                                <Link href={`/nft/${nft?.NFTAddress}`} key={nft?._id}>
+                                                    <Image
+                                                        src={nft?.nft_image}
+                                                        height={100}
+                                                        width={100}
+                                                        alt={nft?.name}
+                                                        className="m-[10px] rounded-lg"
+                                                    />
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </section>
                     </section>
@@ -759,7 +794,7 @@ const launchpad = ({
                                         </div>
                                         <div className="flex items-center justify-center space-x-4 m-2">
                                             <a
-                                                onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
+                                                onClick={() => (setAnyModalOpen(false), setAfterMint(false), getUserWalletMints())}
                                                 className="cursor-pointer flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
                                                 Mint More

@@ -27,12 +27,12 @@ import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 // import make_offer_abi from "../../new_abi/MakeOffer.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
-export const ONE_VENOM = 1000000000; //one venom
-export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction
-export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT
-export const buy_refundable_fees = 1 * ONE_VENOM; //amount we send when buy NFT
-export const platform_fees = 2.5; //value in percent 2.5%
-export const extra_venom_fees = 0.01 * ONE_VENOM; //value in percent 2.5%
+export const ONE_VENOM = 1000000000; //one venom for calculations
+export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction {PASSING IT IN TRANSACTIONS}
+export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT {PASSING IT IN TRANSACTIONS}
+export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT {FOR DISPLAY}
+export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions {PASSING IT IN TRANSACTIONS}
+export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 // dont change this values, this values are used in transactions -- STRICT
 
 // all contract address here down
@@ -369,7 +369,6 @@ export const list_nft = async (
   signer_address,
   nft,
   onchainNFTData,
-  finalListingPrice,
   newFloorPrice,
   stampedFloor,
   royaltyPercent,
@@ -404,7 +403,6 @@ export const list_nft = async (
       .call();
 
     const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
-    console.log({ listing_cost });
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
@@ -427,13 +425,12 @@ export const list_nft = async (
       let obj = {
         NFTAddress: nft_address,
         isListed: true,
-        price: finalListingPrice,
+        price: price,
         demandPrice: price,
         new_manager: OnChainManager,
         hash: output ? output?.id?.hash : "",
         from: signer_address,
         to: OnChainManager,
-        saleprice: finalListingPrice,
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
@@ -480,7 +477,7 @@ export const cancel_listing = async (
     let output;
     output = await DirectSellContract.methods.cancel_listing().send({
       from: new Address(signer_address),
-      amount: cancel_refundable_fees,
+      amount: (cancel_refundable_fees).toString(),
     });
 
     if (output) {
