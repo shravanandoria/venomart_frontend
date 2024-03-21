@@ -203,7 +203,7 @@ const launchpad = ({
                 setAfterMint(true);
             }
         } catch (error) {
-            console.log("some error in minting!")
+            console.log(error);
         }
         setMintLoading(false);
     };
@@ -758,7 +758,7 @@ const launchpad = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false))}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false), getUserWalletMints())}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

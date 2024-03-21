@@ -56,7 +56,6 @@ export const getNftImage = async (provider, nftAddress) => {
 
 export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
-  // console.log({ nftAddresses });
   await Promise.all(
     nftAddresses.map(async nftAddress => {
       const nft_contract = new provider.Contract(nftAbi, nftAddress);
@@ -64,7 +63,6 @@ export const getCollectionItems = async (provider, nftAddresses) => {
       // const nft_contract = new provider.Contract(indexAbi, indexAddress.id);
 
       const nft = await nft_contract.methods.getInfo({ answerId: 0 }).call();
-      // console.log({ nft });
 
       const imgInfo = await getNftImage(provider, nftAddress);
       let obj = {
@@ -77,8 +75,6 @@ export const getCollectionItems = async (provider, nftAddresses) => {
       nfts.push(obj);
     }),
   );
-
-  console.log(nfts);
   return nfts;
 };
 
@@ -237,7 +233,6 @@ export const loadNFTs_collection_RPC = async (provider, collection_address, last
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses.accounts);
-    console.log({ nftURLs });
     return { nfts: nftURLs, continuation };
   } catch (e) {
     console.error(e);

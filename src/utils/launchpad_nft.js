@@ -56,6 +56,6 @@ export const get_total_minted = async (provider, launchpad_address) => {
     const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
     return res.value0;
   } catch (error) {
-    console.log("some error!")
+    console.log(error);
   }
 };
