@@ -588,7 +588,6 @@ export const bulk_buy_nfts = async (
 
     const buy_amount = await contract.methods
       .get_bulkBuyAmount({
-        answerId: 0,
         directSell_addr,
         nft_price,
       })
@@ -596,7 +595,7 @@ export const bulk_buy_nfts = async (
 
     let output = await contract.methods.bulkBuy({ directSell_addr, nft_price }).send({
       from: new Address(signer_address),
-      amount: parseFloat(buy_amount.value0).toString(),
+      amount: (parseInt(buy_amount.value0) + extra_venom_fees).toString(),
     });
 
     if (output) {
