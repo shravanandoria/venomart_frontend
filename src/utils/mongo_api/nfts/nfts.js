@@ -22,6 +22,20 @@ export const fetch_nfts = async (
   }
 };
 
+export const fetch_only_collection_nfts = async (
+  collection_id
+) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/get_collection_nfts_count?collection_id=${collection_id}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const fetch_user_listed_nfts = async (owner_address, saleType, sortby, minprice, maxprice, skip) => {
   try {
     const res = await axios({
@@ -83,6 +97,30 @@ export const createNFT = async (data) => {
         attributes: data.properties,
         NFTCollection: data.NFTCollection,
         signer_address: data.signer_address,
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const addNFTViaOnchainRoll = async (data, signer_address, NFTCollection) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "POST",
+      data: {
+        NFTAddress: data.nftAddress,
+        ownerAddress: data.owner,
+        managerAddress: data.manager,
+        nft_image: data?.preview?.source,
+        nft_metadata: data?.files[0]?.source,
+        name: data.name,
+        description: data.description,
+        attributes: data.attributes,
+        NFTCollection: NFTCollection,
+        signer_address: signer_address,
       },
     });
     return res.data.data;

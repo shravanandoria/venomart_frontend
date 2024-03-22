@@ -712,39 +712,41 @@ const Profile = ({
                 <path fill="none" d="M0 0h24v24H0z" />
                 <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h16V5H4zm4.5 9H14a.5.5 0 1 0 0-1h-4a2.5 2.5 0 1 1 0-5h1V6h2v2h2.5v2H10a.5.5 0 1 0 0 1h4a2.5 2.5 0 1 1 0 5h-1v2h-2v-2H8.5v-2z" />
               </svg>
-              <span className="font-display text-base font-medium">On Sale</span>
+              <span className="font-display text-base font-medium">Items</span>
             </button>
           </li>
           {/* owned button  */}
-          <li
-            className="nav-item"
-            role="presentation"
-            onClick={() => (nfts.length == 0 && fetch_user_nfts(), switchToOwned())}
-          >
-            <button
-              className={`nav-link ${owned && "active relative"
-                } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
-              id="created-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#created"
-              type="button"
-              role="tab"
-              aria-controls="created"
-              aria-selected="false"
+          {nfts != "" &&
+            <li
+              className="nav-item"
+              role="presentation"
+              onClick={() => (nfts.length == 0 && fetch_user_nfts(), switchToOwned())}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="mr-1 h-5 w-5 fill-current"
+              <button
+                className={`nav-link ${owned && "active relative"
+                  } flex items-center whitespace-nowrap py-3 px-6 text-jacarta-400 hover:text-jacarta-700 dark:hover:text-white`}
+                id="created-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#created"
+                type="button"
+                role="tab"
+                aria-controls="created"
+                aria-selected="false"
               >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
-              </svg>
-              <span className="font-display text-base font-medium">Owned (Onchain)</span>
-            </button>
-          </li>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  className="mr-1 h-5 w-5 fill-current"
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M5 5v3h14V5H5zM4 3h16a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 9h6a1 1 0 0 1 1 1v3h1v6h-4v-6h1v-2H5a1 1 0 0 1-1-1v-2h2v1zm11.732 1.732l1.768-1.768 1.768 1.768a2.5 2.5 0 1 1-3.536 0z" />
+                </svg>
+                <span className="font-display text-base font-medium">Owned (Onchain)</span>
+              </button>
+            </li>
+          }
 
           {/* my collections button  */}
           <li
@@ -979,6 +981,14 @@ const Profile = ({
                                           <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                                         </svg>
                                       )}
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button
+                                      onClick={() => (nfts.length == 0 && fetch_user_nfts(), switchToOwned())}
+                                      className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                    >
+                                      <span className="text-jacarta-700 dark:text-white">Agrregate Onchain</span>
                                     </button>
                                   </li>
                                 </ul>
@@ -1305,128 +1315,9 @@ const Profile = ({
           <div>
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                {/* filters  */}
-                {/* <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
-                  {!mobileFilter && isBreakpoint && (
-                    <div className="typeModelMainDiv flex justify-center align-middle relative my-1 mr-2.5 mb-4">
-                      <button
-                        onClick={() => openMobileFilter(true)}
-                        className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                      >
-                        <div className="flex justify-center align-middle">
-                          <AiFillFilter className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                          <span className="text-jacarta-700 dark:text-white">Edit Filters</span>
-                        </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          height="24"
-                          className=" h-4 w-4 fill-jacarta-500 dark:fill-white"
-                        >
-                          <path fill="none" d="M0 0h24v24H0z" />
-                          <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                        </svg>
-                      </button>
-                    </div>
-                  )}
-                  {mobileFilter && isBreakpoint && (
-                    <button onClick={() => openMobileFilter(false)} className="absolute top-2 right-6 z-20">
-                      <AiFillCloseCircle className="text-[30px] fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100" />
-                    </button>
-                  )}
-                  {mobileFilter && (
-                    <div className="collectionFilterDiv p-4">
-                      <div className="collectionFilters mx-6">
-                        <div className="typeModelMainDiv relative my-1 mr-2.5 cursor-pointer">
-                          <div
-                            onClick={e => (
-                              e.stopPropagation(),
-                              showPriceRangeFilter(false),
-                              showSaleTypeFilter(false),
-                              showListedFilter(!listedFilter)
-                            )}
-                            className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
-                          >
-                            {onChainFilterNFT == "newestFirst" && (
-                              <span className="text-jacarta-700 dark:text-white">Newest First</span>
-                            )}
-                            {onChainFilterNFT == "oldestFirst" && (
-                              <span className="text-jacarta-700 dark:text-white">Oldest First</span>
-                            )}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-4 w-4 fill-jacarta-500 dark:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                            </svg>
-                          </div>
-                          {listedFilter && (
-                            <div
-                              onClick={e => e.stopPropagation()}
-                              className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800"
-                            >
-                              <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
-                                Sort By
-                              </span>
-                              <button
-                                onClick={() => (
-                                  setLastNFT(),
-                                  set_nfts([]),
-                                  setOnChainFilterNFT("newestFirst"),
-                                  showListedFilter(false)
-                                )}
-                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
-                              >
-                                Newest First
-                                {onChainFilterNFT == "newestFirst" && (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className="mb-[3px] h-4 w-4 fill-accent"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                  </svg>
-                                )}
-                              </button>
-                              <button
-                                onClick={() => (
-                                  setLastNFT(),
-                                  set_nfts([]),
-                                  setOnChainFilterNFT("oldestFirst"),
-                                  showListedFilter(false)
-                                )}
-                                className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
-                              >
-                                Oldest First
-                                {onChainFilterNFT == "oldestFirst" && (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className="mb-[3px] h-4 w-4 fill-accent"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                  </svg>
-                                )}
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div> */}
-
+                <div className="flex justify-center mt-[-32px] align-middle text-center">
+                  <p className="text-lg dark:text-jacarta-200 pb-8 text-center">All the NFTs which you have in your connected wallets will appear here, <br /> including NFTs purchased or minted from other marketplaces.</p>
+                </div>
                 <div className="flex justify-center align-middle flex-wrap">
                   <InfiniteScroll
                     dataLength={nfts.length}

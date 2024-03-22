@@ -29,7 +29,7 @@ import {
 import LaunchpadContractAbi from "../../../abi/LaunchpadContract.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { fetch_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
+import { addNFTViaOnchainRoll, createNFT, fetch_collection_nfts, fetch_only_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import BuyModal from "../../components/modals/BuyModal";
@@ -89,6 +89,8 @@ const Collection = ({
   const [analytics, set_analytics] = useState([]);
   const [lastNFT, setLastNFT] = useState(undefined);
   const [onChainData, setOnChainData] = useState(false);
+  const [adminPermittedAction, setAdminPermittedAction] = useState(false);
+  const [saveNFTsDBModal, setSaveNFTsDBModal] = useState(false);
 
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -528,6 +530,66 @@ const Collection = ({
     setSearchLoading(false);
   };
 
+  // fetching on onchain scroll
+  const fetch_more_nftsOnChain = async () => {
+    if (onChainData == false) return;
+    const res = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
+    setLastNFT(res?.continuation);
+
+    if (res?.nfts?.length && res?.continuation) {
+      let all_nfts = [...nfts, ...res.nfts];
+      set_nfts(all_nfts);
+      return all_nfts;
+    }
+  };
+
+  // admin function to initiate NFT addition to DB 
+  const fetchAndAddNFTsToDB = async () => {
+    if (adminPermittedAction === false) return;
+    try {
+      const res = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
+      if (!res || !res.nfts.length) return;
+      await addNFTsToDB(res.nfts);
+      setLastNFT(res?.continuation);
+    } catch (error) {
+      console.error('Error fetching or adding NFTs to the database:', error);
+    }
+  };
+
+  // updating nfts to DB 
+  const addNFTsToDB = async (nfts) => {
+    try {
+      const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
+        const createdNFT = await addNFTViaOnchainRoll(nft, signer_address, slug);
+        console.log(`Added NFT with ID ${nft?.name} to the database`);
+        return createdNFT;
+      }));
+    } catch (error) {
+      console.error('Error adding NFTs to the database:', error);
+      throw error;
+    }
+  };
+
+  // useEffect to trigger the fetching and adding of NFTs after lastNFT is updated
+  useEffect(() => {
+    if (lastNFT == undefined) return;
+    const fetchData = async () => {
+      setLoading(true);
+      await fetchAndAddNFTsToDB();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
+    };
+    fetchData();
+  }, [lastNFT]);
+
+
+  const fetchAndUpdateNFTsCount = async () => {
+    setLoading(true);
+    const res = await fetch_only_collection_nfts(collection._id);
+    const updateNFTData = await update_collection_supply(slug, res);
+    setLoading(false);
+  };
+
   // fetching collection activity
   const fetch_collection_activity = async () => {
     if (collection?._id == undefined) return;
@@ -541,19 +603,6 @@ const Collection = ({
     }
     setFetchedCollectionActivity(true);
     setSearchLoading(false);
-  };
-
-  // fetching on onchain scroll
-  const fetch_more_nftsOnChain = async () => {
-    if (onChainData == false) return;
-    const res = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
-    setLastNFT(res?.continuation);
-
-    if (res?.nfts?.length && res?.continuation) {
-      let all_nfts = [...nfts, ...res.nfts];
-      set_nfts(all_nfts);
-      return all_nfts;
-    }
   };
 
   // fetching on offchain scroll
@@ -775,8 +824,8 @@ const Collection = ({
         <meta
           name="description"
           content={`${collectionData?.description
-              ? collectionData?.description
-              : "Explore, Create and Experience exculsive NFTs on Venomart"
+            ? collectionData?.description
+            : "Explore, Create and Experience exculsive NFTs on Venomart"
             } | Powered by Venom Blockchain`}
         />
         <meta
@@ -791,15 +840,15 @@ const Collection = ({
         <meta
           property="og:description"
           content={`${collectionData?.description
-              ? collectionData?.description
-              : "Explore, Create and Experience exclusive NFTs on Venomart"
+            ? collectionData?.description
+            : "Explore, Create and Experience exclusive NFTs on Venomart"
             } | Powered by Venomart`}
         />
         <meta
           property="og:image"
           content={`${collectionData?.coverImage
-              ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
-              : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
+            ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+            : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
             }`}
         />
         <meta property="og:url" content={"https://venomart.io/"} />
@@ -812,15 +861,15 @@ const Collection = ({
         <meta
           name="twitter:description"
           content={`${collectionData?.description
-              ? collectionData?.description
-              : "Explore, Create and Experience exclusive NFTs on Venomart"
+            ? collectionData?.description
+            : "Explore, Create and Experience exclusive NFTs on Venomart"
             } | Powered by Venomart`}
         />
         <meta
           name="twitter:image"
           content={`${collectionData?.coverImage
-              ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
-              : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
+            ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+            : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
             }`}
         />
         <meta name="twitter:site" content="@venomart23" />
@@ -1346,7 +1395,7 @@ const Collection = ({
                                         onClick={() => filterFetchOnchainData()}
                                         className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                       >
-                                        <span className="text-jacarta-700 dark:text-white">Not for sale</span>
+                                        <span className="text-jacarta-700 dark:text-white">Agrregate Onchain</span>
                                         {onChainData && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -2279,8 +2328,8 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType(""))}
                           className={`${activityType == ""
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <span className={`text-2xs font-medium  ${activityType == "" && "text-white"}`}>All</span>
@@ -2289,8 +2338,8 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("list"))}
                           className={`${activityType == "list"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <svg
@@ -2299,8 +2348,8 @@ const Collection = ({
                             width="24"
                             height="24"
                             className={`mr-2 h-4 w-4 ${activityType == "list"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                               }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
@@ -2314,8 +2363,8 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("cancel"))}
                           className={`${activityType == "cancel"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <svg
@@ -2324,8 +2373,8 @@ const Collection = ({
                             width="24"
                             height="24"
                             className={`mr-2 h-4 w-4 ${activityType == "cancel"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                               }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
@@ -2339,8 +2388,8 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("sale"))}
                           className={`${activityType == "sale"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <svg
@@ -2349,8 +2398,8 @@ const Collection = ({
                             width="24"
                             height="24"
                             className={`mr-2 h-4 w-4 ${activityType == "sale"
-                                ? "fill-white"
-                                : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
+                              ? "fill-white"
+                              : "group-hover:fill-white fill-jacarta-700 fill-jacarta-700 dark:fill-white"
                               }`}
                           >
                             <path fill="none" d="M0 0h24v24H0z" />
@@ -2362,14 +2411,14 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("offer"))}
                           className={`${activityType == "offer"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <IoHandLeftOutline
                             className={`mr-2 h-4 w-4 ${activityType == "offer"
-                                ? "text-white"
-                                : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                              ? "text-white"
+                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
                               }`}
                           />
                           <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
@@ -2380,14 +2429,14 @@ const Collection = ({
                         <button
                           onClick={() => (setSkipActivity(0), setHasMoreActivity(true), setActivityType("canceloffer"))}
                           className={`${activityType == "canceloffer"
-                              ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                              : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                            ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                            : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
                             }`}
                         >
                           <IoHandLeftOutline
                             className={`mr-2 h-4 w-4 ${activityType == "canceloffer"
-                                ? "text-white"
-                                : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
+                              ? "text-white"
+                              : "group-hover:text-white text-jacarta-700 text-jacarta-700 dark:text-white"
                               }`}
                           />
                           <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
@@ -2613,8 +2662,8 @@ const Collection = ({
                           name="name"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           value={data?.name}
                         />
@@ -2624,8 +2673,8 @@ const Collection = ({
                           name="name"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           value={data?.name}
                           readOnly
@@ -2651,8 +2700,8 @@ const Collection = ({
                         name="description"
                         id="item-description"
                         className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                           } `}
                         rows="4"
                         required
@@ -2676,8 +2725,8 @@ const Collection = ({
                         name="Category"
                         onChange={handleChange}
                         className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                           } `}
                         defaultValue={data?.Category}
                       >
@@ -2689,6 +2738,116 @@ const Collection = ({
                         <option value={"Utility"}>Utility</option>
                       </select>
                     </div>
+
+                    {/* nfts addition computation  */}
+                    {adminAccount.includes(signer_address) && (
+                      <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                        <div className="flex items-center justify-between">
+                          <div className="flex">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                            </svg>
+
+                            <div>
+                              <label className="block font-display text-jacarta-700 dark:text-white">
+                                Save all NFTs
+                              </label>
+                              <p className="dark:text-jacarta-300">
+                                If you want to save all the collection NFTs to Database
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                            type="button"
+                            id="item-properties"
+                            data-bs-toggle="modal"
+                            data-bs-target="#propertiesModal"
+                            onClick={() => setSaveNFTsDBModal(!saveNFTsDBModal)}
+                          >
+                            {!saveNFTsDBModal ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="fill-accent group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {/* <!-- save NFTs DB Modal --> */}
+                    {saveNFTsDBModal && (
+                      <div>
+                        <div className="max-w-2xl mb-4">
+                          <div className="modal-content">
+                            <div className="modal-body p-6">
+                              <div className="mb-6 flex justify-start flex-wrap">
+                                <div className=" m-3 mr-12">
+                                  <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                  >
+                                    Save NFTs
+                                  </label>
+                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    Save all the collection NFTs to database
+                                  </p>
+                                  <div
+                                    onClick={() => (setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
+                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                  >
+                                    <span className="mt-0.5 block group-hover:text-white">Start Saving 🌟</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mb-6 flex justify-start flex-wrap">
+                                <div className=" m-3 mr-12">
+                                  <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                  >
+                                    Update NFT count
+                                  </label>
+                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    Update the latest NFT count of this collection in database
+                                  </p>
+                                  <div
+                                    onClick={() => (fetchAndUpdateNFTsCount())}
+                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                  >
+                                    <span className="mt-0.5 block group-hover:text-white">Update Count ✏️</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* rarity computation  */}
                     <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
@@ -2799,8 +2958,8 @@ const Collection = ({
                               type="text"
                               id="item-name"
                               className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                 } `}
                               placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                               required
@@ -2813,8 +2972,8 @@ const Collection = ({
                               type="text"
                               id="item-name"
                               className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                 } `}
                               placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                               required
@@ -2839,8 +2998,8 @@ const Collection = ({
                             type="text"
                             id="item-name"
                             className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                               } `}
                             placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
                             required
@@ -2854,7 +3013,7 @@ const Collection = ({
                     <div className="mb-6 flex flex-wrap justify-start">
                       <div className={`${adminAccount.includes(signer_address) ? "w-[350px]" : "w-[100%]"} m-3 mr-6`}>
                         <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Royalty Address<span className="text-red">*</span>
+                          Royalty Address
                         </label>
                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                           Creator will get his royalty commissions on royalty address
@@ -2865,43 +3024,39 @@ const Collection = ({
                           type="text"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                          required
                           value={data?.royaltyAddress}
                         />
                       </div>
-                      {adminAccount.includes(signer_address) && (
-                        <div className="w-[350px] m-3">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Creator Royalty (%)<span className="text-red">*</span>
-                          </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
-                            our platform.
-                          </p>
-                          <input
-                            onChange={handleChange}
-                            name="royalty"
-                            type="number"
-                            id="item-name"
-                            max={10}
-                            step="any"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
-                            placeholder="Eg: 5"
-                            required
-                            value={data?.royalty}
-                          />
-                        </div>
-                      )}
+                      <div className="w-[350px] m-3">
+                        <label
+                          htmlFor="item-name"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                        >
+                          Creator Royalty (%)
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
+                          our platform.
+                        </p>
+                        <input
+                          onChange={handleChange}
+                          name="royalty"
+                          type="number"
+                          id="item-name"
+                          max={10}
+                          step="any"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          placeholder="Eg: 5"
+                          value={data?.royalty}
+                        />
+                      </div>
                     </div>
 
                     {/* website & twitter  */}
@@ -2916,8 +3071,8 @@ const Collection = ({
                           type="text"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           placeholder="Enter website URL"
                           value={data?.website}
@@ -2933,8 +3088,8 @@ const Collection = ({
                           type="text"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           placeholder="Enter twitter URL"
                           value={data?.twitter}
@@ -2954,8 +3109,8 @@ const Collection = ({
                           type="text"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           placeholder="Enter discord URL"
                           value={data?.discord}
@@ -2971,8 +3126,8 @@ const Collection = ({
                           type="text"
                           id="item-name"
                           className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                             } `}
                           placeholder="Enter telegram URL"
                           value={data?.telegram}
