@@ -6,7 +6,7 @@ import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { MdVerified } from 'react-icons/md';
 import { RxCrossCircled } from 'react-icons/rx';
 
-const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onInput, search_result, setSearchValueState, showSearchCollections, showSearchNFTs, searchLoading, isTyping, searchNFTs, searchCollections }) => {
+const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onInput, search_result, setSearchValueState, showSearchCollections, showSearchNFTs, searchLoading, isTyping, searchNFTs, searchCollections, OtherImagesBaseURI }) => {
 
     const [explore, setExplore] = useState(false);
     const [stats, setStats] = useState(false);
@@ -67,7 +67,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                         >
                                             <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                                                 <Image
-                                                    src={e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                    src={e?.logo.replace("ipfs://", OtherImagesBaseURI)}
                                                     height={100}
                                                     width={100}
                                                     className="h-[46px] w-[46px] rounded-[50%] mr-2"
@@ -113,7 +113,7 @@ const MobileNavbar = ({ searchValueState, set_search_result, handle_search, onIn
                                         >
                                             <div className="flex w-full rounded-2xl border-gray-200 border-b-2 p-4 hover:bg-[#f5f5f5]">
                                                 <Image
-                                                    src={e?.nft_image.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                    src={e?.nft_image.replace("ipfs://", OtherImagesBaseURI)}
                                                     height={100}
                                                     width={100}
                                                     className="h-[46px] w-[46px] rounded-[10%] mr-2"

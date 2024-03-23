@@ -18,6 +18,7 @@ const CollectionCard = ({
   Volume,
   FloorPrice,
   TotalSupply,
+  OtherImagesBaseURI
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
@@ -45,7 +46,7 @@ const CollectionCard = ({
         <div className="relative flex space-x-[0.625rem]">
           <span className="w-[100%] h-[150px]">
             <Image
-              src={Cover?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={Cover?.replace("ipfs://", OtherImagesBaseURI)}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
 
@@ -55,7 +56,7 @@ const CollectionCard = ({
           </span>
           <span className="absolute bottom-[-25px] right-24">
             <Image
-              src={Logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={Logo?.replace("ipfs://", OtherImagesBaseURI)}
               alt="Logo"
               className="h-[75px] w-[75px] rounded-[100%] border b-4 border-black shadow-lg bg-gray-800"
 

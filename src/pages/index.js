@@ -19,7 +19,7 @@ import { get_launchpad_events } from "../utils/mongo_api/launchpad/launchpad";
 
 
 
-export default function Home({ theme }) {
+export default function Home({ theme, OtherImagesBaseURI }) {
   // const { client } = useContext(TonClientContext);
 
   const [launchCollections, setLaunchCollections] = useState([]);
@@ -159,7 +159,7 @@ export default function Home({ theme }) {
                             width={100}
                             className="absolute inset-0 w-full h-full object-cover"
                             style={{ borderRadius: "25px" }}
-                            src={e?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                            src={e?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                           />
 
                           {/* feature card div */}
@@ -169,7 +169,7 @@ export default function Home({ theme }) {
                                 <Image
                                   src={
                                     e?.logo
-                                      ? e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                                      ? e?.logo.replace("ipfs://", OtherImagesBaseURI)
                                       : defLogo
                                   }
                                   alt="avatar 1"
@@ -267,6 +267,7 @@ export default function Home({ theme }) {
                           CollectionAddress={e.contractAddress}
                           startDate={e?.phases[0]?.startDate}
                           endDate={e?.phases[endLength]?.EndDate}
+                          OtherImagesBaseURI={OtherImagesBaseURI}
                         />
                       </SwiperSlide>
                     )
@@ -325,6 +326,7 @@ export default function Home({ theme }) {
                             Volume={e?.TotalVolume}
                             FloorPrice={e?.FloorPrice}
                             TotalSupply={e?.TotalSupply}
+                            OtherImagesBaseURI={OtherImagesBaseURI}
                           />
                         </SwiperSlide>
                       )
@@ -455,6 +457,7 @@ export default function Home({ theme }) {
                             isVerified={e?.isVerified}
                             Volume={e?.TotalVolume}
                             Floor={e?.FloorPrice}
+                            OtherImagesBaseURI={OtherImagesBaseURI}
                           />
                         )
                       );
@@ -492,6 +495,7 @@ export default function Home({ theme }) {
                             isVerified={e?.isVerified}
                             Volume={e?.totalSaleVolume}
                             totalSales={e?.totalSales}
+                            OtherImagesBaseURI={OtherImagesBaseURI}
                           />
                         )
                       );

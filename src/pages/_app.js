@@ -35,6 +35,8 @@ export default function App({ Component, pageProps }) {
   const webURL = "https://venomart.io/";
   const blockURL = "https://testnet.venomscan.com/";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
+  const NFTImagesBaseURI = "https://ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
+  const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
   const defTheme = "light";
 
   // other values
@@ -198,6 +200,7 @@ export default function App({ Component, pageProps }) {
         vnmBalance={vnmBalance}
         setVnmBalance={setVnmBalance}
         adminAccount={adminAccount}
+        OtherImagesBaseURI={OtherImagesBaseURI}
       />
       {/* <TonClientContextProvider config={config}> */}
       <Component
@@ -227,6 +230,8 @@ export default function App({ Component, pageProps }) {
         EnableNFTList={EnableNFTList}
         EnableNFTCancel={EnableNFTCancel}
         EnableNFTSale={EnableNFTSale}
+        OtherImagesBaseURI={OtherImagesBaseURI}
+        NFTImagesBaseURI={NFTImagesBaseURI}
       />
       {/* </TonClientContextProvider> */}
       <Footer
@@ -241,6 +246,8 @@ export default function App({ Component, pageProps }) {
         venomProvider={venomProvider}
         connectWallet={connect_wallet}
         EnableNFTSale={EnableNFTSale}
+        OtherImagesBaseURI={OtherImagesBaseURI}
+        NFTImagesBaseURI={NFTImagesBaseURI}
       />
     </ThirdwebProvider>
   );

@@ -6,7 +6,7 @@ import { BsChevronDown } from "react-icons/bs";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 
 const Collections = ({
-    theme
+    theme, OtherImagesBaseURI
 }) => {
     const [topCollections, setTopCollections] = useState([]);
 
@@ -507,6 +507,7 @@ const Collections = ({
                                         Floor={e?.FloorPrice}
                                         Listings={e?.TotalListed}
                                         totalSupply={e?.TotalSupply}
+                                        OtherImagesBaseURI={OtherImagesBaseURI}
                                     />
                             )}
                             {topCollections?.length <= 0 && (

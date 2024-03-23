@@ -7,7 +7,7 @@ import { update_profile } from "../../utils/mongo_api/user/user";
 import { check_user } from "../../utils/mongo_api/user/user";
 import { useStorage } from "@thirdweb-dev/react";
 
-const EditProfile = ({ signer_address, theme }) => {
+const EditProfile = ({ signer_address, theme, OtherImagesBaseURI }) => {
   const storage = useStorage();
 
   const [coverImg_preview, set_coverImg_preview] = useState("");
@@ -23,7 +23,7 @@ const EditProfile = ({ signer_address, theme }) => {
     twitter: "",
     discord: "",
     customLink: "",
-    isArtist: false,
+    isArtist: false
   });
 
   const handleChange = (e) => {
@@ -97,7 +97,7 @@ const EditProfile = ({ signer_address, theme }) => {
             <Image
               src={
                 typeof data.coverImage == "string"
-                  ? data.coverImage.replace("ipfs://", "https://ipfs.io/ipfs/")
+                  ? data.coverImage.replace("ipfs://", OtherImagesBaseURI)
                   : coverImg_preview
               }
               alt="banner"
@@ -272,7 +272,7 @@ const EditProfile = ({ signer_address, theme }) => {
                             typeof data.profileImage == "string"
                               ? data.profileImage.replace(
                                 "ipfs://",
-                                "https://ipfs.io/ipfs/"
+                                OtherImagesBaseURI
                               )
                               : profImg_preview
                           }

@@ -4,7 +4,7 @@ import LaunchCollectionCard from "../../components/cards/LaunchCollectionCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { get_launchpad_events } from "../../utils/mongo_api/launchpad/launchpad";
 
-const Launchpad = ({ theme }) => {
+const Launchpad = ({ theme, OtherImagesBaseURI }) => {
 
   const [collections, set_collections] = useState([]);
   const [skip, setSkip] = useState(0);
@@ -87,6 +87,7 @@ const Launchpad = ({ theme }) => {
                       CollectionAddress={e.contractAddress}
                       startDate={e?.phases[0]?.startDate}
                       endDate={e?.phases[endLength]?.EndDate}
+                      OtherImagesBaseURI={OtherImagesBaseURI}
                     />
                   );
                 })}

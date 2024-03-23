@@ -8,7 +8,7 @@ import { search_collections } from "../../utils/mongo_api/search";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Collections = ({ theme }) => {
+const Collections = ({ theme, OtherImagesBaseURI }) => {
   const [collections, set_collections] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -533,6 +533,7 @@ const Collections = ({ theme }) => {
                         Volume={e?.TotalVolume}
                         FloorPrice={e?.FloorPrice}
                         TotalSupply={e?.TotalSupply}
+                        OtherImagesBaseURI={OtherImagesBaseURI}
                       />
                     ))}
                   </InfiniteScroll>

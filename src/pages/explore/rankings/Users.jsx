@@ -6,7 +6,7 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import Loader from "../../../components/Loader";
 
-const Users = ({ theme, topUsers, setTopUsers }) => {
+const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
     const [duration, set_duration] = useState("30days");
     const [wallet_id, set_wallet_id] = useState("none");
 
@@ -363,6 +363,7 @@ const Users = ({ theme, topUsers, setTopUsers }) => {
                                         totalSales={e?.totalSales}
                                         activeListings={e?.activeListings}
                                         AveragePrice={e?.AveragePrice}
+                                        OtherImagesBaseURI={OtherImagesBaseURI}
                                     />
                             )}
                             {topUsers?.length <= 0 && !searchLoading && (

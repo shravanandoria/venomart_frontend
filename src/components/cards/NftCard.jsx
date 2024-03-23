@@ -28,7 +28,8 @@ const NftCard = ({
   cartNFTs,
   setCartNFTs,
   Description,
-  rank
+  rank,
+  NFTImagesBaseURI
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
@@ -76,7 +77,7 @@ const NftCard = ({
           </video>
           :
           <Image
-            src={ImageSrc}
+            src={ImageSrc?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
             height={100}
             width={100}
             alt="nftItem"
@@ -89,7 +90,8 @@ const NftCard = ({
             <BsFillCheckCircleFill className="absolute top-[2px] left-0 mx-[6px] my-[2px] text-blue border-[2px] border-white bg-white rounded-full text-[30px] mb-1" onClick={(e) => (e.preventDefault(), removeFromCart(NFTData))} />
             :
             // <AiFillPlusCircle className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[30px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
-            <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />)
+            <BsFillCartPlusFill className="cardHoverNFTButton absolute top-[2px] left-0 mx-[6px] my-[2px] text-white text-[28px] mb-1" onClick={(e) => (e.preventDefault(), addToCart())} />
+          )
         }
 
         {rank &&

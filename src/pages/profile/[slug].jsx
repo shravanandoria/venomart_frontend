@@ -40,7 +40,9 @@ const Profile = ({
   vnmBalance,
   EnableNFTCancel,
   EnableNFTSale,
-  profileDataProps
+  profileDataProps,
+  OtherImagesBaseURI,
+  NFTImagesBaseURI
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -495,13 +497,13 @@ const Profile = ({
         />
         <meta property="og:title" content={`${profileDataProps?.user_name ? profileDataProps?.user_name : "Profile"} - Venomart Marketplace`} />
         <meta property="og:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
-        <meta property="og:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta property="og:url" content={"https://venomart.io/"} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
         <meta name="twitter:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
-        <meta name="twitter:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta name="twitter:site" content="@venomart23" />
         <meta name="twitter:creator" content="@venomart23" />
         <meta name="robots" content="INDEX,FOLLOW" />
@@ -511,7 +513,7 @@ const Profile = ({
       {/* <!-- Banner IMG--> */}
       <div className="relative pt-24 dark:bg-jacarta-900">
         <Image
-          src={user_data?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/") || defBack}
+          src={user_data?.coverImage?.replace("ipfs://", OtherImagesBaseURI) || defBack}
           alt="banner"
           height={100}
           width={100}
@@ -533,13 +535,13 @@ const Profile = ({
                 loop="true"
               >
                 <source
-                  src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                  src={user_data?.profileImage?.replace("ipfs://", OtherImagesBaseURI)}
                   type="video/mp4"
                 ></source>
               </video>
             ) : (
               <Image
-                src={user_data?.profileImage?.replace("ipfs://", "https://ipfs.io/ipfs/") || defLogo}
+                src={user_data?.profileImage?.replace("ipfs://", OtherImagesBaseURI) || defLogo}
                 alt="collection avatar"
                 height={100}
                 width={100}
@@ -1281,6 +1283,7 @@ const Profile = ({
                               setSelectedNFT={setSelectedNFT}
                               cartNFTs={cartNFTs}
                               setCartNFTs={setCartNFTs}
+                              NFTImagesBaseURI={NFTImagesBaseURI}
                             />
                           );
                         })}
@@ -1326,7 +1329,7 @@ const Profile = ({
                       return (
                         <NftCard
                           key={index}
-                          ImageSrc={e?.preview?.source?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                          ImageSrc={e?.preview?.source?.replace("ipfs://", OtherImagesBaseURI)}
                           Name={e?.name}
                           rank={e?.rank}
                           Address={e?.nft._address}
@@ -1335,6 +1338,7 @@ const Profile = ({
                           NFTCollectionAddress={e?.collection?._address}
                           cartNFTs={cartNFTs}
                           setCartNFTs={setCartNFTs}
+                          NFTImagesBaseURI={NFTImagesBaseURI}
                         />
                       );
                     })}
@@ -1393,6 +1397,7 @@ const Profile = ({
                         Volume={e?.TotalVolume}
                         FloorPrice={e?.FloorPrice}
                         TotalSupply={e?.TotalSupply}
+                        OtherImagesBaseURI={OtherImagesBaseURI}
                       />
                     ))}
                   </InfiniteScroll>
@@ -1649,6 +1654,7 @@ const Profile = ({
                           FromUser={e?.fromUser}
                           ToUser={e?.toUser}
                           signerAddress={signer_address}
+                          NFTImagesBaseURI={NFTImagesBaseURI}
                         />
                       ))}
                     </InfiniteScroll>
@@ -1687,6 +1693,7 @@ const Profile = ({
           collectionTrading={selectedNFT?.NFTCollection?.isTrading}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
+          NFTImagesBaseURI={NFTImagesBaseURI}
         />
       )}
 
@@ -1705,6 +1712,7 @@ const Profile = ({
           NFTRank={selectedNFT?.rank}
           NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}
+          NFTImagesBaseURI={NFTImagesBaseURI}
         />
       )}
 
@@ -1723,6 +1731,7 @@ const Profile = ({
           NFTListingPrice={selectedNFT?.listingPrice}
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
+          NFTImagesBaseURI={NFTImagesBaseURI}
         />
       )}
     </div>

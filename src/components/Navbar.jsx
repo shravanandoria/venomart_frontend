@@ -769,6 +769,7 @@ const Navbar = ({
             showSearchCollections={showSearchCollections}
             isTyping={isTyping}
             searchLoading={searchLoading}
+            OtherImagesBaseURI={OtherImagesBaseURI}
           />
         )}
       </div>

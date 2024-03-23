@@ -14,7 +14,8 @@ const SmallUserCard = ({
     Name,
     wallet_address,
     Volume,
-    totalSales
+    totalSales,
+    OtherImagesBaseURI
 }) => {
 
     function formatNumberShort(number) {
@@ -47,7 +48,7 @@ const SmallUserCard = ({
                         <Image
                             src={
                                 Logo
-                                    ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                                    ? Logo.replace("ipfs://", OtherImagesBaseURI)
                                     : defLogo
                             }
                             alt="avatar 1"

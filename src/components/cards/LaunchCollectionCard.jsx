@@ -20,7 +20,8 @@ const LaunchCollectionCard = ({
   pageName,
   verified,
   startDate,
-  endDate
+  endDate,
+  OtherImagesBaseURI
 }) => {
 
   const [isHovering, SetIsHovering] = useState(false);
@@ -34,7 +35,7 @@ const LaunchCollectionCard = ({
         >
           <span className="w-[100%] h-[150px]">
             <Image
-              src={Cover.replace("ipfs://", "https://ipfs.io/ipfs/")}
+              src={Cover.replace("ipfs://", OtherImagesBaseURI)}
               alt="Cover Image"
               className="h-full w-[100%] rounded-[0.625rem] object-cover"
 
@@ -60,7 +61,7 @@ const LaunchCollectionCard = ({
               </video>
               :
               <Image
-                src={Logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                src={Logo.replace("ipfs://", OtherImagesBaseURI)}
                 alt="Logo"
                 className="h-[80px] w-[80px] rounded-[100%] border b-4 border-black shadow-lg"
                 height={100}

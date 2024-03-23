@@ -8,7 +8,7 @@ import { buy_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
 
-const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTRank, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, NFTListingPrice, actionLoad }) => {
+const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName, NFTRank, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, NFTListingPrice, actionLoad, NFTImagesBaseURI }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -82,15 +82,14 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         loop={true}
                                     >
                                         <source
-                                            src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            src={NFTImage?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
                                             type="video/mp4"
                                         ></source>
                                     </video>
                                     :
                                     <Image
                                         src={NFTImage?.replace(
-                                            "ipfs://",
-                                            "https://ipfs.io/ipfs/"
+                                            "https://ipfs.io/ipfs/", NFTImagesBaseURI
                                         )}
                                         alt="nftPreview"
                                         width="70"

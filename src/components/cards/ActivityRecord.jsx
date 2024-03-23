@@ -5,8 +5,7 @@ import moment from 'moment';
 import numeral from 'numeral';
 import { IoHandLeftOutline } from 'react-icons/io5';
 
-const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress }) => {
-
+const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress, NFTImagesBaseURI }) => {
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
 
     function formatNumberShort(number) {
@@ -44,15 +43,14 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                                 <source
                                     src={
                                         NFTImage?.replace(
-                                            "ipfs://",
-                                            "https://ipfs.io/ipfs/"
+                                            "https://ipfs.io/ipfs/", NFTImagesBaseURI
                                         )
                                     }
                                     type="video/mp4"
                                 ></source>
                             </video>
                             :
-                            <Image src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
+                            <Image src={NFTImage?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
                         }
                     </div>
                 </Link>

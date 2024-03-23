@@ -62,6 +62,8 @@ const Collection = ({
   EnableNFTSale,
   adminAccount,
   collectionData,
+  OtherImagesBaseURI,
+  NFTImagesBaseURI
 }) => {
   const router = useRouter();
   const storage = useStorage();
@@ -852,7 +854,7 @@ const Collection = ({
         <meta
           property="og:image"
           content={`${collectionData?.coverImage
-            ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+            ? collectionData?.coverImage?.replace("ipfs://", OtherImagesBaseURI)
             : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
             }`}
         />
@@ -873,7 +875,7 @@ const Collection = ({
         <meta
           name="twitter:image"
           content={`${collectionData?.coverImage
-            ? collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")
+            ? collectionData?.coverImage?.replace("ipfs://", OtherImagesBaseURI)
             : "https://ipfs.io/ipfs/QmQkBPAQegtJymtC9AdsdkpJrsbsj3ijPXSEfNDyj7RzJM/bg.png"
             }`}
         />
@@ -903,7 +905,7 @@ const Collection = ({
           <div className="relative pt-24">
             {collection?.coverImage ? (
               <Image
-                src={collection?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                src={collection?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                 width={100}
                 height={100}
                 alt="banner"
@@ -933,7 +935,7 @@ const Collection = ({
               <div className="relative">
                 {collection?.logo ? (
                   <Image
-                    src={collection?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                    src={collection?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                     width={100}
                     height={100}
                     alt="collection avatar"
@@ -1868,7 +1870,7 @@ const Collection = ({
                                 key={index}
                                 ImageSrc={(onChainData ? e?.preview?.source : e?.nft_image)?.replace(
                                   "ipfs://",
-                                  "https://ipfs.io/ipfs/",
+                                  OtherImagesBaseURI,
                                 )}
                                 Name={e?.name}
                                 Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
@@ -1881,6 +1883,7 @@ const Collection = ({
                                 NFTCollectionStatus={e?.NFTCollection?.isVerified}
                                 cartNFTs={cartNFTs}
                                 setCartNFTs={setCartNFTs}
+                                NFTImagesBaseURI={NFTImagesBaseURI}
                               />
                             );
                           })}
@@ -1914,7 +1917,7 @@ const Collection = ({
                                       key={index}
                                       ImageSrc={(onChainData ? e?.preview?.source : e?.nft_image)?.replace(
                                         "ipfs://",
-                                        "https://ipfs.io/ipfs/",
+                                        OtherImagesBaseURI,
                                       )}
                                       Name={e?.name}
                                       Address={onChainData ? e?.nftAddress?._address : e?.NFTAddress}
@@ -1933,6 +1936,7 @@ const Collection = ({
                                       setSelectedNFT={setSelectedNFT}
                                       cartNFTs={cartNFTs}
                                       setCartNFTs={setCartNFTs}
+                                      NFTImagesBaseURI={NFTImagesBaseURI}
                                     />
                                   );
                                 })}
@@ -2520,6 +2524,7 @@ const Collection = ({
                               FromUser={e?.fromUser}
                               ToUser={e?.toUser}
                               signerAddress={signer_address}
+                              NFTImagesBaseURI={NFTImagesBaseURI}
                             />
                           ))}
                         </InfiniteScroll>
@@ -2598,7 +2603,7 @@ const Collection = ({
                       <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                         {preview?.logo ? (
                           <img
-                            src={preview?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                            src={preview?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-24 rounded-lg"
                           />
                         ) : (
@@ -2649,7 +2654,7 @@ const Collection = ({
                       <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                         {preview?.coverImage ? (
                           <img
-                            src={preview?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                            src={preview?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-44 rounded-lg "
                           />
                         ) : (
@@ -3389,6 +3394,7 @@ const Collection = ({
               NFTRank={selectedNFT?.rank}
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
 
@@ -3405,6 +3411,7 @@ const Collection = ({
               collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
 
@@ -3423,6 +3430,7 @@ const Collection = ({
               NFTListingPrice={selectedNFT?.listingPrice}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
         </div>

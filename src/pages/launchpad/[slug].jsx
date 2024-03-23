@@ -24,6 +24,7 @@ const launchpad = ({
     connectWallet,
     setAnyModalOpen,
     LaunchData,
+    OtherImagesBaseURI
 }) => {
     const router = useRouter();
     const { slug } = router.query;
@@ -257,7 +258,7 @@ const launchpad = ({
                 <meta
                     property="og:image"
                     content={`${LaunchData?.logo
-                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                        ? LaunchData?.logo?.replace("ipfs://", OtherImagesBaseURI)
                         : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
@@ -278,7 +279,7 @@ const launchpad = ({
                 <meta
                     name="twitter:image"
                     content={`${LaunchData?.logo
-                        ? LaunchData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")
+                        ? LaunchData?.logo?.replace("ipfs://", OtherImagesBaseURI)
                         : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"
                         }`}
                 />
@@ -399,7 +400,7 @@ const launchpad = ({
                                         <Image
                                             height={100}
                                             width={100}
-                                            src={collectionData?.coverImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            src={collectionData?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%", marginBottom: "20px" }}
                                         />
@@ -469,7 +470,7 @@ const launchpad = ({
                                             width={100}
                                             alt="nftImg"
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded-[20px]"
-                                            src={collectionData?.logo?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            src={collectionData?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                                         />
                                     </div>
 

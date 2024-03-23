@@ -20,6 +20,7 @@ const CollectionRankingCard = ({
   Sales,
   Listings,
   totalSupply,
+  OtherImagesBaseURI
 }) => {
 
   function formatNumberShort(number) {
@@ -55,7 +56,7 @@ const CollectionRankingCard = ({
           <Image
             src={
               Logo
-                ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                ? Logo.replace("ipfs://", OtherImagesBaseURI)
                 : defLogo
             }
             height={100}

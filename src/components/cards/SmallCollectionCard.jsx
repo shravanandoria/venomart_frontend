@@ -16,6 +16,7 @@ const SmallCollectionCard = ({
   Volume,
   Floor,
   isVerified,
+  OtherImagesBaseURI
 }) => {
 
   function formatNumberShort(number) {
@@ -48,7 +49,7 @@ const SmallCollectionCard = ({
             <Image
               src={
                 Logo
-                  ? Logo.replace("ipfs://", "https://ipfs.io/ipfs/")
+                  ? Logo.replace("ipfs://", OtherImagesBaseURI)
                   : defLogo
               }
               alt="avatar 1"

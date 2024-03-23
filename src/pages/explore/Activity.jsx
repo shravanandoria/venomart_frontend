@@ -12,7 +12,7 @@ import { search_collections } from "../../utils/mongo_api/search";
 import Image from "next/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Activity = ({ theme, blockURL, signer_address }) => {
+const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImagesBaseURI }) => {
 
     const [collectionLoading, setCollectionLoading] = useState(false);
     const [collectionSearchINP, setCollectionSearchINP] = useState("");
@@ -297,7 +297,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                                     <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                                         <span className="relative text-jacarta-700 dark:text-white">
                                                                             <Image
-                                                                                src={e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                                                                src={e?.logo.replace("ipfs://", OtherImagesBaseURI)}
                                                                                 height={100}
                                                                                 width={100}
                                                                                 alt={e?.name}
@@ -516,6 +516,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 FromUser={e?.fromUser}
                                                 ToUser={e?.toUser}
                                                 signerAddress={signer_address}
+                                                NFTImagesBaseURI={NFTImagesBaseURI}
                                             />
                                         ))}
                                     </InfiniteScroll>

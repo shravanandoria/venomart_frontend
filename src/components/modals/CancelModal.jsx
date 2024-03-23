@@ -7,7 +7,7 @@ import { BsExclamationCircleFill } from 'react-icons/bs';
 import { cancel_refundable_fees } from '../../utils/user_nft';
 import numeral from 'numeral';
 
-const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, actionLoad }) => {
+const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NFTName, NFTCollectionName, NFTCollectionContract, CollectionVerification, collectionTrading, actionLoad, NFTImagesBaseURI }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -83,15 +83,14 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                         loop={true}
                                     >
                                         <source
-                                            src={NFTImage?.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                            src={NFTImage?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
                                             type="video/mp4"
                                         ></source>
                                     </video>
                                     :
                                     <Image
                                         src={NFTImage?.replace(
-                                            "ipfs://",
-                                            "https://ipfs.io/ipfs/"
+                                            "https://ipfs.io/ipfs/", NFTImagesBaseURI
                                         )}
                                         alt="nftPreview"
                                         width="70"

@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale }) => {
+const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale, OtherImagesBaseURI, NFTImagesBaseURI }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -428,7 +428,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                         <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                           <span className="relative text-jacarta-700 dark:text-white">
                                             <Image
-                                              src={e?.logo.replace("ipfs://", "https://ipfs.io/ipfs/")}
+                                              src={e?.logo.replace("ipfs://", OtherImagesBaseURI)}
                                               height={100}
                                               width={100}
                                               alt={e?.name}
@@ -929,7 +929,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                             key={index}
                             ImageSrc={e?.nft_image?.replace(
                               "ipfs://",
-                              "https://ipfs.io/ipfs/"
+                              OtherImagesBaseURI
                             )}
                             Name={e?.name}
                             Address={e.NFTAddress}
@@ -951,6 +951,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                             setSelectedNFT={setSelectedNFT}
                             cartNFTs={cartNFTs}
                             setCartNFTs={setCartNFTs}
+                            NFTImagesBaseURI={NFTImagesBaseURI}
                           />
                         );
                       })}
@@ -982,6 +983,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTRank={selectedNFT?.rank}
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
 
@@ -998,6 +1000,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               collectionTrading={selectedNFT?.NFTCollection?.isTrading}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
 
@@ -1016,6 +1019,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTListingPrice={selectedNFT?.listingPrice}
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
+              NFTImagesBaseURI={NFTImagesBaseURI}
             />
           )}
         </div>
