@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    const { collection_address, owner_address, sortby, propsFilter, minprice, maxprice, skip } = req.query;
+                    const { collection_address, owner_address, saleType, sortby, propsFilter, minprice, maxprice, skip } = req.query;
                     const decodedPropsFilter = JSON.parse(decodeURIComponent(propsFilter));
 
                     const collection = await Collection.findOne({
@@ -114,9 +114,9 @@ export default async function handler(req, res) {
                         return res.status(200).json({ success: true, data: nfts });
                     }
 
-                    if (sortby != "") {
-                        if (sortby == "recentlyListed") {
-                            const nfts = await NFT.find({ NFTCollection: collection, isListed: true })
+                    if (saleType != "") {
+                        if (saleType == "notForSale") {
+                            const nfts = await NFT.find({ NFTCollection: collection, isListed: false })
                                 .select([
                                     "-attributes",
                                 ]).populate({
@@ -124,6 +124,20 @@ export default async function handler(req, res) {
                                     select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ updatedAt: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                    }
+
+                    if (sortby != "") {
+                        if (sortby == "recentlyListed") {
+                            const nfts = await NFT.find({ NFTCollection: collection })
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, updatedAt: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                         if (sortby == "recentlySold") {

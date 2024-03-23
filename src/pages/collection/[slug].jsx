@@ -77,8 +77,8 @@ const Collection = ({
   const [activityTab, showActivityTab] = useState(false);
 
   const [priceRangeFilter, showPriceRangeFilter] = useState(false);
-  const [saleTypeFilter, showSaleTypeFilter] = useState(false);
   const [listedFilter, showListedFilter] = useState(false);
+  const [saleTypeFilter, showSaleTypeFilter] = useState(false);
   const [mobileFilter, openMobileFilter] = useState(true);
 
   const [share, setShare] = useState(false);
@@ -112,6 +112,7 @@ const Collection = ({
   const [chartLoading, setChartLoading] = useState(false);
 
   const [propsFilter, setPropsFilter] = useState([]);
+  const [saleType, setSaleType] = useState("");
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
   const [currentDuration, setCurrentDuration] = useState("30days");
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
@@ -396,6 +397,7 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(
       slug,
       signer_address,
+      saleType,
       currentFilter,
       propsFilter,
       minPrice,
@@ -475,6 +477,7 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(
       slug,
       signer_address,
+      saleType,
       currentFilter,
       propsFilter,
       minPrice,
@@ -495,6 +498,7 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(
       slug,
       signer_address,
+      saleType,
       currentFilter,
       propsFilter,
       minPrice,
@@ -511,7 +515,7 @@ const Collection = ({
   // clearing nfts according to filter
   const clear_filter_nfts = async () => {
     if (defaultFilterFetch == false) return;
-    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, currentFilter, propsFilter, 0, 0, skip);
+    const nfts_offchain = await fetch_collection_nfts(slug, signer_address, saleType, currentFilter, propsFilter, 0, 0, skip);
     if (nfts_offchain) {
       set_nfts(nfts_offchain);
       if (nfts_offchain == "" || nfts_offchain == undefined) {
@@ -611,6 +615,7 @@ const Collection = ({
     const nfts_offchain = await fetch_collection_nfts(
       slug,
       signer_address,
+      saleType,
       currentFilter,
       propsFilter,
       minPrice,
@@ -801,7 +806,7 @@ const Collection = ({
 
   useEffect(() => {
     fetch_filter_nfts();
-  }, [currentFilter, propsFilter]);
+  }, [currentFilter, propsFilter, saleType]);
 
   useEffect(() => {
     get_charts_data();
@@ -1343,17 +1348,12 @@ const Collection = ({
                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                               >
                                 <div className="flex justify-center align-middle">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    width="24"
-                                    height="24"
-                                    className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                  >
-                                    <path fill="none" d="M0 0h24v24H0z" />
-                                    <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
-                                  </svg>
-                                  <span className="text-jacarta-700 dark:text-white">Sale type</span>
+                                  {saleType == "" &&
+                                    <span className="text-jacarta-700 dark:text-white">💸 Fixed Price</span>
+                                  }
+                                  {saleType == "notForSale" &&
+                                    <span className="text-jacarta-700 dark:text-white">🚫 Not For Sale</span>
+                                  }
                                 </div>
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1374,9 +1374,43 @@ const Collection = ({
                                 >
                                   <ul className="flex flex-col flex-wrap">
                                     <li>
-                                      <button className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                        <span className="text-jacarta-700 dark:text-white">Fixed price</span>
-                                        {!onChainData && (
+                                      <button onClick={() => (
+                                        setSkip(0),
+                                        setHasMore(true),
+                                        setMinPrice(0),
+                                        setMaxPrice(0),
+                                        setDefaultFilterFetch(true),
+                                        setSaleType(""),
+                                        showSaleTypeFilter(false)
+                                      )} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                        <span className="text-jacarta-700 dark:text-white">💸 Fixed price</span>
+                                        {saleType == "" && (
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                          >
+                                            <path fill="none" d="M0 0h24v24H0z"></path>
+                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                          </svg>
+                                        )}
+                                      </button>
+                                    </li>
+                                    <li>
+                                      <button onClick={() => (
+                                        setSkip(0),
+                                        setHasMore(true),
+                                        setMinPrice(0),
+                                        setMaxPrice(0),
+                                        setDefaultFilterFetch(true),
+                                        setSaleType("notForSale"),
+                                        showSaleTypeFilter(false)
+                                      )
+                                      } className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                        <span className="text-jacarta-700 dark:text-white">🚫 Not for sale</span>
+                                        {saleType == "notForSale" && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -1395,7 +1429,7 @@ const Collection = ({
                                         onClick={() => filterFetchOnchainData()}
                                         className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                       >
-                                        <span className="text-jacarta-700 dark:text-white">Agrregate Onchain</span>
+                                        <span className="text-jacarta-700 dark:text-white">🌐 Agrregate Onchain</span>
                                         {onChainData && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -1522,25 +1556,25 @@ const Collection = ({
                                 className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                               >
                                 {currentFilter == "recentlyListed" && (
-                                  <span className="text-jacarta-700 dark:text-white">Recently Listed</span>
+                                  <span className="text-jacarta-700 dark:text-white">📌 Recently Listed</span>
                                 )}
                                 {currentFilter == "recentlySold" && (
-                                  <span className="text-jacarta-700 dark:text-white">Recently Sold</span>
+                                  <span className="text-jacarta-700 dark:text-white">💰 Recently Sold</span>
                                 )}
                                 {currentFilter == "ownedBy" && (
-                                  <span className="text-jacarta-700 dark:text-white">Owned By You</span>
+                                  <span className="text-jacarta-700 dark:text-white">👑 Owned By You</span>
                                 )}
                                 {currentFilter == "lowToHigh" && (
-                                  <span className="text-jacarta-700 dark:text-white">Price: Low To High</span>
+                                  <span className="text-jacarta-700 dark:text-white">🏷️ Price: Low To High</span>
                                 )}
                                 {currentFilter == "highToLow" && (
-                                  <span className="text-jacarta-700 dark:text-white">Price: High To Low</span>
+                                  <span className="text-jacarta-700 dark:text-white">🏷️ Price: High To Low</span>
                                 )}
                                 {currentFilter == "rankLowToHigh" && (
-                                  <span className="text-jacarta-700 dark:text-white">Rank: Low To High</span>
+                                  <span className="text-jacarta-700 dark:text-white">🥇 Rank: Low To High</span>
                                 )}
                                 {currentFilter == "rankHighToLow" && (
-                                  <span className="text-jacarta-700 dark:text-white">Rank: High To Low</span>
+                                  <span className="text-jacarta-700 dark:text-white">🥇 Rank: High To Low</span>
                                 )}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -1568,12 +1602,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("recentlyListed"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    Recently Listed
+                                    📌 Recently Listed
                                     {currentFilter == "recentlyListed" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1594,12 +1629,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("recentlySold"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    Recently Sold
+                                    💰 Recently Sold
                                     {currentFilter == "recentlySold" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1620,12 +1656,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("ownedBy"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    Owned By You
+                                    👑 Owned By You
                                     {currentFilter == "ownedBy" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1646,12 +1683,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("rankLowToHigh"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    Rank: Low To High
+                                    🥇 Rank: Low To High
                                     {currentFilter == "rankLowToHigh" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1672,12 +1710,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("rankHighToLow"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
-                                    Rank: High To Low
+                                    🥇 Rank: High To Low
                                     {currentFilter == "rankHighToLow" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1698,12 +1737,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("lowToHigh"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
                                   >
-                                    Price: Low to High
+                                    🏷️ Price: Low to High
                                     {currentFilter == "lowToHigh" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1725,12 +1765,13 @@ const Collection = ({
                                       setMinPrice(0),
                                       setMaxPrice(0),
                                       setDefaultFilterFetch(true),
+                                      setSaleType(""),
                                       setCurrentFilter("highToLow"),
                                       showListedFilter(false)
                                     )}
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
                                   >
-                                    Price: High to Low
+                                    🏷️ Price: High to Low
                                     {currentFilter == "highToLow" && (
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"

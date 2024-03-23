@@ -350,32 +350,32 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                     >
                                         {activityType == "" &&
                                             <span className=" text-jacarta-700 dark:text-white">
-                                                All Activity
+                                                ⚡ All Activity
                                             </span>
                                         }
                                         {activityType == "sale" &&
                                             <span className="text-jacarta-700 dark:text-white">
-                                                Sale
+                                                💰 Sale
                                             </span>
                                         }
                                         {activityType == "offer" &&
                                             <span className="text-jacarta-700 dark:text-white">
-                                                Offer
+                                                💸 Offer
                                             </span>
                                         }
                                         {activityType == "list" &&
                                             <span className=" text-jacarta-700 dark:text-white">
-                                                Listing
+                                                🏷️ Listing
                                             </span>
                                         }
                                         {activityType == "cancel" &&
                                             <span className=" text-jacarta-700 dark:text-white">
-                                                Remove Listing
+                                                🏷️ Remove Listing
                                             </span>
                                         }
                                         {activityType == "canceloffer" &&
                                             <span className="text-jacarta-700 dark:text-white">
-                                                Cancel Offer
+                                                ❌ Cancel Offer
                                             </span>
                                         }
                                         <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
@@ -387,7 +387,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 Filter By
                                             </span>
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType(""))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                All Activity
+                                                ⚡ All Activity
                                                 {activityType == "" &&
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -402,7 +402,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 }
                                             </button>
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("sale"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                Sale
+                                                💰 Sale
                                                 {activityType == "sale" &&
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -416,23 +416,8 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("list"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                Listing
-                                                {activityType == "list" &&
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        width="24"
-                                                        height="24"
-                                                        className="mb-[3px] h-4 w-4 fill-accent"
-                                                    >
-                                                        <path fill="none" d="M0 0h24v24H0z" />
-                                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                    </svg>
-                                                }
-                                            </button>
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("offer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                Offer
+                                                💸 Offer
                                                 {activityType == "offer" &&
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -446,8 +431,23 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                     </svg>
                                                 }
                                             </button>
+                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("list"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                🏷️ Listing
+                                                {activityType == "list" &&
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        className="mb-[3px] h-4 w-4 fill-accent"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                    </svg>
+                                                }
+                                            </button>
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("cancel"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                Remove Listing
+                                                🏷️ Remove Listing
                                                 {activityType == "cancel" &&
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -462,7 +462,7 @@ const Activity = ({ theme, blockURL, signer_address }) => {
                                                 }
                                             </button>
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("canceloffer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                Cancel Offer
+                                                ❌ Cancel Offer
                                                 {activityType == "canceloffer" &&
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"

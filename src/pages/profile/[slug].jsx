@@ -862,24 +862,14 @@ const Profile = ({
                               className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                             >
                               <div className="flex justify-center align-middle">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="mr-1 mt-[2px] h-4 w-4 fill-jacarta-700 transition-colors group-hover:fill-white dark:fill-jacarta-100"
-                                >
-                                  <path fill="none" d="M0 0h24v24H0z" />
-                                  <path d="M3.783 2.826L12 1l8.217 1.826a1 1 0 0 1 .783.976v9.987a6 6 0 0 1-2.672 4.992L12 23l-6.328-4.219A6 6 0 0 1 3 13.79V3.802a1 1 0 0 1 .783-.976zM13 10V5l-5 7h3v5l5-7h-3z" />
-                                </svg>
                                 {saleType == "All" && (
-                                  <span className="text-jacarta-700 dark:text-white">All NFTs</span>
+                                  <span className="text-jacarta-700 dark:text-white">⚡️ All NFTs </span>
                                 )}
                                 {saleType == "listed" && (
-                                  <span className="text-jacarta-700 dark:text-white">Listed For Sale</span>
+                                  <span className="text-jacarta-700 dark:text-white">💰 Fixed Price</span>
                                 )}
                                 {saleType == "notlisted" && (
-                                  <span className="text-jacarta-700 dark:text-white">Not For Sale</span>
+                                  <span className="text-jacarta-700 dark:text-white">❌ Not For Sale</span>
                                 )}
                               </div>
                               <svg
@@ -912,7 +902,7 @@ const Profile = ({
                                       )}
                                       className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                     >
-                                      <span className="text-jacarta-700 dark:text-white">All NFTs</span>
+                                      <span className="text-jacarta-700 dark:text-white">⚡️ All NFTs</span>
                                       {saleType == "All" && (
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -940,7 +930,7 @@ const Profile = ({
                                       )}
                                       className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                     >
-                                      <span className="text-jacarta-700 dark:text-white">Listed For sale</span>
+                                      <span className="text-jacarta-700 dark:text-white">💰 Fixed Price</span>
                                       {saleType == "listed" && (
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -968,7 +958,7 @@ const Profile = ({
                                       )}
                                       className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                     >
-                                      <span className="text-jacarta-700 dark:text-white">Not for sale</span>
+                                      <span className="text-jacarta-700 dark:text-white">❌ Not for sale</span>
                                       {saleType == "notlisted" && (
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -988,7 +978,7 @@ const Profile = ({
                                       onClick={() => (nfts.length == 0 && fetch_user_nfts(), switchToOwned())}
                                       className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                     >
-                                      <span className="text-jacarta-700 dark:text-white">Agrregate Onchain</span>
+                                      <span className="text-jacarta-700 dark:text-white">🌐 Agrregate Onchain</span>
                                     </button>
                                   </li>
                                 </ul>
@@ -1111,13 +1101,13 @@ const Profile = ({
                               className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
                             >
                               {currentFilter == "recentlyListed" && (
-                                <span className="text-jacarta-700 dark:text-white">Recently Listed</span>
+                                <span className="text-jacarta-700 dark:text-white">📌 Recently Listed</span>
                               )}
                               {currentFilter == "lowToHigh" && (
-                                <span className="text-jacarta-700 dark:text-white">Low To High</span>
+                                <span className="text-jacarta-700 dark:text-white">🏷️ Price: Low To High</span>
                               )}
                               {currentFilter == "highToLow" && (
-                                <span className="text-jacarta-700 dark:text-white">High To Low</span>
+                                <span className="text-jacarta-700 dark:text-white">🏷️ Price: High To Low</span>
                               )}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -1150,7 +1140,7 @@ const Profile = ({
                                   )}
                                   className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                 >
-                                  Recently Listed
+                                  📌 Recently Listed
                                   {currentFilter == "recentlyListed" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -1176,7 +1166,7 @@ const Profile = ({
                                   )}
                                   className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
                                 >
-                                  Price: Low to High
+                                  🏷️ Price: Low to High
                                   {currentFilter == "lowToHigh" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
@@ -1203,7 +1193,7 @@ const Profile = ({
                                   )}
                                   className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
                                 >
-                                  Price: High to Low
+                                  🏷️ Price: High to Low
                                   {currentFilter == "highToLow" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"

@@ -45,14 +45,14 @@ export default function Home({ theme }) {
 
   const fetchTopCollections = async () => {
     setFullLoading(true);
-    const topCollections = await top_collections("All", "unverified", duration);
+    const topCollections = await top_collections("All", "verified", duration);
     setTopCollections(topCollections);
     setFullLoading(false);
   };
 
   const fetchTrendingCollection = async () => {
     setTrendLoad(true);
-    const collectionsJSON = await top_collections("All", "unverified", "1day");
+    const collectionsJSON = await top_collections("All", "verified", "1day");
     setTrendingCollections(collectionsJSON);
     setTrendLoad(false);
   };

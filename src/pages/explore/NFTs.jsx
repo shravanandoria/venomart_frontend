@@ -479,22 +479,22 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                             onClick={(e) => (e.stopPropagation(), openCollectionFilter(false), openPriceRangeFilter(false), openFilterSort(false), openFilterCategories(!filterCategories))}
                           >
                             {collectionCategory == "All" &&
-                              <span className="text-jacarta-700 dark:text-white">All Categories</span>
+                              <span className="text-jacarta-700 dark:text-white">⚡️ All Categories</span>
                             }
                             {collectionCategory == "Art" &&
-                              <span className="text-jacarta-700 dark:text-white">Art</span>
+                              <span className="text-jacarta-700 dark:text-white">🎨 Art</span>
                             }
                             {collectionCategory == "Collectibles" &&
-                              <span className="text-jacarta-700 dark:text-white">Collectibles</span>
+                              <span className="text-jacarta-700 dark:text-white">🖼️ Collectibles</span>
                             }
                             {collectionCategory == "Games" &&
-                              <span className="text-jacarta-700 dark:text-white">Games</span>
+                              <span className="text-jacarta-700 dark:text-white">🎮 Games</span>
                             }
                             {collectionCategory == "Memes" &&
-                              <span className="text-jacarta-700 dark:text-white">Memes</span>
+                              <span className="text-jacarta-700 dark:text-white">🗿 Memes</span>
                             }
                             {collectionCategory == "Utility" &&
-                              <span className="text-jacarta-700 dark:text-white">Utility</span>
+                              <span className="text-jacarta-700 dark:text-white">🛠️ Utility</span>
                             }
                             <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
                           </button>
@@ -508,7 +508,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      All Categories
+                                      ⚡️ All Categories
                                     </span>
                                     {collectionCategory == "All" &&
                                       <svg
@@ -530,7 +530,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Art
+                                      🎨 Art
                                     </span>
                                     {collectionCategory == "Art" &&
                                       <svg
@@ -552,7 +552,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Collectibles
+                                      🖼️ Collectibles
                                     </span>
                                     {collectionCategory == "Collectibles" &&
                                       <svg
@@ -574,7 +574,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Games
+                                      🎮 Games
                                     </span>
                                     {collectionCategory == "Games" &&
                                       <svg
@@ -596,7 +596,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Memes
+                                      🗿 Memes
                                     </span>
                                     {collectionCategory == "Memes" &&
                                       <svg
@@ -618,7 +618,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Utility
+                                      🛠️ Utility
                                     </span>
                                     {collectionCategory == "Utility" &&
                                       <svg
@@ -728,37 +728,37 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                         >
                           {sortby == "recentlyListed" &&
                             <span className=" text-jacarta-700 dark:text-white">
-                              Recently Listed
+                              📌 Recently Listed
                             </span>
                           }
                           {sortby == "recentlySold" &&
                             <span className=" text-jacarta-700 dark:text-white">
-                              Recently Sold
+                              💰 Recently Sold
                             </span>
                           }
                           {sortby == "ownedBy" &&
                             <span className="text-jacarta-700 dark:text-white">
-                              Owned By You
+                              👑 Owned By You
                             </span>
                           }
                           {sortby == "lowToHigh" &&
                             <span className="text-jacarta-700 dark:text-white">
-                              Price: Low To High
+                              🏷️ Price: Low To High
                             </span>
                           }
                           {sortby == "highToLow" &&
                             <span className="text-jacarta-700 dark:text-white">
-                              Price: High To Low
+                              🏷️ Price: High To Low
                             </span>
                           }
                           {sortby == "rankLowToHigh" &&
                             <span className="text-jacarta-700 dark:text-white">
-                              Rank: Low To High
+                              🥇 Rank: Low To High
                             </span>
                           }
                           {sortby == "rankHighToLow" &&
                             <span className="text-jacarta-700 dark:text-white">
-                              Rank: High To Low
+                              🥇 Rank: High To Low
                             </span>
                           }
                           <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
@@ -770,7 +770,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               Sort By
                             </span>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlyListed"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Recently Listed
+                              📌 Recently Listed
                               {sortby == "recentlyListed" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -785,7 +785,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlySold"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Recently Sold
+                              💰 Recently Sold
                               {sortby == "recentlySold" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -800,7 +800,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("ownedBy"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Owned By You
+                              👑 Owned By You
                               {sortby == "ownedBy" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -815,7 +815,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("lowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Price: Low to High
+                              🏷️ Price: Low to High
                               {sortby == "lowToHigh" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -830,7 +830,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("highToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Price: High to Low
+                              🏷️ Price: High to Low
                               {sortby == "highToLow" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -845,7 +845,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("rankLowToHigh"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Rank: Low To High
+                              🥇 Rank: Low To High
                               {sortby == "rankLowToHigh" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -860,7 +860,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("rankHighToLow"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              Rank: High To Low
+                              🥇 Rank: High To Low
                               {sortby == "rankHighToLow" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"

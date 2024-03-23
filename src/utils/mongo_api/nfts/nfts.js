@@ -51,6 +51,7 @@ export const fetch_user_listed_nfts = async (owner_address, saleType, sortby, mi
 export const fetch_collection_nfts = async (
   collection_address,
   signer_address,
+  saleType,
   sortby,
   propsFilter,
   minprice,
@@ -60,7 +61,7 @@ export const fetch_collection_nfts = async (
   const encodedPropsFilter = encodeURIComponent(JSON.stringify(propsFilter));
   try {
     const res = await axios({
-      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&owner_address=${signer_address}&sortby=${sortby}&propsFilter=${encodedPropsFilter}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
+      url: `/api/nft/get_collection_nfts?collection_address=${collection_address}&owner_address=${signer_address}&saleType=${saleType}&sortby=${sortby}&propsFilter=${encodedPropsFilter}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;

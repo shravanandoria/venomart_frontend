@@ -210,22 +210,22 @@ const Collections = ({ theme }) => {
                             onClick={(e) => (e.stopPropagation(), openFilterSort(false), openFilterCategories(!filterCategories))}
                           >
                             {category == "All" &&
-                              <span className="text-jacarta-700 dark:text-white">All Categories</span>
+                              <span className="text-jacarta-700 dark:text-white">⚡️ All Categories</span>
                             }
                             {category == "Art" &&
-                              <span className="text-jacarta-700 dark:text-white">Art</span>
+                              <span className="text-jacarta-700 dark:text-white">🎨 Art</span>
                             }
                             {category == "Collectibles" &&
-                              <span className="text-jacarta-700 dark:text-white">Collectibles</span>
+                              <span className="text-jacarta-700 dark:text-white">🖼️ Collectibles</span>
                             }
                             {category == "Games" &&
-                              <span className="text-jacarta-700 dark:text-white">Games</span>
+                              <span className="text-jacarta-700 dark:text-white">🎮 Games</span>
                             }
                             {category == "Memes" &&
-                              <span className="text-jacarta-700 dark:text-white">Memes</span>
+                              <span className="text-jacarta-700 dark:text-white">🗿 Memes</span>
                             }
                             {category == "Utility" &&
-                              <span className="text-jacarta-700 dark:text-white">Utility</span>
+                              <span className="text-jacarta-700 dark:text-white">🛠️ Utility</span>
                             }
                             <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
                           </button>
@@ -239,7 +239,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      All Categories
+                                      ⚡️ All Categories
                                     </span>
                                     {category == "All" &&
                                       <svg
@@ -261,7 +261,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Art
+                                      🎨 Art
                                     </span>
                                     {category == "Art" &&
                                       <svg
@@ -283,7 +283,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Collectibles
+                                      🖼️ Collectibles
                                     </span>
                                     {category == "Collectibles" &&
                                       <svg
@@ -305,7 +305,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Games
+                                      🎮 Games
                                     </span>
                                     {category == "Games" &&
                                       <svg
@@ -327,7 +327,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Memes
+                                      🗿 Memes
                                     </span>
                                     {category == "Memes" &&
                                       <svg
@@ -349,7 +349,7 @@ const Collections = ({ theme }) => {
                                     className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
                                   >
                                     <span className="text-jacarta-700 dark:text-white">
-                                      Utility
+                                      🛠️ Utility
                                     </span>
                                     {category == "Utility" &&
                                       <svg
@@ -378,17 +378,17 @@ const Collections = ({ theme }) => {
                           >
                             {sortby == "topVolume" &&
                               <span className="text-jacarta-700 dark:text-white">
-                                Top Volume
+                                💰 Top Volume
                               </span>
                             }
                             {sortby == "trending" &&
                               <span className="text-jacarta-700 dark:text-white">
-                                Trending
+                                🔥 Trending
                               </span>
                             }
                             {sortby == "recentlyCreated" &&
                               <span className="text-jacarta-700 dark:text-white">
-                                Recently Created
+                                📢 Recently Created
                               </span>
                             }
                             <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
@@ -400,7 +400,7 @@ const Collections = ({ theme }) => {
                                 Sort By
                               </span>
                               <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("topVolume"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                Top Volume
+                                💰 Top Volume
                                 {sortby == "topVolume" &&
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -415,7 +415,7 @@ const Collections = ({ theme }) => {
                                 }
                               </button>
                               <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("trending"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                Trending
+                                🔥 Trending
                                 {sortby == "trending" &&
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -430,7 +430,7 @@ const Collections = ({ theme }) => {
                                 }
                               </button>
                               <button onClick={() => (setSkip(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlyCreated"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                Recently Created
+                                📢 Recently Created
                                 {sortby == "recentlyCreated" &&
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
