@@ -37,7 +37,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:de87592b8577533a4233cfb6ee24f9f46fa8a1d89a03b0742f160effcd0a38a8",
+  "0:8601f53cd3ce01e4477779b44ee5add47587a377f6b558df89305841b18174c9",
 );
 // all contract address here up
 
@@ -423,6 +423,8 @@ export const list_nft = async (
       })
       .call();
 
+    console.log({ payload });
+
     const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
@@ -523,7 +525,7 @@ export const cancel_listing = async (
     let output;
     output = await DirectSellContract.methods.cancel_listing().send({
       from: new Address(signer_address),
-      amount: (cancel_refundable_fees).toString(),
+      amount: cancel_refundable_fees.toString(),
     });
 
     if (output) {

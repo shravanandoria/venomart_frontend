@@ -12,7 +12,8 @@
 				{"name":"_platform_fee","type":"uint128"},
 				{"name":"_royalty","type":"uint128"},
 				{"name":"_royalty_address","type":"address"},
-				{"name":"_NFT_transfer_cost","type":"uint256"}
+				{"name":"_NFT_transfer_cost","type":"uint256"},
+				{"name":"_event_emit_cost","type":"uint256"}
 			],
 			"outputs": [
 			]
@@ -127,6 +128,14 @@
 			"outputs": [
 				{"name":"NFT_transfer_cost","type":"uint256"}
 			]
+		},
+		{
+			"name": "event_emit_cost",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"event_emit_cost","type":"uint256"}
+			]
 		}
 	],
 	"data": [
@@ -135,21 +144,6 @@
 		{"key":3,"name":"nft_owner","type":"address"}
 	],
 	"events": [
-		{
-			"name": "NFT_Listed",
-			"inputs": [
-				{"name":"nft_address","type":"address"},
-				{"name":"nft_owner","type":"address"},
-				{"name":"nft_price","type":"uint128"},
-				{"name":"royalty_percent","type":"uint128"},
-				{"name":"royalty_address","type":"address"},
-				{"name":"platform_owner","type":"address"},
-				{"name":"platform_fee","type":"uint128"},
-				{"name":"factory_address","type":"address"}
-			],
-			"outputs": [
-			]
-		}
 	],
 	"fields": [
 		{"name":"_pubkey","type":"uint256"},
@@ -166,6 +160,7 @@
 		{"name":"royalty_address","type":"address"},
 		{"name":"platform_fee_receiver","type":"address"},
 		{"name":"remainOnContract","type":"uint128"},
-		{"name":"NFT_transfer_cost","type":"uint256"}
+		{"name":"NFT_transfer_cost","type":"uint256"},
+		{"name":"event_emit_cost","type":"uint256"}
 	]
 }
