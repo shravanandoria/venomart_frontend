@@ -39,10 +39,6 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 export const FactoryDirectSellAddress = new Address(
   "0:cb095a90dca4802567395e78407f8b7a1008c5dd46deacf9b179a5d1ae087d10",
 );
-
-// export const FactoryDirectSellAddress = new Address(
-//   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
-// );
 // all contract address here up
 
 // ---- all functions used for rpc or graphql nft fetch ----
@@ -113,6 +109,36 @@ export const saltCode = async (provider, ownerAddress) => {
     },
   });
   return saltedCode;
+};
+
+export const getNftsByIndexesGQL = async (provider, indexAddresses) => {
+  const nfts = [];
+  const nftAddresses = await Promise.all(
+    indexAddresses.map(async indexAddress => {
+      try {
+        // for GRAPHQL
+        const indexContract = new provider.Contract(indexAbi, indexAddress.id);
+
+        const indexInfo = await indexContract.methods.getInfo({ answerId: 0 }).call();
+
+        const nftContract = new provider.Contract(nftAbi, indexInfo.nft);
+
+        const getNftInfo = await nftContract.methods.getInfo({ answerId: 0 }).call();
+
+        const getJsonAnswer = await nftContract.methods.getJson({ answerId: 0 }).call();
+
+        nfts.push({
+          ...getJsonAnswer,
+          ...getNftInfo,
+          ...indexInfo,
+          last_paid: indexAddress.last_paid,
+        });
+      } catch (error) {
+        return false;
+      }
+    }),
+  );
+  return nfts;
 };
 
 export const getNftsByIndexes = async (provider, indexAddresses) => {
@@ -271,7 +297,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, o
             ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
           }
           orderBy: [{ path: "last_paid", direction: DESC }]
-          limit: 15
+          limit: 25
         ) {
           id
           balance(format: DEC)
@@ -302,7 +328,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, o
     client.close();
 
     // Fetch all image URLs
-    const nfts = await getNftsByIndexes(provider, result.data.accounts);
+    const nfts = await getNftsByIndexesGQL(provider, result.data.accounts);
     return {
       nfts,
       continuation: result.data.accounts[result.data.accounts.length - 1].last_paid,
