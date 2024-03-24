@@ -39,15 +39,19 @@ export default function Home({ theme, OtherImagesBaseURI }) {
   const [trendLoad, setTrendLoad] = useState(false);
 
   const fetchFeaturedCollections = async () => {
+    setFullLoading(true);
     const collectionsJSON = await featured_collections();
     setFeaturedCollections(collectionsJSON);
+    setTimeout(() => {
+      setFullLoading(false);
+    }, 1000);
   };
 
   const fetchTopCollections = async () => {
-    setFullLoading(true);
+    setLoading(true);
     const topCollections = await top_collections("All", "verified", duration);
     setTopCollections(topCollections);
-    setFullLoading(false);
+    setLoading(false);
   };
 
   const fetchTrendingCollection = async () => {
@@ -58,10 +62,10 @@ export default function Home({ theme, OtherImagesBaseURI }) {
   };
 
   const fetchTopUsers = async () => {
-    setFullLoading(true);
+    setLoading(true);
     const result = await top_users(duration, "none");
     setTopUsers(result);
-    setFullLoading(false);
+    setLoading(false);
   };
 
   const fetchLaunchpadCollections = async () => {
@@ -72,14 +76,10 @@ export default function Home({ theme, OtherImagesBaseURI }) {
   };
 
   useEffect(() => {
-    setFullLoading(true);
     fetchFeaturedCollections();
     fetchTrendingCollection();
     fetchTopCollections();
     fetchLaunchpadCollections();
-    // setTimeout(() => {
-    //   setFullLoading(false);
-    // }, 1000);
   }, []);
 
   useEffect(() => {

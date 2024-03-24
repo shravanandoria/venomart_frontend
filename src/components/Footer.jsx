@@ -29,7 +29,8 @@ const Footer = ({
   venomTPS,
   venomProvider,
   connectWallet,
-  EnableNFTSale
+  EnableNFTSale,
+  NFTImagesBaseURI
 }) => {
   const router = useRouter();
   const [actionLoad, setActionLoad] = useState(false);
@@ -226,8 +227,8 @@ const Footer = ({
                         <div className="relative mr-5 self-start">
                           <Image
                             src={nft?.nft_image?.replace(
-                              "ipfs://",
-                              "https://ipfs.io/ipfs/"
+                              "https://ipfs.io/ipfs/",
+                              NFTImagesBaseURI
                             )}
                             alt="nftPreview"
                             width={100}
@@ -488,8 +489,8 @@ const Footer = ({
                       <div className="mr-5 self-start" key={index}>
                         <Image
                           src={nft?.nft_image?.replace(
-                            "ipfs://",
-                            "https://ipfs.io/ipfs/"
+                            "https://ipfs.io/ipfs/",
+                            NFTImagesBaseURI
                           )}
                           alt="nftPreview"
                           width="70"

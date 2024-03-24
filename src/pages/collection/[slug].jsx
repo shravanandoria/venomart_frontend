@@ -578,7 +578,9 @@ const Collection = ({
 
   // useEffect to trigger the fetching and adding of NFTs after lastNFT is updated
   useEffect(() => {
-    if (lastNFT == undefined) return;
+    if (lastNFT == undefined) {
+      return;
+    }
     const fetchData = async () => {
       setLoading(true);
       await fetchAndAddNFTsToDB();
@@ -589,10 +591,14 @@ const Collection = ({
   }, [lastNFT]);
 
 
+  // fetching and updating latest NFT count of collection 
   const fetchAndUpdateNFTsCount = async () => {
     setLoading(true);
     const res = await fetch_only_collection_nfts(collection._id);
     const updateNFTData = await update_collection_supply(slug, res);
+    if (updateNFTData) {
+      setCollectionSettingUpdated(true);
+    }
     setLoading(false);
   };
 
