@@ -34,6 +34,7 @@ export default function App({ Component, pageProps }) {
   const blockChain = "Venom Testnet";
   const webURL = "https://venomart.io/";
   const blockURL = "https://testnet.venomscan.com/";
+  const GQLEndpoint = "https://gql-testnet.venom.foundation/graphql";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const NFTImagesBaseURI = "https://ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
@@ -168,7 +169,7 @@ export default function App({ Component, pageProps }) {
   //GRAPHQL CONFIGS
   const config = {
     network: {
-      endpoints: ["https://gql-testnet.venom.foundation/graphql"],
+      endpoints: [GQLEndpoint],
     },
   };
 
