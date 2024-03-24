@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import { RiEarthFill } from "react-icons/ri";
@@ -14,6 +14,8 @@ import moment from "moment";
 import Image from "next/image";
 import { get_address_mint_count, get_phases_name, get_total_minted, launchpad_mint } from "../../utils/launchpad_nft";
 import { Timer } from "../../components/Timer";
+import { TonClientContext } from "../../context/tonclient";
+import { loadNFTs_user } from "../../utils/user_nft";
 
 const launchpad = ({
     blockURL,
@@ -209,10 +211,38 @@ const launchpad = ({
         setMintLoading(false);
     };
 
+    // fetching on chain profile NFTs using GQL
+    const { client } = useContext(TonClientContext);
+
+    const fetch_user_nfts = async () => {
+        const res = await loadNFTs_user(
+            venomProvider,
+            signer_address,
+            "",
+            client,
+            "newestFirst"
+        );
+        console.log({ res })
+        let new_nfts = [];
+        res?.nfts
+            ?.sort((a, b) => b.last_paid - a.last_paid)
+            .map((e, index) => {
+                try {
+                    new_nfts.push({ ...JSON.parse(e.json), ...e });
+                } catch (error) {
+                    new_nfts.push({ ...e });
+                }
+            });
+        console.log({ new_nfts })
+    };
+
+
+
     useEffect(() => {
         if (!slug) return;
         getLaunchpadData();
         getUserWalletMints();
+        fetch_user_nfts();
     }, [slug, signer_address]);
 
     useEffect(() => {

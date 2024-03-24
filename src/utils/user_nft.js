@@ -39,10 +39,6 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 export const FactoryDirectSellAddress = new Address(
   "0:cb095a90dca4802567395e78407f8b7a1008c5dd46deacf9b179a5d1ae087d10",
 );
-
-// export const FactoryDirectSellAddress = new Address(
-//   "0:e61379faaf81aec861c92336a675f05e4e473cc5c1732382a784503a7ee31294",
-// );
 // all contract address here up
 
 // ---- all functions used for rpc or graphql nft fetch ----
@@ -250,6 +246,7 @@ export const getNftAddresses = async (codeHash, provider, last_nft_addr) => {
 
 // // Graphql method for fetching user NFTs
 export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, onChainFilterNFT) => {
+  console.log({ provider, ownerAddress, last_paid, client, onChainFilterNFT })
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
