@@ -16,6 +16,8 @@ import { get_address_mint_count, get_phases_name, get_total_minted, launchpad_mi
 import { Timer } from "../../components/Timer";
 import { TonClientContext } from "../../context/tonclient";
 import { loadNFTs_user } from "../../utils/user_nft";
+import { addNFTViaOnchainLaunchpad, addNFTViaOnchainRoll } from "../../utils/mongo_api/nfts/nfts";
+import axios from "axios";
 
 const launchpad = ({
     blockURL,
@@ -215,17 +217,18 @@ const launchpad = ({
     const { client } = useContext(TonClientContext);
 
     const fetch_user_nfts = async () => {
+        // fetching nfts onchain 
         const res = await loadNFTs_user(
             venomProvider,
             signer_address,
-            "",
+            undefined,
             client,
             "newestFirst"
         );
-        console.log({ res })
         let new_nfts = [];
         res?.nfts
             ?.sort((a, b) => b.last_paid - a.last_paid)
+            .filter((e) => e.collection?._address == "0:e0a35f994c3340639a3975f1853c90f82a83fc4d20e5f86cdce2f4a46cd8772d")
             .map((e, index) => {
                 try {
                     new_nfts.push({ ...JSON.parse(e.json), ...e });
@@ -233,16 +236,33 @@ const launchpad = ({
                     new_nfts.push({ ...e });
                 }
             });
-        console.log({ new_nfts })
+
+        // adding the fetched and filtered collection NFTs to DB 
+        try {
+            const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+                // let jsonURL = nft?.files[0].source;
+                let jsonURL = "https://ipfs.venomart.io/ipfs/QmQVnJWc5ToPMkrBMiBThSWUn8dpjShovTJzVBXYaCDt74/22.json";
+                const JSONReq = await axios.get(jsonURL);
+                let attributes = JSONReq.data.attributes;
+
+                const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+            }));
+        } catch (error) {
+            console.error('Error adding NFTs to the database:', error);
+            throw error;
+        }
     };
 
 
 
     useEffect(() => {
+        fetch_user_nfts();
+    }, [client, venomProvider]);
+
+    useEffect(() => {
         if (!slug) return;
         getLaunchpadData();
         getUserWalletMints();
-        fetch_user_nfts();
     }, [slug, signer_address]);
 
     useEffect(() => {
