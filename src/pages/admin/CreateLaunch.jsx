@@ -148,7 +148,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                         </p>
                                         <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                                             {preview.logo ? (
-                                                <img src={preview.logo} className="h-24 rounded-lg" />
+                                                <img src={preview.logo} className="h-24 rounded-lg" alt="Image" />
                                             ) : (
                                                 <div className="relative z-10 cursor-pointer">
                                                     <svg
@@ -201,7 +201,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
 
                                         <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
                                             {preview.cover ? (
-                                                <img src={preview.cover} className="h-44 rounded-lg " />
+                                                <img src={preview.cover} className="h-44 rounded-lg" alt="Image" />
                                             ) : (
                                                 <div className="relative z-10 cursor-pointer">
                                                     <svg

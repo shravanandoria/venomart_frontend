@@ -131,27 +131,24 @@ export const addNFTViaOnchainRoll = async (data, signer_address, NFTCollection) 
 };
 
 export const addNFTViaOnchainLaunchpad = async (data, attributes, signer_address, NFTCollection) => {
-  console.log({
-    data, attributes, signer_address, NFTCollection
-  })
   try {
-    // const res = await axios({
-    //   url: `/api/nft/nft`,
-    //   method: "POST",
-    //   data: {
-    //     NFTAddress: data.nft._address,
-    //     ownerAddress: data.owner._address,
-    //     managerAddress: data.manager._address,
-    //     nft_image: data?.preview?.source,
-    //     nft_metadata: data?.files[0]?.source,
-    //     name: data.name,
-    //     description: data.description,
-    //     attributes: attributes,
-    //     NFTCollection: NFTCollection,
-    //     signer_address: signer_address,
-    //   },
-    // });
-    // return res.data.data;
+    const res = await axios({
+      url: `/api/nft/nft`,
+      method: "POST",
+      data: {
+        NFTAddress: data.nft._address,
+        ownerAddress: data.owner._address,
+        managerAddress: data.manager._address,
+        nft_image: data?.preview?.source,
+        nft_metadata: data?.files[0]?.source,
+        name: data.name,
+        description: data.description,
+        attributes: attributes,
+        NFTCollection: NFTCollection,
+        signer_address: signer_address,
+      },
+    });
+    return res.data.data;
   } catch (error) {
     console.log(error.message);
   }

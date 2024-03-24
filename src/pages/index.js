@@ -160,6 +160,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                             className="absolute inset-0 w-full h-full object-cover"
                             style={{ borderRadius: "25px" }}
                             src={e?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
+                            alt="Image"
                           />
 
                           {/* feature card div */}
@@ -172,7 +173,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                                       ? e?.logo.replace("ipfs://", OtherImagesBaseURI)
                                       : defLogo
                                   }
-                                  alt="avatar 1"
+                                  alt="Image"
                                   className="rounded-2lg h-[85px] w-[85px]"
                                   height={100}
                                   width={100}

@@ -233,7 +233,7 @@ const launchpad = ({
         let new_nfts = [];
         res?.nfts
             ?.sort((a, b) => b.last_paid - a.last_paid)
-            .filter((e) => e.collection?._address == "0:e0a35f994c3340639a3975f1853c90f82a83fc4d20e5f86cdce2f4a46cd8772d")
+            .filter((e) => e.collection?._address == collectionData?.contractAddress)
             .map((e, index) => {
                 try {
                     new_nfts.push({ ...JSON.parse(e.json), ...e });
@@ -245,8 +245,7 @@ const launchpad = ({
         // adding the fetched and filtered collection NFTs to DB 
         try {
             const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
-                // let jsonURL = nft?.files[0].source;
-                let jsonURL = "https://ipfs.venomart.io/ipfs/QmQVnJWc5ToPMkrBMiBThSWUn8dpjShovTJzVBXYaCDt74/22.json";
+                let jsonURL = nft?.files[0].source;
                 const JSONReq = await axios.get(jsonURL);
                 let attributes = JSONReq.data.attributes;
 

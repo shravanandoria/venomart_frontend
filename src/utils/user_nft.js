@@ -423,25 +423,10 @@ export const list_nft = async (
       })
       .call();
 
-    console.log({ payload });
-
     const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
-    // const output = await nft_contract.methods
-    //   .changeManager({
-    //     newManager: FactoryDirectSellAddress,
-    //     sendGasTo: new Address(signer_address),
-    //     callbacks: [[FactoryDirectSellAddress, { value: listing_cost, payload: payload.payload }]],
-    //   })
-    //   .send({
-    //     from: new Address(signer_address),
-    //     amount: (parseInt(listing_cost) + parseInt(extra_venom_fees)).toString(),
-    //   });
-
-    /////////////
-    // Transaction with timeout
-    const outputPromise = nft_contract.methods
+    const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
@@ -451,18 +436,6 @@ export const list_nft = async (
         from: new Address(signer_address),
         amount: (parseInt(listing_cost) + parseInt(extra_venom_fees)).toString(),
       });
-
-    // Timeout handling
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error('Transaction timed out'));
-        alert("Transaction has expired, please try again!!")
-      }, 120000); // 120 seconds timeout
-    });
-
-    // Wait for either the transaction to complete or timeout
-    const output = await Promise.race([outputPromise, timeoutPromise]);
-    /////////////
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 

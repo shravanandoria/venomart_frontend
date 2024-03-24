@@ -2611,6 +2611,7 @@ const Collection = ({
                           <img
                             src={preview?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-24 rounded-lg"
+                            alt="Image"
                           />
                         ) : (
                           <div className="relative z-10 cursor-pointer">
@@ -2662,6 +2663,7 @@ const Collection = ({
                           <img
                             src={preview?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-44 rounded-lg "
+                            alt="Image"
                           />
                         ) : (
                           <div className="relative z-10 cursor-pointer">
