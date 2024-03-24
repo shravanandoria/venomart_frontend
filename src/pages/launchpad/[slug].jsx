@@ -205,7 +205,12 @@ const launchpad = ({
         try {
             const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
             if (launchMint) {
-                setAfterMint(true);
+                setTimeout(async () => {
+                    const updatingNFTsInDB = await fetch_user_nfts();
+                    if (updatingNFTsInDB) {
+                        setAfterMint(true);
+                    }
+                }, 3000);
             }
         } catch (error) {
             console.log(error);
@@ -246,6 +251,7 @@ const launchpad = ({
                 let attributes = JSONReq.data.attributes;
 
                 const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+
             }));
         } catch (error) {
             console.error('Error adding NFTs to the database:', error);
