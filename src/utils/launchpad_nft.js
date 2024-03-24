@@ -9,13 +9,7 @@ const launchpad_contract = (provider, launchpad_address) => {
 };
 
 // main mint function to mint NFT
-export const launchpad_mint = async (
-  provider,
-  launchpad_address,
-  signer_address,
-  amount_to_mint,
-  current_phase
-) => {
+export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, current_phase) => {
   const launchpad = launchpad_contract(provider, launchpad_address);
   const req_amount = await launchpad.methods
     .cal_minting_amount({
@@ -34,11 +28,13 @@ export const launchpad_mint = async (
 // get how many nfts user minted
 export const get_address_mint_count = async (provider, launchpad_address, phase_number, signer_address) => {
   const launchpad = launchpad_contract(provider, launchpad_address);
-  const res = await launchpad.methods.get_address_mint_count({
-    answerId: 0,
-    phase_num: phase_number,
-    addr: signer_address,
-  }).call();
+  const res = await launchpad.methods
+    .get_address_mint_count({
+      answerId: 0,
+      phase_num: phase_number,
+      addr: signer_address,
+    })
+    .call();
   return res.value0;
 };
 
