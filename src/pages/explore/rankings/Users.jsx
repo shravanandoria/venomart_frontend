@@ -55,12 +55,10 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
     const isBreakpoint = useMediaQuery(800);
 
     const fetchUserPoints = async () => {
-        setSearchLoading(true);
         const result = await top_users(duration, signer_address);
         if (result) {
             setUserPoints(result);
         }
-        setSearchLoading(false);
     };
 
     const fetchTopUsers = async () => {
