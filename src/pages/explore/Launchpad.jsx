@@ -93,6 +93,13 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                 })}
               </InfiniteScroll>
             </div>
+            <div className="flex items-center justify-center space-x-2">
+              {(collections?.length <= 0) && (
+                <h2 className="text-xl font-display font-thin text-gray-700 dark:text-gray-300">
+                  No launches found!
+                </h2>
+              )}
+            </div>
           </div>
         </section >
       </div >

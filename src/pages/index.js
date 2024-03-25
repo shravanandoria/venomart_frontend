@@ -215,312 +215,318 @@ export default function Home({ theme, OtherImagesBaseURI }) {
           </div>
 
           {/* launchpad collections  */}
-          <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
-            <div className="container">
-              <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Venomart Launchpad 🚀</h2>
-              </div>
-              <div className="flex justify-center align-middle flex-wrap">
-                {/* custom lauchpad fetching  */}
-                <Swiper
-                  modules={[Pagination, Navigation]}
-                  spaceBetween={30}
-                  slidesPerView={1}
-                  pagination={{ clickable: true }}
-                  breakpoints={{
-                    300: {
-                      slidesPerView: 1,
-                      spaceBetween: 20,
-                    },
-                    800: {
-                      slidesPerView: 2,
-                      spaceBetween: 20,
-                    },
-                    1204: {
-                      slidesPerView: 3,
-                      spaceBetween: 30,
-                    },
-                  }}
-                  className="mySwiper"
-                >
-                  {launchCollections?.map((e, index) => {
-                    const endLength = e?.phases?.length - 1;
-                    return (
-                      <SwiperSlide
-                        key={index}
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <LaunchCollectionCard
-                          key={index}
-                          Cover={e.coverImage}
-                          Logo={e.logo}
-                          Name={e.name}
-                          pageName={e.pageName}
-                          Description={e.description}
-                          mintPrice={e?.phases[endLength]?.mintPrice}
-                          supply={e.maxSupply}
-                          status={e.status}
-                          verified={true}
-                          CollectionAddress={e.contractAddress}
-                          startDate={e?.phases[0]?.startDate}
-                          endDate={e?.phases[endLength]?.EndDate}
-                          OtherImagesBaseURI={OtherImagesBaseURI}
-                        />
-                      </SwiperSlide>
-                    )
-                  })}
-                </Swiper>
-              </div>
-            </div>
-          </div>
-
-          {/* trending collections  */}
-          <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
-            <div className="container">
-              <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline">Trending Collections 🔥</h2>
-              </div>
-              <div className="flex justify-center align-middle flex-wrap">
-                <Swiper
-                  modules={[Pagination, Navigation]}
-                  slidesPerView={1}
-                  pagination={{ clickable: true }}
-                  breakpoints={{
-                    300: {
-                      slidesPerView: 1,
-                    },
-                    800: {
-                      slidesPerView: 2,
-                    },
-                    1204: {
-                      slidesPerView: 3,
-                    },
-                  }}
-                  className="mySwiper"
-                >
-                  {trendingCollections?.map((e, id) => {
-                    return (
-                      id < 6 &&
-                      e?.name != "" &&
-                      e?.name != undefined && (
+          {(launchCollections != "") &&
+            <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+              <div className="container">
+                <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                  <h2 className="inline">Venomart Launchpad 🚀</h2>
+                </div>
+                <div className="flex justify-center align-middle flex-wrap">
+                  {/* custom lauchpad fetching  */}
+                  <Swiper
+                    modules={[Pagination, Navigation]}
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      300: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                      },
+                      800: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                      },
+                      1204: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                      },
+                    }}
+                    className="mySwiper"
+                  >
+                    {launchCollections?.map((e, index) => {
+                      const endLength = e?.phases?.length - 1;
+                      return (
                         <SwiperSlide
-                          key={id}
+                          key={index}
                           style={{
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
                           }}
                         >
-                          <CollectionCard
-                            Cover={e?.coverImage}
-                            Logo={e?.logo}
-                            Name={e?.name}
-                            Description={e?.description}
-                            OwnerAddress={e?.OwnerAddress}
-                            CollectionAddress={e?.contractAddress}
-                            verified={e?.isVerified}
-                            // Listing={e?.TotalListed}
-                            Volume={e?.TotalVolume}
-                            FloorPrice={e?.FloorPrice}
-                            TotalSupply={e?.TotalSupply}
+                          <LaunchCollectionCard
+                            key={index}
+                            Cover={e.coverImage}
+                            Logo={e.logo}
+                            Name={e.name}
+                            pageName={e.pageName}
+                            Description={e.description}
+                            mintPrice={e?.phases[endLength]?.mintPrice}
+                            supply={e.maxSupply}
+                            status={e.status}
+                            verified={true}
+                            CollectionAddress={e.contractAddress}
+                            startDate={e?.phases[0]?.startDate}
+                            endDate={e?.phases[endLength]?.EndDate}
                             OtherImagesBaseURI={OtherImagesBaseURI}
                           />
                         </SwiperSlide>
                       )
-                    );
-                  })}
-                </Swiper>
-                {trendLoad && (
-                  <div className="flex items-center justify-center space-x-2 py-28">
-                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                  </div>
-                )}
+                    })}
+                  </Swiper>
+                </div>
               </div>
             </div>
-          </div>
+          }
+
+          {/* trending collections  */}
+          {(trendingCollections != "") &&
+            <div className="relative py-12 dark:bg-jacarta-900" style={{ userSelect: "none" }}>
+              <div className="container">
+                <div className="mb-2 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                  <h2 className="inline">Trending Collections 🔥</h2>
+                </div>
+                <div className="flex justify-center align-middle flex-wrap">
+                  <Swiper
+                    modules={[Pagination, Navigation]}
+                    slidesPerView={1}
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                      300: {
+                        slidesPerView: 1,
+                      },
+                      800: {
+                        slidesPerView: 2,
+                      },
+                      1204: {
+                        slidesPerView: 3,
+                      },
+                    }}
+                    className="mySwiper"
+                  >
+                    {trendingCollections?.map((e, id) => {
+                      return (
+                        id < 6 &&
+                        e?.name != "" &&
+                        e?.name != undefined && (
+                          <SwiperSlide
+                            key={id}
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <CollectionCard
+                              Cover={e?.coverImage}
+                              Logo={e?.logo}
+                              Name={e?.name}
+                              Description={e?.description}
+                              OwnerAddress={e?.OwnerAddress}
+                              CollectionAddress={e?.contractAddress}
+                              verified={e?.isVerified}
+                              // Listing={e?.TotalListed}
+                              Volume={e?.TotalVolume}
+                              FloorPrice={e?.FloorPrice}
+                              TotalSupply={e?.TotalSupply}
+                              OtherImagesBaseURI={OtherImagesBaseURI}
+                            />
+                          </SwiperSlide>
+                        )
+                      );
+                    })}
+                  </Swiper>
+                  {trendLoad && (
+                    <div className="flex items-center justify-center space-x-2 py-28">
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          }
 
           {/* top collections  */}
-          <section className="relative py-24 dark:bg-jacarta-900">
-            <div className="container">
-              <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
-                <h2 className="inline mr-2">Top</h2>
-                <div className="relative inline cursor-pointer">
-                  <button
-                    onClick={() => setTopSwitchDrop(!topSwitchDrop)}
-                    className="dropdown-toggle inline-flex items-center text-accent"
-                    type="button"
-                  >
-                    {topSwitch == "collections" && "collections"}
-                    {topSwitch == "users" && "users"}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-8 w-8 fill-accent"
+          {(topCollections != "") &&
+            <section className="relative py-24 dark:bg-jacarta-900">
+              <div className="container">
+                <div className="mb-12 text-center font-display text-3xl text-jacarta-700 dark:text-white">
+                  <h2 className="inline mr-2">Top</h2>
+                  <div className="relative inline cursor-pointer">
+                    <button
+                      onClick={() => setTopSwitchDrop(!topSwitchDrop)}
+                      className="dropdown-toggle inline-flex items-center text-accent"
+                      type="button"
                     >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </button>
-                  {topSwitchDrop && (
-                    <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
-                      <div
-                        onClick={() => (
-                          setDefaultFilterFetch(true), setTopSwitch("collections"), setTopSwitchDrop(false)
-                        )}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      {topSwitch == "collections" && "collections"}
+                      {topSwitch == "users" && "users"}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-8 w-8 fill-accent"
                       >
-                        collections
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                      </svg>
+                    </button>
+                    {topSwitchDrop && (
+                      <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
+                        <div
+                          onClick={() => (
+                            setDefaultFilterFetch(true), setTopSwitch("collections"), setTopSwitchDrop(false)
+                          )}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          collections
+                        </div>
+                        <div
+                          onClick={() => (setDefaultFilterFetch(true), setTopSwitch("users"), setTopSwitchDrop(false))}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          users
+                        </div>
                       </div>
-                      <div
-                        onClick={() => (setDefaultFilterFetch(true), setTopSwitch("users"), setTopSwitchDrop(false))}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        users
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <h2 className="inline mr-2">over</h2>
-                <div className="relative inline cursor-pointer">
-                  <button
-                    onClick={() => setDurationDrop(!durationDrop)}
-                    className="dropdown-toggle inline-flex items-center text-accent"
-                    type="button"
-                  >
-                    {duration == "1day" && "last 24 hours"}
-                    {duration == "7days" && "last 7 days"}
-                    {duration == "30days" && "last 30 days"}
-                    {duration == "1year" && "last 1 year"}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-8 w-8 fill-accent"
+                    )}
+                  </div>
+                  <h2 className="inline mr-2">over</h2>
+                  <div className="relative inline cursor-pointer">
+                    <button
+                      onClick={() => setDurationDrop(!durationDrop)}
+                      className="dropdown-toggle inline-flex items-center text-accent"
+                      type="button"
                     >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </button>
-                  {durationDrop && (
-                    <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
-                      <div
-                        onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), setDurationDrop(false))}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                      {duration == "1day" && "last 24 hours"}
+                      {duration == "7days" && "last 7 days"}
+                      {duration == "30days" && "last 30 days"}
+                      {duration == "1year" && "last 1 year"}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="h-8 w-8 fill-accent"
                       >
-                        Last 24 Hours
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                      </svg>
+                    </button>
+                    {durationDrop && (
+                      <div className="absolute right-0 z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-900">
+                        <div
+                          onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), setDurationDrop(false))}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          Last 24 Hours
+                        </div>
+                        <div
+                          onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), setDurationDrop(false))}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          Last 7 Days
+                        </div>
+                        <div
+                          onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), setDurationDrop(false))}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          Last 30 Days
+                        </div>
+                        <div
+                          onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), setDurationDrop(false))}
+                          className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
+                        >
+                          Last 1 Year
+                        </div>
                       </div>
-                      <div
-                        onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), setDurationDrop(false))}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 7 Days
-                      </div>
-                      <div
-                        onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), setDurationDrop(false))}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 30 Days
-                      </div>
-                      <div
-                        onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), setDurationDrop(false))}
-                        className="dropdown-item block rounded-xl px-5 py-2 text-sm transition-colors hover:bg-jacarta-50 dark:hover:bg-jacarta-600"
-                      >
-                        Last 1 Year
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {topSwitch == "collections" ? (
-                <>
-                  <div className="flex justify-center align-middle flex-wrap">
-                    {topCollections?.map((e, index) => {
-                      return (
-                        index < 9 && (
-                          <SmallCollectionCard
-                            key={index}
-                            id={index + 1}
-                            Logo={e?.logo}
-                            Name={e?.name}
-                            OwnerAddress={e?.creatorAddress}
-                            CollectionAddress={e?.contractAddress}
-                            theme={theme}
-                            isVerified={e?.isVerified}
-                            Volume={e?.TotalVolume}
-                            Floor={e?.FloorPrice}
-                            OtherImagesBaseURI={OtherImagesBaseURI}
-                          />
-                        )
-                      );
-                    })}
-                    {loading && (
-                      <div className="flex items-center justify-center space-x-2 py-28">
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-10 text-center">
-                    <Link
-                      href="/explore/rankings/Collections"
-                      className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                    >
-                      Go to Rankings
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="flex justify-center align-middle flex-wrap">
-                    {topUsers?.map((e, index) => {
-                      return (
-                        index < 9 && (
-                          <SmallUserCard
-                            key={index}
-                            theme={theme}
-                            id={index + 1}
-                            Logo={e?.profileImage}
-                            Name={e?.user_info}
-                            wallet_address={e?._id}
-                            isVerified={e?.isVerified}
-                            Volume={e?.totalSaleVolume}
-                            totalSales={e?.totalSales}
-                            OtherImagesBaseURI={OtherImagesBaseURI}
-                          />
-                        )
-                      );
-                    })}
-                    {loading && (
-                      <div className="flex items-center justify-center space-x-2 py-28">
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-10 text-center">
-                    <Link
-                      href="/explore/rankings/Users"
-                      className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                    >
-                      Go to Rankings
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
-          </section>
+                {topSwitch == "collections" ? (
+                  <>
+                    <div className="flex justify-center align-middle flex-wrap">
+                      {topCollections?.map((e, index) => {
+                        return (
+                          index < 9 && (
+                            <SmallCollectionCard
+                              key={index}
+                              id={index + 1}
+                              Logo={e?.logo}
+                              Name={e?.name}
+                              OwnerAddress={e?.creatorAddress}
+                              CollectionAddress={e?.contractAddress}
+                              theme={theme}
+                              isVerified={e?.isVerified}
+                              Volume={e?.TotalVolume}
+                              Floor={e?.FloorPrice}
+                              OtherImagesBaseURI={OtherImagesBaseURI}
+                            />
+                          )
+                        );
+                      })}
+                      {loading && (
+                        <div className="flex items-center justify-center space-x-2 py-28">
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-10 text-center">
+                      <Link
+                        href="/explore/rankings/Collections"
+                        className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        Go to Rankings
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-center align-middle flex-wrap">
+                      {topUsers?.map((e, index) => {
+                        return (
+                          index < 9 && (
+                            <SmallUserCard
+                              key={index}
+                              theme={theme}
+                              id={index + 1}
+                              Logo={e?.profileImage}
+                              Name={e?.user_info}
+                              wallet_address={e?._id}
+                              isVerified={e?.isVerified}
+                              Volume={e?.totalSaleVolume}
+                              totalSales={e?.totalSales}
+                              OtherImagesBaseURI={OtherImagesBaseURI}
+                            />
+                          )
+                        );
+                      })}
+                      {loading && (
+                        <div className="flex items-center justify-center space-x-2 py-28">
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="mt-10 text-center">
+                      <Link
+                        href="/explore/rankings/Users"
+                        className="inline-block rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      >
+                        Go to Rankings
+                      </Link>
+                    </div>
+                  </>
+                )}
+              </div>
+            </section>
+          }
         </>
       }
     </div>
