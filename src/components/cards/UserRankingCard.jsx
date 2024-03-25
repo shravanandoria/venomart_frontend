@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import numeral from 'numeral';
@@ -11,13 +11,13 @@ const UserRankingCard = ({
     Name,
     walletAddress,
     totalPurchaseVolume,
-    totalSalesVolume,
     totalSales,
+    totalBuys,
+    smartPoints,
     activeListings,
-    AveragePrice,
-    OtherImagesBaseURI
+    OtherImagesBaseURI,
+    signer_address
 }) => {
-
     function formatNumberShort(number) {
         if (number >= 1e6) {
             const formatted = numeral(number / 1e6).format('0.00a');
@@ -35,15 +35,14 @@ const UserRankingCard = ({
             return numeral(number).format('0');
         }
     }
-
     return (
         <Link
             href={`/profile/${walletAddress}`}
-            className="flex transition-shadow hover:shadow-lg"
+            className={`flex transition-shadow hover:shadow-lg ${signer_address == walletAddress && "shadow-lg"}`}
             role="row"
         >
             <div className="flex w-[25%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="mr-2 lg:mr-4">{id}</span>
+                <span className="mr-2 lg:mr-4 font-display text-sm font-semibold text-jacarta-700 dark:text-white">{id}</span>
                 <div className="relative mr-2 w-8 shrink-0 self-start lg:mr-5 lg:w-12">
                     <Image
                         src={
@@ -59,30 +58,12 @@ const UserRankingCard = ({
                     />
                 </div>
                 <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-                    {Name ? Name : (walletAddress.slice(0, 5) + "..." + walletAddress.slice(62))}
+                    {Name ? Name : (walletAddress ? (walletAddress?.slice(0, 5) + "..." + walletAddress?.slice(62)) : "You")}
+                    {" "}{signer_address == walletAddress && "(You)"}
                 </span>
             </div>
 
-            {/* totalSalesVolume */}
-            <div className="flex w-[16%] items-center whitespace-nowrap border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
-                <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
-                    <Image
-                        src={venomLogo}
-                        height={100}
-                        width={100}
-                        style={{
-                            height: "13px",
-                            width: "13px",
-                            marginRight: "6px",
-                            marginTop: "4px",
-                        }}
-                        alt="VenomLogo"
-                    />
-                    {totalSalesVolume ? formatNumberShort(totalSalesVolume) : "0"}
-                </span>
-            </div>
-
-            {/* totalPurchaseVolume  */}
+            {/* totalBuyVolume  */}
             <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="text-sm font-medium dark:text-jacarta-200 text-jacarta-700 flex uppercase">
                     <Image
@@ -102,21 +83,9 @@ const UserRankingCard = ({
             </div>
 
             {/* Avg Sale  */}
-            <div className="flex w-[17%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+            <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex uppercase">
-                    <Image
-                        src={venomLogo}
-                        height={100}
-                        width={100}
-                        style={{
-                            height: "13px",
-                            width: "13px",
-                            marginRight: "6px",
-                            marginTop: "4px",
-                        }}
-                        alt="VenomLogo"
-                    />
-                    {AveragePrice ? formatNumberShort(AveragePrice) : "0"}
+                    {totalBuys ? formatNumberShort(totalBuys) : "0"}
                 </span>
             </div>
 
@@ -128,9 +97,16 @@ const UserRankingCard = ({
             </div>
 
             {/* active listings  */}
-            <div className="flex w-[14%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+            <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
                 <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
                     {activeListings ? Math.abs(formatNumberShort(activeListings)) : "0"}
+                </span>
+            </div>
+
+            {/* smart points  */}
+            <div className="flex w-[15%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+                    {smartPoints ? formatNumberShort(smartPoints) : "0"}
                 </span>
             </div>
         </Link>

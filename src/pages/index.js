@@ -499,8 +499,9 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                               Name={e?.user_info}
                               wallet_address={e?._id}
                               isVerified={e?.isVerified}
-                              Volume={e?.totalSaleVolume}
+                              totalPurchaseVolume={e?.totalPurchaseVolume}
                               totalSales={e?.totalSales}
+                              totalBuys={e?.totalBuys}
                               OtherImagesBaseURI={OtherImagesBaseURI}
                             />
                           )

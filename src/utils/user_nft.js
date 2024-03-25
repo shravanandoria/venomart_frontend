@@ -31,6 +31,7 @@ export const ONE_VENOM = 1000000000; //one venom for calculations
 export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction {PASSING IT IN TRANSACTIONS}
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT {PASSING IT IN TRANSACTIONS}
 export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT {FOR DISPLAY}
+export const buy_cart_refundable_fees = 0.7 * ONE_VENOM; //amount we send when buy cart NFT {FOR DISPLAY}
 export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions {PASSING IT IN TRANSACTIONS}
 export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 // dont change this values, this values are used in transactions -- STRICT
