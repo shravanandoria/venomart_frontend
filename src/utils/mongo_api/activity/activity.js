@@ -37,8 +37,7 @@ export const addActivity = async (data) => {
                 type: data.type,
                 wallet_id: data.wallet_id,
                 nft_address: data.nft_address,
-                collection_address: data.collection_address,
-                newFloorPrice: data.newFloorPrice
+                collection_address: data.collection_address
             },
         });
         return res.data.data;

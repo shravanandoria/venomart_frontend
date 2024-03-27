@@ -307,13 +307,6 @@ const NFTPage = ({
     }
     set_loading(true);
 
-    let newFloorPrice = 0;
-    if (listingPrice < (nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice)) {
-      newFloorPrice = listingPrice;
-    }
-    if (nft?.FloorPrice == 0 || collectionData?.data?.FloorPrice == 0) {
-      newFloorPrice = listingPrice;
-    }
     try {
       const listing = await list_nft(
         selectedNFT ? selectedNFT?.ownerAddress : nft?.ownerAddress,
@@ -325,8 +318,6 @@ const NFTPage = ({
         signer_address,
         selectedNFT ? selectedNFT : nft,
         onchainNFTData,
-        newFloorPrice,
-        nft?.FloorPrice ? nft?.FloorPrice : collectionData?.data?.FloorPrice,
         nft?.NFTCollection?.royalty
           ? nft?.NFTCollection?.royalty
           : collectionData?.data?.royalty
@@ -334,7 +325,7 @@ const NFTPage = ({
             : "0",
         nft?.NFTCollection?.royaltyAddress
           ? nft?.NFTCollection?.royaltyAddress
-          : "0:0000000000000000000000000000000000000000000000000000000000000000",
+          : "0:0000000000000000000000000000000000000000000000000000000000000000"
       );
       if (listing == true) {
         set_loading(false);

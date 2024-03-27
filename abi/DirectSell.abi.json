@@ -27,7 +27,7 @@
 			]
 		},
 		{
-			"name": "get_listing_data",
+			"name": "get_lisitng_amount",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],

@@ -35,7 +35,6 @@ export default async function handler(req, res) {
                             from: ownerAddresses[i],
                             to: signer_address,
                             price: (NFTPrices[i] / 1000000000).toString(),
-                            stampedFloor: NFTCollections[i].FloorPrice,
                             item: nft,
                             type: "sale",
                             owner: user,

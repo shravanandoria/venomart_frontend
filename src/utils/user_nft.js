@@ -395,8 +395,6 @@ export const list_nft = async (
   signer_address,
   nft,
   onchainNFTData,
-  newFloorPrice,
-  stampedFloor,
   royaltyPercent,
   royaltyAddress,
 ) => {
@@ -425,10 +423,11 @@ export const list_nft = async (
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
+        collection_address: collection_address
       })
       .call();
 
-    const { total_cost: listing_cost } = await factory_contract.methods.get_listing_data({ answerId: 0 }).call();
+    const { total_cost: listing_cost } = await factory_contract.methods.get_listing_amount({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
@@ -460,9 +459,7 @@ export const list_nft = async (
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        newFloorPrice: parseFloat(newFloorPrice),
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       const updateNFTData = await updateNFTListing(obj);
     }
@@ -483,8 +480,7 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address,
-  stampedFloor,
+  signer_address
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -520,8 +516,7 @@ export const cancel_listing = async (
         type: "cancel",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       let updateNFTData = await cancelNFTListing(obj);
     }
@@ -544,8 +539,7 @@ export const buy_nft = async (
   collection_address,
   salePrice,
   price,
-  signer_address,
-  stampedFloor,
+  signer_address
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -566,7 +560,7 @@ export const buy_nft = async (
     let output;
     output = await DirectSellContract.methods
       .buyNft({
-        new_nft_holder: new Address(signer_address),
+        new_nft_holder: new Address(signer_address)
       })
       .send({
         from: new Address(signer_address),
@@ -588,9 +582,7 @@ export const buy_nft = async (
         type: "sale",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        newFloorPrice: 0,
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       const updateNFTData = await updateNFTsale(obj);
     }
@@ -898,9 +890,7 @@ export const bulk_buy_nfts = async (
 //       type: "sale",
 //       wallet_id: from,
 //       nft_address: nft_address,
-//       collection_address: collection_address,
-//       newFloorPrice: 0,
-//       stampedFloor: parseFloat(stampedFloor),
+//       collection_address: collection_address
 //     };
 //     const updateNFTData = await updateNFTsale(obj);
 //   }

@@ -258,9 +258,7 @@ export const updateNFTListing = async (data) => {
         type: data.type,
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
-        collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice,
-        stampedFloor: data.stampedFloor,
+        collection_address: data.collection_address
       },
     });
     return res.data.data;
@@ -294,9 +292,7 @@ export const cancelNFTListing = async (data) => {
         type: data.type,
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
-        collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice,
-        stampedFloor: data.stampedFloor,
+        collection_address: data.collection_address
       },
     });
     return res.data.data;
@@ -331,9 +327,7 @@ export const updateNFTsale = async (data) => {
         type: data.type,
         wallet_id: data.wallet_id,
         nft_address: data.nft_address,
-        collection_address: data.collection_address,
-        newFloorPrice: data.newFloorPrice,
-        stampedFloor: data.stampedFloor,
+        collection_address: data.collection_address
       },
     });
 
