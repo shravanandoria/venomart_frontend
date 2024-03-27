@@ -38,7 +38,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:9df2f72a73e1167f2e7806777f33f7932bfa26a9750c22656bde4909e299e2d4",
+  "0:7cbcbe0dfdd435dfacb6997fee5a1dfba97c1dc0eb78d2429af343f6e0534c10",
 );
 
 // all contract address here up
@@ -438,7 +438,7 @@ export const list_nft = async (
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
-        col_addr: collection_address
+        collection_address: collection_address
       })
       .call();
 

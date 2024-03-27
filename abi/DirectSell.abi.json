@@ -13,8 +13,7 @@
 				{"name":"_royalty","type":"uint128"},
 				{"name":"_royalty_address","type":"address"},
 				{"name":"_NFT_transfer_cost","type":"uint256"},
-				{"name":"_event_emit_cost","type":"uint128"},
-				{"name":"_collection_address","type":"address"}
+				{"name":"_event_emit_cost","type":"uint128"}
 			],
 			"outputs": [
 			]
