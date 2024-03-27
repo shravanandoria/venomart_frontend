@@ -28,23 +28,22 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   // default values
-  const venomPrice = 0.19;
-  const venomTPS = 98400;
+  const venomPrice = 0.55;
+  const venomTPS = 95400;
   const currency = "VENOM";
-  const blockChain = "Venom Testnet";
+  const blockChain = "Venom Mainnet";
   const webURL = "https://venomart.io/";
-  const blockURL = "https://testnet.venomscan.com/";
-  const GQLEndpoint = "https://gql-testnet.venom.foundation/graphql";
+  const blockURL = "https://venomscan.com/";
+  const GQLEndpoint = "https://gql.venom.foundation/graphql";
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
-  const NFTImagesBaseURI = "https://ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
+  const NFTImagesBaseURI = "https://venomart.ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
   const defTheme = "light";
 
   // other values
   const adminAccount = [
-    "0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580",
-    "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab",
-    "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
+    "0:8986f472e33d521d4dabf17b1a0e001cd86c876f552b284d6ca0894131a36743", //ani account
+    "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab", //shravan account
   ];
 
   // enable trading on marketplace 
@@ -207,7 +206,6 @@ export default function App({ Component, pageProps }) {
           {...pageProps}
           theme={theme}
           standalone={standalone}
-          apiFetchURL={apiFetchURL}
           venomProvider={venomProvider}
           signer_address={signer_address}
           blockURL={blockURL}

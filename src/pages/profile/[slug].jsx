@@ -486,24 +486,24 @@ const Profile = ({
       {successModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       <Head>
-        <title>{`${profileDataProps?.user_name ? profileDataProps?.user_name : "User Profile"}`} - Venomart Marketplace</title>
+        <title>{`${profileDataProps[0]?.user_name ? profileDataProps[0]?.user_name : "User Profile"}`} - Venomart Marketplace</title>
         <meta
           name="description"
           content="Explore users profile, their NFTs, collections and listings | Powered by Venomart"
         />
         <meta
           name="keywords"
-          content={`venomart, ${profileDataProps?.user_name} profile on venomart, ${profileDataProps?.user_name} venomart, ${slug} `}
+          content={`venomart, ${profileDataProps[0]?.user_name} profile on venomart, ${profileDataProps[0]?.user_name} venomart, ${slug} `}
         />
-        <meta property="og:title" content={`${profileDataProps?.user_name ? profileDataProps?.user_name : "Profile"} - Venomart Marketplace`} />
-        <meta property="og:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
-        <meta property="og:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:title" content={`${profileDataProps[0]?.user_name ? profileDataProps[0]?.user_name : "Profile"} - Venomart Marketplace`} />
+        <meta property="og:description" content={`${profileDataProps[0]?.bio ? profileDataProps[0]?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta property="og:image" content={`${profileDataProps[0]?.profileImage ? profileDataProps[0]?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta property="og:url" content={"https://venomart.io/"} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Venomart - NFT Marketplace on Venom" />
-        <meta name="twitter:description" content={`${profileDataProps?.bio ? profileDataProps?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
-        <meta name="twitter:image" content={`${profileDataProps?.profileImage ? profileDataProps?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:description" content={`${profileDataProps[0]?.bio ? profileDataProps[0]?.bio : "Explore users profile, their NFTs, collections and listings | Powered by Venomart"}`} />
+        <meta name="twitter:image" content={`${profileDataProps[0]?.profileImage ? profileDataProps[0]?.profileImage?.replace("ipfs://", OtherImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta name="twitter:site" content="@venomart23" />
         <meta name="twitter:creator" content="@venomart23" />
         <meta name="robots" content="INDEX,FOLLOW" />
@@ -1743,11 +1743,11 @@ export async function getServerSideProps(context) {
   let profileDataProps;
   if (context.req.headers.host.includes("localhost")) {
     const ProfileData = await (await fetch(`http://localhost:3000/api/user/single_user?wallet_address=${slug}`)).json();
-    profileDataProps = ProfileData.data[0];
+    profileDataProps = ProfileData.data;
   }
   else {
     const ProfileData = await (await fetch(`https://venomart.io/api/user/single_user?wallet_address=${slug}`)).json();
-    profileDataProps = ProfileData.data[0];
+    profileDataProps = ProfileData.data;
   }
   return {
     props: {

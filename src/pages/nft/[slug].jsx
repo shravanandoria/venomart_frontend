@@ -2397,11 +2397,11 @@ export async function getServerSideProps(context) {
   let NFTDataProps;
   if (context.req.headers.host.includes("localhost")) {
     const NFTData = await (await fetch(`http://localhost:3000/api/nft/nft?nft_address=${slug}`)).json();
-    NFTDataProps = NFTData.data;
+    NFTDataProps = NFTData?.data;
   }
   else {
     const NFTData = await (await fetch(`https://venomart.io/api/nft/nft?nft_address=${slug}`)).json();
-    NFTDataProps = NFTData.data;
+    NFTDataProps = NFTData?.data;
   }
   return {
     props: {
