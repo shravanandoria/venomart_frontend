@@ -39,6 +39,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 export const FactoryDirectSellAddress = new Address(
   "0:8601f53cd3ce01e4477779b44ee5add47587a377f6b558df89305841b18174c9",
 );
+
 // all contract address here up
 
 // ---- all functions used for rpc or graphql nft fetch ----
@@ -455,8 +456,8 @@ export const list_nft = async (
     // Timeout handling
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => {
-        reject(new Error('Transaction timed out'));
-        alert("Transaction has expired, please try again!!")
+        reject(new Error("Transaction timed out"));
+        alert("Transaction has expired, please try again!!");
       }, 120000); // 120 seconds timeout
     });
 
