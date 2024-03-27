@@ -34,7 +34,6 @@ export default async function handler(req, res) {
             royaltyAddress,
             royalty,
             socials,
-            isActive,
             isVerified,
             isTrading,
             isPropsEnabled,
@@ -65,27 +64,29 @@ export default async function handler(req, res) {
           });
 
           // creating collection 
-          const existingCollection = await Collection.findOne({ contractAddress });
-          if (!existingCollection) {
-            let collection = await Collection.create({
-              chain: "Venom",
-              contractAddress,
-              creatorAddress,
-              coverImage,
-              logo,
-              name,
-              royalty,
-              royaltyAddress,
-              description,
-              socials,
-              isVerified,
-              isNSFW: false,
-              isPropsEnabled,
-              isFeatured,
-              isTrading,
-              Category: Category ? Category : "",
-              TotalSupply: maxSupply ? maxSupply : 0
-            });
+          if (contractAddress) {
+            const existingCollection = await Collection.findOne({ contractAddress });
+            if (!existingCollection) {
+              let collection = await Collection.create({
+                chain: "Venom",
+                contractAddress,
+                creatorAddress,
+                coverImage,
+                logo,
+                name,
+                royalty,
+                royaltyAddress,
+                description,
+                socials,
+                isVerified,
+                isNSFW: false,
+                isPropsEnabled,
+                isFeatured,
+                isTrading,
+                Category: Category ? Category : "",
+                TotalSupply: maxSupply ? maxSupply : 0
+              });
+            }
           }
 
           res.status(200).json({ success: true, data: "Successfully created a launchpad event!" });

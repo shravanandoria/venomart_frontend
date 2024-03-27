@@ -15,7 +15,7 @@ import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
-import { bulk_buy_nfts } from "../utils/user_nft";
+import { bulk_buy_nfts, buy_cart_refundable_fees } from "../utils/user_nft";
 import { GoArrowUpRight } from "react-icons/go";
 
 const Footer = ({
@@ -125,10 +125,6 @@ const Footer = ({
   useEffect(() => {
     setItemsModal(false);
   }, [router.pathname]);
-
-  // useEffect(() => {
-  //   setCartNFTs([]);
-  // }, [signer_address]);
 
   useEffect(() => {
     getStats();
@@ -320,6 +316,36 @@ const Footer = ({
                       </div>
                     );
                   })}
+                  {/* fees title  */}
+                  <div className="">
+                    <div className="flex flex-wrap items-center mt-2">
+                      <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 text-sm flex">
+                        Refundable Fees:
+                        <span className="flex align-middle justify-center">
+                          <Image
+                            src={venomLogo}
+                            height={100}
+                            width={100}
+                            alt="venomLogo"
+                            className="h-3 w-3 mr-1 ml-1 mt-1"
+                          />
+                          {(buy_cart_refundable_fees * cartNFTs?.length) / 1000000000}
+                        </span>
+                      </span>
+                      <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className="dark:fill-jacarta-300 fill-jacarta-700 h-4 w-4"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z"></path>
+                          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z"></path>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 {cartNFTs.length <= 0 && (
@@ -346,7 +372,7 @@ const Footer = ({
                       </span>
                       <span className="text-green font-medium text-lg tracking-tight">
                         {totalListingPrice
-                          ? formatNumberShort(totalListingPrice)
+                          ? formatNumberShort(parseFloat((buy_cart_refundable_fees * cartNFTs?.length) / 1000000000) + parseFloat(totalListingPrice))
                           : "0"}
                       </span>
                     </span>

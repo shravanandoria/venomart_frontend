@@ -15,7 +15,7 @@
 				{"name":"_pause_trading","type":"bool"},
 				{"name":"_fee_receiver","type":"address"},
 				{"name":"_NFT_transfer_cost","type":"uint128"},
-				{"name":"_directSell_event_emit_cost","type":"uint256"}
+				{"name":"_directSell_event_emit_cost","type":"uint128"}
 			],
 			"outputs": [
 			]
@@ -59,14 +59,15 @@
 				{"name":"answerId","type":"uint32"},
 				{"name":"price","type":"uint128"},
 				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"}
+				{"name":"royalty_address","type":"address"},
+				{"name":"collection_address","type":"address"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
 			]
 		},
 		{
-			"name": "get_lisitng_amount",
+			"name": "get_listing_amount",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}
 			],
@@ -188,9 +189,38 @@
 		{
 			"name": "emit_cancel_nft",
 			"inputs": [
-				{"name":"_nft_manager","type":"address"},
 				{"name":"nft_address","type":"address"},
-				{"name":"nft_owner","type":"address"}
+				{"name":"nft_owner","type":"address"},
+				{"name":"collection_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "emit_buy_nft",
+			"inputs": [
+				{"name":"nft_address","type":"address"},
+				{"name":"nft_new_owner","type":"address"},
+				{"name":"nft_prev_owner","type":"address"},
+				{"name":"nft_price","type":"uint128"},
+				{"name":"collection_address","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "withdraw",
+			"inputs": [
+				{"name":"dest","type":"address"},
+				{"name":"value","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "updateContractCode",
+			"inputs": [
+				{"name":"newcode","type":"cell"}
 			],
 			"outputs": [
 			]
@@ -212,11 +242,19 @@
 			]
 		},
 		{
+			"name": "m_version",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"m_version","type":"uint256"}
+			]
+		},
+		{
 			"name": "directSell_event_emit_cost",
 			"inputs": [
 			],
 			"outputs": [
-				{"name":"directSell_event_emit_cost","type":"uint256"}
+				{"name":"directSell_event_emit_cost","type":"uint128"}
 			]
 		}
 	],
@@ -227,10 +265,11 @@
 		{
 			"name": "nft_listed",
 			"inputs": [
-				{"name":"nft_manager","type":"address"},
 				{"name":"nft_address","type":"address"},
+				{"name":"nft_price","type":"uint128"},
+				{"name":"nft_manager","type":"address"},
 				{"name":"nft_owner","type":"address"},
-				{"name":"nft_price","type":"uint128"}
+				{"name":"collection_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -238,9 +277,9 @@
 		{
 			"name": "cancel_nft",
 			"inputs": [
-				{"name":"nft_manager","type":"address"},
 				{"name":"nft_address","type":"address"},
-				{"name":"nft_owner","type":"address"}
+				{"name":"nft_owner","type":"address"},
+				{"name":"collection_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -248,10 +287,11 @@
 		{
 			"name": "buy_nft",
 			"inputs": [
-				{"name":"nft_manager","type":"address"},
 				{"name":"nft_address","type":"address"},
-				{"name":"nft_owner","type":"address"},
-				{"name":"nft_price","type":"uint128"}
+				{"name":"nft_new_owner","type":"address"},
+				{"name":"nft_prev_owner","type":"address"},
+				{"name":"nft_price","type":"uint128"},
+				{"name":"collection_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -272,6 +312,7 @@
 		{"name":"_constructorFlag","type":"bool"},
 		{"name":"owner_","type":"address"},
 		{"name":"_nonce","type":"uint256"},
+		{"name":"m_version","type":"uint256"},
 		{"name":"directSellCode","type":"cell"},
 		{"name":"remain_on_contract","type":"uint128"},
 		{"name":"directSell_deployment_cost","type":"uint128"},
@@ -281,6 +322,6 @@
 		{"name":"pause_trading","type":"bool"},
 		{"name":"fee_receiver","type":"address"},
 		{"name":"NFT_transfer_cost","type":"uint128"},
-		{"name":"directSell_event_emit_cost","type":"uint256"}
+		{"name":"directSell_event_emit_cost","type":"uint128"}
 	]
 }

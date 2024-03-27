@@ -567,7 +567,6 @@ const Collection = ({
     try {
       const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
         const createdNFT = await addNFTViaOnchainRoll(nft, signer_address, slug);
-        console.log(`Added NFT with ID ${nft?.name} to the database`);
         return createdNFT;
       }));
     } catch (error) {
@@ -2302,7 +2301,7 @@ const Collection = ({
                         )}
                       </div>
 
-                      <div className="chartCont">
+                      {/* <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             Market Cap
@@ -2334,7 +2333,7 @@ const Collection = ({
                             No Data Available !
                           </p>
                         )}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -2611,6 +2610,7 @@ const Collection = ({
                           <img
                             src={preview?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-24 rounded-lg"
+                            alt="Image"
                           />
                         ) : (
                           <div className="relative z-10 cursor-pointer">
@@ -2662,6 +2662,7 @@ const Collection = ({
                           <img
                             src={preview?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
                             className="h-44 rounded-lg "
+                            alt="Image"
                           />
                         ) : (
                           <div className="relative z-10 cursor-pointer">

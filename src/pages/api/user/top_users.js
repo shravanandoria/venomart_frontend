@@ -17,7 +17,7 @@ export default async function handler(req, res) {
                 if (wallet_id) {
                     if (wallet_id != "none" && wallet_id != "") {
                         walletFilter = {
-                            from: wallet_id
+                            to: wallet_id
                         };
                     }
                 }
@@ -57,8 +57,8 @@ export default async function handler(req, res) {
                     },
                     {
                         $group: {
-                            _id: "$from",
-                            totalSaleVolume: { $sum: "$priceNumeric" },
+                            _id: "$to",
+                            totalBuyVolume: { $sum: "$priceNumeric" },
                             AveragePrice: { $avg: "$priceNumeric" }
                         }
                     },
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
                     {
                         $project: {
                             _id: 1,
-                            totalSaleVolume: 1,
+                            totalBuyVolume: 1,
                             AveragePrice: 1,
                             user_name: { $arrayElemAt: ["$user_info.user_name", 0] },
                             profileImage: { $arrayElemAt: ["$user_info.profileImage", 0] }
@@ -81,7 +81,7 @@ export default async function handler(req, res) {
                     },
                     {
                         $sort: {
-                            totalSaleVolume: -1
+                            totalBuyVolume: -1
                         }
                     },
                     {
@@ -91,6 +91,8 @@ export default async function handler(req, res) {
 
                 const ids = saleResult.map(item => item._id);
 
+
+                // total buy volume 
                 const purchaseResult = await Activity.aggregate([
                     {
                         $match: {
@@ -112,6 +114,7 @@ export default async function handler(req, res) {
                     }
                 ]);
 
+                // total listing count 
                 const totalListingsResult = await Activity.aggregate([
                     {
                         $match: {
@@ -128,6 +131,7 @@ export default async function handler(req, res) {
                     }
                 ]);
 
+                // total sale count 
                 const totalSalesResult = await Activity.aggregate([
                     {
                         $match: {
@@ -144,6 +148,24 @@ export default async function handler(req, res) {
                     }
                 ]);
 
+                // total buys count 
+                const totalBuyResult = await Activity.aggregate([
+                    {
+                        $match: {
+                            type: "sale",
+                            to: { $in: ids },
+                            ...timeFilter
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: "$to",
+                            totalBuys: { $sum: 1 }
+                        }
+                    }
+                ]);
+
+                // total cancel count 
                 const totalCancelsResult = await Activity.aggregate([
                     {
                         $match: {
@@ -170,6 +192,11 @@ export default async function handler(req, res) {
                     totalSalesMap[item._id] = item.totalSales;
                 });
 
+                const totalBuysMap = {};
+                totalBuyResult.forEach(item => {
+                    totalBuysMap[item._id] = item.totalBuys;
+                });
+
                 const totalCancelsMap = {};
                 totalCancelsResult.forEach(item => {
                     totalCancelsMap[item._id] = item.totalCancels;
@@ -179,10 +206,10 @@ export default async function handler(req, res) {
                     const matchingSaleItem = purchaseResult.find(saleItem => saleItem._id === purchaseItem._id);
                     const totalListings = totalListingsMap[purchaseItem._id] || 0;
                     const totalSales = totalSalesMap[purchaseItem._id] || 0;
+                    const totalBuys = totalBuysMap[purchaseItem._id] || 0;
                     const totalCancels = totalCancelsMap[purchaseItem._id] || 0;
 
                     const activeListings = totalListings - (totalSales + totalCancels);
-
                     return {
                         _id: purchaseItem._id,
                         totalSaleVolume: purchaseItem.totalSaleVolume,
@@ -190,8 +217,10 @@ export default async function handler(req, res) {
                         totalPurchaseVolume: matchingSaleItem ? matchingSaleItem.totalPurchaseVolume : 0,
                         totalListings,
                         totalSales,
+                        totalBuys,
                         totalCancels,
                         activeListings,
+                        smartPoints: (Math.abs(matchingSaleItem ? matchingSaleItem.totalPurchaseVolume : 0) + Math.abs(totalBuys * 3) + Math.abs(totalSales) + Math.abs(activeListings * 5)),
                         user_info: purchaseItem.user_name,
                         profileImage: purchaseItem.profileImage
                     };

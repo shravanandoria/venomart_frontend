@@ -13,8 +13,8 @@ const SmallUserCard = ({
     id,
     Name,
     wallet_address,
-    Volume,
-    totalSales,
+    totalPurchaseVolume,
+    totalBuys,
     OtherImagesBaseURI
 }) => {
 
@@ -78,8 +78,8 @@ const SmallUserCard = ({
                         </span>
                     </div>
                     <span className="text-sm dark:text-jacarta-300 flex">
-                        NFTs Sold :{" "}
-                        {totalSales ? formatNumberShort(totalSales) : "0"}
+                        NFTs Bought :{" "}
+                        {totalBuys ? formatNumberShort(totalBuys) : "0"}
                     </span>
                     <span className="text-sm mt-[5px] dark:text-jacarta-300 flex">
                         Volume :{" "}
@@ -96,7 +96,7 @@ const SmallUserCard = ({
                             }}
                             alt="VenomLogo"
                         />
-                        {Volume ? formatNumberShort(Volume) : "0"}
+                        {totalPurchaseVolume ? formatNumberShort(totalPurchaseVolume) : "0"}
                     </span>
                 </div>
             </div>

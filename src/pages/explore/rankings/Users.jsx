@@ -5,10 +5,14 @@ import UserRankingCard from "../../../components/cards/UserRankingCard";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import Loader from "../../../components/Loader";
+import Link from "next/link";
 
-const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
-    const [duration, set_duration] = useState("30days");
+const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
+    const [duration, set_duration] = useState("alltime");
     const [wallet_id, set_wallet_id] = useState("none");
+
+    const [topUsers, setTopUsers] = useState([]);
+    const [userPoints, setUserPoints] = useState([]);
 
     const [mobileFilter, openMobileFilter] = useState(true);
     const [filterSort, openFilterSort] = useState(false);
@@ -50,6 +54,13 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
 
     const isBreakpoint = useMediaQuery(800);
 
+    const fetchUserPoints = async () => {
+        const result = await top_users(duration, signer_address);
+        if (result) {
+            setUserPoints(result);
+        }
+    };
+
     const fetchTopUsers = async () => {
         setSearchLoading(true);
         const result = await top_users(duration, wallet_id);
@@ -89,8 +100,14 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
     }, []);
 
     useEffect(() => {
+        if (!signer_address) return;
+        fetchUserPoints();
+    }, [signer_address]);
+
+    useEffect(() => {
         if (defaultFetch != true) return;
         fetchTopUsers();
+        fetchUserPoints();
     }, [duration]);
 
     useEffect(() => {
@@ -123,8 +140,9 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
                         User Rankings🏆
                     </h1>
                     <p className=" pt-2 pb-16 text-center text-[18px] text-jacarta-700 dark:text-white">
-                        Top users ranked by there purchases, sales and more
+                        All the users will get $VMART token airdrop based on their smart points 😎
                     </p>
+
                     {/* filter  */}
                     <div className="stickyFilterDivExplore bg-white dark:bg-jacarta-900">
                         <div className="collectionFilterDivExplore bg-white dark:bg-jacarta-900 p-4">
@@ -321,19 +339,14 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
                                         Users
                                     </span>
                                 </div>
-                                <div className="w-[16%] py-3 px-4" role="columnheader">
+                                <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Sales Volume
+                                        Buy Volume
                                     </span>
                                 </div>
                                 <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Purchase Volume
-                                    </span>
-                                </div>
-                                <div className="w-[17%] py-3 px-4" role="columnheader">
-                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Avg Sale Price
+                                        NFTs Bought
                                     </span>
                                 </div>
                                 <div className="w-[15%] py-3 px-4" role="columnheader">
@@ -341,15 +354,36 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
                                         NFTs Sold
                                     </span>
                                 </div>
-                                <div className="w-[14%] py-3 px-4" role="columnheader">
+                                <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Active Listings
                                     </span>
                                 </div>
+                                <div className="w-[15%] py-3 px-4" role="columnheader">
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                        Smart Points {" "} <Link href="https://venomart.gitbook.io/venomart/usdvmart-token/eligibility/smart-points" target="_blank">🛈</Link>
+                                    </span>
+                                </div>
                             </div>
+                            {/* user one  */}
+                            {(topUsers && (topUsers.some(user => user.walletAddress != signer_address) && wallet_id == "none")) && (
+                                <UserRankingCard
+                                    key={1}
+                                    id={"*"}
+                                    Logo={userPoints[0]?.profileImage}
+                                    Name={userPoints[0]?.user_info}
+                                    walletAddress={userPoints[0]?._id}
+                                    totalPurchaseVolume={userPoints[0]?.totalPurchaseVolume}
+                                    totalSales={userPoints[0]?.totalSales}
+                                    totalBuys={userPoints[0]?.totalBuys}
+                                    smartPoints={userPoints[0]?.smartPoints}
+                                    activeListings={userPoints[0]?.activeListings}
+                                    OtherImagesBaseURI={OtherImagesBaseURI}
+                                    signer_address={signer_address}
+                                />
+                            )}
 
-                            {/* loop all the collections here  */}
-
+                            {/* loop all the users here  */}
                             {topUsers?.map(
                                 (e, index) =>
                                     <UserRankingCard
@@ -359,11 +393,12 @@ const Users = ({ theme, topUsers, setTopUsers, OtherImagesBaseURI }) => {
                                         Name={e?.user_info}
                                         walletAddress={e?._id}
                                         totalPurchaseVolume={e?.totalPurchaseVolume}
-                                        totalSalesVolume={e?.totalSaleVolume}
                                         totalSales={e?.totalSales}
+                                        totalBuys={e?.totalBuys}
+                                        smartPoints={e?.smartPoints}
                                         activeListings={e?.activeListings}
-                                        AveragePrice={e?.AveragePrice}
                                         OtherImagesBaseURI={OtherImagesBaseURI}
+                                        signer_address={signer_address}
                                     />
                             )}
                             {topUsers?.length <= 0 && !searchLoading && (

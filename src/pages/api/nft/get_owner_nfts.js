@@ -29,6 +29,7 @@ export default async function handler(req, res) {
                         }
                         if (saleType == "All") {
                             sortyBy.isListed = -1
+                            sortyBy.updatedAt = -1
                         }
                     }
 

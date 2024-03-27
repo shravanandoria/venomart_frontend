@@ -31,13 +31,14 @@ export const ONE_VENOM = 1000000000; //one venom for calculations
 export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction {PASSING IT IN TRANSACTIONS}
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT {PASSING IT IN TRANSACTIONS}
 export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT {FOR DISPLAY}
+export const buy_cart_refundable_fees = 0.7 * ONE_VENOM; //amount we send when buy cart NFT {FOR DISPLAY}
 export const extra_venom_fees = 0.01 * ONE_VENOM; //extra venoms for transactions {PASSING IT IN TRANSACTIONS}
 export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 // dont change this values, this values are used in transactions -- STRICT
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:8601f53cd3ce01e4477779b44ee5add47587a377f6b558df89305841b18174c9",
+  "0:5cc660868cad000737b7b76824f8ad6503dca4901b3ead27524b5c335ec9ea00",
 );
 
 // all contract address here up
@@ -201,9 +202,13 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_n
 
 // getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
-  const contract = new provider.Contract(DirectSell, new Address(nft_manager));
-  const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
-  return data;
+  try {
+    const contract = new provider.Contract(DirectSell, new Address(nft_manager));
+    const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 // Graphql Collection NFTs
@@ -391,8 +396,6 @@ export const list_nft = async (
   signer_address,
   nft,
   onchainNFTData,
-  newFloorPrice,
-  stampedFloor,
   royaltyPercent,
   royaltyAddress,
 ) => {
@@ -421,28 +424,14 @@ export const list_nft = async (
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
+        collection_address: collection_address
       })
       .call();
 
-    console.log({ payload });
-
-    const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
+    const { total_cost: listing_cost } = await factory_contract.methods.get_listing_amount({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
-    // const output = await nft_contract.methods
-    //   .changeManager({
-    //     newManager: FactoryDirectSellAddress,
-    //     sendGasTo: new Address(signer_address),
-    //     callbacks: [[FactoryDirectSellAddress, { value: listing_cost, payload: payload.payload }]],
-    //   })
-    //   .send({
-    //     from: new Address(signer_address),
-    //     amount: (parseInt(listing_cost) + parseInt(extra_venom_fees)).toString(),
-    //   });
-
-    /////////////
-    // Transaction with timeout
-    const outputPromise = nft_contract.methods
+    const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,
         sendGasTo: new Address(signer_address),
@@ -452,18 +441,6 @@ export const list_nft = async (
         from: new Address(signer_address),
         amount: (parseInt(listing_cost) + parseInt(extra_venom_fees)).toString(),
       });
-
-    // Timeout handling
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error("Transaction timed out"));
-        alert("Transaction has expired, please try again!!");
-      }, 120000); // 120 seconds timeout
-    });
-
-    // Wait for either the transaction to complete or timeout
-    const output = await Promise.race([outputPromise, timeoutPromise]);
-    /////////////
 
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -483,9 +460,7 @@ export const list_nft = async (
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        newFloorPrice: parseFloat(newFloorPrice),
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       const updateNFTData = await updateNFTListing(obj);
     }
@@ -506,8 +481,7 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address,
-  stampedFloor,
+  signer_address
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -543,8 +517,7 @@ export const cancel_listing = async (
         type: "cancel",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       let updateNFTData = await cancelNFTListing(obj);
     }
@@ -567,8 +540,7 @@ export const buy_nft = async (
   collection_address,
   salePrice,
   price,
-  signer_address,
-  stampedFloor,
+  signer_address
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -589,7 +561,7 @@ export const buy_nft = async (
     let output;
     output = await DirectSellContract.methods
       .buyNft({
-        new_nft_holder: new Address(signer_address),
+        new_nft_holder: new Address(signer_address)
       })
       .send({
         from: new Address(signer_address),
@@ -611,9 +583,7 @@ export const buy_nft = async (
         type: "sale",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address,
-        newFloorPrice: 0,
-        stampedFloor: parseFloat(stampedFloor),
+        collection_address: collection_address
       };
       const updateNFTData = await updateNFTsale(obj);
     }
@@ -673,6 +643,21 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
+
+// venom price fetch USD
+// const fetchVenomPrice = async () => {
+//   try {
+//     let response = await axios.get('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=VENOM', {
+//       headers: {
+//         'X-CMC_PRO_API_KEY': '13135295-fed2-4277-b155-3823aef06cfa',
+//       },
+//     });
+
+//     console.log({ response })
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // -------------- offer feature starts here ----------------
 
@@ -906,9 +891,7 @@ export const bulk_buy_nfts = async (
 //       type: "sale",
 //       wallet_id: from,
 //       nft_address: nft_address,
-//       collection_address: collection_address,
-//       newFloorPrice: 0,
-//       stampedFloor: parseFloat(stampedFloor),
+//       collection_address: collection_address
 //     };
 //     const updateNFTData = await updateNFTsale(obj);
 //   }

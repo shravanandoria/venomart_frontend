@@ -64,7 +64,6 @@ export default function App({ Component, pageProps }) {
   const [standalone, set_standalone] = useState();
 
   const [cartNFTs, setCartNFTs] = useState([]);
-  const [topUsers, setTopUsers] = useState([]);
   const [anyModalOpen, setAnyModalOpen] = useState(false);
 
   // copyURL function
@@ -219,8 +218,6 @@ export default function App({ Component, pageProps }) {
           connectWallet={connect_wallet}
           EnableMakeOffer={EnableMakeOffer}
           adminAccount={adminAccount}
-          topUsers={topUsers}
-          setTopUsers={setTopUsers}
           anyModalOpen={anyModalOpen}
           setAnyModalOpen={setAnyModalOpen}
           cartNFTs={cartNFTs}

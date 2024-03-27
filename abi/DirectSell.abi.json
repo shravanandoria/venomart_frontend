@@ -13,7 +13,8 @@
 				{"name":"_royalty","type":"uint128"},
 				{"name":"_royalty_address","type":"address"},
 				{"name":"_NFT_transfer_cost","type":"uint256"},
-				{"name":"_event_emit_cost","type":"uint256"}
+				{"name":"_event_emit_cost","type":"uint128"},
+				{"name":"_collection_address","type":"address"}
 			],
 			"outputs": [
 			]
@@ -50,9 +51,34 @@
 			]
 		},
 		{
+			"name": "withdraw",
+			"inputs": [
+				{"name":"dest","type":"address"},
+				{"name":"value","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "buyNft",
 			"inputs": [
 				{"name":"new_nft_holder","type":"address"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "owner",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"value0","type":"address"}
+			]
+		},
+		{
+			"name": "transferOwnership",
+			"inputs": [
+				{"name":"newOwner","type":"address"}
 			],
 			"outputs": [
 			]
@@ -114,11 +140,11 @@
 			]
 		},
 		{
-			"name": "remainOnContract",
+			"name": "remain_on_contract",
 			"inputs": [
 			],
 			"outputs": [
-				{"name":"remainOnContract","type":"uint128"}
+				{"name":"remain_on_contract","type":"uint128"}
 			]
 		},
 		{
@@ -134,7 +160,15 @@
 			"inputs": [
 			],
 			"outputs": [
-				{"name":"event_emit_cost","type":"uint256"}
+				{"name":"event_emit_cost","type":"uint128"}
+			]
+		},
+		{
+			"name": "collection_address",
+			"inputs": [
+			],
+			"outputs": [
+				{"name":"collection_address","type":"address"}
 			]
 		}
 	],
@@ -144,11 +178,21 @@
 		{"key":3,"name":"nft_owner","type":"address"}
 	],
 	"events": [
+		{
+			"name": "OwnershipTransferred",
+			"inputs": [
+				{"name":"oldOwner","type":"address"},
+				{"name":"newOwner","type":"address"}
+			],
+			"outputs": [
+			]
+		}
 	],
 	"fields": [
 		{"name":"_pubkey","type":"uint256"},
 		{"name":"_timestamp","type":"uint64"},
 		{"name":"_constructorFlag","type":"bool"},
+		{"name":"owner_","type":"address"},
 		{"name":"nonce","type":"uint256"},
 		{"name":"nftAddress","type":"address"},
 		{"name":"nft_owner","type":"address"},
@@ -159,8 +203,9 @@
 		{"name":"royalty","type":"uint128"},
 		{"name":"royalty_address","type":"address"},
 		{"name":"platform_fee_receiver","type":"address"},
-		{"name":"remainOnContract","type":"uint128"},
+		{"name":"remain_on_contract","type":"uint128"},
 		{"name":"NFT_transfer_cost","type":"uint256"},
-		{"name":"event_emit_cost","type":"uint256"}
+		{"name":"event_emit_cost","type":"uint128"},
+		{"name":"collection_address","type":"address"}
 	]
 }

@@ -19,10 +19,11 @@ export const launchpad_mint = async (provider, launchpad_address, signer_address
     })
     .call();
 
-  await launchpad.methods.mint({ amount: amount_to_mint }).send({
+  const res = await launchpad.methods.mint({ amount: amount_to_mint }).send({
     from: new Address(signer_address),
     amount: (parseInt(req_amount.value0) + parseInt(launchpad_nft_fees)).toString(),
   });
+  return res;
 };
 
 // get how many nfts user minted
