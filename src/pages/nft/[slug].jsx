@@ -249,6 +249,8 @@ const NFTPage = ({
         const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
         let demandPrice = onChainNFTData?.value5 / 1000000000;
 
+        // write code here to add NFT activity 
+
         const updatingData = await update_verified_nft_listing(demandPrice, demandPrice, slug);
         alert("Listing price updated successfully");
       }
