@@ -38,7 +38,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:71caeeda6468c96116f80f47cb2e7019dda44cc3fbe452529c98e6e6d65fd66f",
+  "0:cfca87bef699ba4d7dafbd2611ff0159cd64e3f99b5ef3f407ff0ddb1723096c",
 );
 
 // all contract address here up
@@ -207,7 +207,7 @@ export const directSell_nft_info = async (provider, nft_manager) => {
     const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
     return data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -397,7 +397,7 @@ export const list_nft = async (
   nft,
   onchainNFTData,
   royaltyPercent,
-  royaltyAddress
+  royaltyAddress,
 ) => {
   console.log({
     prev_nft_Owner,
@@ -410,8 +410,8 @@ export const list_nft = async (
     nft,
     onchainNFTData,
     royaltyPercent,
-    royaltyAddress
-  })
+    royaltyAddress,
+  });
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
@@ -438,7 +438,6 @@ export const list_nft = async (
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
-        col_addr: collection_address
       })
       .call();
 
@@ -475,7 +474,7 @@ export const list_nft = async (
         type: "list",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address
+        collection_address: collection_address,
       };
       const updateNFTData = await updateNFTListing(obj);
     }
@@ -496,7 +495,7 @@ export const cancel_listing = async (
   nft_address,
   collection_address,
   venomProvider,
-  signer_address
+  signer_address,
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -532,7 +531,7 @@ export const cancel_listing = async (
         type: "cancel",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address
+        collection_address: collection_address,
       };
       let updateNFTData = await cancelNFTListing(obj);
     }
@@ -555,7 +554,7 @@ export const buy_nft = async (
   collection_address,
   salePrice,
   price,
-  signer_address
+  signer_address,
 ) => {
   try {
     // checking nft owners across database and onchain
@@ -576,7 +575,7 @@ export const buy_nft = async (
     let output;
     output = await DirectSellContract.methods
       .buyNft({
-        new_nft_holder: new Address(signer_address)
+        new_nft_holder: new Address(signer_address),
       })
       .send({
         from: new Address(signer_address),
@@ -598,7 +597,7 @@ export const buy_nft = async (
         type: "sale",
         wallet_id: signer_address,
         nft_address: nft_address,
-        collection_address: collection_address
+        collection_address: collection_address,
       };
       const updateNFTData = await updateNFTsale(obj);
     }

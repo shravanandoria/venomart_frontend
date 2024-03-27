@@ -59,8 +59,7 @@
 				{"name":"answerId","type":"uint32"},
 				{"name":"price","type":"uint128"},
 				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"},
-				{"name":"col_addr","type":"address"}
+				{"name":"royalty_address","type":"address"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
