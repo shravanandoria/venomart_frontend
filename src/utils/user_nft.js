@@ -38,7 +38,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:5cc660868cad000737b7b76824f8ad6503dca4901b3ead27524b5c335ec9ea00",
+  "0:9df2f72a73e1167f2e7806777f33f7932bfa26a9750c22656bde4909e299e2d4",
 );
 // all contract address here up
 
@@ -396,8 +396,21 @@ export const list_nft = async (
   nft,
   onchainNFTData,
   royaltyPercent,
-  royaltyAddress,
+  royaltyAddress
 ) => {
+  console.log({
+    prev_nft_Owner,
+    prev_nft_Manager,
+    nft_address,
+    collection_address,
+    price,
+    venomProvider,
+    signer_address,
+    nft,
+    onchainNFTData,
+    royaltyPercent,
+    royaltyAddress
+  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
@@ -417,19 +430,21 @@ export const list_nft = async (
     }
 
     const factory_contract = new venomProvider.Contract(FactoryDirectSell, FactoryDirectSellAddress);
+
     const payload = await factory_contract.methods
       .generatePayload({
         answerId: 0,
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
         royalty_address: royaltyAddress,
-        collection_address: collection_address
+        col_addr: collection_address
       })
       .call();
 
     const { total_cost: listing_cost } = await factory_contract.methods.get_listing_amount({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
+
     const output = await nft_contract.methods
       .changeManager({
         newManager: FactoryDirectSellAddress,

@@ -60,7 +60,7 @@
 				{"name":"price","type":"uint128"},
 				{"name":"royalty","type":"uint128"},
 				{"name":"royalty_address","type":"address"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
