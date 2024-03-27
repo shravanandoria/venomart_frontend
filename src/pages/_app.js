@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }) {
   const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
   const NFTImagesBaseURI = "https://venomart.ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
-  const defTheme = "light";
+  const defTheme = "dark";
 
   // other values
   const adminAccount = [
@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useState(defTheme);
   const [venomConnect, setVenomConnect] = useState();
   const [venomProvider, setVenomProvider] = useState();
-  const [vnmBalance, setVnmBalance] = useState("");
+  const [vnmBalance, setVnmBalance] = useState(0);
 
   const [signer_address, set_signer_address] = useState("");
   const [standalone, set_standalone] = useState();
@@ -137,7 +137,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const defThemeLocal = localStorage.getItem("WebsiteTheme");
     if (defThemeLocal == null) {
-      setTheme("light");
+      setTheme("dark");
     } else {
       setTheme(defThemeLocal);
     }
@@ -222,7 +222,6 @@ export default function App({ Component, pageProps }) {
           setCartNFTs={setCartNFTs}
           venomPrice={venomPrice}
           vnmBalance={vnmBalance}
-          setVnmBalance={setVnmBalance}
           EnableNFTList={EnableNFTList}
           EnableNFTCancel={EnableNFTCancel}
           EnableNFTSale={EnableNFTSale}

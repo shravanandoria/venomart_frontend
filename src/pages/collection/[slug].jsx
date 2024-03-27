@@ -90,6 +90,7 @@ const Collection = ({
   const [activity, set_activity] = useState([]);
   const [analytics, set_analytics] = useState([]);
   const [lastNFT, setLastNFT] = useState(undefined);
+  const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
   const [onChainData, setOnChainData] = useState(false);
   const [adminPermittedAction, setAdminPermittedAction] = useState(false);
   const [saveNFTsDBModal, setSaveNFTsDBModal] = useState(false);
@@ -553,10 +554,10 @@ const Collection = ({
   const fetchAndAddNFTsToDB = async () => {
     if (adminPermittedAction === false) return;
     try {
-      const res = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
+      const res = await loadNFTs_collection_RPC(venomProvider, slug, BlukAdditionLastNFT);
       if (!res || !res.nfts.length) return;
       await addNFTsToDB(res.nfts);
-      setLastNFT(res?.continuation);
+      setBlukAdditionLastNFT(res?.continuation);
     } catch (error) {
       console.error('Error fetching or adding NFTs to the database:', error);
     }
@@ -575,9 +576,9 @@ const Collection = ({
     }
   };
 
-  // useEffect to trigger the fetching and adding of NFTs after lastNFT is updated
+  // useEffect to trigger the fetching and adding of NFTs after BlukAdditionLastNFT is updated
   useEffect(() => {
-    if (lastNFT == undefined) {
+    if (BlukAdditionLastNFT == undefined) {
       return;
     }
     const fetchData = async () => {
@@ -587,7 +588,7 @@ const Collection = ({
       setLoading(false);
     };
     fetchData();
-  }, [lastNFT]);
+  }, [BlukAdditionLastNFT]);
 
 
   // fetching and updating latest NFT count of collection 

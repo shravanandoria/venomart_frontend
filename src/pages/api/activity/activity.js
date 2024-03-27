@@ -105,17 +105,6 @@ export default async function handler(req, res) {
             collection_address
           } = req.body;
 
-          console.log({
-            hash,
-            from,
-            to,
-            price,
-            type,
-            wallet_id,
-            nft_address,
-            collection_address
-          })
-
           // Find or create the user
           let user = await User.findOne({ wallet_id });
           if (!user) {

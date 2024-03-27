@@ -284,7 +284,7 @@ const NFTPage = ({
       }
 
       setMetadataLoading(false);
-      // router.reload();
+      router.reload();
       setMetaDataUpdated(true);
       return;
     }

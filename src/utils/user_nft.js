@@ -38,7 +38,7 @@ export const platform_fees = 2.5; //value in percent 2.5% {FOR DISPLAY}
 
 // all contract address here down
 export const FactoryDirectSellAddress = new Address(
-  "0:71caeeda6468c96116f80f47cb2e7019dda44cc3fbe452529c98e6e6d65fd66f",
+  "0:00bdd57c1681cde24fba5e3a427dc74a6e14447c1527d6f778cd0988c1932d64",
 );
 
 // all contract address here up
