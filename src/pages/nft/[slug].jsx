@@ -28,7 +28,7 @@ import {
 import { BsArrowRight, BsFillCartPlusFill, BsFillCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
 import { get_collection_if_nft_onchain } from "../../utils/mongo_api/collection/collection";
 import NFTActivityCard from "../../components/cards/NFTActivityCard";
-import { getActivity } from "../../utils/mongo_api/activity/activity";
+import { addActivity, getActivity } from "../../utils/mongo_api/activity/activity";
 import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import SuccessModal from "../../components/modals/SuccessModal";
@@ -222,7 +222,23 @@ const NFTPage = ({
       }
 
       if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
+        // updating the owners data 
         const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
+
+        // adding the sale activity 
+        if (offChainOwner != offChainManager && OnChainOwner == OnChainManager) {
+          let data = {
+            hash: "",
+            from: offChainManager,
+            to: OnChainOwner,
+            price: nft?.demandPrice,
+            type: "sale",
+            wallet_id: OnChainOwner,
+            nft_address: slug,
+            collection_address: nft?.NFTCollection?.contractAddress
+          }
+          const addSaleActivity = addActivity(data);
+        }
         alert("Owners data updated successfully");
       }
 
@@ -249,14 +265,26 @@ const NFTPage = ({
         const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
         let demandPrice = onChainNFTData?.value5 / 1000000000;
 
-        // write code here to add NFT activity 
+        // adding the list activity here
+        let data = {
+          hash: "",
+          from: OnChainOwner,
+          to: OnChainManager,
+          price: demandPrice,
+          type: "list",
+          wallet_id: OnChainManager,
+          nft_address: slug,
+          collection_address: nft?.NFTCollection?.contractAddress
+        }
+        const addListActivity = await addActivity(data);
 
+        // updating the listing status here 
         const updatingData = await update_verified_nft_listing(demandPrice, demandPrice, slug);
         alert("Listing price updated successfully");
       }
 
       setMetadataLoading(false);
-      router.reload();
+      // router.reload();
       setMetaDataUpdated(true);
       return;
     }

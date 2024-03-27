@@ -105,6 +105,17 @@ export default async function handler(req, res) {
             collection_address
           } = req.body;
 
+          console.log({
+            hash,
+            from,
+            to,
+            price,
+            type,
+            wallet_id,
+            nft_address,
+            collection_address
+          })
+
           // Find or create the user
           let user = await User.findOne({ wallet_id });
           if (!user) {
@@ -144,25 +155,25 @@ export default async function handler(req, res) {
           }
 
           // creating activity here 
-          let findActivity = await Activity.findOne({ hash });
-          if (findActivity) {
-            return res
-              .status(400)
-              .json({ success: false, data: "Activity already exists" });
-          }
-          else {
-            let activity = await Activity.create({
-              chain: "Venom",
-              hash,
-              from,
-              to,
-              price,
-              item: nft,
-              type,
-              owner: user,
-              nft_collection: collection,
-            });
-          }
+          // let findActivity = await Activity.findOne({ hash });
+          // if (findActivity) {
+          //   return res
+          //     .status(400)
+          //     .json({ success: false, data: "Activity already exists" });
+          // }
+          // else {
+          let activity = await Activity.create({
+            chain: "Venom",
+            hash,
+            from,
+            to,
+            price,
+            item: nft,
+            type,
+            owner: user,
+            nft_collection: collection,
+          });
+          // }
 
           // sending notification
           if (type === "sale") {
