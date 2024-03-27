@@ -222,6 +222,7 @@ export default function App({ Component, pageProps }) {
           setCartNFTs={setCartNFTs}
           venomPrice={venomPrice}
           vnmBalance={vnmBalance}
+          setVnmBalance={setVnmBalance}
           EnableNFTList={EnableNFTList}
           EnableNFTCancel={EnableNFTCancel}
           EnableNFTSale={EnableNFTSale}
