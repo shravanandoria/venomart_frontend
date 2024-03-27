@@ -45,6 +45,7 @@ const launchpad = ({
     const [status, setStatus] = useState("");
     const [mintCount, setMintCount] = useState(1);
     const [phaseMintedCount, setPhaseMintedCount] = useState(0);
+    const [offChainMintedNFTsLength, setOffChainMintedNFTsLength] = useState(0);
 
     const [selected_phase, set_selected_phase] = useState({
         id: "",
@@ -121,7 +122,9 @@ const launchpad = ({
         };
         set_selected_phase(def_data);
         updateMintStatus();
-        setLoading(false);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
     };
 
     // update mint status
@@ -149,6 +152,59 @@ const launchpad = ({
         }
     };
 
+    // refreshing latest mints here 
+    const refreshLatestMints = async () => {
+        setLoading(true);
+        // fetching nfts onchain 
+        const res = await loadNFTs_user(
+            venomProvider,
+            signer_address,
+            undefined,
+            client,
+            "newestFirst"
+        );
+        let new_nfts = [];
+        res?.nfts
+            ?.sort((a, b) => b.last_paid - a.last_paid)
+            .filter((e) => e.collection?._address == collectionData?.contractAddress)
+            .map((e, index) => {
+                try {
+                    new_nfts.push({ ...JSON.parse(e.json), ...e });
+                } catch (error) {
+                    new_nfts.push({ ...e });
+                }
+            });
+
+        if (offChainMintedNFTsLength >= new_nfts?.length) {
+            setLoading(false);
+            alert("Your latest mints are already up to date!");
+            return;
+        }
+
+        // adding the fetched and filtered collection NFTs to DB 
+        try {
+            const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+                let jsonURL = nft?.files[0].source;
+                try {
+                    const JSONReq = await axios.get(jsonURL);
+                    let attributes = JSONReq.data.attributes;
+                    const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+                    setTimeout(() => {
+                        setLoading(false);
+                        alert("Your latest mints have been updated!");
+                        router.reload();
+                    }, 2000);
+                } catch (error) {
+                    console.log(error);
+                    setLoading(false);
+                }
+            }));
+        } catch (error) {
+            console.error('Error adding NFTs to the database:', error);
+            throw error;
+        }
+    }
+
     // selecting phase
     const selectPhaseFunction = (phase, index) => {
         set_selected_phase({
@@ -174,7 +230,7 @@ const launchpad = ({
     const getUserWalletMints = async () => {
         if (!collectionData) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
-        console.log({ walletMints })
+        setOffChainMintedNFTsLength(walletMints?.length);
         if (walletMints != "") {
             setMintedNFTsArray(walletMints);
             setUserMints(true);
@@ -245,24 +301,26 @@ const launchpad = ({
             });
 
         // adding the fetched and filtered collection NFTs to DB 
-        try {
-            const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
-                let jsonURL = nft?.files[0].source;
-                try {
-                    const JSONReq = await axios.get(jsonURL);
-                    let attributes = JSONReq.data.attributes;
-                    const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
-                    setAfterMint(true);
-                    getPhaseWiseMinted();
-                    setMintLoading(false);
-                } catch (error) {
-                    console.log(error);
-                    setMintLoading(false);
-                }
-            }));
-        } catch (error) {
-            console.error('Error adding NFTs to the database:', error);
-            throw error;
+        if (new_nfts != "") {
+            try {
+                const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+                    let jsonURL = nft?.files[0].source;
+                    try {
+                        const JSONReq = await axios.get(jsonURL);
+                        let attributes = JSONReq.data.attributes;
+                        const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+                        setAfterMint(true);
+                        getPhaseWiseMinted();
+                        setMintLoading(false);
+                    } catch (error) {
+                        console.log(error);
+                        setMintLoading(false);
+                    }
+                }));
+            } catch (error) {
+                console.error('Error adding NFTs to the database:', error);
+                throw error;
+            }
         }
     };
 
@@ -574,8 +632,7 @@ const launchpad = ({
                                                                 {phase?.phaseName}
                                                             </h2>
                                                             <p
-                                                                className={`text-[14px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
-                                                                    }`}
+                                                                className={`text-[14px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}
                                                             >
                                                                 {phase?.maxMint} Per Wallet ● {phase?.mintPrice} VENOM
                                                             </p>
@@ -802,6 +859,7 @@ const launchpad = ({
                                 {userMints == true &&
                                     <div className={`dark:bg-jacarta-900 lg:w-4/5 mx-auto flex flex-col w-[100%] my-2 mt-12 p-4 justify-between shadow-md shadow-[#dcdcdc] dark:shadow-[#0D102D] rounded-[13px] `}>
                                         <h2 className="text-lg text-jacarta-700 dark:text-white tracking-widest font-bold font-mono">Your Mints 🎉</h2>
+                                        <p className="text-[16px] text-jacarta-700 dark:text-white tracking-widest font-mono mb-2"><span className="text-blue cursor-pointer" onClick={() => refreshLatestMints()}>Click here</span> to refresh your latest mints!</p>
                                         <div className="flex flex-wrap justify-start align-middle">
                                             {mintedNFTsArray?.map((nft) => (
                                                 <Link href={`/nft/${nft?.NFTAddress}`} key={nft?._id}>

@@ -201,9 +201,13 @@ export const getAddressesFromIndex = async (standaloneProvider, codeHash, last_n
 
 // getting nft info with listing info
 export const directSell_nft_info = async (provider, nft_manager) => {
-  const contract = new provider.Contract(DirectSell, new Address(nft_manager));
-  const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
-  return data;
+  try {
+    const contract = new provider.Contract(DirectSell, new Address(nft_manager));
+    const data = await contract?.methods?.get_listing_data({ answerId: 0 }).call();
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 // Graphql Collection NFTs

@@ -567,7 +567,6 @@ const Collection = ({
     try {
       const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
         const createdNFT = await addNFTViaOnchainRoll(nft, signer_address, slug);
-        console.log(`Added NFT with ID ${nft?.name} to the database`);
         return createdNFT;
       }));
     } catch (error) {
