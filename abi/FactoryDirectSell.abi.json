@@ -60,7 +60,7 @@
 				{"name":"price","type":"uint128"},
 				{"name":"royalty","type":"uint128"},
 				{"name":"royalty_address","type":"address"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
@@ -191,7 +191,7 @@
 			"inputs": [
 				{"name":"nft_address","type":"address"},
 				{"name":"nft_owner","type":"address"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 			]
@@ -203,7 +203,7 @@
 				{"name":"nft_new_owner","type":"address"},
 				{"name":"nft_prev_owner","type":"address"},
 				{"name":"nft_price","type":"uint128"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 			]
@@ -269,7 +269,7 @@
 				{"name":"nft_price","type":"uint128"},
 				{"name":"nft_manager","type":"address"},
 				{"name":"nft_owner","type":"address"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 			]
@@ -279,7 +279,7 @@
 			"inputs": [
 				{"name":"nft_address","type":"address"},
 				{"name":"nft_owner","type":"address"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 			]
@@ -291,7 +291,7 @@
 				{"name":"nft_new_owner","type":"address"},
 				{"name":"nft_prev_owner","type":"address"},
 				{"name":"nft_price","type":"uint128"},
-				{"name":"collection_address","type":"address"}
+				{"name":"col_addr","type":"address"}
 			],
 			"outputs": [
 			]
