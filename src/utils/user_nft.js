@@ -428,7 +428,7 @@ export const list_nft = async (
       })
       .call();
 
-    const { total_cost: listing_cost } = await factory_contract.methods.get_lisitng_amount({ answerId: 0 }).call();
+    const { total_cost: listing_cost } = await factory_contract.methods.get_listing_data({ answerId: 0 }).call();
 
     const nft_contract = new venomProvider.Contract(nftAbi, nft_address);
     const output = await nft_contract.methods
@@ -650,6 +650,21 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
+
+// venom price fetch USD
+// const fetchVenomPrice = async () => {
+//   try {
+//     let response = await axios.get('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=VENOM', {
+//       headers: {
+//         'X-CMC_PRO_API_KEY': '13135295-fed2-4277-b155-3823aef06cfa',
+//       },
+//     });
+
+//     console.log({ response })
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // -------------- offer feature starts here ----------------
 

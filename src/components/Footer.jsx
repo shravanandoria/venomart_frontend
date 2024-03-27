@@ -126,10 +126,6 @@ const Footer = ({
     setItemsModal(false);
   }, [router.pathname]);
 
-  // useEffect(() => {
-  //   setCartNFTs([]);
-  // }, [signer_address]);
-
   useEffect(() => {
     getStats();
   }, []);
