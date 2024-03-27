@@ -361,7 +361,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                 </div>
                                 <div className="w-[15%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
-                                        Smart Points {" "} <Link href="https://venomart.gitbook.io/venomart/about/venomart-marketplace" target="_blank">🛈</Link>
+                                        Smart Points {" "} <Link href="https://venomart.gitbook.io/venomart/usdvmart-token/eligibility/smart-points" target="_blank">🛈</Link>
                                     </span>
                                 </div>
                             </div>

@@ -12,7 +12,6 @@ export const create_launchpad_collection = async (data) => {
     royaltyAddress: data.royaltyAddress,
     royalty: data.royalty,
     socials: [data.website, data.twitter, data.discord, data.telegram],
-    isActive: data.isActive,
     isVerified: data.isVerified,
     isTrading: data.isTrading,
     isPropsEnabled: data.isPropsEnabled,

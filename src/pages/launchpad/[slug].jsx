@@ -39,6 +39,7 @@ const launchpad = ({
     const [mintLoading, setMintLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [mintedPercent, setMintedPercent] = useState(0);
+    const [fetchAfterMint, setFetchAfterMint] = useState(false);
     const [afterMint, setAfterMint] = useState(false);
     const [userMints, setUserMints] = useState(false);
     const [status, setStatus] = useState("");
@@ -125,7 +126,7 @@ const launchpad = ({
 
     // update mint status
     const updateMintStatus = async () => {
-        if (!collectionData || collectionData.pageName === "" || !collectionData.phases) return;
+        if (!collectionData || collectionData != "" || collectionData.pageName === "" || !collectionData.phases || !signer_address) return;
         const endLength = collectionData?.phases?.length - 1;
 
         const startDate = new Date(collectionData.phases[0].startDate);
@@ -173,6 +174,7 @@ const launchpad = ({
     const getUserWalletMints = async () => {
         if (!collectionData) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
+        console.log({ walletMints })
         if (walletMints != "") {
             setMintedNFTsArray(walletMints);
             setUserMints(true);
@@ -191,7 +193,6 @@ const launchpad = ({
     // main mint function
     const mintLaunchNFT = async () => {
         if (!venomProvider) return;
-        setMintLoading(true);
         // conditions 
         if (phaseMintedCount >= selected_phase?.maxMint) return (alert("You have max minted in this phase!!"));
         if (!signer_address) {
@@ -201,27 +202,28 @@ const launchpad = ({
             alert(`Minting for ${selected_phase?.phaseName} has ended!!`);
             return;
         }
+        setMintLoading(true);
         // minting here 
         try {
             const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
             if (launchMint) {
                 setTimeout(async () => {
-                    const updatingNFTsInDB = await fetch_user_nfts();
-                    if (updatingNFTsInDB) {
-                        setAfterMint(true);
-                    }
-                }, 3000);
+                    setFetchAfterMint(true);
+                    setMintLoading(false);
+                }, 2000);
             }
         } catch (error) {
             console.log(error);
+            setMintLoading(false);
         }
-        setMintLoading(false);
     };
 
     // fetching on chain profile NFTs using GQL
     const { client } = useContext(TonClientContext);
 
     const fetch_user_nfts = async () => {
+        if (fetchAfterMint == false) return;
+        setMintLoading(true);
         // fetching nfts onchain 
         const res = await loadNFTs_user(
             venomProvider,
@@ -246,11 +248,17 @@ const launchpad = ({
         try {
             const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
                 let jsonURL = nft?.files[0].source;
-                const JSONReq = await axios.get(jsonURL);
-                let attributes = JSONReq.data.attributes;
-
-                const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
-
+                try {
+                    const JSONReq = await axios.get(jsonURL);
+                    let attributes = JSONReq.data.attributes;
+                    const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+                    setAfterMint(true);
+                    getPhaseWiseMinted();
+                    setMintLoading(false);
+                } catch (error) {
+                    console.log(error);
+                    setMintLoading(false);
+                }
             }));
         } catch (error) {
             console.error('Error adding NFTs to the database:', error);
@@ -262,7 +270,7 @@ const launchpad = ({
 
     useEffect(() => {
         fetch_user_nfts();
-    }, [client, venomProvider]);
+    }, [fetchAfterMint]);
 
     useEffect(() => {
         if (!slug) return;
@@ -283,7 +291,7 @@ const launchpad = ({
     useEffect(() => {
         setMintCount(1);
         getPhaseWiseMinted();
-    }, [selected_phase]);
+    }, [selected_phase, signer_address]);
 
     return (
         <div className={`${theme}`}>
@@ -615,173 +623,185 @@ const launchpad = ({
                                             </div>
 
                                             {/* final mint section  */}
-                                            <div className="flex flex-col w-[100%] mt-12">
-                                                {/* price  */}
-                                                {!(
-                                                    new Date(
-                                                        collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
-                                                    ) < new Date()
-                                                ) && (
-                                                        <div className="flex justify-between w-[100%]">
-                                                            <div>
-                                                                <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}>
-                                                                    <span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>
-                                                                        Price:
-                                                                    </span>{" "}
-                                                                    {selected_phase?.mintPrice} VENOM
-                                                                </h2>
-                                                            </div>
+                                            {signer_address ?
+                                                <div className="flex flex-col w-[100%] mt-12">
+                                                    {/* price  */}
+                                                    {!(
+                                                        new Date(
+                                                            collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                        ) < new Date()
+                                                    ) && (
+                                                            <div className="flex justify-between w-[100%]">
+                                                                <div>
+                                                                    <h2 className={`font-bold ${theme == "dark" ? "text-[#f1f1f1]" : "text-[#363232]"}`}>
+                                                                        <span className={`${theme == "dark" ? "text-[#efefef]" : "text-[#292929]"} font-light`}>
+                                                                            Price:
+                                                                        </span>{" "}
+                                                                        {selected_phase?.mintPrice} VENOM
+                                                                    </h2>
+                                                                </div>
 
-                                                            <div className="relative items-center">
-                                                                <div className={`whitespace-nowrap absolute right-[4px] top-[-26px] text-[15px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
-                                                                    }`}>({phaseMintedCount}/{selected_phase?.maxMint}) Minted</div>
-                                                                <div className="inline-flex items-center">
-                                                                    <button
-                                                                        className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-                                                                        onClick={() => handlemintCountDec()}
-                                                                    >
-                                                                        <svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            className="h-6 w-4"
-                                                                            fill="none"
-                                                                            viewBox="0 0 24 24"
-                                                                            stroke="currentColor"
+                                                                <div className="relative items-center">
+                                                                    <div className={`whitespace-nowrap absolute right-[4px] top-[-26px] text-[15px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
+                                                                        }`}>({phaseMintedCount}/{selected_phase?.maxMint}) Minted</div>
+                                                                    <div className="inline-flex items-center">
+                                                                        <button
+                                                                            className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                                            onClick={() => handlemintCountDec()}
                                                                         >
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
-                                                                        </svg>
-                                                                    </button>
-                                                                    <div className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
-                                                                        {mintCount}
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                className="h-6 w-4"
+                                                                                fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke="currentColor"
+                                                                            >
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
+                                                                            </svg>
+                                                                        </button>
+                                                                        <div className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
+                                                                            {mintCount}
+                                                                        </div>
+                                                                        {phaseMintedCount == selected_phase?.maxMint ?
+                                                                            <button
+                                                                                className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                                                onClick={() => alert("You have max minted in the selected phase!")}
+                                                                            >
+                                                                                <svg
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    className="h-6 w-4"
+                                                                                    fill="none"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    stroke="currentColor"
+                                                                                >
+                                                                                    <path
+                                                                                        strokeLinecap="round"
+                                                                                        strokeLinejoin="round"
+                                                                                        strokeWidth="2"
+                                                                                        d="M12 4v16m8-8H4"
+                                                                                    />
+                                                                                </svg>
+                                                                            </button>
+                                                                            :
+                                                                            <button
+                                                                                className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                                                                onClick={() => handlemintCountInc()}
+                                                                            >
+                                                                                <svg
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    className="h-6 w-4"
+                                                                                    fill="none"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    stroke="currentColor"
+                                                                                >
+                                                                                    <path
+                                                                                        strokeLinecap="round"
+                                                                                        strokeLinejoin="round"
+                                                                                        strokeWidth="2"
+                                                                                        d="M12 4v16m8-8H4"
+                                                                                    />
+                                                                                </svg>
+                                                                            </button>
+                                                                        }
                                                                     </div>
-                                                                    {phaseMintedCount == selected_phase?.maxMint ?
-                                                                        <button
-                                                                            className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-                                                                            onClick={() => alert("You have max minted in the selected phase!")}
-                                                                        >
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                className="h-6 w-4"
-                                                                                fill="none"
-                                                                                viewBox="0 0 24 24"
-                                                                                stroke="currentColor"
-                                                                            >
-                                                                                <path
-                                                                                    strokeLinecap="round"
-                                                                                    strokeLinejoin="round"
-                                                                                    strokeWidth="2"
-                                                                                    d="M12 4v16m8-8H4"
-                                                                                />
-                                                                            </svg>
-                                                                        </button>
-                                                                        :
-                                                                        <button
-                                                                            className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-                                                                            onClick={() => handlemintCountInc()}
-                                                                        >
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                className="h-6 w-4"
-                                                                                fill="none"
-                                                                                viewBox="0 0 24 24"
-                                                                                stroke="currentColor"
-                                                                            >
-                                                                                <path
-                                                                                    strokeLinecap="round"
-                                                                                    strokeLinejoin="round"
-                                                                                    strokeWidth="2"
-                                                                                    d="M12 4v16m8-8H4"
-                                                                                />
-                                                                            </svg>
-                                                                        </button>
-                                                                    }
                                                                 </div>
                                                             </div>
+                                                        )}
+
+                                                    {/* mint btn  */}
+                                                    {new Date(
+                                                        collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                    ) < new Date() ? (
+                                                        <div className="flex w-[100%] mt-4">
+                                                            <button
+                                                                onClick={() => alert("Oops! The launchpad minting for this collection has ended!!")}
+                                                                className={`${(theme = "dark"
+                                                                    ? "bg-indigo-500"
+                                                                    : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                            >
+                                                                <span className="text-white font-mono">Minting Ended!</span>
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="flex w-[100%] mt-4">
+                                                            {new Date(selected_phase?.startDate) > new Date() ? (
+                                                                <button
+                                                                    onClick={() => alert("Minting in this phase has not started yet!")}
+                                                                    className={`${(theme = "dark"
+                                                                        ? "bg-indigo-500"
+                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                                >
+                                                                    <span className="text-white font-mono">Not Started 🔒</span>
+                                                                </button>
+                                                            ) : selected_phase?.mintEligibility == true || selected_phase?.EligibleWallets == "" ? (
+                                                                mintLoading ?
+                                                                    <button
+                                                                        className={`${(theme = "dark"
+                                                                            ? "bg-indigo-500"
+                                                                            : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                                    >
+                                                                        <span className="text-white font-mono">
+                                                                            Minting {" "}
+                                                                            <svg
+                                                                                aria-hidden="true"
+                                                                                className="inline w-6 h-6 ml-3 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                                                                viewBox="0 0 100 101"
+                                                                                fill="none"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                            >
+                                                                                <path
+                                                                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                                                    fill="currentColor"
+                                                                                />
+                                                                                <path
+                                                                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                                                    fill="currentFill"
+                                                                                />
+                                                                            </svg>
+                                                                        </span>
+                                                                    </button>
+                                                                    :
+                                                                    <button
+                                                                        onClick={mintLaunchNFT}
+                                                                        className={`${(theme = "dark"
+                                                                            ? "bg-indigo-500"
+                                                                            : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                                    >
+                                                                        <span className="text-white font-mono">Mint {phaseMintedCount >= selected_phase?.maxMint && "🔒"}</span>
+                                                                    </button>
+                                                            ) : (
+                                                                <button
+                                                                    onClick={() => alert("You are not eligible to mint in this phase!!")}
+                                                                    className={`${(theme = "dark"
+                                                                        ? "bg-indigo-500"
+                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                                >
+                                                                    <span className="text-white font-mono">Not Eligible ❌</span>
+                                                                </button>
+                                                            )}
                                                         </div>
                                                     )}
-
-                                                {/* mint btn  */}
-                                                {new Date(
-                                                    collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
-                                                ) < new Date() ? (
-                                                    <div className="flex w-[100%] mt-4">
-                                                        <button
-                                                            onClick={() => alert("Oops! The launchpad minting for this collection has ended!!")}
-                                                            className={`${(theme = "dark"
-                                                                ? "bg-indigo-500"
-                                                                : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                        >
-                                                            <span className="text-white font-mono">Minting Ended!</span>
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex w-[100%] mt-4">
-                                                        {new Date(selected_phase?.startDate) > new Date() ? (
-                                                            <button
-                                                                onClick={() => alert("Minting in this phase has not started yet!")}
-                                                                className={`${(theme = "dark"
-                                                                    ? "bg-indigo-500"
-                                                                    : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                            >
-                                                                <span className="text-white font-mono">Not Started 🔒</span>
-                                                            </button>
-                                                        ) : selected_phase?.mintEligibility == true || selected_phase?.EligibleWallets == "" ? (
-                                                            mintLoading ?
-                                                                <button
-                                                                    className={`${(theme = "dark"
-                                                                        ? "bg-indigo-500"
-                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                                >
-                                                                    <span className="text-white font-mono">
-                                                                        Minting {" "}
-                                                                        <svg
-                                                                            aria-hidden="true"
-                                                                            className="inline w-6 h-6 ml-3 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                                                            viewBox="0 0 100 101"
-                                                                            fill="none"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                        >
-                                                                            <path
-                                                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                                                fill="currentColor"
-                                                                            />
-                                                                            <path
-                                                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                                                fill="currentFill"
-                                                                            />
-                                                                        </svg>
-                                                                    </span>
-                                                                </button>
-                                                                :
-                                                                <button
-                                                                    onClick={mintLaunchNFT}
-                                                                    className={`${(theme = "dark"
-                                                                        ? "bg-indigo-500"
-                                                                        : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                                >
-                                                                    <span className="text-white font-mono">Mint {phaseMintedCount >= selected_phase?.maxMint && "🔒"}</span>
-                                                                </button>
-                                                        ) : (
-                                                            <button
-                                                                onClick={() => alert("You are not eligible to mint in this phase!!")}
-                                                                className={`${(theme = "dark"
-                                                                    ? "bg-indigo-500"
-                                                                    : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                            >
-                                                                <span className="text-white font-mono">Not Eligible ❌</span>
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                )}
-                                            </div>
+                                                </div>
+                                                :
+                                                <div className="flex w-[100%] mt-4">
+                                                    <button
+                                                        onClick={() => connectWallet()}
+                                                        className={`${(theme = "dark"
+                                                            ? "bg-indigo-500"
+                                                            : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                    >
+                                                        <span className="text-white font-mono">Connect Wallet</span>
+                                                    </button>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* user mints  */}
                                 {userMints == true &&
-                                    <div className={`flex flex-col w-[100%] my-2 p-4 justify-between border-2 border-[#7e7e7e] rounded-[13px]`}>
+                                    <div className={`dark:bg-jacarta-900 lg:w-4/5 mx-auto flex flex-col w-[100%] my-2 mt-12 p-4 justify-between shadow-md shadow-[#dcdcdc] dark:shadow-[#0D102D] rounded-[13px] `}>
                                         <h2 className="text-lg text-jacarta-700 dark:text-white tracking-widest font-bold font-mono">Your Mints 🎉</h2>
-                                        <p className="text-sm text-jacarta-700 dark:text-white tracking-widest font-normal mb-2">It might take few minutes to update your latest minted NFTs here!</p>
                                         <div className="flex flex-wrap justify-start align-middle">
                                             {mintedNFTsArray?.map((nft) => (
                                                 <Link href={`/nft/${nft?.NFTAddress}`} key={nft?._id}>
@@ -833,7 +853,7 @@ const launchpad = ({
                                         <div className="mb-2 flex items-center justify-between">
                                             <span className="font-display text-[18px] font-semibold text-jacarta-700 dark:text-white">
                                                 You have successfully minted {mintCount} {collectionData?.name} NFT for {selected_phase?.mintPrice}{" "}
-                                                VENOM <br /> <span className="font-mono text-[16px] font-light text-jacarta-700 dark:text-white">(You can view the minted NFTs on this page and your profile in few mins ⌛)</span>
+                                                VENOM <br /> <span className="font-mono text-[16px] font-light text-jacarta-700 dark:text-white">(You can view the minted NFTs on this page and in your profile as well :)</span>
                                             </span>
                                         </div>
                                     </div>

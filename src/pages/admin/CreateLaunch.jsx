@@ -46,7 +46,9 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                 maxMint: "",
                 mintPrice: "",
                 startDate: "",
+                startDateUNIX: "",
                 EndDate: "",
+                EndDateUNIX: "",
                 EligibleWallets: ""
             }
         ]
@@ -71,6 +73,14 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
     const handle_change_phases = (index, e) => {
         const values = [...data.phases];
         values[index][e.target.name] = e.target.value;
+        if (e.target.name == "startDate") {
+            const unixTimestamp = Date.parse(e.target.value) / 1000;
+            values[index]["startDateUNIX"] = [unixTimestamp];
+        }
+        if (e.target.name == "EndDate") {
+            const unixTimestamp = Date.parse(e.target.value) / 1000;
+            values[index]["EndDateUNIX"] = [unixTimestamp];
+        }
         if (e.target.name == "EligibleWallets") {
             values[index][e.target.name] = [e.target.value];
         }
@@ -85,7 +95,9 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                 maxMint: "",
                 mintPrice: "",
                 startDate: "",
+                startDateUNIX: "",
                 EndDate: "",
+                EndDateUNIX: "",
                 EligibleWallets: [""]
             }],
         });
@@ -454,7 +466,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
                                             Collection Contract Address
-                                            <span className="text-red">*</span>
                                         </label>
                                         <input
                                             onChange={handleChange}
@@ -473,7 +484,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
-                                            Creator Address<span className="text-red">*</span>
+                                            Creator Address
                                         </label>
                                         <input
                                             onChange={handleChange}
@@ -485,7 +496,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                 } `}
                                             placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -497,7 +507,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
-                                            Royalty Address<span className="text-red">*</span>
+                                            Royalty Address
                                         </label>
                                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                                             Creator will get his royalty commissions on royalty address
@@ -512,7 +522,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                 } `}
                                             placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                                            required
                                         />
                                     </div>
                                     <div className="w-[350px] m-3">
@@ -520,7 +529,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
-                                            Creator Royalty (%)<span className="text-red">*</span>
+                                            Creator Royalty (%)
                                         </label>
                                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                                             If you set a royalty here, you will get X percent of sales
@@ -538,7 +547,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                 } `}
                                             placeholder="Eg: 5%"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -573,7 +581,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
-                                            JSON URL<span className="text-red">*</span>
+                                            JSON URL
                                         </label>
                                         <p className="mb-3 text-2xs dark:text-jacarta-300">
                                             Please enter your JSON url (metadata for NFTs)
@@ -588,7 +596,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                 } `}
                                             placeholder="ipfs.io/ipfs/QmNf1UsmdGaMbpatQ6toXSkzDpizaGmC9zfunCyoz1enD5/wilds/{id}.json"
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -748,6 +755,9 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                                                 }`}
                                                                         />
+                                                                        {data.phases[index].startDateUNIX &&
+                                                                            <p className="absolute top-[78px] block text-[16px] text-jacarta-700 dark:text-white">Start Unix - <span className="font-display">{data.phases[index].startDateUNIX}</span></p>
+                                                                        }
                                                                     </div>
 
                                                                     <div className="flex-1">
@@ -764,10 +774,13 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                                 : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
                                                                                 }`}
                                                                         />
+                                                                        {data.phases[index].EndDateUNIX &&
+                                                                            <p className="absolute top-[78px] block text-[16px] text-jacarta-700 dark:text-white">End Unix - <span className="font-display">{data.phases[index].EndDateUNIX}</span></p>
+                                                                        }
                                                                     </div>
                                                                 </div>
 
-                                                                <div className="relative my-3 flex items-center w-[100%]">
+                                                                <div className="relative my-3 flex items-center w-[100%] mt-8">
                                                                     <div className="flex-1 w-[100%]">
                                                                         <p className="block font-display text-jacarta-700 dark:text-white">Eligible wallets</p>
                                                                         <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
