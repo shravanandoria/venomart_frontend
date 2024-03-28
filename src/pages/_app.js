@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }) {
   const webURL = "https://venomart.io/";
   const blockURL = "https://venomscan.com/";
   const GQLEndpoint = "https://gql.venom.foundation/graphql";
-  const apiFetchURL = "https://testnet-api.venomscan.com/v1/accounts";
+  const apiFetchURL = "https://api.venomscan.com/v1/accounts";
   const NFTImagesBaseURI = "https://venomart.ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
   const defTheme = "dark";
