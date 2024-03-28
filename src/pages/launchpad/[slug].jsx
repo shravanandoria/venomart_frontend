@@ -170,6 +170,12 @@ const launchpad = ({
         }
     };
 
+    // converting to localtime 
+    function convertUTCToLocal(utcDate) {
+        const userTimeZoneOffset = new Date().getTimezoneOffset() * 60000; // Offset in milliseconds
+        return new Date(utcDate - userTimeZoneOffset);
+    }
+
     // getting launchpad data
     const getLaunchpadData = async () => {
         setLoading(true);
@@ -781,7 +787,7 @@ const launchpad = ({
                                                                     className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
                                                                         }`}
                                                                 >
-                                                                    <Timer date={phase?.EndDate} />
+                                                                    <Timer date={new Date(phase?.EndDate)} />
                                                                 </span>
                                                             </div>
                                                         )}
@@ -794,7 +800,7 @@ const launchpad = ({
                                                                     className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
                                                                         }`}
                                                                 >
-                                                                    <Timer date={phase?.startDate} />
+                                                                    <Timer date={new Date(phase?.startDate)} />
                                                                 </span>
                                                             </div>
                                                         )}
