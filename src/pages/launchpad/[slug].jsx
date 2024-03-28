@@ -351,14 +351,14 @@ const launchpad = ({
 
     // get phase wise minted NFTs count 
     const getPhaseWiseMinted = async () => {
-        if (!venomProvider || !collectionData) return;
+        if (!venomProvider || !collectionData || !signer_address) return;
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
 
     // get user wallet mints
     const getUserWalletMints = async () => {
-        if (!collectionData) return;
+        if (!collectionData || !signer_address) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
         setOffChainMintedNFTsLength(walletMints?.length);
         if (walletMints != "") {
