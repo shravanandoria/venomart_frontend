@@ -61,7 +61,7 @@ const launchpad = ({
     function convertDBTimeToLocal(dbTime) {
         const date = new Date(dbTime);
         const localMoment = moment(date).local();
-        const formattedLocalTime = localMoment.format('YYYY-MM-DD HH:mm:ss');
+        const formattedLocalTime = localMoment.format('MM/DD/YYYY HH:mm:ss [GMT]Z');
         return formattedLocalTime;
     }
 
@@ -177,12 +177,6 @@ const launchpad = ({
             setMintCount(mintCount - 1);
         }
     };
-
-    // converting to localtime 
-    function convertUTCToLocal(utcDate) {
-        const userTimeZoneOffset = new Date().getTimezoneOffset() * 60000; // Offset in milliseconds
-        return new Date(utcDate - userTimeZoneOffset);
-    }
 
     // getting launchpad data
     const getLaunchpadData = async () => {
