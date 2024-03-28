@@ -366,7 +366,7 @@ const launchpad = ({
 
     // get user wallet mints
     const getUserWalletMints = async () => {
-        if (!collectionData || !signer_address) return;
+        if (!collectionData) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
         setOffChainMintedNFTsLength(walletMints?.length);
         if (walletMints != "") {
@@ -402,8 +402,7 @@ const launchpad = ({
             const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
             if (launchMint) {
                 setTimeout(async () => {
-                    setFetchAfterMint(true);
-                    setMintLoading(false);
+                    await fetch_user_nfts();
                 }, 2000);
             }
         } catch (error) {
@@ -416,7 +415,6 @@ const launchpad = ({
     const { client } = useContext(TonClientContext);
 
     const fetch_user_nfts = async () => {
-        if (fetchAfterMint == false) return;
         setMintLoading(true);
         // fetching nfts onchain 
         const res = await loadNFTs_user(
@@ -428,8 +426,7 @@ const launchpad = ({
         );
         let new_nfts = [];
         res?.nfts
-            ?.sort((a, b) => b.last_paid - a.last_paid)
-            .filter((e) => e.collection?._address == collectionData?.contractAddress)
+            ?.filter((e) => e.collection?._address == collectionData?.contractAddress)
             .map((e, index) => {
                 try {
                     new_nfts.push({ ...JSON.parse(e.json), ...e });
@@ -448,7 +445,6 @@ const launchpad = ({
                         let attributes = JSONReq.data.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         setAfterMint(true);
-                        getPhaseWiseMinted();
                         setMintLoading(false);
                     } catch (error) {
                         console.log(error);
@@ -460,13 +456,11 @@ const launchpad = ({
                 throw error;
             }
         }
+        else {
+            setAfterMint(true);
+            setMintLoading(false);
+        }
     };
-
-
-
-    useEffect(() => {
-        fetch_user_nfts();
-    }, [fetchAfterMint]);
 
     useEffect(() => {
         if (!slug) return;
@@ -478,7 +472,7 @@ const launchpad = ({
         getMintedSupply();
         updateMintStatus();
         getUserWalletMints();
-    }, [venomProvider, collectionData]);
+    }, [venomProvider, collectionData, signer_address]);
 
     useEffect(() => {
         selectPhaseFunction();

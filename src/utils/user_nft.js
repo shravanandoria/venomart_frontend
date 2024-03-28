@@ -303,7 +303,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, o
             ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
           }
           orderBy: [{ path: "last_paid", direction: DESC }]
-          limit: 25
+          limit: 35
         ) {
           id
           balance(format: DEC)
@@ -321,7 +321,7 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, o
             ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
           }
           orderBy: [{ path: "last_paid", direction: ASC }]
-          limit: 15
+          limit: 35
         ) {
           id
           balance(format: DEC)

@@ -15,17 +15,18 @@ import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
-import { fetch_user_listed_nfts } from "../../utils/mongo_api/nfts/nfts";
+import { addNFTViaOnchainLaunchpad, fetch_user_listed_nfts, refreshUserNFTs } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import BuyModal from "../../components/modals/BuyModal";
 
-// import { TonClientContext } from "../../context/tonclient";
+import { TonClientContext } from "../../context/tonclient";
 import { search_user_nfts } from "../../utils/mongo_api/search";
 import { get_user_collections } from "../../utils/mongo_api/collection/collection";
 import { IoHandLeftOutline } from "react-icons/io5";
+import axios from "axios";
 
 const Profile = ({
   theme,
@@ -227,7 +228,7 @@ const Profile = ({
     setMoreLoading(false);
   };
 
-  // const { client } = useContext(TonClientContext);
+  const { client } = useContext(TonClientContext);
 
   // getting owned nfts
   const fetch_user_nfts = async () => {
@@ -257,6 +258,47 @@ const Profile = ({
     setFetchedOwnedNFTs(true);
     set_nfts(new_nfts);
     setMoreLoading(false);
+  };
+
+  const refresh_user_nfts = async () => {
+    set_loading(true);
+    const res = await loadNFTs_user(
+      venomProvider,
+      signer_address,
+      undefined,
+      client,
+      "newestFirst"
+    );
+    let new_nfts = [];
+    res?.nfts
+      ?.sort((a, b) => b.last_paid - a.last_paid)
+      .map((e, index) => {
+        try {
+          new_nfts.push({ ...JSON.parse(e.json), ...e });
+        } catch (error) {
+          new_nfts.push({ ...e });
+        }
+      });
+
+    if (new_nfts != "") {
+      try {
+        const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+          let jsonURL = nft?.files[0].source;
+          try {
+            const JSONReq = await axios.get(jsonURL);
+            let attributes = JSONReq?.data?.attributes;
+            const createdNFT = await refreshUserNFTs(nft, attributes, signer_address);
+            alert("your profile has been refreshed with all the latest NFTs");
+            router.reload();
+          } catch (error) {
+            console.log(error);
+          }
+        }));
+      } catch (error) {
+        console.error('Error adding NFTs to the database:', error);
+        throw error;
+      }
+    }
   };
 
   // handling for sale nfts more fetch
@@ -818,6 +860,15 @@ const Profile = ({
           <div>
             <div className="tab-content">
               <div className="tab-pane fade show active">
+                <div>
+                  {(slug == signer_address) && (
+                    <div className="container relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>
+                      <div className="group absolute right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
+                        <span className="mt-0.5 block group-hover:text-white">Refresh NFTs ⟳</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div>
                   {/* filters  */}
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
