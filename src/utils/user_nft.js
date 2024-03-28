@@ -399,19 +399,6 @@ export const list_nft = async (
   royaltyPercent,
   royaltyAddress
 ) => {
-  console.log({
-    prev_nft_Owner,
-    prev_nft_Manager,
-    nft_address,
-    collection_address,
-    price,
-    venomProvider,
-    signer_address,
-    nft,
-    onchainNFTData,
-    royaltyPercent,
-    royaltyAddress
-  })
   try {
     // checking nft owners across database and onchain
     if (!onchainNFTData) {
@@ -437,8 +424,7 @@ export const list_nft = async (
         answerId: 0,
         price: parseFloat(price) * ONE_VENOM,
         royalty: parseFloat(royaltyPercent) * 1000,
-        royalty_address: royaltyAddress,
-        col_addr: collection_address
+        royalty_address: royaltyAddress
       })
       .call();
 

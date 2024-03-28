@@ -59,8 +59,7 @@
 				{"name":"answerId","type":"uint32"},
 				{"name":"price","type":"uint128"},
 				{"name":"royalty","type":"uint128"},
-				{"name":"royalty_address","type":"address"},
-				{"name":"col_addr","type":"address"}
+				{"name":"royalty_address","type":"address"}
 			],
 			"outputs": [
 				{"name":"payload","type":"cell"}
@@ -150,6 +149,22 @@
 			"name": "update_remain_on_contract",
 			"inputs": [
 				{"name":"new_remain_on_contract","type":"uint128"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_pause_trading",
+			"inputs": [
+				{"name":"new_status","type":"bool"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "update_fee_receiver",
+			"inputs": [
+				{"name":"new_fee_receiver","type":"address"}
 			],
 			"outputs": [
 			]
