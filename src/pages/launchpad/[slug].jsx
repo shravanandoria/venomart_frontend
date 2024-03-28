@@ -202,7 +202,11 @@ const launchpad = ({
         const updatedPhases = launchpaddata?.phases.map((phase, index) => {
             let eligibleWallets = [];
             if (phase.EligibleWallets != "") {
-                eligibleWallets = JSON.parse(phase.EligibleWallets);
+                try {
+                    eligibleWallets = JSON.parse(phase.EligibleWallets);
+                } catch (error) {
+                    console.log(error)
+                }
             }
             const isUserWalletEligible = eligibleWallets.includes(signer_address);
             return {
