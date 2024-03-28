@@ -27,7 +27,8 @@ const Navbar = ({
   blockURL,
   vnmBalance,
   setVnmBalance,
-  adminAccount
+  adminAccount,
+  OtherImagesBaseURI
 }) => {
   const router = useRouter();
 

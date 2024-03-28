@@ -10,6 +10,7 @@ const launchpad_contract = (provider, launchpad_address) => {
 
 // main mint function to mint NFT
 export const launchpad_mint = async (provider, launchpad_address, signer_address, amount_to_mint, current_phase) => {
+  console.log({ provider, launchpad_address, signer_address, amount_to_mint, current_phase })
   const launchpad = launchpad_contract(provider, launchpad_address);
   const req_amount = await launchpad.methods
     .cal_minting_amount({

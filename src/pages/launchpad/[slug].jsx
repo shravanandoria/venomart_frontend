@@ -108,10 +108,16 @@ const launchpad = ({
         if (e.target.name == "startDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
             values[index]["startDateUNIX"] = [unixTimestamp];
+
+            const newDate = convertDBTimeToLocal(e.target.value);
+            values[index]["startDateGMT"] = [newDate];
         }
         if (e.target.name == "EndDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
             values[index]["EndDateUNIX"] = [unixTimestamp];
+
+            const newDate = convertDBTimeToLocal(e.target.value);
+            values[index]["EndDateGMT"] = [newDate];
         }
         if (e.target.name == "EligibleWallets") {
             values[index][e.target.name] = [e.target.value];
@@ -165,7 +171,7 @@ const launchpad = ({
 
     // handling mint count
     const handlemintCountInc = () => {
-        if (mintCount >= (selected_phase?.maxMint - phaseMintedCount)) return alert(`You only have ${selected_phase?.maxMint - phaseMintedCount} mints left in this phase!`);
+        if (mintCount >= (selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount))) return alert(`You only have ${selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount)} mints left in this phase!`);
         if (mintCount < selected_phase?.maxMint) {
             setMintCount(mintCount + 1);
         } else {
@@ -382,7 +388,7 @@ const launchpad = ({
     const mintLaunchNFT = async () => {
         if (!venomProvider) return;
         // conditions 
-        if (phaseMintedCount >= selected_phase?.maxMint) return (alert("You have max minted in this phase!!"));
+        if ((phaseMintedCount || mintedNFTsArray?.length) >= selected_phase?.maxMint) return (alert("You have max minted in this phase!!"));
         if (!signer_address) {
             connectWallet();
         }
@@ -838,7 +844,7 @@ const launchpad = ({
 
                                                                 <div className="relative items-center">
                                                                     <div className={`whitespace-nowrap absolute right-[4px] top-[-26px] text-[15px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
-                                                                        }`}>({phaseMintedCount}/{selected_phase?.maxMint}) Minted</div>
+                                                                        }`}>({(mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount)}/{selected_phase?.maxMint}) Minted</div>
                                                                     <div className="inline-flex items-center">
                                                                         <button
                                                                             className="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
@@ -857,7 +863,7 @@ const launchpad = ({
                                                                         <div className="bg-white border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none">
                                                                             {mintCount}
                                                                         </div>
-                                                                        {phaseMintedCount == selected_phase?.maxMint ?
+                                                                        {(mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount) == selected_phase?.maxMint ?
                                                                             <button
                                                                                 className="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
                                                                                 onClick={() => alert("You have max minted in the selected phase!")}
@@ -957,12 +963,12 @@ const launchpad = ({
                                                                     </button>
                                                                     :
                                                                     <button
-                                                                        onClick={mintLaunchNFT}
+                                                                        onClick={() => (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount) >= selected_phase?.maxMint ? alert("You have max minted!") : mintLaunchNFT()}
                                                                         className={`${(theme = "dark"
                                                                             ? "bg-indigo-500"
                                                                             : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
                                                                     >
-                                                                        <span className="text-white font-mono">Mint {phaseMintedCount >= selected_phase?.maxMint && "🔒"}</span>
+                                                                        <span className="text-white font-mono">Mint {(mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount) >= selected_phase?.maxMint && "🔒"}</span>
                                                                     </button>
                                                             ) : (
                                                                 <button
