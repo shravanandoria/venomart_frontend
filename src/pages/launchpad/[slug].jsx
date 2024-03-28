@@ -57,6 +57,14 @@ const launchpad = ({
 
     const [preview, set_preview] = useState({ logo: "", coverImage: "" });
 
+    // converting time here 
+    function convertDBTimeToLocal(dbTime) {
+        const date = new Date(dbTime);
+        const localMoment = moment(date).local();
+        const formattedLocalTime = localMoment.format('YYYY-MM-DD HH:mm:ss');
+        return formattedLocalTime;
+    }
+
     // edit launchpad data
     const [data, set_data] = useState({
         logo: "",
@@ -220,8 +228,8 @@ const launchpad = ({
                 phaseName: phase.phaseName,
                 maxMint: phase.maxMint,
                 mintPrice: phase.mintPrice,
-                startDate: phase.startDate,
-                EndDate: phase.EndDate,
+                startDate: convertDBTimeToLocal(phase.startDate),
+                EndDate: convertDBTimeToLocal(phase.EndDate),
                 EligibleWallets: eligibleWallets,
                 mintEligibility: isUserWalletEligible,
             };
@@ -245,8 +253,8 @@ const launchpad = ({
             phaseName: launchpaddata?.phases[0]?.phaseName,
             maxMint: launchpaddata?.phases[0]?.maxMint,
             mintPrice: launchpaddata?.phases[0]?.mintPrice,
-            startDate: launchpaddata?.phases[0]?.startDate,
-            EndDate: launchpaddata?.phases[0]?.EndDate,
+            startDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.startDate),
+            EndDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.EndDate),
             EligibleWallets: defaultEligibleWallets,
             mintEligibility: isUserWalletEligible,
         };
@@ -262,8 +270,8 @@ const launchpad = ({
         if (!collectionData || collectionData != "" || collectionData.pageName === "" || !collectionData.phases || !signer_address) return;
         const endLength = collectionData?.phases?.length - 1;
 
-        const startDate = new Date(collectionData.phases[0].startDate);
-        const endDate = new Date(collectionData.phases[endLength].EndDate);
+        const startDate = new Date(convertDBTimeToLocal(collectionData.phases[0].startDate));
+        const endDate = new Date(convertDBTimeToLocal(collectionData.phases[endLength].EndDate));
         const today = new Date();
 
         if (startDate > today && collectionData.status != "upcoming") {
@@ -342,8 +350,8 @@ const launchpad = ({
             phaseName: phase?.phaseName,
             maxMint: phase?.maxMint,
             mintPrice: phase?.mintPrice,
-            startDate: phase?.startDate,
-            EndDate: phase?.EndDate,
+            startDate: convertDBTimeToLocal(phase?.startDate),
+            EndDate: convertDBTimeToLocal(phase?.EndDate),
             mintEligibility: phase?.mintEligibility,
             EligibleWallets: phase?.EligibleWallets,
         });
@@ -351,7 +359,7 @@ const launchpad = ({
 
     // get phase wise minted NFTs count 
     const getPhaseWiseMinted = async () => {
-        if (!venomProvider || !collectionData || !signer_address) return;
+        if (!venomProvider || !collectionData) return;
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
@@ -384,7 +392,7 @@ const launchpad = ({
         if (!signer_address) {
             connectWallet();
         }
-        if (new Date(selected_phase?.EndDate) < new Date()) {
+        if (new Date(convertDBTimeToLocal(selected_phase?.EndDate)) < new Date()) {
             alert(`Minting for ${selected_phase?.phaseName} has ended!!`);
             return;
         }
@@ -778,7 +786,7 @@ const launchpad = ({
                                                                 <p className={`text-[14px] font-mono text-red-400`}>Not Eligible</p>
                                                             )}
                                                         </div>
-                                                        {new Date(phase?.startDate) < new Date() && new Date(phase?.EndDate) > new Date() && (
+                                                        {new Date(convertDBTimeToLocal(phase?.startDate)) < new Date() && new Date(convertDBTimeToLocal(phase?.EndDate)) > new Date() && (
                                                             <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
                                                                 <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                     Ends In
@@ -787,11 +795,11 @@ const launchpad = ({
                                                                     className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
                                                                         }`}
                                                                 >
-                                                                    <Timer date={new Date(phase?.EndDate)} />
+                                                                    <Timer date={new Date(convertDBTimeToLocal(phase?.EndDate))} />
                                                                 </span>
                                                             </div>
                                                         )}
-                                                        {new Date(phase?.startDate) > new Date() && (
+                                                        {new Date(convertDBTimeToLocal(phase?.startDate)) > new Date() && (
                                                             <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
                                                                 <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                     Starts In
@@ -800,11 +808,11 @@ const launchpad = ({
                                                                     className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
                                                                         }`}
                                                                 >
-                                                                    <Timer date={new Date(phase?.startDate)} />
+                                                                    <Timer date={new Date(convertDBTimeToLocal(phase?.startDate))} />
                                                                 </span>
                                                             </div>
                                                         )}
-                                                        {new Date(phase?.EndDate) < new Date() && (
+                                                        {new Date(convertDBTimeToLocal(phase?.EndDate)) < new Date() && (
                                                             <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
                                                                 <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                     Phase Ended
@@ -821,7 +829,7 @@ const launchpad = ({
                                                     {/* price  */}
                                                     {!(
                                                         new Date(
-                                                            collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                            collectionData && convertDBTimeToLocal(collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate),
                                                         ) < new Date()
                                                     ) && (
                                                             <div className="flex justify-between w-[100%]">
@@ -903,7 +911,7 @@ const launchpad = ({
 
                                                     {/* mint btn  */}
                                                     {new Date(
-                                                        collectionData && collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate,
+                                                        collectionData && convertDBTimeToLocal(collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate),
                                                     ) < new Date() ? (
                                                         <div className="flex w-[100%] mt-4">
                                                             <button
@@ -917,7 +925,7 @@ const launchpad = ({
                                                         </div>
                                                     ) : (
                                                         <div className="flex w-[100%] mt-4">
-                                                            {new Date(selected_phase?.startDate) > new Date() ? (
+                                                            {new Date(convertDBTimeToLocal(selected_phase?.startDate)) > new Date() ? (
                                                                 <button
                                                                     onClick={() => alert("Minting in this phase has not started yet!")}
                                                                     className={`${(theme = "dark"
