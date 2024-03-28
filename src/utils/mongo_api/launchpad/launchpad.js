@@ -33,6 +33,31 @@ export const create_launchpad_collection = async (data) => {
   }
 };
 
+export const update_launchpad_collection = async (data) => {
+  let obj = {
+    logo: data.logo,
+    coverImage: data.coverImage,
+    name: data.name,
+    pageName: data.pageName,
+    description: data.description,
+    contractAddress: data.contractAddress,
+    creatorAddress: data.creatorAddress,
+    socials: [data.website, data.twitter, data.discord, data.telegram],
+    jsonURL: data.jsonURL,
+    phases: data.phases
+  };
+
+  try {
+    const res = await axios({
+      url: "/api/launchpad/launchpad",
+      method: "PUT",
+      data: { ...obj },
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const get_launchpad_by_name = async (name) => {
   try {
     const res = await axios({

@@ -94,6 +94,42 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false, data: error.message });
         }
         break;
+      case "PUT":
+        try {
+          const {
+            logo,
+            coverImage,
+            name,
+            pageName,
+            description,
+            contractAddress,
+            creatorAddress,
+            socials,
+            jsonURL,
+            phases
+          } = req.body;
+
+          // updating launchpad 
+          const launchpad = await Launchpad.updateOne(
+            { pageName },
+            {
+              logo,
+              coverImage,
+              name,
+              description,
+              contractAddress,
+              creatorAddress,
+              socials,
+              jsonURL,
+              phases
+            }
+          );
+
+          res.status(200).json({ success: true, data: "Successfully updated the launchpad event!" });
+        } catch (error) {
+          res.status(400).json({ success: false, data: error.message });
+        }
+        break;
 
       default:
         res.status(400).json({ success: false });
