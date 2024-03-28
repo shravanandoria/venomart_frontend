@@ -42,7 +42,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 // all contract address here up
-
+  
 // ---- all functions used for rpc or graphql nft fetch ----
 export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
