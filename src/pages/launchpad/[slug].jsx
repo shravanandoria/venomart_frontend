@@ -748,7 +748,7 @@ const launchpad = ({
                                             <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>
                                                 <div
                                                     className={`bg-indigo-500 p-0.5 h-[12px] text-center text-xs font-medium text-white rounded-lg`}
-                                                    style={{ width: mintedPercent ? mintedPercent : 0 + "%" }}
+                                                    style={{ width: (mintedPercent ? mintedPercent : 0) + "%" }}
                                                 ></div>
                                             </div>
 
