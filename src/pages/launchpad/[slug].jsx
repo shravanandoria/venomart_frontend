@@ -258,12 +258,11 @@ const launchpad = ({
         setCollectionData(updatedLaunchpadData);
 
         // setting default phase info
-        const defaultPhaseData = launchpaddata?.phases[0];
-        const defaultEligibleWallets = JSON.parse(launchpaddata?.phases[0]?.EligibleWallets);
+        let defaultPhaseData = launchpaddata?.phases[0];
+        let defaultEligibleWallets = JSON.parse(launchpaddata?.phases[0]?.EligibleWallets);
+        let isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
 
-        const isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
-
-        const def_data = {
+        let def_data = {
             id: 0,
             phaseName: launchpaddata?.phases[0]?.phaseName,
             maxMint: launchpaddata?.phases[0]?.maxMint,
@@ -275,6 +274,94 @@ const launchpad = ({
             EligibleWallets: defaultEligibleWallets,
             mintEligibility: isUserWalletEligible,
         };
+
+        if (new Date() < new Date(convertDBTimeToLocal(launchpaddata?.phases[0]?.EndDate))) {
+            defaultPhaseData = launchpaddata?.phases[0];
+            defaultEligibleWallets = JSON.parse(launchpaddata?.phases[0]?.EligibleWallets);
+            isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
+            def_data = {
+                id: 0,
+                phaseName: launchpaddata?.phases[0]?.phaseName,
+                maxMint: launchpaddata?.phases[0]?.maxMint,
+                mintPrice: launchpaddata?.phases[0]?.mintPrice,
+                startDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.startDate),
+                startDateUNIX: launchpaddata?.phases[0]?.startDateUNIX,
+                EndDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.EndDate),
+                EndDateUNIX: launchpaddata?.phases[0]?.EndDateUNIX,
+                EligibleWallets: defaultEligibleWallets,
+                mintEligibility: isUserWalletEligible,
+            };
+        }
+        else if ((new Date() > new Date(convertDBTimeToLocal(launchpaddata?.phases[0]?.EndDate))) && (new Date() < new Date(convertDBTimeToLocal(launchpaddata?.phases[1]?.EndDate)))) {
+            defaultPhaseData = launchpaddata?.phases[1];
+            defaultEligibleWallets = launchpaddata?.phases[1]?.EligibleWallets != "" ? JSON.parse(launchpaddata?.phases[1]?.EligibleWallets) : [""];
+            isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
+            def_data = {
+                id: 1,
+                phaseName: launchpaddata?.phases[1]?.phaseName,
+                maxMint: launchpaddata?.phases[1]?.maxMint,
+                mintPrice: launchpaddata?.phases[1]?.mintPrice,
+                startDate: convertDBTimeToLocal(launchpaddata?.phases[1]?.startDate),
+                startDateUNIX: launchpaddata?.phases[1]?.startDateUNIX,
+                EndDate: convertDBTimeToLocal(launchpaddata?.phases[1]?.EndDate),
+                EndDateUNIX: launchpaddata?.phases[1]?.EndDateUNIX,
+                EligibleWallets: defaultEligibleWallets,
+                mintEligibility: isUserWalletEligible,
+            };
+        }
+        else if ((new Date() > new Date(convertDBTimeToLocal(launchpaddata?.phases[1]?.EndDate))) && (new Date() < new Date(convertDBTimeToLocal(launchpaddata?.phases[2]?.EndDate)))) {
+            defaultPhaseData = launchpaddata?.phases[2];
+            defaultEligibleWallets = launchpaddata?.phases[2]?.EligibleWallets != "" ? JSON.parse(launchpaddata?.phases[2]?.EligibleWallets) : [""];
+            isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
+            def_data = {
+                id: 2,
+                phaseName: launchpaddata?.phases[2]?.phaseName,
+                maxMint: launchpaddata?.phases[2]?.maxMint,
+                mintPrice: launchpaddata?.phases[2]?.mintPrice,
+                startDate: convertDBTimeToLocal(launchpaddata?.phases[2]?.startDate),
+                startDateUNIX: launchpaddata?.phases[2]?.startDateUNIX,
+                EndDate: convertDBTimeToLocal(launchpaddata?.phases[2]?.EndDate),
+                EndDateUNIX: launchpaddata?.phases[2]?.EndDateUNIX,
+                EligibleWallets: defaultEligibleWallets,
+                mintEligibility: isUserWalletEligible,
+            };
+        }
+        else if ((new Date() > new Date(convertDBTimeToLocal(launchpaddata?.phases[2]?.EndDate))) && (new Date() < new Date(convertDBTimeToLocal(launchpaddata?.phases[3]?.EndDate)))) {
+            defaultPhaseData = launchpaddata?.phases[3];
+            defaultEligibleWallets = launchpaddata?.phases[3]?.EligibleWallets != "" ? JSON.parse(launchpaddata?.phases[3]?.EligibleWallets) : [""];
+            isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
+            def_data = {
+                id: 3,
+                phaseName: launchpaddata?.phases[3]?.phaseName,
+                maxMint: launchpaddata?.phases[3]?.maxMint,
+                mintPrice: launchpaddata?.phases[3]?.mintPrice,
+                startDate: convertDBTimeToLocal(launchpaddata?.phases[3]?.startDate),
+                startDateUNIX: launchpaddata?.phases[3]?.startDateUNIX,
+                EndDate: convertDBTimeToLocal(launchpaddata?.phases[3]?.EndDate),
+                EndDateUNIX: launchpaddata?.phases[3]?.EndDateUNIX,
+                EligibleWallets: defaultEligibleWallets,
+                mintEligibility: isUserWalletEligible,
+            };
+        }
+        else {
+            if (launchpaddata.phases[4] != undefined) {
+                defaultPhaseData = launchpaddata?.phases[4];
+                defaultEligibleWallets = launchpaddata?.phases[4]?.EligibleWallets != "" ? JSON.parse(launchpaddata?.phases[4]?.EligibleWallets) : [""];
+                isUserWalletEligible = defaultEligibleWallets.includes(signer_address);
+                def_data = {
+                    id: 4,
+                    phaseName: launchpaddata?.phases[4]?.phaseName,
+                    maxMint: launchpaddata?.phases[4]?.maxMint,
+                    mintPrice: launchpaddata?.phases[4]?.mintPrice,
+                    startDate: convertDBTimeToLocal(launchpaddata?.phases[4]?.startDate),
+                    startDateUNIX: launchpaddata?.phases[4]?.startDateUNIX,
+                    EndDate: convertDBTimeToLocal(launchpaddata?.phases[4]?.EndDate),
+                    EndDateUNIX: launchpaddata?.phases[4]?.EndDateUNIX,
+                    EligibleWallets: defaultEligibleWallets,
+                    mintEligibility: isUserWalletEligible,
+                };
+            }
+        }
         set_selected_phase(def_data);
         updateMintStatus();
         setTimeout(() => {

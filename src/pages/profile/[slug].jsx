@@ -290,8 +290,8 @@ const Profile = ({
             const JSONReq = await axios.get(jsonURL);
             let attributes = JSONReq?.data?.attributes;
             const createdNFT = await refreshUserNFTs(nft, attributes, signer_address);
-            alert("your profile has been refreshed with all the latest NFTs");
-            router.reload();
+            // alert("your profile has been refreshed with all the latest NFTs");
+            // router.reload();
           } catch (error) {
             console.log(error);
           }
