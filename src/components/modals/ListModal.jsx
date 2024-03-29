@@ -84,7 +84,8 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                             ) : (
                                 <input
                                     required
-                                    type="text"
+                                    type="number"
+                                    min={0.05}
                                     onChange={(e) => (
                                         set_listing_price(e.target.value),
                                         setCreatorRoyalty(
