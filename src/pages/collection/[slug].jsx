@@ -415,16 +415,7 @@ const Collection = ({
     }
 
     if (nfts_offchain == undefined || nfts_offchain.length <= 0) {
-      // fetch using RPC
       const nfts_onchain = await loadNFTs_collection_RPC(venomProvider, slug, lastNFT);
-
-      // fetch using GRAPHQL
-      // const nfts_onchain = await loadNFTs_collection(
-      //   venomProvider,
-      //   slug,
-      //   undefined,
-      //   client
-      // );
       setOnChainData(true);
       setLastNFT(nfts_onchain?.continuation);
       set_nfts(nfts_onchain?.nfts);
@@ -554,6 +545,14 @@ const Collection = ({
   const fetchAndAddNFTsToDB = async () => {
     if (adminPermittedAction === false) return;
     try {
+      // fetch using GRAPHQL
+      // const res = await loadNFTs_collection(
+      //   venomProvider,
+      //   slug,
+      //   client,
+      //   undefined
+      // );
+      // fetching using RPC 
       const res = await loadNFTs_collection_RPC(venomProvider, slug, BlukAdditionLastNFT);
       if (!res || !res.nfts.length) return;
       await addNFTsToDB(res.nfts);
@@ -575,21 +574,6 @@ const Collection = ({
       throw error;
     }
   };
-
-  // useEffect to trigger the fetching and adding of NFTs after BlukAdditionLastNFT is updated
-  useEffect(() => {
-    if (BlukAdditionLastNFT == undefined) {
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      await fetchAndAddNFTsToDB();
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setLoading(false);
-    };
-    fetchData();
-  }, [BlukAdditionLastNFT]);
-
 
   // fetching and updating latest NFT count of collection 
   const fetchAndUpdateNFTsCount = async () => {
@@ -775,6 +759,21 @@ const Collection = ({
   }
 
   // use effects
+
+  // useEffect to trigger the fetching and adding of NFTs after BlukAdditionLastNFT is updated
+  useEffect(() => {
+    if (BlukAdditionLastNFT == undefined) {
+      return;
+    }
+    const fetchData = async () => {
+      setLoading(true);
+      await fetchAndAddNFTsToDB();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setLoading(false);
+    };
+    fetchData();
+  }, [BlukAdditionLastNFT]);
+
   useEffect(() => {
     const timer = setTimeout(async () => {
       set_isTyping(false);

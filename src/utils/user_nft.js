@@ -56,12 +56,13 @@ export const getCollectionItems = async (provider, nftAddresses) => {
   let nfts = [];
   await Promise.all(
     nftAddresses.map(async nftAddress => {
+      // for RPC 
       const nft_contract = new provider.Contract(nftAbi, nftAddress);
+
       // for GRAPHQL
-      // const nft_contract = new provider.Contract(indexAbi, indexAddress.id);
+      // const nft_contract = new provider.Contract(nftAbi, nftAddress.id);
 
       const nft = await nft_contract.methods.getInfo({ answerId: 0 }).call();
-
       const imgInfo = await getNftImage(provider, nftAddress);
       let obj = {
         ...imgInfo,
@@ -118,7 +119,6 @@ export const getNftsByIndexesGQL = async (provider, indexAddresses) => {
   const nftAddresses = await Promise.all(
     indexAddresses.map(async indexAddress => {
       try {
-        // for GRAPHQL
         const indexContract = new provider.Contract(indexAbi, indexAddress.id);
 
         const indexInfo = await indexContract.methods.getInfo({ answerId: 0 }).call();
@@ -212,7 +212,7 @@ export const directSell_nft_info = async (provider, nft_manager) => {
 };
 
 // Graphql Collection NFTs
-export const loadNFTs_collection = async (provider, collection_address, last_nft_addr, client, last_paid) => {
+export const loadNFTs_collection = async (provider, collection_address, client, last_paid) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
     if (!nftCodeHash) {
@@ -229,7 +229,7 @@ export const loadNFTs_collection = async (provider, collection_address, last_nft
           ${last_paid ? `last_paid: { lt: ${last_paid} }` : ""}
         }
         orderBy: [{ path: "last_paid", direction: DESC }]
-        limit: 25
+        limit: 49
       ) {
         id
         balance(format: DEC)
