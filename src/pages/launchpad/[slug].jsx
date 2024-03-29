@@ -284,26 +284,28 @@ const launchpad = ({
 
     // update mint status
     const updateMintStatus = async () => {
-        if (!collectionData && collectionData == "" && collectionData.pageName === "" && !collectionData.phases && !signer_address) return;
+        if ((!collectionData) && (collectionData == "") && (collectionData.pageName == "") && (!collectionData.phases) && (!signer_address)) return;
         const endLength = collectionData?.phases?.length - 1;
 
-        const startDate = new Date(convertDBTimeToLocal(collectionData.phases[0].startDate));
-        const endDate = new Date(convertDBTimeToLocal(collectionData.phases[endLength].EndDate));
-        const today = new Date();
+        if (collectionData?.phases) {
+            const startDate = new Date(convertDBTimeToLocal(collectionData?.phases[0]?.startDate));
+            const endDate = new Date(convertDBTimeToLocal(collectionData?.phases[endLength]?.EndDate));
+            const today = new Date();
 
-        if (startDate > today && collectionData?.status != "upcoming") {
-            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
-        }
+            if (startDate > today && collectionData?.status != "upcoming") {
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
+            }
 
-        if (startDate < today && endDate > today && collectionData?.status != "live") {
-            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
-        }
+            if (startDate < today && endDate > today && collectionData?.status != "live") {
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
+            }
 
-        if (endDate < today && collectionData.status != "ended") {
-            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
-        }
-        if (mintedNFTs >= collectionData.maxSupply && collectionData.status != "sold out") {
-            const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
+            if (endDate < today && collectionData.status != "ended") {
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
+            }
+            if (mintedNFTs >= collectionData.maxSupply && collectionData.status != "sold out") {
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
+            }
         }
     };
 
@@ -743,7 +745,7 @@ const launchpad = ({
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded-[20px]"
                                             src={collectionData?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                                         />
-                                        {new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) &&
+                                        {signer_address && (new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate))) &&
                                             <p className={`showInPC text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
                                         }
                                     </div>
@@ -1000,7 +1002,7 @@ const launchpad = ({
                                                     </button>
                                                 </div>
                                             }
-                                            {new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) &&
+                                            {(signer_address && (new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)))) &&
                                                 <p className={`showInMobile text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
                                             }
                                         </div>
