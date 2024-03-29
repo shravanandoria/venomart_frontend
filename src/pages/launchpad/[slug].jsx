@@ -63,6 +63,18 @@ const launchpad = ({
         return formattedLocalTime;
     }
 
+    // converting convertDBTimeToDateTimeLocalFormat
+    function convertDBTimeToDateTimeLocalFormat(dateTimeString) {
+        if (!dateTimeString.includes('T')) {
+            return dateTimeString;
+        }
+        const [datePart, timePart] = dateTimeString.split(' ');
+        const [month, day, year] = datePart.split('/').map(part => parseInt(part, 10));
+        const [hour, minute] = timePart.split(':').map(part => parseInt(part, 10));
+        const datetimeLocalString = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}T${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        return datetimeLocalString;
+    }
+
     // edit launchpad data
     const [data, set_data] = useState({
         logo: "",
@@ -89,6 +101,8 @@ const launchpad = ({
         mintPrice: "",
         startDate: "",
         EndDate: "",
+        startDateUNIX: "",
+        EndDateUNIX: "",
         EligibleWallets: [""],
         mintEligibility: false,
     });
@@ -106,17 +120,17 @@ const launchpad = ({
         values[index][e.target.name] = e.target.value;
         if (e.target.name == "startDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
-            values[index]["startDateUNIX"] = [unixTimestamp];
+            values[index]["startDateUNIX"] = unixTimestamp;
 
             const newDate = convertDBTimeToLocal(e.target.value);
-            values[index]["startDateGMT"] = [newDate];
+            values[index]["startDate"] = newDate;
         }
         if (e.target.name == "EndDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
-            values[index]["EndDateUNIX"] = [unixTimestamp];
+            values[index]["EndDateUNIX"] = unixTimestamp;
 
             const newDate = convertDBTimeToLocal(e.target.value);
-            values[index]["EndDateGMT"] = [newDate];
+            values[index]["EndDate"] = newDate;
         }
         if (e.target.name == "EligibleWallets") {
             values[index][e.target.name] = [e.target.value];
@@ -167,7 +181,7 @@ const launchpad = ({
 
         await update_launchpad_collection(obj);
         setLoading(false);
-        router.reload();
+        // router.reload();
     };
 
     // handling mint count
@@ -255,7 +269,9 @@ const launchpad = ({
             maxMint: launchpaddata?.phases[0]?.maxMint,
             mintPrice: launchpaddata?.phases[0]?.mintPrice,
             startDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.startDate),
+            startDateUNIX: launchpaddata?.phases[0]?.startDateUNIX,
             EndDate: convertDBTimeToLocal(launchpaddata?.phases[0]?.EndDate),
+            EndDateUNIX: launchpaddata?.phases[0]?.EndDateUNIX,
             EligibleWallets: defaultEligibleWallets,
             mintEligibility: isUserWalletEligible,
         };
@@ -727,7 +743,9 @@ const launchpad = ({
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded-[20px]"
                                             src={collectionData?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                                         />
-                                        <p className={`showInPC text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
+                                        {new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) &&
+                                            <p className={`showInPC text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
+                                        }
                                     </div>
 
                                     {/* right main */}
@@ -982,7 +1000,9 @@ const launchpad = ({
                                                     </button>
                                                 </div>
                                             }
-                                            <p className={`showInMobile text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
+                                            {new Date() > new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) &&
+                                                <p className={`showInMobile text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -1573,7 +1593,7 @@ const launchpad = ({
                                                                             onChange={(e) =>
                                                                                 handle_change_phases(index, e)
                                                                             }
-                                                                            value={data.phases[index].startDate}
+                                                                            value={convertDBTimeToDateTimeLocalFormat(data.phases[index].startDate)}
                                                                             name="startDate"
                                                                             type="datetime-local"
                                                                             className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
@@ -1592,7 +1612,7 @@ const launchpad = ({
                                                                             onChange={(e) =>
                                                                                 handle_change_phases(index, e)
                                                                             }
-                                                                            value={data.phases[index].EndDate}
+                                                                            value={convertDBTimeToDateTimeLocalFormat(data.phases[index].EndDate)}
                                                                             name="EndDate"
                                                                             type="datetime-local"
                                                                             className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
@@ -1612,7 +1632,18 @@ const launchpad = ({
                                                                         <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                             ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                             : "rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                                            }`} onChange={(e) => handle_change_phases(index, e)} />
+                                                                            }`}
+                                                                            defaultValue={(data && data.phases[index] && data.phases[index].EligibleWallets) && (
+                                                                                (() => {
+                                                                                    try {
+                                                                                        return JSON.parse(data.phases[index].EligibleWallets);
+                                                                                    } catch (error) {
+                                                                                        console.error('Error parsing JSON:', error);
+                                                                                        return [""];
+                                                                                    }
+                                                                                })
+                                                                            )}
+                                                                            onChange={(e) => handle_change_phases(index, e)} />
                                                                     </div>
                                                                 </div>
                                                             </div>

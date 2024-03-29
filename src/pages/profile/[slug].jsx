@@ -862,6 +862,11 @@ const Profile = ({
           <div>
             <div className="tab-content">
               <div className="tab-pane fade show active">
+                {((adminAccount == signer_address) || (slug == signer_address)) && (
+                  <div className="flex justify-center mt-[-32px] align-middle text-center">
+                    <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}>If you find your NFTs missing, <span className="text-blue cursor-pointer" onClick={() => refresh_user_nfts()}>click here</span> to refresh ↻</p>
+                  </div>
+                )}
                 <div>
                   {/* filters  */}
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
@@ -1355,6 +1360,7 @@ const Profile = ({
                 <div className="flex justify-center mt-[-32px] align-middle text-center">
                   <p className="text-lg dark:text-jacarta-200 pb-8 text-center">All the NFTs which you have in your connected wallets will appear here, <br /> including NFTs purchased or minted from other marketplaces.</p>
                 </div>
+
                 <div>
                   {((adminAccount == signer_address) || (slug == signer_address)) && (
                     <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>

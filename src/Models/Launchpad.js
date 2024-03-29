@@ -23,7 +23,9 @@ const Launchpad = new mongoose.Schema(
       maxMint: String,
       mintPrice: Number,
       startDate: String,
+      startDateUNIX: Number,
       EndDate: String,
+      EndDateUNIX: Number,
       EligibleWallets: [String]
     }],
     status: {
