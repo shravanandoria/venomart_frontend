@@ -284,18 +284,18 @@ const launchpad = ({
 
     // update mint status
     const updateMintStatus = async () => {
-        if (!collectionData || collectionData == "" || collectionData.pageName === "" || !collectionData.phases || !signer_address) return;
+        if (!collectionData && collectionData == "" && collectionData.pageName === "" && !collectionData.phases && !signer_address) return;
         const endLength = collectionData?.phases?.length - 1;
 
         const startDate = new Date(convertDBTimeToLocal(collectionData.phases[0].startDate));
         const endDate = new Date(convertDBTimeToLocal(collectionData.phases[endLength].EndDate));
         const today = new Date();
 
-        if (startDate > today && collectionData.status != "upcoming") {
+        if (startDate > today && collectionData?.status != "upcoming") {
             const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
         }
 
-        if (startDate < today && endDate > today && collectionData.status != "live") {
+        if (startDate < today && endDate > today && collectionData?.status != "live") {
             const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
         }
 
