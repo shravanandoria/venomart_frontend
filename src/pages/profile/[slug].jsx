@@ -43,7 +43,8 @@ const Profile = ({
   EnableNFTSale,
   profileDataProps,
   OtherImagesBaseURI,
-  NFTImagesBaseURI
+  NFTImagesBaseURI,
+  adminAccount
 }) => {
   const [user_data, set_user_data] = useState({});
 
@@ -260,6 +261,7 @@ const Profile = ({
     setMoreLoading(false);
   };
 
+  // refreshing user latest nfts onchain 
   const refresh_user_nfts = async () => {
     set_loading(true);
     const res = await loadNFTs_user(
@@ -861,15 +863,6 @@ const Profile = ({
             <div className="tab-content">
               <div className="tab-pane fade show active">
                 <div>
-                  {(slug == signer_address) && (
-                    <div className="container relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>
-                      <div className="group absolute right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
-                        <span className="mt-0.5 block group-hover:text-white">Refresh NFTs ⟳</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div>
                   {/* filters  */}
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">
                     {!mobileFilter && isBreakpoint && (
@@ -1361,6 +1354,15 @@ const Profile = ({
               <div className="tab-pane fade show active">
                 <div className="flex justify-center mt-[-32px] align-middle text-center">
                   <p className="text-lg dark:text-jacarta-200 pb-8 text-center">All the NFTs which you have in your connected wallets will appear here, <br /> including NFTs purchased or minted from other marketplaces.</p>
+                </div>
+                <div>
+                  {((adminAccount == signer_address) || (slug == signer_address)) && (
+                    <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>
+                      <div className="group right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
+                        <span className="mt-0.5 block group-hover:text-white">Save onchain NFTs ⟳</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex justify-center align-middle flex-wrap">
                   <InfiniteScroll

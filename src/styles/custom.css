@@ -436,6 +436,23 @@
   }
 }
 
+/* launchpad nft refresh text  */
+.showInPC {
+  display: block;
+}
+.showInMobile {
+  display: none;
+}
+
+@media only screen and (max-width: 980px) {
+  .showInPC {
+    display: none;
+  }
+  .showInMobile {
+    display: block;
+  }
+}
+
 .ImageHoverEffect {
   overflow: hidden;
 }

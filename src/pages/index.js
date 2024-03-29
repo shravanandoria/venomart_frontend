@@ -32,7 +32,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
   const [topSwitchDrop, setTopSwitchDrop] = useState(false);
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
 
-  const [duration, setDuration] = useState("7days");
+  const [duration, setDuration] = useState("30days");
   const [topSwitch, setTopSwitch] = useState("collections");
   const [fullLoading, setFullLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
 
   const fetchTrendingCollection = async () => {
     setTrendLoad(true);
-    const collectionsJSON = await top_collections("All", "verified", "1day");
+    const collectionsJSON = await top_collections("All", "verified", "7days");
     setTrendingCollections(collectionsJSON);
     setTrendLoad(false);
   };

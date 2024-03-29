@@ -3,20 +3,19 @@ import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import { RiEarthFill } from "react-icons/ri";
 import { GoArrowUpRight, GoDotFill } from "react-icons/go";
-import { BsBrowserChrome, BsDiscord, BsFillShareFill, BsInstagram, BsTelegram, BsTwitter } from "react-icons/bs";
-import { AiFillCheckCircle, AiFillCloseCircle, AiFillLock } from "react-icons/ai";
+import { BsBrowserChrome, BsDiscord, BsTelegram, BsTwitter } from "react-icons/bs";
 import { RiSwordLine } from "react-icons/ri";
 import Head from "next/head";
 import Loader from "../../components/Loader";
-import { create_launchpad_collection, get_launchpad_by_name, get_user_mints, updateLaunchpadStatus, update_launchpad_collection } from "../../utils/mongo_api/launchpad/launchpad";
+import { get_launchpad_by_name, get_user_mints, updateLaunchpadStatus, update_launchpad_collection } from "../../utils/mongo_api/launchpad/launchpad";
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
-import { get_address_mint_count, get_phases_name, get_total_minted, launchpad_mint } from "../../utils/launchpad_nft";
+import { get_address_mint_count, get_total_minted, launchpad_mint } from "../../utils/launchpad_nft";
 import { Timer } from "../../components/Timer";
 import { TonClientContext } from "../../context/tonclient";
 import { loadNFTs_user } from "../../utils/user_nft";
-import { addNFTViaOnchainLaunchpad, addNFTViaOnchainRoll } from "../../utils/mongo_api/nfts/nfts";
+import { addNFTViaOnchainLaunchpad } from "../../utils/mongo_api/nfts/nfts";
 import axios from "axios";
 import { useStorage } from "@thirdweb-dev/react";
 
@@ -43,7 +42,6 @@ const launchpad = ({
     const [mintLoading, setMintLoading] = useState(false);
     const [mintedNFTs, setMintedNFTs] = useState(0);
     const [mintedPercent, setMintedPercent] = useState(0);
-    const [fetchAfterMint, setFetchAfterMint] = useState(false);
     const [afterMint, setAfterMint] = useState(false);
     const [userMints, setUserMints] = useState(false);
     const [status, setStatus] = useState("");
@@ -83,6 +81,7 @@ const launchpad = ({
         phases: []
     });
 
+    // default selected phase 
     const [selected_phase, set_selected_phase] = useState({
         id: "",
         phaseName: "",
@@ -125,6 +124,7 @@ const launchpad = ({
         set_data({ ...data, phases: values });
     };
 
+    // add phases 
     const handle_add_phase = () => {
         set_data({
             ...data,
@@ -147,6 +147,7 @@ const launchpad = ({
         set_data({ ...data, phases: values });
     };
 
+    // handling submit edit launchpad 
     const handle_submit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -267,7 +268,7 @@ const launchpad = ({
 
     // update mint status
     const updateMintStatus = async () => {
-        if (!collectionData || collectionData != "" || collectionData.pageName === "" || !collectionData.phases || !signer_address) return;
+        if (!collectionData || collectionData == "" || collectionData.pageName === "" || !collectionData.phases || !signer_address) return;
         const endLength = collectionData?.phases?.length - 1;
 
         const startDate = new Date(convertDBTimeToLocal(collectionData.phases[0].startDate));
@@ -290,59 +291,6 @@ const launchpad = ({
         }
     };
 
-    // refreshing latest mints here 
-    const refreshLatestMints = async () => {
-        setLoading(true);
-        // fetching nfts onchain 
-        const res = await loadNFTs_user(
-            venomProvider,
-            signer_address,
-            undefined,
-            client,
-            "newestFirst"
-        );
-        let new_nfts = [];
-        res?.nfts
-            ?.sort((a, b) => b.last_paid - a.last_paid)
-            .filter((e) => e.collection?._address == collectionData?.contractAddress)
-            .map((e, index) => {
-                try {
-                    new_nfts.push({ ...JSON.parse(e.json), ...e });
-                } catch (error) {
-                    new_nfts.push({ ...e });
-                }
-            });
-
-        if (offChainMintedNFTsLength >= new_nfts?.length) {
-            setLoading(false);
-            alert("Your latest mints are already up to date!");
-            return;
-        }
-
-        // adding the fetched and filtered collection NFTs to DB 
-        try {
-            const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
-                let jsonURL = nft?.files[0].source;
-                try {
-                    const JSONReq = await axios.get(jsonURL);
-                    let attributes = JSONReq.data.attributes;
-                    const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
-                    setTimeout(() => {
-                        setLoading(false);
-                        alert("Your latest mints have been updated!");
-                        router.reload();
-                    }, 2000);
-                } catch (error) {
-                    console.log(error);
-                    setLoading(false);
-                }
-            }));
-        } catch (error) {
-            console.error('Error adding NFTs to the database:', error);
-            throw error;
-        }
-    }
-
     // selecting phase
     const selectPhaseFunction = (phase, index) => {
         set_selected_phase({
@@ -357,14 +305,14 @@ const launchpad = ({
         });
     };
 
-    // get phase wise minted NFTs count 
+    // get phase wise minted NFTs count onchain
     const getPhaseWiseMinted = async () => {
         if (!venomProvider || !collectionData) return;
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
 
-    // get user wallet mints
+    // get user wallet mints off chain
     const getUserWalletMints = async () => {
         if (!collectionData) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
@@ -375,7 +323,7 @@ const launchpad = ({
         }
     }
 
-    // get minted supply
+    // get minted supply onchain
     const getMintedSupply = async () => {
         if (!venomProvider || !collectionData) return;
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
@@ -386,8 +334,8 @@ const launchpad = ({
 
     // main mint function
     const mintLaunchNFT = async () => {
-        if (!venomProvider) return;
         // conditions 
+        if (!venomProvider) return;
         if ((phaseMintedCount || mintedNFTsArray?.length) >= selected_phase?.maxMint) return (alert("You have max minted in this phase!!"));
         if (!signer_address) {
             connectWallet();
@@ -402,7 +350,8 @@ const launchpad = ({
             const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
             if (launchMint) {
                 setTimeout(async () => {
-                    await fetch_user_nfts();
+                    setAfterMint(true);
+                    setMintLoading(false);
                 }, 2000);
             }
         } catch (error) {
@@ -413,10 +362,8 @@ const launchpad = ({
 
     // fetching on chain profile NFTs using GQL
     const { client } = useContext(TonClientContext);
-
     const fetch_user_nfts = async () => {
-        setMintLoading(true);
-        // fetching nfts onchain 
+        setLoading(true);
         const res = await loadNFTs_user(
             venomProvider,
             signer_address,
@@ -444,21 +391,68 @@ const launchpad = ({
                         const JSONReq = await axios.get(jsonURL);
                         let attributes = JSONReq.data.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
-                        setAfterMint(true);
-                        setMintLoading(false);
+                        const fetching_user_mints = await getUserWalletMints();
+                        setLoading(false);
                     } catch (error) {
                         console.log(error);
-                        setMintLoading(false);
+                        setLoading(false);
                     }
                 }));
             } catch (error) {
-                console.error('Error adding NFTs to the database:', error);
                 throw error;
             }
         }
         else {
-            setAfterMint(true);
-            setMintLoading(false);
+            setLoading(false);
+        }
+    };
+
+    // refreshing nfts of launchpad of user 
+    const refresh_latest_nfts = async () => {
+        setLoading(true);
+        const res = await loadNFTs_user(
+            venomProvider,
+            signer_address,
+            undefined,
+            client,
+            "newestFirst"
+        );
+        let new_nfts = [];
+        res?.nfts
+            ?.filter((e) => e.collection?._address == collectionData?.contractAddress)
+            .map((e, index) => {
+                try {
+                    new_nfts.push({ ...JSON.parse(e.json), ...e });
+                } catch (error) {
+                    new_nfts.push({ ...e });
+                }
+            });
+
+        // adding the fetched and filtered collection NFTs to DB 
+        if (new_nfts != "") {
+            try {
+                const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+                    let jsonURL = nft?.files[0].source;
+                    try {
+                        const JSONReq = await axios.get(jsonURL);
+                        let attributes = JSONReq.data.attributes;
+                        const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
+                        const fetching_user_mints = await getUserWalletMints();
+                        alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
+                        setLoading(false);
+                    } catch (error) {
+                        console.log(error);
+                        setLoading(false);
+                    }
+                }));
+            } catch (error) {
+                alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
+                throw error;
+            }
+        }
+        else {
+            alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
+            setLoading(false);
         }
     };
 
@@ -733,6 +727,7 @@ const launchpad = ({
                                             className="launchImage h-[100%] w-[100%] object-cover object-center rounded-[20px]"
                                             src={collectionData?.logo?.replace("ipfs://", OtherImagesBaseURI)}
                                         />
+                                        <p className={`showInPC text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
                                     </div>
 
                                     {/* right main */}
@@ -769,9 +764,7 @@ const launchpad = ({
                                                             <h2 className={`font-display mb-1 ${theme == "dark" ? "text-white" : "text-[#0f0f0f]"}`}>
                                                                 {phase?.phaseName}
                                                             </h2>
-                                                            <p
-                                                                className={`text-[14px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}
-                                                            >
+                                                            <p className={`text-[14px] font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                 {phase?.maxMint} Per Wallet ● {phase?.mintPrice} VENOM
                                                             </p>
                                                             {phase?.mintEligibility == true || phase?.EligibleWallets == "" ? (
@@ -989,6 +982,7 @@ const launchpad = ({
                                                     </button>
                                                 </div>
                                             }
+                                            <p className={`showInMobile text-[14px] font-mono text-jacarta-700 dark:text-white m-4`}>Not able to view your latest mints? <span className="text-blue cursor-pointer" onClick={() => refresh_latest_nfts()}>click here</span> to refresh ↻</p>
                                         </div>
                                     </div>
                                 </div>
@@ -997,7 +991,6 @@ const launchpad = ({
                                 {userMints == true &&
                                     <div className={`dark:bg-jacarta-900 lg:w-4/5 mx-auto flex flex-col w-[100%] my-2 mt-12 p-4 justify-between shadow-md shadow-[#dcdcdc] dark:shadow-[#0D102D] rounded-[13px] `}>
                                         <h2 className="text-lg text-jacarta-700 dark:text-white tracking-widest font-bold font-mono">Your Mints 🎉</h2>
-                                        <p className="text-[16px] text-jacarta-700 dark:text-white tracking-widest font-mono mb-2"><span className="text-blue cursor-pointer" onClick={() => refreshLatestMints()}>Click here</span> to refresh your latest mints!</p>
                                         <div className="flex flex-wrap justify-start align-middle">
                                             {mintedNFTsArray?.map((nft) => (
                                                 <Link href={`/nft/${nft?.NFTAddress}`} key={nft?._id}>
@@ -1030,7 +1023,7 @@ const launchpad = ({
                                             className="btn-close"
                                             data-bs-dismiss="modal"
                                             aria-label="Close"
-                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false), getUserWalletMints())}
+                                            onClick={() => (setAnyModalOpen(false), setAfterMint(false), fetch_user_nfts())}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -1056,17 +1049,17 @@ const launchpad = ({
 
                                     <div className="modal-footer" style={{ flexWrap: "nowrap" }}>
                                         <div className="flex items-center justify-center space-x-4 m-2">
-                                            <Link
-                                                href={`/profile/${signer_address}`}
-                                                className="flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                            <a
+                                                onClick={() => (setAnyModalOpen(false), setAfterMint(false), fetch_user_nfts())}
+                                                className="cursor-pointer flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
                                                 View
                                                 <GoArrowUpRight className="ml-[5px] mt-[2px] text-[20px]" />
-                                            </Link>
+                                            </a>
                                         </div>
                                         <div className="flex items-center justify-center space-x-4 m-2">
                                             <a
-                                                onClick={() => (setAnyModalOpen(false), setAfterMint(false), getUserWalletMints())}
+                                                onClick={() => (setAnyModalOpen(false), setAfterMint(false), fetch_user_nfts())}
                                                 className="cursor-pointer flex justify-center rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
                                             >
                                                 Mint More
