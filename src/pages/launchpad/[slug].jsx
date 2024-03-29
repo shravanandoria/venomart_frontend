@@ -181,7 +181,7 @@ const launchpad = ({
 
         await update_launchpad_collection(obj);
         setLoading(false);
-        // router.reload();
+        router.reload();
     };
 
     // handling mint count
