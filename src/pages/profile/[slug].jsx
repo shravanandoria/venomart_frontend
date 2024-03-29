@@ -862,7 +862,7 @@ const Profile = ({
           <div>
             <div className="tab-content">
               <div className="tab-pane fade show active">
-                {((adminAccount == signer_address) || (slug == signer_address)) && (
+                {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
                   <div className="flex justify-center mt-[-32px] align-middle text-center">
                     <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}>If you find your NFTs missing, <span className="text-blue cursor-pointer" onClick={() => refresh_user_nfts()}>click here</span> to refresh ↻</p>
                   </div>
@@ -1362,7 +1362,7 @@ const Profile = ({
                 </div>
 
                 <div>
-                  {((adminAccount == signer_address) || (slug == signer_address)) && (
+                  {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
                     <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>
                       <div className="group right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                         <span className="mt-0.5 block group-hover:text-white">Save onchain NFTs ⟳</span>

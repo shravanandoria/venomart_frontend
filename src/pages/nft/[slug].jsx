@@ -226,19 +226,19 @@ const NFTPage = ({
         const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
 
         // adding the sale activity 
-        if (offChainOwner != offChainManager && OnChainOwner == OnChainManager) {
-          let data = {
-            hash: "",
-            from: offChainManager,
-            to: OnChainOwner,
-            price: nft?.demandPrice,
-            type: "sale",
-            wallet_id: OnChainOwner,
-            nft_address: slug,
-            collection_address: nft?.NFTCollection?.contractAddress
-          }
-          const addSaleActivity = addActivity(data);
-        }
+        // if (offChainOwner != offChainManager && OnChainOwner == OnChainManager) {
+        //   let data = {
+        //     hash: "",
+        //     from: offChainManager,
+        //     to: OnChainOwner,
+        //     price: nft?.demandPrice,
+        //     type: "sale",
+        //     wallet_id: OnChainOwner,
+        //     nft_address: slug,
+        //     collection_address: nft?.NFTCollection?.contractAddress
+        //   }
+        //   const addSaleActivity = addActivity(data);
+        // }
         alert("Owners data updated successfully");
       }
 
@@ -266,17 +266,17 @@ const NFTPage = ({
         let demandPrice = onChainNFTData?.value5 / 1000000000;
 
         // adding the list activity here
-        let data = {
-          hash: "",
-          from: OnChainOwner,
-          to: OnChainManager,
-          price: demandPrice,
-          type: "list",
-          wallet_id: OnChainManager,
-          nft_address: slug,
-          collection_address: nft?.NFTCollection?.contractAddress
-        }
-        const addListActivity = await addActivity(data);
+        // let data = {
+        //   hash: "",
+        //   from: OnChainOwner,
+        //   to: OnChainManager,
+        //   price: demandPrice,
+        //   type: "list",
+        //   wallet_id: OnChainManager,
+        //   nft_address: slug,
+        //   collection_address: nft?.NFTCollection?.contractAddress
+        // }
+        // const addListActivity = await addActivity(data);
 
         // updating the listing status here 
         const updatingData = await update_verified_nft_listing(demandPrice, demandPrice, slug);
