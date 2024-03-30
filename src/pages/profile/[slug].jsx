@@ -233,6 +233,7 @@ const Profile = ({
 
   // getting owned nfts
   const fetch_user_nfts = async () => {
+    if (!venomProvider) return;
     setMoreLoading(true);
     // fetch using RPC
     const res = await loadNFTs_user_RPC(venomProvider, slug, lastNFT);
@@ -247,7 +248,6 @@ const Profile = ({
     // );
     let new_nfts = [...nfts];
     res?.nfts
-      ?.sort((a, b) => b.last_paid - a.last_paid)
       .map((e, index) => {
         try {
           new_nfts.push({ ...JSON.parse(e.json), ...e });
@@ -263,6 +263,7 @@ const Profile = ({
 
   // refreshing user latest nfts onchain 
   const refresh_user_nfts = async () => {
+    if (!venomProvider && !client) return;
     set_loading(true);
     const res = await loadNFTs_user(
       venomProvider,
@@ -273,7 +274,6 @@ const Profile = ({
     );
     let new_nfts = [];
     res?.nfts
-      ?.sort((a, b) => b.last_paid - a.last_paid)
       .map((e, index) => {
         try {
           new_nfts.push({ ...JSON.parse(e.json), ...e });

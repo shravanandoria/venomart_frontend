@@ -683,7 +683,7 @@ const Footer = ({
 
           <div className="flex text-right">
             {/* price  */}
-            <div className="py-1 px-4 flex items-center border-r border-l  dark:border-jacarta-600 border-jacarta-100">
+            {/* <div className="py-1 px-4 flex items-center border-r border-l  dark:border-jacarta-600 border-jacarta-100">
               <div id="statsNotch" className="w-full flex z-50 relative">
                 <div className="flex flex-auto relative h-8 overflow-hidden">
                   <ul className="flex justify-center items-center">
@@ -715,10 +715,10 @@ const Footer = ({
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* tps  */}
-            <div className="py-1 px-4 flex items-center border-r  dark:border-jacarta-600 border-jacarta-100">
+            <div className="py-1 px-4 flex items-center border-r border-l  dark:border-jacarta-600 border-jacarta-100">
               <div id="statsNotch" className="w-full flex z-50 relative">
                 <div className="flex flex-auto relative h-8 overflow-hidden">
                   <ul className="flex justify-center items-center">

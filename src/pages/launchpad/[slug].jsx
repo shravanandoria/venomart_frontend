@@ -534,6 +534,7 @@ const launchpad = ({
 
     // refreshing nfts of launchpad of user 
     const refresh_latest_nfts = async () => {
+        if (!venomProvider && !signer_address) return;
         setLoading(true);
         const res = await loadNFTs_user(
             venomProvider,
