@@ -84,25 +84,45 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                             ) : (
                                 <input
                                     required
-                                    type="number"
-                                    min={0.05}
-                                    onChange={(e) => (
-                                        set_listing_price(e.target.value),
-                                        setCreatorRoyalty(
-                                            (parseFloat(
-                                                nft?.NFTCollection?.royalty
-                                                    ? nft?.NFTCollection?.royalty
-                                                    : collectionData?.data?.royalty
-                                                        ? collectionData?.data?.royalty
-                                                        : 0
-                                            ) *
-                                                e.target.value) /
-                                            100
-                                        ),
-                                        setPlatformFees(
-                                            (platform_fees * e.target.value) / 100
-                                        )
-                                    )}
+                                    type="text"
+                                    // onChange={(e) => (
+                                    //     set_listing_price(e.target.value),
+                                    //     setCreatorRoyalty(
+                                    //         (parseFloat(
+                                    //             nft?.NFTCollection?.royalty
+                                    //                 ? nft?.NFTCollection?.royalty
+                                    //                 : collectionData?.data?.royalty
+                                    //                     ? collectionData?.data?.royalty
+                                    //                     : 0
+                                    //         ) *
+                                    //             e.target.value) /
+                                    //         100
+                                    //     ),
+                                    //     setPlatformFees(
+                                    //         (platform_fees * e.target.value) / 100
+                                    //     )
+                                    // )}
+                                    onChange={(e) => {
+                                        const inputValue = e.target.value.trim();
+                                        if (/^\d+(\.\d+)?$/.test(inputValue)) {
+                                            const parsedValue = parseFloat(inputValue);
+                                            if (parsedValue >= 0 && parsedValue <= 100000) {
+                                                set_listing_price(parsedValue);
+                                                setCreatorRoyalty(
+                                                    (parseFloat(
+                                                        nft?.NFTCollection?.royalty
+                                                            ? nft?.NFTCollection?.royalty
+                                                            : collectionData?.data?.royalty
+                                                                ? collectionData?.data?.royalty
+                                                                : 0
+                                                    ) *
+                                                        parsedValue) /
+                                                    100
+                                                );
+                                                setPlatformFees((platform_fees * parsedValue) / 100);
+                                            }
+                                        }
+                                    }}
                                     className="h-12 w-full flex-[3] border-0 focus:ring-inset focus:ring-accent"
                                     placeholder="Enter price"
                                 />
@@ -291,7 +311,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         />
                                     </span>
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                                        {listingPrice}
+                                        {(listingPrice).toFixed(2)}
                                     </span>
                                 </span>
                                 <span className="mb-1 flex items-center whitespace-nowrap">
@@ -305,7 +325,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         />
                                     </span>
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                                        {creatorRoyalty}
+                                        {(creatorRoyalty).toFixed(2)}
                                     </span>
                                 </span>
                                 <span className="mb-1 flex items-center whitespace-nowrap">
@@ -319,7 +339,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         />
                                     </span>
                                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                                        {platformFees}
+                                        {(platformFees).toFixed(2)}
                                     </span>
                                 </span>
                                 <span className="mb-1 flex items-center whitespace-nowrap"></span>
