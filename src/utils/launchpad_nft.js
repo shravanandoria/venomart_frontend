@@ -1,6 +1,6 @@
 import { Address } from "everscale-inpage-provider";
 import LaunchpadABI from "../../abi/LaunchpadContract.abi.json";
-import { launchpad_nft_fees } from "./user_nft";
+import { ONE_VENOM, launchpad_nft_fees } from "./user_nft";
 
 // initiating launchpad contract
 const launchpad_contract = (provider, launchpad_address) => {
@@ -25,6 +25,23 @@ export const launchpad_mint = async (provider, launchpad_address, signer_address
   });
   return res;
 };
+
+
+// getting total minted
+export const launchpad_mint_creator = async (provider, signer_address, launchpad_address, reciever_address, amount_to_mint) => {
+  let finalCost = (0.7 * (amount_to_mint) * ONE_VENOM);
+  try {
+    const launchpad = launchpad_contract(provider, launchpad_address);
+    const res = await launchpad.methods.collection_creator_mint({ nft_receiver: reciever_address, mint_amount: amount_to_mint }).send({
+      from: new Address(signer_address),
+      amount: (parseInt(finalCost) + parseInt(launchpad_nft_fees)).toString(),
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 // get how many nfts user minted
 export const get_address_mint_count = async (provider, launchpad_address, phase_number, signer_address) => {

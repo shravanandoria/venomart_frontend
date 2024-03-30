@@ -11,7 +11,7 @@ import { get_launchpad_by_name, get_user_mints, updateLaunchpadStatus, update_la
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
-import { get_address_mint_count, get_total_minted, launchpad_mint } from "../../utils/launchpad_nft";
+import { get_address_mint_count, get_total_minted, launchpad_mint, launchpad_mint_creator } from "../../utils/launchpad_nft";
 import { Timer } from "../../components/Timer";
 import { TonClientContext } from "../../context/tonclient";
 import { loadNFTs_user } from "../../utils/user_nft";
@@ -52,6 +52,10 @@ const launchpad = ({
     const [collectionSettingUpdated, setCollectionSettingUpdated] = useState(false);
 
     const [phasesModal, setPhasesModal] = useState(false);
+    const [creatorMintModal, setCreatorMintModal] = useState(false);
+
+    const [creatorMintReciever, setCreatorMintReciever] = useState("");
+    const [creatorMintCount, setCreatorMintCount] = useState(1);
 
     const [preview, set_preview] = useState({ logo: "", coverImage: "" });
 
@@ -183,6 +187,22 @@ const launchpad = ({
         setLoading(false);
         router.reload();
     };
+
+    // handling creator_is_minting 
+    const creator_is_minting = async () => {
+        if (!venomProvider) return;
+        if (!creatorMintReciever) {
+            alert("Please enter the receiver address!!")
+            return;
+        }
+        setLoading(true);
+        const creatorMint = await launchpad_mint_creator(venomProvider, signer_address, collectionData?.contractAddress, creatorMintReciever, creatorMintCount);
+        if (creatorMint) {
+            setLoading(false);
+            router.reload();
+        }
+        setLoading(false);
+    }
 
     // handling mint count
     const handlemintCountInc = () => {
@@ -757,7 +777,7 @@ const launchpad = ({
                                             alt="coverIMG"
                                             style={{ borderRadius: "25px", width: "100%", marginBottom: "20px" }}
                                         />
-                                        {(adminAccount.includes(signer_address)) && (
+                                        {(adminAccount.includes(signer_address) || (signer_address == collectionData?.creatorAddress)) && (
                                             <div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
                                                 <div className="group absolute right-0 bottom-2 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                                                     <span className="mt-0.5 block group-hover:text-white">Launchpad Settings ⚙️</span>
@@ -1358,26 +1378,28 @@ const launchpad = ({
                                             placeholder="Eg: Wild Hunters"
                                             value={data?.name}
                                         />
-                                        <div className="w-[350px] mt-6">
-                                            <label
-                                                htmlFor="item-name"
-                                                className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                            >
-                                                JSON URL (featured external link)
-                                            </label>
-                                            <input
-                                                onChange={handleChange}
-                                                name="jsonURL"
-                                                type="text"
-                                                id="item-name"
-                                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                    } `}
-                                                value={data?.jsonURL}
-                                                placeholder="Eg: https://venomart.io/"
-                                            />
-                                        </div>
+                                        {adminAccount.includes(signer_address) &&
+                                            <div className="w-[350px] mt-6">
+                                                <label
+                                                    htmlFor="item-name"
+                                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                                >
+                                                    JSON URL (featured external link)
+                                                </label>
+                                                <input
+                                                    onChange={handleChange}
+                                                    name="jsonURL"
+                                                    type="text"
+                                                    id="item-name"
+                                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                        } `}
+                                                    value={data?.jsonURL}
+                                                    placeholder="Eg: https://venomart.io/"
+                                                />
+                                            </div>
+                                        }
                                     </div>
                                     <div className="w-[350px] m-3">
                                         <div>
@@ -1496,107 +1518,111 @@ const launchpad = ({
                                 </div>
 
                                 {/* contract address & creator address  */}
-                                <div className="mb-6 flex flex-wrap justify-start">
-                                    <div className="w-[350px] m-3 mr-6">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Collection Contract Address
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="contractAddress"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            value={data?.contractAddress}
-                                            placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                                        />
+                                {adminAccount.includes(signer_address) &&
+                                    <div className="mb-6 flex flex-wrap justify-start">
+                                        <div className="w-[350px] m-3 mr-6">
+                                            <label
+                                                htmlFor="item-name"
+                                                className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                            >
+                                                Collection Contract Address
+                                            </label>
+                                            <input
+                                                onChange={handleChange}
+                                                name="contractAddress"
+                                                type="text"
+                                                id="item-name"
+                                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                    } `}
+                                                value={data?.contractAddress}
+                                                placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                            />
+                                        </div>
+                                        <div className="w-[350px] m-3">
+                                            <label
+                                                htmlFor="item-name"
+                                                className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                            >
+                                                Creator Address
+                                            </label>
+                                            <input
+                                                onChange={handleChange}
+                                                name="creatorAddress"
+                                                type="text"
+                                                id="item-name"
+                                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                    } `}
+                                                value={data?.creatorAddress}
+                                                placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Creator Address
-                                        </label>
-                                        <input
-                                            onChange={handleChange}
-                                            name="creatorAddress"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            value={data?.creatorAddress}
-                                            placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                                        />
-                                    </div>
-                                </div>
+                                }
 
                                 {/* phases  */}
-                                <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                                height="24"
-                                                className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
-                                            >
-                                                <path fill="none" d="M0 0h24v24H0z" />
-                                                <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
-                                            </svg>
-
-                                            <div>
-                                                <label className="block font-display text-jacarta-700 dark:text-white">
-                                                    Mint Phases <span className="text-red">*</span>
-                                                </label>
-                                                <p className="dark:text-jacarta-300">
-                                                    Add all the available mintable phases properly
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <button
-                                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
-                                            type="button"
-                                            id="item-properties"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#propertiesModal"
-                                            onClick={() => setPhasesModal(!phasesModal)}
-                                        >
-                                            {!phasesModal ? (
+                                {adminAccount.includes(signer_address) &&
+                                    <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24"
                                                     width="24"
                                                     height="24"
-                                                    className="fill-accent group-hover:fill-white"
+                                                    className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
                                                 >
                                                     <path fill="none" d="M0 0h24v24H0z" />
-                                                    <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                                    <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
                                                 </svg>
-                                            ) : (
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    width="24"
-                                                    height="24"
-                                                    className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
-                                                >
-                                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                                                </svg>
-                                            )}
-                                        </button>
+
+                                                <div>
+                                                    <label className="block font-display text-jacarta-700 dark:text-white">
+                                                        Mint Phases <span className="text-red">*</span>
+                                                    </label>
+                                                    <p className="dark:text-jacarta-300">
+                                                        Add all the available mintable phases properly
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                                                type="button"
+                                                id="item-properties"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#propertiesModal"
+                                                onClick={() => setPhasesModal(!phasesModal)}
+                                            >
+                                                {!phasesModal ? (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        className="fill-accent group-hover:fill-white"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                                    </svg>
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                }
 
                                 {/* <!-- Phases  Modal --> */}
                                 {phasesModal && (
@@ -1763,6 +1789,138 @@ const launchpad = ({
                                 >
                                     Update Launchpad
                                 </button>
+
+                                <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                                    Creator Functions ⚙️
+                                </h1>
+
+                                {/* creator mint seciton  */}
+                                {(adminAccount.includes(signer_address) || (signer_address == collectionData?.creatorAddress)) &&
+                                    <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                    height="24"
+                                                    className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                                                >
+                                                    <path fill="none" d="M0 0h24v24H0z" />
+                                                    <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                                                </svg>
+
+                                                <div>
+                                                    <label className="block font-display text-jacarta-700 dark:text-white">
+                                                        Mint NFTs <span className="text-red">*</span>
+                                                    </label>
+                                                    <p className="dark:text-jacarta-300">
+                                                        You can mint your collection NFTs for free and send them to any addresses you want
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                                                type="button"
+                                                id="item-properties"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#propertiesModal"
+                                                onClick={() => setCreatorMintModal(!creatorMintModal)}
+                                            >
+                                                {!creatorMintModal ? (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        className="fill-accent group-hover:fill-white"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z" />
+                                                        <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                                    </svg>
+                                                ) : (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 24 24"
+                                                        width="24"
+                                                        height="24"
+                                                        className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                                                    >
+                                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                                        <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                                    </svg>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+
+                                {/* <!-- mint  Modal --> */}
+                                {creatorMintModal && (
+                                    <div>
+                                        <div className="max-w-2xl mb-4">
+                                            <div className="modal-content">
+                                                <div className="modal-body p-6">
+                                                    <div className="mb-6 flex flex-wrap justify-start">
+                                                        <div className="w-[350px] m-3 mr-6">
+                                                            <label
+                                                                htmlFor="item-name"
+                                                                className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                                            >
+                                                                Reciever Address
+                                                            </label>
+                                                            <input
+                                                                onChange={(e) => setCreatorMintReciever(e.target.value)}
+                                                                name="receiver_address"
+                                                                type="text"
+                                                                id="item-name"
+                                                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                    } `}
+                                                                placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                                                required
+                                                            />
+                                                        </div>
+                                                        <div className="w-[350px] m-3">
+                                                            <label
+                                                                htmlFor="item-name"
+                                                                className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                                            >
+                                                                Total NFTs
+                                                            </label>
+                                                            <input
+                                                                onChange={(e) => setCreatorMintCount(parseInt(e.target.value))}
+                                                                name="mint_amount"
+                                                                type="number"
+                                                                max={25}
+                                                                min={1}
+                                                                id="item-name"
+                                                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                                    ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                                    : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                                    } `}
+                                                                placeholder="Eg: 1"
+                                                                required
+                                                            />
+                                                        </div>
+                                                        <div className="w-[350px] m-3">
+                                                            {!loading ?
+                                                                <div onClick={() => creator_is_minting()} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                                                                    <span className="mt-0.5 block group-hover:text-white">Mint NFTs 🌟</span>
+                                                                </div>
+                                                                :
+                                                                <div className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                                                                    <span className="mt-0.5 block group-hover:text-white">Please wait...</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </form>
