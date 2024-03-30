@@ -165,18 +165,18 @@ export default async function handler(req, res) {
           // }
 
           // sending notification
-          if (type === "sale") {
-            let notification = await Notification.create({
-              chain: "Venom",
-              user: from,
-              soldTo: to,
-              price,
-              hash,
-              hasReaded: false,
-              nft,
-              type
-            });
-          }
+          // if (type === "sale") {
+          //   let notification = await Notification.create({
+          //     chain: "Venom",
+          //     user: from,
+          //     soldTo: to,
+          //     price,
+          //     hash,
+          //     hasReaded: false,
+          //     nft,
+          //     type
+          //   });
+          // }
 
           return res.status(200).json({ success: true, data: "Successfully created activity" });
         } catch (error) {
