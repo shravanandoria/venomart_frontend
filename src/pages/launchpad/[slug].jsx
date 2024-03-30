@@ -379,20 +379,20 @@ const launchpad = ({
             const endDate = new Date(convertDBTimeToLocal(collectionData?.phases[endLength]?.EndDate));
             const today = new Date();
 
-            if (startDate > today && collectionData?.status != "upcoming") {
+            if ((startDate > today) && (collectionData?.status != "upcoming")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
             }
 
-            if (startDate < today && endDate > today && collectionData?.status != "live") {
+            if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
             }
 
-            if (endDate < today && collectionData.status != "ended") {
+            if ((endDate < today) && (collectionData.status != "ended")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
             }
-            if (mintedNFTs >= collectionData.maxSupply && collectionData.status != "sold out") {
-                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
-            }
+            // if ((mintedNFTs >= collectionData.maxSupply) && (collectionData.status != "sold out")) {
+            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
+            // }
         }
     };
 
