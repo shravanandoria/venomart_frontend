@@ -202,19 +202,22 @@ const NFTPage = ({
     if (metaDataUpdated == true) return;
     setMetadataLoading(true);
     const nft_onchain = await get_nft_by_address(venomProvider, slug);
+    const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
 
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
     let onChainImage = nft_onchain?.preview?.source;
+    let onChainDemandPrice = onChainNFTData?.value5 / 1000000000;
 
     let offChainOwner = nft?.ownerAddress;
     let offChainManager = nft?.managerAddress;
     let offChainListed = nft?.isListed;
     let offChainImage = nft?.nft_image;
+    let offChainDemandPrice = nft?.demandPrice;
 
     if (
       OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
-      (OnChainOwner != OnChainManager && !offChainListed)
+      (OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)
     ) {
       if (offChainImage === "") {
         const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
@@ -261,10 +264,7 @@ const NFTPage = ({
         }
       }
 
-      if (OnChainOwner != OnChainManager && !offChainListed) {
-        const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
-        let demandPrice = onChainNFTData?.value5 / 1000000000;
-
+      if (((OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)) && (onChainDemandPrice != NaN || onChainDemandPrice != undefined || onChainDemandPrice != 0)) {
         // adding the list activity here
         // let data = {
         //   hash: "",
@@ -279,7 +279,7 @@ const NFTPage = ({
         // const addListActivity = await addActivity(data);
 
         // updating the listing status here 
-        const updatingData = await update_verified_nft_listing(demandPrice, demandPrice, slug);
+        const updatingData = await update_verified_nft_listing(onChainDemandPrice, offChainDemandPrice, slug);
         alert("Listing price updated successfully");
       }
 
