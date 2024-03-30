@@ -841,18 +841,22 @@ const launchpad = ({
                                     <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                                         <div className="mt-4 mb-12">
                                             {/* mint percent  */}
-                                            <div className="flex justify-between">
-                                                <h2 className="text-sm text-jacarta-700 dark:text-white tracking-widest">TOTAL MINTED</h2>
-                                                <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                                    {mintedPercent ? mintedPercent : 0}% ({mintedNFTs ? mintedNFTs : 0}/{collectionData?.maxSupply})
-                                                </p>
-                                            </div>
-                                            <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>
-                                                <div
-                                                    className={`bg-indigo-500 p-0.5 h-[12px] text-center text-xs font-medium text-white rounded-lg`}
-                                                    style={{ width: (mintedPercent ? mintedPercent : 0) + "%" }}
-                                                ></div>
-                                            </div>
+                                            {signer_address &&
+                                                <div>
+                                                    <div className="flex justify-between">
+                                                        <h2 className="text-sm text-jacarta-700 dark:text-white tracking-widest">TOTAL MINTED</h2>
+                                                        <p className="text-jacarta-700 dark:text-white text-sm mb-1">
+                                                            {mintedPercent ? mintedPercent : 0}% ({mintedNFTs ? mintedNFTs : 0}/{collectionData?.maxSupply})
+                                                        </p>
+                                                    </div>
+                                                    <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>
+                                                        <div
+                                                            className={`bg-indigo-500 p-0.5 h-[12px] text-center text-xs font-medium text-white rounded-lg`}
+                                                            style={{ width: (mintedPercent ? mintedPercent : 0) + "%" }}
+                                                        ></div>
+                                                    </div>
+                                                </div>
+                                            }
 
                                             {/* phases  */}
                                             <div className="flex flex-col w-[100%] mt-6">
