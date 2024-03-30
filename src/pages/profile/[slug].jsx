@@ -795,7 +795,7 @@ const Profile = ({
           }
 
           {/* my collections button  */}
-          <li
+          {/* <li
             className="nav-item"
             role="presentation"
             onClick={() => (!fetchedUserCollections && getting_user_collections(), switchToCollections())}
@@ -823,7 +823,7 @@ const Profile = ({
               </svg>
               <span className="font-display text-base font-medium">Collections</span>
             </button>
-          </li>
+          </li> */}
           <li
             className="nav-item"
             role="presentation"

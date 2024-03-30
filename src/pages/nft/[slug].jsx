@@ -65,7 +65,8 @@ const NFTPage = ({
   EnableNFTSale,
   NFTDataProps,
   OtherImagesBaseURI,
-  NFTImagesBaseURI
+  NFTImagesBaseURI,
+  adminAccount
 }) => {
   const router = useRouter();
   const { slug } = router.query;
@@ -278,7 +279,8 @@ const NFTPage = ({
         // }
         // const addListActivity = await addActivity(data);
 
-        // updating the listing status here 
+        if (onChainDemandPrice == NaN) return;
+        // updating the listing status here
         const updatingData = await update_verified_nft_listing(onChainDemandPrice, offChainDemandPrice, slug);
         alert("Listing price updated successfully");
       }
@@ -832,7 +834,7 @@ const NFTPage = ({
                                   </div>
                                 </button>
                               ) : (
-                                (nft?.NFTCollection?.isTrading == true || collectionData?.data?.isTrading == true) &&
+                                (nft?.NFTCollection?.isTrading == true || collectionData?.data?.isTrading == true || adminAccount?.includes(signer_address)) &&
                                 <button
                                   onClick={() => refreshMetadata()}
                                   className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
