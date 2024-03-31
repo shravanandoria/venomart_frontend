@@ -105,6 +105,9 @@ const Profile = ({
   const [successModal, setSuccessModal] = useState(false);
   const [transactionType, setTransactionType] = useState("");
 
+  const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
+  const [adminPermittedAction, setAdminPermittedAction] = useState(false);
+
   // mediaQuery
   const useMediaQuery = width => {
     const [targetReached, setTargetReached] = useState(false);
@@ -262,44 +265,90 @@ const Profile = ({
   };
 
   // refreshing user latest nfts onchain 
-  const refresh_user_nfts = async () => {
-    if (!venomProvider && !client) return;
-    set_loading(true);
-    const res = await loadNFTs_user(
-      venomProvider,
-      signer_address,
-      undefined,
-      client,
-      "newestFirst"
-    );
-    let new_nfts = [];
-    res?.nfts
-      .map((e, index) => {
-        try {
-          new_nfts.push({ ...JSON.parse(e.json), ...e });
-        } catch (error) {
-          new_nfts.push({ ...e });
-        }
-      });
+  // const refresh_user_nfts = async () => {
+  //   if (!venomProvider && !client) return;
+  //   set_loading(true);
+  //   const res = await loadNFTs_user(
+  //     venomProvider,
+  //     signer_address,
+  //     undefined,
+  //     client,
+  //     "newestFirst"
+  //   );
+  //   let new_nfts = [];
+  //   res?.nfts
+  //     .map((e, index) => {
+  //       try {
+  //         new_nfts.push({ ...JSON.parse(e.json), ...e });
+  //       } catch (error) {
+  //         new_nfts.push({ ...e });
+  //       }
+  //     });
+  //   if (new_nfts != "") {
+  //     try {
+  //       const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
+  //         let jsonURL = nft?.files[0].source;
+  //         try {
+  //           const JSONReq = await axios.get(jsonURL);
+  //           let attributes = JSONReq?.data?.attributes;
+  //           const createdNFT = await refreshUserNFTs(nft, attributes, signer_address);
+  //           alert("your profile has been refreshed with all the latest NFTs");
+  //           router.reload();
+  //         } catch (error) {
+  //           console.log(error);
+  //         }
+  //       }));
+  //     } catch (error) {
+  //       console.error('Error adding NFTs to the database:', error);
+  //       throw error;
+  //     }
+  //   }
+  // };
 
-    if (new_nfts != "") {
-      try {
-        const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
-          let jsonURL = nft?.files[0].source;
-          try {
-            const JSONReq = await axios.get(jsonURL);
-            let attributes = JSONReq?.data?.attributes;
-            const createdNFT = await refreshUserNFTs(nft, attributes, signer_address);
-            alert("your profile has been refreshed with all the latest NFTs");
-            router.reload();
-          } catch (error) {
-            console.log(error);
-          }
-        }));
-      } catch (error) {
-        console.error('Error adding NFTs to the database:', error);
-        throw error;
+  // admin function to initiate NFT addition to DB 
+  const fetchAndAddNFTsToDB = async () => {
+    if (adminPermittedAction === false) return;
+    try {
+      // fetching using RPC 
+      const res = await loadNFTs_user_RPC(venomProvider, slug, BlukAdditionLastNFT);
+      if (!res || !res.nfts.length) {
+        alert("Some tech issue, contact venomart support team!");
+        return;
       }
+      await addNFTsToDB(res.nfts);
+      setBlukAdditionLastNFT(res?.continuation);
+      alert("your profile has been refreshed with all the latest NFTs, refresh the page to view the NFTs");
+      set_loading(false);
+    } catch (error) {
+      console.error('Error fetching or adding NFTs to the database:', error);
+    }
+  };
+
+  // updating nfts to DB 
+  const addNFTsToDB = async (nfts) => {
+    try {
+      const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
+        try {
+          // parsing json 
+          const parsedJSON = JSON.parse(nft?.json);
+          let nftName = parsedJSON?.name;
+          let nftDesc = parsedJSON?.description;
+          let nftImage = parsedJSON?.preview?.source;
+
+          // fetching attributes 
+          let jsonURL = parsedJSON?.files[0].source;
+          const JSONReq = await axios.get(jsonURL);
+          let attributes = JSONReq?.data?.attributes;
+
+          const createdNFT = await refreshUserNFTs(nft, nftName, nftDesc, nftImage, jsonURL, attributes, signer_address);
+          return createdNFT;
+        } catch (error) {
+          console.log(error);
+        }
+      }));
+    } catch (error) {
+      console.error('Error adding NFTs to the database:', error);
+      throw error;
     }
   };
 
@@ -458,7 +507,26 @@ const Profile = ({
     setActivity(true);
   };
 
-  // use effects
+  // useEffect to trigger the fetching and adding of NFTs after BlukAdditionLastNFT is updated
+  useEffect(() => {
+    if (adminPermittedAction) {
+      set_loading(true);
+      fetchAndAddNFTsToDB();
+    }
+  }, [adminPermittedAction]);
+
+  useEffect(() => {
+    if (BlukAdditionLastNFT == undefined) {
+      return;
+    }
+    set_loading(true);
+    const fetchData = async () => {
+      await fetchAndAddNFTsToDB();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    };
+    fetchData();
+  }, [BlukAdditionLastNFT]);
+
   useEffect(() => {
     const timer = setTimeout(async () => {
       set_isTyping(false);
@@ -864,7 +932,7 @@ const Profile = ({
               <div className="tab-pane fade show active">
                 {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
                   <div className="flex justify-center mt-[-32px] align-middle text-center">
-                    <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}>If you find your NFTs missing, <span className="text-blue cursor-pointer" onClick={() => refresh_user_nfts()}>click here</span> to refresh ↻</p>
+                    <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}>If you find your NFTs missing, <span className="text-blue cursor-pointer" onClick={() => (setAdminPermittedAction(true))}>click here</span> to refresh ↻</p>
                   </div>
                 )}
                 <div>
@@ -1363,7 +1431,7 @@ const Profile = ({
 
                 <div>
                   {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
-                    <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => refresh_user_nfts()}>
+                    <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => (setAdminPermittedAction(true))}>
                       <div className="group right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                         <span className="mt-0.5 block group-hover:text-white">Save onchain NFTs ⟳</span>
                       </div>

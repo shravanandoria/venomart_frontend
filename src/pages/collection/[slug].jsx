@@ -545,13 +545,6 @@ const Collection = ({
   const fetchAndAddNFTsToDB = async () => {
     if (adminPermittedAction === false) return;
     try {
-      // fetch using GRAPHQL
-      // const res = await loadNFTs_collection(
-      //   venomProvider,
-      //   slug,
-      //   client,
-      //   undefined
-      // );
       // fetching using RPC 
       const res = await loadNFTs_collection_RPC(venomProvider, slug, BlukAdditionLastNFT);
       if (!res || !res.nfts.length) return;

@@ -154,7 +154,7 @@ export const addNFTViaOnchainLaunchpad = async (data, attributes, signer_address
   }
 };
 
-export const refreshUserNFTs = async (data, attributes, signer_address) => {
+export const refreshUserNFTs = async (data, nftName, nftDesc, nftImage, jsonURL, attributes, signer_address) => {
   try {
     const res = await axios({
       url: `/api/nft/nft`,
@@ -163,10 +163,10 @@ export const refreshUserNFTs = async (data, attributes, signer_address) => {
         NFTAddress: data.nft._address,
         ownerAddress: data.owner._address,
         managerAddress: data.manager._address,
-        nft_image: data?.preview?.source,
-        nft_metadata: data?.files[0]?.source,
-        name: data.name,
-        description: data.description,
+        nft_image: nftImage,
+        nft_metadata: jsonURL,
+        name: nftName,
+        description: nftDesc,
         attributes: attributes,
         NFTCollection: data.collection._address,
         signer_address: signer_address,
