@@ -1107,7 +1107,7 @@ const NFTPage = ({
                                     />
                                   </span>
                                   <span className="text-[24px] font-medium leading-tight tracking-tight text-green">
-                                    {nft?.listingPrice ? formatNumberShort(nft?.listingPrice) : "0.00"}
+                                    {nft?.listingPrice != "0" ? formatNumberShort(nft?.listingPrice) : (nft?.demandPrice ? nft?.demandPrice : "0.00")}
                                   </span>
                                 </div>
                               </div>
@@ -2347,7 +2347,7 @@ const NFTPage = ({
               collectionTrading={nft?.NFTCollection?.isTrading}
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               NFTRank={selectedNFT ? selectedNFT?.rank : nft?.rank}
-              NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : nft?.listingPrice}
+              NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : (nft?.listingPrice != "0" ? nft?.listingPrice : nft?.demandPrice)}
               actionLoad={loading}
               NFTImagesBaseURI={NFTImagesBaseURI}
             />
