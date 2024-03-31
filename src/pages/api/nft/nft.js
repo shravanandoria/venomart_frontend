@@ -179,17 +179,27 @@ export default async function handler(req, res) {
             signer_address,
           } = req.body;
 
+          // getting the user 
           let user = await User.findOne({ wallet_id: signer_address });
           if (!user) {
             user = await User.create({ wallet_id: signer_address });
           }
 
+          // finding the nft in DB 
           let nft = await NFT.findOne({ NFTAddress });
+          if ((nft?.ownerAddress != ownerAddress) || (nft?.managerAddress != managerAddress)) {
+            nft.ownerAddress = ownerAddress;
+            nft.managerAddress = managerAddress;
+            await nft.save();
+          }
+
+          // if nft found already then return from here 
           if (nft)
             return res
               .status(400)
               .json({ success: false, data: "This nft already exists" });
 
+          // checking and creating collection 
           let collection;
           collection = await Collection.findOne({
             contractAddress: NFTCollection,
@@ -215,7 +225,7 @@ export default async function handler(req, res) {
             });
           }
 
-          // creating the nft
+          // creating the nft here
           nft = await NFT.create({
             chain: "Venom",
             NFTAddress,

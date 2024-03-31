@@ -48,7 +48,6 @@ import { useStorage } from "@thirdweb-dev/react";
 const Collection = ({
   blockURL,
   theme,
-  standalone,
   webURL,
   copyURL,
   signer_address,

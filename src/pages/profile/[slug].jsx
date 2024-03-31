@@ -307,9 +307,9 @@ const Profile = ({
 
   // admin function to initiate NFT addition to DB 
   const fetchAndAddNFTsToDB = async () => {
-    if (adminPermittedAction === false) return;
+    if (adminPermittedAction === false && !venomProvider) return;
     try {
-      // fetching using RPC 
+      // fetching using RPC
       const res = await loadNFTs_user_RPC(venomProvider, slug, BlukAdditionLastNFT);
       if (!res || !res.nfts.length) {
         alert("Some tech issue, contact venomart support team!");
@@ -317,6 +317,8 @@ const Profile = ({
       }
       await addNFTsToDB(res.nfts);
       setBlukAdditionLastNFT(res?.continuation);
+      setSkip(0);
+      const nftFetch = await getting_user_listed_nfts();
       alert("your profile has been refreshed with all the latest NFTs, refresh the page to view the NFTs");
       set_loading(false);
     } catch (error) {
@@ -336,9 +338,13 @@ const Profile = ({
           let nftImage = parsedJSON?.preview?.source;
 
           // fetching attributes 
+          let attributes = [];
           let jsonURL = parsedJSON?.files[0].source;
-          const JSONReq = await axios.get(jsonURL);
-          let attributes = JSONReq?.data?.attributes;
+          let jsonMimeType = parsedJSON?.files[0].mimetype;
+          if (jsonMimeType == "metadata/json") {
+            const JSONReq = await axios.get(jsonURL);
+            let attributes = JSONReq?.data?.attributes;
+          }
 
           const createdNFT = await refreshUserNFTs(nft, nftName, nftDesc, nftImage, jsonURL, attributes, signer_address);
           return createdNFT;

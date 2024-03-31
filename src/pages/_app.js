@@ -205,8 +205,7 @@ export default function App({ Component, pageProps }) {
         <Component
           {...pageProps}
           theme={theme}
-          standalone={standalone}
-          venomProvider={venomProvider}
+          venomProvider={standalone ? standalone : venomProvider}
           signer_address={signer_address}
           blockURL={blockURL}
           blockChain={blockChain}
@@ -239,7 +238,7 @@ export default function App({ Component, pageProps }) {
         onDisconnect={onDisconnect}
         venomPrice={venomPrice}
         venomTPS={venomTPS}
-        venomProvider={venomProvider}
+        venomProvider={standalone ? standalone : venomProvider}
         connectWallet={connect_wallet}
         EnableNFTSale={EnableNFTSale}
         OtherImagesBaseURI={OtherImagesBaseURI}
