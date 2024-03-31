@@ -346,7 +346,6 @@ export const loadNFTs_user = async (provider, ownerAddress, last_paid, client, o
 
 // JRPC METHOD for fetching user NFTs
 export const loadNFTs_user_RPC = async (provider, ownerAddress, last_nft_addr) => {
-  console.log({ provider, ownerAddress, last_nft_addr })
   try {
     // Take a salted code
     const saltedCode = await saltCode(provider, ownerAddress);
