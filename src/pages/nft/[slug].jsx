@@ -265,20 +265,7 @@ const NFTPage = ({
         }
       }
 
-      if (((OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)) && (onChainDemandPrice != NaN || onChainDemandPrice != undefined || onChainDemandPrice != 0)) {
-        // adding the list activity here
-        // let data = {
-        //   hash: "",
-        //   from: OnChainOwner,
-        //   to: OnChainManager,
-        //   price: demandPrice,
-        //   type: "list",
-        //   wallet_id: OnChainManager,
-        //   nft_address: slug,
-        //   collection_address: nft?.NFTCollection?.contractAddress
-        // }
-        // const addListActivity = await addActivity(data);
-
+      if ((onChainNFTData && (offChainDemandPrice < onChainDemandPrice)) && (onChainNFTData != undefined)) {
         // updating the listing status here
         const updatingData = await update_verified_nft_listing(onChainDemandPrice, offChainDemandPrice, slug);
         alert("Listing price updated successfully");

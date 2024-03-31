@@ -165,7 +165,7 @@ export default async function handler(req, res) {
           // }
 
           // sending notification
-          if (type === "sale" && price != "0") {
+          if ((type == "sale") && (price != "0" || price != 0)) {
             let notification = await Notification.create({
               chain: "Venom",
               user: from,

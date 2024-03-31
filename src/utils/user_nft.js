@@ -566,7 +566,7 @@ export const buy_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
+        amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees) + parseInt("100000000")).toString(),
       });
 
     if (output) {
