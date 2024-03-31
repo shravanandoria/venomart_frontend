@@ -265,7 +265,7 @@ const NFTPage = ({
         }
       }
 
-      if (((OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)) && (onChainDemandPrice != NaN && onChainDemandPrice != undefined && onChainDemandPrice != 0)) {
+      if (((OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)) && (onChainDemandPrice != NaN || onChainDemandPrice != undefined || onChainDemandPrice != 0)) {
         // adding the list activity here
         // let data = {
         //   hash: "",

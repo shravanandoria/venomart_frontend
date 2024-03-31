@@ -4,7 +4,7 @@ import { ONE_VENOM, launchpad_nft_fees } from "./user_nft";
 
 // initiating launchpad contract
 const launchpad_contract = (provider, launchpad_address) => {
-  if (!provider && !launchpad_address) return;
+  if (!provider || !launchpad_address) return;
   const contract = new provider.Contract(LaunchpadABI, launchpad_address);
   return contract;
 };
@@ -46,7 +46,7 @@ export const launchpad_mint_creator = async (provider, signer_address, launchpad
 
 // get how many nfts user minted
 export const get_address_mint_count = async (provider, launchpad_address, phase_number, signer_address) => {
-  if (!provider && !launchpad_address && !signer_address) return;
+  if (!provider || !launchpad_address || !signer_address) return;
   const launchpad = launchpad_contract(provider, launchpad_address);
   const res = await launchpad.methods
     .get_address_mint_count({
@@ -60,6 +60,7 @@ export const get_address_mint_count = async (provider, launchpad_address, phase_
 
 // get user public mint count
 export const get_public_mint_count = async (provider, launchpad_address, signer_address) => {
+  if (!provider || !launchpad_address || !signer_address) return;
   const launchpad = launchpad_contract(provider, launchpad_address);
   const res = await launchpad.methods.get_public_mint_count({ answerId: 0, addr: signer_address });
   return res;
@@ -67,6 +68,7 @@ export const get_public_mint_count = async (provider, launchpad_address, signer_
 
 // getting total minted
 export const get_total_minted = async (provider, launchpad_address) => {
+  if (!provider || !launchpad_address) return;
   try {
     const launchpad = launchpad_contract(provider, launchpad_address);
     const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();

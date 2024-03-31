@@ -450,7 +450,7 @@ const launchpad = ({
 
     // get minted supply onchain
     const getMintedSupply = async () => {
-        if (!venomProvider && !collectionData) return;
+        if (!venomProvider || !collectionData) return;
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
         const mint_percent = Math.floor((mintedSupply / collectionData?.maxSupply) * 100);
         setMintedPercent(mint_percent);
@@ -583,22 +583,25 @@ const launchpad = ({
     };
 
     useEffect(() => {
-        if (!slug) return;
+        if (!slug && !signer_address) return;
         getLaunchpadData();
         getUserWalletMints();
     }, [slug, signer_address]);
 
     useEffect(() => {
+        if (!venomProvider || !collectionData || !signer_address) return;
         getMintedSupply();
         updateMintStatus();
         getUserWalletMints();
     }, [venomProvider, collectionData, signer_address]);
 
     useEffect(() => {
+        if (!signer_address) return;
         selectPhaseFunction();
     }, [signer_address]);
 
     useEffect(() => {
+        if (!signer_address) return;
         setMintCount(1);
         getPhaseWiseMinted();
     }, [selected_phase, signer_address]);
