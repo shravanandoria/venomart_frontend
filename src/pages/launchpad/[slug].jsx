@@ -432,7 +432,7 @@ const launchpad = ({
 
     // get phase wise minted NFTs count onchain
     const getPhaseWiseMinted = async () => {
-        if (!venomProvider || !collectionData) return;
+        if (!venomProvider && !collectionData && !signer_address) return;
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
@@ -450,7 +450,7 @@ const launchpad = ({
 
     // get minted supply onchain
     const getMintedSupply = async () => {
-        if (!venomProvider || !collectionData) return;
+        if (!venomProvider && !collectionData) return;
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
         const mint_percent = Math.floor((mintedSupply / collectionData?.maxSupply) * 100);
         setMintedPercent(mint_percent);
