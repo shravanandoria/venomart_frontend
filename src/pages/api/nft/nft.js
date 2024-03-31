@@ -187,12 +187,15 @@ export default async function handler(req, res) {
 
           // finding the nft in DB 
           let nft = await NFT.findOne({ NFTAddress });
-          if ((nft?.ownerAddress != ownerAddress) || (nft?.managerAddress != managerAddress)) {
-            nft.ownerAddress = ownerAddress;
-            nft.managerAddress = managerAddress;
-            await nft.save();
-          }
 
+          // if nft exists with wrong owners update them 
+          if (nft) {
+            if ((nft?.ownerAddress != ownerAddress) || (nft?.managerAddress != managerAddress)) {
+              nft.ownerAddress = ownerAddress;
+              nft.managerAddress = managerAddress;
+              await nft.save();
+            }
+          }
           // if nft found already then return from here 
           if (nft)
             return res

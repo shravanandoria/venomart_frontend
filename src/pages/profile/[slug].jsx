@@ -240,6 +240,7 @@ const Profile = ({
     setMoreLoading(true);
     // fetch using RPC
     const res = await loadNFTs_user_RPC(venomProvider, slug, lastNFT);
+    console.log({ res })
 
     // fetch using GRAPHQL
     // const res = await loadNFTs_user(
