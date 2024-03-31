@@ -916,45 +916,55 @@ const launchpad = ({
                                                                 <p className={`text-[14px] font-mono text-red-400`}>Not Eligible</p>
                                                             )}
                                                         </div>
-                                                        {new Date(convertDBTimeToLocal(phase?.startDate)) < new Date() && new Date(convertDBTimeToLocal(phase?.EndDate)) > new Date() && (
-                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
-                                                                    Ends In
-                                                                </div>
-                                                                <span
-                                                                    className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
-                                                                        }`}
-                                                                >
-                                                                    <Timer date={new Date(convertDBTimeToLocal(phase?.EndDate))} />
-                                                                </span>
+                                                        {((collectionData?.status != "ended") && (collectionData?.status != "sold out")) ?
+                                                            <div>
+                                                                {new Date(convertDBTimeToLocal(phase?.startDate)) < new Date() && new Date(convertDBTimeToLocal(phase?.EndDate)) > new Date() && (
+                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                        <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                            Ends In
+                                                                        </div>
+                                                                        <span
+                                                                            className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
+                                                                                }`}
+                                                                        >
+                                                                            <Timer date={new Date(convertDBTimeToLocal(phase?.EndDate))} />
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                                {new Date(convertDBTimeToLocal(phase?.startDate)) > new Date() && (
+                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                        <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                            Starts In
+                                                                        </div>
+                                                                        <span
+                                                                            className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
+                                                                                }`}
+                                                                        >
+                                                                            <Timer date={new Date(convertDBTimeToLocal(phase?.startDate))} />
+                                                                        </span>
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                        )}
-                                                        {new Date(convertDBTimeToLocal(phase?.startDate)) > new Date() && (
-                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
-                                                                    Starts In
+                                                            :
+                                                            (collectionData?.status == "ended") ?
+                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                    <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                        Ended
+                                                                    </div>
                                                                 </div>
-                                                                <span
-                                                                    className={`font-mono font-bold whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"
-                                                                        }`}
-                                                                >
-                                                                    <Timer date={new Date(convertDBTimeToLocal(phase?.startDate))} />
-                                                                </span>
-                                                            </div>
-                                                        )}
-                                                        {new Date(convertDBTimeToLocal(phase?.EndDate)) < new Date() && (
-                                                            <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
-                                                                    Phase Ended
+                                                                :
+                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
+                                                                    <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                        Sold out
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        )}
+                                                        }
                                                     </div>
                                                 ))}
                                             </div>
 
                                             {/* final mint section  */}
-                                            {collectionData?.status != "sold out" ?
+                                            {((collectionData?.status != "sold out") && (collectionData?.status != "ended")) ?
                                                 <div>
                                                     {signer_address ?
                                                         <div className="flex flex-col w-[100%] mt-12">
@@ -1132,16 +1142,28 @@ const launchpad = ({
                                                     }
                                                 </div>
                                                 :
-                                                <div className="flex w-[100%] mt-4">
-                                                    <button
-                                                        onClick={() => alert("Wohoo! The collection has been sold out 🥳, you can still sweep the NFTs from secondary market!!")}
-                                                        className={`${(theme = "dark"
-                                                            ? "bg-indigo-500"
-                                                            : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
-                                                    >
-                                                        <span className="text-white font-mono">Sold Out 🥳</span>
-                                                    </button>
-                                                </div>
+                                                (collectionData?.status == "sold out") ?
+                                                    <div className="flex w-[100%] mt-4">
+                                                        <button
+                                                            onClick={() => alert("Wohoo! The collection has been sold out 🥳, you can still sweep the NFTs from secondary market!!")}
+                                                            className={`${(theme = "dark"
+                                                                ? "bg-indigo-500"
+                                                                : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                        >
+                                                            <span className="text-white font-mono">Sold Out 🥳</span>
+                                                        </button>
+                                                    </div>
+                                                    :
+                                                    <div className="flex w-[100%] mt-4">
+                                                        <button
+                                                            onClick={() => alert("Unfortunately the minting period has ended, you can still sweep the NFTs from secondary market!!")}
+                                                            className={`${(theme = "dark"
+                                                                ? "bg-indigo-500"
+                                                                : "bg-indigo-500")} hover:bg-indigo-600 text-gray-800 font-bold py-[10px] px-4 rounded inline-flex items-center w-[100%] justify-center`}
+                                                        >
+                                                            <span className="text-white font-mono">Ended 🙌</span>
+                                                        </button>
+                                                    </div>
                                             }
                                         </div>
                                     </div>
