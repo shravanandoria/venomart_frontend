@@ -2298,7 +2298,7 @@ const Collection = ({
                         )}
                       </div>
 
-                      {/* <div className="chartCont">
+                      <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             Market Cap
@@ -2330,7 +2330,7 @@ const Collection = ({
                             No Data Available !
                           </p>
                         )}
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
