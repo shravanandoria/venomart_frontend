@@ -2200,7 +2200,7 @@ const Collection = ({
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            Volume history
+                            Volume history ($VENOM)
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             {currentDuration == "1day" && "Last 1 Day"}
@@ -2267,7 +2267,7 @@ const Collection = ({
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            Floor Price
+                            Floor Price ($VENOM)
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             {currentDuration == "1day" && "Last 1 Day"}
@@ -2301,7 +2301,7 @@ const Collection = ({
                       <div className="chartCont">
                         <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
                           <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
-                            Market Cap
+                            Market Cap ($VENOM)
                           </p>
                           <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
                             {currentDuration == "1day" && "Last 1 Day"}
