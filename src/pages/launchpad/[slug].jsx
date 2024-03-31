@@ -403,16 +403,16 @@ const launchpad = ({
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
             }
 
-            if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
+            if ((startDate < today) && (mintedNFTs < collectionData.maxSupply) && (endDate > today) && (collectionData?.status != "live")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
             }
 
             if ((endDate < today) && (collectionData.status != "ended")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
             }
-            // if ((mintedNFTs >= collectionData.maxSupply) && (collectionData.status != "sold out")) {
-            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
-            // }
+            if ((mintedNFTs != 0 && (mintedNFTs >= collectionData?.maxSupply)) && (collectionData.status != "sold out")) {
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
+            }
         }
     };
 
