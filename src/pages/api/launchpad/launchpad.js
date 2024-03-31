@@ -106,6 +106,7 @@ export default async function handler(req, res) {
             creatorAddress,
             socials,
             jsonURL,
+            status,
             phases
           } = req.body;
 
@@ -121,6 +122,7 @@ export default async function handler(req, res) {
               creatorAddress,
               socials,
               jsonURL,
+              status,
               phases
             }
           );

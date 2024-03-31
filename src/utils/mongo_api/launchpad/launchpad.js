@@ -44,6 +44,7 @@ export const update_launchpad_collection = async (data) => {
     creatorAddress: data.creatorAddress,
     socials: [data.website, data.twitter, data.discord, data.telegram],
     jsonURL: data.jsonURL,
+    status: data.status,
     phases: data.phases
   };
 
