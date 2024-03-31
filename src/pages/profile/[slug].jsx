@@ -311,7 +311,7 @@ const Profile = ({
       // fetching using RPC
       const res = await loadNFTs_user_RPC(venomProvider, slug, BlukAdditionLastNFT);
       if (!res || !res.nfts.length) {
-        alert("Some tech issue, contact venomart support team!");
+        alert("This feature currently does not works on venom wallet browser, please use another browser!");
         return;
       }
       await addNFTsToDB(res.nfts);

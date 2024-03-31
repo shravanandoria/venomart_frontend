@@ -554,6 +554,12 @@ const launchpad = ({
                 }
             });
 
+        if (!new_nfts || !new_nfts.length) {
+            alert("This feature currently does not works on venom wallet browser, please use another browser!");
+            return;
+        }
+
+
         // adding the fetched and filtered collection NFTs to DB 
         if (new_nfts != "") {
             try {
@@ -564,13 +570,13 @@ const launchpad = ({
                         let attributes = JSONReq.data.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         const fetching_user_mints = await getUserWalletMints();
-                        alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
-                        setLoading(false);
                     } catch (error) {
                         console.log(error);
                         setLoading(false);
                     }
                 }));
+                alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
+                setLoading(false);
             } catch (error) {
                 alert(`Your latest mints for ${collectionData?.name} launchpad collection has been updated!`)
                 throw error;
