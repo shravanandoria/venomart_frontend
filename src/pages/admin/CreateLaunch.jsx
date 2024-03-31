@@ -75,11 +75,17 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
         values[index][e.target.name] = e.target.value;
         if (e.target.name == "startDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
-            values[index]["startDateUNIX"] = [unixTimestamp];
+            values[index]["startDateUNIX"] = unixTimestamp;
+
+            const newDate = convertDBTimeToLocal(e.target.value);
+            values[index]["startDate"] = newDate;
         }
         if (e.target.name == "EndDate") {
             const unixTimestamp = Date.parse(e.target.value) / 1000;
-            values[index]["EndDateUNIX"] = [unixTimestamp];
+            values[index]["EndDateUNIX"] = unixTimestamp;
+
+            const newDate = convertDBTimeToLocal(e.target.value);
+            values[index]["EndDate"] = newDate;
         }
         if (e.target.name == "EligibleWallets") {
             values[index][e.target.name] = [e.target.value];
@@ -581,10 +587,10 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                             htmlFor="item-name"
                                             className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                         >
-                                            JSON URL
+                                            Feature External URL
                                         </label>
                                         <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                            Please enter your JSON url (metadata for NFTs)
+                                            If the collection is to be featured with an external URL to other website
                                         </p>
                                         <input
                                             onChange={handleChange}
