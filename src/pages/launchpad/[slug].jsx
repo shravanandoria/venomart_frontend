@@ -401,17 +401,20 @@ const launchpad = ({
             const endDate = new Date(convertDBTimeToLocal(collectionData?.phases[endLength]?.EndDate));
             const today = new Date();
 
-            // if ((startDate > today) && ((collectionData?.status != "upcoming") || (collectionData?.status != "sold out") && (collectionData?.status != "ended"))) {
-            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
-            // }
+            if ((today < startDate) && ((collectionData?.status != "sold out") || (collectionData?.status != "ended"))) {
+                if (collectionData?.status == "upcoming") return;
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
+            }
 
-            // if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
-            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
-            // }
+            if (((today > startDate) && (today < endDate)) && ((collectionData?.status != "sold out") && (collectionData?.status != "ended"))) {
+                if (collectionData?.status == "live") return;
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
+            }
 
-            // if ((endDate < today) && (collectionData.status != "ended")) {
-            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
-            // }
+            if ((today > endDate) && (collectionData.status != "sold out")) {
+                if (collectionData?.status == "ended") return;
+                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
+            }
             // if ((mintedNFTs != 0 && (mintedNFTs >= collectionData?.maxSupply)) && (collectionData.status != "sold out")) {
             //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
             // }
