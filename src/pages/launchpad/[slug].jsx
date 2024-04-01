@@ -394,12 +394,14 @@ const launchpad = ({
     // update mint status
     const updateMintStatus = async () => {
         if ((!collectionData) && (collectionData == "") && (collectionData.pageName == "") && (!collectionData.phases) && (!signer_address)) return;
-        const endLength = collectionData?.phases?.length - 1;
 
         if (collectionData?.phases) {
+            const endLength = collectionData?.phases?.length - 1;
             const startDate = new Date(convertDBTimeToLocal(collectionData?.phases[0]?.startDate));
             const endDate = new Date(convertDBTimeToLocal(collectionData?.phases[endLength]?.EndDate));
             const today = new Date();
+
+            if (!startDate || !endDate || !today) return;
 
             if ((today < startDate) && ((collectionData?.status != "sold out") || (collectionData?.status != "ended"))) {
                 if (collectionData?.status == "upcoming") return;
