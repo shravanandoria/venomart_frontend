@@ -405,9 +405,9 @@ const launchpad = ({
             //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
             // }
 
-            if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
-                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
-            }
+            // if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
+            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
+            // }
 
             // if ((endDate < today) && (collectionData.status != "ended")) {
             //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
