@@ -115,7 +115,7 @@ const Collection = ({
 
   const [propsFilter, setPropsFilter] = useState([]);
   const [saleType, setSaleType] = useState("");
-  const [currentFilter, setCurrentFilter] = useState("recentlyListed");
+  const [currentFilter, setCurrentFilter] = useState("lowToHigh");
   const [currentDuration, setCurrentDuration] = useState("30days");
   const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
