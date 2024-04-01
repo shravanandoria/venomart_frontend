@@ -278,7 +278,7 @@ export default async function handler(req, res) {
           }
 
           nft.isListed = isListed;
-          nft.listingPrice = price;
+          nft.listingPrice = demandPrice;
           nft.demandPrice = demandPrice;
           nft.managerAddress = new_manager;
           if (new_owner !== undefined) {
