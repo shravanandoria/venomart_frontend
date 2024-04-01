@@ -167,7 +167,16 @@ const NftCard = ({
                 }}
                 alt="VenomLogo"
               />
-              {formatNumberShort(listingPrice)}
+              {
+                listingPrice != 0 || listingPrice != "0" ?
+                  <div>
+                    {formatNumberShort(listingPrice)}
+                  </div>
+                  :
+                  <div>
+                    {formatNumberShort(NFTData?.demandPrice)}
+                  </div>
+              }
             </span>
           </span>
           :
