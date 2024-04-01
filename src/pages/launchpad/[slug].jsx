@@ -599,7 +599,7 @@ const launchpad = ({
     useEffect(() => {
         if (!venomProvider || !collectionData || !signer_address) return;
         getMintedSupply();
-        updateMintStatus();
+        // updateMintStatus();
         getUserWalletMints();
     }, [venomProvider, collectionData, signer_address]);
 
