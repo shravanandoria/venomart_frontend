@@ -401,17 +401,17 @@ const launchpad = ({
             const endDate = new Date(convertDBTimeToLocal(collectionData?.phases[endLength]?.EndDate));
             const today = new Date();
 
-            if ((startDate > today) && ((collectionData?.status != "upcoming") || (collectionData?.status != "sold out") && (collectionData?.status != "ended"))) {
-                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
-            }
+            // if ((startDate > today) && ((collectionData?.status != "upcoming") || (collectionData?.status != "sold out") && (collectionData?.status != "ended"))) {
+            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "upcoming");
+            // }
 
-            if ((startDate < today) && (endDate > today) && ((collectionData?.status != "live") && (collectionData?.status != "sold out") && (collectionData?.status != "ended"))) {
+            if ((startDate < today) && (endDate > today) && (collectionData?.status != "live")) {
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
             }
 
-            if ((endDate < today) && (collectionData.status != "ended")) {
-                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
-            }
+            // if ((endDate < today) && (collectionData.status != "ended")) {
+            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
+            // }
             // if ((mintedNFTs != 0 && (mintedNFTs >= collectionData?.maxSupply)) && (collectionData.status != "sold out")) {
             //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
             // }
@@ -599,7 +599,7 @@ const launchpad = ({
     useEffect(() => {
         if (!venomProvider || !collectionData || !signer_address) return;
         getMintedSupply();
-        // updateMintStatus();
+        updateMintStatus();
         getUserWalletMints();
     }, [venomProvider, collectionData, signer_address]);
 
