@@ -16,20 +16,20 @@ export const initVenomConnect = async () => {
               fallback: VenomConnect.getPromise("venomwallet", "extension") || (() => Promise.reject()),
               forceUseFallback: true,
             },
-            packageOptionsStandalone: {
-              fallback: () =>
-                EverscaleStandaloneClient.create({
-                  connection: {
-                    id: 1,
-                    group: "venom_mainnet",
-                    type: "jrpc",
-                    data: {
-                      endpoint: "https://jrpc.venom.foundation/",
-                    },
-                  },
-                }),
-              forceUseFallback: true,
-            },
+            // packageOptionsStandalone: {
+            //   fallback: () =>
+            //     EverscaleStandaloneClient.create({
+            //       connection: {
+            //         id: 1,
+            //         group: "venom_mainnet",
+            //         type: "jrpc",
+            //         data: {
+            //           endpoint: "https://jrpc.venom.foundation/",
+            //         },
+            //       },
+            //     }),
+            //   forceUseFallback: true,
+            // },
 
             id: "extension",
             type: "extension",
