@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
                 const collections = await Collection.find({ isFeatured: true })
                     .limit(5)
-                    .sort({ createdAt: 1 });
+                    .sort({ createdAt: -1 });
 
                 return res.status(200).json({ success: true, data: collections });
             } catch (error) {
