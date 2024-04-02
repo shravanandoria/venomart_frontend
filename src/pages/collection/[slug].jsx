@@ -20,6 +20,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import defLogo from "../../../public/deflogo.png";
 import defBack from "../../../public/defback.png";
 import {
+  captureSnapshot,
   compute_rarity,
   edit_collection_settings,
   get_collection_by_contract,
@@ -131,6 +132,7 @@ const Collection = ({
   const [successModal, setSuccessModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [rarityModal, setRarityModal] = useState(false);
+  const [snapshotModal, setSnapshotModal] = useState(false);
   const [transactionType, setTransactionType] = useState("");
   const [collectionSettingUpdated, setCollectionSettingUpdated] = useState(false);
 
@@ -206,6 +208,34 @@ const Collection = ({
     const compute = await compute_rarity(collection_id);
     if (compute) {
       router.reload();
+    }
+    setLoading(false);
+  };
+
+  const captureCollectionSnapshot = async collection_id => {
+    const confirmed = confirm(
+      "Are you sure you want to take the current holders snapshot for your collection ?",
+    );
+    if (!confirmed || !collection_id) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/collection/collection_snapshot?collection_id=${collection_id}`);
+      if (response.ok) {
+        const csvData = await response.text();
+
+        const blob = new Blob([csvData], { type: 'text/csv' });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `holder_data.csv`;
+        link.click();
+
+        window.URL.revokeObjectURL(link.href);
+      } else {
+        console.error('Failed to download CSV:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error downloading CSV:', error);
     }
     setLoading(false);
   };
@@ -1608,6 +1638,9 @@ const Collection = ({
                                 {currentFilter == "rankHighToLow" && (
                                   <span className="text-jacarta-700 dark:text-white">🥇 Rank: High To Low</span>
                                 )}
+                                {currentFilter == "rankAllNFTs" && (
+                                  <span className="text-jacarta-700 dark:text-white">🥇 Rank: All NFTs</span>
+                                )}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 24 24"
@@ -1752,6 +1785,33 @@ const Collection = ({
                                       >
                                         🥇 Rank: High To Low
                                         {currentFilter == "rankHighToLow" && (
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                          >
+                                            <path fill="none" d="M0 0h24v24H0z" />
+                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                          </svg>
+                                        )}
+                                      </button>
+                                      <button
+                                        onClick={() => (
+                                          setSkip(0),
+                                          setHasMore(true),
+                                          setMinPrice(0),
+                                          setMaxPrice(0),
+                                          setDefaultFilterFetch(true),
+                                          setSaleType(""),
+                                          setCurrentFilter("rankAllNFTs"),
+                                          showListedFilter(false)
+                                        )}
+                                        className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600"
+                                      >
+                                        🥇 Rank: All NFTs
+                                        {currentFilter == "rankAllNFTs" && (
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24"
@@ -2223,7 +2283,7 @@ const Collection = ({
                             </div>
                           </div>
                         ) : analytics.length != 0 || analytics == undefined ? (
-                          <LineChart data={salesData} />
+                          <BarChart data={salesData} />
                         ) : (
                           <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
                             No Data Available !
@@ -2289,7 +2349,7 @@ const Collection = ({
                             </div>
                           </div>
                         ) : analytics.length != 0 || analytics == undefined ? (
-                          <LineChart data={listingData} />
+                          <BarChart data={listingData} />
                         ) : (
                           <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
                             No Data Available !
@@ -3022,6 +3082,98 @@ const Collection = ({
                                       className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
                                     >
                                       <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* collection snapshot  */}
+                    <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                      <div className="flex items-center justify-between">
+                        <div className="flex">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                          </svg>
+
+                          <div>
+                            <label className="block font-display text-jacarta-700 dark:text-white">
+                              Collection Snapshot
+                            </label>
+                            <p className="dark:text-jacarta-300">
+                              Capture the NFT holders data for your collection
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                          type="button"
+                          id="item-properties"
+                          data-bs-toggle="modal"
+                          data-bs-target="#propertiesModal"
+                          onClick={() => setSnapshotModal(!snapshotModal)}
+                        >
+                          {!snapshotModal ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="fill-accent group-hover:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                            </svg>
+                          ) : (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z"></path>
+                              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* <!-- take collection snapshot modal --> */}
+                    {snapshotModal && (
+                      <div>
+                        <div className="max-w-2xl mb-4">
+                          <div className="modal-content">
+                            <div className="modal-body p-6">
+                              <div className="mb-6 flex justify-start flex-wrap">
+                                <div className=" m-3 mr-12">
+                                  <label
+                                    htmlFor="item-name"
+                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                  >
+                                    Take Snapshot
+                                  </label>
+                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                    This will download you all the holders data for your NFT collection
+                                  </p>
+                                  <div className="flex flex-wrap w-[100%] justify-start">
+                                    <div
+                                      onClick={() => captureCollectionSnapshot(collection?._id)}
+                                      className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                    >
+                                      <span className="mt-0.5 block group-hover:text-white">Capture Snapshot</span>
                                     </div>
                                   </div>
                                 </div>

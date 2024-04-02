@@ -144,6 +144,18 @@ export const compute_rarity = async (collection_id) => {
   }
 };
 
+export const captureSnapshot = async (collection_id) => {
+  try {
+    const res = await axios({
+      url: `/api/collection/collection_snapshot?collection_id=${collection_id}`,
+      method: "GET"
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const get_collections = async (category, sortby, option, skip) => {
   try {
     const res = await axios({

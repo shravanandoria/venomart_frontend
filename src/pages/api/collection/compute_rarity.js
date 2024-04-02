@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
                         relatedNFTs.forEach((relatedNFT) => {
                             relatedNFT.attributes.forEach((attribute) => {
-                                const type = attribute.trait_type || attribute.type;
+                                const type = attribute.trait_type;
                                 const value = attribute.value;
 
                                 if (!uniqueTraits[type]) {
@@ -90,12 +90,36 @@ export default async function handler(req, res) {
                         return mergedData;
                     }));
 
+                    // // Sort the NFTs by rarity score in ascending order
+                    // updatedNFTs.sort((a, b) => a.rarityScore - b.rarityScore);
+
+                    // // Assign ranks based on the sorted order
+                    // updatedNFTs.forEach((nft, index) => {
+                    //     nft.rank = index + 1;
+                    // });
+
+                    // // Update ranks in the database
+                    // await Promise.all(updatedNFTs.map(async (nft) => {
+                    //     const rarityUpdate = await NFT.findByIdAndUpdate(new mongoose.Types.ObjectId(nft.nft_id), { rank: nft.rank });
+                    // }));
+
                     // Sort the NFTs by rarity score in ascending order
-                    updatedNFTs.sort((a, b) => a.rarityScore - b.rarityScore);
+                    updatedNFTs.sort((a, b) => b.rarityScore - a.rarityScore);
 
                     // Assign ranks based on the sorted order
+                    let currentRank = 1;
+                    let previousRarityScore = null;
+
                     updatedNFTs.forEach((nft, index) => {
-                        nft.rank = index + 1;
+                        if (nft.rarityScore !== previousRarityScore) {
+                            // If rarity score changed, update current rank
+                            nft.rank = currentRank;
+                            currentRank = index + 1;
+                            previousRarityScore = nft.rarityScore;
+                        } else {
+                            // If rarity score is the same as the previous one, keep the same rank
+                            nft.rank = currentRank;
+                        }
                     });
 
                     // Update ranks in the database

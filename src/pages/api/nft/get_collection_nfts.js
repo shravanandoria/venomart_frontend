@@ -206,6 +206,17 @@ export default async function handler(req, res) {
                                 .limit(20).sort({ isListed: -1, rank: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
+                        if (sortby == "rankAllNFTs") {
+                            const nfts = await NFT.find({ NFTCollection: collection })
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ rank: 1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
                     }
 
                 } catch (error) {

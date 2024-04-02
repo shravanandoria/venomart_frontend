@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
             nfts.forEach((nft) => {
               nft.attributes.forEach((attribute) => {
-                const type = attribute.trait_type || attribute.type;
+                const type = attribute.trait_type;
                 const value = attribute.value;
 
                 if (!uniqueTraits[type]) {
