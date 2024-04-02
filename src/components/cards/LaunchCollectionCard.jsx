@@ -107,7 +107,7 @@ const LaunchCollectionCard = ({
         <div className="mb-2 flex items-center justify-center text-sm font-medium tracking-tight">
           <div className="flex flex-wrap justify-center items-center">
             <span className="textDotStyle mr-1 mt-1 dark:text-jacarta-400">
-              {Description} Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima, exercitationem. Vel fuga dolorum, odit ducimus voluptas ratione numquam reprehenderit nulla voluptatibus ipsam pariatur, obcaecati doloribus aperiam? Molestias nesciunt repellendus vel deleniti minus! Iure ex hic asperiores non possimus officiis quod?
+              {Description}
             </span>
           </div>
         </div>

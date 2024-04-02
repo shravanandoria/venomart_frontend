@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useStorage } from "@thirdweb-dev/react";
 import { create_launchpad_collection } from "../../utils/mongo_api/launchpad/launchpad";
+import moment from "moment";
 
 const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
     const storage = useStorage();
@@ -53,6 +54,26 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
             }
         ]
     });
+
+    // converting time here 
+    function convertDBTimeToLocal(dbTime) {
+        const date = new Date(dbTime);
+        const localMoment = moment(date).local();
+        const formattedLocalTime = localMoment.format('MM/DD/YYYY HH:mm:ss [GMT]Z');
+        return formattedLocalTime;
+    }
+
+    // converting convertDBTimeToDateTimeLocalFormat
+    function convertDBTimeToDateTimeLocalFormat(dateTimeString) {
+        if (!dateTimeString.includes('T')) {
+            return dateTimeString;
+        }
+        const [datePart, timePart] = dateTimeString.split(' ');
+        const [month, day, year] = datePart.split('/').map(part => parseInt(part, 10));
+        const [hour, minute] = timePart.split(':').map(part => parseInt(part, 10));
+        const datetimeLocalString = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}T${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
+        return datetimeLocalString;
+    }
 
     const handleChange = (e) => {
         set_data({
@@ -753,7 +774,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                             onChange={(e) =>
                                                                                 handle_change_phases(index, e)
                                                                             }
-                                                                            value={data.phases[index].startDate}
+                                                                            value={convertDBTimeToDateTimeLocalFormat(data.phases[index].startDate)}
                                                                             name="startDate"
                                                                             type="datetime-local"
                                                                             className={`h-12 w-full border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
@@ -772,7 +793,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                                             onChange={(e) =>
                                                                                 handle_change_phases(index, e)
                                                                             }
-                                                                            value={data.phases[index].EndDate}
+                                                                            value={convertDBTimeToDateTimeLocalFormat(data.phases[index].EndDate)}
                                                                             name="EndDate"
                                                                             type="datetime-local"
                                                                             className={`h-12 w-full rounded-r-lg border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"

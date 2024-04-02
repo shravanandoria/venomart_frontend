@@ -106,7 +106,7 @@ export const createNFT = async (data) => {
   }
 };
 
-export const addNFTViaOnchainRoll = async (data, signer_address, NFTCollection) => {
+export const addNFTViaOnchainRoll = async (data, attributes, signer_address, NFTCollection) => {
   try {
     const res = await axios({
       url: `/api/nft/nft`,
@@ -119,7 +119,7 @@ export const addNFTViaOnchainRoll = async (data, signer_address, NFTCollection) 
         nft_metadata: data?.files[0]?.source,
         name: data.name,
         description: data.description,
-        attributes: data.attributes,
+        attributes: attributes ? attributes : data.attributes,
         NFTCollection: NFTCollection,
         signer_address: signer_address,
       },

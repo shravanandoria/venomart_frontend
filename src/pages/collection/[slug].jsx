@@ -44,6 +44,7 @@ import numeral from "numeral";
 // import { TonClientContext } from "../../context/tonclient";
 import { IoHandLeftOutline } from "react-icons/io5";
 import { useStorage } from "@thirdweb-dev/react";
+import axios from "axios";
 
 const Collection = ({
   blockURL,
@@ -558,8 +559,23 @@ const Collection = ({
   const addNFTsToDB = async (nfts) => {
     try {
       const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
-        const createdNFT = await addNFTViaOnchainRoll(nft, signer_address, slug);
-        return createdNFT;
+        try {
+          let jsonURL = nft?.files[0].source;
+          if (jsonURL && (jsonURL.startsWith("https://") && jsonURL.endsWith(".json"))) {
+            const JSONReq = await axios.get(jsonURL);
+            let attributes = JSONReq.data.attributes;
+            const createdNFT = await addNFTViaOnchainRoll(nft, attributes, signer_address, slug);
+            return createdNFT;
+          }
+          else {
+            const createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+            return createdNFT;
+          }
+        }
+        catch (error) {
+          const createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+          return createdNFT;
+        }
       }));
     } catch (error) {
       console.error('Error adding NFTs to the database:', error);
@@ -2804,7 +2820,6 @@ const Collection = ({
                               <path fill="none" d="M0 0h24v24H0z" />
                               <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
                             </svg>
-
                             <div>
                               <label className="block font-display text-jacarta-700 dark:text-white">
                                 Save all NFTs
@@ -2864,13 +2879,21 @@ const Collection = ({
                                     Save NFTs
                                   </label>
                                   <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Save all the collection NFTs to database
+                                    Save all the collection NFTs to database (Fetches onchain and save to DB)
                                   </p>
-                                  <div
-                                    onClick={() => (setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
-                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                  >
-                                    <span className="mt-0.5 block group-hover:text-white">Start Saving 🌟</span>
+                                  <div className="flex flex-wrap w-[100%] justify-start">
+                                    <div
+                                      onClick={() => (setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
+                                      className="w-[160px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                    >
+                                      <span className="mt-0.5 block group-hover:text-white">Save New NFTs 🌟</span>
+                                    </div>
+                                    <div
+                                      onClick={() => UpdateNFTAttributes(collection?._id)}
+                                      className="w-[220px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                    >
+                                      <span className="mt-0.5 block group-hover:text-white">Update Existing NFTs 🌟</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -2883,7 +2906,7 @@ const Collection = ({
                                     Update NFT count
                                   </label>
                                   <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Update the latest NFT count of this collection in database
+                                    Update the latest NFT count of this collection in database (fetches from DB and saves in DB)
                                   </p>
                                   <div
                                     onClick={() => (fetchAndUpdateNFTsCount())}
@@ -2976,11 +2999,13 @@ const Collection = ({
                                     Your NFTs will show rank once you compute it (compute only when all NFTs are
                                     minted)**
                                   </p>
-                                  <div
-                                    onClick={() => computeRarity(collection?._id)}
-                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                  >
-                                    <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
+                                  <div className="flex flex-wrap w-[100%] justify-start">
+                                    <div
+                                      onClick={() => computeRarity(collection?._id)}
+                                      className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                    >
+                                      <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
