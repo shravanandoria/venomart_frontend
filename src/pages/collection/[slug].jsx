@@ -29,7 +29,7 @@ import {
 import LaunchpadContractAbi from "../../../abi/LaunchpadContract.abi.json";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { addNFTViaOnchainRoll, createNFT, fetch_collection_nfts, fetch_only_collection_nfts } from "../../utils/mongo_api/nfts/nfts";
+import { addNFTViaOnchainRoll, createNFT, fetch_collection_nfts, fetch_only_collection_nfts, updateNFTViaOnchainRoll } from "../../utils/mongo_api/nfts/nfts";
 import { search_nfts } from "../../utils/mongo_api/search";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
 import BuyModal from "../../components/modals/BuyModal";
@@ -93,6 +93,7 @@ const Collection = ({
   const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
   const [onChainData, setOnChainData] = useState(false);
   const [adminPermittedAction, setAdminPermittedAction] = useState(false);
+  const [updatingNFTDB, setUpdatingNFTDB] = useState(false);
   const [saveNFTsDBModal, setSaveNFTsDBModal] = useState(false);
 
   const [skip, setSkip] = useState(0);
@@ -543,7 +544,7 @@ const Collection = ({
 
   // admin function to initiate NFT addition to DB 
   const fetchAndAddNFTsToDB = async () => {
-    if (adminPermittedAction === false) return;
+    if (adminPermittedAction == false) return;
     try {
       // fetching using RPC 
       const res = await loadNFTs_collection_RPC(venomProvider, slug, BlukAdditionLastNFT);
@@ -559,21 +560,37 @@ const Collection = ({
   const addNFTsToDB = async (nfts) => {
     try {
       const mappingNFTs = await Promise.all(nfts.map(async (nft) => {
+        let createdNFT;
         try {
           let jsonURL = nft?.files[0].source;
           if (jsonURL && (jsonURL.startsWith("https://") && jsonURL.endsWith(".json"))) {
             const JSONReq = await axios.get(jsonURL);
             let attributes = JSONReq.data.attributes;
-            const createdNFT = await addNFTViaOnchainRoll(nft, attributes, signer_address, slug);
+            if (updatingNFTDB) {
+              createdNFT = await updateNFTViaOnchainRoll(nft, attributes);
+            }
+            else {
+              createdNFT = await addNFTViaOnchainRoll(nft, attributes, signer_address, slug);
+            }
             return createdNFT;
           }
           else {
-            const createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+            if (updatingNFTDB) {
+              createdNFT = await updateNFTViaOnchainRoll(nft, undefined);
+            }
+            else {
+              createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+            }
             return createdNFT;
           }
         }
         catch (error) {
-          const createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+          if (updatingNFTDB) {
+            createdNFT = await updateNFTViaOnchainRoll(nft, undefined);
+          }
+          else {
+            createdNFT = await addNFTViaOnchainRoll(nft, undefined, signer_address, slug);
+          }
           return createdNFT;
         }
       }));
@@ -2889,10 +2906,10 @@ const Collection = ({
                                       <span className="mt-0.5 block group-hover:text-white">Save New NFTs 🌟</span>
                                     </div>
                                     <div
-                                      onClick={() => UpdateNFTAttributes(collection?._id)}
+                                      onClick={() => (setUpdatingNFTDB(true), setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
                                       className="w-[220px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
                                     >
-                                      <span className="mt-0.5 block group-hover:text-white">Update Existing NFTs 🌟</span>
+                                      <span className="mt-0.5 block group-hover:text-white">Update Existing NFTs 💫</span>
                                     </div>
                                   </div>
                                 </div>
