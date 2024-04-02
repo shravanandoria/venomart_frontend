@@ -39,7 +39,6 @@ export default async function handler(req, res) {
             isPropsEnabled,
             isFeatured,
             maxSupply,
-            jsonURL,
             Category,
             phases
           } = req.body;
@@ -58,7 +57,6 @@ export default async function handler(req, res) {
             royalty,
             socials,
             maxSupply,
-            jsonURL,
             status: "upcoming",
             phases: phases
           });
@@ -105,7 +103,6 @@ export default async function handler(req, res) {
             contractAddress,
             creatorAddress,
             socials,
-            jsonURL,
             status,
             phases
           } = req.body;
@@ -121,7 +118,6 @@ export default async function handler(req, res) {
               contractAddress,
               creatorAddress,
               socials,
-              jsonURL,
               status,
               phases
             }

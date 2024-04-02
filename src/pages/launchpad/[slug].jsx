@@ -93,7 +93,6 @@ const launchpad = ({
         discord: "",
         telegram: "",
         maxSupply: "",
-        jsonURL: "",
         status: "",
         phases: []
     });
@@ -245,7 +244,6 @@ const launchpad = ({
             discord: launchpaddata?.socials?.[2],
             telegram: launchpaddata?.socials?.[3],
             maxSupply: launchpaddata?.maxSupply,
-            jsonURL: launchpaddata?.jsonURL,
             status: launchpaddata?.status,
             phases: launchpaddata?.phases
         });
@@ -1432,28 +1430,6 @@ const launchpad = ({
                                             placeholder="Eg: Wild Hunters"
                                             value={data?.name}
                                         />
-                                        {adminAccount.includes(signer_address) &&
-                                            <div className="w-[350px] mt-6">
-                                                <label
-                                                    htmlFor="item-name"
-                                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                                >
-                                                    JSON URL (featured external link)
-                                                </label>
-                                                <input
-                                                    onChange={handleChange}
-                                                    name="jsonURL"
-                                                    type="text"
-                                                    id="item-name"
-                                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                        } `}
-                                                    value={data?.jsonURL}
-                                                    placeholder="Eg: https://venomart.io/"
-                                                />
-                                            </div>
-                                        }
                                         {adminAccount.includes(signer_address) &&
                                             <div className="w-[350px] mt-6">
                                                 <label

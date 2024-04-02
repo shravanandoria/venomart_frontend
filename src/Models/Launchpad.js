@@ -17,7 +17,6 @@ const Launchpad = new mongoose.Schema(
     royalty: String,
     socials: [String],
     maxSupply: String,
-    jsonURL: String,
     phases: [{
       phaseName: String,
       maxMint: String,

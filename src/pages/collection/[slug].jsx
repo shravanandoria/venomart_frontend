@@ -153,6 +153,7 @@ const Collection = ({
     isVerified: true,
     isPropsEnabled: true,
     isFeatured: false,
+    featureURL: "",
     isTrading: true,
     Category: "",
     description: "",
@@ -477,6 +478,7 @@ const Collection = ({
         isVerified: res?.data?.isVerified,
         isPropsEnabled: res?.data?.isPropsEnabled,
         isFeatured: res?.data?.isFeatured,
+        featureURL: res?.data?.featureURL,
         isTrading: res?.data?.isTrading,
         Category: res?.data?.Category,
         description: res?.data?.description,
@@ -3378,6 +3380,29 @@ const Collection = ({
                         />
                       </div>
                     </div>
+
+                    {/* feature URL */}
+                    {adminAccount.includes(signer_address) &&
+                      <div className="mb-6 flex justify-start flex-wrap">
+                        <div className="w-[350px] m-3 mr-6">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            feature URL (If the collection is set to feature on home page)
+                          </label>
+                          <input
+                            onChange={handleChange}
+                            name="featureURL"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Enter feature URL"
+                            value={data?.featureURL}
+                          />
+                        </div>
+                      </div>
+                    }
 
                     {/* trading and feature  */}
                     <div className="mb-6 flex justify-start flex-wrap">

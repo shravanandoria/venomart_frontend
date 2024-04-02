@@ -17,7 +17,6 @@ export const create_launchpad_collection = async (data) => {
     isPropsEnabled: data.isPropsEnabled,
     isFeatured: data.isFeatured,
     maxSupply: data.maxSupply,
-    jsonURL: data.jsonURL,
     Category: data.Category,
     phases: data.phases
   };
@@ -43,7 +42,6 @@ export const update_launchpad_collection = async (data) => {
     contractAddress: data.contractAddress,
     creatorAddress: data.creatorAddress,
     socials: [data.website, data.twitter, data.discord, data.telegram],
-    jsonURL: data.jsonURL,
     status: data.status,
     phases: data.phases
   };

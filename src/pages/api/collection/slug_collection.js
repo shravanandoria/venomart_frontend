@@ -163,6 +163,7 @@ export default async function handler(req, res) {
               isVerified: data.isVerified,
               isPropsEnabled: data.isPropsEnabled,
               isFeatured: data.isFeatured,
+              featureURL: data.featureURL,
               isTrading: data.isTrading,
               Category: data.Category,
               description: data.description,
@@ -189,6 +190,7 @@ export default async function handler(req, res) {
               isNSFW: data.isNSFW,
               isPropsEnabled: data.isPropsEnabled,
               isFeatured: data.isFeatured,
+              featureURL: data.featureURL,
               isTrading: data.isTrading,
               Category: data.Category ? data.Category : "",
               TotalSupply: data.TotalSupply ? data.TotalSupply : 0

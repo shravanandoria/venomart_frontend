@@ -153,7 +153,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                           alignItems: "center",
                         }}
                       >
-                        <Link href={`/collection/${e?.contractAddress}`} className="relative heroSectionFeatureCardSection">
+                        <Link href={e?.featureURL ? e?.featureURL : `/collection/${e?.contractAddress}`} className="relative heroSectionFeatureCardSection">
                           <Image
                             height={100}
                             width={100}
@@ -530,6 +530,6 @@ export default function Home({ theme, OtherImagesBaseURI }) {
           }
         </>
       }
-    </div>
+    </div >
   );
 }

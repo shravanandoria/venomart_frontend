@@ -39,7 +39,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
         isTrading,
         isActive,
         maxSupply: "",
-        jsonURL: "",
         Category: "Collectibles",
         phases: [
             {
@@ -578,7 +577,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                     </div>
                                 </div>
 
-                                {/* max supply & mint price  */}
+                                {/* max supply  */}
                                 <div className="mb-6 flex flex-wrap justify-start">
                                     <div className="w-[350px] m-3 mr-6">
                                         <label
@@ -601,28 +600,6 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                                                 } `}
                                             placeholder="1111"
                                             required
-                                        />
-                                    </div>
-                                    <div className="w-[350px] m-3">
-                                        <label
-                                            htmlFor="item-name"
-                                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                        >
-                                            Feature External URL
-                                        </label>
-                                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                            If the collection is to be featured with an external URL to other website
-                                        </p>
-                                        <input
-                                            onChange={handleChange}
-                                            name="jsonURL"
-                                            type="text"
-                                            id="item-name"
-                                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                                } `}
-                                            placeholder="ipfs.io/ipfs/QmNf1UsmdGaMbpatQ6toXSkzDpizaGmC9zfunCyoz1enD5/wilds/{id}.json"
                                         />
                                     </div>
                                 </div>
