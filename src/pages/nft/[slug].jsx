@@ -151,16 +151,17 @@ const NFTPage = ({
   const nft_info = async () => {
     setPageLoading(true);
     if ((!venomProvider || venomProvider == undefined) && !slug) return;
-    const nft_database = await nftInfo(slug);
-    if (nft_database) {
-      let obj = {
-        ...nft_database,
-        attributes: nft_database?.attributes != "" ? nft_database?.attributes : [],
-      };
-      setLastSold(nft_database?.lastSold);
-      setHigestOffer(nft_database?.highestOffer);
-      set_nft_info({ ...obj });
-    }
+    // const nft_database = await nftInfo(slug);
+    // if (nft_database) {
+    //   let obj = {
+    //     ...nft_database,
+    //     attributes: nft_database?.attributes != "" ? nft_database?.attributes : [],
+    //   };
+    //   setLastSold(nft_database?.lastSold);
+    //   setHigestOffer(nft_database?.highestOffer);
+    //   set_nft_info({ ...obj });
+    // }
+    const nft_database = undefined;
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(venomProvider, slug);
       if (nft_onchain?.attributes == "") {
@@ -582,6 +583,7 @@ const NFTPage = ({
   // getting collection info if onChainData
   const getCollectionDataForOnchain = async () => {
     const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
+    console.log({ collection_data })
     if (collection_data) {
       setCollectionData(collection_data);
     }
@@ -1031,7 +1033,7 @@ const NFTPage = ({
                           )}
                         </div>
                       </div>
-                      {(nft?.NFTCollection?.isTrading == true || collectionData?.data?.isTrading == true) ?
+                      {((nft?.NFTCollection?.isTrading == true) || (collectionData?.data?.isTrading == true)) ?
                         <button
                           onClick={() => (
                             onchainNFTData && getCollectionDataForOnchain(),
@@ -1048,6 +1050,7 @@ const NFTPage = ({
                         (onchainNFTData ?
                           <button
                             onClick={() => (
+                              onchainNFTData && getCollectionDataForOnchain(),
                               setSelectedNFT(""),
                               setListSale(true),
                               setAnyModalOpen(true)

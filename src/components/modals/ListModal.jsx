@@ -449,12 +449,21 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                     </svg>
                                 </button>
                             ) : (
-                                <button
-                                    type="submit"
-                                    className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
-                                >
-                                    List Now
-                                </button>
+                                (((nft?.NFTCollection && nft?.NFTCollection?.isTrading == true) || (collectionData?.data?.isTrading == true))) ?
+                                    <button
+                                        type="submit"
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        List Now
+                                    </button>
+                                    :
+                                    <button
+                                        type="button"
+                                        onClick={() => alert("Trading is currently disabled for this collection!")}
+                                        className="rounded-xl bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                                    >
+                                        List Now 🔒
+                                    </button>
                             )}
                         </div>
                     </div>
