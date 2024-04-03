@@ -49,7 +49,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
                 startDateUNIX: "",
                 EndDate: "",
                 EndDateUNIX: "",
-                EligibleWallets: ""
+                EligibleWallets: [""]
             }
         ]
     });
@@ -786,7 +786,7 @@ const CreateLaunch = ({ theme, adminAccount, signer_address }) => {
 
                                                                 <div className="relative my-3 flex items-center w-[100%] mt-8">
                                                                     <div className="flex-1 w-[100%]">
-                                                                        <p className="block font-display text-jacarta-700 dark:text-white">Eligible wallets</p>
+                                                                        <p className="block font-display text-jacarta-700 dark:text-white">Eligible wallets (Accepts only array)</p>
                                                                         <textarea name="EligibleWallets" className={`h-24 w-[100%] border border-jacarta-100 focus:ring-inset focus:ring-accent ${theme == "dark"
                                                                             ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
                                                                             : "rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
