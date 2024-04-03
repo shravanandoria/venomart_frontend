@@ -42,7 +42,7 @@ export const FactoryDirectSellAddress = new Address(
 );
 
 // all contract address here up
-  
+
 // ---- all functions used for rpc or graphql nft fetch ----
 export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
@@ -255,6 +255,7 @@ export const loadNFTs_collection = async (provider, collection_address, last_nft
 export const loadNFTs_collection_RPC = async (provider, collection_address, last_nft_addr) => {
   try {
     const nftCodeHash = await getNftCodeHash(provider, collection_address);
+    console.log({ nftCodeHash });
     if (!nftCodeHash) {
       return;
     }
@@ -579,7 +580,8 @@ export const buy_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
+        amount: "10000000",
+        // amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
       });
 
     if (output) {
