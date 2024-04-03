@@ -603,7 +603,7 @@ const launchpad = ({
 
     useEffect(() => {
         getLaunchpadData();
-    }, [slug]);
+    }, [slug, signer_address]);
 
     useEffect(() => {
         getUserWalletMints();
