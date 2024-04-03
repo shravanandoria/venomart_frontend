@@ -191,6 +191,9 @@ const launchpad = ({
     // handling creator_is_minting 
     const creator_is_minting = async () => {
         if (!venomProvider) return;
+        if (creatorMintCount > 25) {
+            alert("You can only mint upto 25 NFTs in one transaction!!")
+        }
         if (!creatorMintReciever) {
             alert("Please enter the receiver address!!")
             return;

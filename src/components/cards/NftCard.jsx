@@ -80,6 +80,9 @@ const NftCard = ({
             src={ImageSrc?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
             height={100}
             width={100}
+            placeholder="blur"
+            blurDataURL="data:..."
+            loading='lazy'
             alt="nftItem"
             className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
           />
