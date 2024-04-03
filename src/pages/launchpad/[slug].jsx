@@ -224,6 +224,7 @@ const launchpad = ({
 
     // getting launchpad data
     const getLaunchpadData = async () => {
+        if (!slug) return;
         setLoading(true);
         const launchpaddata = await get_launchpad_by_name(slug);
         setStatus(launchpaddata?.status);
@@ -394,7 +395,7 @@ const launchpad = ({
 
     // update mint status
     const updateMintStatus = async () => {
-        if ((!collectionData) && (collectionData == "") && (collectionData.pageName == "") && (!collectionData.phases) && (!signer_address)) return;
+        if ((!collectionData) || (collectionData == "") || (collectionData.pageName == "") || (!collectionData.phases) || (!signer_address)) return;
 
         if (collectionData?.phases) {
             const endLength = collectionData?.phases?.length - 1;
@@ -440,7 +441,7 @@ const launchpad = ({
 
     // get phase wise minted NFTs count onchain
     const getPhaseWiseMinted = async () => {
-        if (!venomProvider && !collectionData && !signer_address) return;
+        if (!venomProvider || !collectionData || !signer_address) return;
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
@@ -449,10 +450,14 @@ const launchpad = ({
     const getUserWalletMints = async () => {
         if (!collectionData || !signer_address) return;
         const walletMints = await get_user_mints(collectionData?.contractAddress, signer_address);
-        setOffChainMintedNFTsLength(walletMints?.length);
         if (walletMints != "") {
+            setOffChainMintedNFTsLength(walletMints?.length);
             setMintedNFTsArray(walletMints);
             setUserMints(true);
+        }
+        else {
+            setMintedNFTsArray("");
+            setUserMints(false);
         }
     }
 
@@ -597,21 +602,19 @@ const launchpad = ({
     };
 
     useEffect(() => {
-        if (!slug) return;
         getLaunchpadData();
-        getUserWalletMints();
-    }, [slug, signer_address]);
+    }, [slug]);
 
     useEffect(() => {
-        if (!venomProvider || !collectionData || !signer_address) return;
+        getUserWalletMints();
+    }, [collectionData, signer_address]);
+
+    useEffect(() => {
         getMintedSupply();
-        updateMintStatus();
-        getUserWalletMints();
-    }, [venomProvider, collectionData, signer_address]);
+    }, [venomProvider, collectionData]);
 
     useEffect(() => {
-        if (!signer_address) return;
-        selectPhaseFunction();
+        updateMintStatus();
     }, [signer_address]);
 
     useEffect(() => {
