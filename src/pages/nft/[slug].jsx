@@ -151,17 +151,16 @@ const NFTPage = ({
   const nft_info = async () => {
     setPageLoading(true);
     if ((!venomProvider || venomProvider == undefined) && !slug) return;
-    // const nft_database = await nftInfo(slug);
-    // if (nft_database) {
-    //   let obj = {
-    //     ...nft_database,
-    //     attributes: nft_database?.attributes != "" ? nft_database?.attributes : [],
-    //   };
-    //   setLastSold(nft_database?.lastSold);
-    //   setHigestOffer(nft_database?.highestOffer);
-    //   set_nft_info({ ...obj });
-    // }
-    const nft_database = undefined;
+    const nft_database = await nftInfo(slug);
+    if (nft_database) {
+      let obj = {
+        ...nft_database,
+        attributes: nft_database?.attributes != "" ? nft_database?.attributes : [],
+      };
+      setLastSold(nft_database?.lastSold);
+      setHigestOffer(nft_database?.highestOffer);
+      set_nft_info({ ...obj });
+    }
     if (nft_database == undefined) {
       const nft_onchain = await get_nft_by_address(venomProvider, slug);
       if (nft_onchain?.attributes == "") {
