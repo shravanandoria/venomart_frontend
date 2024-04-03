@@ -1444,7 +1444,10 @@ const launchpad = ({
                                                 >
                                                     Launchpad Status
                                                 </label>
-                                                <input
+                                                <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                                    select the current status for the project
+                                                </p>
+                                                {/* <input
                                                     onChange={handleChange}
                                                     name="status"
                                                     type="text"
@@ -1455,7 +1458,22 @@ const launchpad = ({
                                                         } `}
                                                     value={data?.status}
                                                     placeholder="Live"
-                                                />
+                                                /> */}
+                                                <select
+                                                    name="status"
+                                                    onChange={handleChange}
+                                                    className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                                        ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                                        : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                                        } `}
+                                                    defaultValue={data?.status}
+                                                >
+                                                    <option value={data?.status}>{data?.status}</option>
+                                                    <option value={"upcoming"}>upcoming</option>
+                                                    <option value={"live"}>live</option>
+                                                    <option value={"ended"}>ended</option>
+                                                    <option value={"sold out"}>sold out</option>
+                                                </select>
                                             </div>
                                         }
                                     </div>
