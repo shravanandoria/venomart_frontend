@@ -1010,7 +1010,7 @@ const Collection = ({
                 className="h-[18.75rem] w-[100%] object-cover"
               />
             )}
-            {(adminAccount.includes(signer_address) || signer_address == collection?.creatorAddress) && (
+            {(signer_address && ((adminAccount.includes(signer_address)) || (signer_address == collection?.creatorAddress))) && (
               <div className="container relative -translate-y-4 cursor-pointer" onClick={() => setEditModal(true)}>
                 <div className="group absolute right-0 bottom-2 flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                   <span className="mt-0.5 block group-hover:text-white">Collection Settings ⚙️</span>
