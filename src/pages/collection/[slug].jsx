@@ -3030,66 +3030,68 @@ const Collection = ({
                     )}
 
                     {/* rarity computation  */}
-                    <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
-                      <div className="flex items-center justify-between">
-                        <div className="flex">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
-                          </svg>
-
-                          <div>
-                            <label className="block font-display text-jacarta-700 dark:text-white">
-                              Compute Rarity
-                            </label>
-                            <p className="dark:text-jacarta-300">
-                              If you want your NFTs to show rank you have to compute their rarity
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
-                          type="button"
-                          id="item-properties"
-                          data-bs-toggle="modal"
-                          data-bs-target="#propertiesModal"
-                          onClick={() => setRarityModal(!rarityModal)}
-                        >
-                          {!rarityModal ? (
+                    {adminAccount.includes(signer_address) &&
+                      <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                        <div className="flex items-center justify-between">
+                          <div className="flex">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                               width="24"
                               height="24"
-                              className="fill-accent group-hover:fill-white"
+                              className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
                             >
                               <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                              <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
                             </svg>
-                          ) : (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                            </svg>
-                          )}
-                        </button>
+
+                            <div>
+                              <label className="block font-display text-jacarta-700 dark:text-white">
+                                Compute Rarity
+                              </label>
+                              <p className="dark:text-jacarta-300">
+                                If you want your NFTs to show rank you have to compute their rarity
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                            type="button"
+                            id="item-properties"
+                            data-bs-toggle="modal"
+                            data-bs-target="#propertiesModal"
+                            onClick={() => setRarityModal(!rarityModal)}
+                          >
+                            {!rarityModal ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="fill-accent group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                              </svg>
+                            )}
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    }
 
                     {/* <!-- rarity compute Modal --> */}
-                    {rarityModal && (
+                    {(rarityModal && adminAccount.includes(signer_address)) && (
                       <div>
                         <div className="max-w-2xl mb-4">
                           <div className="modal-content">
@@ -3311,32 +3313,34 @@ const Collection = ({
                           value={data?.royaltyAddress}
                         />
                       </div>
-                      <div className="w-[350px] m-3">
-                        <label
-                          htmlFor="item-name"
-                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                        >
-                          Creator Royalty (%)
-                        </label>
-                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                          If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
-                          our platform.
-                        </p>
-                        <input
-                          onChange={handleChange}
-                          name="royalty"
-                          type="number"
-                          id="item-name"
-                          max={10}
-                          step="any"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Eg: 5"
-                          value={data?.royalty}
-                        />
-                      </div>
+                      {adminAccount.includes(signer_address) &&
+                        <div className="w-[350px] m-3">
+                          <label
+                            htmlFor="item-name"
+                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                          >
+                            Creator Royalty (%)
+                          </label>
+                          <p className="mb-3 text-2xs dark:text-jacarta-300">
+                            If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
+                            our platform.
+                          </p>
+                          <input
+                            onChange={handleChange}
+                            name="royalty"
+                            type="number"
+                            id="item-name"
+                            max={10}
+                            step="any"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Eg: 5"
+                            value={data?.royalty}
+                          />
+                        </div>
+                      }
                     </div>
 
                     {/* website & twitter  */}
@@ -3440,21 +3444,23 @@ const Collection = ({
 
                     {/* trading and feature  */}
                     <div className="mb-6 flex justify-start flex-wrap">
-                      <div className=" m-3 mr-12">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Enable Trading
-                        </label>
-                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                          If checked trading will be enabled instantly
-                        </p>
-                        <input
-                          type="checkbox"
-                          name="isTrading"
-                          value={data?.isTrading}
-                          checked={data?.isTrading}
-                          onChange={handleCheckChange}
-                        />
-                      </div>
+                      {adminAccount.includes(signer_address) &&
+                        <div className=" m-3 mr-12">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Enable Trading
+                          </label>
+                          <p className="mb-3 text-2xs dark:text-jacarta-300">
+                            If checked trading will be enabled instantly
+                          </p>
+                          <input
+                            type="checkbox"
+                            name="isTrading"
+                            value={data?.isTrading}
+                            checked={data?.isTrading}
+                            onChange={handleCheckChange}
+                          />
+                        </div>
+                      }
                       <div className=" m-3">
                         <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
                           Enable Properties Filter
