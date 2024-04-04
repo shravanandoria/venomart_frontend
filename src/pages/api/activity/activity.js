@@ -25,6 +25,7 @@ export default async function handler(req, res) {
             }
             else if (activityType == "sale") {
               activityQuery.to = user_wallet;
+              activityQuery.type = "sale";
             }
             else {
               activityQuery.owner = user_id;
