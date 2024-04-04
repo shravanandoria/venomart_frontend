@@ -37,7 +37,7 @@ export default async function handler(req, res) {
               },
               {
                 $addFields: {
-                  priceAsDouble: { $toDouble: "$listingPrice" }
+                  priceAsDouble: { $toDouble: "$demandPrice" }
                 }
               },
               {
