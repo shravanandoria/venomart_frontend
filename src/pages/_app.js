@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   // default values
-  const venomPrice = 0.55;
+  const venomPrice = 0.52;
   const venomTPS = 95400;
   const currency = "VENOM";
   const blockChain = "Venom Mainnet";

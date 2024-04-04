@@ -126,13 +126,18 @@ export default async function handler(req, res) {
             ]);
             return nftResult[0]?.minimumListingPrice || null;
           };
-
           const minimumListingPrice = await getFloorPriceForCollection(find_collection?._id);
+
+          const total_listed = await NFT.countDocuments({
+            NFTCollection: find_collection?._id,
+            isListed: true
+          });
 
           const mergedData =
             collection_activity.map((collection) => ({
               ...collection,
               FloorPrice: minimumListingPrice,
+              TotalListed: total_listed,
               ...find_collection?._doc,
             }))
 
