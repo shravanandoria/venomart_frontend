@@ -415,10 +415,10 @@ const launchpad = ({
                 const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "live");
             }
 
-            if ((today > endDate) && (collectionData.status != "sold out")) {
-                if (collectionData?.status == "ended") return;
-                const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
-            }
+            // if ((today > endDate) && (collectionData.status != "sold out")) {
+            //     if (collectionData?.status == "ended") return;
+            //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "ended");
+            // }
             // if ((mintedNFTs != 0 && (mintedNFTs >= collectionData?.maxSupply)) && (collectionData.status != "sold out")) {
             //     const updateStatus = await updateLaunchpadStatus(collectionData?.pageName, "sold out");
             // }
