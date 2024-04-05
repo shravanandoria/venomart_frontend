@@ -14,8 +14,23 @@ export default async function handler(req, res) {
       case "GET":
         try {
           const { sortby, skip } = req.query;
+          let filters = {};
+          if (sortby) {
+            if (sortby == "upcoming") {
+              filters.status = "upcoming";
+            }
+            if (sortby == "live") {
+              filters.status = "live";
+            }
+            if (sortby == "ended") {
+              filters.status = "ended";
+            }
+            if (sortby == "sold out") {
+              filters.status = "sold out";
+            }
+          }
 
-          const launchpadData = await Launchpad.find({}).skip(skip).limit(9).sort({ createdAt: -1 });
+          const launchpadData = await Launchpad.find(filters).skip(skip).limit(9).sort({ createdAt: -1 });
           res.status(200).json({ success: true, data: launchpadData });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });

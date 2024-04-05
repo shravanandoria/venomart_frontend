@@ -69,7 +69,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
   };
 
   const fetchLaunchpadCollections = async () => {
-    const collectionsJSON = await get_launchpad_events("upcoming", 0);
+    const collectionsJSON = await get_launchpad_events("", 0);
     if (collectionsJSON) {
       setLaunchCollections([...launchCollections, ...collectionsJSON]);
     }
