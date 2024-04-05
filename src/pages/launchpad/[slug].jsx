@@ -209,6 +209,7 @@ const launchpad = ({
 
     // handling mint count
     const handlemintCountInc = () => {
+        if (mintCount >= 25) return alert(`You can only mint 25 NFTs in one transaction!`);
         if (mintCount >= (selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount))) return alert(`You only have ${selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount)} mints left in this phase!`);
         if (mintCount < selected_phase?.maxMint) {
             setMintCount(mintCount + 1);
@@ -928,8 +929,8 @@ const launchpad = ({
                                                         {((collectionData?.status != "ended") && (collectionData?.status != "sold out")) ?
                                                             <div>
                                                                 {new Date(convertDBTimeToLocal(phase?.startDate)) < new Date() && new Date(convertDBTimeToLocal(phase?.EndDate)) > new Date() && (
-                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                        <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2 mt-2">
+                                                                        <div className={`whitespace-nowrap font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                             Ends In
                                                                         </div>
                                                                         <span
@@ -940,9 +941,16 @@ const launchpad = ({
                                                                         </span>
                                                                     </div>
                                                                 )}
+                                                                {new Date() > new Date(convertDBTimeToLocal(phase?.EndDate)) && (
+                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2 mt-2">
+                                                                        <div className={`font-mono whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                            Ended
+                                                                        </div>
+                                                                    </div>
+                                                                )}
                                                                 {new Date(convertDBTimeToLocal(phase?.startDate)) > new Date() && (
-                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                        <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                    <div className="flex flex-col w-[30%] align-middle justify-end mr-2 mt-2">
+                                                                        <div className={`font-mono whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                             Starts In
                                                                         </div>
                                                                         <span
@@ -956,14 +964,14 @@ const launchpad = ({
                                                             </div>
                                                             :
                                                             (collectionData?.status == "ended") ?
-                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                    <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2 mt-2">
+                                                                    <div className={`font-mono whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                         Ended
                                                                     </div>
                                                                 </div>
                                                                 :
-                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2">
-                                                                    <div className={`font-mono ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
+                                                                <div className="flex flex-col w-[30%] align-middle justify-end mr-2 mt-2">
+                                                                    <div className={`font-mono whitespace-nowrap ${theme == "dark" ? "text-[#efefef]" : "text-[#191919]"}`}>
                                                                         Sold out
                                                                     </div>
                                                                 </div>
