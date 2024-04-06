@@ -90,19 +90,6 @@ export default async function handler(req, res) {
                         return mergedData;
                     }));
 
-                    // // Sort the NFTs by rarity score in ascending order
-                    // updatedNFTs.sort((a, b) => a.rarityScore - b.rarityScore);
-
-                    // // Assign ranks based on the sorted order
-                    // updatedNFTs.forEach((nft, index) => {
-                    //     nft.rank = index + 1;
-                    // });
-
-                    // // Update ranks in the database
-                    // await Promise.all(updatedNFTs.map(async (nft) => {
-                    //     const rarityUpdate = await NFT.findByIdAndUpdate(new mongoose.Types.ObjectId(nft.nft_id), { rank: nft.rank });
-                    // }));
-
                     // Sort the NFTs by rarity score in ascending order
                     updatedNFTs.sort((a, b) => b.rarityScore - a.rarityScore);
 
@@ -118,7 +105,7 @@ export default async function handler(req, res) {
                             previousRarityScore = nft.rarityScore;
                         } else {
                             // If rarity score is the same as the previous one, keep the same rank
-                            nft.rank = currentRank;
+                            nft.rank = currentRank + 1;
                         }
                     });
 
