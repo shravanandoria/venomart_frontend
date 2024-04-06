@@ -7,7 +7,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import { platform_fees } from '../../utils/user_nft'
 import numeral from 'numeral'
 
-const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked, NFTImagesBaseURI }) => {
+const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set_listing_price, creatorRoyalty, setCreatorRoyalty, platformFees, setPlatformFees, nft, collectionData, onchainNFTData, loading, currency, confirmChecked, setConfirmChecked, NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
 
     function formatNumberShort(number) {
         if (number >= 1e6) {
@@ -157,7 +157,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                         <source
                                             src={onchainNFTData
                                                 ? nft?.preview?.source
-                                                : nft?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
+                                                : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
                                             type="video/mp4"
                                         ></source>
                                     </video>
@@ -167,7 +167,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                             onchainNFTData
                                                 ? nft?.preview?.source
                                                 : nft?.nft_image?.replace(
-                                                    "https://ipfs.io/ipfs/", NFTImagesBaseURI
+                                                    NFTImageToReplaceURIs, NFTImagesBaseURI
                                                 )
                                         }
                                         alt="nftPreview"

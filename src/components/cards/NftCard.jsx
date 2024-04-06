@@ -29,7 +29,8 @@ const NftCard = ({
   setCartNFTs,
   Description,
   rank,
-  NFTImagesBaseURI
+  NFTImagesBaseURI,
+  NFTImageToReplaceURIs
 }) => {
   const [isHovering, SetIsHovering] = useState(false);
 
@@ -77,7 +78,7 @@ const NftCard = ({
           </video>
           :
           <Image
-            src={ImageSrc?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
+            src={ImageSrc?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
             height={100}
             width={100}
             placeholder="blur"

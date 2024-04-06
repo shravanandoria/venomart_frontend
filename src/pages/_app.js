@@ -36,6 +36,7 @@ export default function App({ Component, pageProps }) {
   const blockURL = "https://venomscan.com/";
   const GQLEndpoint = "https://gql.venom.foundation/graphql";
   const apiFetchURL = "https://api.venomscan.com/v1/accounts";
+  const NFTImageToReplaceURIs = /(https:\/\/ipfs\.io\/ipfs\/|https:\/\/ipfs\.venomart\.io\/ipfs\/)/g;
   const NFTImagesBaseURI = "https://ipfs.io/ipfs/"; //the base ipfs uri for all the NFT images https://ipfs.venomart.io/ipfs/  
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
   const defTheme = "dark";
@@ -227,6 +228,7 @@ export default function App({ Component, pageProps }) {
           EnableNFTSale={EnableNFTSale}
           OtherImagesBaseURI={OtherImagesBaseURI}
           NFTImagesBaseURI={NFTImagesBaseURI}
+          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
         />
       </TonClientContextProvider>
       <Footer
@@ -243,6 +245,7 @@ export default function App({ Component, pageProps }) {
         EnableNFTSale={EnableNFTSale}
         OtherImagesBaseURI={OtherImagesBaseURI}
         NFTImagesBaseURI={NFTImagesBaseURI}
+        NFTImageToReplaceURIs={NFTImageToReplaceURIs}
       />
     </ThirdwebProvider>
   );

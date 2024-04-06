@@ -12,7 +12,7 @@ import { search_collections } from "../../utils/mongo_api/search";
 import Image from "next/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImagesBaseURI }) => {
+const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
 
     const [collectionLoading, setCollectionLoading] = useState(false);
     const [collectionSearchINP, setCollectionSearchINP] = useState("");
@@ -517,6 +517,7 @@ const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImag
                                                 ToUser={e?.toUser}
                                                 signerAddress={signer_address}
                                                 NFTImagesBaseURI={NFTImagesBaseURI}
+                                                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                                             />
                                         ))}
                                     </InfiniteScroll>

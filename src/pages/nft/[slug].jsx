@@ -66,6 +66,7 @@ const NFTPage = ({
   NFTDataProps,
   OtherImagesBaseURI,
   NFTImagesBaseURI,
+  NFTImageToReplaceURIs,
   adminAccount
 }) => {
   const router = useRouter();
@@ -639,13 +640,13 @@ const NFTPage = ({
 
         <meta property="og:title" content={`${NFTDataProps?.name ? NFTDataProps?.name : "NFT"} - Venomart Marketplace`} />
         <meta property="og:description" content={`${NFTDataProps?.NFTCollection?.description ? NFTDataProps?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta property="og:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta property="og:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta property="og:url" content={"https://venomart.io/"} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${NFTDataProps?.name ? NFTDataProps?.name : "NFT"} - Venomart Marketplace`} />
         <meta name="twitter:description" content={`${NFTDataProps?.NFTCollection?.description ? NFTDataProps?.NFTCollection?.description : "Explore, Create and Experience exclusive NFTs on Venomart"} | Powered by Venomart`} />
-        <meta name="twitter:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
+        <meta name="twitter:image" content={`${NFTDataProps?.nft_image ? NFTDataProps?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI) : "https://ipfs.io/ipfs/QmRu7vbYVqRu88pwUzYYWTPCfpDEbzSWETYWDtzeZ4sLHd/dislogo.jpg"}`} />
         <meta name="twitter:site" content="@venomart23" />
         <meta name="twitter:creator" content="@venomart23" />
 
@@ -687,7 +688,7 @@ const NFTPage = ({
                         src={
                           onchainNFTData
                             ? nft?.preview?.source
-                            : nft?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)
+                            : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)
                         }
                         type="video/mp4"
                       ></source>
@@ -697,7 +698,7 @@ const NFTPage = ({
                       src={
                         onchainNFTData
                           ? nft?.preview?.source
-                          : nft?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)
+                          : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)
                       }
                       width={100}
                       height={100}
@@ -2097,7 +2098,7 @@ const NFTPage = ({
                           }}
                         >
                           <NftCard
-                            ImageSrc={e?.nft_image?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
+                            ImageSrc={e?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
                             Name={e?.name}
                             Address={e.NFTAddress}
                             Owner={e?.ownerAddress}
@@ -2117,6 +2118,7 @@ const NFTPage = ({
                             cartNFTs={cartNFTs}
                             setCartNFTs={setCartNFTs}
                             NFTImagesBaseURI={NFTImagesBaseURI}
+                            NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                           />
                         </SwiperSlide>
                       );
@@ -2318,6 +2320,7 @@ const NFTPage = ({
               onchainNFTData={onchainNFTData}
               collectionData={collectionData}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -2337,6 +2340,7 @@ const NFTPage = ({
               NFTListingPrice={selectedNFT ? selectedNFT?.listingPrice : (nft?.listingPrice != "0" ? nft?.listingPrice : nft?.demandPrice)}
               actionLoad={loading}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -2354,6 +2358,7 @@ const NFTPage = ({
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -2373,6 +2378,7 @@ const NFTPage = ({
               NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
               actionLoad={loading}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
         </section>

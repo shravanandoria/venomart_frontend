@@ -64,7 +64,8 @@ const Collection = ({
   adminAccount,
   collectionData,
   OtherImagesBaseURI,
-  NFTImagesBaseURI
+  NFTImagesBaseURI,
+  NFTImageToReplaceURIs
 }) => {
   const router = useRouter();
   const storage = useStorage();
@@ -2009,6 +2010,7 @@ const Collection = ({
                                 cartNFTs={cartNFTs}
                                 setCartNFTs={setCartNFTs}
                                 NFTImagesBaseURI={NFTImagesBaseURI}
+                                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                               />
                             );
                           })}
@@ -2062,6 +2064,7 @@ const Collection = ({
                                       cartNFTs={cartNFTs}
                                       setCartNFTs={setCartNFTs}
                                       NFTImagesBaseURI={NFTImagesBaseURI}
+                                      NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                                     />
                                   );
                                 })}
@@ -2650,6 +2653,7 @@ const Collection = ({
                               ToUser={e?.toUser}
                               signerAddress={signer_address}
                               NFTImagesBaseURI={NFTImagesBaseURI}
+                              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                             />
                           ))}
                         </InfiniteScroll>
@@ -3658,6 +3662,7 @@ const Collection = ({
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -3675,6 +3680,7 @@ const Collection = ({
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -3694,6 +3700,7 @@ const Collection = ({
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
         </div>

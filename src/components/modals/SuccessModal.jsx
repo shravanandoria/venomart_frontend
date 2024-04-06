@@ -8,7 +8,7 @@ import { GoArrowUpRight } from 'react-icons/go';
 import numeral from 'numeral';
 import { useRouter } from 'next/router';
 
-const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, NFTImage, NFTName, NFTCollectionName, NFTAddress, NFTCollectionContract, CollectionVerification, NFTListingPrice, TransactionType = "List", NFTImagesBaseURI }) => {
+const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, NFTImage, NFTName, NFTCollectionName, NFTAddress, NFTCollectionContract, CollectionVerification, NFTListingPrice, TransactionType = "List", NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
     const { pathname } = useRouter();
 
     function formatNumberShort(number) {
@@ -97,14 +97,14 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                             loop={true}
                                         >
                                             <source
-                                                src={NFTImage?.replace("https://ipfs.io/ipfs/", NFTImagesBaseURI)}
+                                                src={NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
                                                 type="video/mp4"
                                             ></source>
                                         </video>
                                         :
                                         <Image
                                             src={NFTImage?.replace(
-                                                "https://ipfs.io/ipfs/", NFTImagesBaseURI
+                                                NFTImageToReplaceURIs, NFTImagesBaseURI
                                             )}
                                             alt="nftPreview"
                                             width="70"

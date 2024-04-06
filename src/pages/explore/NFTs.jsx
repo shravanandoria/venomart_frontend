@@ -17,7 +17,7 @@ import CancelModal from "../../components/modals/CancelModal";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SuccessModal from "../../components/modals/SuccessModal";
 
-const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale, OtherImagesBaseURI, NFTImagesBaseURI }) => {
+const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs, setCartNFTs, vnmBalance, connectWallet, EnableNFTCancel, EnableNFTSale, OtherImagesBaseURI, NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
   const [loading, setLoading] = useState(false);
   const [actionLoad, setActionLoad] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -952,6 +952,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                             cartNFTs={cartNFTs}
                             setCartNFTs={setCartNFTs}
                             NFTImagesBaseURI={NFTImagesBaseURI}
+                            NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                           />
                         );
                       })}
@@ -984,6 +985,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTListingPrice={selectedNFT?.listingPrice}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -1001,6 +1003,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
 
@@ -1020,6 +1023,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
               NFTName={selectedNFT?.name}
               actionLoad={actionLoad}
               NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
             />
           )}
         </div>

@@ -44,6 +44,7 @@ const Profile = ({
   profileDataProps,
   OtherImagesBaseURI,
   NFTImagesBaseURI,
+  NFTImageToReplaceURIs,
   adminAccount
 }) => {
   const [user_data, set_user_data] = useState({});
@@ -1406,6 +1407,7 @@ const Profile = ({
                               cartNFTs={cartNFTs}
                               setCartNFTs={setCartNFTs}
                               NFTImagesBaseURI={NFTImagesBaseURI}
+                              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                             />
                           );
                         })}
@@ -1471,6 +1473,7 @@ const Profile = ({
                           cartNFTs={cartNFTs}
                           setCartNFTs={setCartNFTs}
                           NFTImagesBaseURI={NFTImagesBaseURI}
+                          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                         />
                       );
                     })}
@@ -1787,6 +1790,7 @@ const Profile = ({
                           ToUser={e?.toUser}
                           signerAddress={signer_address}
                           NFTImagesBaseURI={NFTImagesBaseURI}
+                          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
                         />
                       ))}
                     </InfiniteScroll>
@@ -1826,6 +1830,7 @@ const Profile = ({
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
           NFTImagesBaseURI={NFTImagesBaseURI}
+          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
         />
       )}
 
@@ -1845,6 +1850,7 @@ const Profile = ({
           NFTListingPrice={selectedNFT?.listingPrice}
           actionLoad={actionLoad}
           NFTImagesBaseURI={NFTImagesBaseURI}
+          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
         />
       )}
 
@@ -1864,6 +1870,7 @@ const Profile = ({
           NFTName={selectedNFT?.name}
           actionLoad={actionLoad}
           NFTImagesBaseURI={NFTImagesBaseURI}
+          NFTImageToReplaceURIs={NFTImageToReplaceURIs}
         />
       )}
     </div>
