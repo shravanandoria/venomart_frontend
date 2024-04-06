@@ -703,7 +703,7 @@ const launchpad = ({
                                         style={{ fontSize: "35px" }}
                                     >
                                         <span> {collectionData?.name} </span>{" "}
-                                        {collectionData?.isVerified && (
+                                        {collectionData && (
                                             <MdVerified
                                                 style={{
                                                     color: "#4f87ff",
@@ -1979,25 +1979,25 @@ const launchpad = ({
                                                                 required
                                                             />
                                                         </div>
-                                                        {/* {((new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) < new Date()) && (new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate)) > new Date())) ? */}
-                                                        <div className="w-[350px] m-3">
-                                                            {!loading ?
-                                                                <div onClick={() => creator_is_minting()} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
-                                                                    <span className="mt-0.5 block group-hover:text-white">Mint NFTs 🌟</span>
-                                                                </div>
-                                                                :
-                                                                <div className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
-                                                                    <span className="mt-0.5 block group-hover:text-white">Please wait...</span>
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                        {/* :
+                                                        {((new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[0]?.startDate)) < new Date()) && (new Date(collectionData && convertDBTimeToLocal(collectionData?.phases[collectionData?.phases?.length - 1]?.EndDate)) > new Date())) ?
+                                                            <div className="w-[350px] m-3">
+                                                                {!loading ?
+                                                                    <div onClick={() => creator_is_minting()} className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                                                                        <span className="mt-0.5 block group-hover:text-white">Mint NFTs 🌟</span>
+                                                                    </div>
+                                                                    :
+                                                                    <div className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
+                                                                        <span className="mt-0.5 block group-hover:text-white">Please wait...</span>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            :
                                                             <div className="w-[350px] m-3">
                                                                 <div className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer">
                                                                     <span className="mt-0.5 block group-hover:text-white">Cannot mint now!!</span>
                                                                 </div>
                                                             </div>
-                                                        } */}
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>

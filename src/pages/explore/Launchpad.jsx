@@ -155,7 +155,7 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                       }`}
                   >
                     <span className={`text-2xs font-medium  ${sortby == "upcoming" && "text-white"}`}>
-                      upcoming
+                      Upcoming
                     </span>
                   </button>
                   <button
@@ -166,7 +166,7 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                       }`}
                   >
                     <span className={`text-2xs font-medium  ${sortby == "live" && "text-white"}`}>
-                      live
+                      Live
                     </span>
                   </button>
                   <button
@@ -177,7 +177,7 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                       }`}
                   >
                     <span className={`text-2xs font-medium  ${sortby == "ended" && "text-white"}`}>
-                      ended
+                      Ended
                     </span>
                   </button>
                   <button
@@ -188,7 +188,7 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                       }`}
                   >
                     <span className={`text-2xs font-medium  ${sortby == "sold out" && "text-white"}`}>
-                      sold out
+                      Sold Out
                     </span>
                   </button>
                 </div>
@@ -222,6 +222,7 @@ const Launchpad = ({ theme, OtherImagesBaseURI }) => {
                       Description={e.description}
                       mintPrice={e?.phases[endLength]?.mintPrice}
                       supply={e.maxSupply}
+                      mintedSupply={e.TotalSupply}
                       status={e.status}
                       verified={true}
                       CollectionAddress={e.contractAddress}

@@ -31,6 +31,21 @@ export default async function handler(req, res) {
           }
 
           const launchpadData = await Launchpad.find(filters).skip(skip).limit(9).sort({ createdAt: -1 });
+
+          // Loop through launchpadData to find associated collection and merge TotalSupply
+          for (let i = 0; i < launchpadData.length; i++) {
+            const launchpad = launchpadData[i];
+            const collection = await Collection.findOne({ contractAddress: launchpad.contractAddress }).select({ TotalSupply: 1 });
+
+            // Merge TotalSupply into launchpadData
+            if (collection) {
+              launchpadData[i] = {
+                ...launchpad.toObject(), // Convert Mongoose object to plain object
+                TotalSupply: collection.TotalSupply
+              };
+            }
+          }
+
           res.status(200).json({ success: true, data: launchpadData });
         } catch (error) {
           res.status(400).json({ success: false, data: error.message });

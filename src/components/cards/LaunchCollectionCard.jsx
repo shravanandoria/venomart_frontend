@@ -15,6 +15,7 @@ const LaunchCollectionCard = ({
   Description,
   mintPrice,
   supply,
+  mintedSupply,
   status,
   CollectionAddress,
   pageName,
@@ -28,7 +29,7 @@ const LaunchCollectionCard = ({
 
   return (
     <Link href={`/launchpad/${pageName ? pageName : CollectionAddress}`}>
-      <div className="relative rounded-2.5xl border border-jacarta-100 bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:border-jacarta-700 dark:bg-jacarta-700 h-[420px] w-[320px] overflow-hidden m-2 sm:m-4">
+      <div className={`relative rounded-2.5xl ${status == "live" ? "border border-purple-800 dark:border-green-800" : "border border-jacarta-100 dark:border-jacarta-700"} bg-white p-[1.1875rem] transition-shadow hover:shadow-lg dark:bg-jacarta-700 h-[420px] w-[320px] overflow-hidden m-2 sm:m-4`}>
 
         <div
           className="relative flex space-x-[0.625rem]"
@@ -148,7 +149,7 @@ const LaunchCollectionCard = ({
             <div className="text-[4px] text-jacarta-700 dark:text-white font-mono font-medium mb-1 mt-[-8px]">
               <div className="show-counter">
                 <div className="countdown-link text-jacarta-600 dark:text-jacarta-200">
-                  {supply}/{supply}
+                  {mintedSupply}/{supply}
                 </div>
               </div>
             </div>
@@ -172,13 +173,24 @@ const LaunchCollectionCard = ({
         <div className="flex justify-between align-middle mx-2">
           {(status == "live" || status == "upcoming") &&
             <button className="flex align-middle justify-center self-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-              <GoDotFill className="h-[19px] w-[19px] mt-[2px] text-green" />
+              {status == "live" ?
+                <span className="relative flex justify-center align-middle h-2.5 w-2.5 mr-[5px] mt-[5px]">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+                </span>
+                :
+                <GoDotFill className="h-[19px] w-[19px] text-green" />
+              }
               <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{status}</span>
             </button>
           }
           {(status == "sold out" || status == "ended") &&
             <button className="flex align-middle justify-center self-center dark:text-jacarta-200 font-bold py-2 px-6 rounded-full text-jacarta-700">
-              <GoDotFill className="h-[19px] w-[19px] mt-[2px] text-jacarta-300" />
+              {status == "sold out" ?
+                <p className="text-[14px] pr-[4px]">🔥</p>
+                :
+                <GoDotFill className="h-[19px] w-[19px] mt-[2px] text-jacarta-300" />
+              }
               <span className="text-jacarta-500 dark:text-jacarta-200 uppercase text-[15px]">{status}</span>
             </button>
           }

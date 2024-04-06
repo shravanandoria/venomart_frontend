@@ -582,7 +582,6 @@ const NFTPage = ({
   // getting collection info if onChainData
   const getCollectionDataForOnchain = async () => {
     const collection_data = await get_collection_if_nft_onchain(nft?.collection?._address);
-    console.log({ collection_data })
     if (collection_data) {
       setCollectionData(collection_data);
     }

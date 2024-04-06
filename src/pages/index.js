@@ -264,6 +264,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                             Description={e.description}
                             mintPrice={e?.phases[endLength]?.mintPrice}
                             supply={e.maxSupply}
+                            mintedSupply={e.TotalSupply}
                             status={e.status}
                             verified={true}
                             CollectionAddress={e.contractAddress}
