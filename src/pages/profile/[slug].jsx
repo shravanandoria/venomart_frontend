@@ -91,6 +91,7 @@ const Profile = ({
   const [activityType, setActivityType] = useState("");
   const [onSaleNFTs, setOnSaleNFTs] = useState([]);
   const [nfts, set_nfts] = useState([]);
+  const [fetchedOnchainNFTs, setFetchedOnchainNFTs] = useState([]);
   const [NFTCollections, setNFTCollections] = useState([]);
   const [activityRecords, setActivityRecords] = useState([]);
 
@@ -107,6 +108,7 @@ const Profile = ({
   const [transactionType, setTransactionType] = useState("");
 
   const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
+  const [LandLoadLastNFT, setLandLoadLastNFT] = useState(undefined);
   const [adminPermittedAction, setAdminPermittedAction] = useState(false);
 
   // mediaQuery
@@ -305,6 +307,44 @@ const Profile = ({
   //   }
   // };
 
+  // function which loads onchain nfts on user landing
+  const onLandLoadOnchainNFTs = async () => {
+    if (!venomProvider) return;
+    setMoreLoading(true);
+    try {
+      // fetching using RPC
+      const res = await loadNFTs_user_RPC(venomProvider, slug, LandLoadLastNFT);
+      if (!res || !res.nfts.length) {
+        return;
+      }
+      let new_nfts = [...nfts];
+      res?.nfts
+        .map((e, index) => {
+          try {
+            new_nfts.push({ ...JSON.parse(e.json), ...e });
+          } catch (error) {
+            new_nfts.push({ ...e });
+          }
+        });
+
+      let offChainArray = onSaleNFTs;
+      let onChainArray = new_nfts;
+
+      // Filter out repeating addresses from offChainArray.NFTAddress and save them in newArray
+      let newArray = onChainArray.filter(onChainItem => {
+        return !offChainArray.some(offChainItem => {
+          return onChainItem.nft?._address === offChainItem.NFTAddress;
+        });
+      });
+
+      setFetchedOnchainNFTs([...fetchedOnchainNFTs, ...newArray]);
+      setLandLoadLastNFT(res?.continuation);
+      setMoreLoading(false);
+    } catch (error) {
+      console.error('Error fetching or adding NFTs to the database:', error);
+    }
+  };
+
   // admin function to initiate NFT addition to DB 
   const fetchAndAddNFTsToDB = async () => {
     if (adminPermittedAction === false && !venomProvider) return;
@@ -317,8 +357,15 @@ const Profile = ({
       }
       await addNFTsToDB(res.nfts);
       setBlukAdditionLastNFT(res?.continuation);
-      setSkip(0);
-      const nftFetch = await getting_user_listed_nfts();
+      // setSkip(0);
+      // const nftFetch = await getting_user_listed_nfts();
+      const nftFetch = await fetch_user_listed_nfts(slug, saleType, currentFilter, minPrice, maxPrice, 0);
+      if (nftFetch) {
+        setOnSaleNFTs(nftFetch);
+        if (nftFetch == "" || nftFetch == undefined) {
+          setHasMore(false);
+        }
+      }
       alert("your profile has been refreshed with all the latest NFTs, refresh the page to view the NFTs");
       set_loading(false);
     } catch (error) {
@@ -367,6 +414,7 @@ const Profile = ({
       setOnSaleNFTs([...onSaleNFTs, ...res]);
       if (res == "" || res == undefined) {
         setHasMore(false);
+        onLandLoadOnchainNFTs();
       }
     }
     setMoreLoading(false);
@@ -551,6 +599,10 @@ const Profile = ({
 
     return () => clearTimeout(timer);
   }, [isTyping]);
+
+  // useEffect(() => {
+  //   onLandLoadOnchainNFTs();
+  // }, [hasMore, venomProvider]);
 
   useEffect(() => {
     if (!slug) return;
@@ -1371,47 +1423,83 @@ const Profile = ({
                         <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
                       </div>
                     ) : (
-                      <InfiniteScroll
-                        dataLength={onSaleNFTs ? onSaleNFTs?.length : 0}
-                        next={handleScroll}
-                        hasMore={hasMore}
-                        className="flex flex-wrap justify-center align-middle"
-                        loader={
-                          <div className="flex items-center justify-center space-x-2 py-12">
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                            <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          </div>
-                        }
-                      >
-                        {onSaleNFTs?.map((e, index) => {
-                          return (
-                            <NftCard
-                              key={index}
-                              ImageSrc={e?.nft_image}
-                              Name={e?.name}
-                              rank={e?.rank}
-                              Address={e?.NFTAddress}
-                              Owner={e?.ownerAddress}
-                              signerAddress={signer_address}
-                              listedBool={e?.isListed}
-                              listingPrice={e?.listingPrice}
-                              NFTCollectionAddress={e?.NFTCollection?.contractAddress}
-                              NFTCollectionName={e?.NFTCollection?.name}
-                              NFTCollectionStatus={e?.NFTCollection?.isVerified}
-                              setAnyModalOpen={setAnyModalOpen}
-                              setCancelModal={setCancelModal}
-                              setBuyModal={setBuyModal}
-                              NFTData={e}
-                              setSelectedNFT={setSelectedNFT}
-                              cartNFTs={cartNFTs}
-                              setCartNFTs={setCartNFTs}
-                              NFTImagesBaseURI={NFTImagesBaseURI}
-                              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
-                            />
-                          );
-                        })}
-                      </InfiniteScroll>
+                      <>
+                        <InfiniteScroll
+                          dataLength={onSaleNFTs ? onSaleNFTs?.length : 0}
+                          next={handleScroll}
+                          hasMore={hasMore}
+                          className="flex flex-wrap justify-center align-middle"
+                          loader={
+                            <div className="flex items-center justify-center space-x-2 py-12">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          }
+                        >
+                          {onSaleNFTs?.map((e, index) => {
+                            return (
+                              <NftCard
+                                key={index}
+                                ImageSrc={e?.nft_image}
+                                Name={e?.name}
+                                rank={e?.rank}
+                                Address={e?.NFTAddress}
+                                Owner={e?.ownerAddress}
+                                signerAddress={signer_address}
+                                listedBool={e?.isListed}
+                                listingPrice={e?.listingPrice}
+                                NFTCollectionAddress={e?.NFTCollection?.contractAddress}
+                                NFTCollectionName={e?.NFTCollection?.name}
+                                NFTCollectionStatus={e?.NFTCollection?.isVerified}
+                                setAnyModalOpen={setAnyModalOpen}
+                                setCancelModal={setCancelModal}
+                                setBuyModal={setBuyModal}
+                                NFTData={e}
+                                setSelectedNFT={setSelectedNFT}
+                                cartNFTs={cartNFTs}
+                                setCartNFTs={setCartNFTs}
+                                NFTImagesBaseURI={NFTImagesBaseURI}
+                                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+                              />
+                            );
+                          })}
+                        </InfiniteScroll>
+
+                        {/* fetching onchain  */}
+                        <InfiniteScroll
+                          dataLength={fetchedOnchainNFTs.length}
+                          next={onLandLoadOnchainNFTs}
+                          hasMore={LandLoadLastNFT}
+                          className="flex flex-wrap justify-center align-middle"
+                          loader={
+                            <div className="flex items-center justify-center space-x-2 py-12">
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          }
+                        >
+                          {fetchedOnchainNFTs?.map((e, index) => {
+                            return (
+                              <NftCard
+                                key={index}
+                                ImageSrc={e?.preview?.source?.replace("ipfs://", OtherImagesBaseURI)}
+                                Name={e?.name}
+                                rank={e?.rank}
+                                Address={e?.nft._address}
+                                Description={e?.description}
+                                NFTCollectionName={e?.collection_name}
+                                NFTCollectionAddress={e?.collection?._address}
+                                cartNFTs={cartNFTs}
+                                setCartNFTs={setCartNFTs}
+                                NFTImagesBaseURI={NFTImagesBaseURI}
+                                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+                              />
+                            );
+                          })}
+                        </InfiniteScroll>
+                      </>
                     )}
                   </div>
                   <div className="flex justify-center">
