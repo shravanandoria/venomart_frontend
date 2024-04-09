@@ -37,7 +37,7 @@ import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import LineChart from "../../components/charts/LineChart";
 import BarChart from "../../components/charts/BarChart";
-import { get_charts } from "../../utils/mongo_api/analytics/analytics";
+import { get_charts, get_holders_data } from "../../utils/mongo_api/analytics/analytics";
 import moment from "moment";
 import SuccessModal from "../../components/modals/SuccessModal";
 import PropertyModal from "../../components/modals/PropertyModal";
@@ -46,6 +46,8 @@ import numeral from "numeral";
 import { IoHandLeftOutline } from "react-icons/io5";
 import { useStorage } from "@thirdweb-dev/react";
 import axios from "axios";
+import Link from "next/link";
+
 
 const Collection = ({
   blockURL,
@@ -91,6 +93,7 @@ const Collection = ({
   const [nfts, set_nfts] = useState([]);
   const [activity, set_activity] = useState([]);
   const [analytics, set_analytics] = useState([]);
+  const [holdingsData, setHoldingsData] = useState([]);
   const [lastNFT, setLastNFT] = useState(undefined);
   const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
   const [onChainData, setOnChainData] = useState(false);
@@ -391,6 +394,10 @@ const Collection = ({
     if (!collection._id) return;
     setChartLoading(true);
     const chartData = await get_charts(collection._id, currentDuration);
+    const holdersData = await get_holders_data(collection._id);
+    if (holdersData) {
+      setHoldingsData(holdersData);
+    }
     if (chartData) {
       chartData.reverse();
       setFetchedCollectionAnalytics(true);
@@ -2457,6 +2464,112 @@ const Collection = ({
                           </p>
                         )}
                       </div>
+
+                      {/* owners dist  */}
+                      <div className="chartCont">
+                        <div className="titleChartLabel absolute top-0 flex justify-between w-[100%] px-8 py-4">
+                          <p className="flex flex-col font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Top Holders
+                          </p>
+                          <p className=" font-display text-base font-medium text-jacarta-500 dark:text-jacarta-200">
+                            Refreshed recently
+                          </p>
+                        </div>
+                        {chartLoading ? (
+                          <div
+                            className="flex justify-center w-full h-[400px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                            style={{ alignItems: "center" }}
+                          >
+                            <div className="flex space-x-2">
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                              <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            </div>
+                          </div>
+                        ) : holdingsData.length != 0 || holdingsData == undefined ? (
+                          <div className="scrollbar-custom overflow-x-auto w-[100%] lg:w-[90%] mt-8">
+                            <div className="w-full border border-jacarta-100 bg-white text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white lg:rounded-2lg">
+                              <div
+                                className="flex rounded-t-2lg bg-jacarta-50 dark:bg-jacarta-600"
+                                role="row"
+                              >
+                                {/* user name  */}
+                                <div className="w-[50%] py-3 px-2" role="columnheader">
+                                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                    Users
+                                  </span>
+                                </div>
+
+                                {/* holding count  */}
+                                <div className="w-[25%] py-3 px-2" role="columnheader">
+                                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                    Holdings
+                                  </span>
+                                </div>
+
+                                {/* percent holding  */}
+                                <div className="w-[25%] py-3 px-2" role="columnheader">
+                                  <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                    Percent
+                                  </span>
+                                </div>
+                              </div>
+                              <div style={{ overflowY: "auto", height: "380px" }}>
+                                {holdingsData?.map(
+                                  (e, index) =>
+                                    <Link
+                                      href={`/profile/${e?._id}`}
+                                      className={`flex transition-shadow hover:shadow-lg ${signer_address == e?._id && "shadow-lg"}`}
+                                      role="row"
+                                      key={index}
+                                    >
+                                      {/* user name  */}
+                                      <div className="flex w-[50%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                        <span className="mr-2 lg:mr-4 text-[11px] lg:text-[14px] text-jacarta-700 dark:text-white">{index + 1}</span>
+                                        <div className="relative mr-[-5px] w-8 shrink-0 self-start lg:mr-5 lg:w-12">
+                                          <Image
+                                            src={
+                                              e?.profileImage
+                                                ? e?.profileImage.replace("ipfs://", OtherImagesBaseURI)
+                                                : defLogo
+                                            }
+                                            height={100}
+                                            width={100}
+                                            alt="collectionlogo"
+                                            className="rounded-2lg h-[20px] w-[20px] lg:h-[50px] lg:w-[50px] object-cover"
+
+                                          />
+                                        </div>
+                                        <span className="text-[11px] lg:text-[14px] text-jacarta-700 dark:text-white">
+                                          {e?.user_name ? e?.user_name : (e?._id ? (e?._id?.slice(0, 5) + "..." + e?._id?.slice(62)) : "You")}
+                                          {" "}{signer_address == e?._id && "(You)"}
+                                        </span>
+                                      </div>
+
+                                      {/* holding count  */}
+                                      <div className="flex w-[25%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+                                          {e?.count}
+                                        </span>
+                                      </div>
+
+                                      {/* percent holding  */}
+                                      <div className="flex w-[25%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+                                        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+                                          {e?.holdingPercent ? ((e?.holdingPercent).toFixed(2) + "%") : "0.00%"}
+                                        </span>
+                                      </div>
+                                    </Link>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="flex flex-col font-display text-[25px] font-medium text-jacarta-500 dark:text-jacarta-200 py-[150px]">
+                            No Holders data!
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2681,893 +2794,18 @@ const Collection = ({
           </section>
 
           {/* edit collection setting modal  */}
-          {editModal && (
-            <div className="editDisplayDiv">
-              <form onSubmit={handle_submit} className="pb-8 dark:bg-jacarta-900 bg-white editDisplayForm">
-                <div className="editDisplayDivClose">
-                  <button onClick={() => (setAnyModalOpen(false), setEditModal(false))} type="button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width="24"
-                      height="24"
-                      className="h-10 w-10 fill-jacarta-700 dark:fill-white mt-6 mr-6"
-                    >
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                    </svg>
-                  </button>
-                </div>
-
-                {collectionSettingUpdated && (
-                  <div className="px-8 py-6 bg-green-600 text-white flex justify-between rounded">
-                    <div className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-7 w-7 mr-6"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                      </svg>
-                      <p>Successfully updated the settings!</p>
-                    </div>
-                  </div>
-                )}
-
-                <div className="container">
-                  <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
-                    Collection settings ⚙️
-                  </h1>
-                  <div className="mx-auto max-w-[48.125rem]">
-                    {/* <!-- Logo Upload --> */}
-                    <div className="mb-6">
-                      <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Logo (130x130)
-                        <span className="text-red">*</span>
-                      </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
-
-                      {/* new input  */}
-                      <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
-                        {preview?.logo ? (
-                          <img
-                            src={preview?.logo?.replace("ipfs://", OtherImagesBaseURI)}
-                            className="h-24 rounded-lg"
-                            alt="Image"
-                          />
-                        ) : (
-                          <div className="relative z-10 cursor-pointer">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                            </svg>
-                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">JPG, PNG. Max size: 15 MB</p>
-                          </div>
-                        )}
-                        {!preview?.logo && (
-                          <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
-                        )}
-
-                        <input
-                          onChange={e => {
-                            if (!e.target.files[0]) return;
-                            set_preview({
-                              ...preview,
-                              logo: URL.createObjectURL(e.target.files[0]),
-                            });
-                            set_data({ ...data, logo: e.target.files[0] });
-                          }}
-                          type="file"
-                          name="logo"
-                          accept="image/*,video/*"
-                          id="file-upload"
-                          className="absolute inset-0 z-20 cursor-pointer opacity-0"
-                        />
-                      </div>
-                    </div>
-
-                    {/* <!-- Cover Upload --> */}
-                    <div className="mb-6">
-                      <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Cover Image (1375x300)
-                        <span className="text-red">*</span>
-                      </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
-
-                      <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
-                        {preview?.coverImage ? (
-                          <img
-                            src={preview?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
-                            className="h-44 rounded-lg "
-                            alt="Image"
-                          />
-                        ) : (
-                          <div className="relative z-10 cursor-pointer">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                            </svg>
-                            <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
-                              JPG, PNG, GIF, SVG. Max size: 40 MB
-                            </p>
-                          </div>
-                        )}
-                        {!preview?.coverImage && (
-                          <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
-                        )}
-
-                        <input
-                          onChange={e => {
-                            if (!e.target.files[0]) return;
-                            set_preview({
-                              ...preview,
-                              coverImage: URL.createObjectURL(e.target.files[0]),
-                            });
-                            set_data({ ...data, coverImage: e.target.files[0] });
-                          }}
-                          type="file"
-                          name="coverImage"
-                          accept="image/*,video/*"
-                          id="file-upload"
-                          className="absolute inset-0 z-20 cursor-pointer opacity-0"
-                        />
-                      </div>
-                    </div>
-
-                    {/* <!-- Name --> */}
-                    <div className="mb-6">
-                      <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                        Collection Name<span className="text-red">*</span>
-                      </label>
-                      {adminAccount.includes(signer_address) ? (
-                        <input
-                          onChange={handleChange}
-                          type="text"
-                          name="name"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          value={data?.name}
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          name="name"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          value={data?.name}
-                          readOnly
-                          disabled
-                        />
-                      )}
-                    </div>
-
-                    {/* <!-- Description --> */}
-                    <div className="mb-6">
-                      <label
-                        htmlFor="item-description"
-                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                      >
-                        Description
-                        <span className="text-red">*</span>
-                      </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">
-                        The description will be the collection description.
-                      </p>
-                      <textarea
-                        onChange={handleChange}
-                        name="description"
-                        id="item-description"
-                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                          } `}
-                        rows="4"
-                        required
-                        placeholder="Provide a detailed description of your collection."
-                        value={data?.description}
-                      ></textarea>
-                    </div>
-
-                    {/* <!-- Category --> */}
-                    <div className="mb-6">
-                      <label
-                        htmlFor="item-description"
-                        className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                      >
-                        Category
-                      </label>
-                      <p className="mb-3 text-2xs dark:text-jacarta-300">
-                        select a suitable category for your collection
-                      </p>
-                      <select
-                        name="Category"
-                        onChange={handleChange}
-                        className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                          ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                          : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                          } `}
-                        defaultValue={data?.Category}
-                      >
-                        <option value={data?.Category}>{data?.Category}</option>
-                        <option value={"Collectibles"}>Collectibles</option>
-                        <option value={"Art"}>Art</option>
-                        <option value={"Games"}>Games</option>
-                        <option value={"Memes"}>Memes</option>
-                        <option value={"Utility"}>Utility</option>
-                      </select>
-                    </div>
-
-                    {/* nfts addition computation  */}
-                    {adminAccount.includes(signer_address) && (
-                      <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
-                        <div className="flex items-center justify-between">
-                          <div className="flex">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
-                            </svg>
-                            <div>
-                              <label className="block font-display text-jacarta-700 dark:text-white">
-                                Save all NFTs
-                              </label>
-                              <p className="dark:text-jacarta-300">
-                                If you want to save all the collection NFTs to Database
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
-                            type="button"
-                            id="item-properties"
-                            data-bs-toggle="modal"
-                            data-bs-target="#propertiesModal"
-                            onClick={() => setSaveNFTsDBModal(!saveNFTsDBModal)}
-                          >
-                            {!saveNFTsDBModal ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="fill-accent group-hover:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    {/* <!-- save NFTs DB Modal --> */}
-                    {saveNFTsDBModal && (
-                      <div>
-                        <div className="max-w-2xl mb-4">
-                          <div className="modal-content">
-                            <div className="modal-body p-6">
-                              <div className="mb-6 flex justify-start flex-wrap">
-                                <div className=" m-3 mr-12">
-                                  <label
-                                    htmlFor="item-name"
-                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                  >
-                                    Save NFTs
-                                  </label>
-                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Save all the collection NFTs to database (Fetches onchain and save to DB)
-                                  </p>
-                                  <div className="flex flex-wrap w-[100%] justify-start">
-                                    <div
-                                      onClick={() => (setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
-                                      className="w-[160px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                    >
-                                      <span className="mt-0.5 block group-hover:text-white">Save New NFTs 🌟</span>
-                                    </div>
-                                    <div
-                                      onClick={() => (setUpdatingNFTDB(true), setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
-                                      className="w-[220px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                    >
-                                      <span className="mt-0.5 block group-hover:text-white">Update Existing NFTs 💫</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="mb-6 flex justify-start flex-wrap">
-                                <div className=" m-3 mr-12">
-                                  <label
-                                    htmlFor="item-name"
-                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                  >
-                                    Update NFT count
-                                  </label>
-                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Update the latest NFT count of this collection in database (fetches from DB and saves in DB)
-                                  </p>
-                                  <div
-                                    onClick={() => (fetchAndUpdateNFTsCount())}
-                                    className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                  >
-                                    <span className="mt-0.5 block group-hover:text-white">Update Count ✏️</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* rarity computation  */}
-                    {adminAccount.includes(signer_address) &&
-                      <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
-                        <div className="flex items-center justify-between">
-                          <div className="flex">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
-                            </svg>
-
-                            <div>
-                              <label className="block font-display text-jacarta-700 dark:text-white">
-                                Compute Rarity
-                              </label>
-                              <p className="dark:text-jacarta-300">
-                                If you want your NFTs to show rank you have to compute their rarity
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
-                            type="button"
-                            id="item-properties"
-                            data-bs-toggle="modal"
-                            data-bs-target="#propertiesModal"
-                            onClick={() => setRarityModal(!rarityModal)}
-                          >
-                            {!rarityModal ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="fill-accent group-hover:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="24"
-                                height="24"
-                                className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
-                              >
-                                <path fill="none" d="M0 0h24v24H0z"></path>
-                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    }
-
-                    {/* <!-- rarity compute Modal --> */}
-                    {(rarityModal && adminAccount.includes(signer_address)) && (
-                      <div>
-                        <div className="max-w-2xl mb-4">
-                          <div className="modal-content">
-                            <div className="modal-body p-6">
-                              <div className="mb-6 flex justify-start flex-wrap">
-                                <div className=" m-3 mr-12">
-                                  <label
-                                    htmlFor="item-name"
-                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                  >
-                                    Compute Rarity
-                                  </label>
-                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    Your NFTs will show rank once you compute it (compute only when all NFTs are
-                                    minted)**
-                                  </p>
-                                  <div className="flex flex-wrap w-[100%] justify-start">
-                                    <div
-                                      onClick={() => computeRarity(collection?._id)}
-                                      className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                    >
-                                      <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* collection snapshot  */}
-                    <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
-                      <div className="flex items-center justify-between">
-                        <div className="flex">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
-                          >
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
-                          </svg>
-
-                          <div>
-                            <label className="block font-display text-jacarta-700 dark:text-white">
-                              Collection Snapshot
-                            </label>
-                            <p className="dark:text-jacarta-300">
-                              Capture the NFT holders data for your collection
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
-                          type="button"
-                          id="item-properties"
-                          data-bs-toggle="modal"
-                          data-bs-target="#propertiesModal"
-                          onClick={() => setSnapshotModal(!snapshotModal)}
-                        >
-                          {!snapshotModal ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="fill-accent group-hover:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z" />
-                              <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                            </svg>
-                          ) : (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              width="24"
-                              height="24"
-                              className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
-                            >
-                              <path fill="none" d="M0 0h24v24H0z"></path>
-                              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
-                            </svg>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* <!-- take collection snapshot modal --> */}
-                    {snapshotModal && (
-                      <div>
-                        <div className="max-w-2xl mb-4">
-                          <div className="modal-content">
-                            <div className="modal-body p-6">
-                              <div className="mb-6 flex justify-start flex-wrap">
-                                <div className=" m-3 mr-12">
-                                  <label
-                                    htmlFor="item-name"
-                                    className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                                  >
-                                    Take Snapshot
-                                  </label>
-                                  <p className="mb-3 text-2xs dark:text-jacarta-300">
-                                    This will download you all the holders data for your NFT collection
-                                  </p>
-                                  <div className="flex flex-wrap w-[100%] justify-start">
-                                    <div
-                                      onClick={() => captureCollectionSnapshot(collection?._id)}
-                                      className="w-[160px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                    >
-                                      <span className="mt-0.5 block group-hover:text-white">All holders</span>
-                                    </div>
-                                    <div
-                                      onClick={() => captureCollectionSnapshotUnique(collection?._id)}
-                                      className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
-                                    >
-                                      <span className="mt-0.5 block group-hover:text-white">Unique holders</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* creator address and contract address  */}
-                    {adminAccount.includes(signer_address) && (
-                      <div className="mb-6 flex justify-start flex-wrap">
-                        <div className="w-[350px] m-3 mr-6">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Contract Address<span className="text-red">*</span>
-                          </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">The deployed contract address</p>
-                          {data?.contractAddress == "" || data?.contractAddress == undefined ? (
-                            <input
-                              onChange={handleChange}
-                              name="contractAddress"
-                              type="text"
-                              id="item-name"
-                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                } `}
-                              placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                              required
-                              value={data?.contractAddress}
-                            />
-                          ) : (
-                            <input
-                              onChange={handleChange}
-                              name="contractAddress"
-                              type="text"
-                              id="item-name"
-                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                                } `}
-                              placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                              required
-                              value={data?.contractAddress}
-                              readOnly
-                            />
-                          )}
-                        </div>
-                        <div className="w-[350px] m-3">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Creator Address<span className="text-red">*</span>
-                          </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            The creator who can manage this collection
-                          </p>
-                          <input
-                            onChange={handleChange}
-                            name="creatorAddress"
-                            type="text"
-                            id="item-name"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
-                            placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                            required
-                            value={data?.creatorAddress}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* royalty address and percent  */}
-                    <div className="mb-6 flex flex-wrap justify-start">
-                      <div className={`${adminAccount.includes(signer_address) ? "w-[350px]" : "w-[100%]"} m-3 mr-6`}>
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Royalty Address
-                        </label>
-                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                          Creator will get his royalty commissions on royalty address
-                        </p>
-                        <input
-                          onChange={handleChange}
-                          name="royaltyAddress"
-                          type="text"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
-                          value={data?.royaltyAddress}
-                        />
-                      </div>
-                      {adminAccount.includes(signer_address) &&
-                        <div className="w-[350px] m-3">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Creator Royalty (%)
-                          </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
-                            our platform.
-                          </p>
-                          <input
-                            onChange={handleChange}
-                            name="royalty"
-                            type="number"
-                            id="item-name"
-                            max={10}
-                            step="any"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
-                            placeholder="Eg: 5"
-                            value={data?.royalty}
-                          />
-                        </div>
-                      }
-                    </div>
-
-                    {/* website & twitter  */}
-                    <div className="mb-6 flex justify-start flex-wrap">
-                      <div className="w-[350px] m-3 mr-6">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Official Website
-                        </label>
-                        <input
-                          onChange={handleChange}
-                          name="website"
-                          type="text"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Enter website URL"
-                          value={data?.website}
-                        />
-                      </div>
-                      <div className="w-[350px] m-3">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Official Twitter
-                        </label>
-                        <input
-                          onChange={handleChange}
-                          name="twitter"
-                          type="text"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Enter twitter URL"
-                          value={data?.twitter}
-                        />
-                      </div>
-                    </div>
-
-                    {/* discord & telegram */}
-                    <div className="mb-6 flex justify-start flex-wrap">
-                      <div className="w-[350px] m-3 mr-6">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Official Discord
-                        </label>
-                        <input
-                          onChange={handleChange}
-                          name="discord"
-                          type="text"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Enter discord URL"
-                          value={data?.discord}
-                        />
-                      </div>
-                      <div className="w-[350px] m-3">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Official Telegram
-                        </label>
-                        <input
-                          onChange={handleChange}
-                          name="telegram"
-                          type="text"
-                          id="item-name"
-                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                            } `}
-                          placeholder="Enter telegram URL"
-                          value={data?.telegram}
-                        />
-                      </div>
-                    </div>
-
-                    {/* feature URL */}
-                    {adminAccount.includes(signer_address) &&
-                      <div className="mb-6 flex justify-start flex-wrap">
-                        <div className="w-[350px] m-3 mr-6">
-                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                            feature URL (If the collection is set to feature on home page)
-                          </label>
-                          <input
-                            onChange={handleChange}
-                            name="featureURL"
-                            type="text"
-                            id="item-name"
-                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
-                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
-                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
-                              } `}
-                            placeholder="Enter feature URL"
-                            value={data?.featureURL}
-                          />
-                        </div>
-                      </div>
-                    }
-
-                    {/* trading and feature  */}
-                    <div className="mb-6 flex justify-start flex-wrap">
-                      {adminAccount.includes(signer_address) &&
-                        <div className=" m-3 mr-12">
-                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                            Enable Trading
-                          </label>
-                          <p className="mb-3 text-2xs dark:text-jacarta-300">
-                            If checked trading will be enabled instantly
-                          </p>
-                          <input
-                            type="checkbox"
-                            name="isTrading"
-                            value={data?.isTrading}
-                            checked={data?.isTrading}
-                            onChange={handleCheckChange}
-                          />
-                        </div>
-                      }
-                      <div className=" m-3">
-                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
-                          Enable Properties Filter
-                        </label>
-                        <p className="mb-3 text-2xs dark:text-jacarta-300">
-                          If checked properties filter will be displayed
-                        </p>
-                        <input
-                          type="checkbox"
-                          name="isPropsEnabled"
-                          value={data?.isPropsEnabled}
-                          checked={data?.isPropsEnabled}
-                          onChange={handleCheckChange}
-                        />
-                      </div>
-                    </div>
-
-                    {/* status and props  */}
-                    {adminAccount.includes(signer_address) && (
-                      <div className="mb-6 flex justify-start flex-wrap">
-                        <div className=" m-3 mr-12">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Verify collection
-                          </label>
-                          <input
-                            type="checkbox"
-                            name="isVerified"
-                            value={data?.isVerified}
-                            checked={data?.isVerified}
-                            onChange={handleCheckChange}
-                          />
-                        </div>
-                        <div className=" m-3">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            Feature collection ?
-                          </label>
-                          <input
-                            type="checkbox"
-                            name="isFeatured"
-                            value={data?.isFeatured}
-                            checked={data?.isFeatured}
-                            onChange={handleCheckChange}
-                          />
-                        </div>
-                        <div className=" m-3">
-                          <label
-                            htmlFor="item-name"
-                            className="mb-2 block font-display text-jacarta-700 dark:text-white"
-                          >
-                            is NSFW ?
-                          </label>
-                          <input
-                            type="checkbox"
-                            name="isNSFW"
-                            value={data?.isNSFW}
-                            checked={data?.isNSFW}
-                            onChange={handleCheckChange}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* <!-- Submit nft form --> */}
-                    <button
-                      type="submit"
-                      className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white transition-all cursor-pointer"
-                    >
-                      Save Settings
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          )}
-
-          {/* propertyModal  */}
-          {propertyModal && (
-            <div className="propertyDisplayDiv">
-              <div className="modal-dialog max-w-md">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="propertiesModalLabel">
-                      Properties
-                    </h5>
-                    <button
-                      onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
+          {
+            editModal && (
+              <div className="editDisplayDiv">
+                <form onSubmit={handle_submit} className="pb-8 dark:bg-jacarta-900 bg-white editDisplayForm">
+                  <div className="editDisplayDivClose">
+                    <button onClick={() => (setAnyModalOpen(false), setEditModal(false))} type="button">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         width="24"
                         height="24"
-                        className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                        className="h-10 w-10 fill-jacarta-700 dark:fill-white mt-6 mr-6"
                       >
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
@@ -3575,137 +2813,1022 @@ const Collection = ({
                     </button>
                   </div>
 
-                  <div className="modal-body">
-                    {propLoading ? (
-                      <div
-                        className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                        style={{ alignItems: "center" }}
-                      >
-                        <div className="flex space-x-2">
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
-                          <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                  {collectionSettingUpdated && (
+                    <div className="px-8 py-6 bg-green-600 text-white flex justify-between rounded">
+                      <div className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-7 w-7 mr-6"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                        </svg>
+                        <p>Successfully updated the settings!</p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="container">
+                    <h1 className="py-16 text-center font-display text-4xl font-medium text-jacarta-700 dark:text-white">
+                      Collection settings ⚙️
+                    </h1>
+                    <div className="mx-auto max-w-[48.125rem]">
+                      {/* <!-- Logo Upload --> */}
+                      <div className="mb-6">
+                        <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                          Logo (130x130)
+                          <span className="text-red">*</span>
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
+
+                        {/* new input  */}
+                        <div className="group relative flex max-w-sm max-h-[10px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                          {preview?.logo ? (
+                            <img
+                              src={preview?.logo?.replace("ipfs://", OtherImagesBaseURI)}
+                              className="h-24 rounded-lg"
+                              alt="Image"
+                            />
+                          ) : (
+                            <div className="relative z-10 cursor-pointer">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                              </svg>
+                              <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">JPG, PNG. Max size: 15 MB</p>
+                            </div>
+                          )}
+                          {!preview?.logo && (
+                            <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                          )}
+
+                          <input
+                            onChange={e => {
+                              if (!e.target.files[0]) return;
+                              set_preview({
+                                ...preview,
+                                logo: URL.createObjectURL(e.target.files[0]),
+                              });
+                              set_data({ ...data, logo: e.target.files[0] });
+                            }}
+                            type="file"
+                            name="logo"
+                            accept="image/*,video/*"
+                            id="file-upload"
+                            className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                          />
                         </div>
                       </div>
-                    ) : (
-                      <div className="accordion" id="accordionProps">
-                        {property_traits == "" ? (
-                          <div
-                            className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
-                            style={{ alignItems: "center" }}
-                          >
-                            <h5 className="modal-title" id="propertiesModalLabel">
-                              No Traits Found!
-                            </h5>
-                          </div>
+
+                      {/* <!-- Cover Upload --> */}
+                      <div className="mb-6">
+                        <label className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                          Cover Image (1375x300)
+                          <span className="text-red">*</span>
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">Drag or choose your file to upload</p>
+
+                        <div className="group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed border-jacarta-100 bg-white py-20 px-5 text-center dark:border-jacarta-600 dark:bg-jacarta-700">
+                          {preview?.coverImage ? (
+                            <img
+                              src={preview?.coverImage?.replace("ipfs://", OtherImagesBaseURI)}
+                              className="h-44 rounded-lg "
+                              alt="Image"
+                            />
+                          ) : (
+                            <div className="relative z-10 cursor-pointer">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="mb-4 inline-block fill-jacarta-500 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                              </svg>
+                              <p className="mx-auto max-w-xs text-xs dark:text-jacarta-300">
+                                JPG, PNG, GIF, SVG. Max size: 40 MB
+                              </p>
+                            </div>
+                          )}
+                          {!preview?.coverImage && (
+                            <div className="absolute inset-4 cursor-pointer rounded bg-jacarta-50 opacity-0 group-hover:opacity-100 dark:bg-jacarta-600"></div>
+                          )}
+
+                          <input
+                            onChange={e => {
+                              if (!e.target.files[0]) return;
+                              set_preview({
+                                ...preview,
+                                coverImage: URL.createObjectURL(e.target.files[0]),
+                              });
+                              set_data({ ...data, coverImage: e.target.files[0] });
+                            }}
+                            type="file"
+                            name="coverImage"
+                            accept="image/*,video/*"
+                            id="file-upload"
+                            className="absolute inset-0 z-20 cursor-pointer opacity-0"
+                          />
+                        </div>
+                      </div>
+
+                      {/* <!-- Name --> */}
+                      <div className="mb-6">
+                        <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                          Collection Name<span className="text-red">*</span>
+                        </label>
+                        {adminAccount.includes(signer_address) ? (
+                          <input
+                            onChange={handleChange}
+                            type="text"
+                            name="name"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            value={data?.name}
+                          />
                         ) : (
-                          <PropertyModal
-                            property_traits={property_traits}
-                            propsFilter={propsFilter}
-                            setPropsFilter={setPropsFilter}
-                            setDefaultFilterFetch={setDefaultFilterFetch}
+                          <input
+                            type="text"
+                            name="name"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            value={data?.name}
+                            readOnly
+                            disabled
                           />
                         )}
                       </div>
-                    )}
-                  </div>
 
-                  <div className="modal-footer">
-                    {property_traits == "" ? (
-                      <div className="flex items-center justify-center space-x-4">
-                        <button
-                          onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                      {/* <!-- Description --> */}
+                      <div className="mb-6">
+                        <label
+                          htmlFor="item-description"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
                         >
-                          Close
-                        </button>
+                          Description
+                          <span className="text-red">*</span>
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          The description will be the collection description.
+                        </p>
+                        <textarea
+                          onChange={handleChange}
+                          name="description"
+                          id="item-description"
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          rows="4"
+                          required
+                          placeholder="Provide a detailed description of your collection."
+                          value={data?.description}
+                        ></textarea>
                       </div>
-                    ) : (
-                      <div className="flex items-center justify-center space-x-4">
-                        <button
-                          onClick={() => (
-                            setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
-                          )}
-                          className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+
+                      {/* <!-- Category --> */}
+                      <div className="mb-6">
+                        <label
+                          htmlFor="item-description"
+                          className="mb-2 block font-display text-jacarta-700 dark:text-white"
                         >
-                          Clear All
-                        </button>
-                        <button
-                          onClick={() => (
-                            setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
-                          )}
-                          className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          Category
+                        </label>
+                        <p className="mb-3 text-2xs dark:text-jacarta-300">
+                          select a suitable category for your collection
+                        </p>
+                        <select
+                          name="Category"
+                          onChange={handleChange}
+                          className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                            ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                            : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                            } `}
+                          defaultValue={data?.Category}
                         >
-                          Apply
-                        </button>
+                          <option value={data?.Category}>{data?.Category}</option>
+                          <option value={"Collectibles"}>Collectibles</option>
+                          <option value={"Art"}>Art</option>
+                          <option value={"Games"}>Games</option>
+                          <option value={"Memes"}>Memes</option>
+                          <option value={"Utility"}>Utility</option>
+                        </select>
                       </div>
-                    )}
+
+                      {/* nfts addition computation  */}
+                      {adminAccount.includes(signer_address) && (
+                        <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                          <div className="flex items-center justify-between">
+                            <div className="flex">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                              </svg>
+                              <div>
+                                <label className="block font-display text-jacarta-700 dark:text-white">
+                                  Save all NFTs
+                                </label>
+                                <p className="dark:text-jacarta-300">
+                                  If you want to save all the collection NFTs to Database
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                              type="button"
+                              id="item-properties"
+                              data-bs-toggle="modal"
+                              data-bs-target="#propertiesModal"
+                              onClick={() => setSaveNFTsDBModal(!saveNFTsDBModal)}
+                            >
+                              {!saveNFTsDBModal ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="fill-accent group-hover:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {/* <!-- save NFTs DB Modal --> */}
+                      {saveNFTsDBModal && (
+                        <div>
+                          <div className="max-w-2xl mb-4">
+                            <div className="modal-content">
+                              <div className="modal-body p-6">
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                  <div className=" m-3 mr-12">
+                                    <label
+                                      htmlFor="item-name"
+                                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                      Save NFTs
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                      Save all the collection NFTs to database (Fetches onchain and save to DB)
+                                    </p>
+                                    <div className="flex flex-wrap w-[100%] justify-start">
+                                      <div
+                                        onClick={() => (setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
+                                        className="w-[160px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">Save New NFTs 🌟</span>
+                                      </div>
+                                      <div
+                                        onClick={() => (setUpdatingNFTDB(true), setAdminPermittedAction(true), fetchAndAddNFTsToDB())}
+                                        className="w-[220px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">Update Existing NFTs 💫</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                  <div className=" m-3 mr-12">
+                                    <label
+                                      htmlFor="item-name"
+                                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                      Update NFT count
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                      Update the latest NFT count of this collection in database (fetches from DB and saves in DB)
+                                    </p>
+                                    <div
+                                      onClick={() => (fetchAndUpdateNFTsCount())}
+                                      className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                    >
+                                      <span className="mt-0.5 block group-hover:text-white">Update Count ✏️</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* rarity computation  */}
+                      {adminAccount.includes(signer_address) &&
+                        <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                          <div className="flex items-center justify-between">
+                            <div className="flex">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                              </svg>
+
+                              <div>
+                                <label className="block font-display text-jacarta-700 dark:text-white">
+                                  Compute Rarity
+                                </label>
+                                <p className="dark:text-jacarta-300">
+                                  If you want your NFTs to show rank you have to compute their rarity
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                              type="button"
+                              id="item-properties"
+                              data-bs-toggle="modal"
+                              data-bs-target="#propertiesModal"
+                              onClick={() => setRarityModal(!rarityModal)}
+                            >
+                              {!rarityModal ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="fill-accent group-hover:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z" />
+                                  <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                                >
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                                </svg>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      }
+
+                      {/* <!-- rarity compute Modal --> */}
+                      {(rarityModal && adminAccount.includes(signer_address)) && (
+                        <div>
+                          <div className="max-w-2xl mb-4">
+                            <div className="modal-content">
+                              <div className="modal-body p-6">
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                  <div className=" m-3 mr-12">
+                                    <label
+                                      htmlFor="item-name"
+                                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                      Compute Rarity
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                      Your NFTs will show rank once you compute it (compute only when all NFTs are
+                                      minted)**
+                                    </p>
+                                    <div className="flex flex-wrap w-[100%] justify-start">
+                                      <div
+                                        onClick={() => computeRarity(collection?._id)}
+                                        className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">Compute Rarity 🌟</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* collection snapshot  */}
+                      <div className="relative border-b border-jacarta-100 py-6 dark:border-jacarta-600 mb-6 mt-8">
+                        <div className="flex items-center justify-between">
+                          <div className="flex">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              width="24"
+                              height="24"
+                              className="mr-2 mt-px h-4 w-4 shrink-0 fill-jacarta-700 dark:fill-white"
+                            >
+                              <path fill="none" d="M0 0h24v24H0z" />
+                              <path d="M8 4h13v2H8V4zM5 3v3h1v1H3V6h1V4H3V3h2zM3 14v-2.5h2V11H3v-1h3v2.5H4v.5h2v1H3zm2 5.5H3v-1h2V18H3v-1h3v4H3v-1h2v-.5zM8 11h13v2H8v-2zm0 7h13v2H8v-2z" />
+                            </svg>
+
+                            <div>
+                              <label className="block font-display text-jacarta-700 dark:text-white">
+                                Collection Snapshot
+                              </label>
+                              <p className="dark:text-jacarta-300">
+                                Capture the NFT holders data for your collection
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            className="group flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-accent bg-white hover:border-transparent hover:bg-accent dark:bg-jacarta-700"
+                            type="button"
+                            id="item-properties"
+                            data-bs-toggle="modal"
+                            data-bs-target="#propertiesModal"
+                            onClick={() => setSnapshotModal(!snapshotModal)}
+                          >
+                            {!snapshotModal ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="fill-accent group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                height="24"
+                                className="h-6 w-6 fill-jacarta-500 group-hover:fill-white"
+                              >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* <!-- take collection snapshot modal --> */}
+                      {snapshotModal && (
+                        <div>
+                          <div className="max-w-2xl mb-4">
+                            <div className="modal-content">
+                              <div className="modal-body p-6">
+                                <div className="mb-6 flex justify-start flex-wrap">
+                                  <div className=" m-3 mr-12">
+                                    <label
+                                      htmlFor="item-name"
+                                      className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                                    >
+                                      Take Snapshot
+                                    </label>
+                                    <p className="mb-3 text-2xs dark:text-jacarta-300">
+                                      This will download you all the holders data for your NFT collection
+                                    </p>
+                                    <div className="flex flex-wrap w-[100%] justify-start">
+                                      <div
+                                        onClick={() => captureCollectionSnapshot(collection?._id)}
+                                        className="w-[160px] mr-2 flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">All holders</span>
+                                      </div>
+                                      <div
+                                        onClick={() => captureCollectionSnapshotUnique(collection?._id)}
+                                        className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">Unique holders</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* creator address and contract address  */}
+                      {adminAccount.includes(signer_address) && (
+                        <div className="mb-6 flex justify-start flex-wrap">
+                          <div className="w-[350px] m-3 mr-6">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              Contract Address<span className="text-red">*</span>
+                            </label>
+                            <p className="mb-3 text-2xs dark:text-jacarta-300">The deployed contract address</p>
+                            {data?.contractAddress == "" || data?.contractAddress == undefined ? (
+                              <input
+                                onChange={handleChange}
+                                name="contractAddress"
+                                type="text"
+                                id="item-name"
+                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                  } `}
+                                placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                required
+                                value={data?.contractAddress}
+                              />
+                            ) : (
+                              <input
+                                onChange={handleChange}
+                                name="contractAddress"
+                                type="text"
+                                id="item-name"
+                                className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                  ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                  : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                  } `}
+                                placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                                required
+                                value={data?.contractAddress}
+                                readOnly
+                              />
+                            )}
+                          </div>
+                          <div className="w-[350px] m-3">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              Creator Address<span className="text-red">*</span>
+                            </label>
+                            <p className="mb-3 text-2xs dark:text-jacarta-300">
+                              The creator who can manage this collection
+                            </p>
+                            <input
+                              onChange={handleChange}
+                              name="creatorAddress"
+                              type="text"
+                              id="item-name"
+                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                } `}
+                              placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                              required
+                              value={data?.creatorAddress}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* royalty address and percent  */}
+                      <div className="mb-6 flex flex-wrap justify-start">
+                        <div className={`${adminAccount.includes(signer_address) ? "w-[350px]" : "w-[100%]"} m-3 mr-6`}>
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Royalty Address
+                          </label>
+                          <p className="mb-3 text-2xs dark:text-jacarta-300">
+                            Creator will get his royalty commissions on royalty address
+                          </p>
+                          <input
+                            onChange={handleChange}
+                            name="royaltyAddress"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Eg: 0:481b34e4d5c41ebdbf9b0d75f22f69b822af276c47996c9e37a89e1e2cb05580"
+                            value={data?.royaltyAddress}
+                          />
+                        </div>
+                        {adminAccount.includes(signer_address) &&
+                          <div className="w-[350px] m-3">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              Creator Royalty (%)
+                            </label>
+                            <p className="mb-3 text-2xs dark:text-jacarta-300">
+                              If you set a royalty here, you will get X percent of sales price each time an NFT is sold on
+                              our platform.
+                            </p>
+                            <input
+                              onChange={handleChange}
+                              name="royalty"
+                              type="number"
+                              id="item-name"
+                              max={10}
+                              step="any"
+                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                } `}
+                              placeholder="Eg: 5"
+                              value={data?.royalty}
+                            />
+                          </div>
+                        }
+                      </div>
+
+                      {/* website & twitter  */}
+                      <div className="mb-6 flex justify-start flex-wrap">
+                        <div className="w-[350px] m-3 mr-6">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Official Website
+                          </label>
+                          <input
+                            onChange={handleChange}
+                            name="website"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Enter website URL"
+                            value={data?.website}
+                          />
+                        </div>
+                        <div className="w-[350px] m-3">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Official Twitter
+                          </label>
+                          <input
+                            onChange={handleChange}
+                            name="twitter"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Enter twitter URL"
+                            value={data?.twitter}
+                          />
+                        </div>
+                      </div>
+
+                      {/* discord & telegram */}
+                      <div className="mb-6 flex justify-start flex-wrap">
+                        <div className="w-[350px] m-3 mr-6">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Official Discord
+                          </label>
+                          <input
+                            onChange={handleChange}
+                            name="discord"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Enter discord URL"
+                            value={data?.discord}
+                          />
+                        </div>
+                        <div className="w-[350px] m-3">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Official Telegram
+                          </label>
+                          <input
+                            onChange={handleChange}
+                            name="telegram"
+                            type="text"
+                            id="item-name"
+                            className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                              ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                              : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                              } `}
+                            placeholder="Enter telegram URL"
+                            value={data?.telegram}
+                          />
+                        </div>
+                      </div>
+
+                      {/* feature URL */}
+                      {adminAccount.includes(signer_address) &&
+                        <div className="mb-6 flex justify-start flex-wrap">
+                          <div className="w-[350px] m-3 mr-6">
+                            <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                              feature URL (If the collection is set to feature on home page)
+                            </label>
+                            <input
+                              onChange={handleChange}
+                              name="featureURL"
+                              type="text"
+                              id="item-name"
+                              className={`w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent ${theme == "dark"
+                                ? "border-jacarta-600 bg-jacarta-700 text-white placeholder:text-jacarta-300"
+                                : "w-full rounded-lg border-jacarta-100 py-3 hover:ring-2 hover:ring-accent/10 focus:ring-accent border-jacarta-900 bg-white text-black placeholder:text-jacarta-900"
+                                } `}
+                              placeholder="Enter feature URL"
+                              value={data?.featureURL}
+                            />
+                          </div>
+                        </div>
+                      }
+
+                      {/* trading and feature  */}
+                      <div className="mb-6 flex justify-start flex-wrap">
+                        {adminAccount.includes(signer_address) &&
+                          <div className=" m-3 mr-12">
+                            <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                              Enable Trading
+                            </label>
+                            <p className="mb-3 text-2xs dark:text-jacarta-300">
+                              If checked trading will be enabled instantly
+                            </p>
+                            <input
+                              type="checkbox"
+                              name="isTrading"
+                              value={data?.isTrading}
+                              checked={data?.isTrading}
+                              onChange={handleCheckChange}
+                            />
+                          </div>
+                        }
+                        <div className=" m-3">
+                          <label htmlFor="item-name" className="mb-2 block font-display text-jacarta-700 dark:text-white">
+                            Enable Properties Filter
+                          </label>
+                          <p className="mb-3 text-2xs dark:text-jacarta-300">
+                            If checked properties filter will be displayed
+                          </p>
+                          <input
+                            type="checkbox"
+                            name="isPropsEnabled"
+                            value={data?.isPropsEnabled}
+                            checked={data?.isPropsEnabled}
+                            onChange={handleCheckChange}
+                          />
+                        </div>
+                      </div>
+
+                      {/* status and props  */}
+                      {adminAccount.includes(signer_address) && (
+                        <div className="mb-6 flex justify-start flex-wrap">
+                          <div className=" m-3 mr-12">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              Verify collection
+                            </label>
+                            <input
+                              type="checkbox"
+                              name="isVerified"
+                              value={data?.isVerified}
+                              checked={data?.isVerified}
+                              onChange={handleCheckChange}
+                            />
+                          </div>
+                          <div className=" m-3">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              Feature collection ?
+                            </label>
+                            <input
+                              type="checkbox"
+                              name="isFeatured"
+                              value={data?.isFeatured}
+                              checked={data?.isFeatured}
+                              onChange={handleCheckChange}
+                            />
+                          </div>
+                          <div className=" m-3">
+                            <label
+                              htmlFor="item-name"
+                              className="mb-2 block font-display text-jacarta-700 dark:text-white"
+                            >
+                              is NSFW ?
+                            </label>
+                            <input
+                              type="checkbox"
+                              name="isNSFW"
+                              value={data?.isNSFW}
+                              checked={data?.isNSFW}
+                              onChange={handleCheckChange}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* <!-- Submit nft form --> */}
+                      <button
+                        type="submit"
+                        className="rounded-full bg-accent py-3 px-8 text-center font-semibold text-white transition-all cursor-pointer"
+                      >
+                        Save Settings
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            )
+          }
+
+          {/* propertyModal  */}
+          {
+            propertyModal && (
+              <div className="propertyDisplayDiv">
+                <div className="modal-dialog max-w-md">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="propertiesModalLabel">
+                        Properties
+                      </h5>
+                      <button
+                        onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          className="h-6 w-6 fill-jacarta-700 dark:fill-white"
+                        >
+                          <path fill="none" d="M0 0h24v24H0z" />
+                          <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    <div className="modal-body">
+                      {propLoading ? (
+                        <div
+                          className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                          style={{ alignItems: "center" }}
+                        >
+                          <div className="flex space-x-2">
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                            <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="accordion" id="accordionProps">
+                          {property_traits == "" ? (
+                            <div
+                              className="flex justify-center w-full h-[200px] rounded-xl px-5 py-2 text-left font-display text-sm transition-colors dark:text-white"
+                              style={{ alignItems: "center" }}
+                            >
+                              <h5 className="modal-title" id="propertiesModalLabel">
+                                No Traits Found!
+                              </h5>
+                            </div>
+                          ) : (
+                            <PropertyModal
+                              property_traits={property_traits}
+                              propsFilter={propsFilter}
+                              setPropsFilter={setPropsFilter}
+                              setDefaultFilterFetch={setDefaultFilterFetch}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="modal-footer">
+                      {property_traits == "" ? (
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            onClick={() => (setAnyModalOpen(false), setPropertyModal(false))}
+                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center space-x-4">
+                          <button
+                            onClick={() => (
+                              setPropsFilter([]), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                            )}
+                            className="w-36 rounded-full bg-white py-3 px-8 text-center font-semibold text-accent shadow-white-volume transition-all hover:bg-accent-dark hover:text-white hover:shadow-accent-volume"
+                          >
+                            Clear All
+                          </button>
+                          <button
+                            onClick={() => (
+                              setDefaultFilterFetch(true), setSkip(0), setAnyModalOpen(false), setPropertyModal(false)
+                            )}
+                            className="w-36 rounded-full bg-accent py-3 px-8 text-center font-semibold text-white shadow-accent-volume transition-all hover:bg-accent-dark"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )
+          }
 
           {/* buy modal  */}
-          {buyModal && (
-            <BuyModal
-              formSubmit={buy_NFT_}
-              setBuyModal={setBuyModal}
-              setAnyModalOpen={setAnyModalOpen}
-              NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
-              NFTName={selectedNFT?.name}
-              NFTRank={selectedNFT?.rank}
-              NFTListingPrice={selectedNFT?.listingPrice}
-              actionLoad={actionLoad}
-              NFTImagesBaseURI={NFTImagesBaseURI}
-              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
-            />
-          )}
+          {
+            buyModal && (
+              <BuyModal
+                formSubmit={buy_NFT_}
+                setBuyModal={setBuyModal}
+                setAnyModalOpen={setAnyModalOpen}
+                NFTImage={selectedNFT?.nft_image}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+                NFTName={selectedNFT?.name}
+                NFTRank={selectedNFT?.rank}
+                NFTListingPrice={selectedNFT?.listingPrice}
+                actionLoad={actionLoad}
+                NFTImagesBaseURI={NFTImagesBaseURI}
+                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+              />
+            )
+          }
 
           {/* cancel modal  */}
-          {cancelModal && (
-            <CancelModal
-              formSubmit={cancelNFT}
-              setCancelModal={setCancelModal}
-              setAnyModalOpen={setAnyModalOpen}
-              NFTImage={selectedNFT?.nft_image}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              collectionTrading={selectedNFT?.NFTCollection?.isTrading}
-              NFTName={selectedNFT?.name}
-              actionLoad={actionLoad}
-              NFTImagesBaseURI={NFTImagesBaseURI}
-              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
-            />
-          )}
+          {
+            cancelModal && (
+              <CancelModal
+                formSubmit={cancelNFT}
+                setCancelModal={setCancelModal}
+                setAnyModalOpen={setAnyModalOpen}
+                NFTImage={selectedNFT?.nft_image}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                collectionTrading={selectedNFT?.NFTCollection?.isTrading}
+                NFTName={selectedNFT?.name}
+                actionLoad={actionLoad}
+                NFTImagesBaseURI={NFTImagesBaseURI}
+                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+              />
+            )
+          }
 
           {/* success modal  */}
-          {successModal && (
-            <SuccessModal
-              setSuccessModal={setSuccessModal}
-              setAnyModalOpen={setAnyModalOpen}
-              onCloseFunctionCall={fetch_nfts_success}
-              TransactionType={transactionType}
-              NFTImage={selectedNFT?.nft_image}
-              NFTAddress={selectedNFT?.NFTAddress}
-              NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
-              NFTCollectionName={selectedNFT?.NFTCollection?.name}
-              CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
-              NFTListingPrice={selectedNFT?.listingPrice}
-              NFTName={selectedNFT?.name}
-              actionLoad={actionLoad}
-              NFTImagesBaseURI={NFTImagesBaseURI}
-              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
-            />
-          )}
-        </div>
+          {
+            successModal && (
+              <SuccessModal
+                setSuccessModal={setSuccessModal}
+                setAnyModalOpen={setAnyModalOpen}
+                onCloseFunctionCall={fetch_nfts_success}
+                TransactionType={transactionType}
+                NFTImage={selectedNFT?.nft_image}
+                NFTAddress={selectedNFT?.NFTAddress}
+                NFTCollectionContract={selectedNFT?.NFTCollection?.contractAddress}
+                NFTCollectionName={selectedNFT?.NFTCollection?.name}
+                CollectionVerification={selectedNFT?.NFTCollection?.isVerified}
+                NFTListingPrice={selectedNFT?.listingPrice}
+                NFTName={selectedNFT?.name}
+                actionLoad={actionLoad}
+                NFTImagesBaseURI={NFTImagesBaseURI}
+                NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+              />
+            )
+          }
+        </div >
       )}
-    </div>
+    </div >
   );
 };
 
