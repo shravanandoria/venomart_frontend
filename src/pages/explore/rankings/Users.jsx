@@ -6,10 +6,13 @@ import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import Loader from "../../../components/Loader";
 import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
     const [duration, set_duration] = useState("alltime");
     const [wallet_id, set_wallet_id] = useState("none");
+    const [skip, setSkip] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
 
     const [topUsers, setTopUsers] = useState([]);
     const [userPoints, setUserPoints] = useState([]);
@@ -55,7 +58,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
     const isBreakpoint = useMediaQuery(800);
 
     const fetchUserPoints = async () => {
-        const result = await top_users(duration, signer_address);
+        const result = await top_users(duration, signer_address, skip, 100);
         if (result) {
             setUserPoints(result);
         }
@@ -63,9 +66,13 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
 
     const fetchTopUsers = async () => {
         setSearchLoading(true);
-        const result = await top_users(duration, wallet_id);
+        const result = await top_users(duration, wallet_id, skip, 100);
         if (result) {
-            setTopUsers(result);
+            // setTopUsers(result);
+            setTopUsers([...topUsers, ...result]);
+            if (result == "" || result == undefined) {
+                setHasMore(false);
+            }
         }
         setSearchLoading(false);
     };
@@ -78,12 +85,20 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
         set_def_query("");
     };
 
+    const handleScroll = () => {
+        setSkip(topUsers.length);
+    };
+
+    useEffect(() => {
+        fetchTopUsers();
+    }, [skip]);
+
     useEffect(() => {
         const timer = setTimeout(async () => {
             set_isTyping(false);
             if (isTyping || def_query == undefined) return;
             setSearchLoading(true);
-            const res = await top_users(duration, wallet_id);
+            const res = await top_users(duration, wallet_id, skip, 100);
             if (res) {
                 setTopUsers(res);
             }
@@ -384,23 +399,38 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                             )}
 
                             {/* loop all the users here  */}
-                            {topUsers?.map(
-                                (e, index) =>
-                                    <UserRankingCard
-                                        key={index}
-                                        id={index + 1}
-                                        Logo={e?.profileImage}
-                                        Name={e?.user_info}
-                                        walletAddress={e?._id}
-                                        totalPurchaseVolume={e?.totalPurchaseVolume}
-                                        totalSales={e?.totalSales}
-                                        totalBuys={e?.totalBuys}
-                                        smartPoints={e?.smartPoints}
-                                        activeListings={e?.activeListings}
-                                        OtherImagesBaseURI={OtherImagesBaseURI}
-                                        signer_address={signer_address}
-                                    />
-                            )}
+                            {/* <div style={{ overflowY: "auto", height: "800px" }}> */}
+                            <InfiniteScroll
+                                dataLength={topUsers ? topUsers?.length : 0}
+                                next={handleScroll}
+                                hasMore={hasMore}
+                                loader={
+                                    <div className="flex items-center justify-center space-x-2">
+                                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                        <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    </div>
+                                }
+                            >
+                                {topUsers?.map(
+                                    (e, index) =>
+                                        <UserRankingCard
+                                            key={index}
+                                            id={index + 1}
+                                            Logo={e?.profileImage}
+                                            Name={e?.user_info}
+                                            walletAddress={e?._id}
+                                            totalPurchaseVolume={e?.totalPurchaseVolume}
+                                            totalSales={e?.totalSales}
+                                            totalBuys={e?.totalBuys}
+                                            smartPoints={e?.smartPoints}
+                                            activeListings={e?.activeListings}
+                                            OtherImagesBaseURI={OtherImagesBaseURI}
+                                            signer_address={signer_address}
+                                        />
+                                )}
+                            </InfiniteScroll>
+                            {/* </div> */}
                             {topUsers?.length <= 0 && !searchLoading && (
                                 <h2 className="text-center p-4 text-jacarta-700 dark:text-jacarta-200">No users found!</h2>
                             )}

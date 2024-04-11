@@ -30,7 +30,7 @@ export default async function handler(req, res) {
             }
           }
 
-          const launchpadData = await Launchpad.find(filters).skip(skip).limit(9).sort({ createdAt: -1 });
+          const launchpadData = await Launchpad.find(filters).skip(skip).limit(6).sort({ createdAt: -1 });
 
           // Loop through launchpadData to find associated collection and merge TotalSupply
           for (let i = 0; i < launchpadData.length; i++) {

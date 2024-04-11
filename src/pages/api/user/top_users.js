@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const { duration, wallet_id } = req.query;
+                const { duration, wallet_id, skip, limit } = req.query;
 
                 let timeFilter = {};
                 let walletFilter = {};
@@ -41,6 +41,10 @@ export default async function handler(req, res) {
                         };
                     }
                 }
+
+                // Convert skip to a number
+                const skipNumber = parseInt(skip);
+                const setLimit = parseInt(limit);
 
                 const saleResult = await Activity.aggregate([
                     {
@@ -85,7 +89,10 @@ export default async function handler(req, res) {
                         }
                     },
                     {
-                        $limit: 10
+                        $skip: skipNumber
+                    },
+                    {
+                        $limit: setLimit
                     }
                 ]);
 

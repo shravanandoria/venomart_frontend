@@ -63,7 +63,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
 
   const fetchTopUsers = async () => {
     setLoading(true);
-    const result = await top_users(duration, "none");
+    const result = await top_users(duration, "none", 0, 10);
     setTopUsers(result);
     setLoading(false);
   };

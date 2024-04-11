@@ -18,79 +18,88 @@ export default async function handler(req, res) {
                     const nfts = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId(collection_id) })
                         .select(["attributes"]);
 
-                    const updatedNFTs = await Promise.all(nfts.map(async (nft) => {
-                        let updatedAttributes = [];
-                        let rarityScore = 0;
+                    // Prepare updatedNFTs in batches
+                    const batchSize = 300; // Set your preferred batch size
+                    const updatedNFTs = [];
 
-                        const relatedNFTs = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId(collection_id) })
-                            .select(["attributes"]);
+                    for (let i = 0; i < nfts.length; i += batchSize) {
+                        const batchNFTs = nfts.slice(i, i + batchSize);
+                        const processedBatch = await Promise.all(batchNFTs.map(async (nft) => {
+                            let updatedAttributes = [];
+                            let rarityScore = 0;
 
-                        const uniqueTraits = {};
+                            const relatedNFTs = await NFT.find({ NFTCollection: new mongoose.Types.ObjectId(collection_id) })
+                                .select(["attributes"]);
 
-                        relatedNFTs.forEach((relatedNFT) => {
-                            relatedNFT.attributes.forEach((attribute) => {
-                                const type = attribute.trait_type;
-                                const value = attribute.value;
+                            const uniqueTraits = {};
 
-                                if (!uniqueTraits[type]) {
-                                    uniqueTraits[type] = {
-                                        type,
-                                        values: [],
-                                    };
-                                }
-                                const trait = uniqueTraits[type];
-                                const valueIndex = trait.values.findIndex((item) => item.value === value);
+                            relatedNFTs.forEach((relatedNFT) => {
+                                relatedNFT.attributes.forEach((attribute) => {
+                                    const type = attribute.trait_type;
+                                    const value = attribute.value;
 
-                                if (valueIndex === -1) {
-                                    trait.values.push({ value, count: 1, probability: 0 });
-                                } else {
-                                    trait.values[valueIndex].count++;
-                                }
+                                    if (!uniqueTraits[type]) {
+                                        uniqueTraits[type] = {
+                                            type,
+                                            values: [],
+                                        };
+                                    }
+                                    const trait = uniqueTraits[type];
+                                    const valueIndex = trait.values.findIndex((item) => item.value === value);
+
+                                    if (valueIndex === -1) {
+                                        trait.values.push({ value, count: 1, probability: 0 });
+                                    } else {
+                                        trait.values[valueIndex].count++;
+                                    }
+                                });
                             });
-                        });
 
-                        for (const traitType in uniqueTraits) {
-                            const trait = uniqueTraits[traitType];
-                            const total = trait.values.reduce((acc, item) => acc + item.count, 0);
+                            for (const traitType in uniqueTraits) {
+                                const trait = uniqueTraits[traitType];
+                                const total = trait.values.reduce((acc, item) => acc + item.count, 0);
 
-                            trait.values.forEach((item) => {
-                                item.probability = ((item.count / total) * 100).toFixed(2);
-                                item.rarityscore = (1 / item.count / relatedNFTs.length);
-                            });
-                        }
-
-                        const propertyTraits = Object.values(uniqueTraits);
-                        updatedAttributes = [];
-
-                        nft.attributes.forEach((attribute) => {
-                            for (const trait of propertyTraits) {
-                                const found = trait.values.find((item) => item.value === attribute.value);
-                                if (found) {
-                                    updatedAttributes.push({
-                                        trait_type: trait.type,
-                                        value: attribute.value,
-                                        probability: found.probability,
-                                        rarityscore: found.rarityscore
-                                    });
-                                    break;
-                                }
+                                trait.values.forEach((item) => {
+                                    item.probability = ((item.count / total) * 100).toFixed(2);
+                                    item.rarityscore = (1 / item.count / relatedNFTs.length);
+                                });
                             }
-                        });
 
-                        for (const updatedAttribute of updatedAttributes) {
-                            rarityScore += updatedAttribute.rarityscore;
-                        }
+                            const propertyTraits = Object.values(uniqueTraits);
+                            updatedAttributes = [];
+
+                            nft.attributes.forEach((attribute) => {
+                                for (const trait of propertyTraits) {
+                                    const found = trait.values.find((item) => item.value === attribute.value);
+                                    if (found) {
+                                        updatedAttributes.push({
+                                            trait_type: trait.type,
+                                            value: attribute.value,
+                                            probability: found.probability,
+                                            rarityscore: found.rarityscore
+                                        });
+                                        break;
+                                    }
+                                }
+                            });
+
+                            for (const updatedAttribute of updatedAttributes) {
+                                rarityScore += updatedAttribute.rarityscore;
+                            }
 
 
-                        const mergedData = {
-                            nft_id: nft._id,
-                            rarityScore: rarityScore
-                        };
+                            const mergedData = {
+                                nft_id: nft._id,
+                                rarityScore: rarityScore
+                            };
 
-                        return mergedData;
-                    }));
+                            return mergedData;
+                        }));
 
-                    // Sort the NFTs by rarity score in ascending order
+                        updatedNFTs.push(...processedBatch);
+                    }
+
+                    // Sort the updatedNFTs by rarity score in ascending order
                     updatedNFTs.sort((a, b) => b.rarityScore - a.rarityScore);
 
                     // Assign ranks based on the sorted order
@@ -109,11 +118,15 @@ export default async function handler(req, res) {
                         }
                     });
 
-                    // Update ranks in the database
-                    await Promise.all(updatedNFTs.map(async (nft) => {
-                        const rarityUpdate = await NFT.findByIdAndUpdate(new mongoose.Types.ObjectId(nft.nft_id), { rank: nft.rank });
-                    }));
+                    // Update ranks in the database in batches
+                    const updatePromises = [];
 
+                    for (const nft of updatedNFTs) {
+                        const rarityUpdate = NFT.findByIdAndUpdate(new mongoose.Types.ObjectId(nft.nft_id), { rank: nft.rank });
+                        updatePromises.push(rarityUpdate);
+                    }
+
+                    await Promise.all(updatePromises);
 
                     return res.status(200).json({ success: true, data: "Computed Rankings Successfully!" });
                 } catch (error) {
