@@ -464,7 +464,7 @@ const launchpad = ({
 
     // get minted supply onchain
     const getMintedSupply = async () => {
-        if (!venomProvider || !collectionData) return;
+        if (!venomProvider && !collectionData) return;
         const mintedSupply = await get_total_minted(venomProvider, collectionData?.contractAddress);
         const mint_percent = Math.floor((mintedSupply / collectionData?.maxSupply) * 100);
         setMintedPercent(mint_percent);
@@ -612,6 +612,10 @@ const launchpad = ({
 
     useEffect(() => {
         getMintedSupply();
+        if (collectionData?.status == "live") {
+            const intervalId = setInterval(getMintedSupply, 3000);
+            return () => clearInterval(intervalId);
+        }
     }, [venomProvider, collectionData]);
 
     useEffect(() => {
