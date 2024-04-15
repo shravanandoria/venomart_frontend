@@ -217,15 +217,12 @@ const NFTPage = ({
     let offChainImage = nft?.nft_image;
     let offChainDemandPrice = nft?.demandPrice;
 
+    const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
+
     if (
-      OnChainOwner != offChainOwner || OnChainManager != offChainManager || offChainImage === "" || (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
+      OnChainOwner != offChainOwner || OnChainManager != offChainManager || (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
       (OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)
     ) {
-      if (offChainImage === "") {
-        const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
-        alert("Metadata updated successfully");
-      }
-
       if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
         // updating the owners data 
         const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
