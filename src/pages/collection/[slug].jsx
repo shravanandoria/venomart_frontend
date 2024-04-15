@@ -273,6 +273,34 @@ const Collection = ({
     setLoading(false);
   };
 
+  const captureCollectionSnapshotDelisted = async collection_id => {
+    const confirmed = confirm(
+      "Are you sure you want to take the current holders snapshot for your collection ?",
+    );
+    if (!confirmed || !collection_id) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/collection/collection_snapshot_unlisted?collection_id=${collection_id}`);
+      if (response.ok) {
+        const csvData = await response.text();
+
+        const blob = new Blob([csvData], { type: 'text/csv' });
+
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `unlisted_holder_data.csv`;
+        link.click();
+
+        window.URL.revokeObjectURL(link.href);
+      } else {
+        console.error('Failed to download CSV:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error downloading CSV:', error);
+    }
+    setLoading(false);
+  };
+
   // chartdata
   const salesData = {
     labels: analytics?.map(e =>
@@ -3327,9 +3355,15 @@ const Collection = ({
                                       </div>
                                       <div
                                         onClick={() => captureCollectionSnapshotUnique(collection?._id)}
-                                        className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                        className="w-[160px] flex mr-2 group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
                                       >
                                         <span className="mt-0.5 block group-hover:text-white">Unique holders</span>
+                                      </div>
+                                      <div
+                                        onClick={() => captureCollectionSnapshotDelisted(collection?._id)}
+                                        className="w-[160px] flex group right-0 bottom-2 items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent cursor-pointer"
+                                      >
+                                        <span className="mt-0.5 block group-hover:text-white">Delisted holders</span>
                                       </div>
                                     </div>
                                   </div>
