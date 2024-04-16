@@ -490,7 +490,7 @@
 .collectionFilterDiv {
   position: -webkit-sticky;
   position: sticky;
-  top: 95px;
+  top: 78px;
   z-index: 15;
   display: flex;
   justify-content: space-around;

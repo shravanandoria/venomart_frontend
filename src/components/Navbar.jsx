@@ -127,10 +127,10 @@ const Navbar = ({
   return (
     <div className={`${theme} overflow-x-hidden font-body text-jacarta-500`}>
       <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur bg-white dark:bg-jacarta-900 transition-colors">
-        <div className="bg-[hsl(224,62%,13%)] flex justify-center font-semibold uppercase">
+        {/* when enabled notification also change .collectionFilterDiv style top to 95 px  */}
+        {/* <div className="bg-[hsl(224,62%,13%)] flex justify-center font-semibold uppercase">
           <h2 className="text-white py-[5px] text-[15px]">We are live on venom mainnet ⚡</h2>
-        </div>
-        {/* <div className="js-page-header fixed top-0 z-30 w-full backdrop-blur transition-colors"> */}
+        </div> */}
         <div
           className={`flex items-center justify-around px-8 py-4 ${mobileNavDrop && "bg-white dark:bg-jacarta-800"
             } ${mobieProfileDrop && "bg-white dark:bg-jacarta-800"}`}
