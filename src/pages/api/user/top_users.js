@@ -10,7 +10,6 @@ export default async function handler(req, res) {
         case "PUT":
             try {
                 const { duration, wallet_id, skip, limit } = req.body;
-                console.log({ duration, wallet_id, skip, limit })
 
                 let timeFilter = {};
                 let walletFilter = {};

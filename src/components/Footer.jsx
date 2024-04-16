@@ -15,7 +15,7 @@ import { MdVerified } from "react-icons/md";
 import { useRouter } from "next/router";
 import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
-import { bulk_buy_nfts, buy_cart_refundable_fees } from "../utils/user_nft";
+import { bulk_buy_nfts, buy_cart_refundable_fees, get_nft_by_address } from "../utils/user_nft";
 import { GoArrowUpRight } from "react-icons/go";
 
 const Footer = ({
@@ -78,14 +78,29 @@ const Footer = ({
     }
 
     setActionLoad(true);
+    let finalCartNFTs = [];
 
-    const ownerAddresses = cartNFTs.map((item) => item.ownerAddress);
-    const managerAddresses = cartNFTs.map((item) => item.managerAddress);
-    const listingPrices = cartNFTs.map(
+    // Map each cartNFT to a promise that resolves to the result of get_nft_by_address
+    const promises = cartNFTs.map(async (cartNFT) => {
+      const nfts_onchain = await get_nft_by_address(venomProvider, cartNFT.NFTAddress);
+      if ((nfts_onchain?.manager?._address) != (nfts_onchain?.owner?._address)) {
+        finalCartNFTs.push(cartNFT);
+      }
+      else {
+        removeFromCart(cartNFT?._id);
+      }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
+    const ownerAddresses = finalCartNFTs.map((item) => item.ownerAddress);
+    const managerAddresses = finalCartNFTs.map((item) => item.managerAddress);
+    const listingPrices = finalCartNFTs.map(
       (item) => item.listingPrice * 1000000000
     );
-    const NFTAddresses = cartNFTs.map((item) => item.NFTAddress);
-    const NFTCollections = cartNFTs.map((item) => item.NFTCollection);
+    const NFTAddresses = finalCartNFTs.map((item) => item.NFTAddress);
+    const NFTCollections = finalCartNFTs.map((item) => item.NFTCollection);
 
     if (NFTAddresses.length == 0) {
       alert("your cart is empty!")
