@@ -149,12 +149,12 @@ const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImag
         scrollFetchActivity();
     }, [skipActivity]);
 
-    // useEffect(() => {
-    //     if (defaultFilterFetch == false) {
-    //         const intervalId = setInterval(live_activity, 30000);
-    //         return () => clearInterval(intervalId);
-    //     }
-    // }, [defaultFilterFetch]);
+    useEffect(() => {
+        if (defaultFilterFetch == false) {
+            const intervalId = setInterval(live_activity, 15000);
+            return () => clearInterval(intervalId);
+        }
+    }, [defaultFilterFetch]);
 
     useEffect(() => {
         fetch_activity();

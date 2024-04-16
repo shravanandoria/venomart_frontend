@@ -46,8 +46,14 @@ export const update_profile = async (data) => {
 export const top_users = async (duration, wallet_id, skip, limit) => {
   try {
     const res = await axios({
-      url: `/api/user/top_users?duration=${duration}&wallet_id=${wallet_id}&skip=${skip}&limit=${limit}`,
-      method: "GET"
+      url: `/api/user/top_users`,
+      method: "PUT",
+      data: {
+        duration: duration,
+        wallet_id: wallet_id,
+        skip: skip,
+        limit: limit
+      }
     });
     return res.data.data;
   } catch (error) {
