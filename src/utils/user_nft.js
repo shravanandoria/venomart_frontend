@@ -1,4 +1,4 @@
-import { Address } from "everscale-inpage-provider";
+import { Address, parseMessage, parseTransaction } from "everscale-inpage-provider";
 import moment from "moment";
 import {
   createNFT,
@@ -19,6 +19,7 @@ import nftAbi from "../../abi/Nft.abi.json";
 import FactoryDirectSell from "../../abi/FactoryDirectSell.abi.json";
 import DirectSell from "../../abi/DirectSell.abi.json";
 import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
+import { TonClient, abiContract } from "@eversdk/core";
 
 // make offer abis
 // import TokenWallet from "../../abi/TokenWallet.abi.json";
@@ -559,19 +560,18 @@ export const buy_nft = async (
 ) => {
   try {
     // checking nft owners across database and onchain
-    const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
-    let OnChainOwner = nft_onchain?.owner?._address;
-    let OnChainManager = nft_onchain?.manager?._address;
+    // const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
+    // let OnChainOwner = nft_onchain?.owner?._address;
+    // let OnChainManager = nft_onchain?.manager?._address;
 
-    if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
-      const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
-      alert("This NFT is already sold out!");
-      return false;
-    }
+    // if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+    //   const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
+    //   alert("This NFT is already sold out!");
+    //   return false;
+    // }
 
     const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));
-
-    const nft_price = await DirectSellContract.methods.get_nft_price().call();
+    // const nft_price = await DirectSellContract.methods.get_nft_price().call();
 
     let output;
     output = await DirectSellContract.methods
@@ -580,31 +580,48 @@ export const buy_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: "10000000",
+        amount: "100000000",
         // amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
       });
 
-    if (output) {
-      let obj = {
-        NFTAddress: nft_address,
-        isListed: false,
-        price: "0",
-        demandPrice: 0,
-        new_owner: signer_address,
-        new_manager: signer_address,
-        hash: output ? output?.id?.hash : "",
-        from: prev_nft_Owner,
-        to: signer_address,
-        saleprice: salePrice,
-        type: "sale",
-        wallet_id: signer_address,
-        nft_address: nft_address,
-        collection_address: collection_address,
-      };
-      const updateNFTData = await updateNFTsale(obj);
-    }
+    console.log(output);
+    const subscriber = new venomProvider.Subscriber();
+
+    const traceStream = subscriber.trace(output);
+    console.log(traceStream);
+
+    traceStream.on(async data => {
+      console.log({ data });
+      if (data.aborted) {
+        // FAIL LOGIC
+        traceStream.stopProducer();
+        return;
+      }
+    });
+
+    // if (output) {
+    //   let obj = {
+    //     NFTAddress: nft_address,
+    //     isListed: false,
+    //     price: "0",
+    //     demandPrice: 0,
+    //     new_owner: signer_address,
+    //     new_manager: signer_address,
+    //     hash: output ? output?.id?.hash : "",
+    //     from: prev_nft_Owner,
+    //     to: signer_address,
+    //     saleprice: salePrice,
+    //     type: "sale",
+    //     wallet_id: signer_address,
+    //     nft_address: nft_address,
+    //     collection_address: collection_address,
+    //   };
+    //   const updateNFTData = await updateNFTsale(obj);
+    // }
+
     return true;
   } catch (error) {
+    console.log({ error });
     if (error instanceof TvmException) {
       console.log(`TVM Exception: ${error.code}`);
     }
