@@ -270,7 +270,7 @@ export const update_verified_nft_listing = async (
       method: "PUT",
       data: {
         demandPrice: parseFloat(demandPrice),
-        listingPrice: listingPrice,
+        listingPrice: demandPrice,
         NFTAddress: NFTAddress,
       },
     });
