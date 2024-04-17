@@ -446,40 +446,63 @@ export const list_nft = async (
     const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
     // catching error here 
-    const subscriber = new venomProvider.Subscriber();
-    const traceStream = subscriber.trace(output);
-    let elseExecuted = false;
+    // const subscriber = new venomProvider.Subscriber();
+    // const traceStream = subscriber.trace(output);
+    // let elseExecuted = false;
 
-    traceStream.on(async data => {
-      if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
-        traceStream.stopProducer();
-        alert("NFT listing failed! please try again");
-        window.location.reload();
-        return false;
-      }
-      else if (!elseExecuted) {
-        elseExecuted = true;
-        await wait(5000);
-        const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
-        let OnChainManager = nft_onchain?.manager?._address;
-        let obj = {
-          NFTAddress: nft_address,
-          isListed: true,
-          price: price,
-          demandPrice: price,
-          new_manager: OnChainManager,
-          hash: output ? output?.id?.hash : "",
-          from: signer_address,
-          to: OnChainManager,
-          type: "list",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address
-        };
-        const updateNFTData = await updateNFTListing(obj);
-        return true;
-      }
-    });
+    // traceStream.on(async data => {
+    //   if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
+    //     traceStream.stopProducer();
+    //     alert("NFT listing failed! please try again");
+    //     window.location.reload();
+    //     return false;
+    //   }
+    //   else if (!elseExecuted) {
+    //     elseExecuted = true;
+    //     await wait(5000);
+    //     const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
+    //     let OnChainManager = nft_onchain?.manager?._address;
+    //     let obj = {
+    //       NFTAddress: nft_address,
+    //       isListed: true,
+    //       price: price,
+    //       demandPrice: price,
+    //       new_manager: OnChainManager,
+    //       hash: output ? output?.id?.hash : "",
+    //       from: signer_address,
+    //       to: OnChainManager,
+    //       type: "list",
+    //       wallet_id: signer_address,
+    //       nft_address: nft_address,
+    //       collection_address: collection_address
+    //     };
+    //     const updateNFTData = await updateNFTListing(obj);
+    //     return true;
+    //   }
+    // });
+
+    // no error handling
+    if (output) {
+      await wait(5000);
+      const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
+      let OnChainManager = nft_onchain?.manager?._address;
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: true,
+        price: price,
+        demandPrice: price,
+        new_manager: OnChainManager,
+        hash: output ? output?.id?.hash : "",
+        from: signer_address,
+        to: OnChainManager,
+        type: "list",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address
+      };
+      const updateNFTData = await updateNFTListing(obj);
+    }
+
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
@@ -520,38 +543,58 @@ export const cancel_listing = async (
     });
 
     // catching error here 
-    const subscriber = new venomProvider.Subscriber();
-    const traceStream = subscriber.trace(output);
-    let elseExecuted = false;
+    // const subscriber = new venomProvider.Subscriber();
+    // const traceStream = subscriber.trace(output);
+    // let elseExecuted = false;
+    // traceStream.on(async data => {
+    //   if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
+    //     traceStream.stopProducer();
+    //     alert("the transaction has expired! please try again");
+    //     window.location.reload();
+    //     return false;
+    //   }
+    //   else if (!elseExecuted) {
+    //     elseExecuted = true;
+    //     let obj = {
+    //       NFTAddress: nft_address,
+    //       isListed: false,
+    //       price: "0",
+    //       demandPrice: 0,
+    //       new_manager: signer_address,
+    //       hash: output ? output?.id?.hash : "",
+    //       from: prev_nft_Manager,
+    //       to: signer_address,
+    //       saleprice: "0",
+    //       type: "cancel",
+    //       wallet_id: signer_address,
+    //       nft_address: nft_address,
+    //       collection_address: collection_address
+    //     };
+    //     let updateNFTData = await cancelNFTListing(obj);
+    //     return true;
+    //   }
+    // });
 
-    traceStream.on(async data => {
-      if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
-        traceStream.stopProducer();
-        alert("the transaction has expired! please try again");
-        window.location.reload();
-        return false;
-      }
-      else if (!elseExecuted) {
-        elseExecuted = true;
-        let obj = {
-          NFTAddress: nft_address,
-          isListed: false,
-          price: "0",
-          demandPrice: 0,
-          new_manager: signer_address,
-          hash: output ? output?.id?.hash : "",
-          from: prev_nft_Manager,
-          to: signer_address,
-          saleprice: "0",
-          type: "cancel",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address
-        };
-        let updateNFTData = await cancelNFTListing(obj);
-        return true;
-      }
-    });
+    // no error handling 
+    if (output) {
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: false,
+        price: "0",
+        demandPrice: 0,
+        new_manager: signer_address,
+        hash: output ? output?.id?.hash : "",
+        from: prev_nft_Manager,
+        to: signer_address,
+        saleprice: "0",
+        type: "cancel",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address
+      };
+      let updateNFTData = await cancelNFTListing(obj);
+    }
+
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
@@ -600,39 +643,61 @@ export const buy_nft = async (
       });
 
     // catching error here 
-    const subscriber = new venomProvider.Subscriber();
-    const traceStream = subscriber.trace(output);
-    let elseExecuted = false;
+    // const subscriber = new venomProvider.Subscriber();
+    // const traceStream = subscriber.trace(output);
+    // let elseExecuted = false;
 
-    traceStream.on(async data => {
-      if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
-        traceStream.stopProducer();
-        alert("Something went wrong! The NFT is already sold or the transaction got expired, please try again");
-        window.location.reload();
-        return false;
-      }
-      else if (!elseExecuted) {
-        elseExecuted = true;
-        let obj = {
-          NFTAddress: nft_address,
-          isListed: false,
-          price: "0",
-          demandPrice: 0,
-          new_owner: signer_address,
-          new_manager: signer_address,
-          hash: output ? output?.id?.hash : "",
-          from: prev_nft_Owner,
-          to: signer_address,
-          saleprice: salePrice,
-          type: "sale",
-          wallet_id: signer_address,
-          nft_address: nft_address,
-          collection_address: collection_address
-        };
-        const updateNFTData = await updateNFTsale(obj);
-        return true;
-      }
-    });
+    // traceStream.on(async data => {
+    //   if ((data.exitCode != 0) && (data.endStatus != "uninit")) {
+    //     traceStream.stopProducer();
+    //     alert("Something went wrong! The NFT is already sold or the transaction got expired, please try again");
+    //     window.location.reload();
+    //     return false;
+    //   }
+    //   else if (!elseExecuted) {
+    //     elseExecuted = true;
+    //     let obj = {
+    //       NFTAddress: nft_address,
+    //       isListed: false,
+    //       price: "0",
+    //       demandPrice: 0,
+    //       new_owner: signer_address,
+    //       new_manager: signer_address,
+    //       hash: output ? output?.id?.hash : "",
+    //       from: prev_nft_Owner,
+    //       to: signer_address,
+    //       saleprice: salePrice,
+    //       type: "sale",
+    //       wallet_id: signer_address,
+    //       nft_address: nft_address,
+    //       collection_address: collection_address
+    //     };
+    //     const updateNFTData = await updateNFTsale(obj);
+    //     return true;
+    //   }
+    // });
+
+    // no error handling 
+    if (output) {
+      let obj = {
+        NFTAddress: nft_address,
+        isListed: false,
+        price: "0",
+        demandPrice: 0,
+        new_owner: signer_address,
+        new_manager: signer_address,
+        hash: output ? output?.id?.hash : "",
+        from: prev_nft_Owner,
+        to: signer_address,
+        saleprice: salePrice,
+        type: "sale",
+        wallet_id: signer_address,
+        nft_address: nft_address,
+        collection_address: collection_address
+      };
+      const updateNFTData = await updateNFTsale(obj);
+    }
+
     return true;
   } catch (error) {
     if (error instanceof TvmException) {
