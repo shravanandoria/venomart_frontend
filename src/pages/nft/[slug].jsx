@@ -201,7 +201,7 @@ const NFTPage = ({
 
   // refresh nft metadata
   const refreshMetadata = async () => {
-    if (metaDataUpdated == true) return;
+    if (metaDataUpdated == true && !signer_address && !venomProvider) return;
     setMetadataLoading(true);
     const nft_onchain = await get_nft_by_address(venomProvider, slug);
     const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);

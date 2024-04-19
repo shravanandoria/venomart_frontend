@@ -436,11 +436,13 @@ const Collection = ({
 
   // refresh nft metadata
   const refreshMetadata = async () => {
-    if (metaDataUpdated == true) return;
+    if (metaDataUpdated == true && !signer_address) return;
     setMetadataLoading(true);
 
     const contract = new venomProvider.Contract(LaunchpadContractAbi, slug);
-    const totalSupply = await contract.methods.maxSupply({ answerId: 0 }).call();
+    // const totalSupply = await contract.methods.get_total_minted({ answerId: 0 }).call();
+    // const totalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
+    let totalSupply = 0;
 
     if (collection?.TotalSupply < totalSupply?.count) {
       const updateNFTData = await update_collection_supply(slug, totalSupply.count);
