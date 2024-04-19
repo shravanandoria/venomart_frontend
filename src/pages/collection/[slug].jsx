@@ -440,12 +440,22 @@ const Collection = ({
     setMetadataLoading(true);
 
     const contract = new venomProvider.Contract(LaunchpadContractAbi, slug);
-    // const totalSupply = await contract.methods.get_total_minted({ answerId: 0 }).call();
-    // const totalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
-    let totalSupply = 0;
+    let totalSupply;
+    if (adminAccount?.includes(signer_address)) {
+      try {
+        const getSupply = await contract.methods.get_total_minted({ answerId: 0 }).call();
+        totalSupply = getSupply?.count;
+      } catch (error) {
+        const getTotalSupply = await contract.methods.totalSupply({ answerId: 0 }).call();
+        totalSupply = getTotalSupply?.count;
+      }
+    }
+    else {
+      totalSupply = 0;
+    }
 
-    if (collection?.TotalSupply < totalSupply?.count) {
-      const updateNFTData = await update_collection_supply(slug, totalSupply.count);
+    if (collection?.TotalSupply < totalSupply) {
+      const updateNFTData = await update_collection_supply(slug, totalSupply);
       setMetadataLoading(false);
       alert("Metadata has been updated to latest");
       router.reload();
@@ -1348,9 +1358,9 @@ const Collection = ({
                             Refresh Metadata
                           </button>
                         )}
-                        <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
+                        <Link href="https://forms.gle/BPwxUVnRwTuzJEtP9" target="_blank" className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600">
                           Report
-                        </button>
+                        </Link>
                       </div>
                     )}
                   </div>
