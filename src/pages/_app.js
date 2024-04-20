@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }) {
   const GQLEndpoint = "https://gql.venom.foundation/graphql";
   const apiFetchURL = "https://api.venomscan.com/v1/accounts";
   const NFTImageToReplaceURIs = /(https:\/\/ipfs\.io\/ipfs\/|https:\/\/ipfs\.venomart\.io\/ipfs\/)/g;
-  const NFTImagesBaseURI = "https://ipfs.venomart.io/ipfs/"; //the base ipfs uri for all the NFT images https://ipfs.venomart.io/ipfs/  
+  const NFTImagesBaseURI = "https://ipfs.venomart.io/ipfs/"; //the base ipfs uri for all the NFT images https://ipfs.venomart.io/ipfs/
   const OtherImagesBaseURI = "https://ipfs.io/ipfs/"; // the base ipfs uri for all the uploads via thirdweb
   const defTheme = "dark";
 
@@ -45,10 +45,11 @@ export default function App({ Component, pageProps }) {
   const adminAccount = [
     "0:8986f472e33d521d4dabf17b1a0e001cd86c876f552b284d6ca0894131a36743", //ani account
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab", //shravan account
-    "0:c0ec1e7be94c18222bb63f186efff60be448c45aa852fe67e4a5d7783d6425e4" //ani phone 
+    "0:c0ec1e7be94c18222bb63f186efff60be448c45aa852fe67e4a5d7783d6425e4", //ani phone
+    "0:bf6adad7315850d05e010c55ea46f84e0aecfb4788783a31fc0694a7a6436883",
   ];
 
-  // enable trading on marketplace 
+  // enable trading on marketplace
   const EnableMakeOffer = false;
 
   const EnableNFTCancel = true;
