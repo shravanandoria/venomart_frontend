@@ -687,6 +687,9 @@ const NFTPage = ({
                             ? nft?.preview?.source
                             : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)
                         }
+                        onError={(e) => {
+                          e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                        }}
                         type="video/mp4"
                       ></source>
                     </video>
@@ -697,6 +700,9 @@ const NFTPage = ({
                           ? nft?.preview?.source
                           : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)
                       }
+                      onError={(e) => {
+                        e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                      }}
                       width={100}
                       height={100}
                       alt="item"

@@ -84,6 +84,9 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                     >
                                         <source
                                             src={NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                                            onError={(e) => {
+                                                e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                            }}
                                             type="video/mp4"
                                         ></source>
                                     </video>
@@ -92,6 +95,9 @@ const CancelModal = ({ formSubmit, setCancelModal, setAnyModalOpen, NFTImage, NF
                                         src={NFTImage?.replace(
                                             NFTImageToReplaceURIs, NFTImagesBaseURI
                                         )}
+                                        onError={(e) => {
+                                            e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                        }}
                                         alt="nftPreview"
                                         width="70"
                                         height="70"

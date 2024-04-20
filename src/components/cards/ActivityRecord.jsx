@@ -46,11 +46,23 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                                             NFTImageToReplaceURIs, NFTImagesBaseURI
                                         )
                                     }
+                                    onError={(e) => {
+                                        e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                    }}
                                     type="video/mp4"
                                 ></source>
                             </video>
                             :
-                            <Image src={NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)} alt="nftImage" height={100} width={100} className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
+                            <Image
+                                src={
+                                    NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                                onError={(e) => {
+                                    e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                }}
+                                alt="nftImage"
+                                height={100}
+                                width={100}
+                                className="ActivityCardImg rounded-2lg h-[100px] w-[100px]" />
                         }
                     </div>
                 </Link>

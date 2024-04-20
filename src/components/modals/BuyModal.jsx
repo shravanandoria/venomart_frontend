@@ -84,6 +84,9 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         <source
                                             src={NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
                                             type="video/mp4"
+                                            onError={(e) => {
+                                                e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                            }}
                                         ></source>
                                     </video>
                                     :
@@ -91,6 +94,9 @@ const BuyModal = ({ formSubmit, setBuyModal, setAnyModalOpen, NFTImage, NFTName,
                                         src={NFTImage?.replace(
                                             NFTImageToReplaceURIs, NFTImagesBaseURI
                                         )}
+                                        onError={(e) => {
+                                            e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                        }}
                                         alt="nftPreview"
                                         width="70"
                                         height="70"

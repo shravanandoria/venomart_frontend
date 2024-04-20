@@ -242,6 +242,9 @@ const Footer = ({
                               "https://ipfs.io/ipfs/",
                               NFTImagesBaseURI
                             )}
+                            onError={(e) => {
+                              e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                            }}
                             alt="nftPreview"
                             width={100}
                             height={100}
@@ -532,6 +535,9 @@ const Footer = ({
                         <Image
                           src={nft?.nft_image?.replace(
                             NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                          onError={(e) => {
+                            e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                          }}
                           alt="nftPreview"
                           width="70"
                           height="70"

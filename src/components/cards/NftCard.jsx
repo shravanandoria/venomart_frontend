@@ -79,6 +79,9 @@ const NftCard = ({
           :
           <Image
             src={ImageSrc?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+            onError={(e) => {
+              e.target.src = ImageSrc?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+            }}
             height={100}
             width={100}
             placeholder="blur"

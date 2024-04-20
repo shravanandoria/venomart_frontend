@@ -158,6 +158,9 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                             src={onchainNFTData
                                                 ? nft?.preview?.source
                                                 : nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                                            onError={(e) => {
+                                                e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                            }}
                                             type="video/mp4"
                                         ></source>
                                     </video>
@@ -170,6 +173,9 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
                                                     NFTImageToReplaceURIs, NFTImagesBaseURI
                                                 )
                                         }
+                                        onError={(e) => {
+                                            e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                        }}
                                         alt="nftPreview"
                                         width="80"
                                         height="80"

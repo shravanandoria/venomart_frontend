@@ -98,6 +98,9 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                         >
                                             <source
                                                 src={NFTImage?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                                                onError={(e) => {
+                                                    e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                                }}
                                                 type="video/mp4"
                                             ></source>
                                         </video>
@@ -106,6 +109,9 @@ const SuccessModal = ({ setSuccessModal, setAnyModalOpen, onCloseFunctionCall, N
                                             src={NFTImage?.replace(
                                                 NFTImageToReplaceURIs, NFTImagesBaseURI
                                             )}
+                                            onError={(e) => {
+                                                e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                            }}
                                             alt="nftPreview"
                                             width="70"
                                             height="70"
