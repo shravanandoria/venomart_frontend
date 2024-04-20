@@ -45,6 +45,7 @@ export default function App({ Component, pageProps }) {
   const adminAccount = [
     "0:8986f472e33d521d4dabf17b1a0e001cd86c876f552b284d6ca0894131a36743", //ani account
     "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab", //shravan account
+    "0:c0ec1e7be94c18222bb63f186efff60be448c45aa852fe67e4a5d7783d6425e4" //ani phone 
   ];
 
   // enable trading on marketplace 
