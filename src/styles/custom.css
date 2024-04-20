@@ -459,6 +459,7 @@
 
 .ImageInEffect {
   transition: transform 0.2s;
+  aspect-ratio: 1/1;
 }
 
 .ImageHoverEffect:hover .ImageInEffect {
