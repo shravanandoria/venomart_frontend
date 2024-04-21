@@ -561,11 +561,11 @@ export const transfer_nft = async (provider, signer_address, receiver_address, n
     //       amount: (1500000000).toString(),
     //     });
 
-    await contract
+    await contract.methods.
       .transfer({
         to: receiver_address,
         sendGasTo: signer_address,
-        callbacks: [[new Address(nft_address), { value: "1000000000", payload: "" }]],
+        callbacks: [[new Address(nft_address), { value: "100000000", payload: "" }]],
       })
       .send({
         from: new Address(signer_address),
