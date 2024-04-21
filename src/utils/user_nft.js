@@ -550,11 +550,27 @@ export const cancel_listing = async (
 export const transfer_nft = async (provider, signer_address, receiver_address, nft_address) => {
   try {
     const contract = new provider.Contract(nftAbi, nft_address);
+    //   const output = await nft_contract.methods
+    //     .changeManager({
+    //       newManager: new Address(offer_address),
+    //       sendGasTo: new Address(signer_address),
+    //       callbacks: [[new Address(offer_address), { value: "1000000000", payload: "" }]],
+    //     })
+    //     .send({
+    //       from: new Address(signer_address),
+    //       amount: (1500000000).toString(),
+    //     });
 
-    await contract.transfer({ to: receiver_address, sendGasTo: signer_address }).send({
-      from: new Address(signer_address),
-      amount: (100000000).toString(),
-    });
+    await contract
+      .transfer({
+        to: receiver_address,
+        sendGasTo: signer_address,
+        callbacks: [[new Address(nft_address), { value: "1000000000", payload: "" }]],
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: (100000000).toString(),
+      });
   } catch (error) {}
 };
 
