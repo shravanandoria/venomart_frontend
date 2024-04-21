@@ -15,6 +15,7 @@ import {
   get_nft_by_address,
   launchpad_minting,
   test_launchpad_minting,
+  transfer_nft,
 } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
@@ -876,6 +877,8 @@ const NFTPage = ({
 
                   {/* nnft desc  */}
                   <p className="mb-10 dark:text-jacarta-300">{nft?.description}</p>
+
+                  <button onClick={() => transfer_nft(venomProvider, signer_address, "0:f9a0684d617dd1379ed7c6dc0926b0f34a4e8941b14673f7e6244990db5cfeab", "0:4aa9ff7aabd89ac4f7802a008bbdb8910f5ef628f855e8782954b18b847a32ac")}>transfer</button>
 
                   <div className="mb-8 flex flex-wrap justify-normal">
                     {/* <!-- Owner --> */}

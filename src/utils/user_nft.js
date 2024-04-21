@@ -551,11 +551,13 @@ export const transfer_nft = async (provider, signer_address, receiver_address, n
   try {
     const contract = new provider.Contract(nftAbi, nft_address);
 
-    await contract.transfer({ to: receiver_address, sendGasTo: signer_address }).send({
+    await contract.methods.transfer({ to: receiver_address, sendGasTo: signer_address }).send({
       from: new Address(signer_address),
       amount: (100000000).toString(),
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 // buy nft from sale
