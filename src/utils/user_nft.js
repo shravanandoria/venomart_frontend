@@ -547,6 +547,17 @@ export const cancel_listing = async (
   }
 };
 
+export const transfer_nft = async (provider, signer_address, receiver_address, nft_address) => {
+  try {
+    const contract = new provider.Contract(nftAbi, nft_address);
+
+    await contract.transfer({ to: receiver_address, sendGasTo: signer_address }).send({
+      from: new Address(signer_address),
+      amount: (100000000).toString(),
+    });
+  } catch (error) {}
+};
+
 // buy nft from sale
 export const buy_nft = async (
   venomProvider,
@@ -580,7 +591,7 @@ export const buy_nft = async (
       })
       .send({
         from: new Address(signer_address),
-        amount: "100000000",
+        amount: "210000000000",
         // amount: (parseInt(nft_price.value0) + parseInt(extra_venom_fees)).toString(),
       });
 
