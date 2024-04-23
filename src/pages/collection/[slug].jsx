@@ -672,7 +672,12 @@ const Collection = ({
         try {
           let jsonURL = nft?.files[0].source;
           if (jsonURL && (jsonURL.startsWith("https://") && jsonURL.endsWith(".json"))) {
-            const JSONReq = await axios.get(jsonURL);
+            let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
+            try {
+              const JSONReq = await axios.get(newJSONURL);
+            } catch (error) {
+              const JSONReq = await axios.get(jsonURL);
+            }
             let attributes = JSONReq.data.attributes;
             if (updatingNFTDB) {
               createdNFT = await updateNFTViaOnchainRoll(nft, attributes);

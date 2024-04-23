@@ -48,7 +48,10 @@ export const getNftImage = async (provider, nftAddress) => {
   const nftContract = new provider.Contract(nftAbi, nftAddress);
   const getJsonAnswer = await nftContract.methods.getJson({ answerId: 0 }).call();
   // const json = JSON.parse(getJsonAnswer.json);
-  const json = JSON.parse(getJsonAnswer.json ?? "{}");
+  let json = {};
+  if (getJsonAnswer.json != "") {
+    json = JSON.parse(getJsonAnswer.json ? getJsonAnswer.json : {});
+  }
   return json;
 };
 
@@ -68,8 +71,8 @@ export const getCollectionItems = async (provider, nftAddresses) => {
         ...imgInfo,
         nftAddress,
         last_paid: nftAddress.last_paid,
-        manager: nft.manager.toString(),
-        owner: nft.owner.toString(),
+        manager: nft?.manager?.toString(),
+        owner: nft?.owner?.toString(),
       };
       nfts.push(obj);
     }),
@@ -754,6 +757,26 @@ export const bulk_buy_nfts = async (
     return false;
   }
 };
+
+
+// transfering NFT 
+export const transfer_nft = async (provider, signer_address, receiver_address, nft_address) => {
+  try {
+    const contract = new provider.Contract(nftAbi, nft_address);
+
+    await contract
+      .methods.transfer({
+        to: receiver_address,
+        sendGasTo: signer_address,
+        callbacks: [],
+      })
+      .send({
+        from: new Address(signer_address),
+        amount: (1000000000).toString(),
+      });
+  } catch (error) { }
+};
+
 
 // venom price fetch USD
 // const fetchVenomPrice = async () => {
