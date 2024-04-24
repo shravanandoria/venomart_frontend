@@ -533,13 +533,14 @@ const launchpad = ({
                 const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
                     let jsonURL = nft?.files[0].source;
                     try {
+                        let JSONReq;
                         let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
                         try {
-                            const JSONReq = await axios.get(newJSONURL);
+                            JSONReq = await axios.get(newJSONURL);
                         } catch (error) {
-                            const JSONReq = await axios.get(jsonURL);
+                            JSONReq = await axios.get(jsonURL);
                         }
-                        let attributes = JSONReq.data.attributes;
+                        let attributes = JSONReq?.data?.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         const fetching_user_mints = await getUserWalletMints();
                         setLoading(false);
@@ -591,13 +592,14 @@ const launchpad = ({
                 const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
                     let jsonURL = nft?.files[0].source;
                     try {
+                        let JSONReq;
                         let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
                         try {
-                            const JSONReq = await axios.get(newJSONURL);
+                            JSONReq = await axios.get(newJSONURL);
                         } catch (error) {
-                            const JSONReq = await axios.get(jsonURL);
+                            JSONReq = await axios.get(jsonURL);
                         }
-                        let attributes = JSONReq.data.attributes;
+                        let attributes = JSONReq?.data?.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         const fetching_user_mints = await getUserWalletMints();
                     } catch (error) {

@@ -389,13 +389,14 @@ const Profile = ({
           let jsonURL = parsedJSON?.files[0].source;
           let jsonMimeType = parsedJSON?.files[0].mimetype;
           if (jsonMimeType == "metadata/json") {
+            let JSONReq;
             let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
             try {
-              const JSONReq = await axios.get(newJSONURL);
+              JSONReq = await axios.get(newJSONURL);
             } catch (error) {
-              const JSONReq = await axios.get(jsonURL);
+              JSONReq = await axios.get(jsonURL);
             }
-            let attributes = JSONReq?.data?.attributes;
+            attributes = JSONReq?.data?.attributes;
           }
 
           const createdNFT = await refreshUserNFTs(nft, nftName, nftDesc, nftImage, jsonURL, attributes, signer_address);
