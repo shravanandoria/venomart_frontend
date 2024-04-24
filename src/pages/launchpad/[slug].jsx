@@ -428,10 +428,14 @@ const launchpad = ({
 
     // selecting phase
     const selectPhaseFunction = (phase, index) => {
+        let totalMaxMint = 0;
+        for (let i = 0; i <= index; i++) {
+            totalMaxMint += parseFloat(collectionData?.phases[i]?.maxMint) || 0;
+        }
         set_selected_phase({
             id: index,
             phaseName: phase?.phaseName,
-            maxMint: phase?.maxMint,
+            maxMint: totalMaxMint,
             mintPrice: phase?.mintPrice,
             startDate: convertDBTimeToLocal(phase?.startDate),
             EndDate: convertDBTimeToLocal(phase?.EndDate),
