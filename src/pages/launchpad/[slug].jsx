@@ -29,6 +29,8 @@ const launchpad = ({
     setAnyModalOpen,
     LaunchData,
     OtherImagesBaseURI,
+    NFTImageToReplaceURIs,
+    NFTImagesBaseURI,
     adminAccount
 }) => {
     const router = useRouter();
@@ -531,7 +533,12 @@ const launchpad = ({
                 const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
                     let jsonURL = nft?.files[0].source;
                     try {
-                        const JSONReq = await axios.get(jsonURL);
+                        let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
+                        try {
+                            const JSONReq = await axios.get(newJSONURL);
+                        } catch (error) {
+                            const JSONReq = await axios.get(jsonURL);
+                        }
                         let attributes = JSONReq.data.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         const fetching_user_mints = await getUserWalletMints();
@@ -584,7 +591,12 @@ const launchpad = ({
                 const mappingNFTs = await Promise.all(new_nfts.map(async (nft) => {
                     let jsonURL = nft?.files[0].source;
                     try {
-                        const JSONReq = await axios.get(jsonURL);
+                        let newJSONURL = jsonURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
+                        try {
+                            const JSONReq = await axios.get(newJSONURL);
+                        } catch (error) {
+                            const JSONReq = await axios.get(jsonURL);
+                        }
                         let attributes = JSONReq.data.attributes;
                         const createdNFT = await addNFTViaOnchainLaunchpad(nft, attributes, signer_address, collectionData?.contractAddress);
                         const fetching_user_mints = await getUserWalletMints();
@@ -1202,7 +1214,10 @@ const launchpad = ({
                                             {mintedNFTsArray?.map((nft) => (
                                                 <Link href={`/nft/${nft?.NFTAddress}`} key={nft?._id}>
                                                     <Image
-                                                        src={nft?.nft_image}
+                                                        src={nft?.nft_image?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
+                                                        onError={(e) => {
+                                                            e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                                                        }}
                                                         height={100}
                                                         width={100}
                                                         alt={nft?.name}
