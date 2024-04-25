@@ -19,11 +19,11 @@ export default async function handler(req, res) {
                         .select(["attributes"]);
 
                     // Prepare updatedNFTs in batches
-                    const batchSize = 300; // Set your preferred batch size
+                    const batchSize = 100; // Set your preferred batch size
                     const updatedNFTs = [];
 
-                    for (let i = 0; i < nfts.length; i += batchSize) {
-                        const batchNFTs = nfts.slice(i, i + batchSize);
+                    const processBatchWithTimeout = async (batchNFTs) => {
+                        console.log("Processing Batch with", batchNFTs.length, "NFTs");
                         const processedBatch = await Promise.all(batchNFTs.map(async (nft) => {
                             let updatedAttributes = [];
                             let rarityScore = 0;
@@ -95,9 +95,24 @@ export default async function handler(req, res) {
 
                             return mergedData;
                         }));
-
+                        console.log("Batch Processed Successfully");
                         updatedNFTs.push(...processedBatch);
-                    }
+                    };
+
+                    console.log("Total NFTs:", nfts.length);
+                    console.log("Batch Size:", batchSize);
+
+                    const processBatchesSequentially = async () => {
+                        for (let i = 0; i < nfts.length; i += batchSize) {
+                            const batchNFTs = nfts.slice(i, i + batchSize);
+                            console.log("Processing Batch", i / batchSize);
+                            await processBatchWithTimeout(batchNFTs);
+                            console.log("Batch Processed:", batchNFTs.length, "NFTs");
+                            await new Promise(resolve => setTimeout(resolve, 8000));
+                        }
+                    };
+
+                    await processBatchesSequentially();
 
                     // Sort the updatedNFTs by rarity score in ascending order
                     updatedNFTs.sort((a, b) => b.rarityScore - a.rarityScore);

@@ -1522,6 +1522,7 @@ const Collection = ({
                                     <li>
                                       <button onClick={() => (
                                         setSkip(0),
+                                        set_nfts([]),
                                         setHasMore(true),
                                         setMinPrice(0),
                                         setMaxPrice(0),
@@ -1547,6 +1548,7 @@ const Collection = ({
                                     <li>
                                       <button onClick={() => (
                                         setSkip(0),
+                                        set_nfts([]),
                                         setHasMore(true),
                                         setMinPrice(0),
                                         setMaxPrice(0),
@@ -1747,6 +1749,7 @@ const Collection = ({
                                   <button
                                     onClick={() => (
                                       setSkip(0),
+                                      set_nfts([]),
                                       setHasMore(true),
                                       setMinPrice(0),
                                       setMaxPrice(0),
@@ -1774,6 +1777,7 @@ const Collection = ({
                                   <button
                                     onClick={() => (
                                       setSkip(0),
+                                      set_nfts([]),
                                       setHasMore(true),
                                       setMinPrice(0),
                                       setMaxPrice(0),
@@ -1801,6 +1805,7 @@ const Collection = ({
                                   <button
                                     onClick={() => (
                                       setSkip(0),
+                                      set_nfts([]),
                                       setHasMore(true),
                                       setMinPrice(0),
                                       setMaxPrice(0),
@@ -1830,6 +1835,7 @@ const Collection = ({
                                       <button
                                         onClick={() => (
                                           setSkip(0),
+                                          set_nfts([]),
                                           setHasMore(true),
                                           setMinPrice(0),
                                           setMaxPrice(0),
@@ -1857,6 +1863,7 @@ const Collection = ({
                                       <button
                                         onClick={() => (
                                           setSkip(0),
+                                          set_nfts([]),
                                           setHasMore(true),
                                           setMinPrice(0),
                                           setMaxPrice(0),
@@ -1884,6 +1891,7 @@ const Collection = ({
                                       <button
                                         onClick={() => (
                                           setSkip(0),
+                                          set_nfts([]),
                                           setHasMore(true),
                                           setMinPrice(0),
                                           setMaxPrice(0),
@@ -1914,6 +1922,7 @@ const Collection = ({
                                   <button
                                     onClick={() => (
                                       setSkip(0),
+                                      set_nfts([]),
                                       setHasMore(true),
                                       setMinPrice(0),
                                       setMaxPrice(0),
@@ -1942,6 +1951,7 @@ const Collection = ({
                                   <button
                                     onClick={() => (
                                       setSkip(0),
+                                      set_nfts([]),
                                       setHasMore(true),
                                       setMinPrice(0),
                                       setMaxPrice(0),

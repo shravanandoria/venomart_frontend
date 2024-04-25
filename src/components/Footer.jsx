@@ -167,7 +167,13 @@ const Footer = ({
                 index < 3 && (
                   <Image
                     key={nft._id}
-                    src={nft?.nft_image}
+                    src={nft?.nft_image?.replace(
+                      "https://ipfs.io/ipfs/",
+                      NFTImagesBaseURI
+                    )}
+                    onError={(e) => {
+                      e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
+                    }}
                     alt="items"
                     height={100}
                     width={100}

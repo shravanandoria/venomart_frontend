@@ -7,7 +7,7 @@ import venomLogo from "../../../public/venomBG.webp";
 import { AiFillPlusCircle } from "react-icons/ai";
 import numeral from 'numeral';
 import { MARKETPLACE_ADDRESS } from "../../utils/user_nft";
-
+import blurHash from '../blurHash.json';
 
 const NftCard = ({
   ImageSrc,
@@ -77,21 +77,6 @@ const NftCard = ({
             <source src={ImageSrc} type="video/mp4"></source>
           </video>
           :
-          // ImageSrc.includes("QmczRN86cL14cgmEkKQ7sSQJbthpS7vfywmzDjqJACSpYK") ?
-          //   <Image
-          //     src={"https://61e37ef55c4cba19366008878f9d1b23.ipfscdn.io/ipfs/QmWkwhYuBi8Tb5rMrLc99eVERyuDoJGWA6k3aamEQAM8ay/2684.png"}
-          //     onError={(e) => {
-          //       e.target.src = ImageSrc?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
-          //     }}
-          //     height={100}
-          //     width={100}
-          //     placeholder="blur"
-          //     blurDataURL="data:..."
-          //     loading='lazy'
-          //     alt="nftItem"
-          //     className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
-          //   />
-          //   :
           <Image
             src={ImageSrc?.replace(NFTImageToReplaceURIs, NFTImagesBaseURI)}
             onError={(e) => {
@@ -100,7 +85,7 @@ const NftCard = ({
             height={100}
             width={100}
             placeholder="blur"
-            blurDataURL="data:..."
+            blurDataURL={blurHash?.blurURL}
             loading='lazy'
             alt="nftItem"
             className="ImageInEffect h-[220px] w-full rounded-[0.625rem]"
