@@ -169,7 +169,13 @@ const NFTPage = ({
         const sourceURL = nft_onchain?.files[0]?.source;
         if (sourceURL && sourceURL.startsWith("https://") && sourceURL.endsWith(".json")) {
           try {
-            const response = await fetch(sourceURL);
+            let response;
+            let newSourceURL = sourceURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
+            try {
+              response = await fetch(newSourceURL);
+            } catch (error) {
+              response = await fetch(sourceURL);
+            }
             if (response.ok) {
               const parsedData = await response.json();
               const extractedProps = parsedData.attributes;
@@ -216,39 +222,31 @@ const NFTPage = ({
     let offChainListed = nft?.isListed;
     let offChainImage = nft?.nft_image;
     let offChainDemandPrice = nft?.demandPrice;
+    let offChainAttributes = nft?.attributes;
 
     const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
 
     if (
-      OnChainOwner != offChainOwner || OnChainManager != offChainManager || (nft_onchain?.attributes == [] && nft_onchain?.files[0]?.source != "") ||
+      (OnChainOwner != offChainOwner) || (OnChainManager != offChainManager) || (offChainAttributes = []) ||
       (OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)
     ) {
       if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
         // updating the owners data 
         const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
-
-        // adding the sale activity 
-        // if (offChainOwner != offChainManager && OnChainOwner == OnChainManager) {
-        //   let data = {
-        //     hash: "",
-        //     from: offChainManager,
-        //     to: OnChainOwner,
-        //     price: nft?.demandPrice,
-        //     type: "sale",
-        //     wallet_id: OnChainOwner,
-        //     nft_address: slug,
-        //     collection_address: nft?.NFTCollection?.contractAddress
-        //   }
-        //   const addSaleActivity = addActivity(data);
-        // }
         alert("Owners data updated successfully");
       }
 
-      if (nft_onchain.attributes == [] && nft_onchain.files[0].source != "") {
+      if (offChainAttributes = []) {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (sourceURL && sourceURL.startsWith("https://") && sourceURL.endsWith(".json")) {
           try {
-            const response = await fetch(sourceURL);
+            let response;
+            let newSourceURL = sourceURL.replace("https://ipfs.io/ipfs", "https://ipfs.venomart.io/ipfs");
+            try {
+              response = await fetch(newSourceURL);
+            } catch (error) {
+              response = await fetch(sourceURL);
+            }
             if (response.ok) {
               const parsedData = await response.json();
               const extractedProps = parsedData.attributes;
