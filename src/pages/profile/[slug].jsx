@@ -999,6 +999,9 @@ const Profile = ({
                     <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}>If you find your NFTs missing, <span className="text-blue cursor-pointer" onClick={() => (setAdminPermittedAction(true))}>click here</span> to refresh ↻</p>
                   </div>
                 )} */}
+                <div className="flex justify-center mt-[-32px] align-middle text-center">
+                  <p className="text-lg dark:text-jacarta-200 pb-8 text-center">Total Portfolio Value: <span className="font-bold">{user_data?.portfolioValue && ((user_data?.portfolioValue).toFixed(2))} $VENOM</span></p>
+                </div>
                 <div>
                   {/* filters  */}
                   <div className="collectionFilterDiv bg-white dark:bg-jacarta-900 p-4">

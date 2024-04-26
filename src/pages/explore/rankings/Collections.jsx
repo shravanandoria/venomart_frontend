@@ -466,11 +466,11 @@ const Collections = ({
                                         Floor Price
                                     </span>
                                 </div>
-                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                {/* <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Avg Price
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Listings
@@ -484,6 +484,11 @@ const Collections = ({
                                 <div className="w-[12%] py-3 px-4" role="columnheader">
                                     <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
                                         Items
+                                    </span>
+                                </div>
+                                <div className="w-[12%] py-3 px-4" role="columnheader">
+                                    <span className="w-full overflow-hidden text-ellipsis text-jacarta-700 dark:text-jacarta-100">
+                                        Holders
                                     </span>
                                 </div>
                             </div>
@@ -507,6 +512,7 @@ const Collections = ({
                                         Floor={e?.FloorPrice}
                                         Listings={e?.TotalListed}
                                         totalSupply={e?.TotalSupply}
+                                        totalHolders={e?.totalHolders}
                                         OtherImagesBaseURI={OtherImagesBaseURI}
                                     />
                             )}

@@ -45,6 +45,7 @@ import numeral from "numeral";
 import moment from "moment";
 // import { TonClientContext } from "../../context/tonclient";
 import { cancel_offer } from "../../utils/user_nft";
+import blurHash from '../../components/blurHash.json';
 
 const NFTPage = ({
   signer_address,
@@ -701,6 +702,8 @@ const NFTPage = ({
                       onError={(e) => {
                         e.target.src = nft?.nft_image?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
                       }}
+                      placeholder="blur"
+                      blurDataURL={blurHash?.blurURL}
                       width={100}
                       height={100}
                       alt="item"

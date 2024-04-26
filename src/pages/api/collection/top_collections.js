@@ -141,46 +141,44 @@ export default async function handler(req, res) {
                     }
                 ]);
 
-                const getNFTResultForCollection = async (collectionId) => {
+                const getNFTDataForCollection = async (collectionId) => {
                     const nftResult = await NFT.aggregate([
                         {
                             $match: {
-                                NFTCollection: collectionId,
-                                isListed: true
+                                NFTCollection: collectionId
                             }
                         },
                         {
-                            $addFields: {
-                                priceAsDouble: { $toDouble: "$demandPrice" }
+                            $group: {
+                                _id: "$ownerAddress",
+                                minimumListingPrice: {
+                                    $min: { $cond: [{ $eq: ["$isListed", true] }, { $toDouble: "$demandPrice" }, Infinity] }
+                                }
                             }
                         },
                         {
                             $group: {
                                 _id: null,
-                                minimumListingPrice: {
-                                    $min: "$priceAsDouble"
-                                }
-                            }
-                        },
-                        {
-                            $limit: 1
-                        },
-                        {
-                            $sort: {
-                                minimumListingPrice: -1
+                                totalUniqueAddresses: { $sum: 1 },
+                                minimumListingPrice: { $min: "$minimumListingPrice" }
                             }
                         }
                     ]);
-                    return nftResult[0]?.minimumListingPrice || 0;
+
+                    return {
+                        totalUniqueAddresses: nftResult[0]?.totalUniqueAddresses || 0,
+                        minimumListingPrice: nftResult[0]?.minimumListingPrice || 0
+                    };
                 };
 
                 const mergedData = await Promise.all(
                     saleResult.map(async (collection) => {
                         const collectionId = collection?._id;
-                        const minimumListingPrice = await getNFTResultForCollection(collectionId);
+                        const extraData = await getNFTDataForCollection(collectionId);
                         return {
                             ...collection,
-                            FloorPrice: minimumListingPrice
+                            FloorPrice: extraData?.minimumListingPrice,
+                            totalHolders: extraData?.totalUniqueAddresses
                         };
                     })
                 );

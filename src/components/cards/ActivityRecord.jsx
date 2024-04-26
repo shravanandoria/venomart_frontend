@@ -4,6 +4,8 @@ import React from 'react'
 import moment from 'moment';
 import numeral from 'numeral';
 import { IoHandLeftOutline } from 'react-icons/io5';
+import blurHash from '../blurHash.json';
+
 
 const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, ActivityType, userPurchases, blockURL, ActivityHash, From = "market", FromUser, To = "market", ToUser, signerAddress, NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
     const dateTimeAgo = moment(new Date(ActivityTime)).fromNow();
@@ -59,6 +61,8 @@ const ActivityRecord = ({ NFTImage, NFTName, NFTAddress, Price, ActivityTime, Ac
                                 onError={(e) => {
                                     e.target.src = NFTImage?.replace(NFTImageToReplaceURIs, "https://ipfs.io/ipfs/");
                                 }}
+                                placeholder="blur"
+                                blurDataURL={blurHash?.blurURL}
                                 alt="nftImage"
                                 height={100}
                                 width={100}

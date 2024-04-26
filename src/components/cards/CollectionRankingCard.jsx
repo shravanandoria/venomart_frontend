@@ -20,6 +20,7 @@ const CollectionRankingCard = ({
   Sales,
   Listings,
   totalSupply,
+  totalHolders,
   OtherImagesBaseURI
 }) => {
 
@@ -123,7 +124,7 @@ const CollectionRankingCard = ({
       </div>
 
       {/* avg price  */}
-      <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
+      {/* <div className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600">
         <span className="text-sm dark:text-jacarta-200 text-jacarta-700 flex uppercase">
           <Image
             src={venomLogo}
@@ -139,7 +140,7 @@ const CollectionRankingCard = ({
           />
           {AveragePrice ? formatNumberShort(AveragePrice) : "0"}
         </span>
-      </div>
+      </div> */}
 
       {/* listings  */}
       <div
@@ -168,6 +169,16 @@ const CollectionRankingCard = ({
       >
         <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
           {totalSupply ? formatNumberShort(totalSupply) : "0"}
+        </span>
+      </div>
+
+      {/* Holders  */}
+      <div
+        className="flex w-[12%] items-center border-t border-jacarta-100 py-4 px-4 dark:border-jacarta-600"
+        role="cell"
+      >
+        <span className="dark:text-jacarta-200 text-jacarta-700 uppercase">
+          {totalHolders ? formatNumberShort(totalHolders) : "0"}
         </span>
       </div>
     </Link>

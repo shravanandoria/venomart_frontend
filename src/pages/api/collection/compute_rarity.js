@@ -19,7 +19,7 @@ export default async function handler(req, res) {
                         .select(["attributes"]);
 
                     // Prepare updatedNFTs in batches
-                    const batchSize = 100; // Set your preferred batch size
+                    const batchSize = 125; // Set your preferred batch size
                     const updatedNFTs = [];
 
                     const processBatchWithTimeout = async (batchNFTs) => {
@@ -108,7 +108,7 @@ export default async function handler(req, res) {
                             console.log("Processing Batch", i / batchSize);
                             await processBatchWithTimeout(batchNFTs);
                             console.log("Batch Processed:", batchNFTs.length, "NFTs");
-                            await new Promise(resolve => setTimeout(resolve, 8000));
+                            await new Promise(resolve => setTimeout(resolve, 2000));
                         }
                     };
 
