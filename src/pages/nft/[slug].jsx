@@ -15,6 +15,7 @@ import {
   get_nft_by_address,
   launchpad_minting,
   test_launchpad_minting,
+  transfer_nft,
 } from "../../utils/user_nft";
 import { list_nft, cancel_listing } from "../../utils/user_nft";
 import venomLogo from "../../../public/venomBG.webp";
@@ -33,6 +34,7 @@ import BuyModal from "../../components/modals/BuyModal";
 import CancelModal from "../../components/modals/CancelModal";
 import SuccessModal from "../../components/modals/SuccessModal";
 import ListModal from "../../components/modals/ListModal";
+import TransferModal from "../../components/modals/TransferModal";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -90,6 +92,7 @@ const NFTPage = ({
   const [successModal, setSuccessModal] = useState(false);
   const [onchainNFTData, setOnchainNFTData] = useState(false);
   const [collectionData, setCollectionData] = useState(false);
+  const [transferModal, setTransferModal] = useState(false);
 
   const [properties, setProperties] = useState(true);
   const [offers, setOffers] = useState(false);
@@ -102,6 +105,8 @@ const NFTPage = ({
   const [actionDrop, setActionDrop] = useState(false);
   const [metaDataUpdated, setMetaDataUpdated] = useState(false);
   const [metadataLoading, setMetadataLoading] = useState(false);
+  const [transferLoading, setTransferLoading] = useState(false);
+  const [receiver_address, set_receiver_address] = useState("");
 
   const [listingPrice, set_listing_price] = useState(0);
   const [creatorRoyalty, setCreatorRoyalty] = useState(0);
@@ -213,22 +218,22 @@ const NFTPage = ({
     const nft_onchain = await get_nft_by_address(venomProvider, slug);
     const onChainNFTData = await directSell_nft_info(venomProvider, nft?.managerAddress);
 
-    let OnChainOwner = nft_onchain?.owner?._address;
-    let OnChainManager = nft_onchain?.manager?._address;
-    let onChainImage = nft_onchain?.preview?.source;
-    let onChainDemandPrice = onChainNFTData?.value5 / 1000000000;
+    const OnChainOwner = nft_onchain?.owner?._address;
+    const OnChainManager = nft_onchain?.manager?._address;
+    const onChainImage = nft_onchain?.preview?.source;
+    const onChainDemandPrice = onChainNFTData?.value5 / 1000000000;
 
-    let offChainOwner = nft?.ownerAddress;
-    let offChainManager = nft?.managerAddress;
-    let offChainListed = nft?.isListed;
-    let offChainImage = nft?.nft_image;
-    let offChainDemandPrice = nft?.demandPrice;
-    let offChainAttributes = nft?.attributes;
+    const offChainOwner = nft?.ownerAddress;
+    const offChainManager = nft?.managerAddress;
+    const offChainListed = nft?.isListed;
+    const offChainImage = nft?.nft_image;
+    const offChainDemandPrice = nft?.demandPrice;
+    const offChainAttributes = nft?.attributes;
 
     const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
 
     if (
-      (OnChainOwner != offChainOwner) || (OnChainManager != offChainManager) || (offChainAttributes = []) ||
+      (OnChainOwner != offChainOwner) || (OnChainManager != offChainManager) || (offChainAttributes == "") ||
       (OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)
     ) {
       if (OnChainOwner != offChainOwner || OnChainManager != offChainManager) {
@@ -237,7 +242,7 @@ const NFTPage = ({
         alert("Owners data updated successfully");
       }
 
-      if (offChainAttributes = []) {
+      if (offChainAttributes == [] || offChainAttributes == "") {
         const sourceURL = nft_onchain?.files[0]?.source;
         if (sourceURL && sourceURL.startsWith("https://") && sourceURL.endsWith(".json")) {
           try {
@@ -455,6 +460,17 @@ const NFTPage = ({
     }
   };
 
+  const transferNFT = async e => {
+    e.preventDefault();
+    setTransferLoading(true);
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const transfering = await transfer_nft(venomProvider, signer_address, receiver_address, slug, (nft?.ownerAddress ? nft?.ownerAddress : nft?.owner?._address), (nft?.managerAddress ? nft?.managerAddress : nft?.manager?._address));
+    setMetaDataUpdated(true);
+    await wait(4000);
+    refreshMetadata();
+    setTransferLoading(false);
+  }
+
   // get offers
   const getNFTOffers = async () => {
     if (!nft) return;
@@ -656,6 +672,8 @@ const NFTPage = ({
 
       {buyModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
+      {transferModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
+
       {successModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
 
       {offerModal && <div className="backgroundModelBlur backdrop-blur-lg"></div>}
@@ -815,6 +833,23 @@ const NFTPage = ({
 
                         {actionDrop && (
                           <div className="absolute left-[-160px] dropdown-menu dropdown-menu-end z-10 min-w-[200px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-800">
+                            {((!onchainNFTData) && (nft?.ownerAddress == signer_address)) &&
+                              (transferLoading ? (
+                                <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                  <div className="flex space-x-2">
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-3 h-3 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                  </div>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => setTransferModal(true)}
+                                  className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 text-jacarta-700 dark:text-jacarta-200 dark:hover:bg-jacarta-600"
+                                >
+                                  Transfer NFT
+                                </button>
+                              ))}
                             {!onchainNFTData &&
                               (metadataLoading ? (
                                 <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
@@ -2302,6 +2337,25 @@ const NFTPage = ({
                 </div>
               </form>
             </div>
+          )}
+
+          {/* transferModal  */}
+          {transferModal && (
+            <TransferModal
+              formSubmit={transferNFT}
+              setTransferModal={setTransferModal}
+              setAnyModalOpen={setAnyModalOpen}
+              NFTImage={selectedNFT ? selectedNFT?.nft_image : nft?.nft_image}
+              NFTCollectionContract={nft?.NFTCollection?.contractAddress}
+              NFTCollectionName={nft?.NFTCollection?.name}
+              CollectionVerification={nft?.NFTCollection?.isVerified}
+              collectionTrading={nft?.NFTCollection?.isTrading}
+              NFTName={selectedNFT ? selectedNFT?.name : nft?.name}
+              actionLoad={transferLoading}
+              setRecieverAddress={set_receiver_address}
+              NFTImagesBaseURI={NFTImagesBaseURI}
+              NFTImageToReplaceURIs={NFTImageToReplaceURIs}
+            />
           )}
 
           {/* listing modal  */}

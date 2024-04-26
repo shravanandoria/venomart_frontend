@@ -28,6 +28,7 @@ import Launchpad_Contract_ABI from "../../abi/LaunchpadContract.abi.json";
 
 // STRICT -- dont change this values, this values are used in transactions
 export const ONE_VENOM = 1000000000; //one venom for calculations
+export const nft_transfer_refundable_fees = 1 * ONE_VENOM; //amount we send to transfer transaction {PASSING IT IN TRANSACTIONS}
 export const cancel_refundable_fees = 0.1 * ONE_VENOM; //amount we send to cancel transaction {PASSING IT IN TRANSACTIONS}
 export const launchpad_nft_fees = 0.1 * ONE_VENOM; //amount we send to mint launchpad NFT {PASSING IT IN TRANSACTIONS}
 export const buy_refundable_fees = 0.6 * ONE_VENOM; //amount we send when buy NFT {FOR DISPLAY}
@@ -760,10 +761,21 @@ export const bulk_buy_nfts = async (
 
 
 // transfering NFT 
-export const transfer_nft = async (provider, signer_address, receiver_address, nft_address) => {
+export const transfer_nft = async (provider, signer_address, receiver_address, nft_address, prev_nft_Owner, prev_nft_Manager) => {
+  if (!receiver_address && !signer_address && !nft_address && !prev_nft_Owner && !prev_nft_Manager) return;
   try {
-    const contract = new provider.Contract(nftAbi, nft_address);
+    // checking nft owner 
+    const nft_onchain = await get_nft_by_address(provider, nft_address);
+    let OnChainOwner = nft_onchain?.owner?._address;
+    let OnChainManager = nft_onchain?.manager?._address;
 
+    if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
+      const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
+      alert("This NFT is not owned by you!");
+      return false;
+    }
+
+    const contract = new provider.Contract(nftAbi, nft_address);
     await contract
       .methods.transfer({
         to: receiver_address,
@@ -774,7 +786,10 @@ export const transfer_nft = async (provider, signer_address, receiver_address, n
         from: new Address(signer_address),
         amount: (1000000000).toString(),
       });
-  } catch (error) { }
+    return;
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 
