@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
                     nft.isListed = true;
                     nft.demandPrice = demandPrice;
-                    nft.listingPrice = listingPrice;
+                    nft.listingPrice = (demandPrice).toString();
                     await nft.save();
 
                     return res.status(200).json({ success: true, data: nft });
