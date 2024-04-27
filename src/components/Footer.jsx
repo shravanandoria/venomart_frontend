@@ -31,6 +31,7 @@ const Footer = ({
   connectWallet,
   EnableNFTSale,
   NFTImagesBaseURI,
+  vnmBalance,
   NFTImageToReplaceURIs
 }) => {
   const router = useRouter();
@@ -79,6 +80,7 @@ const Footer = ({
 
     setActionLoad(true);
     let finalCartNFTs = [];
+    let nftsTotalBuyAmount = 0;
 
     // Map each cartNFT to a promise that resolves to the result of get_nft_by_address
     const promises = cartNFTs.map(async (cartNFT) => {
@@ -99,11 +101,19 @@ const Footer = ({
     const listingPrices = finalCartNFTs.map(
       (item) => item.listingPrice * 1000000000
     );
+    const BuyPrices = finalCartNFTs.map(
+      (item) => nftsTotalBuyAmount += parseFloat(item.listingPrice)
+    );
     const NFTAddresses = finalCartNFTs.map((item) => item.NFTAddress);
     const NFTCollections = finalCartNFTs.map((item) => item.NFTCollection);
 
     if (NFTAddresses.length == 0) {
       alert("your cart is empty!")
+      setActionLoad(false);
+      return;
+    }
+    if (parseFloat(vnmBalance) <= nftsTotalBuyAmount) {
+      alert("You do not have sufficient venom tokens to buy the cart NFTs!!");
       setActionLoad(false);
       return;
     }

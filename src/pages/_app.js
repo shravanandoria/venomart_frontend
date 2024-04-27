@@ -241,6 +241,7 @@ export default function App({ Component, pageProps }) {
         signer_address={signer_address}
         onDisconnect={onDisconnect}
         venomPrice={venomPrice}
+        vnmBalance={vnmBalance}
         venomTPS={venomTPS}
         venomProvider={venomProvider}
         connectWallet={connect_wallet}

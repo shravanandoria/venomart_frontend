@@ -1685,7 +1685,7 @@ const Profile = ({
                     <div className="flex flex-wrap">
                       <button
                         onClick={() => (
-                          setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType("")
+                          setActivitySkip(0), setActivityRecords([]), setHasMoreActivity(true), setUserPurchases(false), setActivityType("")
                         )}
                         className={`${activityType == ""
                           ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
@@ -1696,7 +1696,7 @@ const Profile = ({
                       </button>
                       <button
                         onClick={() => (
-                          setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(false), setActivityType("list")
+                          setActivitySkip(0), setActivityRecords([]), setHasMoreActivity(true), setUserPurchases(false), setActivityType("list")
                         )}
                         className={`${activityType == "list"
                           ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
@@ -1724,6 +1724,7 @@ const Profile = ({
                       <button
                         onClick={() => (
                           setActivitySkip(0),
+                          setActivityRecords([]),
                           setHasMoreActivity(true),
                           setUserPurchases(false),
                           setActivityType("cancel")
@@ -1753,7 +1754,7 @@ const Profile = ({
 
                       <button
                         onClick={() => (
-                          setActivitySkip(0), setHasMoreActivity(true), setUserPurchases(true), setActivityType("sale")
+                          setActivitySkip(0), setActivityRecords([]), setHasMoreActivity(true), setUserPurchases(true), setActivityType("sale")
                         )}
                         className={`${activityType == "sale"
                           ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
@@ -1781,6 +1782,7 @@ const Profile = ({
                       <button
                         onClick={() => (
                           setActivitySkip(0),
+                          setActivityRecords([]),
                           setHasMoreActivity(true),
                           setUserPurchases(false),
                           setActivityType("user_sale")
@@ -1811,6 +1813,7 @@ const Profile = ({
                       <button
                         onClick={() => (
                           setActivitySkip(0),
+                          setActivityRecords([]),
                           setHasMoreActivity(true),
                           setUserPurchases(false),
                           setActivityType("offer")
@@ -1832,6 +1835,7 @@ const Profile = ({
                       <button
                         onClick={() => (
                           setActivitySkip(0),
+                          setActivityRecords([]),
                           setHasMoreActivity(true),
                           setUserPurchases(false),
                           setActivityType("canceloffer")
