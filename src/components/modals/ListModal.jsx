@@ -354,7 +354,7 @@ const ListModal = ({ formSubmit, setListSale, setAnyModalOpen, listingPrice, set
 
                         <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between py-2.5">
                             <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
-                                You will recieve
+                                You will receive
                             </span>
                             <div className="ml-auto">
                                 <span className="flex items-center whitespace-nowrap">

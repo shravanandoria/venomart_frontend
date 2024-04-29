@@ -1967,7 +1967,7 @@ const launchpad = ({
                                                                 htmlFor="item-name"
                                                                 className="mb-2 block font-display text-jacarta-700 dark:text-white"
                                                             >
-                                                                Reciever Address
+                                                                Receiver Address
                                                             </label>
                                                             <input
                                                                 onChange={(e) => setCreatorMintReciever(e.target.value)}

@@ -63,7 +63,7 @@ const TransferModal = ({ formSubmit, setTransferModal, setAnyModalOpen, NFTImage
                     <div className="modal-body p-6">
                         <div className="mb-2 flex items-center justify-between">
                             <span className="font-display text-sm font-semibold text-jacarta-700 dark:text-white">
-                                Reciever Address
+                                Receiver Address
                             </span>
                         </div>
 
