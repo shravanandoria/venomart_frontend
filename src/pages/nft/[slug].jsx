@@ -11,6 +11,7 @@ import {
   MakeOpenOffer,
   accept_offer,
   buy_nft,
+  create_nft_database,
   directSell_nft_info,
   get_nft_by_address,
   launchpad_minting,
@@ -231,6 +232,12 @@ const NFTPage = ({
     const offChainAttributes = nft?.attributes;
 
     const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
+
+    if (onchainNFTData) {
+      const createNFTInDatabase = await create_nft_database(nft, slug, signer_address);
+      alert("NFT synced to venomart DB");
+      return;
+    }
 
     if ((OnChainOwner == offChainOwner && OnChainManager == offChainOwner) && (offChainListed == true)) {
       const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
@@ -855,7 +862,7 @@ const NFTPage = ({
                                   Transfer NFT
                                 </button>
                               ))}
-                            {!onchainNFTData &&
+                            {
                               (metadataLoading ? (
                                 <button className="block w-full rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                   <div className="flex space-x-2">
