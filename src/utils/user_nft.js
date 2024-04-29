@@ -625,11 +625,16 @@ export const buy_nft = async (
     const nft_onchain = await get_nft_by_address(venomProvider, nft_address);
     let OnChainOwner = nft_onchain?.owner?._address;
     let OnChainManager = nft_onchain?.manager?._address;
+    let offChainListed = true;
 
     if (OnChainOwner != prev_nft_Owner || OnChainManager != prev_nft_Manager) {
       const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
       alert("This NFT is already sold out!");
       return false;
+    }
+    if ((OnChainOwner == prev_nft_Owner && OnChainManager == prev_nft_Owner) && (offChainListed == true)) {
+      const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, nft_address);
+      alert("This NFT is already sold out!");
     }
 
     const DirectSellContract = new venomProvider.Contract(DirectSell, new Address(prev_nft_Manager));

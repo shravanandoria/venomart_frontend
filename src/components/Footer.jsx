@@ -17,6 +17,7 @@ import numeral from "numeral";
 import { getLiveStats } from "../utils/mongo_api/activity/activity";
 import { bulk_buy_nfts, buy_cart_refundable_fees, get_nft_by_address } from "../utils/user_nft";
 import { GoArrowUpRight } from "react-icons/go";
+import { update_verified_nft_data } from "../utils/mongo_api/nfts/nfts";
 
 const Footer = ({
   theme,
@@ -89,6 +90,7 @@ const Footer = ({
         finalCartNFTs.push(cartNFT);
       }
       else {
+        const updateNFTData = await update_verified_nft_data(cartNFT?.ownerAddress, cartNFT?.managerAddress, cartNFT?.NFTAddress);
         removeFromCart(cartNFT?._id);
       }
     });

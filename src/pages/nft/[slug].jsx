@@ -232,6 +232,11 @@ const NFTPage = ({
 
     const updateNFTImage = await update_verified_nft_image(onChainImage, slug);
 
+    if ((OnChainOwner == offChainOwner && OnChainManager == offChainOwner) && (offChainListed == true)) {
+      const updateNFTData = await update_verified_nft_data(OnChainOwner, OnChainManager, slug);
+      alert("Owners data updated successfully");
+    }
+
     if (
       (OnChainOwner != offChainOwner) || (OnChainManager != offChainManager) || (offChainAttributes == "") ||
       (OnChainOwner != OnChainManager && !offChainListed) || (offChainDemandPrice < onChainDemandPrice)
