@@ -13,6 +13,7 @@ const Collections = ({
     const [defaultFilterFetch, setDefaultFilterFetch] = useState(false);
     const [filterCategories, openFilterCategories] = useState(false);
     const [filterSort, openFilterSort] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [mobileFilter, openMobileFilter] = useState(true);
 
     // for verified fetching 
@@ -56,10 +57,12 @@ const Collections = ({
     const isBreakpoint = useMediaQuery(800);
 
     const fetchTopCollections = async () => {
+        setLoading(true);
         const topCollections = await top_collections(category, collection_status, duration);
         if (topCollections) {
             setTopCollections(topCollections);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -347,7 +350,7 @@ const Collections = ({
                                                     <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                                         Sorty By
                                                     </span>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("1day"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setTopCollections([]), setDuration("1day"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 24 Hours
                                                         {duration == "1day" &&
                                                             <svg
@@ -362,7 +365,7 @@ const Collections = ({
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("7days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setTopCollections([]), setDuration("7days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 7 Days
                                                         {duration == "7days" &&
                                                             <svg
@@ -377,7 +380,7 @@ const Collections = ({
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("30days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setTopCollections([]), setDuration("30days"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 30 Days
                                                         {duration == "30days" &&
                                                             <svg
@@ -392,7 +395,7 @@ const Collections = ({
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("1year"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setTopCollections([]), setDuration("1year"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 1 Year
                                                         {duration == "1year" &&
                                                             <svg
@@ -407,7 +410,7 @@ const Collections = ({
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (setDefaultFilterFetch(true), setDuration("alltime"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (setDefaultFilterFetch(true), setTopCollections([]), setDuration("alltime"), openFilterSort(false))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         All Time
                                                         {duration == "alltime" &&
                                                             <svg
@@ -516,9 +519,15 @@ const Collections = ({
                                         OtherImagesBaseURI={OtherImagesBaseURI}
                                     />
                             )}
-                            {topCollections?.length <= 0 && (
+                            {topCollections?.length <= 0 && !loading && (
                                 <h2 className="text-center p-4">No collections found!</h2>
                             )}
+                            {loading &&
+                                <div className="flex items-center justify-center space-x-2 mt-12 mb-12">
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                </div>}
                         </div>
                     </div>
                 </div>

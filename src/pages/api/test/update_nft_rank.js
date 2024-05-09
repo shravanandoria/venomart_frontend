@@ -1,5 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
 import NFT from "../../../Models/NFT";
+import mongoose from "mongoose";
 
 export default async function handler(req, res) {
     const { method } = req;
@@ -11,16 +12,13 @@ export default async function handler(req, res) {
         case "POST":
             try {
                 // Fetch all NFT documents
-                const nfts = await NFT.find({});
+                await NFT.updateMany(
+                    { NFTCollection: new mongoose.Types.ObjectId("663203b48b47b6f579be2043") },
+                    { $unset: { rank: "" } }
+                );
 
-                // Loop through each NFT and update the demandPrice field
-                for (const nft of nfts) {
-                    const newDemandPrice = parseFloat(nft.demandPrice);
-                    nft.demandPrice = newDemandPrice;
-                    await nft.save(); // Save the updated document
-                }
 
-                res.status(200).json({ success: true, message: 'Migration completed successfully.' });
+                res.status(200).json({ success: true, message: 'Deleted successfully' });
 
             } catch (error) {
                 console.error('Migration error:', error);

@@ -17,7 +17,6 @@ export default async function handler(req, res) {
                         name: /Soldier/,
                         NFTCollection: new mongoose.Types.ObjectId("662a6202324690f7895aa543")
                     });
-                    console.log(nft?.length)
                     if (!nft)
                         return res
                             .status(400)

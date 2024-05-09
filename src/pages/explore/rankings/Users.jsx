@@ -259,7 +259,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                                     <span className="block px-5 py-2 font-display text-sm font-semibold text-jacarta-300">
                                                         Sort By
                                                     </span>
-                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("1day"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (openFilterSort(false), setTopUsers([]), setDefaultFetch(true), set_duration("1day"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 24 Hours
                                                         {duration == "1day" &&
                                                             <svg
@@ -274,7 +274,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("7days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (openFilterSort(false), setTopUsers([]), setDefaultFetch(true), set_duration("7days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 7 Days
                                                         {duration == "7days" &&
                                                             <svg
@@ -289,7 +289,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("30days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (openFilterSort(false), setTopUsers([]), setDefaultFetch(true), set_duration("30days"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 30 Days
                                                         {duration == "30days" &&
                                                             <svg
@@ -304,7 +304,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("1year"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (openFilterSort(false), setTopUsers([]), setDefaultFetch(true), set_duration("1year"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         Last 1 Year
                                                         {duration == "1year" &&
                                                             <svg
@@ -319,7 +319,7 @@ const Users = ({ theme, OtherImagesBaseURI, signer_address }) => {
                                                             </svg>
                                                         }
                                                     </button>
-                                                    <button onClick={() => (openFilterSort(false), setDefaultFetch(true), set_duration("alltime"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    <button onClick={() => (openFilterSort(false), setTopUsers([]), setDefaultFetch(true), set_duration("alltime"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                         All Time
                                                         {duration == "alltime" &&
                                                             <svg
