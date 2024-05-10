@@ -387,7 +387,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               >
                                 <input
                                   type="search"
-                                  value={collectionSearchINP}
+                                  defaultValue={collectionSearchINP}
                                   onChange={(e) => handle_search(e.target.value)}
                                   className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
                                   style={{ paddingLeft: "27px", paddingRight: "30px" }}
@@ -424,7 +424,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                                 {!collectionLoading &&
                                   (collections?.map((e, index) => {
                                     return (
-                                      <li key={index} onClick={() => (setSkip(0), setHasMore(true), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
+                                      <li key={index} onClick={() => (setSkip(0), setHasMore(true), set_nfts([]), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
                                         <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                           <span className="relative text-jacarta-700 dark:text-white">
                                             <Image

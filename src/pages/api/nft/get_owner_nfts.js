@@ -11,13 +11,16 @@ export default async function handler(req, res) {
         switch (method) {
             case "GET":
                 try {
-                    let { owner_address, saleType, sortby, minprice, maxprice, skip } = req.query;
+                    let { filterCollection, owner_address, saleType, sortby, minprice, maxprice, skip } = req.query;
 
                     let filterQuery = {};
                     let sortyBy = {};
 
                     if (owner_address != "") {
                         filterQuery.ownerAddress = owner_address
+                        if (filterCollection != "") {
+                            filterQuery.NFTCollection = filterCollection
+                        }
                         if (saleType == "listed") {
                             filterQuery.isListed = true
                         }
@@ -79,6 +82,28 @@ export default async function handler(req, res) {
                                     select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
                                 }).skip(skip)
                                 .limit(20).sort({ isListed: -1, demandPrice: -1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "rankLowToHigh") {
+                            const nfts = await NFT.find(filterQuery)
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, rank: 1 });
+                            return res.status(200).json({ success: true, data: nfts });
+                        }
+                        if (sortby == "rankHighToLow") {
+                            const nfts = await NFT.find(filterQuery)
+                                .select([
+                                    "-attributes",
+                                ]).populate({
+                                    path: "NFTCollection",
+                                    select: { contractAddress: 1, isVerified: 1, isTrading: 1, name: 1, FloorPrice: 1 },
+                                }).skip(skip)
+                                .limit(20).sort({ isListed: -1, rank: -1 });
                             return res.status(200).json({ success: true, data: nfts });
                         }
                     }

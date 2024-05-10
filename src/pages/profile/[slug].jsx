@@ -9,7 +9,7 @@ import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
 import { buy_nft, cancel_listing, loadNFTs_user, loadNFTs_user_RPC } from "../../utils/user_nft";
-import { BsArrowUpRight, BsDiscord, BsTwitter } from "react-icons/bs";
+import { BsArrowUpRight, BsChevronDown, BsDiscord, BsFillExclamationCircleFill, BsTwitter } from "react-icons/bs";
 import { TfiWorld } from "react-icons/tfi";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
@@ -23,10 +23,12 @@ import SuccessModal from "../../components/modals/SuccessModal";
 import BuyModal from "../../components/modals/BuyModal";
 
 import { TonClientContext } from "../../context/tonclient";
-import { search_user_nfts } from "../../utils/mongo_api/search";
-import { get_user_collections } from "../../utils/mongo_api/collection/collection";
+import { search_collections, search_user_nfts } from "../../utils/mongo_api/search";
+import { get_collections, get_user_collections } from "../../utils/mongo_api/collection/collection";
 import { IoHandLeftOutline } from "react-icons/io5";
 import axios from "axios";
+import { RxCrossCircled } from "react-icons/rx";
+import { MdVerified } from "react-icons/md";
 
 const Profile = ({
   theme,
@@ -73,6 +75,7 @@ const Profile = ({
   const [priceRangeFilter, showPriceRangeFilter] = useState(false);
   const [saleTypeFilter, showSaleTypeFilter] = useState(false);
   const [listedFilter, showListedFilter] = useState(false);
+  const [filterCollection, setFilterCollection] = useState("");
   const [onChainFilterNFT, setOnChainFilterNFT] = useState("newestFirst");
   const [currentFilter, setCurrentFilter] = useState("recentlyListed");
   const [saleType, setSaleType] = useState("All");
@@ -80,6 +83,8 @@ const Profile = ({
   const [maxPrice, setMaxPrice] = useState(0);
 
   const [lastNFT, setLastNFT] = useState(undefined);
+  const [collections_inp, set_collections] = useState([]);
+  const [collectionSearchINP, setCollectionSearchINP] = useState("");
 
   const [activitySkip, setActivitySkip] = useState(0);
   const [collectionSkip, setCollectionSkip] = useState(0);
@@ -97,8 +102,11 @@ const Profile = ({
 
   const [searchLoading, setSearchLoading] = useState(false);
   const [query_search, set_query_search] = useState("");
+  const [query_search_collection, set_query_search_collection] = useState("");
   const [isTyping, set_isTyping] = useState(true);
+  const [isTypingCollection, set_isTypingCollection] = useState(true);
   const [def_query, set_def_query] = useState(undefined);
+  const [def_query_collection, set_def_query_collection] = useState(undefined);
 
   const [actionLoad, setActionLoad] = useState(false);
   const [selectedNFT, setSelectedNFT] = useState("");
@@ -110,6 +118,10 @@ const Profile = ({
   const [BlukAdditionLastNFT, setBlukAdditionLastNFT] = useState(undefined);
   const [LandLoadLastNFT, setLandLoadLastNFT] = useState(undefined);
   const [adminPermittedAction, setAdminPermittedAction] = useState(false);
+
+  const [collectionLoading, setCollectionLoading] = useState(false);
+  const [searchedCollectionBefore, setSearchedCollectionBefore] = useState(false);
+  const [collectionFilter, openCollectionFilter] = useState(false);
 
   // mediaQuery
   const useMediaQuery = width => {
@@ -209,7 +221,7 @@ const Profile = ({
   const getting_user_listed_nfts = async () => {
     if (!slug) return;
     setMoreLoading(true);
-    const res = await fetch_user_listed_nfts(slug, saleType, currentFilter, minPrice, maxPrice, skip);
+    const res = await fetch_user_listed_nfts(filterCollection, slug, saleType, currentFilter, minPrice, maxPrice, skip);
     if (res) {
       setOnSaleNFTs(res);
       if (res == "" || res == undefined) {
@@ -224,7 +236,7 @@ const Profile = ({
   const clear_user_listed_nfts = async () => {
     if (!slug) return;
     setMoreLoading(true);
-    const res = await fetch_user_listed_nfts(slug, saleType, currentFilter, 0, 0, skip);
+    const res = await fetch_user_listed_nfts(filterCollection, slug, saleType, currentFilter, 0, 0, skip);
     if (res) {
       setOnSaleNFTs(res);
       if (res == "" || res == undefined) {
@@ -310,6 +322,7 @@ const Profile = ({
   // function which loads onchain nfts on user landing
   const onLandLoadOnchainNFTs = async () => {
     if (!venomProvider) return;
+    if (filterCollection != "") return;
     setMoreLoading(true);
     try {
       // fetching using RPC
@@ -359,7 +372,7 @@ const Profile = ({
       setBlukAdditionLastNFT(res?.continuation);
       // setSkip(0);
       // const nftFetch = await getting_user_listed_nfts();
-      const nftFetch = await fetch_user_listed_nfts(slug, saleType, currentFilter, minPrice, maxPrice, 0);
+      const nftFetch = await fetch_user_listed_nfts(filterCollection, slug, saleType, currentFilter, minPrice, maxPrice, 0);
       if (nftFetch) {
         setOnSaleNFTs(nftFetch);
         if (nftFetch == "" || nftFetch == undefined) {
@@ -415,7 +428,7 @@ const Profile = ({
   const scroll_get_all_nfts = async () => {
     if (user_data._id == undefined) return;
     setMoreLoading(true);
-    const res = await fetch_user_listed_nfts(slug, saleType, currentFilter, minPrice, maxPrice, skip);
+    const res = await fetch_user_listed_nfts(filterCollection, slug, saleType, currentFilter, minPrice, maxPrice, skip);
     if (res) {
       setOnSaleNFTs([...onSaleNFTs, ...res]);
       if (res == "" || res == undefined) {
@@ -534,6 +547,25 @@ const Profile = ({
     }
   };
 
+
+  const fetch_search_collections = async () => {
+    if (searchedCollectionBefore == true) return;
+    setCollectionLoading(true);
+    const res = await get_collections("All", "topVolume", "verified", 0);
+    if (res) {
+      set_collections(res);
+    }
+    setCollectionLoading(false);
+  };
+
+  // collectionSearch 
+  const handle_search_collection = async (data) => {
+    setCollectionLoading(true);
+    set_query_search_collection(data);
+    set_isTypingCollection(true);
+    set_def_query_collection("");
+  };
+
   // handling search
   const handle_search = async data => {
     setSearchLoading(true);
@@ -606,6 +638,23 @@ const Profile = ({
     return () => clearTimeout(timer);
   }, [isTyping]);
 
+  // collectionIsType 
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      set_isTypingCollection(false);
+      if (isTypingCollection || def_query_collection == undefined) return;
+      setCollectionLoading(true);
+      const res = await search_collections(query_search_collection);
+      if (res) {
+        set_collections(res.collections);
+      }
+      set_isTypingCollection(false);
+      setCollectionLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [isTypingCollection]);
+
   // useEffect(() => {
   //   onLandLoadOnchainNFTs();
   // }, [hasMore, venomProvider]);
@@ -630,7 +679,7 @@ const Profile = ({
   useEffect(() => {
     if (defaultFilterFetch == false) return;
     getting_user_listed_nfts();
-  }, [saleType, currentFilter]);
+  }, [saleType, currentFilter, filterCollection]);
 
   useEffect(() => {
     fetch_user_activity();
@@ -642,14 +691,15 @@ const Profile = ({
   }, [onChainFilterNFT]);
 
   useEffect(() => {
-    if (listedFilter || saleTypeFilter || priceRangeFilter) {
+    if (collectionFilter || listedFilter || saleTypeFilter || priceRangeFilter) {
       document.body.addEventListener("click", () => {
+        openCollectionFilter(false);
         showListedFilter(false);
         showSaleTypeFilter(false);
         showPriceRangeFilter(false);
       });
     }
-  }, [listedFilter, saleTypeFilter, priceRangeFilter]);
+  }, [collectionFilter, listedFilter, saleTypeFilter, priceRangeFilter]);
 
   return loading ? (
     <Loader theme={theme} />
@@ -1036,6 +1086,111 @@ const Profile = ({
                     {mobileFilter && (
                       <div className="collectionFilterDiv p-4">
                         <div className="collectionFilters mx-6">
+
+                          {/* collections filter  */}
+                          <div className="typeModelMainDiv relative my-1 mr-2.5">
+                            <button
+                              className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
+                              onClick={(e) => (e.stopPropagation(), fetch_search_collections(), setSearchedCollectionBefore(true), showListedFilter(false), showSaleTypeFilter(false), showPriceRangeFilter(false), openCollectionFilter(!collectionFilter))}
+                            >
+                              <span className=" text-jacarta-700 dark:text-white">All Collections</span>
+                              <BsChevronDown className="h-[15px] w-[15px] ml-4 text-jacarta-700 dark:text-white" />
+                            </button>
+
+                            {collectionFilter && (
+                              <div onClick={(e) => e.stopPropagation()} className="modelTypePosition dropdown-menu z-10 min-w-[220px] whitespace-nowrap rounded-xl bg-white py-4 px-2 text-left shadow-xl dark:bg-jacarta-700">
+                                <form
+                                  action="search"
+                                  className="flex justify-center align-middle relative w-[100%]"
+                                  onSubmit={(e) => e.preventDefault()}
+                                >
+                                  <input
+                                    type="search"
+                                    defaultValue={collectionSearchINP}
+                                    onChange={(e) => handle_search_collection(e.target.value)}
+                                    className="w-[90%] h-[38px] rounded-xl border border-jacarta-100 text-jacarta-700 placeholder-jacarta-500 focus:ring-accent dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+                                    style={{ paddingLeft: "27px", paddingRight: "30px" }}
+                                    placeholder="search"
+                                  />
+                                  <span className="searchCollectionSvg absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="h-4 w-4 fill-jacarta-500 dark:fill-white"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
+                                    </svg>
+                                  </span>
+                                  {collectionSearchINP != "" && (
+                                    <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+                                      <RxCrossCircled
+                                        onClick={() => (
+                                          handle_search_collection(""),
+                                          setCollectionSearchINP(""),
+                                          setFilterCollection("")
+                                        )}
+                                        className="h-5 w-5 text-jacarta-500 dark:text-white cursor-pointer"
+                                      />
+                                    </span>
+                                  )}
+                                </form>
+
+                                <ul className="collectionFilterDivWebkit flex flex-col h-[300px] overflow-y-scroll mt-2">
+                                  {/* loop here  */}
+                                  {!collectionLoading &&
+                                    (collections_inp?.map((e, index) => {
+                                      return (
+                                        <li key={index} onClick={() => (setSkip(0), setHasMore(true), setDefaultFilterFetch(true), setFilterCollection(e?._id), setCollectionSearchINP(e?.name))}>
+                                          <Link href="#" className="dropdown-item flex w-full items-center rounded-xl px-5 py-2 text-left font-display text-sm` transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                            <span className="relative text-jacarta-700 dark:text-white">
+                                              <Image
+                                                src={e?.logo.replace("ipfs://", OtherImagesBaseURI)}
+                                                height={100}
+                                                width={100}
+                                                alt={e?.name}
+                                                className="h-[30px] w-[30px] rounded-[50%]"
+                                              />
+                                              {e?.isVerified ?
+                                                <MdVerified style={{ color: "#4f87ff", position: "absolute", bottom: "-3px", right: "-4px" }}
+                                                  size={14} />
+                                                :
+                                                <BsFillExclamationCircleFill style={{ color: "#c3c944", position: "absolute", bottom: "-3px", right: "-4px" }}
+                                                  size={13} />
+                                              }
+                                            </span>
+                                            <span className="text-[13px] ml-[6px] font-normal text-jacarta-700 dark:text-white" style={{
+                                              width: "150px",
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              overflow: "hidden",
+                                            }}>
+                                              {e?.name}
+                                            </span>
+                                          </Link>
+                                        </li>
+                                      )
+                                    }))}
+
+                                  {collectionLoading &&
+                                    <div className="flex items-center justify-center space-x-2 mt-4">
+                                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                      <div className="w-4 h-4 rounded-full animate-pulse dark:bg-violet-400"></div>
+                                    </div>
+                                  }
+                                  {collections_inp.length <= 0 && !collectionLoading &&
+                                    <div className="flex items-center justify-center space-x-2 mt-4">
+                                      <p className=" text-jacarta-700 dark:text-white">No collections found!</p>
+                                    </div>
+                                  }
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+
                           {/* sale type  */}
                           <div className="typeModelMainDiv relative my-1 mr-2.5">
                             <button
@@ -1043,6 +1198,7 @@ const Profile = ({
                                 e.stopPropagation(),
                                 showListedFilter(false),
                                 showPriceRangeFilter(false),
+                                openCollectionFilter(false),
                                 showSaleTypeFilter(!saleTypeFilter)
                               )}
                               className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
@@ -1282,6 +1438,7 @@ const Profile = ({
                                 e.stopPropagation(),
                                 showPriceRangeFilter(false),
                                 showSaleTypeFilter(false),
+                                openCollectionFilter(false),
                                 showListedFilter(!listedFilter)
                               )}
                               className="typeModelBtn dropdown-toggle inline-flex w-48 items-center justify-between rounded-lg border border-jacarta-100 bg-white py-2 px-3 text-sm dark:border-jacarta-600 dark:bg-jacarta-700 dark:text-white"
@@ -1294,6 +1451,12 @@ const Profile = ({
                               )}
                               {currentFilter == "highToLow" && (
                                 <span className="text-jacarta-700 dark:text-white">🏷️ Price: High To Low</span>
+                              )}
+                              {currentFilter == "rankLowToHigh" && (
+                                <span className="text-jacarta-700 dark:text-white">🥇 Rank: Low To High</span>
+                              )}
+                              {currentFilter == "rankHighToLow" && (
+                                <span className="text-jacarta-700 dark:text-white">🥇 Rank: High To Low</span>
                               )}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -1381,6 +1544,60 @@ const Profile = ({
                                 >
                                   🏷️ Price: High to Low
                                   {currentFilter == "highToLow" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  )}
+                                </button>
+
+                                <button
+                                  onClick={() => (
+                                    setDefaultFilterFetch(true),
+                                    setSkip(0),
+                                    setHasMore(true),
+                                    setMinPrice(0),
+                                    setMaxPrice(0),
+                                    setCurrentFilter("rankLowToHigh"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
+                                  🥇 Rank: Low to High
+                                  {currentFilter == "rankLowToHigh" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 24 24"
+                                      width="24"
+                                      height="24"
+                                      className="mb-[3px] h-4 w-4 fill-accent"
+                                    >
+                                      <path fill="none" d="M0 0h24v24H0z" />
+                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                    </svg>
+                                  )}
+                                </button>
+
+                                <button
+                                  onClick={() => (
+                                    setDefaultFilterFetch(true),
+                                    setSkip(0),
+                                    setHasMore(true),
+                                    setMinPrice(0),
+                                    setMaxPrice(0),
+                                    setCurrentFilter("rankHighToLow"),
+                                    showListedFilter(false)
+                                  )}
+                                  className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600 text-jacarta-700"
+                                >
+                                  🥇  Rank: High to Low
+                                  {currentFilter == "rankHighToLow" && (
                                     <svg
                                       xmlns="http://www.w3.org/2000/svg"
                                       viewBox="0 0 24 24"

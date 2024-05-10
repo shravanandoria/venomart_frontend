@@ -36,10 +36,10 @@ export const fetch_only_collection_nfts = async (
   }
 };
 
-export const fetch_user_listed_nfts = async (owner_address, saleType, sortby, minprice, maxprice, skip) => {
+export const fetch_user_listed_nfts = async (filterCollection, owner_address, saleType, sortby, minprice, maxprice, skip) => {
   try {
     const res = await axios({
-      url: `/api/nft/get_owner_nfts?owner_address=${owner_address}&saleType=${saleType}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
+      url: `/api/nft/get_owner_nfts?filterCollection=${filterCollection}&owner_address=${owner_address}&saleType=${saleType}&sortby=${sortby}&minprice=${minprice}&maxprice=${maxprice}&skip=${skip}`,
       method: "GET",
     });
     return res.data.data;
