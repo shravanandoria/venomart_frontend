@@ -8,14 +8,14 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { buy_nft, cancel_listing, loadNFTs_user, loadNFTs_user_RPC } from "../../utils/user_nft";
+import { buy_nft, cancel_listing, get_nft_by_address, loadNFTs_user, loadNFTs_user_RPC } from "../../utils/user_nft";
 import { BsArrowUpRight, BsChevronDown, BsDiscord, BsFillExclamationCircleFill, BsTwitter } from "react-icons/bs";
 import { TfiWorld } from "react-icons/tfi";
 import { check_user } from "../../utils/mongo_api/user/user";
 import ActivityRecord from "../../components/cards/ActivityRecord";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { getActivity } from "../../utils/mongo_api/activity/activity";
-import { addNFTViaOnchainLaunchpad, fetch_user_listed_nfts, refreshUserNFTs } from "../../utils/mongo_api/nfts/nfts";
+import { addNFTViaOnchainLaunchpad, fetch_user_listed_nfts, no_limit_fetch_nfts, refreshNFTsViaOnchainRollProfile, refreshUserNFTs } from "../../utils/mongo_api/nfts/nfts";
 import CancelModal from "../../components/modals/CancelModal";
 import { AiFillCloseCircle, AiFillFilter } from "react-icons/ai";
 import moment from "moment";
@@ -379,7 +379,7 @@ const Profile = ({
           setHasMore(false);
         }
       }
-      alert("your profile has been refreshed with all the latest NFTs, refresh the page to view the NFTs");
+      // alert("your profile has been refreshed with all the latest NFTs, refresh the page to view the NFTs");
       set_loading(false);
     } catch (error) {
       console.error('Error fetching or adding NFTs to the database:', error);
@@ -411,7 +411,6 @@ const Profile = ({
             }
             attributes = JSONReq?.data?.attributes;
           }
-
           const createdNFT = await refreshUserNFTs(nft, nftName, nftDesc, nftImage, jsonURL, attributes, signer_address);
           return createdNFT;
         } catch (error) {
@@ -423,6 +422,18 @@ const Profile = ({
       throw error;
     }
   };
+
+  // loop refresh metadata for every NFT
+  const loopRefreshMetadata = async () => {
+    set_loading(true);
+    const profile_nfts = await no_limit_fetch_nfts(slug);
+    for (const profile_nft of profile_nfts) {
+      let nft_onchain = await get_nft_by_address(venomProvider, profile_nft?.NFTAddress);
+      let update_nft = await refreshNFTsViaOnchainRollProfile(profile_nft?.NFTAddress, nft_onchain?.owner?._address, nft_onchain?.manager?._address);
+    }
+    setAdminPermittedAction(true);
+    set_loading(false);
+  }
 
   // handling for sale nfts more fetch
   const scroll_get_all_nfts = async () => {
@@ -1049,7 +1060,7 @@ const Profile = ({
                 </div>
                 {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
                   <div className="flex justify-center mt-[-42px] align-middle text-center">
-                    <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}><span className="text-blue cursor-pointer" onClick={() => (setAdminPermittedAction(true))}>refresh profile ↻</span></p>
+                    <p className={`text-[17px] font-mono text-jacarta-700 dark:text-white m-4`}><span className="text-blue cursor-pointer" onClick={() => (loopRefreshMetadata())}>refresh profile ↻</span></p>
                   </div>
                 )}
                 <div>
@@ -1751,13 +1762,13 @@ const Profile = ({
                 </div>
 
                 <div>
-                  {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
+                  {/* {((adminAccount.includes(signer_address)) || (slug == signer_address)) && (
                     <div className="container flex justify-center align-middle relative -translate-y-4 cursor-pointer" onClick={() => (setAdminPermittedAction(true))}>
                       <div className="group right-0 bottom-[-10px] flex items-center rounded-lg bg-white py-2 px-4 font-display text-sm hover:bg-accent">
                         <span className="mt-0.5 block group-hover:text-white">Save onchain NFTs ⟳</span>
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
                 <div className="flex justify-center align-middle flex-wrap">
                   <InfiniteScroll

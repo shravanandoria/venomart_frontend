@@ -48,6 +48,18 @@ export const fetch_user_listed_nfts = async (filterCollection, owner_address, sa
   }
 };
 
+export const no_limit_fetch_nfts = async (owner_address) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/no_limit_fetch?owner_address=${owner_address}`,
+      method: "GET",
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const fetch_collection_nfts = async (
   collection_address,
   signer_address,
@@ -144,6 +156,23 @@ export const updateNFTViaOnchainRoll = async (data, attributes) => {
         name: data.name,
         description: data.description,
         attributes: attributes ? attributes : data.attributes
+      },
+    });
+    return res.data.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const refreshNFTsViaOnchainRollProfile = async (NFTAddress, ownerAddress, managerAddress) => {
+  try {
+    const res = await axios({
+      url: `/api/nft/no_limit_fetch`,
+      method: "PUT",
+      data: {
+        NFTAddress: NFTAddress,
+        ownerAddress: ownerAddress,
+        managerAddress: managerAddress,
       },
     });
     return res.data.data;

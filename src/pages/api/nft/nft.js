@@ -191,6 +191,9 @@ export default async function handler(req, res) {
           // if nft exists with wrong owners update them 
           if (nft) {
             if ((nft?.ownerAddress != ownerAddress) || (nft?.managerAddress != managerAddress)) {
+              nft.isListed = false;
+              nft.demandPrice = 0;
+              nft.listingPrice = "0";
               nft.ownerAddress = ownerAddress;
               nft.managerAddress = managerAddress;
               await nft.save();
