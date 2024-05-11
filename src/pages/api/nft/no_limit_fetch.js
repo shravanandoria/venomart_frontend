@@ -42,14 +42,16 @@ export default async function handler(req, res) {
                             .status(400)
                             .json({ success: false, data: "Cannot Find This NFT" });
 
-                    if (ownerAddress != managerAddress) {
+                    if (ownerAddress == managerAddress) {
                         nft.isListed = false,
                             nft.demandPrice = 0;
                         nft.listingPrice = "0";
                     }
-                    nft.ownerAddress = ownerAddress,
-                        nft.managerAddress = managerAddress,
-                        await nft.save();
+                    if ((nft.ownerAddress != ownerAddress) || (nft.managerAddress != managerAddress)) {
+                        nft.ownerAddress = ownerAddress,
+                            nft.managerAddress = managerAddress,
+                            await nft.save();
+                    }
 
                     return res.status(200).json({ success: true, data: nft });
                 } catch (error) {
