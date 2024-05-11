@@ -99,21 +99,24 @@ const Navbar = ({
 
   useEffect(() => {
     if (!signer_address) return;
-    axios
-      .post(apiFetchURL, {
-        id: signer_address,
-      })
-      .then((response) => {
-        SetExplorerLog(response?.data);
-        const balance = parseFloat(
-          response?.data?.balance / 1000000000
-        ).toFixed(2);
-        if (response.data) {
-          setVnmBalance(balance);
-        } else {
-          setVnmBalance("0.00");
-        }
-      });
+    const fetchBalance = () => {
+      axios
+        .post(apiFetchURL, {
+          id: signer_address,
+        })
+        .then((response) => {
+          SetExplorerLog(response?.data);
+          const balance = parseFloat(response?.data?.balance / 1000000000).toFixed(2);
+          if (response.data) {
+            setVnmBalance(balance);
+          } else {
+            setVnmBalance("0.00");
+          }
+        });
+    };
+    fetchBalance();
+    const interval = setInterval(fetchBalance, 12000);
+    return () => clearInterval(interval);
   }, [signer_address]);
 
   useEffect(() => {
