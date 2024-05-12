@@ -286,6 +286,7 @@ const NFTPage = ({
       }
 
       setMetadataLoading(false);
+      alert("The NFT data is already up to date!");
       router.reload();
       setMetaDataUpdated(true);
       return;

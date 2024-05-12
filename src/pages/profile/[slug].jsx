@@ -8,7 +8,7 @@ import CollectionCard from "../../components/cards/CollectionCard";
 import Loader from "../../components/Loader";
 import Head from "next/head";
 import Link from "next/link";
-import { buy_nft, cancel_listing, get_nft_by_address, loadNFTs_user, loadNFTs_user_RPC } from "../../utils/user_nft";
+import { buy_nft, cancel_listing, directSell_nft_info, get_nft_by_address, loadNFTs_user, loadNFTs_user_RPC } from "../../utils/user_nft";
 import { BsArrowUpRight, BsChevronDown, BsDiscord, BsFillExclamationCircleFill, BsTwitter } from "react-icons/bs";
 import { TfiWorld } from "react-icons/tfi";
 import { check_user } from "../../utils/mongo_api/user/user";
@@ -429,7 +429,10 @@ const Profile = ({
     const profile_nfts = await no_limit_fetch_nfts(slug);
     for (const profile_nft of profile_nfts) {
       let nft_onchain = await get_nft_by_address(venomProvider, profile_nft?.NFTAddress);
-      let update_nft = await refreshNFTsViaOnchainRollProfile(profile_nft?.NFTAddress, nft_onchain?.owner?._address, nft_onchain?.manager?._address);
+      let onChainNFTData = await directSell_nft_info(venomProvider, nft_onchain?.manager?._address);
+      const onChainDemandPrice = onChainNFTData?.value5 / 1000000000;
+
+      let update_nft = await refreshNFTsViaOnchainRollProfile(profile_nft?.NFTAddress, nft_onchain?.owner?._address, nft_onchain?.manager?._address, onChainDemandPrice);
     }
     setAdminPermittedAction(true);
     set_loading(false);

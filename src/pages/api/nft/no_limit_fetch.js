@@ -33,7 +33,8 @@ export default async function handler(req, res) {
                     const {
                         NFTAddress,
                         ownerAddress,
-                        managerAddress
+                        managerAddress,
+                        onChainDemandPrice
                     } = req.body;
 
                     let nft = await NFT.findOne({ NFTAddress });
@@ -46,7 +47,16 @@ export default async function handler(req, res) {
                         nft.isListed = false,
                             nft.demandPrice = 0;
                         nft.listingPrice = "0";
+                        await nft.save();
                     }
+
+                    if (onChainDemandPrice && nft.demandPrice == 0) {
+                        nft.isListed = true,
+                            nft.demandPrice = onChainDemandPrice;
+                        nft.listingPrice = onChainDemandPrice.toString();
+                        await nft.save();
+                    }
+
                     if ((nft.ownerAddress != ownerAddress) || (nft.managerAddress != managerAddress)) {
                         nft.ownerAddress = ownerAddress,
                             nft.managerAddress = managerAddress,

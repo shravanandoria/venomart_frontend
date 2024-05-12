@@ -164,7 +164,7 @@ export const updateNFTViaOnchainRoll = async (data, attributes) => {
   }
 };
 
-export const refreshNFTsViaOnchainRollProfile = async (NFTAddress, ownerAddress, managerAddress) => {
+export const refreshNFTsViaOnchainRollProfile = async (NFTAddress, ownerAddress, managerAddress, onChainDemandPrice) => {
   try {
     const res = await axios({
       url: `/api/nft/no_limit_fetch`,
@@ -173,6 +173,7 @@ export const refreshNFTsViaOnchainRollProfile = async (NFTAddress, ownerAddress,
         NFTAddress: NFTAddress,
         ownerAddress: ownerAddress,
         managerAddress: managerAddress,
+        onChainDemandPrice: onChainDemandPrice
       },
     });
     return res.data.data;
