@@ -490,7 +490,7 @@ const launchpad = ({
             return;
         }
         setMintLoading(true);
-        // minting here 
+        // minting here
         try {
             const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
             if (launchMint) {
@@ -842,7 +842,7 @@ const launchpad = ({
                                 <div className="px-4 py-4">
                                     <h2 className="text-sm title-font text-gray-500 tracking-widest">EXCLUSIVE MINT</h2>
                                     <h1 className="text-[4px] text-jacarta-700 dark:text-white text-2xl title-font font-medium mb-1">
-                                        {collectionData?.maxSupply} NFTs
+                                        {collectionData?.maxSupply >= 100000 ? "∞" : collectionData?.maxSupply} NFTs
                                     </h1>
                                 </div>
 
@@ -910,7 +910,7 @@ const launchpad = ({
                                                     <div className="flex justify-between">
                                                         <h2 className="text-sm text-jacarta-700 dark:text-white tracking-widest">TOTAL MINTED</h2>
                                                         <p className="text-jacarta-700 dark:text-white text-sm mb-1">
-                                                            {mintedPercent ? mintedPercent : 0}% ({mintedNFTs ? mintedNFTs : 0}/{collectionData?.maxSupply})
+                                                            {mintedPercent ? mintedPercent : 0}% ({mintedNFTs ? mintedNFTs : 0}/{collectionData?.maxSupply >= 100000 ? "∞" : collectionData?.maxSupply})
                                                         </p>
                                                     </div>
                                                     <div className={`w-[100%] ${theme == "dark" ? "bg-neutral-600" : "bg-neutral-200"} rounded-lg`}>

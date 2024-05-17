@@ -27,6 +27,24 @@ export const launchpad_mint = async (provider, launchpad_address, signer_address
   return res;
 };
 
+// main mint function to mint NFT of dragon landz
+export const launchpad_mint_dragonz = async (provider, launchpad_address, signer_address, amount_to_mint, current_phase) => {
+  const launchpad = launchpad_contract(provider, launchpad_address);
+  const req_amount = await launchpad.methods
+    .cal_minting_amount({
+      answerId: 0,
+      amount: amount_to_mint,
+      current_phase_: current_phase,
+    })
+    .call();
+
+  const res = await launchpad.methods.mint({ amount: amount_to_mint }).send({
+    from: new Address(signer_address),
+    amount: (parseInt(req_amount.value0) + parseInt(launchpad_nft_fees)).toString(),
+  });
+  return res;
+};
+
 
 // getting total minted
 export const launchpad_mint_creator = async (provider, signer_address, launchpad_address, reciever_address, amount_to_mint) => {
@@ -70,9 +88,15 @@ export const get_public_mint_count = async (provider, launchpad_address, signer_
 export const get_total_minted = async (provider, launchpad_address) => {
   if (!provider || !launchpad_address) return;
   try {
+    let returnValue;
     const launchpad = launchpad_contract(provider, launchpad_address);
-    const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
-    return res.value0;
+    const res = await launchpad.methods.totalSupply({ answerId: 0 }).call();
+    returnValue = res.count;
+    if (res.count == 0) {
+      const res = await launchpad.methods.get_total_minted({ answerId: 0 }).call();
+      returnValue = res.value0;
+    }
+    return returnValue;
   } catch (error) {
     console.log(error);
   }
