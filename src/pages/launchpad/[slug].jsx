@@ -11,7 +11,7 @@ import { get_launchpad_by_name, get_user_mints, updateLaunchpadStatus, update_la
 import { useRouter } from "next/router";
 import moment from "moment";
 import Image from "next/image";
-import { get_address_mint_count, get_total_minted, launchpad_mint, launchpad_mint_creator } from "../../utils/launchpad_nft";
+import { get_address_mint_count, get_total_minted, launchpad_mint, launchpad_mint_creator, launchpad_mint_dragonz } from "../../utils/launchpad_nft";
 import { Timer } from "../../components/Timer";
 import { TonClientContext } from "../../context/tonclient";
 import { loadNFTs_user } from "../../utils/user_nft";
@@ -211,6 +211,7 @@ const launchpad = ({
 
     // handling mint count
     const handlemintCountInc = () => {
+        if (mintCount >= 1 && collectionData?.pageName == "dragonz_land") return alert(`You can only mint 1 NFT in one transaction!`); // remove this later
         if (mintCount >= 25) return alert(`You can only mint 25 NFTs in one transaction!`);
         if (mintCount >= (selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount))) return alert(`You only have ${selected_phase?.maxMint - (mintedNFTsArray ? mintedNFTsArray?.length : phaseMintedCount)} mints left in this phase!`);
         if (mintCount < selected_phase?.maxMint) {
@@ -448,7 +449,7 @@ const launchpad = ({
 
     // get phase wise minted NFTs count onchain
     const getPhaseWiseMinted = async () => {
-        if (!venomProvider || !collectionData || !signer_address) return;
+        if (!venomProvider || !collectionData || !signer_address || collectionData?.pageName == "dragonz_land") return; // remove this later
         const walletMintCount = await get_address_mint_count(venomProvider, collectionData?.contractAddress, selected_phase?.id, signer_address);
         setPhaseMintedCount(walletMintCount);
     }
@@ -492,7 +493,13 @@ const launchpad = ({
         setMintLoading(true);
         // minting here
         try {
-            const launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
+            let launchMint;
+            if (collectionData?.pageName != "dragonz_land") { // remove this later
+                launchMint = await launchpad_mint(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
+            }
+            else {
+                launchMint = await launchpad_mint_dragonz(venomProvider, collectionData?.contractAddress, signer_address, mintCount, selected_phase?.id);
+            }
             if (launchMint) {
                 setTimeout(async () => {
                     setAfterMint(true);

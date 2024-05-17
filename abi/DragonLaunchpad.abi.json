@@ -1,0 +1,1005 @@
+{
+    "ABI version": 2,
+    "data": [
+        {
+            "key": 1,
+            "name": "nonce_",
+            "type": "uint64"
+        }
+    ],
+    "events": [
+        {
+            "inputs": [
+                {
+                    "name": "_sender",
+                    "type": "address"
+                },
+                {
+                    "name": "_index",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_cardsQuantity",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_mintPrice",
+                    "type": "uint128"
+                }
+            ],
+            "name": "BoxTypeAdded",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "_sender",
+                    "type": "address"
+                },
+                {
+                    "name": "_index",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_cardsQuantity",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_mintPrice",
+                    "type": "uint128"
+                }
+            ],
+            "name": "BoxTypeUpdated",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "_sender",
+                    "type": "address"
+                },
+                {
+                    "name": "_index",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_name",
+                    "type": "string"
+                },
+                {
+                    "name": "_cardsQuantity",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_mintPrice",
+                    "type": "uint128"
+                }
+            ],
+            "name": "BoxTypeDeleted",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "oldOwner",
+                    "type": "address"
+                },
+                {
+                    "name": "newOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "OwnershipTransferred",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "manager",
+                    "type": "address"
+                },
+                {
+                    "name": "creator",
+                    "type": "address"
+                }
+            ],
+            "name": "NftCreated",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "id",
+                    "type": "uint256"
+                },
+                {
+                    "name": "nft",
+                    "type": "address"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "manager",
+                    "type": "address"
+                }
+            ],
+            "name": "NftBurned",
+            "outputs": []
+        }
+    ],
+    "fields": [
+        {
+            "name": "_pubkey",
+            "type": "uint256"
+        },
+        {
+            "name": "_timestamp",
+            "type": "uint64"
+        },
+        {
+            "name": "_constructorFlag",
+            "type": "bool"
+        },
+        {
+            "name": "_supportedInterfaces",
+            "type": "optional(cell)"
+        },
+        {
+            "name": "_codeNft",
+            "type": "cell"
+        },
+        {
+            "name": "_totalSupply",
+            "type": "uint128"
+        },
+        {
+            "name": "_json",
+            "type": "string"
+        },
+        {
+            "name": "_codeIndex",
+            "type": "cell"
+        },
+        {
+            "name": "_codeIndexBasis",
+            "type": "cell"
+        },
+        {
+            "name": "_indexDeployValue",
+            "type": "uint128"
+        },
+        {
+            "name": "_indexDestroyValue",
+            "type": "uint128"
+        },
+        {
+            "name": "_deployIndexBasisValue",
+            "type": "uint128"
+        },
+        {
+            "name": "owner_",
+            "type": "address"
+        },
+        {
+            "name": "nonce_",
+            "type": "uint64"
+        },
+        {
+            "name": "_remainOnNft",
+            "type": "uint128"
+        },
+        {
+            "name": "_totalMinted",
+            "type": "uint256"
+        },
+        {
+            "name": "mintNftStatus",
+            "type": "uint8"
+        },
+        {
+            "components": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "cardsQuantity",
+                    "type": "uint8"
+                },
+                {
+                    "name": "mintPrice",
+                    "type": "uint128"
+                },
+                {
+                    "name": "totalMinted",
+                    "type": "uint256"
+                },
+                {
+                    "name": "totalSupply",
+                    "type": "uint256"
+                }
+            ],
+            "name": "boxTypes",
+            "type": "map(uint8,tuple)"
+        },
+        {
+            "name": "sourceMintingCounter",
+            "type": "map(uint8,map(uint8,uint16))"
+        },
+        {
+            "name": "_defaultBoxTypeIndex",
+            "type": "uint8"
+        },
+        {
+            "name": "_beneficiary",
+            "type": "address"
+        },
+        {
+            "name": "_transferBlackList",
+            "type": "map(address,bool)"
+        },
+        {
+            "components": [
+                {
+                    "name": "numerator",
+                    "type": "uint128"
+                },
+                {
+                    "name": "denominator",
+                    "type": "uint128"
+                },
+                {
+                    "name": "receiver",
+                    "type": "address"
+                }
+            ],
+            "name": "_royalty",
+            "type": "tuple"
+        }
+    ],
+    "functions": [
+        {
+            "inputs": [
+                {
+                    "name": "codeNft",
+                    "type": "cell"
+                },
+                {
+                    "name": "codeIndex",
+                    "type": "cell"
+                },
+                {
+                    "name": "codeIndexBasis",
+                    "type": "cell"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "remainOnNft",
+                    "type": "uint128"
+                },
+                {
+                    "name": "json",
+                    "type": "string"
+                },
+                {
+                    "name": "beneficiary",
+                    "type": "address"
+                },
+                {
+                    "name": "numerator_",
+                    "type": "uint128"
+                },
+                {
+                    "name": "denominator_",
+                    "type": "uint128"
+                },
+                {
+                    "name": "receiver_",
+                    "type": "address"
+                }
+            ],
+            "name": "constructor",
+            "outputs": []
+        },
+        {
+            "inputs": [],
+            "name": "codeDepth",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "uint16"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "_sourceId",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_owner",
+                    "type": "address"
+                }
+            ],
+            "name": "mintNft",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "_sourceId",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_boxTypeIndex",
+                    "type": "uint8"
+                },
+                {
+                    "name": "_owner",
+                    "type": "address"
+                }
+            ],
+            "name": "mintNftByType",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "totalMinted",
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "uint256"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "mintNftStatus_",
+                    "type": "uint8"
+                }
+            ],
+            "name": "setMinitingStatus",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "remainOnNft",
+                    "type": "uint128"
+                }
+            ],
+            "name": "setRemainOnNft",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "beneficiary",
+                    "type": "address"
+                }
+            ],
+            "name": "setBeneficiary",
+            "outputs": []
+        },
+        {
+            "inputs": [],
+            "name": "getBeneficiary",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "index",
+                    "type": "uint8"
+                }
+            ],
+            "name": "getBoxType",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "name": "name",
+                            "type": "string"
+                        },
+                        {
+                            "name": "cardsQuantity",
+                            "type": "uint8"
+                        },
+                        {
+                            "name": "mintPrice",
+                            "type": "uint128"
+                        },
+                        {
+                            "name": "totalMinted",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "totalSupply",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "value0",
+                    "type": "optional(tuple)"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "getAllBoxTypesIndexes",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "uint8[]"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "index",
+                    "type": "uint8"
+                }
+            ],
+            "name": "isBoxTypeExists",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint8"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "cardsQuantity",
+                    "type": "uint8"
+                },
+                {
+                    "name": "mintPrice",
+                    "type": "uint128"
+                }
+            ],
+            "name": "addUpdateBoxType",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint8"
+                }
+            ],
+            "name": "deleteBoxType",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "index",
+                    "type": "uint8"
+                }
+            ],
+            "name": "setDefaultBoxTypeIndex",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "getDefaultBoxType",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "uint8"
+                },
+                {
+                    "components": [
+                        {
+                            "name": "name",
+                            "type": "string"
+                        },
+                        {
+                            "name": "cardsQuantity",
+                            "type": "uint8"
+                        },
+                        {
+                            "name": "mintPrice",
+                            "type": "uint128"
+                        },
+                        {
+                            "name": "totalMinted",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "totalSupply",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "value1",
+                    "type": "tuple"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "item",
+                    "type": "address"
+                }
+            ],
+            "name": "addToTransferBlacklist",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "item",
+                    "type": "address"
+                }
+            ],
+            "name": "removeFromTransferBlacklist",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "manager",
+                    "type": "address"
+                },
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "sendGasTo",
+                    "type": "address"
+                },
+                {
+                    "components": [
+                        {
+                            "name": "value",
+                            "type": "uint128"
+                        },
+                        {
+                            "name": "payload",
+                            "type": "cell"
+                        }
+                    ],
+                    "name": "callbacks",
+                    "type": "map(address,tuple)"
+                }
+            ],
+            "name": "isTransferBlacklisted",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "bool"
+                },
+                {
+                    "name": "value1",
+                    "type": "address"
+                },
+                {
+                    "name": "value2",
+                    "type": "address"
+                },
+                {
+                    "components": [
+                        {
+                            "name": "value",
+                            "type": "uint128"
+                        },
+                        {
+                            "name": "payload",
+                            "type": "cell"
+                        }
+                    ],
+                    "name": "value3",
+                    "type": "map(address,tuple)"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "numerator",
+                    "type": "uint128"
+                },
+                {
+                    "name": "denominator",
+                    "type": "uint128"
+                },
+                {
+                    "name": "receiver",
+                    "type": "address"
+                }
+            ],
+            "name": "setRoyalty",
+            "outputs": []
+        },
+        {
+            "inputs": [],
+            "name": "getRoyalty",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "uint128"
+                },
+                {
+                    "name": "value1",
+                    "type": "uint128"
+                },
+                {
+                    "name": "value2",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "collection",
+                    "type": "address"
+                },
+                {
+                    "name": "owner",
+                    "type": "address"
+                }
+            ],
+            "name": "resolveIndexCodeHash",
+            "outputs": [
+                {
+                    "name": "hash",
+                    "type": "uint256"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "cardBoxNftId",
+                    "type": "uint256"
+                },
+                {
+                    "name": "tierIds",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "levelIds",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "imageIds",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "payload",
+                    "type": "cell"
+                },
+                {
+                    "name": "context",
+                    "type": "address"
+                }
+            ],
+            "name": "cardBoxHelper",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "uint256"
+                },
+                {
+                    "name": "value1",
+                    "type": "address"
+                },
+                {
+                    "name": "value2",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "value3",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "value4",
+                    "type": "uint16[]"
+                },
+                {
+                    "name": "value5",
+                    "type": "cell"
+                },
+                {
+                    "name": "value6",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "newOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "transferOwnership",
+            "outputs": []
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "indexBasisCode",
+            "outputs": [
+                {
+                    "name": "code",
+                    "type": "cell"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "indexBasisCodeHash",
+            "outputs": [
+                {
+                    "name": "hash",
+                    "type": "uint256"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "resolveIndexBasis",
+            "outputs": [
+                {
+                    "name": "indexBasis",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "indexCode",
+            "outputs": [
+                {
+                    "name": "code",
+                    "type": "cell"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "indexCodeHash",
+            "outputs": [
+                {
+                    "name": "hash",
+                    "type": "uint256"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "getJson",
+            "outputs": [
+                {
+                    "name": "json",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "totalSupply",
+            "outputs": [
+                {
+                    "name": "count",
+                    "type": "uint128"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "nftCode",
+            "outputs": [
+                {
+                    "name": "code",
+                    "type": "cell"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                }
+            ],
+            "name": "nftCodeHash",
+            "outputs": [
+                {
+                    "name": "codeHash",
+                    "type": "uint256"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "id",
+                    "type": "uint256"
+                }
+            ],
+            "name": "nftAddress",
+            "outputs": [
+                {
+                    "name": "nft",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "inputs": [
+                {
+                    "name": "answerId",
+                    "type": "uint32"
+                },
+                {
+                    "name": "interfaceID",
+                    "type": "uint32"
+                }
+            ],
+            "name": "supportsInterface",
+            "outputs": [
+                {
+                    "name": "value0",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "inputs": [],
+            "name": "mintNftStatus",
+            "outputs": [
+                {
+                    "name": "mintNftStatus",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "inputs": [],
+            "name": "sourceMintingCounter",
+            "outputs": [
+                {
+                    "name": "sourceMintingCounter",
+                    "type": "map(uint8,map(uint8,uint16))"
+                }
+            ]
+        }
+    ],
+    "header": [
+        "pubkey",
+        "time",
+        "expire"
+    ],
+    "version": "2.2"
+}

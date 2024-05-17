@@ -1,11 +1,19 @@
 import { Address } from "everscale-inpage-provider";
 import LaunchpadABI from "../../abi/LaunchpadContract.abi.json";
+import LaunchpadABI2 from "../../abi/DragonLaunchpad.abi.json"; // remove this later
 import { ONE_VENOM, launchpad_nft_fees } from "./user_nft";
 
 // initiating launchpad contract
 const launchpad_contract = (provider, launchpad_address) => {
   if (!provider || !launchpad_address) return;
   const contract = new provider.Contract(LaunchpadABI, launchpad_address);
+  return contract;
+};
+
+// remove this later
+const dragon_launchpad_contract = (provider, launchpad_address) => {
+  if (!provider || !launchpad_address) return;
+  const contract = new provider.Contract(LaunchpadABI2, launchpad_address);
   return contract;
 };
 
@@ -27,20 +35,20 @@ export const launchpad_mint = async (provider, launchpad_address, signer_address
   return res;
 };
 
-// main mint function to mint NFT of dragon landz
+// remove this later
 export const launchpad_mint_dragonz = async (provider, launchpad_address, signer_address, amount_to_mint, current_phase) => {
-  const launchpad = launchpad_contract(provider, launchpad_address);
-  const req_amount = await launchpad.methods
-    .cal_minting_amount({
-      answerId: 0,
-      amount: amount_to_mint,
-      current_phase_: current_phase,
-    })
-    .call();
-
-  const res = await launchpad.methods.mint({ amount: amount_to_mint }).send({
+  let phase_to_mint = current_phase + 1;
+  let phase_mint_price;
+  if (phase_to_mint == 1) {
+    phase_mint_price = 36000000000;
+  }
+  else {
+    phase_mint_price = 72000000000;
+  }
+  const launchpad = dragon_launchpad_contract(provider, launchpad_address);
+  const res = await launchpad.methods.mintNftByType({ _sourceId: 1, _boxTypeIndex: phase_to_mint, _owner: signer_address }).send({
     from: new Address(signer_address),
-    amount: (parseInt(req_amount.value0) + parseInt(launchpad_nft_fees)).toString(),
+    amount: (parseInt(phase_mint_price) + parseInt(2000000000)).toString(),
   });
   return res;
 };
