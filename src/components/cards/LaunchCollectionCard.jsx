@@ -46,7 +46,7 @@ const LaunchCollectionCard = ({
             <div className="px-2 py-1 flex items-center justify-center text-[12px] font-medium tracking-tight absolute top-0 right-0 bg-neutral-200 rounded-lg">
               <div className="flex flex-wrap justify-center items-center">
                 <span className="textDotStyle">
-                  {supply ? (supply <= 0 ? "∞" : supply) : 0} ITEMS
+                  {supply ? (supply >= 100000 ? "∞" : supply) : 0} ITEMS
                 </span>
               </div>
             </div>

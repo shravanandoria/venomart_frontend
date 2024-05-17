@@ -262,7 +262,7 @@ export default function Home({ theme, OtherImagesBaseURI }) {
                             Name={e.name}
                             pageName={e.pageName}
                             Description={e.description}
-                            mintPrice={e?.phases[endLength]?.mintPrice}
+                            mintPrice={e?.phases[0]?.mintPrice}
                             supply={e.maxSupply}
                             mintedSupply={e.TotalSupply}
                             status={e.status}
