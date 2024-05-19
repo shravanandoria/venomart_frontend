@@ -2006,41 +2006,45 @@ const NFTPage = ({
                               </span>
                             </button>
 
-                            <button
-                              onClick={() => (setSkip(0), setActivityType("offer"))}
-                              className={`${activityType == "offer"
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
-                            >
-                              <IoHandLeftOutline
-                                className={`mr-2 h-4 w-4 ${activityType == "offer"
-                                  ? "text-white"
-                                  : "group-hover:text-white text-jacarta-700 dark:text-white"
-                                  }`}
-                              />
-                              <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
-                                Offer
-                              </span>
-                            </button>
+                            {EnableMakeOffer &&
+                              <>
+                                <button
+                                  onClick={() => (setSkip(0), setActivityType("offer"))}
+                                  className={`${activityType == "offer"
+                                    ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                    : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                    }`}
+                                >
+                                  <IoHandLeftOutline
+                                    className={`mr-2 h-4 w-4 ${activityType == "offer"
+                                      ? "text-white"
+                                      : "group-hover:text-white text-jacarta-700 dark:text-white"
+                                      }`}
+                                  />
+                                  <span className={`text-2xs font-medium ${activityType == "offer" && "text-white"}`}>
+                                    Offer
+                                  </span>
+                                </button>
 
-                            <button
-                              onClick={() => (setSkip(0), setActivityType("canceloffer"))}
-                              className={`${activityType == "canceloffer"
-                                ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
-                                : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
-                                }`}
-                            >
-                              <IoHandLeftOutline
-                                className={`mr-2 h-4 w-4 ${activityType == "offer"
-                                  ? "text-white"
-                                  : "group-hover:text-white text-jacarta-700 dark:text-white"
-                                  }`}
-                              />
-                              <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
-                                Cancel Offer
-                              </span>
-                            </button>
+                                <button
+                                  onClick={() => (setSkip(0), setActivityType("canceloffer"))}
+                                  className={`${activityType == "canceloffer"
+                                    ? "mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-transparent bg-accent px-4 py-3 hover:bg-accent-dark dark:hover:bg-accent-dark"
+                                    : "group mr-2.5 mb-2.5 inline-flex items-center rounded-xl border border-jacarta-100 bg-white px-4 py-3 hover:border-transparent hover:bg-accent hover:text-white dark:border-jacarta-600 dark:bg-jacarta-700 text-jacarta-700 dark:text-white dark:hover:border-transparent dark:hover:bg-accent"
+                                    }`}
+                                >
+                                  <IoHandLeftOutline
+                                    className={`mr-2 h-4 w-4 ${activityType == "offer"
+                                      ? "text-white"
+                                      : "group-hover:text-white text-jacarta-700 dark:text-white"
+                                      }`}
+                                  />
+                                  <span className={`text-2xs font-medium ${activityType == "canceloffer" && "text-white"}`}>
+                                    Cancel Offer
+                                  </span>
+                                </button>
+                              </>
+                            }
                           </div>
                         </div>
 

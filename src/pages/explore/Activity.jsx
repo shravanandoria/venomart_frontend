@@ -12,7 +12,7 @@ import { search_collections } from "../../utils/mongo_api/search";
 import Image from "next/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImagesBaseURI, NFTImageToReplaceURIs }) => {
+const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImagesBaseURI, NFTImageToReplaceURIs, EnableMakeOffer }) => {
 
     const [collectionLoading, setCollectionLoading] = useState(false);
     const [collectionSearchINP, setCollectionSearchINP] = useState("");
@@ -416,21 +416,23 @@ const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImag
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("offer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                💸 Offer
-                                                {activityType == "offer" &&
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        width="24"
-                                                        height="24"
-                                                        className="mb-[3px] h-4 w-4 fill-accent"
-                                                    >
-                                                        <path fill="none" d="M0 0h24v24H0z" />
-                                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                    </svg>
-                                                }
-                                            </button>
+                                            {EnableMakeOffer &&
+                                                <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("offer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    💸 Offer
+                                                    {activityType == "offer" &&
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            width="24"
+                                                            height="24"
+                                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                                        >
+                                                            <path fill="none" d="M0 0h24v24H0z" />
+                                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                        </svg>
+                                                    }
+                                                </button>
+                                            }
                                             <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("list"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
                                                 🏷️ Listing
                                                 {activityType == "list" &&
@@ -461,21 +463,23 @@ const Activity = ({ theme, blockURL, signer_address, OtherImagesBaseURI, NFTImag
                                                     </svg>
                                                 }
                                             </button>
-                                            <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("canceloffer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                                                ❌ Cancel Offer
-                                                {activityType == "canceloffer" &&
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24"
-                                                        width="24"
-                                                        height="24"
-                                                        className="mb-[3px] h-4 w-4 fill-accent"
-                                                    >
-                                                        <path fill="none" d="M0 0h24v24H0z" />
-                                                        <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                    </svg>
-                                                }
-                                            </button>
+                                            {EnableMakeOffer &&
+                                                <button onClick={() => (setSkipActivity(0), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setActivityType("canceloffer"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
+                                                    ❌ Cancel Offer
+                                                    {activityType == "canceloffer" &&
+                                                        <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            viewBox="0 0 24 24"
+                                                            width="24"
+                                                            height="24"
+                                                            className="mb-[3px] h-4 w-4 fill-accent"
+                                                        >
+                                                            <path fill="none" d="M0 0h24v24H0z" />
+                                                            <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                        </svg>
+                                                    }
+                                                </button>
+                                            }
                                         </div>
                                     )}
                                 </div>

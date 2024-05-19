@@ -250,7 +250,7 @@ const NftCard = ({
                 </button>
                 :
                 <button className="cardHoverNFTButton absolute right-3 bottom-4 bg-accent hover:bg-accent-dark text-white font-bold py-2 px-8 rounded-[10px]">
-                  Make Offer
+                  Not Listed
                 </button>
               )))
         }

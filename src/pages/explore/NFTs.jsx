@@ -733,7 +733,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                           }
                           {sortby == "recentlySold" &&
                             <span className=" text-jacarta-700 dark:text-white">
-                              💰 Recently Sold
+                              💰 Recently Updated
                             </span>
                           }
                           {sortby == "ownedBy" &&
@@ -785,7 +785,7 @@ const NFTs = ({ theme, venomProvider, signer_address, setAnyModalOpen, cartNFTs,
                               }
                             </button>
                             <button onClick={() => (setSkip(0), set_nfts([]), setHasMore(true), openFilterSort(false), setDefaultFilterFetch(true), setSortBy("recentlySold"))} className="dropdown-item flex w-full items-center justify-between rounded-xl px-5 py-2 text-left font-display text-sm text-jacarta-700 transition-colors hover:bg-jacarta-50 dark:text-white dark:hover:bg-jacarta-600">
-                              💰 Recently Sold
+                              💰 Recently Updated
                               {sortby == "recentlySold" &&
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
