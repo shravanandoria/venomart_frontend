@@ -657,7 +657,7 @@ const Collection = ({
     try {
       // fetching using RPC 
       const res = await loadNFTs_collection_RPC(venomProvider, slug, BlukAdditionLastNFT);
-      if (!res || !res.nfts.length) return;
+      if (!res || !res.nfts.length || res == undefined) return;
       await addNFTsToDB(res.nfts);
       setBlukAdditionLastNFT(res?.continuation);
     } catch (error) {

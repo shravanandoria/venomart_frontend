@@ -269,6 +269,9 @@ export const loadNFTs_collection_RPC = async (provider, collection_address, last
       return;
     }
     const nftURLs = await getCollectionItems(provider, nftAddresses.accounts);
+    if (!nftURLs) {
+      return;
+    }
     return { nfts: nftURLs, continuation };
   } catch (e) {
     console.error(e);
